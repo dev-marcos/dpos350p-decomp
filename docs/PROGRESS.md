@@ -16,22 +16,29 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 72 | 5.35% | 22568 | 6.69% |
+| EQUIVALENT | 97 | 7.21% | 25692 | 7.61% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 1273 | 94.65% | 314876 | 93.31% |
+| ASM | 1248 | 92.79% | 311752 | 92.39% |
 | **total** | 1345 | | 337444 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1330 | 72 (5.41%) | 337044 | 22568 (6.70%) |
+| main code | 1330 | 97 (7.29%) | 337044 | 25692 (7.62%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
 
 | address | name | size | level | cases | source |
 |---|---|---:|---|---:|---|
+| `0x4003453C` | __aeabi_ldivmod | 84 | EQUIVALENT | 400 | `nonmatching/libc/func_4003453c.c` |
+| `0x40034590` | __aeabi_uldivmod | 304 | EQUIVALENT | 400 | `nonmatching/libc/func_40034590.c` |
+| `0x4003A5D8` | __aeabi_l2d | 84 | EQUIVALENT | 400 | `nonmatching/libc/func_4003a5d8.c` |
+| `0x4003DF74` | sqrt | 30 | EQUIVALENT | 400 | `nonmatching/libm/func_4003df74.c` |
+| `0x4003DF94` | __aeabi_d2lz | 102 | EQUIVALENT | 400 | `nonmatching/libc/func_4003df94.c` |
+| `0x4003E6F8` | __aeabi_uidivmod | 12 | EQUIVALENT | 400 | `nonmatching/libc/func_4003e6f8.c` |
+| `0x4003E704` | __aeabi_ldiv0 | 4 | EQUIVALENT | 400 | `nonmatching/libc/func_4003e704.c` |
 | `0x40056A70` | ld_word | 16 | EQUIVALENT | 300 | `nonmatching/fatfs/func_40056a70.c` |
 | `0x40056A80` | ld_dword | 32 | EQUIVALENT | 300 | `nonmatching/fatfs/func_40056a80.c` |
 | `0x40056AA0` | ld_qword | 100 | EQUIVALENT | 300 | `nonmatching/fatfs/func_40056aa0.c` |
@@ -104,3 +111,21 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4005AED4` | f_mkdir | 604 | EQUIVALENT | 40 | `nonmatching/fatfs/func_4005aed4.c` |
 | `0x4005B130` | f_chmod | 200 | EQUIVALENT | 40 | `nonmatching/fatfs/func_4005b130.c` |
 | `0x4005B1F8` | f_mkfs | 4352 | EQUIVALENT | 40 | `nonmatching/fatfs/func_4005b1f8.c` |
+| `0x4005C31C` | __aeabi_memcpy | 36 | EQUIVALENT | 400 | `nonmatching/libc/func_4005c31c.c` |
+| `0x4005C340` | __aeabi_memcpy4 | 76 | EQUIVALENT | 400 | `nonmatching/libc/func_4005c340.c` |
+| `0x4005C38C` | __memcpy_dst_unaligned | 100 | EQUIVALENT | 400 | `nonmatching/libc/func_4005c38c.c` |
+| `0x4005DAD0` | log10 | 202 | EQUIVALENT | 400 | `nonmatching/libm/func_4005dad0.c` |
+| `0x4005F6E8` | __aeabi_d2ulz | 70 | EQUIVALENT | 400 | `nonmatching/libc/func_4005f6e8.c` |
+| `0x4005F730` | __aeabi_ul2d | 70 | EQUIVALENT | 400 | `nonmatching/libc/func_4005f730.c` |
+| `0x4005F91C` | tanh | 210 | EQUIVALENT | 400 | `nonmatching/libm/func_4005f91c.c` |
+| `0x4006613C` | __sincos_core | 1012 | EQUIVALENT | 400 | `nonmatching/libm/func_4006613c.c` |
+| `0x40066530` | cos | 4 | EQUIVALENT | 400 | `nonmatching/libm/func_40066530.c` |
+| `0x40066534` | sin | 4 | EQUIVALENT | 400 | `nonmatching/libm/func_40066534.c` |
+| `0x40068E5C` | __aeabi_memclr4 | 8 | EQUIVALENT | 400 | `nonmatching/libc/func_40068e5c.c` |
+| `0x40068F08` | exp | 92 | EQUIVALENT | 400 | `nonmatching/libm/func_40068f08.c` |
+| `0x40069F54` | frexp | 22 | EQUIVALENT | 400 | `nonmatching/libm/func_40069f54.c` |
+| `0x4006A31C` | log | 218 | EQUIVALENT | 400 | `nonmatching/libm/func_4006a31c.c` |
+| `0x4006A4DA` | llabs | 12 | EQUIVALENT | 400 | `nonmatching/libc/func_4006a4da.c` |
+| `0x4006A4E8` | __aeabi_f2lz | 72 | EQUIVALENT | 400 | `nonmatching/libc/func_4006a4e8.c` |
+| `0x4006A6FC` | __aeabi_memset4 | 56 | EQUIVALENT | 400 | `nonmatching/libc/func_4006a6fc.c` |
+| `0x4006B86C` | ldexp | 240 | EQUIVALENT | 400 | `nonmatching/libm/func_4006b86c.c` |

@@ -541,7 +541,7 @@ address,size,name,type,evidence_level,source
 0x4003DEEC,136,pool_4003deec,literal_pool,DERIVED,analyze.py
 0x4003DF74,30,sqrt,function_thumb,DERIVED,this-project:phase2
 0x4003DF92,2,pad_4003df92,padding,STATIC-CONFIRMED,analyze.py:zero
-0x4003DF94,102,__aeabi_d2iz_like,function_thumb,OPEN,this-project:phase2
+0x4003DF94,102,__aeabi_d2lz,function_thumb,DERIVED,this-project:phase5 (emulation: 64-bit result; Inf/NaN give 0)
 0x4003DFFA,2,pad_4003dffa,padding,STATIC-CONFIRMED,analyze.py:zero
 0x4003DFFC,8,func_4003dffc,function_arm,DERIVED,analyze.py:rea
 0x4003E004,8,func_4003e004,function_arm,DERIVED,analyze.py:rea
@@ -559,7 +559,7 @@ address,size,name,type,evidence_level,source
 0x4003E6B4,64,pool_4003e6b4,literal_pool,DERIVED,analyze.py
 0x4003E6F4,4,func_4003e6f4,function_arm,DERIVED,analyze.py:rea
 0x4003E6F8,12,__aeabi_uidivmod,function_thumb,DERIVED,this-project:phase2
-0x4003E704,4,func_4003e704,function_arm,DERIVED,analyze.py:gap-code
+0x4003E704,4,__aeabi_ldiv0,function_arm,DERIVED,this-project:phase5 (bx lr; target of the uldivmod divide-by-zero path)
 0x4003E708,48,func_4003e708,function_arm,DERIVED,analyze.py:rea
 0x4003E738,1032,func_4003e738,function_arm,DERIVED,analyze.py:rea
 0x4003EB40,488,func_4003eb40,function_arm,DERIVED,analyze.py:rea
@@ -1106,9 +1106,9 @@ address,size,name,type,evidence_level,source
 0x4005B130,200,f_chmod,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
 0x4005B1F8,4352,f_mkfs,function_arm,DERIVED,FatFs R0.13b ff.c (signature/strings)
 0x4005C2F8,36,pool_4005c2f8,literal_pool,DERIVED,analyze.py
-0x4005C31C,36,__aeabi_memcpy_unaligned_head,function_arm,OPEN,this-project:phase5
-0x4005C340,76,__aeabi_memcpy,function_arm,DERIVED,this-project:phase2
-0x4005C38C,100,func_4005c38c,function_arm,DERIVED,analyze.py:gap-code
+0x4005C31C,36,__aeabi_memcpy,function_arm,DERIVED,this-project:phase5 (entry: byte loop to align src; continues into 0x4005C340/0x4005C38C)
+0x4005C340,76,__aeabi_memcpy4,function_arm,DERIVED,this-project:phase5 (aligned LDM/STM path)
+0x4005C38C,100,__memcpy_dst_unaligned,function_arm,OPEN,this-project:phase5 (memcpy path for aligned src and unaligned dst; name OPEN)
 0x4005C3F0,508,func_4005c3f0,function_arm,DERIVED,analyze.py:rea
 0x4005C5EC,24,pool_4005c5ec,literal_pool,DERIVED,analyze.py
 0x4005C604,44,func_4005c604,function_arm,DERIVED,analyze.py:gap-code
@@ -1128,7 +1128,7 @@ address,size,name,type,evidence_level,source
 0x4005D2E4,372,fixed_point_weighted_or_filtered_resampling,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2297
 0x4005D458,76,pool_4005d458,literal_pool,DERIVED,analyze.py
 0x4005D4A4,1580,pow,function_thumb,DERIVED,this-project:phase2
-0x4005DAD0,202,func_4005dad0,function_thumb,DERIVED,analyze.py:rea
+0x4005DAD0,202,log10,function_thumb,DERIVED,this-project:phase5 (emulation vs math.log10)
 0x4005DB9A,2,pad_4005db9a,padding,STATIC-CONFIRMED,analyze.py:zero
 0x4005DB9C,568,func_4005db9c,function_arm,DERIVED,analyze.py:rea
 0x4005DDD4,392,func_4005ddd4,function_arm,DERIVED,analyze.py:prologue
@@ -1153,7 +1153,7 @@ address,size,name,type,evidence_level,source
 0x4005F530,44,pool_4005f530,literal_pool,DERIVED,analyze.py
 0x4005F55C,232,func_4005f55c,function_arm,DERIVED,analyze.py:rea
 0x4005F644,164,func_4005f644,function_arm,DERIVED,analyze.py:rea
-0x4005F6E8,70,__aeabi_d2uiz_like,function_thumb,OPEN,this-project:phase2
+0x4005F6E8,70,__aeabi_d2ulz,function_thumb,DERIVED,this-project:phase5 (emulation: 64-bit unsigned result)
 0x4005F72E,2,pad_4005f72e,padding,STATIC-CONFIRMED,analyze.py:zero
 0x4005F730,70,__aeabi_ul2d,function_thumb,DERIVED,this-project:phase2
 0x4005F776,2,pad_4005f776,padding,STATIC-CONFIRMED,analyze.py:zero
@@ -1164,7 +1164,7 @@ address,size,name,type,evidence_level,source
 0x4005F90C,4,func_4005f90c,function_arm,DERIVED,analyze.py:rea
 0x4005F910,4,func_4005f910,function_arm,DERIVED,analyze.py:rea
 0x4005F914,8,func_4005f914,function_arm,DERIVED,analyze.py:rea
-0x4005F91C,210,func_4005f91c,function_thumb,DERIVED,analyze.py:rea
+0x4005F91C,210,tanh,function_thumb,DERIVED,this-project:phase5 (emulation vs math.tanh)
 0x4005F9EE,2,pad_4005f9ee,padding,STATIC-CONFIRMED,analyze.py:zero
 0x4005F9F0,68,func_4005f9f0,function_arm,DERIVED,analyze.py:rea
 0x4005FA34,68,func_4005fa34,function_arm,DERIVED,analyze.py:rea
@@ -1444,13 +1444,13 @@ address,size,name,type,evidence_level,source
 0x40068904,20,pool_40068904,literal_pool,DERIVED,analyze.py
 0x40068918,1220,func_40068918,function_arm,DERIVED,analyze.py:rea
 0x40068DDC,128,pool_40068ddc,literal_pool,DERIVED,analyze.py
-0x40068E5C,8,__aeabi_memclr,function_arm,DERIVED,this-project:phase2+Boot:apps/dposlab/stock_api.h
+0x40068E5C,8,__aeabi_memclr4,function_arm,DERIVED,this-project:phase5 (movs r2 #0 then b __aeabi_memset4)
 0x40068E64,8,func_40068e64,function_arm,DERIVED,analyze.py:rea
 0x40068E6C,8,func_40068e6c,function_arm,DERIVED,analyze.py:rea
 0x40068E74,28,func_40068e74,function_arm,DERIVED,analyze.py:rea
 0x40068E90,4,pool_40068e90,literal_pool,DERIVED,analyze.py
 0x40068E94,116,func_40068e94,function_arm,DERIVED,analyze.py:rea
-0x40068F08,92,func_40068f08,function_thumb,DERIVED,analyze.py:rea
+0x40068F08,92,exp,function_thumb,DERIVED,this-project:phase5 (emulation vs math.exp)
 0x40068F64,20,func_40068f64,function_arm,DERIVED,analyze.py:gap-code
 0x40068F78,160,func_40068f78,function_arm,DERIVED,analyze.py:rea
 0x40069018,28,func_40069018,function_arm,DERIVED,analyze.py:prologue
@@ -1481,24 +1481,24 @@ address,size,name,type,evidence_level,source
 0x40069F48,12,pool_40069f48,literal_pool,DERIVED,analyze.py
 0x40069F54,22,frexp,function_thumb,DERIVED,this-project:phase2
 0x40069F6A,2,pad_40069f6a,padding,STATIC-CONFIRMED,analyze.py:zero
-0x40069F6C,100,func_40069f6c,function_thumb,DERIVED,analyze.py:rea
-0x40069FD0,842,func_40069fd0,function_thumb,DERIVED,analyze.py:rea
+0x40069F6C,100,__frexp_core,function_thumb,OPEN,this-project:phase5 (soft-ABI core of frexp: mantissa in r0:r1 and exponent in r2)
+0x40069FD0,842,__pow_core,function_thumb,OPEN,this-project:phase5 (internal helper of pow; calls ldexp)
 0x4006A31A,2,pad_4006a31a,padding,STATIC-CONFIRMED,analyze.py:zero
-0x4006A31C,218,func_4006a31c,function_thumb,DERIVED,analyze.py:gap-code
+0x4006A31C,218,log,function_thumb,DERIVED,this-project:phase5 (emulation vs math.log)
 0x4006A3F6,2,pad_4006a3f6,padding,STATIC-CONFIRMED,analyze.py:zero
 0x4006A3F8,8,code_4006a3f8,data,OPEN,analyze.py
-0x4006A400,208,func_4006a400,function_thumb,DERIVED,analyze.py:rea
+0x4006A400,208,__exp_kernel,function_thumb,OPEN,this-project:phase5 (shared by exp and tanh)
 0x4006A4D0,10,func_4006a4d0,function_thumb,DERIVED,analyze.py:gap-code
-0x4006A4DA,12,func_4006a4da,function_thumb,DERIVED,analyze.py:rea
+0x4006A4DA,12,llabs,function_thumb,DERIVED,this-project:phase5 (conditional 64-bit negate)
 0x4006A4E6,2,pad_4006a4e6,padding,STATIC-CONFIRMED,analyze.py:zero
-0x4006A4E8,72,__aeabi_f2iz_like,function_thumb,OPEN,this-project:phase2
+0x4006A4E8,72,__aeabi_f2lz,function_thumb,DERIVED,this-project:phase5 (emulation: float to int64)
 0x4006A530,32,func_4006a530,function_arm,DERIVED,analyze.py:rea
 0x4006A550,172,func_4006a550,function_arm,DERIVED,analyze.py:rea
 0x4006A5FC,92,func_4006a5fc,function_arm,DERIVED,analyze.py:gap-code
 0x4006A658,4,func_4006a658,function_thumb,DERIVED,analyze.py:prologue
 0x4006A65C,76,func_4006a65c,function_arm,DERIVED,analyze.py:gap-code
 0x4006A6A8,84,func_4006a6a8,function_arm,DERIVED,analyze.py:rea
-0x4006A6FC,56,__aeabi_memset,function_arm,DERIVED,this-project:phase2
+0x4006A6FC,56,__aeabi_memset4,function_arm,DERIVED,this-project:phase5 (stores the r2 word as is: aligned memset4 entry)
 0x4006A734,4,func_4006a734,function_arm,DERIVED,analyze.py:gap-code
 0x4006A738,304,func_4006a738,function_arm,DERIVED,analyze.py:prologue
 0x4006A868,252,func_4006a868,function_arm,DERIVED,analyze.py:prologue

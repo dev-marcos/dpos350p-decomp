@@ -12,7 +12,7 @@ from pathlib import Path
 
 from tools import nmbuild
 from tools.emu.run_tests import run_one
-from tools.emu.tests import fatfs, fatfs_fs
+from tools.emu.tests import fatfs, fatfs_fs, rtlib
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -38,6 +38,16 @@ MUTANTS = [
     (0x4005A6CC, "if (ofs > fp->obj.objsize && (FF_FS_READONLY || !(fp->flag & FA_WRITE))) {",
      "if (ofs > fp->obj.objsize + 1 && (FF_FS_READONLY || !(fp->flag & FA_WRITE))) {"),  # f_lseek clamp
     (0x40058094, "sum = (sum >> 1) + (sum << 7) + *dir++;", "sum = (sum >> 1) + (sum << 6) + *dir++;"),  # sum_sfn
+    # run-time library (AEABI helpers, conversions, libm; bit-exact comparisons)
+    (0x4003453C, "if (sn) o->r = 0 - o->r;", "if (sd) o->r = 0 - o->r;"),  # ldivmod remainder sign
+    (0x4006A6FC, "if (n & 2) { *h++", "if (n & 4) { *h++"),                 # memset4 tail
+    (0x4003DF94, "if (e == 0x7FF) return 0;", "if (e == 0x7FF) return 1;"), # d2lz Inf/NaN
+    (0x4006B86C, "if (k < e) return mk(hi - (k << 20), lo);",
+     "if (k <= e) return mk(hi - (k << 20), lo);"),                       # ldexp normal/subnormal boundary
+    (0x40068F08, "if (rh2 >= 0x79200000u)", "if (rh2 >= 0x7C200000u)"),     # exp: tiny-r shortcut bound
+    (0x4006A31C, "t = t - LN2LO * kd;", "t = t + LN2LO * kd;"),             # log recombination
+    (0x4005F91C, "if (half) ax = ax * 0.5;", "if (half) ax = ax * 0.25;"),  # tanh half argument
+    (0x4006613C, "if (q & 2) r = -r;", "if (q & 1) r = -r;"),               # sincos sign
 ]
 
 
@@ -52,8 +62,8 @@ def main():
             mut = Path(tmp) / src.name
             mut.write_text(text.replace(old, new, 1))
             nmbuild.build(mut, syms)
-            suite = fatfs.TESTS if orig in fatfs.TESTS else fatfs_fs.TESTS
-            _, fails, _ = run_one(orig, suite[orig], 300 if suite is fatfs.TESTS else 40, 7)
+            suite = next(s for s in (fatfs.TESTS, fatfs_fs.TESTS, rtlib.TESTS) if orig in s)
+            _, fails, _ = run_one(orig, suite[orig], 40 if suite is fatfs_fs.TESTS else 400, 7)
             ok = bool(fails)
             caught += ok
             print(f"{'caught ' if ok else 'MISSED '} 0x{orig:08x}: {old!r} -> {new!r}")

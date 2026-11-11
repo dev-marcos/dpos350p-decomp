@@ -15,11 +15,24 @@ from pathlib import Path
 from tools.emu.emu import Machine, load_c_build, outcome_equal
 
 ROOT = Path(__file__).resolve().parents[2]
-SUITES = ["tools.emu.tests.fatfs", "tools.emu.tests.fatfs_fs"]
+SUITES = ["tools.emu.tests.fatfs", "tools.emu.tests.fatfs_fs", "tools.emu.tests.rtlib"]
+
+
+_THUMB = None
+
+
+def stock_entry(orig):
+    """Stock entry address with the Thumb bit set for Thumb functions (from the Phase 2 map)."""
+    global _THUMB
+    if _THUMB is None:
+        m = json.loads((ROOT / "build/analysis/map.json").read_text())
+        _THUMB = {f["start"] for f in m["functions"] if f["mode"] == "thumb"}
+    return orig | (1 if orig in _THUMB else 0)
 
 
 def run_one(orig, case_fn, cases, seed):
     info, code = load_c_build(orig)
+    stock = stock_entry(orig)
     rng = random.Random(seed ^ orig)
     fails = []
     crashed = 0
@@ -27,14 +40,14 @@ def run_one(orig, case_fn, cases, seed):
         st = rng.getstate()
         c = case_fn(rng)
         res = []
-        for entry in (orig, info["entry"]):
+        for entry in (stock, info["entry"]):
             if getattr(c, "build", None):          # scenario: machine prepared by stock calls
                 m = c.build(code)
             else:
                 m = Machine(code=code, stubs=c.stubs)
                 if c.setup:
                     c.setup(m)
-            res.append(m.call(entry, c.args, c.stack))
+            res.append(m.call(entry, c.args, c.stack, getattr(c, 'dregs', None)))
         d = outcome_equal(res[0], res[1], c.ret)
         if not d and res[0]["error"]:
             crashed += 1

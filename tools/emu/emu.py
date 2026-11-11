@@ -107,8 +107,11 @@ class Machine:
         for k in range(size):
             self.writes.add(addr + k)
 
-    def call(self, entry, args=(), stack_args=()):
+    def call(self, entry, args=(), stack_args=(), dregs=None):
+        """dregs: {n: raw 64-bit value} preloaded into VFP d<n> (hard-float arguments)."""
         uc = self.uc
+        for n, v in (dregs or {}).items():
+            uc.reg_write(R.UC_ARM_REG_D0 + n, v & 0xFFFFFFFFFFFFFFFF)
         sp = STACK_TOP - 0x100
         # Uninitialised locals must read the same value in both versions (their frames differ):
         # clear the callee's stack area before every measured call.
@@ -133,8 +136,11 @@ class Machine:
         if err is None and pc != STOP:
             err = f"did not return (pc=0x{pc:08x}, instruction budget exhausted)"
         r0, r1 = uc.reg_read(R.UC_ARM_REG_R0), uc.reg_read(R.UC_ARM_REG_R1)
+        r2, r3 = uc.reg_read(R.UC_ARM_REG_R2), uc.reg_read(R.UC_ARM_REG_R3)
+        d0 = uc.reg_read(R.UC_ARM_REG_D0)
         mem = {a: self.read(a, 1)[0] for a in sorted(self.writes)}
-        return {"r0": r0, "r1": r1, "mem": mem, "calls": list(self.calls), "error": err, "m": self}
+        return {"r0": r0, "r1": r1, "r2": r2, "r3": r3, "d0": d0, "mem": mem, "calls": list(self.calls),
+                "error": err, "m": self}
 
 
 def load_c_build(orig):
@@ -144,8 +150,19 @@ def load_c_build(orig):
 
 
 def outcome_equal(a, b, ret_bits):
-    mask = (1 << min(ret_bits, 32)) - 1 if ret_bits else 0
+    """ret_bits: 0 (void), 8/16/32 (r0), 64 (r0:r1), 128 (r0..r3), 'd' (VFP d0, bit-exact), 's' (s0)."""
     diffs = []
+    if ret_bits in ("d", "s"):
+        if a["error"] != b["error"]:
+            return [f"error: stock={a['error']} c={b['error']}"]
+        if a["error"]:
+            return []
+        ma = a["d0"] if ret_bits == "d" else a["d0"] & 0xFFFFFFFF
+        mb = b["d0"] if ret_bits == "d" else b["d0"] & 0xFFFFFFFF
+        if ma != mb:
+            diffs.append(f"{ret_bits}0: stock=0x{ma:x} c=0x{mb:x}")
+        ret_bits = 0
+    mask = (1 << min(ret_bits, 32)) - 1 if ret_bits else 0
     if a["error"] or b["error"]:
         if a["error"] != b["error"]:
             diffs.append(f"error: stock={a['error']} c={b['error']}")
@@ -155,6 +172,8 @@ def outcome_equal(a, b, ret_bits):
         diffs.append(f"r0: stock=0x{a['r0'] & mask:x} c=0x{b['r0'] & mask:x}")
     if ret_bits > 32 and a["r1"] != b["r1"]:
         diffs.append(f"r1: stock=0x{a['r1']:x} c=0x{b['r1']:x}")
+    if ret_bits > 64 and (a["r2"], a["r3"]) != (b["r2"], b["r3"]):
+        diffs.append(f"r2:r3: stock=0x{a['r3']:x}:{a['r2']:08x} c=0x{b['r3']:x}:{b['r2']:08x}")
     # final memory state over every byte either version wrote (outside its own frame)
     bad = []
     for k in sorted(set(a["mem"]) | set(b["mem"])):
