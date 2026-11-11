@@ -49,10 +49,13 @@ core and returns them through a small naked shim (`include/rt/ldiv.h`).
 | `0x4005F91C` | `tanh` | uses the exp kernel (`0x4006A400` entry) for \|x\| ≥ ln2 | EQUIVALENT |
 | `0x4006613C` | `__sincos_core` | compiled C (MOVW/MOVT constants); Cody-Waite reduction with π/2 in 5 parts | EQUIVALENT |
 | `0x40066530` / `0x40066534` | `cos` / `sin` | `movs r0,#1` / `#0`; `b __sincos_core` | EQUIVALENT |
-| `0x4005D4A4` | `pow` | 1,580 bytes; calls `frexp` and `__pow_core` | **ASM** (next) |
-| `0x40069FD0` | `__pow_core` | 842 bytes; exp-like, calls `ldexp` | **ASM** (next) |
+| `0x4005D4A4` | `pow` | compiled C; frexp + 33-entry log2 table at `0x40084A10` (inside the area Phase 2 labelled graphics) + ln-series; `t = y·log2|x|` clamped to ±32768 | EQUIVALENT |
+| `0x40069FD0` | `__pow_core` | `ldexp(y·e^x, k)` with exp's reduction; special-case chain for 0/Inf/NaN | EQUIVALENT |
 | `0x4006A400` | `__exp_kernel` entry | register interface (d0–d7, r0, r2); covered through `exp` and `tanh` | ASM (no C entry) |
 | `0x40069F6C` | `__frexp_core` | 3-register return; covered through `frexp` | ASM |
+
+Quirks reproduced in `pow`: (−Inf)^(±Inf) is treated as an odd power (−Inf / −0), and a negative
+base with a non-integer exponent gives NaN `0x7FFFFFFFFFFFFFFF`.
 
 Notes for bit-exactness:
 

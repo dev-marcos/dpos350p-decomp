@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 97 | 7.21% | 25692 | 7.61% |
+| EQUIVALENT | 99 | 7.36% | 28114 | 8.33% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 1248 | 92.79% | 311752 | 92.39% |
+| ASM | 1246 | 92.64% | 309330 | 91.67% |
 | **total** | 1345 | | 337444 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1330 | 97 (7.29%) | 337044 | 25692 (7.62%) |
+| main code | 1330 | 99 (7.44%) | 337044 | 28114 (8.34%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -114,6 +114,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4005C31C` | __aeabi_memcpy | 36 | EQUIVALENT | 400 | `nonmatching/libc/func_4005c31c.c` |
 | `0x4005C340` | __aeabi_memcpy4 | 76 | EQUIVALENT | 400 | `nonmatching/libc/func_4005c340.c` |
 | `0x4005C38C` | __memcpy_dst_unaligned | 100 | EQUIVALENT | 400 | `nonmatching/libc/func_4005c38c.c` |
+| `0x4005D4A4` | pow | 1580 | EQUIVALENT | 400 | `nonmatching/libm/func_4005d4a4.c` |
 | `0x4005DAD0` | log10 | 202 | EQUIVALENT | 400 | `nonmatching/libm/func_4005dad0.c` |
 | `0x4005F6E8` | __aeabi_d2ulz | 70 | EQUIVALENT | 400 | `nonmatching/libc/func_4005f6e8.c` |
 | `0x4005F730` | __aeabi_ul2d | 70 | EQUIVALENT | 400 | `nonmatching/libc/func_4005f730.c` |
@@ -124,6 +125,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40068E5C` | __aeabi_memclr4 | 8 | EQUIVALENT | 400 | `nonmatching/libc/func_40068e5c.c` |
 | `0x40068F08` | exp | 92 | EQUIVALENT | 400 | `nonmatching/libm/func_40068f08.c` |
 | `0x40069F54` | frexp | 22 | EQUIVALENT | 400 | `nonmatching/libm/func_40069f54.c` |
+| `0x40069FD0` | __pow_core | 842 | EQUIVALENT | 400 | `nonmatching/libm/func_40069fd0.c` |
 | `0x4006A31C` | log | 218 | EQUIVALENT | 400 | `nonmatching/libm/func_4006a31c.c` |
 | `0x4006A4DA` | llabs | 12 | EQUIVALENT | 400 | `nonmatching/libc/func_4006a4da.c` |
 | `0x4006A4E8` | __aeabi_f2lz | 72 | EQUIVALENT | 400 | `nonmatching/libc/func_4006a4e8.c` |

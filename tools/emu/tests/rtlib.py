@@ -195,3 +195,53 @@ def t_trig(rng):
 TESTS[0x4006613C] = t_sincos_core
 TESTS[0x40066530] = t_trig
 TESTS[0x40066534] = t_trig
+
+
+POW_SPECIAL = [0.0, -0.0, 1.0, -1.0, 2.0, -2.0, 0.5, -0.5, 3.0, -3.0, 10.0, math.inf, -math.inf, math.nan,
+               1e-310, -1e-310, 1e308, -1e308, 0.7071067811865476, 0.7071067811865475, 1.0000000000000002,
+               0.9999999999999999, 1024.0, -1075.0, 0.1, 2.5, -2.5]
+
+
+def t_pow(rng):
+    k = rng.random()
+    if k < 0.35:
+        x, y = rng.uniform(0, 10), rng.uniform(-12, 12)
+    elif k < 0.5:
+        x, y = -rng.uniform(0, 10), float(rng.randrange(-40, 41))
+    elif k < 0.6:
+        x, y = 10.0 ** rng.uniform(-300, 300), rng.uniform(-3, 3)
+    elif k < 0.7:                                   # near the +-32768 clamp in log2 units
+        x = rng.choice([2.0, 0.5, 1.5, 10.0, 1e-300, 1e300])
+        y = rng.choice([1.0, -1.0]) * 32768.0 / abs(math.log2(x)) * rng.uniform(0.999, 1.001)
+    elif k < 0.85:
+        x, y = rng.choice(POW_SPECIAL), rng.choice(POW_SPECIAL)
+    else:
+        return Case([], ret="d") if False else _raw_pow(rng)
+    c = Case([], ret="d")
+    c.dregs = {0: f2b(x), 1: f2b(y)}
+    return c
+
+
+def _raw_pow(rng):
+    c = Case([], ret="d")
+    c.dregs = {0: rand_double(rng), 1: rand_double(rng)}
+    return c
+
+
+def t_pow_core(rng):
+    k = rng.random()
+    if k < 0.6:
+        x, y = rng.uniform(-1900, 1900), rng.choice([1.0, -1.0, 0.5, 3.0, rng.uniform(-10, 10)])
+    elif k < 0.75:
+        x, y = rng.uniform(-1e-15, 1e-15), rng.uniform(-2, 2)
+    else:
+        c = Case([rng.randrange(-2200, 2200) & 0xFFFFFFFF], ret="d")
+        c.dregs = {0: rand_double(rng), 1: rand_double(rng)}
+        return c
+    c = Case([rng.choice([0, 1, -1, 1000, -1000, 1023, -1074, rng.randrange(-2200, 2200)]) & 0xFFFFFFFF], ret="d")
+    c.dregs = {0: f2b(x), 1: f2b(y)}
+    return c
+
+
+TESTS[0x4005D4A4] = t_pow
+TESTS[0x40069FD0] = t_pow_core
