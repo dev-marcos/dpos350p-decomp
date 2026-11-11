@@ -1,0 +1,28 @@
+# FNIRSI firmware and anything extracted from it -- never commit
+firmware/
+*.iso
+app.bin
+data/**/*.bin
+build/
+
+# Reference clones (read-only, re-clone with tools/setup/20-third-party.sh)
+third_party/
+
+# Tooling installed by tools/setup (large, machine-local)
+tools/wsl/
+tools/downloads/
+tools/jdk/
+tools/ghidra/
+tools/node/
+tools/rea/
+tools/compilers/
+tools/venv/
+tools/home/
+tools/tmp/
+tools/cache/
+tools/config/
+tools/share/
+tools/ghidra-projects/
+
+__pycache__/
+*.pyc

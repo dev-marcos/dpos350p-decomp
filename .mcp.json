@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "rea-agents": {
+      "command": "wsl.exe",
+      "args": ["-d", "dpos-re", "-u", "dev", "--", "bash", "/mnt/f/dpos350p-decomp/tools/rea-mcp.sh"]
+    }
+  }
+}
