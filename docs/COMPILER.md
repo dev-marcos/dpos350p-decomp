@@ -1,7 +1,12 @@
 # Original compiler identification (Phase 4)
 
-**Status: GCC ruled out; Arm Compiler 5 (armcc 5.x + armlink) is the leading candidate and is
-not yet tested** (it is licensed software, so installation waits for approval).
+**Status (Phase 4 closed, 2026-11-11):**
+
+- GCC is ruled out.
+- Arm Compiler 5 (armcc 5.x + armlink) is the leading candidate (DERIVED), but **it cannot run
+  without a paid licence**, so no byte-exact match has been demonstrated.
+- Decision by the project owner: continue **without armcc**. Phase 5 produces equivalent C
+  verified by emulation, kept in `nonmatching/` while the build keeps using `asm/`. See §6.
 
 Evidence levels: HW-CONFIRMED / STATIC-CONFIRMED / DERIVED / OPEN.
 
@@ -74,29 +79,42 @@ choices. **Testing more GCC versions is therefore not recommended** (see §5).
 | `memset` | `__aeabi_memset` at `0x4006A6FC`, ARM, 56 B, `stmhs r0!,{r2,r3,ip,lr}`, plus `__aeabi_memclr` = `movs r2,#0; b` | `memset`, Thumb-2, 376 B |
 | `strlen` | not yet located | Thumb-2, 216 B |
 
-## 5. Next step: Arm Compiler 5 (needs approval)
+## 5. Arm Compiler 5: installed but unlicensed
 
-The candidate is **Arm Compiler 5.06** (armcc/armasm/armlink). update 7 (build 960) is the
-last release, and it is what recent Keil MDK v5 projects for Allwinner F1C/V3s targets usually
-use. The test is to compile R0.13b `ff.c` with combinations of:
+| Step | Result |
+|---|---|
+| AC5.06 update 7 (build 960), Windows. Downloaded by the owner from developer.arm.com: `ARMCompiler_506_Windows_x86_b960.zip`, SHA-256 `768fc0b63c5329c22afd7a8bdf5b0a321613ea15bbb4c92e4faed4d087c7dbf6` | Extracted with `msiexec /a` (administrative install: no registry, nothing written to C:) to `tools/compilers/armcc-5.06u7/PFiles/ARM_Compiler_5.06u7/`, 460 MB |
+| `armcc --vsn` with no licence | `C9555E: Failed to check out a license` (`ARMLMD_LICENSE_FILE` unset) |
+| Keil MDK 5.43a (`MDK543a.exe`, SHA-256 `5702ed2093680932da3466134885b2141297099df106e5090c38f65a9510b7ca`, signed by Arm Limited). **Not executed**; only `ARM/sw/mappings/*` extracted with 7-Zip to `tools/keil/` | 16 licence-variant maps (encrypted) |
+| `ARM_PRODUCT_PATH=tools/keil/ARM/sw/mappings`, `ARM_TOOL_VARIANT=mdk_lite` | **`C9580E: CT.Compiler5 is not available with the current toolkit and license`**, for every `--cpu`, including Cortex-M3. The free MDK-Lite variant in MDK 5.43a does not include AC5 at all |
+| `mdk_basic`, `mdk_std`, `mdk_pro`, `mdk_cm_std` | AC5 is part of these variants, but they need a Keil licence (`No TOOLS.ini file found`) |
+| `mdk_pro_flex` | AC5 included; needs a FlexNet licence server |
+
+How to resume when a licence exists (MDK Plus/Pro, Arm Development Studio, or an evaluation):
+set `ARMLMD_LICENSE_FILE` (FlexNet), or install uVision and use its `TOOLS.INI`, then run the
+planned matrix on FatFs R0.13b `ff.c`:
 
 - `--cpu=Cortex-A7 --arm --apcs=/hardfp --fpu=VFPv4`;
-- each of `-O0`/`-O1`/`-O2`/`-O3`, with `-Ospace` and with `-Otime`;
+- `-O0`/`-O1`/`-O2`/`-O3`, each with `-Ospace` and with `-Otime`;
 - with and without `--split_sections`.
 
-Each object is then compared with `tools/cmpfunc.py`. The acceptance target is one FatFs
-function that matches byte for byte.
+Compare each object with `tools/cmpfunc.py`. An evaluation licence (7–30 days) is enough to
+confirm the compiler and the flags, but continuous matching needs a permanent licence.
 
-What I cannot do and you would need to do:
+## 6. Strategy without a matching compiler (Phase 5 onward)
 
-- Downloading AC5 needs an Arm account login and acceptance of the EULA.
-- Running it needs a licence: a Keil MDK licence, the free MDK-Lite (32 KB link limit, which
-  does not matter for compiling single objects), or an evaluation licence.
+Following the fallback in the project brief, without armcc:
 
-Proposed layout, everything inside the project:
-
-| Item | Path | Size (approx.) |
-|---|---|---|
-| AC5.06u7 installer, downloaded by you | `tools/downloads/armcc/` | ~120 MB |
-| AC5 install (Windows build; can be called from WSL by path) | `tools/compilers/armcc-5.06u7/` | ~350–450 MB |
-| optional: Keil MDK-Lite, only if its licence mechanism is the one used | `tools/keil/` | ~1–1.5 GB |
+1. **The build never changes behaviour.** `asm/` stays the source of the shipped bytes, and
+   `make check` keeps passing on every commit.
+2. **C goes into `nonmatching/`**, one file per function, written for armcc semantics (AAPCS
+   hard-float, `char` unsigned, 32-bit `int`, armcc-style packed structs where the layout
+   demands it). It is compiled with `arm-none-eabi-gcc -marm -mcpu=cortex-a7
+   -mfloat-abi=hard -O2` only for checking.
+3. **Verification by emulation** (`tools/emu/`, Unicorn): the original function, taken from the
+   image, and the C build run from the same initial CPU, memory and MMIO state, over generated
+   and recorded inputs. They must produce the same return values, the same memory writes and
+   the same call and MMIO sequence. A function that passes is marked `EQUIVALENT` in
+   `docs/PROGRESS.md`; matching remains OPEN until AC5 is licensed.
+4. When an AC5 licence becomes available, the same C is put through `tools/cmpfunc.py`. Files
+   that match byte for byte move to `src/` and replace their `.s`, as in the original plan.

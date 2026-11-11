@@ -61,7 +61,11 @@ wsl -d dpos-re -- bash -lc "source /mnt/f/dpos350p-decomp/tools/env.sh && <comma
 | Python venv | 3.12.3; capstone 5.0.7, unicorn 2.1.4, pillow 13.0.0, numpy 2.5.4 | `venv/` (`tools/requirements.txt`) | 144 MB |
 | Downloaded archives (can be deleted) | | `downloads/` | 1.3 GB |
 | npm/pip caches | | `cache/` | 213 MB |
-| **Total** | | | **~6.6 GB** |
+| Arm Compiler 5.06u7 build 960 (licensed; **unusable without a licence**, see docs/COMPILER.md §5) | 5.06u7 | `compilers/armcc-5.06u7/` (Windows build, `msiexec /a` extraction) | 462 MB |
+| Keil MDK 5.43a licence-variant maps only (installer not executed) | 5.43a | `keil/ARM/sw/mappings/` | 0.1 MB |
+| FatFs R0.13–R0.14 source archives (Phase 4 probe) | | `downloads/fatfs/`, unpacked to `third_party/fatfs/` | 12 MB |
+| AC5 / MDK installers supplied by the owner (can be deleted) | | `downloads/armcc/`, `downloads/keil/` | 1.0 GB |
+| **Total** | | | **~8.2 GB** |
 
 The archive checksums are verified by `10-tools.sh`: Node against nodejs.org's SHASUMS256,
 the JDK against Adoptium's `.sha256.txt`, and the Arm toolchain against Arm's `.sha256asc`.

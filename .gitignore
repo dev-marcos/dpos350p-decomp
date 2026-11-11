@@ -16,6 +16,7 @@ tools/ghidra/
 tools/node/
 tools/rea/
 tools/compilers/
+tools/keil/
 tools/venv/
 tools/home/
 tools/tmp/
