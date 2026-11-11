@@ -15,28 +15,34 @@ from pathlib import Path
 from tools.emu.emu import Machine, load_c_build, outcome_equal
 
 ROOT = Path(__file__).resolve().parents[2]
-SUITES = ["tools.emu.tests.fatfs"]
+SUITES = ["tools.emu.tests.fatfs", "tools.emu.tests.fatfs_fs"]
 
 
 def run_one(orig, case_fn, cases, seed):
     info, code = load_c_build(orig)
     rng = random.Random(seed ^ orig)
     fails = []
+    crashed = 0
     for i in range(cases):
         st = rng.getstate()
         c = case_fn(rng)
         res = []
         for entry in (orig, info["entry"]):
-            m = Machine(code=code, stubs=c.stubs)
-            if c.setup:
-                c.setup(m)
+            if getattr(c, "build", None):          # scenario: machine prepared by stock calls
+                m = c.build(code)
+            else:
+                m = Machine(code=code, stubs=c.stubs)
+                if c.setup:
+                    c.setup(m)
             res.append(m.call(entry, c.args, c.stack))
         d = outcome_equal(res[0], res[1], c.ret)
+        if not d and res[0]["error"]:
+            crashed += 1
         if d:
             fails.append({"case": i, "args": [hex(a) for a in c.args], "diff": d})
             if len(fails) >= 5:
                 break
-    return info, fails
+    return info, fails, crashed
 
 
 def main():
@@ -58,12 +64,14 @@ def main():
                 print(f"0x{orig:08x}: no C build (run tools/nmbuild.py)")
                 continue
             n = a.cases or getattr(mod, "N", 200)
-            info, fails = run_one(orig, fn, n, a.seed)
+            info, fails, crashed = run_one(orig, fn, n, a.seed)
+            if not fails and crashed > n // 2:
+                fails = [{"case": -1, "diff": [f"{crashed}/{n} cases fault in both versions: test does not exercise the function"]}]
             status = "EQUIVALENT" if not fails else "DIFFERENT"
             bad += bool(fails)
-            results[f"0x{orig:08X}"] = {"name": info["name"], "status": status, "cases": n,
+            results[f"0x{orig:08X}"] = {"name": info["name"], "status": status, "cases": n, "both_fault": crashed,
                                         "seed": a.seed, "src": info["src"], "fails": fails}
-            print(f"{status:<10} 0x{orig:08x} {info['name']:<14} {n} cases" +
+            print(f"{status:<10} 0x{orig:08x} {info['name']:<14} {n} cases" + (f" ({crashed} both-fault)" if crashed else "") +
                   (f"  first: {fails[0]['diff']}" if fails else ""))
     out.write_text(json.dumps(results, indent=1, sort_keys=True))
     sys.exit(1 if bad else 0)

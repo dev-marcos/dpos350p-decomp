@@ -29,6 +29,13 @@ Without a licensed Arm Compiler 5 (see `docs/COMPILER.md`), rewritten C is verif
      runs for both versions, and its calls become part of the compared behaviour.
    - **cover every branch.** Where a callee makes a branch unreachable (e.g. CP437 never
      returns a DBC), stub that callee too.
+   - **Scenario tests** for code that needs a filesystem (`tools/emu/tests/fatfs_fs.py`) build
+     the machine with `Case.build(code)`. `tools/emu/fatdisk.py` provides FAT12/16/32/exFAT
+     volumes that were formatted by the stock `f_mkfs` and populated through the stock API
+     (`build/emu/disks/`). Disk I/O is recorded as (sector, count, data hash). The callee
+     stack area is cleared before each measured call, so uninitialised reads are
+     deterministic. Cases where both versions fault identically are counted as `both-fault`
+     and should be avoided.
 6. **Run the tests:**
    - `make emutest` runs every case for the stock function and for your C, and compares
      return values, final memory and stub-call sequences;
@@ -51,6 +58,7 @@ replaces its `asm/func_XXXXXXXX.s`.
 | `tools/emu/` | Unicorn harness (`emu.py`), runner (`run_tests.py`), mutation self-test (`selftest.py`), per-module tests (`tests/`) |
 | `tools/cmpfunc.py` | byte and instruction similarity of an object against the image |
 | `tools/progress.py` | writes `docs/PROGRESS.md` |
+| `tools/fatfs_gen.py` | regenerates `include/fatfs/*` and `nonmatching/fatfs/*` from the pristine FatFs R0.13b sources |
 | `tools/whydiff.py` | first divergence when `make check` fails |
 
 Evidence levels (HW-CONFIRMED / STATIC-CONFIRMED / DERIVED / OPEN) apply to every name and

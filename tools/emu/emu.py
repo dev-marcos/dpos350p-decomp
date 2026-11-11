@@ -110,6 +110,9 @@ class Machine:
     def call(self, entry, args=(), stack_args=()):
         uc = self.uc
         sp = STACK_TOP - 0x100
+        # Uninitialised locals must read the same value in both versions (their frames differ):
+        # clear the callee's stack area before every measured call.
+        uc.mem_write(STACK_TOP - STACK_GUARD, bytes(STACK_GUARD))
         for i, v in enumerate(stack_args):
             uc.mem_write(sp + 4 * i, struct.pack("<I", v & 0xFFFFFFFF))
         for r, v in zip(ARGREGS, args):
@@ -146,6 +149,8 @@ def outcome_equal(a, b, ret_bits):
     if a["error"] or b["error"]:
         if a["error"] != b["error"]:
             diffs.append(f"error: stock={a['error']} c={b['error']}")
+        else:
+            return []      # both fault identically: undefined-state input, counted by the runner
     if ret_bits and (a["r0"] & mask) != (b["r0"] & mask):
         diffs.append(f"r0: stock=0x{a['r0'] & mask:x} c=0x{b['r0'] & mask:x}")
     if ret_bits > 32 and a["r1"] != b["r1"]:

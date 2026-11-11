@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 17 | 1.26% | 1040 | 0.31% |
+| EQUIVALENT | 72 | 5.35% | 22568 | 6.69% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 1328 | 98.74% | 336404 | 99.69% |
+| ASM | 1273 | 94.65% | 314876 | 93.31% |
 | **total** | 1345 | | 337444 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1330 | 17 (1.28%) | 337044 | 1040 (0.31%) |
+| main code | 1330 | 72 (5.41%) | 337044 | 22568 (6.70%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -48,4 +48,59 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40056C84` | put_utf | 108 | EQUIVALENT | 300 | `nonmatching/fatfs/func_40056c84.c` |
 | `0x40056CF0` | sync_window | 144 | EQUIVALENT | 300 | `nonmatching/fatfs/func_40056cf0.c` |
 | `0x40056D80` | move_window | 88 | EQUIVALENT | 300 | `nonmatching/fatfs/func_40056d80.c` |
+| `0x40056DD8` | sync_fs | 200 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40056dd8.c` |
+| `0x40056EA8` | clst2sect | 44 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40056ea8.c` |
+| `0x40056ED4` | get_fat | 564 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40056ed4.c` |
+| `0x40057108` | put_fat | 388 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40057108.c` |
+| `0x4005728C` | find_bitmap | 232 | EQUIVALENT | 40 | `nonmatching/fatfs/func_4005728c.c` |
+| `0x40057374` | change_bitmap | 180 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40057374.c` |
+| `0x40057428` | fill_first_frag | 88 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40057428.c` |
+| `0x40057480` | fill_last_frag | 84 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40057480.c` |
+| `0x400574D4` | remove_chain | 476 | EQUIVALENT | 40 | `nonmatching/fatfs/func_400574d4.c` |
+| `0x400576B0` | create_chain | 652 | EQUIVALENT | 40 | `nonmatching/fatfs/func_400576b0.c` |
+| `0x4005793C` | dir_clear | 152 | EQUIVALENT | 40 | `nonmatching/fatfs/func_4005793c.c` |
+| `0x400579D4` | dir_sdi | 280 | EQUIVALENT | 40 | `nonmatching/fatfs/func_400579d4.c` |
+| `0x40057AEC` | dir_next | 332 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40057aec.c` |
+| `0x40057C38` | dir_alloc | 164 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40057c38.c` |
+| `0x40057CDC` | ld_clust | 56 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40057cdc.c` |
+| `0x40057D14` | st_clust | 60 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40057d14.c` |
+| `0x40057D50` | cmp_lfn | 232 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40057d50.c` |
+| `0x40057E38` | pick_lfn | 184 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40057e38.c` |
+| `0x40057EF0` | put_lfn | 172 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40057ef0.c` |
+| `0x40057F9C` | gen_numname | 248 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40057f9c.c` |
+| `0x40058094` | sum_sfn | 48 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40058094.c` |
+| `0x400580C4` | xdir_sum | 84 | EQUIVALENT | 40 | `nonmatching/fatfs/func_400580c4.c` |
+| `0x40058118` | xname_sum | 88 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40058118.c` |
+| `0x40058170` | xsum32 | 16 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40058170.c` |
+| `0x40058180` | get_xfileinfo | 260 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40058180.c` |
+| `0x40058284` | load_xdir | 352 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40058284.c` |
+| `0x400583E4` | init_alloc_info | 80 | EQUIVALENT | 40 | `nonmatching/fatfs/func_400583e4.c` |
+| `0x40058434` | load_obj_xdir | 88 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40058434.c` |
+| `0x4005848C` | store_xdir | 176 | EQUIVALENT | 40 | `nonmatching/fatfs/func_4005848c.c` |
+| `0x4005853C` | create_xdir | 208 | EQUIVALENT | 40 | `nonmatching/fatfs/func_4005853c.c` |
+| `0x4005860C` | dir_read | 444 | EQUIVALENT | 40 | `nonmatching/fatfs/func_4005860c.c` |
+| `0x400587C8` | dir_find | 560 | EQUIVALENT | 40 | `nonmatching/fatfs/func_400587c8.c` |
+| `0x400589F8` | dir_register | 744 | EQUIVALENT | 40 | `nonmatching/fatfs/func_400589f8.c` |
+| `0x40058CE4` | dir_remove | 152 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40058ce4.c` |
+| `0x40058D7C` | get_fileinfo | 528 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40058d7c.c` |
+| `0x40058F8C` | create_name | 812 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40058f8c.c` |
+| `0x400592B8` | follow_path | 292 | EQUIVALENT | 40 | `nonmatching/fatfs/func_400592b8.c` |
+| `0x400593DC` | get_ldnumber | 120 | EQUIVALENT | 40 | `nonmatching/fatfs/func_400593dc.c` |
 | `0x40059454` | check_fs | 196 | EQUIVALENT | 300 | `nonmatching/fatfs/func_40059454.c` |
+| `0x40059520` | find_volume | 1380 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40059520.c` |
+| `0x40059A88` | validate | 100 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40059a88.c` |
+| `0x40059AEC` | f_mount | 116 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40059aec.c` |
+| `0x40059B8C` | f_open | 1008 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40059b8c.c` |
+| `0x40059F7C` | f_read | 600 | EQUIVALENT | 40 | `nonmatching/fatfs/func_40059f7c.c` |
+| `0x4005A1D4` | f_write | 728 | EQUIVALENT | 40 | `nonmatching/fatfs/func_4005a1d4.c` |
+| `0x4005A4AC` | f_sync | 488 | EQUIVALENT | 40 | `nonmatching/fatfs/func_4005a4ac.c` |
+| `0x4005A694` | f_close | 56 | EQUIVALENT | 40 | `nonmatching/fatfs/func_4005a694.c` |
+| `0x4005A6CC` | f_lseek | 864 | EQUIVALENT | 40 | `nonmatching/fatfs/func_4005a6cc.c` |
+| `0x4005AA2C` | f_opendir | 244 | EQUIVALENT | 40 | `nonmatching/fatfs/func_4005aa2c.c` |
+| `0x4005AB20` | f_closedir | 40 | EQUIVALENT | 40 | `nonmatching/fatfs/func_4005ab20.c` |
+| `0x4005AB48` | f_readdir | 120 | EQUIVALENT | 40 | `nonmatching/fatfs/func_4005ab48.c` |
+| `0x4005ABC0` | f_getfree | 460 | EQUIVALENT | 40 | `nonmatching/fatfs/func_4005abc0.c` |
+| `0x4005AD8C` | f_unlink | 328 | EQUIVALENT | 40 | `nonmatching/fatfs/func_4005ad8c.c` |
+| `0x4005AED4` | f_mkdir | 604 | EQUIVALENT | 40 | `nonmatching/fatfs/func_4005aed4.c` |
+| `0x4005B130` | f_chmod | 200 | EQUIVALENT | 40 | `nonmatching/fatfs/func_4005b130.c` |
+| `0x4005B1F8` | f_mkfs | 4352 | EQUIVALENT | 40 | `nonmatching/fatfs/func_4005b1f8.c` |

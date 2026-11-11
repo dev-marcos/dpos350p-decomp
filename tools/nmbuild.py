@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SCRATCH = 0x48000000
 CC = "arm-none-eabi-gcc"
 CFLAGS = ["-c", "-marm", "-mcpu=cortex-a7", "-mfpu=neon-vfpv4", "-mfloat-abi=hard", "-O2",
-          "-ffreestanding", "-fno-builtin", "-fno-common", "-ffunction-sections", "-fdata-sections",
+          "-ffreestanding", "-fno-builtin", "-fsigned-char", "-fno-common", "-ffunction-sections", "-fdata-sections",
           "-Wall", "-Wno-unused", "-I", str(ROOT / "include")]
 OUT = ROOT / "build/nonmatching"
 
@@ -35,7 +35,7 @@ def original_symbols():
             syms[r["name"]] = a
     # curated names may not be in the generated CSV yet (if `make map` was not re-run)
     for r in csv.DictReader(open(ROOT / "symbols/manual.csv")):
-        if r["type"] == "function":
+        if r["type"] in ("function", "data"):
             syms.setdefault(r["name"], int(r["address"], 16))
     return syms
 

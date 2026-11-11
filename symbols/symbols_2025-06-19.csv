@@ -847,7 +847,7 @@ address,size,name,type,evidence_level,source
 0x40049C78,112,disk_read,function_arm,DERIVED,FatFs diskio.h (called by move_window)
 0x40049CE8,128,disk_write,function_arm,DERIVED,FatFs diskio.h (called by sync_window)
 0x40049D68,112,disk_ioctl,function_arm,DERIVED,FatFs diskio.h (f_mkfs GET_BLOCK_SIZE=3)
-0x40049DD8,8,func_40049dd8,function_arm,DERIVED,analyze.py:rea
+0x40049DD8,8,get_fattime,function_arm,DERIVED,FatFs diskio contract (called by f_open/f_sync/f_mkdir/f_mkfs)
 0x40049DE0,4,code_40049de0,data,OPEN,analyze.py
 0x40049DE4,28,pool_40049de4,literal_pool,DERIVED,analyze.py
 0x40049E00,48,func_40049e00,function_arm,DERIVED,analyze.py:rea
@@ -1043,70 +1043,70 @@ address,size,name,type,evidence_level,source
 0x40056C84,108,put_utf,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
 0x40056CF0,144,sync_window,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
 0x40056D80,88,move_window,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
-0x40056DD8,200,func_40056dd8,function_arm,DERIVED,analyze.py:rea
+0x40056DD8,200,sync_fs,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
 0x40056EA0,8,pool_40056ea0,literal_pool,DERIVED,analyze.py
-0x40056EA8,44,func_40056ea8,function_arm,DERIVED,analyze.py:rea
-0x40056ED4,564,func_40056ed4,function_arm,DERIVED,analyze.py:rea
-0x40057108,388,func_40057108,function_arm,DERIVED,analyze.py:rea
-0x4005728C,232,func_4005728c,function_arm,DERIVED,analyze.py:rea
-0x40057374,180,func_40057374,function_arm,DERIVED,analyze.py:rea
-0x40057428,88,func_40057428,function_arm,DERIVED,analyze.py:rea
-0x40057480,84,func_40057480,function_arm,DERIVED,analyze.py:rea
-0x400574D4,476,func_400574d4,function_arm,DERIVED,analyze.py:rea
-0x400576B0,652,func_400576b0,function_arm,DERIVED,analyze.py:rea
-0x4005793C,152,func_4005793c,function_arm,DERIVED,analyze.py:rea
-0x400579D4,280,func_400579d4,function_arm,DERIVED,analyze.py:rea
-0x40057AEC,332,func_40057aec,function_arm,DERIVED,analyze.py:rea
-0x40057C38,164,func_40057c38,function_arm,DERIVED,analyze.py:rea
-0x40057CDC,56,func_40057cdc,function_arm,DERIVED,analyze.py:rea
-0x40057D14,60,func_40057d14,function_arm,DERIVED,analyze.py:rea
-0x40057D50,232,func_40057d50,function_arm,DERIVED,analyze.py:rea
-0x40057E38,184,func_40057e38,function_arm,DERIVED,analyze.py:rea
-0x40057EF0,172,func_40057ef0,function_arm,DERIVED,analyze.py:rea
-0x40057F9C,248,func_40057f9c,function_arm,DERIVED,analyze.py:rea
-0x40058094,48,func_40058094,function_arm,DERIVED,analyze.py:rea
-0x400580C4,84,func_400580c4,function_arm,DERIVED,analyze.py:rea
-0x40058118,88,func_40058118,function_arm,DERIVED,analyze.py:rea
-0x40058170,16,func_40058170,function_arm,DERIVED,analyze.py:rea
-0x40058180,260,func_40058180,function_arm,DERIVED,analyze.py:prologue
-0x40058284,352,func_40058284,function_arm,DERIVED,analyze.py:rea
-0x400583E4,80,func_400583e4,function_arm,DERIVED,analyze.py:rea
-0x40058434,88,func_40058434,function_arm,DERIVED,analyze.py:rea
-0x4005848C,176,func_4005848c,function_arm,DERIVED,analyze.py:rea
-0x4005853C,208,func_4005853c,function_arm,DERIVED,analyze.py:rea
-0x4005860C,444,func_4005860c,function_arm,DERIVED,analyze.py:rea
-0x400587C8,560,func_400587c8,function_arm,DERIVED,analyze.py:rea
-0x400589F8,744,func_400589f8,function_arm,DERIVED,analyze.py:rea
+0x40056EA8,44,clst2sect,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x40056ED4,564,get_fat,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x40057108,388,put_fat,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x4005728C,232,find_bitmap,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x40057374,180,change_bitmap,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x40057428,88,fill_first_frag,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x40057480,84,fill_last_frag,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x400574D4,476,remove_chain,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x400576B0,652,create_chain,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x4005793C,152,dir_clear,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x400579D4,280,dir_sdi,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x40057AEC,332,dir_next,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x40057C38,164,dir_alloc,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x40057CDC,56,ld_clust,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x40057D14,60,st_clust,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x40057D50,232,cmp_lfn,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x40057E38,184,pick_lfn,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x40057EF0,172,put_lfn,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x40057F9C,248,gen_numname,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x40058094,48,sum_sfn,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x400580C4,84,xdir_sum,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x40058118,88,xname_sum,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x40058170,16,xsum32,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x40058180,260,get_xfileinfo,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x40058284,352,load_xdir,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x400583E4,80,init_alloc_info,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x40058434,88,load_obj_xdir,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x4005848C,176,store_xdir,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x4005853C,208,create_xdir,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x4005860C,444,dir_read,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x400587C8,560,dir_find,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x400589F8,744,dir_register,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
 0x40058CE0,4,pool_40058ce0,literal_pool,DERIVED,analyze.py
-0x40058CE4,152,func_40058ce4,function_arm,DERIVED,analyze.py:rea
-0x40058D7C,528,func_40058d7c,function_arm,DERIVED,analyze.py:rea
-0x40058F8C,812,func_40058f8c,function_arm,DERIVED,analyze.py:rea
-0x400592B8,292,func_400592b8,function_arm,DERIVED,analyze.py:rea
+0x40058CE4,152,dir_remove,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x40058D7C,528,get_fileinfo,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x40058F8C,812,create_name,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x400592B8,292,follow_path,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
 0x400593DC,120,get_ldnumber,function_arm,DERIVED,FatFs R0.13b ff.c (callers/body)
 0x40059454,196,check_fs,function_arm,DERIVED,FatFs R0.13b ff.c (body)
 0x40059518,4,code_40059518,data,OPEN,analyze.py
 0x4005951C,4,pool_4005951c,literal_pool,DERIVED,analyze.py
-0x40059520,1380,func_40059520,function_arm,DERIVED,analyze.py:rea
+0x40059520,1380,find_volume,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
 0x40059A84,4,pool_40059a84,literal_pool,DERIVED,analyze.py
-0x40059A88,100,func_40059a88,function_arm,DERIVED,analyze.py:rea
-0x40059AEC,116,func_40059aec,function_arm,DERIVED,analyze.py:rea
+0x40059A88,100,validate,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x40059AEC,116,f_mount,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
 0x40059B60,44,pool_40059b60,literal_pool,DERIVED,analyze.py
-0x40059B8C,1008,func_40059b8c,function_arm,DERIVED,analyze.py:rea
-0x40059F7C,600,func_40059f7c,function_arm,DERIVED,analyze.py:rea
-0x4005A1D4,728,func_4005a1d4,function_arm,DERIVED,analyze.py:rea
-0x4005A4AC,488,func_4005a4ac,function_arm,DERIVED,analyze.py:rea
-0x4005A694,56,func_4005a694,function_arm,DERIVED,analyze.py:rea
-0x4005A6CC,864,func_4005a6cc,function_arm,DERIVED,analyze.py:rea
-0x4005AA2C,244,func_4005aa2c,function_arm,DERIVED,analyze.py:rea
-0x4005AB20,40,func_4005ab20,function_arm,DERIVED,analyze.py:rea
-0x4005AB48,120,func_4005ab48,function_arm,DERIVED,analyze.py:rea
-0x4005ABC0,460,func_4005abc0,function_arm,DERIVED,analyze.py:rea
-0x4005AD8C,328,func_4005ad8c,function_arm,DERIVED,analyze.py:rea
-0x4005AED4,604,func_4005aed4,function_arm,DERIVED,analyze.py:rea
-0x4005B130,200,func_4005b130,function_arm,DERIVED,analyze.py:rea
+0x40059B8C,1008,f_open,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x40059F7C,600,f_read,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x4005A1D4,728,f_write,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x4005A4AC,488,f_sync,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x4005A694,56,f_close,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x4005A6CC,864,f_lseek,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x4005AA2C,244,f_opendir,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x4005AB20,40,f_closedir,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x4005AB48,120,f_readdir,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x4005ABC0,460,f_getfree,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x4005AD8C,328,f_unlink,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x4005AED4,604,f_mkdir,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
+0x4005B130,200,f_chmod,function_arm,DERIVED,FatFs R0.13b ff.c (source order + call graph)
 0x4005B1F8,4352,f_mkfs,function_arm,DERIVED,FatFs R0.13b ff.c (signature/strings)
 0x4005C2F8,36,pool_4005c2f8,literal_pool,DERIVED,analyze.py
-0x4005C31C,36,func_4005c31c,function_arm,DERIVED,analyze.py:rea
+0x4005C31C,36,__aeabi_memcpy_unaligned_head,function_arm,OPEN,this-project:phase5
 0x4005C340,76,__aeabi_memcpy,function_arm,DERIVED,this-project:phase2
 0x4005C38C,100,func_4005c38c,function_arm,DERIVED,analyze.py:gap-code
 0x4005C3F0,508,func_4005c3f0,function_arm,DERIVED,analyze.py:rea
@@ -1477,7 +1477,7 @@ address,size,name,type,evidence_level,source
 0x40069D58,56,pool_40069d58,literal_pool,DERIVED,analyze.py
 0x40069D90,100,ff_uni2oem,function_arm,DERIVED,FatFs ffunicode.c (called with cp=437)
 0x40069DF4,68,ff_oem2uni,function_arm,DERIVED,FatFs ffunicode.c (called with cp=437)
-0x40069E38,272,func_40069e38,function_arm,DERIVED,analyze.py:rea
+0x40069E38,272,ff_wtoupper,function_arm,DERIVED,FatFs ffunicode.c (called by cmp_lfn/xname_sum/f_mkfs)
 0x40069F48,12,pool_40069f48,literal_pool,DERIVED,analyze.py
 0x40069F54,22,frexp,function_thumb,DERIVED,this-project:phase2
 0x40069F6A,2,pad_40069f6a,padding,STATIC-CONFIRMED,analyze.py:zero
@@ -2686,3 +2686,7 @@ address,size,name,type,evidence_level,source
 0x4009509B,25,pad_4009509b,padding,STATIC-CONFIRMED,analyze.py:zero
 0x400950B4,1008,rodata_400950b4,data,DERIVED,analyze.py
 0x400954A4,828,pad_400954a4,padding,DERIVED,analyze.py:packer_garbage
+0x42E67BC4,0,DirBuf,label,DERIVED,ff.c static BYTE DirBuf[608]; find_volume
+0x42E6805C,0,LfnBuf,label,DERIVED,ff.c static WCHAR LfnBuf[256]; find_volume
+0x42E68C6C,0,FatFs,label,DERIVED,ff.c static FATFS* FatFs[1]; f_mount/find_volume pool
+0x42E68D14,0,Fsid,label,DERIVED,ff.c static WORD Fsid; find_volume
