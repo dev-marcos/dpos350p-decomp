@@ -17,27 +17,36 @@ EXTRACT := $(BUILD)/extract
 ISO     := $(BUILD)/DPOS350P.iso
 
 EXTRACTED := $(EXTRACT)/app.bin $(EXTRACT)/logo.rgb565
+BLOBS_OK  := $(BUILD)/.blobs_ok
 ASM_SRCS  := $(wildcard asm/*.s)
 ASM_OBJS  := $(patsubst %.s,$(BUILD)/%.o,$(ASM_SRCS))
 
-.PHONY: all extract check map clean distclean
+.PHONY: all extract check map split clean distclean
 .DELETE_ON_ERROR:
 
 all: $(ISO)
 
-extract: $(EXTRACTED)
+extract: $(EXTRACTED) $(BLOBS_OK)
 
 $(EXTRACTED) &: $(ORIG_ISO) tools/dposiso.py
 	@test -f $(ORIG_ISO) || { echo "Missing $(ORIG_ISO): copy the original FNIRSI ISO there"; exit 1; }
 	$(PYTHON) tools/dposiso.py unpack $(ORIG_ISO) $(EXTRACT)
 
-$(BUILD)/asm/app.o: $(EXTRACT)/app.bin
+# data/*.bin are FNIRSI bytes: extracted from the user's ISO, never committed
+$(BLOBS_OK): $(EXTRACT)/app.bin data/blobs.csv tools/split.py
+	$(PYTHON) tools/split.py extract
+	@touch $@
+
+$(filter $(BUILD)/asm/data_%,$(ASM_OBJS)): $(BLOBS_OK)
 $(BUILD)/%.o: %.s
 	@mkdir -p $(dir $@)
-	$(AS) $(ASFLAGS) -I. -o $@ $<
+	@$(AS) $(ASFLAGS) -I. -o $@ $<
 
-$(BUILD)/app.elf: $(ASM_OBJS) ld/dpos350p.ld
-	$(LD) -T ld/dpos350p.ld -Map=$(BUILD)/app.map -o $@ $(ASM_OBJS)
+$(BUILD)/objs.rsp: $(ASM_OBJS)
+	$(file >$@,$(ASM_OBJS))
+
+$(BUILD)/app.elf: $(BUILD)/objs.rsp $(ASM_OBJS) ld/dpos350p.ld ld/sections.ld
+	$(LD) -T ld/dpos350p.ld -Map=$(BUILD)/app.map -o $@ @$(BUILD)/objs.rsp
 
 $(BUILD)/app.bin: $(BUILD)/app.elf
 	$(OBJCOPY) -O binary $< $@
@@ -49,6 +58,10 @@ check: $(ISO)
 	$(PYTHON) tools/dposiso.py verify $(ISO) --sha256 $(SHA256)
 	@echo "$(ISO): MATCH"
 
+# Phase 3 regeneration of asm/ + ld/sections.ld + data/blobs.csv (overwrites asm/!)
+split: map
+	$(PYTHON) tools/split.py gen
+
 # Phase 2 static map: symbols/symbols_2025-06-19.csv, build/analysis/map.json
 map: $(EXTRACT)/app.bin
 	$(PYTHON) tools/import_refs.py
@@ -56,7 +69,7 @@ map: $(EXTRACT)/app.bin
 	$(PYTHON) tools/mkmap.py
 
 clean:
-	rm -rf $(BUILD)/asm $(BUILD)/app.elf $(BUILD)/app.bin $(BUILD)/app.map $(ISO)
+	rm -rf $(BUILD)/asm $(BUILD)/app.elf $(BUILD)/app.bin $(BUILD)/app.map $(BUILD)/objs.rsp $(ISO)
 
 distclean:
 	rm -rf $(BUILD)

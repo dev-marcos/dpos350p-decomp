@@ -18,4 +18,7 @@ wsl -d dpos-re -- bash tools/run.sh make check
 - `docs/MEMORY_MAP.md`: image layout, startup/RAM layout, 100% byte classification
 - `symbols/symbols_2025-06-19.csv`: every function/pool/data/padding region (`make map`)
 
-Status: Phase 2. The map is complete; the build still uses one `.incbin` blob.
+- `docs/SPLIT.md`: how `asm/` and `data/` are produced and verified
+
+Status: Phase 3. The image is rebuilt from per-function assembly (`asm/`) plus four data
+blobs extracted from your ISO at build time; no whole-image `.incbin` remains.
