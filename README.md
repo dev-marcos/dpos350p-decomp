@@ -19,6 +19,7 @@ wsl -d dpos-re -- bash tools/run.sh make check
 - `symbols/symbols_2025-06-19.csv`: every function/pool/data/padding region (`make map`)
 
 - `docs/SPLIT.md`: how `asm/` and `data/` are produced and verified
+- `docs/COMPILER.md`: original toolchain identification (FatFs R0.13b; GCC ruled out; armcc pending)
 
-Status: Phase 3. The image is rebuilt from per-function assembly (`asm/`) plus four data
+Status: Phase 4 in progress (GCC ruled out, Arm Compiler 5 pending licence approval). Phase 3: The image is rebuilt from per-function assembly (`asm/`) plus four data
 blobs extracted from your ISO at build time; no whole-image `.incbin` remains.
