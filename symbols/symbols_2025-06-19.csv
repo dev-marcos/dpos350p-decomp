@@ -843,10 +843,10 @@ address,size,name,type,evidence_level,source
 0x40049B90,36,func_40049b90,function_arm,DERIVED,analyze.py:prologue
 0x40049BB4,48,func_40049bb4,function_arm,DERIVED,analyze.py:rea
 0x40049BE4,84,func_40049be4,function_arm,DERIVED,analyze.py:rea
-0x40049C38,64,func_40049c38,function_arm,DERIVED,analyze.py:rea
-0x40049C78,112,func_40049c78,function_arm,DERIVED,analyze.py:rea
-0x40049CE8,128,func_40049ce8,function_arm,DERIVED,analyze.py:rea
-0x40049D68,112,func_40049d68,function_arm,DERIVED,analyze.py:rea
+0x40049C38,64,disk_initialize,function_arm,DERIVED,FatFs diskio.h (called by f_mkfs; STA_NOINIT/STA_PROTECT tests)
+0x40049C78,112,disk_read,function_arm,DERIVED,FatFs diskio.h (called by move_window)
+0x40049CE8,128,disk_write,function_arm,DERIVED,FatFs diskio.h (called by sync_window)
+0x40049D68,112,disk_ioctl,function_arm,DERIVED,FatFs diskio.h (f_mkfs GET_BLOCK_SIZE=3)
 0x40049DD8,8,func_40049dd8,function_arm,DERIVED,analyze.py:rea
 0x40049DE0,4,code_40049de0,data,OPEN,analyze.py
 0x40049DE4,28,pool_40049de4,literal_pool,DERIVED,analyze.py
@@ -1025,24 +1025,24 @@ address,size,name,type,evidence_level,source
 0x40056804,368,func_40056804,function_arm,DERIVED,analyze.py:rea
 0x40056974,208,func_40056974,function_arm,DERIVED,analyze.py:rea
 0x40056A44,44,pool_40056a44,literal_pool,DERIVED,analyze.py
-0x40056A70,16,func_40056a70,function_arm,DERIVED,analyze.py:rea
-0x40056A80,32,func_40056a80,function_arm,DERIVED,analyze.py:rea
-0x40056AA0,100,func_40056aa0,function_arm,DERIVED,analyze.py:rea
-0x40056B04,16,func_40056b04,function_arm,DERIVED,analyze.py:rea
-0x40056B14,32,func_40056b14,function_arm,DERIVED,analyze.py:rea
-0x40056B34,92,func_40056b34,function_arm,DERIVED,analyze.py:rea
-0x40056B90,28,func_40056b90,function_arm,DERIVED,analyze.py:rea
-0x40056BAC,16,func_40056bac,function_arm,DERIVED,analyze.py:rea
-0x40056BBC,36,func_40056bbc,function_arm,DERIVED,analyze.py:rea
-0x40056BE0,4,func_40056be0,function_arm,DERIVED,analyze.py:rea
+0x40056A70,16,ld_word,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
+0x40056A80,32,ld_dword,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
+0x40056AA0,100,ld_qword,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
+0x40056B04,16,st_word,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
+0x40056B14,32,st_dword,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
+0x40056B34,92,st_qword,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
+0x40056B90,28,mem_cpy,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
+0x40056BAC,16,mem_set,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
+0x40056BBC,36,mem_cmp,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
+0x40056BE0,4,chk_chr,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
 0x40056BE4,4,func_40056be4,function_arm,DERIVED,analyze.py:gap-code
 0x40056BE8,24,func_40056be8,function_arm,DERIVED,analyze.py:rea
-0x40056C00,8,func_40056c00,function_arm,DERIVED,analyze.py:rea
-0x40056C08,8,func_40056c08,function_arm,DERIVED,analyze.py:rea
-0x40056C10,116,func_40056c10,function_arm,DERIVED,analyze.py:rea
-0x40056C84,108,func_40056c84,function_arm,DERIVED,analyze.py:rea
-0x40056CF0,144,func_40056cf0,function_arm,DERIVED,analyze.py:rea
-0x40056D80,88,func_40056d80,function_arm,DERIVED,analyze.py:rea
+0x40056C00,8,dbc_1st,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
+0x40056C08,8,dbc_2nd,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
+0x40056C10,116,tchar2uni,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
+0x40056C84,108,put_utf,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
+0x40056CF0,144,sync_window,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
+0x40056D80,88,move_window,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
 0x40056DD8,200,func_40056dd8,function_arm,DERIVED,analyze.py:rea
 0x40056EA0,8,pool_40056ea0,literal_pool,DERIVED,analyze.py
 0x40056EA8,44,func_40056ea8,function_arm,DERIVED,analyze.py:rea
@@ -1082,8 +1082,8 @@ address,size,name,type,evidence_level,source
 0x40058D7C,528,func_40058d7c,function_arm,DERIVED,analyze.py:rea
 0x40058F8C,812,func_40058f8c,function_arm,DERIVED,analyze.py:rea
 0x400592B8,292,func_400592b8,function_arm,DERIVED,analyze.py:rea
-0x400593DC,120,func_400593dc,function_arm,DERIVED,analyze.py:rea
-0x40059454,196,func_40059454,function_arm,DERIVED,analyze.py:rea
+0x400593DC,120,get_ldnumber,function_arm,DERIVED,FatFs R0.13b ff.c (callers/body)
+0x40059454,196,check_fs,function_arm,DERIVED,FatFs R0.13b ff.c (body)
 0x40059518,4,code_40059518,data,OPEN,analyze.py
 0x4005951C,4,pool_4005951c,literal_pool,DERIVED,analyze.py
 0x40059520,1380,func_40059520,function_arm,DERIVED,analyze.py:rea
@@ -1104,7 +1104,7 @@ address,size,name,type,evidence_level,source
 0x4005AD8C,328,func_4005ad8c,function_arm,DERIVED,analyze.py:rea
 0x4005AED4,604,func_4005aed4,function_arm,DERIVED,analyze.py:rea
 0x4005B130,200,func_4005b130,function_arm,DERIVED,analyze.py:rea
-0x4005B1F8,4352,func_4005b1f8,function_arm,DERIVED,analyze.py:rea
+0x4005B1F8,4352,f_mkfs,function_arm,DERIVED,FatFs R0.13b ff.c (signature/strings)
 0x4005C2F8,36,pool_4005c2f8,literal_pool,DERIVED,analyze.py
 0x4005C31C,36,func_4005c31c,function_arm,DERIVED,analyze.py:rea
 0x4005C340,76,__aeabi_memcpy,function_arm,DERIVED,this-project:phase2
@@ -1475,8 +1475,8 @@ address,size,name,type,evidence_level,source
 0x40069B0C,492,func_40069b0c,function_arm,DERIVED,analyze.py:rea
 0x40069CF8,96,func_40069cf8,function_arm,DERIVED,analyze.py:rea
 0x40069D58,56,pool_40069d58,literal_pool,DERIVED,analyze.py
-0x40069D90,100,func_40069d90,function_arm,DERIVED,analyze.py:rea
-0x40069DF4,68,func_40069df4,function_arm,DERIVED,analyze.py:rea
+0x40069D90,100,ff_uni2oem,function_arm,DERIVED,FatFs ffunicode.c (called with cp=437)
+0x40069DF4,68,ff_oem2uni,function_arm,DERIVED,FatFs ffunicode.c (called with cp=437)
 0x40069E38,272,func_40069e38,function_arm,DERIVED,analyze.py:rea
 0x40069F48,12,pool_40069f48,literal_pool,DERIVED,analyze.py
 0x40069F54,22,frexp,function_thumb,DERIVED,this-project:phase2

@@ -23,6 +23,7 @@ Evidence levels: HW-CONFIRMED / STATIC-CONFIRMED / DERIVED / OPEN.
 | 7 | Runtime: `__aeabi_memcpy`/`memset`/`memclr` and `__aeabi_{u,}ldivmod` in **ARM** state (shaped like armcc `rt_memcpy`); `__aeabi_uidivmod` uses `UDIV`/`MLS`; fp conversions and libm in **Thumb-2** with VFPv4 | `0x4005C340`, `0x4006A6FC`, `0x40034590`, `0x4003E6F8`, … | Arm C library (armlib) built for v7-A. Newlib in this GCC toolchain is a different Thumb-2 implementation (`memcpy` 1,248 B vs the original 76 B) | DERIVED |
 | 8 | libm takes and returns doubles in `d0`/`d1` | `sqrt`, `pow`, … | hard-float AAPCS-VFP (`--fpu=vfpv4 --apcs=/hardfp` in armcc terms) | DERIVED |
 | 9 | Application code is ARM; interworking uses `blx imm`; there is a Thumb `ldr.w pc` veneer | | `--arm` for the app, plus an interworking library | STATIC-CONFIRMED |
+| 10 | FatFs `chk_chr` (`0x40056BE0`) loads the string with `ldrsb` (signed byte) | `0x40056BE8` | plain `char` is **signed** in this build. The armcc default is unsigned, so this suggests `--signed_chars`, or that FatFs was patched. Matters when reproducing flags | OPEN |
 
 ## 2. FatFs version: R0.13b
 

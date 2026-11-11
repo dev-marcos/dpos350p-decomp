@@ -21,7 +21,7 @@ BLOBS_OK  := $(BUILD)/.blobs_ok
 ASM_SRCS  := $(wildcard asm/*.s)
 ASM_OBJS  := $(patsubst %.s,$(BUILD)/%.o,$(ASM_SRCS))
 
-.PHONY: all extract check map split clean distclean
+.PHONY: all extract check map split nonmatching emutest selftest progress clean distclean
 .DELETE_ON_ERROR:
 
 all: $(ISO)
@@ -67,6 +67,23 @@ map: $(EXTRACT)/app.bin
 	$(PYTHON) tools/import_refs.py
 	$(PYTHON) tools/analyze.py
 	$(PYTHON) tools/mkmap.py
+
+# Phase 5: equivalent C (never part of the shipped build), verified by emulation
+nonmatching: extract
+	$(PYTHON) tools/nmbuild.py
+
+emutest: nonmatching
+	$(PYTHON) -m tools.emu.run_tests
+
+selftest: nonmatching
+	$(PYTHON) -m tools.emu.selftest
+
+progress: $(BUILD)/analysis/map.json
+	-$(PYTHON) -m tools.emu.run_tests >/dev/null
+	$(PYTHON) tools/progress.py
+
+$(BUILD)/analysis/map.json: $(EXTRACT)/app.bin
+	$(MAKE) map
 
 clean:
 	rm -rf $(BUILD)/asm $(BUILD)/app.elf $(BUILD)/app.bin $(BUILD)/app.map $(BUILD)/objs.rsp $(ISO)

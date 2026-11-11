@@ -21,5 +21,9 @@ wsl -d dpos-re -- bash tools/run.sh make check
 - `docs/SPLIT.md`: how `asm/` and `data/` are produced and verified
 - `docs/COMPILER.md`: original toolchain identification (FatFs R0.13b; GCC ruled out; armcc pending)
 
-Status: Phase 4 in progress (GCC ruled out, Arm Compiler 5 pending licence approval). Phase 3: The image is rebuilt from per-function assembly (`asm/`) plus four data
+- `docs/CONTRIBUTING.md`: how to decompile a function (C + emulation test)
+- `docs/PROGRESS.md`: progress per level and area (`make progress`)
+
+Status: Phase 5 (equivalent C verified by emulation; Arm Compiler 5 unlicensed, so no
+byte matching yet). Earlier phases: The image is rebuilt from per-function assembly (`asm/`) plus four data
 blobs extracted from your ISO at build time; no whole-image `.incbin` remains.
