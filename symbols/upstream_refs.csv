@@ -1,0 +1,86 @@
+address,name,description,source,all_sources
+0x40000000,stock_exe2_image_base_and_executable,Stock EXE2 image base and executable entry,FNIRSI-DPOS350P-Hack/docs/DPOSLAB.md:95,FNIRSI-DPOS350P-Hack/docs/DPOSLAB.md:95;FNIRSI-DPOS350P-Hack/docs/DPOSLAB.md:115;FNIRSI-DPOS350P-Hack/docs/DPOSLAB.md:127;FNIRSI-DPOS350P-Hack/docs/fel_mode.md:62;FNIRSI-DPOS350P-Hack/docs/fel_mode.md:63
+0x4001F424,found_new_firmware_string,"""Found new firmware!"" string (updater)",FNIRSI-DPOS350P-Hack/docs/fel_mode.md:64,FNIRSI-DPOS350P-Hack/docs/fel_mode.md:64
+0x400234D8,dpos350p_string,"""DPOS350P"" string (updater)",FNIRSI-DPOS350P-Hack/docs/fel_mode.md:65,FNIRSI-DPOS350P-Hack/docs/fel_mode.md:65
+0x40034700,stock_c_main,Stock C main(),FNIRSI-DPOS350P-Hack/docs/DPOSLAB.md:96,FNIRSI-DPOS350P-Hack/docs/DPOSLAB.md:96
+0x40034738,stock_bl_call_site_for_fpga,Stock BL call site for FPGA_Start(),FNIRSI-DPOS350P-Hack/docs/DPOSLAB.md:97,FNIRSI-DPOS350P-Hack/docs/DPOSLAB.md:97
+0x4003473C,stock_continuation_after_fpga_start,Stock continuation after FPGA_Start(),FNIRSI-DPOS350P-Hack/docs/DPOSLAB.md:98,FNIRSI-DPOS350P-Hack/docs/DPOSLAB.md:98;FNIRSI-DPOS350P-Hack/docs/DPOSLAB.md:173
+0x4003BEB4,runtime_state_commit_copy,runtime state commit/copy,FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:561,FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:561;FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:690;FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:796
+0x4003BF98,runtime_counter_progress_advance,runtime counter/progress advance,FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:563,FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:563;FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:692;FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:798
+0x4003C520,runtime_rearm_setup,runtime rearm/setup,FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:559,FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:559
+0x4003C9F4,per_channel_processing,per-channel processing,FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:562,FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:562;FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:691;FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:797
+0x4003F8E0,pulse_fpga_selector_0x08_0_1,pulse FPGA selector 0x08: 0 -> 1,FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:565,FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:565;FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:694;FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:800
+0x4003F910,write_sys_info_0x6f0_to_fpga,write SYS_INFO+0x6F0 to FPGA selector 0x09,FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:564,FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:564;FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:693;FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:799
+0x4003FA10,acquisition_prepare,acquisition prepare,FNIRSI-DPOS350P-Hack/docs/STOCK_LIKE_MINIMAL_RUNTIME.md:489,FNIRSI-DPOS350P-Hack/docs/STOCK_LIKE_MINIMAL_RUNTIME.md:489;FNIRSI-DPOS350P-Hack/docs/STOCK_LIKE_MINIMAL_RUNTIME.md:666
+0x4003FB90,consumer_translator_of_the_16_bit,consumer/translator of the 16-bit value read through command 0x14,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2459,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2459
+0x4003FD10,amplitude_statistical_normalization,amplitude/statistical normalization,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2417,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2417
+0x4003FE14,final_per_channel_normalization,final per-channel normalization,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2421,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2421
+0x40040114,moving_average_and_crossing_alignment_search,moving average and crossing/alignment search,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2415,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2415
+0x400405E0,stream_geometry_fpga_selector_0x22_configuration,stream geometry + FPGA selector 0x22 configuration,FNIRSI-DPOS350P-Hack/docs/STOCK_LIKE_MINIMAL_RUNTIME.md:490,FNIRSI-DPOS350P-Hack/docs/STOCK_LIKE_MINIMAL_RUNTIME.md:490;FNIRSI-DPOS350P-Hack/docs/STOCK_LIKE_MINIMAL_RUNTIME.md:667;FNIRSI-DPOS350P-Hack/docs/STOCK_LIKE_MINIMAL_RUNTIME.md:983
+0x40040660,runtime_csi_destination_programming,runtime CSI destination programming,FNIRSI-DPOS350P-Hack/docs/FPGA.md:4297,FNIRSI-DPOS350P-Hack/docs/FPGA.md:4297
+0x4004066C,csi_capture_control_path,CSI/capture-control path,FNIRSI-DPOS350P-Hack/docs/FPGA.md:4298,FNIRSI-DPOS350P-Hack/docs/FPGA.md:4298
+0x40040684,post_completion_path_before_final_disable,post-completion path before final disable/restore,FNIRSI-DPOS350P-Hack/docs/FPGA.md:4299,FNIRSI-DPOS350P-Hack/docs/FPGA.md:4299
+0x4004073C,calibration_gain_baseline_clamp_conversion,calibration/gain/baseline/clamp conversion,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2411,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2411;FNIRSI-DPOS350P-Hack/docs/FPGA.md:2460;FNIRSI-DPOS350P-Hack/docs/FPGA.md:2596;FNIRSI-DPOS350P-Hack/docs/FPGA.md:2644
+0x400408FC,first_conversion_wrapper,first conversion wrapper,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2461,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2461
+0x40040B20,second_conversion_wrapper,second conversion wrapper,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2462,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2462
+0x400413C8,full_acquisition_entry,full acquisition entry,FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:556,FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:556
+0x400416B4,call_0x4004006c,call 0x4004006C(0),FNIRSI-DPOS350P-Hack/docs/FPGA.md:2223,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2223
+0x400416BC,call_0x4004006c,call 0x4004006C(1),FNIRSI-DPOS350P-Hack/docs/FPGA.md:2224,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2224
+0x400417E4,one_runtime_capture_step,one runtime capture step,FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:560,FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:560;FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:689;FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:795
+0x4004191C,runtime_sweep_path,runtime sweep path,FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:558,FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:558
+0x400419CC,acquisition_dispatcher,acquisition dispatcher,FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:557,FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:557
+0x4004282C,sys_clock_init,sys_clock_init(1152000000),FNIRSI-DPOS350P-Hack/docs/FPGA.md:176,FNIRSI-DPOS350P-Hack/docs/FPGA.md:176;FNIRSI-DPOS350P-Hack/docs/SMEC.md:96
+0x40042A60,sys_mmu_init,sys_mmu_init(),FNIRSI-DPOS350P-Hack/docs/FPGA.md:177,FNIRSI-DPOS350P-Hack/docs/FPGA.md:177;FNIRSI-DPOS350P-Hack/docs/SMEC.md:97
+0x40042D28,System_Init,System_Init(),FNIRSI-DPOS350P-Hack/docs/FPGA.md:178,FNIRSI-DPOS350P-Hack/docs/FPGA.md:178;FNIRSI-DPOS350P-Hack/docs/SMEC.md:98
+0x40043620,persistence_read,persistence_read,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:636,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:636
+0x40043874,persistence_write_read_modify_write,persistence_write_read_modify_write,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:637,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:637
+0x40044450,calibration_process_serialized_fields,calibration_process_serialized_fields,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:626,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:626
+0x40044680,calibration_save_wrapper,calibration_save_wrapper,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:627,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:627
+0x400446B4,calibration_load_wrapper,calibration_load_wrapper,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:628,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:628
+0x400490DC,pe0_pe3_function_1_pe0_pe3,"PE0..PE3 function 1, PE0..PE3 pulls disabled, PE8..PE15 input,",FNIRSI-DPOS350P-Boot/apps/csi_diag/README.md:122,FNIRSI-DPOS350P-Boot/apps/csi_diag/README.md:122
+0x40049188,FPGA_Start,FPGA_Start(),FNIRSI-DPOS350P-Hack/docs/FPGA.md:180,FNIRSI-DPOS350P-Hack/docs/DPOSLAB.md:99;FNIRSI-DPOS350P-Hack/docs/DPOSLAB.md:172;FNIRSI-DPOS350P-Hack/docs/FPGA.md:180;FNIRSI-DPOS350P-Hack/docs/SMEC.md:100
+0x40049194,bl_0x400660c8,BL 0x400660C8,FNIRSI-DPOS350P-Hack/docs/FPGA.md:287,FNIRSI-DPOS350P-Hack/docs/FPGA.md:287
+0x400491A8,bl_0x40049094,BL 0x40049094,FNIRSI-DPOS350P-Hack/docs/FPGA.md:299,FNIRSI-DPOS350P-Hack/docs/FPGA.md:299;FNIRSI-DPOS350P-Hack/docs/FPGA.md:376
+0x400491B8,fpga_data_byte_read,FPGA data-byte read,FNIRSI-DPOS350P-Hack/docs/FPGA.md:451,FNIRSI-DPOS350P-Hack/docs/FPGA.md:451;FNIRSI-DPOS350P-Hack/docs/FPGA.md:1056
+0x40049214,fpga_data_byte_write,FPGA data-byte write,FNIRSI-DPOS350P-Hack/docs/FPGA.md:450,FNIRSI-DPOS350P-Hack/docs/FPGA.md:450;FNIRSI-DPOS350P-Hack/docs/FPGA.md:1057
+0x4004927C,fpga_selector_command_write,FPGA selector/command write,FNIRSI-DPOS350P-Hack/docs/FPGA.md:449,FNIRSI-DPOS350P-Hack/docs/FPGA.md:449;FNIRSI-DPOS350P-Hack/docs/FPGA.md:1058
+0x400492E4,perform_fpga_identification_probe,perform FPGA identification probe,FNIRSI-DPOS350P-Hack/docs/FPGA.md:1059,FNIRSI-DPOS350P-Hack/docs/FPGA.md:1059
+0x40049350,gt911_i2c_start_bus_prepare,GT911 I2C start / bus prepare,FNIRSI-DPOS350P-Hack/docs/FPGA.md:1220,FNIRSI-DPOS350P-Hack/docs/FPGA.md:1220
+0x40049428,gt911_i2c_stop,GT911 I2C stop,FNIRSI-DPOS350P-Hack/docs/FPGA.md:1221,FNIRSI-DPOS350P-Hack/docs/FPGA.md:1221
+0x40049490,gt911_wait_ack_timeout_50000,"GT911 wait ACK, timeout 50000",FNIRSI-DPOS350P-Hack/docs/FPGA.md:1222,FNIRSI-DPOS350P-Hack/docs/FPGA.md:1222
+0x4004951C,gt911_send_ack_nack,GT911 send ACK/NACK,FNIRSI-DPOS350P-Hack/docs/FPGA.md:1223,FNIRSI-DPOS350P-Hack/docs/FPGA.md:1223
+0x40049554,gt911_write_byte_msb_first,"GT911 write byte, MSB-first",FNIRSI-DPOS350P-Hack/docs/FPGA.md:1224,FNIRSI-DPOS350P-Hack/docs/FPGA.md:1224
+0x400495CC,gt911_read_byte_msb_first,"GT911 read byte, MSB-first",FNIRSI-DPOS350P-Hack/docs/FPGA.md:1225,FNIRSI-DPOS350P-Hack/docs/FPGA.md:1225
+0x40049688,gt911_register_buffer_write,GT911 register/buffer write,FNIRSI-DPOS350P-Hack/docs/FPGA.md:1226,FNIRSI-DPOS350P-Hack/docs/FPGA.md:1226
+0x40049700,gt911_register_buffer_read,GT911 register/buffer read,FNIRSI-DPOS350P-Hack/docs/FPGA.md:1227,FNIRSI-DPOS350P-Hack/docs/FPGA.md:1227
+0x400498A4,gt911_bus_initialization_wrapper,GT911 bus initialization wrapper,FNIRSI-DPOS350P-Hack/docs/FPGA.md:1228,FNIRSI-DPOS350P-Hack/docs/FPGA.md:1228
+0x400498C4,gt911_16_bit_address_write_wrapper,GT911 16-bit-address write wrapper,FNIRSI-DPOS350P-Hack/docs/FPGA.md:1229,FNIRSI-DPOS350P-Hack/docs/FPGA.md:1229
+0x400498D4,gt911_16_bit_address_read_wrapper,GT911 16-bit-address read wrapper,FNIRSI-DPOS350P-Hack/docs/FPGA.md:1230,FNIRSI-DPOS350P-Hack/docs/FPGA.md:1230
+0x40049B08,runtime_event_service,runtime/event service,FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:566,FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:566;FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:695;FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:801
+0x40049F60,selector_0x6a_one_byte_job_index,"selector 0x6A, one-byte job index",FNIRSI-DPOS350P-Hack/docs/SMEC.md:405,FNIRSI-DPOS350P-Hack/docs/SMEC.md:405
+0x40049F7C,selector_0x6b_32_bit_job_value,"selector 0x6B, 32-bit job value, big-endian",FNIRSI-DPOS350P-Hack/docs/SMEC.md:406,FNIRSI-DPOS350P-Hack/docs/SMEC.md:406
+0x40049FB8,selector_0x69_16_bit_timing_retry,"selector 0x69, 16-bit timing/retry value, big-endian",FNIRSI-DPOS350P-Hack/docs/SMEC.md:407,FNIRSI-DPOS350P-Hack/docs/SMEC.md:407
+0x4004A15C,SMEC_Init,SMEC_Init(),FNIRSI-DPOS350P-Hack/docs/SMEC.md:102,FNIRSI-DPOS350P-Hack/docs/SMEC.md:102
+0x4004C544,retained_inside_current_sc1_3_t6,retained inside current SC1.3 T6,FNIRSI-DPOS350P-Hack/docs/STOCK_LIKE_MINIMAL_RUNTIME.md:488,FNIRSI-DPOS350P-Hack/docs/STOCK_LIKE_MINIMAL_RUNTIME.md:488;FNIRSI-DPOS350P-Hack/docs/STOCK_LIKE_MINIMAL_RUNTIME.md:665
+0x4004F5C8,0x40049e00,-> 0x40049E00,FNIRSI-DPOS350P-Hack/docs/SMEC.md:579,FNIRSI-DPOS350P-Hack/docs/SMEC.md:579
+0x400510D8,load_label_pointer,load label pointer,FNIRSI-DPOS350P-Hack/docs/SMEC.md:544,FNIRSI-DPOS350P-Hack/docs/SMEC.md:544
+0x400510E4,display_label_helper,display label helper,FNIRSI-DPOS350P-Hack/docs/SMEC.md:545,FNIRSI-DPOS350P-Hack/docs/SMEC.md:545
+0x400510E8,display_present_helper,display/present helper,FNIRSI-DPOS350P-Hack/docs/SMEC.md:546,FNIRSI-DPOS350P-Hack/docs/SMEC.md:546
+0x400510EC,call_0x4004f5c0,call 0x4004F5C0,FNIRSI-DPOS350P-Hack/docs/SMEC.md:547,FNIRSI-DPOS350P-Hack/docs/SMEC.md:547
+0x40055B4C,dposlab_near_veneer_used_by_the,DPOSLAB near veneer used by the v1 PoC,FNIRSI-DPOS350P-Hack/docs/DPOSLAB.md:100,FNIRSI-DPOS350P-Hack/docs/DPOSLAB.md:100;FNIRSI-DPOS350P-Hack/docs/DPOSLAB.md:204
+0x40055B50,word_dposlab_fpga_start_hook,.word dposlab_fpga_start_hook,FNIRSI-DPOS350P-Hack/docs/DPOSLAB.md:205,FNIRSI-DPOS350P-Hack/docs/DPOSLAB.md:205
+0x4005C678,simple_integer_index_mapping_nearest_neighbour,simple integer index mapping / nearest-neighbour-like resampling,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2295,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2295
+0x4005C7BC,workspace_copy_and_resampling,workspace copy and resampling,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2419,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2419
+0x4005D048,floating_point_interpolation_resampling,floating-point interpolation/resampling,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2296,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2296
+0x4005D2E4,fixed_point_weighted_or_filtered_resampling,fixed-point weighted or filtered resampling,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2297,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2297
+0x4006338C,acquisition_block_bank_selector,acquisition block/bank selector,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2458,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2458
+0x400660AC,enable_csi_capture,enable CSI capture,FNIRSI-DPOS350P-Hack/docs/FPGA.md:3300,FNIRSI-DPOS350P-Hack/docs/FPGA.md:3300
+0x400660C8,is_a_generic_delay_helper,is a generic delay helper,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2864,FNIRSI-DPOS350P-Hack/docs/FPGA.md:2864;FNIRSI-DPOS350P-Hack/docs/FPGA.md:3578
+0x40067128,serializer_set_cursor,serializer_set_cursor,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:618,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:618
+0x40067134,serializer_set_encode_mode,serializer_set_encode_mode,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:619,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:619
+0x40067144,serializer_set_decode_mode,serializer_set_decode_mode,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:620,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:620
+0x40067160,serializer_encode_scalar_be,serializer_encode_scalar_be,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:621,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:621
+0x40067278,serializer_encode_field,serializer_encode_field,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:622,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:622
+0x400672A8,serializer_decode_scalar_be,serializer_decode_scalar_be,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:623,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:623
+0x40067420,serializer_decode_field,serializer_decode_field,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:624,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:624
+0x40067450,serializer_process_field,serializer_process_field,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:625,FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:625

@@ -20,7 +20,7 @@ EXTRACTED := $(EXTRACT)/app.bin $(EXTRACT)/logo.rgb565
 ASM_SRCS  := $(wildcard asm/*.s)
 ASM_OBJS  := $(patsubst %.s,$(BUILD)/%.o,$(ASM_SRCS))
 
-.PHONY: all extract check clean distclean
+.PHONY: all extract check map clean distclean
 .DELETE_ON_ERROR:
 
 all: $(ISO)
@@ -48,6 +48,12 @@ $(ISO): $(BUILD)/app.bin $(EXTRACT)/logo.rgb565 tools/dposiso.py
 check: $(ISO)
 	$(PYTHON) tools/dposiso.py verify $(ISO) --sha256 $(SHA256)
 	@echo "$(ISO): MATCH"
+
+# Phase 2 static map: symbols/symbols_2025-06-19.csv, build/analysis/map.json
+map: $(EXTRACT)/app.bin
+	$(PYTHON) tools/import_refs.py
+	$(PYTHON) tools/analyze.py
+	$(PYTHON) tools/mkmap.py
 
 clean:
 	rm -rf $(BUILD)/asm $(BUILD)/app.elf $(BUILD)/app.bin $(BUILD)/app.map $(ISO)

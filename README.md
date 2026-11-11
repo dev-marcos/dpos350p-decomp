@@ -15,4 +15,7 @@ wsl -d dpos-re -- bash tools/run.sh make check
 - `docs/ISO_FORMAT.md`: the update container layout
 - `tools/dposiso.py`: unpack / pack / checksum / verify
 
-Status: Phase 1. The application is still one `.incbin` blob.
+- `docs/MEMORY_MAP.md`: image layout, startup/RAM layout, 100% byte classification
+- `symbols/symbols_2025-06-19.csv`: every function/pool/data/padding region (`make map`)
+
+Status: Phase 2. The map is complete; the build still uses one `.incbin` blob.

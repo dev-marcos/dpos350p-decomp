@@ -1,0 +1,44 @@
+address,name,type,evidence_level,source,note
+0x40000000,vectors,code,STATIC-CONFIRMED,this-project:phase2,8 x "ldr pc,[pc,#0x18]"
+0x40000020,vector_table_addresses,data,STATIC-CONFIRMED,this-project:phase2,reset/undef/swi/pabort/dabort/reserved(0)/irq/fiq
+0x4008CB28,Reset_Handler,function,STATIC-CONFIRMED,this-project:phase2,"stacks IRQ/SYS/SVC, copies vectors to 0 or 0xFFFF0000 (SCTLR.V), VFP on, __scatterload, main, exit"
+0x4008CB94,vfp_enable,function,STATIC-CONFIRMED,this-project:phase2,"CPACR cp10/cp11 full access, FPEXC.EN, FPSCR=0x02000000 (DN=1 default-NaN, FZ=0)"
+0x4008CBEC,__scatterload,function,DERIVED,this-project:phase2,"Thumb; walks region table 0x4008D9F0..0x4008DA00 (handler offset, args)"
+0x4008CF80,__scatterload_zeroinit,function,DERIVED,this-project:phase2,"Thumb; zero-init list {size,addr} terminated by 0; addr bit0 => r9-relative"
+0x4008CC1C,__rt_exit_veneer,function,DERIVED,this-project:phase2,Thumb long-branch veneer (ldr.w pc) to 0x4008CC3C
+0x4008CC24,exit,function,OPEN,this-project:phase2,Thumb b.w to veneer; called after main() returns
+0x4008CC28,_sys_exit,function,DERIVED,this-project:phase2,"semihosting SVC 0xAB, r0=0x18 (ReportException), r1=0x20026 (ADP_Stopped_ApplicationExit)"
+0x4008CC3C,__rt_exit,function,OPEN,this-project:phase2,ARM stub: blx _sys_exit; b .
+0x4008CCE4,Undef_Handler,function,STATIC-CONFIRMED,this-project:phase2,b .
+0x4008CCE8,SWI_Handler,function,STATIC-CONFIRMED,this-project:phase2,b .
+0x4008CCEC,PAbort_Handler,function,STATIC-CONFIRMED,this-project:phase2,b .
+0x4008CCF0,DAbort_Handler,function,STATIC-CONFIRMED,this-project:phase2,b .
+0x4008CCF4,IRQ_Handler,function,STATIC-CONFIRMED,this-project:phase2,saves context and calls 0x400668E4 in SVC mode
+0x4008CD2C,FIQ_Handler,function,STATIC-CONFIRMED,this-project:phase2,b .
+0x400668E4,irq_dispatch,function,DERIVED,this-project:phase2,C-level IRQ handler called from IRQ_Handler
+0x4008D9F0,Region$$Table,data,DERIVED,this-project:phase2,"one entry: zeroinit handler +0xFFFFF591, ZI size 0x02DD3880 at 0x400954A4"
+0x4005C340,__aeabi_memcpy,function,DERIVED,this-project:phase2,"ARM; armcc rt_memcpy shape (ldm r1!,{r3,r4,r5,ip}/stm r0!)"
+0x4006A6FC,__aeabi_memset,function,DERIVED,this-project:phase2,"ARM; armcc rt_memset shape (stmhs r0!,{r2,r3,ip,lr}); r1=size r2=value"
+0x40068E5C,__aeabi_memclr,function,DERIVED,this-project:phase2+Boot:apps/dposlab/stock_api.h,"movs r2,#0; b __aeabi_memset (Boot calls it STOCK_ZERO_FILL)"
+0x40034590,__aeabi_uldivmod,function,DERIVED,this-project:phase2,ARM 64-bit unsigned divide; 32-bit case uses __aeabi_uidivmod
+0x4003453C,__aeabi_ldivmod,function,DERIVED,this-project:phase2,ARM signed wrapper around __aeabi_uldivmod
+0x4003E6F8,__aeabi_uidivmod,function,DERIVED,this-project:phase2,"Thumb; hardware UDIV + MLS"
+0x4003A5D8,__aeabi_l2d,function,DERIVED,this-project:phase2,"Thumb; int64 -> double (bias 0x41D)"
+0x4005F730,__aeabi_ul2d,function,DERIVED,this-project:phase2,Thumb; uint64 -> double
+0x4003DF94,__aeabi_d2iz_like,function,OPEN,this-project:phase2,Thumb; double -> int truncation (soft path)
+0x4005F6E8,__aeabi_d2uiz_like,function,OPEN,this-project:phase2,Thumb; double -> unsigned int
+0x4006A4E8,__aeabi_f2iz_like,function,OPEN,this-project:phase2,Thumb; float -> int
+0x4003DF74,sqrt,function,DERIVED,this-project:phase2,"Thumb; VFP vsqrt.f64, NaN for negative input"
+0x4005D4A4,pow,function,DERIVED,this-project:phase2,Thumb VFP; special-cases 1.0
+0x4006613C,__sincos_core,function,DERIVED,this-project:phase2,"Thumb VFP; scales by 2/pi (0x3FE45F306DC9C883); r0 selects sin/cos"
+0x40066530,cos,function,OPEN,this-project:phase2,"movs r0,#1; b __sincos_core (sin/cos assignment unverified)"
+0x40066534,sin,function,OPEN,this-project:phase2,"movs r0,#0; b __sincos_core (sin/cos assignment unverified)"
+0x40069F54,frexp,function,DERIVED,this-project:phase2,stores exponent through r0 pointer
+0x4006B86C,ldexp,function,DERIVED,this-project:phase2,adds r0 to the double exponent
+0x40035728,copy_u16,function,OPEN,this-project:phase2,app helper: copy r2 halfwords r1 -> r0
+0x4006711C,debug_printf_stub,function,DERIVED,this-project:phase2,"variadic no-op (push {r1-r3}; add sp,#12; bx lr), 29 callers"
+0x40049EC4,fpga_param_updater,function,DERIVED,user-brief,FPGA parameter updater (upstream address)
+0x4005F1BC,ms5351m_a,function,DERIVED,user-brief,MS5351M clock generator routine (upstream address)
+0x4005F1F0,ms5351m_b,function,DERIVED,user-brief,MS5351M clock generator routine (upstream address)
+0x4005F38C,ms5351m_c,function,DERIVED,user-brief,MS5351M clock generator routine (upstream address)
+0x40034700,main,function,STATIC-CONFIRMED,this-project:phase2,"called by Reset_Handler after __scatterload (bl 0x40034700); upstream: Stock C main()"
