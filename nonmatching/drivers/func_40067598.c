@@ -1,0 +1,11 @@
+/*
+ * readl_a -- stock 0x40067598 (8 bytes, ARM)
+ * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
+ * Generic 32-bit register read (one copy per source file in the stock image).
+ */
+#include "hw/v3s.h"
+
+u32 readl_a(u32 addr)
+{
+    return REG32(addr);
+}

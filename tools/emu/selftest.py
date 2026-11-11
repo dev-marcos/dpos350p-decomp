@@ -12,7 +12,7 @@ from pathlib import Path
 
 from tools import nmbuild
 from tools.emu.run_tests import run_one
-from tools.emu.tests import fatfs, fatfs_fs, rtlib
+from tools.emu.tests import fatfs, fatfs_fs, rtlib, drivers
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -51,6 +51,12 @@ MUTANTS = [
     (0x4005D4A4, "if (e == 1 && m < K(0x3FE6A09E667F3BCD)) {", "if (e == 2 && m < K(0x3FE6A09E667F3BCD)) {"),  # pow reduction
     (0x4005D4A4, "neg = !(yi == ye);", "neg = (yi == ye);"),                 # pow odd-power sign
     (0x40069FD0, "hq = hq * r;", "hq = hq * z;"),                            # __pow_core rational term
+    # drivers (ordered MMIO access log)
+    (0x400631D4, "port->cfg[idx] | (1u << sh);", "port->cfg[idx] | (2u << sh);"),  # pio_cfg_pin func 1
+    (0x4004927C, "pio_set_bit(pe, 3);", "pio_clr_bit(pe, 3);"),               # FPGA command vs data strobe
+    (0x40049490, "u32 n = 50000;", "u32 n = 5;"),                             # GT911 ACK timeout
+    (0x4005F55C, "u32 p1 = f + (a << 7) - 512;", "u32 p1 = f + (a << 7) - 511;"),  # MS5351 P1 encoding
+    (0x4006750C, "readl_b(WDOG0_MODE) | 1);", "readl_b(WDOG0_MODE) | 2);"),   # watchdog enable bit
 ]
 
 
@@ -65,8 +71,8 @@ def main():
             mut = Path(tmp) / src.name
             mut.write_text(text.replace(old, new, 1))
             nmbuild.build(mut, syms)
-            suite = next(s for s in (fatfs.TESTS, fatfs_fs.TESTS, rtlib.TESTS) if orig in s)
-            _, fails, _ = run_one(orig, suite[orig], 40 if suite is fatfs_fs.TESTS else 400, 7)
+            suite = next(s for s in (fatfs.TESTS, fatfs_fs.TESTS, rtlib.TESTS, drivers.TESTS) if orig in s)
+            _, fails, _ = run_one(orig, suite[orig], 40 if suite is fatfs_fs.TESTS else (80 if suite is drivers.TESTS else 400), 7)
             ok = bool(fails)
             caught += ok
             print(f"{'caught ' if ok else 'MISSED '} 0x{orig:08x}: {old!r} -> {new!r}")

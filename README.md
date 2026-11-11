@@ -23,6 +23,7 @@ wsl -d dpos-re -- bash tools/run.sh make check
 
 - `docs/CONTRIBUTING.md`: how to decompile a function (C + emulation test)
 - `docs/LIBRARY.md`: Arm C library routines found in the image (AEABI, libm) and their status
+- `docs/DRIVERS.md`: low-level drivers (PIO, FPGA bus, GT911, MS5351M, watchdog) and the recovered pin map
 - `docs/PROGRESS.md`: progress per level and area (`make progress`)
 
 Status: Phase 5 (equivalent C verified by emulation; Arm Compiler 5 unlicensed, so no

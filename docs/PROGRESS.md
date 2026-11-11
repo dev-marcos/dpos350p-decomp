@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 99 | 7.36% | 28114 | 8.33% |
+| EQUIVALENT | 145 | 10.78% | 32458 | 9.62% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 1246 | 92.64% | 309330 | 91.67% |
+| ASM | 1200 | 89.22% | 304986 | 90.38% |
 | **total** | 1345 | | 337444 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1330 | 99 (7.44%) | 337044 | 28114 (8.34%) |
+| main code | 1330 | 145 (10.90%) | 337044 | 32458 (9.63%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -39,6 +39,27 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4003DF94` | __aeabi_d2lz | 102 | EQUIVALENT | 400 | `nonmatching/libc/func_4003df94.c` |
 | `0x4003E6F8` | __aeabi_uidivmod | 12 | EQUIVALENT | 400 | `nonmatching/libc/func_4003e6f8.c` |
 | `0x4003E704` | __aeabi_ldiv0 | 4 | EQUIVALENT | 400 | `nonmatching/libc/func_4003e704.c` |
+| `0x400490DC` | fpga_bus_input | 24 | EQUIVALENT | 300 | `nonmatching/drivers/func_400490dc.c` |
+| `0x400490F4` | fpga_bus_output | 28 | EQUIVALENT | 300 | `nonmatching/drivers/func_400490f4.c` |
+| `0x40049110` | fpga_bus_init | 120 | EQUIVALENT | 300 | `nonmatching/drivers/func_40049110.c` |
+| `0x400491B8` | fpga_data_byte_read | 92 | EQUIVALENT | 300 | `nonmatching/drivers/func_400491b8.c` |
+| `0x40049214` | fpga_data_byte_write | 104 | EQUIVALENT | 300 | `nonmatching/drivers/func_40049214.c` |
+| `0x4004927C` | fpga_selector_command_write | 104 | EQUIVALENT | 300 | `nonmatching/drivers/func_4004927c.c` |
+| `0x40049350` | gt911_i2c_start | 216 | EQUIVALENT | 300 | `nonmatching/drivers/func_40049350.c` |
+| `0x40049428` | gt911_i2c_stop | 104 | EQUIVALENT | 300 | `nonmatching/drivers/func_40049428.c` |
+| `0x40049490` | gt911_wait_ack | 140 | EQUIVALENT | 300 | `nonmatching/drivers/func_40049490.c` |
+| `0x4004951C` | gt911_send_ack | 56 | EQUIVALENT | 300 | `nonmatching/drivers/func_4004951c.c` |
+| `0x40049554` | gt911_write_byte | 120 | EQUIVALENT | 300 | `nonmatching/drivers/func_40049554.c` |
+| `0x400495CC` | gt911_read_byte | 188 | EQUIVALENT | 300 | `nonmatching/drivers/func_400495cc.c` |
+| `0x40049688` | gt911_write_regs | 120 | EQUIVALENT | 300 | `nonmatching/drivers/func_40049688.c` |
+| `0x40049700` | gt911_read_regs | 136 | EQUIVALENT | 300 | `nonmatching/drivers/func_40049700.c` |
+| `0x40049788` | gt911_i2c_pins_init | 76 | EQUIVALENT | 300 | `nonmatching/drivers/func_40049788.c` |
+| `0x400497D4` | gt911_ctrl_pins_out | 76 | EQUIVALENT | 300 | `nonmatching/drivers/func_400497d4.c` |
+| `0x40049820` | gt911_int_input | 20 | EQUIVALENT | 300 | `nonmatching/drivers/func_40049820.c` |
+| `0x40049834` | gt911_reset_seq | 112 | EQUIVALENT | 300 | `nonmatching/drivers/func_40049834.c` |
+| `0x400498A4` | gt911_bus_init | 32 | EQUIVALENT | 300 | `nonmatching/drivers/func_400498a4.c` |
+| `0x400498C4` | gt911_write16 | 16 | EQUIVALENT | 300 | `nonmatching/drivers/func_400498c4.c` |
+| `0x400498D4` | gt911_read16 | 16 | EQUIVALENT | 300 | `nonmatching/drivers/func_400498d4.c` |
 | `0x40056A70` | ld_word | 16 | EQUIVALENT | 300 | `nonmatching/fatfs/func_40056a70.c` |
 | `0x40056A80` | ld_dword | 32 | EQUIVALENT | 300 | `nonmatching/fatfs/func_40056a80.c` |
 | `0x40056AA0` | ld_qword | 100 | EQUIVALENT | 300 | `nonmatching/fatfs/func_40056aa0.c` |
@@ -116,13 +137,38 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4005C38C` | __memcpy_dst_unaligned | 100 | EQUIVALENT | 400 | `nonmatching/libc/func_4005c38c.c` |
 | `0x4005D4A4` | pow | 1580 | EQUIVALENT | 400 | `nonmatching/libm/func_4005d4a4.c` |
 | `0x4005DAD0` | log10 | 202 | EQUIVALENT | 400 | `nonmatching/libm/func_4005dad0.c` |
+| `0x4005F014` | ms5351_i2c_start | 76 | EQUIVALENT | 300 | `nonmatching/drivers/func_4005f014.c` |
+| `0x4005F060` | ms5351_i2c_stop | 92 | EQUIVALENT | 300 | `nonmatching/drivers/func_4005f060.c` |
+| `0x4005F0BC` | ms5351_write_byte | 168 | EQUIVALENT | 300 | `nonmatching/drivers/func_4005f0bc.c` |
+| `0x4005F164` | ms5351_write_reg | 88 | EQUIVALENT | 300 | `nonmatching/drivers/func_4005f164.c` |
+| `0x4005F1BC` | ms5351_pins_init | 52 | EQUIVALENT | 300 | `nonmatching/drivers/func_4005f1bc.c` |
+| `0x4005F1F0` | ms5351_set_clk0 | 412 | EQUIVALENT | 300 | `nonmatching/drivers/func_4005f1f0.c` |
+| `0x4005F38C` | ms5351_set_clk1 | 420 | EQUIVALENT | 300 | `nonmatching/drivers/func_4005f38c.c` |
+| `0x4005F55C` | ms5351_write_pll | 232 | EQUIVALENT | 300 | `nonmatching/drivers/func_4005f55c.c` |
+| `0x4005F644` | ms5351_write_ms_int | 164 | EQUIVALENT | 300 | `nonmatching/drivers/func_4005f644.c` |
 | `0x4005F6E8` | __aeabi_d2ulz | 70 | EQUIVALENT | 400 | `nonmatching/libc/func_4005f6e8.c` |
 | `0x4005F730` | __aeabi_ul2d | 70 | EQUIVALENT | 400 | `nonmatching/libc/func_4005f730.c` |
 | `0x4005F91C` | tanh | 210 | EQUIVALENT | 400 | `nonmatching/libm/func_4005f91c.c` |
+| `0x400631D4` | pio_cfg_pin | 160 | EQUIVALENT | 300 | `nonmatching/drivers/func_400631d4.c` |
+| `0x40063274` | pio_set_bit | 20 | EQUIVALENT | 300 | `nonmatching/drivers/func_40063274.c` |
+| `0x40063288` | pio_clr_bit | 24 | EQUIVALENT | 300 | `nonmatching/drivers/func_40063288.c` |
+| `0x400632A0` | pio_get_bit | 24 | EQUIVALENT | 300 | `nonmatching/drivers/func_400632a0.c` |
+| `0x400632B8` | pio_set_drive | 64 | EQUIVALENT | 300 | `nonmatching/drivers/func_400632b8.c` |
 | `0x4006613C` | __sincos_core | 1012 | EQUIVALENT | 400 | `nonmatching/libm/func_4006613c.c` |
 | `0x40066530` | cos | 4 | EQUIVALENT | 400 | `nonmatching/libm/func_40066530.c` |
 | `0x40066534` | sin | 4 | EQUIVALENT | 400 | `nonmatching/libm/func_40066534.c` |
+| `0x40067478` | readl_b | 8 | EQUIVALENT | 300 | `nonmatching/drivers/func_40067478.c` |
+| `0x40067480` | writel_b | 8 | EQUIVALENT | 300 | `nonmatching/drivers/func_40067480.c` |
+| `0x40067488` | wdt_config | 132 | EQUIVALENT | 300 | `nonmatching/drivers/func_40067488.c` |
+| `0x4006750C` | wdt_enable | 32 | EQUIVALENT | 300 | `nonmatching/drivers/func_4006750c.c` |
+| `0x4006752C` | wdt_irq_ack | 60 | EQUIVALENT | 300 | `nonmatching/drivers/func_4006752c.c` |
+| `0x40067574` | wdt_system_reset | 36 | EQUIVALENT | 300 | `nonmatching/drivers/func_40067574.c` |
+| `0x40067598` | readl_a | 8 | EQUIVALENT | 300 | `nonmatching/drivers/func_40067598.c` |
+| `0x400675A0` | writel_a | 8 | EQUIVALENT | 300 | `nonmatching/drivers/func_400675a0.c` |
+| `0x400675B0` | sdmmc_pins_init | 140 | EQUIVALENT | 300 | `nonmatching/drivers/func_400675b0.c` |
 | `0x40068E5C` | __aeabi_memclr4 | 8 | EQUIVALENT | 400 | `nonmatching/libc/func_40068e5c.c` |
+| `0x40068E64` | readl_c | 8 | EQUIVALENT | 300 | `nonmatching/drivers/func_40068e64.c` |
+| `0x40068E6C` | writel_c | 8 | EQUIVALENT | 300 | `nonmatching/drivers/func_40068e6c.c` |
 | `0x40068F08` | exp | 92 | EQUIVALENT | 400 | `nonmatching/libm/func_40068f08.c` |
 | `0x40069F54` | frexp | 22 | EQUIVALENT | 400 | `nonmatching/libm/func_40069f54.c` |
 | `0x40069FD0` | __pow_core | 842 | EQUIVALENT | 400 | `nonmatching/libm/func_40069fd0.c` |

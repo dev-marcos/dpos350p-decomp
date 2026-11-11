@@ -713,8 +713,8 @@ address,size,name,type,evidence_level,source
 0x40042C64,48,func_40042c64,function_arm,DERIVED,analyze.py:rea
 0x40042C94,68,func_40042c94,function_arm,DERIVED,analyze.py:rea
 0x40042CD8,24,func_40042cd8,function_arm,DERIVED,analyze.py:prologue
-0x40042CF0,28,func_40042cf0,function_arm,DERIVED,analyze.py:rea
-0x40042D0C,28,func_40042d0c,function_arm,DERIVED,analyze.py:rea
+0x40042CF0,28,delay_ms,function_arm,OPEN,this-project:phase5 (timer-polling delay; used with 20/40 in GT911 reset)
+0x40042D0C,28,delay_us,function_arm,OPEN,this-project:phase5 (timer-polling delay; unit inferred from use as 1-tick I2C delay)
 0x40042D28,24,System_Init,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:178
 0x40042D40,12,func_40042d40,function_arm,DERIVED,analyze.py:rea
 0x40042D4C,8,func_40042d4c,function_arm,DERIVED,analyze.py:gap-code
@@ -808,30 +808,30 @@ address,size,name,type,evidence_level,source
 0x40048EF8,412,pool_40048ef8,literal_pool,DERIVED,analyze.py
 0x40049094,36,func_40049094,function_arm,DERIVED,analyze.py:rea
 0x400490B8,36,func_400490b8,function_arm,DERIVED,analyze.py:prologue
-0x400490DC,24,pe0_pe3_function_1_pe0_pe3,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Boot/apps/csi_diag/README.md:122
-0x400490F4,28,func_400490f4,function_arm,DERIVED,analyze.py:rea
-0x40049110,120,func_40049110,function_arm,DERIVED,analyze.py:prologue
+0x400490DC,24,fpga_bus_input,function_arm,DERIVED,this-project:phase5 + Hack FPGA_PROTOCOL.md (PE_CFG1=0; flag 0)
+0x400490F4,28,fpga_bus_output,function_arm,DERIVED,this-project:phase5 (PE_CFG1=0x11111111; flag 1)
+0x40049110,120,fpga_bus_init,function_arm,DERIVED,this-project:phase5 (PE0..PE3 outputs)
 0x40049188,48,FPGA_Start,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:180
 0x400491B8,92,fpga_data_byte_read,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:451
 0x40049214,104,fpga_data_byte_write,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:450
 0x4004927C,104,fpga_selector_command_write,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:449
 0x400492E4,72,perform_fpga_identification_probe,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:1059
 0x4004932C,36,pool_4004932c,literal_pool,DERIVED,analyze.py
-0x40049350,216,gt911_i2c_start_bus_prepare,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:1220
-0x40049428,104,gt911_i2c_stop,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:1221
-0x40049490,140,gt911_wait_ack_timeout_50000,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:1222
-0x4004951C,56,gt911_send_ack_nack,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:1223
-0x40049554,120,gt911_write_byte_msb_first,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:1224
-0x400495CC,188,gt911_read_byte_msb_first,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:1225
-0x40049688,120,gt911_register_buffer_write,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:1226
-0x40049700,136,gt911_register_buffer_read,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:1227
-0x40049788,76,func_40049788,function_arm,DERIVED,analyze.py:rea
-0x400497D4,76,func_400497d4,function_arm,DERIVED,analyze.py:rea
-0x40049820,20,func_40049820,function_arm,DERIVED,analyze.py:rea
-0x40049834,112,func_40049834,function_arm,DERIVED,analyze.py:rea
-0x400498A4,32,gt911_bus_initialization_wrapper,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:1228
-0x400498C4,16,gt911_16_bit_address_write_wrapper,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:1229
-0x400498D4,16,gt911_16_bit_address_read_wrapper,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:1230
+0x40049350,216,gt911_i2c_start,function_arm,DERIVED,this-project:phase5 + Hack FPGA.md:1220
+0x40049428,104,gt911_i2c_stop,function_arm,DERIVED,this-project:phase5 + Hack FPGA.md:1221
+0x40049490,140,gt911_wait_ack,function_arm,DERIVED,this-project:phase5 + Hack FPGA.md:1222 (50000 polls)
+0x4004951C,56,gt911_send_ack,function_arm,DERIVED,this-project:phase5 + Hack FPGA.md:1223
+0x40049554,120,gt911_write_byte,function_arm,DERIVED,this-project:phase5 + Hack FPGA.md:1224
+0x400495CC,188,gt911_read_byte,function_arm,DERIVED,this-project:phase5 + Hack FPGA.md:1225
+0x40049688,120,gt911_write_regs,function_arm,DERIVED,this-project:phase5 + Hack FPGA.md:1226 (device 0xBA)
+0x40049700,136,gt911_read_regs,function_arm,DERIVED,this-project:phase5 + Hack FPGA.md:1227 (0xBA/0xBB)
+0x40049788,76,gt911_i2c_pins_init,function_arm,DERIVED,this-project:phase5 (PG6/PG7 outputs high)
+0x400497D4,76,gt911_ctrl_pins_out,function_arm,DERIVED,this-project:phase5 (PE22/PE24 outputs high)
+0x40049820,20,gt911_int_input,function_arm,DERIVED,this-project:phase5 (PE24 input)
+0x40049834,112,gt911_reset_seq,function_arm,DERIVED,this-project:phase5 (PE22/PE24 reset timing)
+0x400498A4,32,gt911_bus_init,function_arm,DERIVED,this-project:phase5 + Hack FPGA.md:1228
+0x400498C4,16,gt911_write16,function_arm,DERIVED,this-project:phase5 + Hack FPGA.md:1229
+0x400498D4,16,gt911_read16,function_arm,DERIVED,this-project:phase5 + Hack FPGA.md:1230
 0x400498E4,340,func_400498e4,function_arm,DERIVED,analyze.py:rea
 0x40049A38,36,func_40049a38,function_arm,DERIVED,analyze.py:rea
 0x40049A5C,24,func_40049a5c,function_arm,DERIVED,analyze.py:rea
@@ -1143,16 +1143,16 @@ address,size,name,type,evidence_level,source
 0x4005EDBC,4,pool_4005edbc,literal_pool,DERIVED,analyze.py
 0x4005EDC0,540,func_4005edc0,function_arm,DERIVED,analyze.py:rea
 0x4005EFDC,56,pool_4005efdc,literal_pool,DERIVED,analyze.py
-0x4005F014,76,func_4005f014,function_arm,DERIVED,analyze.py:rea
-0x4005F060,92,func_4005f060,function_arm,DERIVED,analyze.py:prologue
-0x4005F0BC,168,func_4005f0bc,function_arm,DERIVED,analyze.py:rea
-0x4005F164,88,func_4005f164,function_arm,DERIVED,analyze.py:rea
-0x4005F1BC,52,ms5351m_a,function_arm,DERIVED,user-brief
-0x4005F1F0,412,ms5351m_b,function_arm,DERIVED,user-brief
-0x4005F38C,420,ms5351m_c,function_arm,DERIVED,user-brief
+0x4005F014,76,ms5351_i2c_start,function_arm,DERIVED,this-project:phase5 (PE20 SCL / PE21 SDA)
+0x4005F060,92,ms5351_i2c_stop,function_arm,DERIVED,this-project:phase5
+0x4005F0BC,168,ms5351_write_byte,function_arm,DERIVED,this-project:phase5 (ACK slot clocked but not read)
+0x4005F164,88,ms5351_write_reg,function_arm,DERIVED,this-project:phase5 (device 0xC0)
+0x4005F1BC,52,ms5351_pins_init,function_arm,DERIVED,this-project:phase5 + user brief (MS5351M 0x4005F1BC)
+0x4005F1F0,412,ms5351_set_clk0,function_arm,DERIVED,this-project:phase5 + user brief (Si5351 regs PLLA 0x1A / MS0 0x2A / CLK0 0x10)
+0x4005F38C,420,ms5351_set_clk1,function_arm,DERIVED,this-project:phase5 + user brief (PLLB 0x22 / MS1 0x32 / CLK1 0x11)
 0x4005F530,44,pool_4005f530,literal_pool,DERIVED,analyze.py
-0x4005F55C,232,func_4005f55c,function_arm,DERIVED,analyze.py:rea
-0x4005F644,164,func_4005f644,function_arm,DERIVED,analyze.py:rea
+0x4005F55C,232,ms5351_write_pll,function_arm,DERIVED,this-project:phase5 (Si5351 P1/P2/P3 encoding)
+0x4005F644,164,ms5351_write_ms_int,function_arm,DERIVED,this-project:phase5 (integer multisynth + R divider)
 0x4005F6E8,70,__aeabi_d2ulz,function_thumb,DERIVED,this-project:phase5 (emulation: 64-bit unsigned result)
 0x4005F72E,2,pad_4005f72e,padding,STATIC-CONFIRMED,analyze.py:zero
 0x4005F730,70,__aeabi_ul2d,function_thumb,DERIVED,this-project:phase2
@@ -1247,11 +1247,11 @@ address,size,name,type,evidence_level,source
 0x40063108,68,func_40063108,function_arm,DERIVED,analyze.py:rea
 0x4006314C,132,func_4006314c,function_arm,DERIVED,analyze.py:prologue
 0x400631D0,4,pool_400631d0,literal_pool,DERIVED,analyze.py
-0x400631D4,160,func_400631d4,function_arm,DERIVED,analyze.py:rea
-0x40063274,20,func_40063274,function_arm,DERIVED,analyze.py:rea
-0x40063288,24,func_40063288,function_arm,DERIVED,analyze.py:rea
-0x400632A0,24,func_400632a0,function_arm,DERIVED,analyze.py:rea
-0x400632B8,64,func_400632b8,function_arm,DERIVED,analyze.py:rea
+0x400631D4,160,pio_cfg_pin,function_arm,DERIVED,this-project:phase5 (V3s PIO CFG/PUL register layout)
+0x40063274,20,pio_set_bit,function_arm,DERIVED,this-project:phase5 (PIO DAT |= 1<<pin)
+0x40063288,24,pio_clr_bit,function_arm,DERIVED,this-project:phase5 (PIO DAT &= ~(1<<pin))
+0x400632A0,24,pio_get_bit,function_arm,DERIVED,this-project:phase5 (PIO DAT bit test)
+0x400632B8,64,pio_set_drive,function_arm,DERIVED,this-project:phase5 (PIO DRV 2-bit field)
 0x400632F8,4,func_400632f8,function_arm,DERIVED,analyze.py:rea
 0x400632FC,16,func_400632fc,function_arm,DERIVED,analyze.py:rea
 0x4006330C,28,func_4006330c,function_arm,DERIVED,analyze.py:gap-code
@@ -1398,18 +1398,18 @@ address,size,name,type,evidence_level,source
 0x40067420,48,serializer_decode_field,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:624
 0x40067450,20,serializer_process_field,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:625
 0x40067464,20,pool_40067464,literal_pool,DERIVED,analyze.py
-0x40067478,8,func_40067478,function_arm,DERIVED,analyze.py:rea
-0x40067480,8,func_40067480,function_arm,DERIVED,analyze.py:rea
-0x40067488,132,func_40067488,function_arm,DERIVED,analyze.py:rea
-0x4006750C,32,func_4006750c,function_arm,DERIVED,analyze.py:prologue
-0x4006752C,60,func_4006752c,function_arm,DERIVED,analyze.py:chunk
+0x40067478,8,readl_b,function_arm,DERIVED,this-project:phase5 (ldr r0 [r0]; watchdog file)
+0x40067480,8,writel_b,function_arm,DERIVED,this-project:phase5 (str r1 [r0]; watchdog file)
+0x40067488,132,wdt_config,function_arm,DERIVED,this-project:phase5 (WDOG0 CFG/MODE/IRQ_EN at 0x01C20CA0..)
+0x4006750C,32,wdt_enable,function_arm,DERIVED,this-project:phase5 (WDOG0 MODE |= 1)
+0x4006752C,60,wdt_irq_ack,function_arm,DERIVED,this-project:phase5 (WDOG0 IRQ_STA)
 0x40067568,12,pool_40067568,literal_pool,DERIVED,analyze.py
-0x40067574,36,func_40067574,function_arm,DERIVED,analyze.py:rea
-0x40067598,8,func_40067598,function_arm,DERIVED,analyze.py:rea
-0x400675A0,8,func_400675a0,function_arm,DERIVED,analyze.py:rea
+0x40067574,36,wdt_system_reset,function_arm,DERIVED,this-project:phase5 (wdt_config(0 1 0) + enable)
+0x40067598,8,readl_a,function_arm,DERIVED,this-project:phase5 (ldr r0 [r0])
+0x400675A0,8,writel_a,function_arm,DERIVED,this-project:phase5 (str r1 [r0])
 0x400675A8,4,func_400675a8,function_arm,DERIVED,analyze.py:rea
 0x400675AC,4,func_400675ac,function_arm,DERIVED,analyze.py:rea
-0x400675B0,140,func_400675b0,function_arm,DERIVED,analyze.py:rea
+0x400675B0,140,sdmmc_pins_init,function_arm,DERIVED,this-project:phase5 (PF0-5 / PC0-5 / PC0-10 function 2)
 0x4006763C,60,func_4006763c,function_arm,DERIVED,analyze.py:rea
 0x40067678,68,func_40067678,function_arm,DERIVED,analyze.py:rea
 0x400676BC,128,func_400676bc,function_arm,DERIVED,analyze.py:rea
@@ -1445,8 +1445,8 @@ address,size,name,type,evidence_level,source
 0x40068918,1220,func_40068918,function_arm,DERIVED,analyze.py:rea
 0x40068DDC,128,pool_40068ddc,literal_pool,DERIVED,analyze.py
 0x40068E5C,8,__aeabi_memclr4,function_arm,DERIVED,this-project:phase5 (movs r2 #0 then b __aeabi_memset4)
-0x40068E64,8,func_40068e64,function_arm,DERIVED,analyze.py:rea
-0x40068E6C,8,func_40068e6c,function_arm,DERIVED,analyze.py:rea
+0x40068E64,8,readl_c,function_arm,DERIVED,this-project:phase5 (ldr r0 [r0])
+0x40068E6C,8,writel_c,function_arm,DERIVED,this-project:phase5 (str r1 [r0])
 0x40068E74,28,func_40068e74,function_arm,DERIVED,analyze.py:rea
 0x40068E90,4,pool_40068e90,literal_pool,DERIVED,analyze.py
 0x40068E94,116,func_40068e94,function_arm,DERIVED,analyze.py:rea
@@ -2686,7 +2686,10 @@ address,size,name,type,evidence_level,source
 0x4009509B,25,pad_4009509b,padding,STATIC-CONFIRMED,analyze.py:zero
 0x400950B4,1008,rodata_400950b4,data,DERIVED,analyze.py
 0x400954A4,828,pad_400954a4,padding,DERIVED,analyze.py:packer_garbage
+0x40544E68,0,SYS_INFO,label,DERIVED,Hack docs/SYS_INFO.md (stock global structure)
 0x42E67BC4,0,DirBuf,label,DERIVED,ff.c static BYTE DirBuf[608]; find_volume
 0x42E6805C,0,LfnBuf,label,DERIVED,ff.c static WCHAR LfnBuf[256]; find_volume
+0x42E68C68,0,g_ms5351_clk1_vco,label,DERIVED,this-project:phase5 (written by ms5351_set_clk1)
 0x42E68C6C,0,FatFs,label,DERIVED,ff.c static FATFS* FatFs[1]; f_mount/find_volume pool
 0x42E68D14,0,Fsid,label,DERIVED,ff.c static WORD Fsid; find_volume
+0x42E68D18,0,g_fpga_bus_is_output,label,DERIVED,this-project:phase5 (byte flag tested by the FPGA bus routines)

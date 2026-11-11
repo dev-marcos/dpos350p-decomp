@@ -1,0 +1,18 @@
+/*
+ * ms5351_i2c_start -- stock 0x4005F014 (76 bytes, ARM)
+ * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
+ * MS5351M bit-banged I2C START.
+ */
+#include "hw/drivers.h"
+
+#define PE ((pio_port_t *)PIO_PE)
+
+void ms5351_i2c_start(void)
+{
+    pio_set_bit(PE, MS_SDA);
+    pio_set_bit(PE, MS_SCL);
+    pio_clr_bit(PE, MS_SDA);
+    delay_us(1);
+    pio_clr_bit(PE, MS_SCL);
+    delay_us(1);
+}

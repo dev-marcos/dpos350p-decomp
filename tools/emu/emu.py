@@ -11,13 +11,14 @@ Memory map of the emulated machine:
   0x40000000 64 MiB  DRAM, stock image loaded at its base (ZI and stacks above it)
   0x48000000  1 MiB  scratch: the C build of the function under test (tools/nmbuild.py)
   0x4FFF0000 64 KiB  return trampoline (execution stops here)
-  0x01C00000  1 MiB  peripheral window (RAM-backed; accesses are logged)
+  0x01000000 16 MiB  peripheral window (RAM-backed); every access is logged in order and
+                     reads can be answered by device models (Machine.devices)
 """
 import json
 import struct
 from pathlib import Path
 
-from unicorn import Uc, UcError, UC_ARCH_ARM, UC_MODE_ARM, UC_HOOK_CODE, UC_HOOK_MEM_WRITE
+from unicorn import Uc, UcError, UC_ARCH_ARM, UC_MODE_ARM, UC_HOOK_CODE, UC_HOOK_MEM_WRITE, UC_HOOK_MEM_READ
 from unicorn import arm_const as R
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -25,7 +26,8 @@ BASE = 0x40000000
 DRAM = 64 << 20
 SCRATCH = 0x48000000
 STOP = 0x4FFF0000
-MMIO = 0x01C00000
+MMIO = 0x01000000             # V3s peripheral space (DE2 0x01000000.., 0x01C00000.. blocks, RTC/PRCM)
+MMIO_SIZE = 16 << 20
 STACK_TOP = 0x43F00000          # free RAM above the stock stacks (stock IRQ top 0x43068D28)
 STACK_GUARD = 0x10000           # writes in [sp-64K, STACK_TOP) are the callee's frame
 
@@ -59,7 +61,7 @@ class Machine:
         uc.mem_map(BASE, DRAM)
         uc.mem_map(SCRATCH, 1 << 20)
         uc.mem_map(STOP, 0x10000)
-        uc.mem_map(MMIO, 1 << 20)
+        uc.mem_map(MMIO, MMIO_SIZE)
         uc.mem_write(BASE, image())
         if code:
             uc.mem_write(SCRATCH, code)
@@ -77,6 +79,10 @@ class Machine:
         for s in stubs:
             uc.hook_add(UC_HOOK_CODE, self._stub_hook, s, s.addr, s.addr)
         uc.hook_add(UC_HOOK_MEM_WRITE, self._write_hook)
+        self.mmio = []                 # ordered ("R"/"W", addr, size, value)
+        self.devices = []              # (lo, hi, fn(machine, op, addr, size, value) -> value|None)
+        uc.hook_add(UC_HOOK_MEM_READ, self._mmio_read, None, MMIO, MMIO + MMIO_SIZE - 1)
+        uc.hook_add(UC_HOOK_MEM_WRITE, self._mmio_write, None, MMIO, MMIO + MMIO_SIZE - 1)
 
     # -- helpers for test setup
     def w8(self, a, v): self.uc.mem_write(a, bytes([v & 0xFF]))
@@ -100,6 +106,22 @@ class Machine:
             cpsr = uc.reg_read(R.UC_ARM_REG_CPSR) | 0x20
             uc.reg_write(R.UC_ARM_REG_CPSR, cpsr)
         uc.reg_write(R.UC_ARM_REG_PC, lr & ~1)
+
+    def _device(self, op, addr, size, value):
+        for lo, hi, fn in self.devices:
+            if lo <= addr < hi:
+                return fn(self, op, addr, size, value)
+        return None
+
+    def _mmio_read(self, uc, access, addr, size, value, user):
+        v = self._device("R", addr, size, None)
+        if v is not None:
+            uc.mem_write(addr, (v & ((1 << (8 * size)) - 1)).to_bytes(size, "little"))
+        self.mmio.append(("R", addr, size, int.from_bytes(uc.mem_read(addr, size), "little")))
+
+    def _mmio_write(self, uc, access, addr, size, value, user):
+        self.mmio.append(("W", addr, size, value & ((1 << (8 * size)) - 1)))
+        self._device("W", addr, size, value)
 
     def _write_hook(self, uc, access, addr, size, value, user):
         if STACK_TOP - STACK_GUARD <= addr < STACK_TOP:
@@ -127,6 +149,7 @@ class Machine:
         uc.reg_write(R.UC_ARM_REG_CPSR, cpsr)
         self.writes.clear()
         self.calls.clear()
+        self.mmio.clear()
         err = None
         try:
             uc.emu_start(entry | thumb, STOP, count=self.max_insns)
@@ -140,6 +163,7 @@ class Machine:
         d0 = uc.reg_read(R.UC_ARM_REG_D0)
         mem = {a: self.read(a, 1)[0] for a in sorted(self.writes)}
         return {"r0": r0, "r1": r1, "r2": r2, "r3": r3, "d0": d0, "mem": mem, "calls": list(self.calls),
+                "mmio": list(self.mmio),
                 "error": err, "m": self}
 
 
@@ -183,6 +207,12 @@ def outcome_equal(a, b, ret_bits):
             bad.append(k)
     if bad:
         diffs.append(f"memory differs at {[hex(x) for x in bad[:6]]}{' ...' if len(bad) > 6 else ''}")
+    if a.get("mmio") != b.get("mmio"):
+        ma, mb = a.get("mmio") or [], b.get("mmio") or []
+        k = next((i for i in range(min(len(ma), len(mb))) if ma[i] != mb[i]), min(len(ma), len(mb)))
+        fmt = lambda e: f"{e[0]}{e[2]*8} {e[1]:#010x}={e[3]:#x}" if e else "-"
+        diffs.append(f"mmio #{k}: stock={fmt(ma[k] if k < len(ma) else None)} c={fmt(mb[k] if k < len(mb) else None)}"
+                     f" (lengths {len(ma)}/{len(mb)})")
     if a["calls"] != b["calls"]:
         diffs.append(f"calls: stock={a['calls'][:3]} c={b['calls'][:3]}")
     return diffs

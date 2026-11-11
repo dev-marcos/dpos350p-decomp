@@ -15,7 +15,7 @@ from pathlib import Path
 from tools.emu.emu import Machine, load_c_build, outcome_equal
 
 ROOT = Path(__file__).resolve().parents[2]
-SUITES = ["tools.emu.tests.fatfs", "tools.emu.tests.fatfs_fs", "tools.emu.tests.rtlib"]
+SUITES = ["tools.emu.tests.fatfs", "tools.emu.tests.fatfs_fs", "tools.emu.tests.rtlib", "tools.emu.tests.drivers"]
 
 
 _THUMB = None
@@ -60,7 +60,7 @@ def run_one(orig, case_fn, cases, seed):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--only", type=lambda s: int(s, 0))
+    ap.add_argument("--only", type=lambda s: int(s, 0), nargs="+")
     ap.add_argument("--cases", type=int)
     ap.add_argument("--seed", type=int, default=20250619)
     a = ap.parse_args()
@@ -71,7 +71,7 @@ def main():
     for suite in SUITES:
         mod = importlib.import_module(suite)
         for orig, fn in mod.TESTS.items():
-            if a.only and orig != a.only:
+            if a.only and orig not in a.only:
                 continue
             if not (ROOT / f"build/nonmatching/func_{orig:08x}.json").exists():
                 print(f"0x{orig:08x}: no C build (run tools/nmbuild.py)")
