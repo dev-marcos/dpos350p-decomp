@@ -2,20 +2,20 @@
     .syntax unified
     .arm
     .section .text.40042c64, "ax", %progbits
-    .global func_40042c64
-    .type func_40042c64, %function
-func_40042c64:  /* 0x40042c64 */
+    .global timer0_isr
+    .type timer0_isr, %function
+timer0_isr:  /* 0x40042c64 */
 .Lstart_40042c64:
     push {r4, lr}  /* 40042c64 */
     ldr r4, [pc, #0x1e0]  /* 40042c68 */
     mov r0, r4  /* 40042c6c */
-    bl func_40042b50  /* 40042c70 */
+    bl readl_d  /* 40042c70 */
     orr r1, r0, #1  /* 40042c74 */
     mov r0, r4  /* 40042c78 */
-    bl func_40042b58  /* 40042c7c */
+    bl writel_d  /* 40042c7c */
     ldr r0, [pc, #0x1cc]  /* 40042c80 */
     ldr r1, [r0]  /* 40042c84 */
     add r2, r1, #1  /* 40042c88 */
     str r2, [r0]  /* 40042c8c */
     pop {r4, pc}  /* 40042c90 */
-    .size func_40042c64, . - func_40042c64
+    .size timer0_isr, . - timer0_isr

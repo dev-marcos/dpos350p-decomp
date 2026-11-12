@@ -10,7 +10,7 @@ SMEC_Init:  /* 0x4004a15c */
     movw r1, #0x8fc  /* 4004a160 */
     sub sp, sp, #4  /* 4004a164 */
     ldr r0, [pc, #0x1c]  /* 4004a168 */
-    bl __aeabi_memclr  /* 4004a16c */
+    bl __aeabi_memclr4  /* 4004a16c */
     bl func_40049f44  /* 4004a170 */
     bl func_4004a13c  /* 4004a174 */
     mov r0, #0x7d0  /* 4004a178 */

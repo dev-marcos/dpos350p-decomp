@@ -8,5 +8,5 @@ func_4003fa04:  /* 0x4003fa04 */
 .Lstart_4003fa04:
     mov r1, #1  /* 4003fa04 */
     ldr r0, [pc, #0xee8]  /* 4003fa08 */
-    b func_40063288  /* 4003fa0c */
+    b pio_clr_bit  /* 4003fa0c */
     .size func_4003fa04, . - func_4003fa04

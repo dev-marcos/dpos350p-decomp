@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40058f8c, "ax", %progbits
-    .global func_40058f8c
-    .type func_40058f8c, %function
-func_40058f8c:  /* 0x40058f8c */
+    .global create_name
+    .type create_name, %function
+create_name:  /* 0x40058f8c */
 .Lstart_40058f8c:
     push {r4, r5, r6, r7, r8, sb, sl, fp, lr}  /* 40058f8c */
     mov r4, r1  /* 40058f90 */
@@ -24,7 +24,7 @@ func_40058f8c:  /* 0x40058f8c */
     bgt .L40058fdc  /* 40058fc4 */
     mov r1, fp  /* 40058fc8 */
     mov r0, r8  /* 40058fcc */
-    bl func_40056be0  /* 40058fd0 */
+    bl chk_chr  /* 40058fd0 */
     cmp r0, #0  /* 40058fd4 */
     bne .L40059110  /* 40058fd8 */
 .L40058fdc:
@@ -35,7 +35,7 @@ func_40058f8c:  /* 0x40058f8c */
     strh fp, [r0]  /* 40058fec */
 .L40058ff0:
     mov r0, sp  /* 40058ff0 */
-    bl func_40056c10  /* 40058ff4 */
+    bl tchar2uni  /* 40058ff4 */
     mov fp, r0  /* 40058ff8 */
     cmp fp, sl  /* 40058ffc */
     beq .L40059110  /* 40059000 */
@@ -110,7 +110,7 @@ func_40058f8c:  /* 0x40058f8c */
     mov r1, #0x20  /* 400590ec */
     add r0, r6, #0x40  /* 400590f0 */
     mov sl, #8  /* 400590f4 */
-    bl func_40056bac  /* 400590f8 */
+    bl mem_set  /* 400590f8 */
     str r6, [sp, #4]  /* 400590fc */
     mov r6, #0  /* 40059100 */
     str sb, [sp, #8]  /* 40059104 */
@@ -192,7 +192,7 @@ func_40058f8c:  /* 0x40058f8c */
     ble .L4005922c  /* 40059204 */
     movw r1, #0x1b5  /* 40059208 */
     mov r0, fp  /* 4005920c */
-    bl func_40069d90  /* 40059210 */
+    bl ff_uni2oem  /* 40059210 */
     mov fp, r0  /* 40059214 */
     orr r8, r8, #2  /* 40059218 */
     tst fp, #0x80  /* 4005921c */
@@ -218,7 +218,7 @@ func_40058f8c:  /* 0x40058f8c */
     beq .L4005927c  /* 40059264 */
     mov r1, fp  /* 40059268 */
     ldr r0, [pc, #0x8f4]  /* 4005926c */
-    bl func_40056be0  /* 40059270 */
+    bl chk_chr  /* 40059270 */
     cmp r0, #0  /* 40059274 */
     beq .L40059288  /* 40059278 */
 .L4005927c:
@@ -239,4 +239,4 @@ func_40058f8c:  /* 0x40058f8c */
     strb fp, [r2, r6]  /* 400592ac */
     add r6, r6, #1  /* 400592b0 */
     b .L4005912c  /* 400592b4 */
-    .size func_40058f8c, . - func_40058f8c
+    .size create_name, . - create_name

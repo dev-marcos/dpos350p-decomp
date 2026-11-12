@@ -2,14 +2,14 @@
     .syntax unified
     .arm
     .section .text.40042e2c, "ax", %progbits
-    .global func_40042e2c
-    .type func_40042e2c, %function
-func_40042e2c:  /* 0x40042e2c */
+    .global avs1_read
+    .type avs1_read, %function
+avs1_read:  /* 0x40042e2c */
 .Lstart_40042e2c:
     stmdb sp!, {lr}  /* 40042e2c */
     sub sp, sp, #4  /* 40042e30 */
     ldr r0, [pc, #0x2c]  /* 40042e34 */
-    bl func_40042b50  /* 40042e38 */
+    bl readl_d  /* 40042e38 */
     lsl r0, r0, #1  /* 40042e3c */
     add sp, sp, #4  /* 40042e40 */
     ldm sp!, {pc}  /* 40042e44 */
@@ -22,4 +22,4 @@ func_40042e2c:  /* 0x40042e2c */
     .word 0x01c20c84  /* 40042e60 */
     .word 0x01c20c80  /* 40042e64 */
     .word 0x01c20c88  /* 40042e68 */
-    .size func_40042e2c, . - func_40042e2c
+    .size avs1_read, . - avs1_read

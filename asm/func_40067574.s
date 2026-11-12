@@ -2,17 +2,17 @@
     .syntax unified
     .arm
     .section .text.40067574, "ax", %progbits
-    .global func_40067574
-    .type func_40067574, %function
-func_40067574:  /* 0x40067574 */
+    .global wdt_system_reset
+    .type wdt_system_reset, %function
+wdt_system_reset:  /* 0x40067574 */
 .Lstart_40067574:
     stmdb sp!, {lr}  /* 40067574 */
     mov r2, #0  /* 40067578 */
     sub sp, sp, #4  /* 4006757c */
     mov r1, #1  /* 40067580 */
     mov r0, #0  /* 40067584 */
-    bl func_40067488  /* 40067588 */
+    bl wdt_config  /* 40067588 */
     add sp, sp, #4  /* 4006758c */
     ldm sp!, {lr}  /* 40067590 */
-    b func_4006750c  /* 40067594 */
-    .size func_40067574, . - func_40067574
+    b wdt_enable  /* 40067594 */
+    .size wdt_system_reset, . - wdt_system_reset

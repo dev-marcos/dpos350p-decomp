@@ -111,7 +111,7 @@ func_4003f160:  /* 0x4003f160 */
     bl fpga_data_byte_write  /* 4003f2e0 */
     pop {r4, r5, r6, lr}  /* 4003f2e4 */
     mov r0, #2  /* 4003f2e8 */
-    b func_40042cf0  /* 4003f2ec */
+    b delay_ms  /* 4003f2ec */
 .L4003f2f0:
     pop {r4, r5, r6, pc}  /* 4003f2f0 */
     .size func_4003f160, . - func_4003f160

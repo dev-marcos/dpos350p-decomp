@@ -2,36 +2,36 @@
     .syntax unified
     .arm
     .section .text.40049834, "ax", %progbits
-    .global func_40049834
-    .type func_40049834, %function
-func_40049834:  /* 0x40049834 */
+    .global gt911_reset_seq
+    .type gt911_reset_seq, %function
+gt911_reset_seq:  /* 0x40049834 */
 .Lstart_40049834:
     push {r4, lr}  /* 40049834 */
-    bl func_400497d4  /* 40049838 */
+    bl gt911_ctrl_pins_out  /* 40049838 */
     ldr r4, [pc, #0x328]  /* 4004983c */
     mov r1, #0x16  /* 40049840 */
     mov r0, r4  /* 40049844 */
-    bl func_40063288  /* 40049848 */
+    bl pio_clr_bit  /* 40049848 */
     mov r1, #0x18  /* 4004984c */
     mov r0, r4  /* 40049850 */
-    bl func_40063288  /* 40049854 */
+    bl pio_clr_bit  /* 40049854 */
     mov r0, #0x28  /* 40049858 */
-    bl func_40042cf0  /* 4004985c */
+    bl delay_ms  /* 4004985c */
     mov r1, #0x16  /* 40049860 */
     mov r0, r4  /* 40049864 */
-    bl func_40063274  /* 40049868 */
+    bl pio_set_bit  /* 40049868 */
     mov r1, #0x18  /* 4004986c */
     mov r0, r4  /* 40049870 */
-    bl func_40063288  /* 40049874 */
+    bl pio_clr_bit  /* 40049874 */
     mov r0, #0x28  /* 40049878 */
-    bl func_40042cf0  /* 4004987c */
+    bl delay_ms  /* 4004987c */
     mov r1, #0x18  /* 40049880 */
     mov r0, r4  /* 40049884 */
-    bl func_40063288  /* 40049888 */
+    bl pio_clr_bit  /* 40049888 */
     mov r0, #0x28  /* 4004988c */
-    bl func_40042cf0  /* 40049890 */
+    bl delay_ms  /* 40049890 */
     mov r0, r4  /* 40049894 */
     mov r1, #0x18  /* 40049898 */
     pop {r4, lr}  /* 4004989c */
-    b func_40063274  /* 400498a0 */
-    .size func_40049834, . - func_40049834
+    b pio_set_bit  /* 400498a0 */
+    .size gt911_reset_seq, . - gt911_reset_seq

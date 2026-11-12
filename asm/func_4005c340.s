@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.4005c340, "ax", %progbits
-    .global __aeabi_memcpy
-    .type __aeabi_memcpy, %function
-__aeabi_memcpy:  /* 0x4005c340 */
+    .global __aeabi_memcpy4
+    .type __aeabi_memcpy4, %function
+__aeabi_memcpy4:  /* 0x4005c340 */
 .Lstart_4005c340:
     subs r2, r2, #0x10  /* 4005c340 */
     blo .L4005c360  /* 4005c344 */
@@ -27,4 +27,4 @@ __aeabi_memcpy:  /* 0x4005c340 */
     strhhs r2, [r0], #2  /* 4005c380 */
     strbmi r3, [r0], #1  /* 4005c384 */
     bx lr  /* 4005c388 */
-    .size __aeabi_memcpy, . - __aeabi_memcpy
+    .size __aeabi_memcpy4, . - __aeabi_memcpy4

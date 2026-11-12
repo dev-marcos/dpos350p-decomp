@@ -7,5 +7,5 @@
 func_4003e05c:  /* 0x4003e05c */
 .Lstart_4003e05c:
     ldr r0, [pc, #0x654]  /* 4003e05c */
-    b func_40042978  /* 4003e060 */
+    b ccu_gate_off  /* 4003e060 */
     .size func_4003e05c, . - func_4003e05c

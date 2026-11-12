@@ -2,10 +2,10 @@
     .syntax unified
     .arm
     .section .text.400427a8, "ax", %progbits
-    .global func_400427a8
-    .type func_400427a8, %function
-func_400427a8:  /* 0x400427a8 */
+    .global writel_e
+    .type writel_e, %function
+writel_e:  /* 0x400427a8 */
 .Lstart_400427a8:
     str r1, [r0]  /* 400427a8 */
     bx lr  /* 400427ac */
-    .size func_400427a8, . - func_400427a8
+    .size writel_e, . - writel_e

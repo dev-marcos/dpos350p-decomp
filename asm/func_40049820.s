@@ -2,13 +2,13 @@
     .syntax unified
     .arm
     .section .text.40049820, "ax", %progbits
-    .global func_40049820
-    .type func_40049820, %function
-func_40049820:  /* 0x40049820 */
+    .global gt911_int_input
+    .type gt911_int_input, %function
+gt911_int_input:  /* 0x40049820 */
 .Lstart_40049820:
     mov r3, #0  /* 40049820 */
     mov r2, #0  /* 40049824 */
     mov r1, #0x18  /* 40049828 */
     ldr r0, [pc, #0x338]  /* 4004982c */
-    b func_400631d4  /* 40049830 */
-    .size func_40049820, . - func_40049820
+    b pio_cfg_pin  /* 40049830 */
+    .size gt911_int_input, . - gt911_int_input

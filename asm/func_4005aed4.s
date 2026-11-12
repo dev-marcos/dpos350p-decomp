@@ -2,23 +2,23 @@
     .syntax unified
     .arm
     .section .text.4005aed4, "ax", %progbits
-    .global func_4005aed4
-    .type func_4005aed4, %function
-func_4005aed4:  /* 0x4005aed4 */
+    .global f_mkdir
+    .type f_mkdir, %function
+f_mkdir:  /* 0x4005aed4 */
 .Lstart_4005aed4:
     push {r0, r4, r5, r6, r7, lr}  /* 4005aed4 */
     mov r2, #2  /* 4005aed8 */
     sub sp, sp, #0x58  /* 4005aedc */
     mov r1, sp  /* 4005aee0 */
     add r0, sp, #0x58  /* 4005aee4 */
-    bl func_40059520  /* 4005aee8 */
+    bl find_volume  /* 4005aee8 */
     movs r4, r0  /* 4005aeec */
     bne .L4005b124  /* 4005aef0 */
     ldr r0, [sp]  /* 4005aef4 */
     ldr r1, [sp, #0x58]  /* 4005aef8 */
     str r0, [sp, #8]  /* 4005aefc */
     add r0, sp, #8  /* 4005af00 */
-    bl func_400592b8  /* 4005af04 */
+    bl follow_path  /* 4005af04 */
     movs r4, r0  /* 4005af08 */
     moveq r4, #8  /* 4005af0c */
     beq .L4005b124  /* 4005af10 */
@@ -26,7 +26,7 @@ func_4005aed4:  /* 0x4005aed4 */
     bne .L4005b124  /* 4005af18 */
     mov r1, #0  /* 4005af1c */
     add r0, sp, #8  /* 4005af20 */
-    bl func_400576b0  /* 4005af24 */
+    bl create_chain  /* 4005af24 */
     ldr r3, [sp]  /* 4005af28 */
     movs r5, r0  /* 4005af2c */
     mov r1, #0  /* 4005af30 */
@@ -42,16 +42,16 @@ func_4005aed4:  /* 0x4005aed4 */
     moveq r4, #1  /* 4005af58 */
     beq .L4005af6c  /* 4005af5c */
     ldr r0, [sp]  /* 4005af60 */
-    bl func_40056cf0  /* 4005af64 */
+    bl sync_window  /* 4005af64 */
     mov r4, r0  /* 4005af68 */
 .L4005af6c:
-    bl func_40049dd8  /* 4005af6c */
+    bl get_fattime  /* 4005af6c */
     mov r6, r0  /* 4005af70 */
     movs r0, r4  /* 4005af74 */
     bne .L4005b014  /* 4005af78 */
     ldr r0, [sp]  /* 4005af7c */
     mov r1, r5  /* 4005af80 */
-    bl func_4005793c  /* 4005af84 */
+    bl dir_clear  /* 4005af84 */
     movs r4, r0  /* 4005af88 */
     bne .L4005b014  /* 4005af8c */
     ldr r1, [sp]  /* 4005af90 */
@@ -62,27 +62,27 @@ func_4005aed4:  /* 0x4005aed4 */
     mov r2, #0xb  /* 4005afa4 */
     mov r1, #0x20  /* 4005afa8 */
     mov r0, r4  /* 4005afac */
-    bl func_40056bac  /* 4005afb0 */
+    bl mem_set  /* 4005afb0 */
     mov r0, #0x10  /* 4005afb4 */
     mov r7, #0x2e  /* 4005afb8 */
     strb r0, [r4, #0xb]  /* 4005afbc */
     mov r1, r6  /* 4005afc0 */
     strb r7, [r4]  /* 4005afc4 */
     add r0, r4, #0x16  /* 4005afc8 */
-    bl func_40056b14  /* 4005afcc */
+    bl st_dword  /* 4005afcc */
     ldr r0, [sp]  /* 4005afd0 */
     mov r2, r5  /* 4005afd4 */
     mov r1, r4  /* 4005afd8 */
-    bl func_40057d14  /* 4005afdc */
+    bl st_clust  /* 4005afdc */
     mov r2, #0x20  /* 4005afe0 */
     mov r1, r4  /* 4005afe4 */
     add r0, r4, #0x20  /* 4005afe8 */
-    bl func_40056b90  /* 4005afec */
+    bl mem_cpy  /* 4005afec */
     strb r7, [r4, #0x21]  /* 4005aff0 */
     add r1, r4, #0x20  /* 4005aff4 */
     ldr r2, [sp, #0x10]  /* 4005aff8 */
     ldr r0, [sp]  /* 4005affc */
-    bl func_40057d14  /* 4005b000 */
+    bl st_clust  /* 4005b000 */
     ldr r2, [sp]  /* 4005b004 */
     mov r0, #1  /* 4005b008 */
     strb r0, [r2, #3]  /* 4005b00c */
@@ -92,7 +92,7 @@ func_4005aed4:  /* 0x4005aed4 */
     bne .L4005b028  /* 4005b018 */
 .L4005b01c:
     add r0, sp, #8  /* 4005b01c */
-    bl func_400589f8  /* 4005b020 */
+    bl dir_register  /* 4005b020 */
     mov r4, r0  /* 4005b024 */
 .L4005b028:
     movs r0, r4  /* 4005b028 */
@@ -106,24 +106,24 @@ func_4005aed4:  /* 0x4005aed4 */
     mov r1, r6  /* 4005b048 */
     ldr r2, [r0, #0x10]  /* 4005b04c */
     add r0, r2, #0xc  /* 4005b050 */
-    bl func_40056b14  /* 4005b054 */
+    bl st_dword  /* 4005b054 */
     ldr r3, [sp]  /* 4005b058 */
     mov r1, r5  /* 4005b05c */
     ldr r2, [r3, #0x10]  /* 4005b060 */
     add r0, r2, #0x34  /* 4005b064 */
-    bl func_40056b14  /* 4005b068 */
+    bl st_dword  /* 4005b068 */
     ldr lr, [sp]  /* 4005b06c */
     ldrd r2, r3, [sp, #0x18]  /* 4005b070 */
     mov r1, r2  /* 4005b074 */
     ldr r0, [lr, #0x10]  /* 4005b078 */
     add r0, r0, #0x38  /* 4005b07c */
-    bl func_40056b14  /* 4005b080 */
+    bl st_dword  /* 4005b080 */
     ldr ip, [sp]  /* 4005b084 */
     ldrd r2, r3, [sp, #0x18]  /* 4005b088 */
     mov r1, r2  /* 4005b08c */
     ldr lr, [ip, #0x10]  /* 4005b090 */
     add r0, lr, #0x28  /* 4005b094 */
-    bl func_40056b14  /* 4005b098 */
+    bl st_dword  /* 4005b098 */
     ldr r2, [sp]  /* 4005b09c */
     mov r0, #3  /* 4005b0a0 */
     ldr r3, [r2, #0x10]  /* 4005b0a4 */
@@ -132,7 +132,7 @@ func_4005aed4:  /* 0x4005aed4 */
     ldr r1, [sp]  /* 4005b0b0 */
     ldr r2, [r1, #0x10]  /* 4005b0b4 */
     strb r4, [r2, #4]  /* 4005b0b8 */
-    bl func_4005848c  /* 4005b0bc */
+    bl store_xdir  /* 4005b0bc */
     movs r4, r0  /* 4005b0c0 */
     bne .L4005b124  /* 4005b0c4 */
     b .L4005b0fc  /* 4005b0c8 */
@@ -140,18 +140,18 @@ func_4005aed4:  /* 0x4005aed4 */
     ldr r7, [sp, #0x44]  /* 4005b0cc */
     mov r1, r6  /* 4005b0d0 */
     add r0, r7, #0x16  /* 4005b0d4 */
-    bl func_40056b14  /* 4005b0d8 */
+    bl st_dword  /* 4005b0d8 */
     ldr r0, [sp]  /* 4005b0dc */
     mov r2, r5  /* 4005b0e0 */
     mov r1, r7  /* 4005b0e4 */
-    bl func_40057d14  /* 4005b0e8 */
+    bl st_clust  /* 4005b0e8 */
     strb r4, [r7, #0xb]  /* 4005b0ec */
     mov r1, #1  /* 4005b0f0 */
     ldr r2, [sp]  /* 4005b0f4 */
     strb r1, [r2, #3]  /* 4005b0f8 */
 .L4005b0fc:
     ldr r0, [sp]  /* 4005b0fc */
-    bl func_40056dd8  /* 4005b100 */
+    bl sync_fs  /* 4005b100 */
     mov r4, r0  /* 4005b104 */
     add sp, sp, #0x5c  /* 4005b108 */
     mov r0, r4  /* 4005b10c */
@@ -160,9 +160,9 @@ func_4005aed4:  /* 0x4005aed4 */
     mov r2, #0  /* 4005b114 */
     mov r1, r5  /* 4005b118 */
     add r0, sp, #8  /* 4005b11c */
-    bl func_400574d4  /* 4005b120 */
+    bl remove_chain  /* 4005b120 */
 .L4005b124:
     mov r0, r4  /* 4005b124 */
     add sp, sp, #0x5c  /* 4005b128 */
     pop {r4, r5, r6, r7, pc}  /* 4005b12c */
-    .size func_4005aed4, . - func_4005aed4
+    .size f_mkdir, . - f_mkdir

@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40059a88, "ax", %progbits
-    .global func_40059a88
-    .type func_40059a88, %function
-func_40059a88:  /* 0x40059a88 */
+    .global validate
+    .type validate, %function
+validate:  /* 0x40059a88 */
 .Lstart_40059a88:
     push {r4, r5, r6, lr}  /* 40059a88 */
     movs r4, r0  /* 40059a8c */
@@ -33,4 +33,4 @@ func_40059a88:  /* 0x40059a88 */
     str r0, [r5]  /* 40059ae0 */
     mov r0, r6  /* 40059ae4 */
     pop {r4, r5, r6, pc}  /* 40059ae8 */
-    .size func_40059a88, . - func_40059a88
+    .size validate, . - validate

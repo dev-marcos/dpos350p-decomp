@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.4005f0bc, "ax", %progbits
-    .global func_4005f0bc
-    .type func_4005f0bc, %function
-func_4005f0bc:  /* 0x4005f0bc */
+    .global ms5351_write_byte
+    .type ms5351_write_byte, %function
+ms5351_write_byte:  /* 0x4005f0bc */
 .Lstart_4005f0bc:
     push {r4, r5, r6, lr}  /* 4005f0bc */
     mov r4, r0  /* 4005f0c0 */
@@ -13,42 +13,42 @@ func_4005f0bc:  /* 0x4005f0bc */
 .L4005f0cc:
     mov r1, #0x14  /* 4005f0cc */
     mov r0, r6  /* 4005f0d0 */
-    bl func_40063288  /* 4005f0d4 */
+    bl pio_clr_bit  /* 4005f0d4 */
     tst r4, #0x80  /* 4005f0d8 */
     mov r1, #0x15  /* 4005f0dc */
     mov r0, r6  /* 4005f0e0 */
     bne .L4005f0f0  /* 4005f0e4 */
-    bl func_40063288  /* 4005f0e8 */
+    bl pio_clr_bit  /* 4005f0e8 */
     b .L4005f0f4  /* 4005f0ec */
 .L4005f0f0:
-    bl func_40063274  /* 4005f0f0 */
+    bl pio_set_bit  /* 4005f0f0 */
 .L4005f0f4:
     mov r0, #1  /* 4005f0f4 */
     add r5, r5, #1  /* 4005f0f8 */
-    bl func_40042d0c  /* 4005f0fc */
+    bl delay_us  /* 4005f0fc */
     mov r1, #0x14  /* 4005f100 */
     mov r0, r6  /* 4005f104 */
-    bl func_40063274  /* 4005f108 */
+    bl pio_set_bit  /* 4005f108 */
     mov r0, #1  /* 4005f10c */
     lsl r4, r4, #1  /* 4005f110 */
-    bl func_40042d0c  /* 4005f114 */
+    bl delay_us  /* 4005f114 */
     cmp r5, #8  /* 4005f118 */
     blt .L4005f0cc  /* 4005f11c */
     mov r1, #0x14  /* 4005f120 */
     mov r0, r6  /* 4005f124 */
-    bl func_40063288  /* 4005f128 */
+    bl pio_clr_bit  /* 4005f128 */
     mov r1, #0x15  /* 4005f12c */
     mov r0, r6  /* 4005f130 */
-    bl func_40063274  /* 4005f134 */
+    bl pio_set_bit  /* 4005f134 */
     mov r0, #1  /* 4005f138 */
-    bl func_40042d0c  /* 4005f13c */
+    bl delay_us  /* 4005f13c */
     mov r1, #0x14  /* 4005f140 */
     mov r0, r6  /* 4005f144 */
-    bl func_40063274  /* 4005f148 */
+    bl pio_set_bit  /* 4005f148 */
     mov r0, #1  /* 4005f14c */
-    bl func_40042d0c  /* 4005f150 */
+    bl delay_us  /* 4005f150 */
     mov r0, r6  /* 4005f154 */
     mov r1, #0x14  /* 4005f158 */
     pop {r4, r5, r6, lr}  /* 4005f15c */
-    b func_40063288  /* 4005f160 */
-    .size func_4005f0bc, . - func_4005f0bc
+    b pio_clr_bit  /* 4005f160 */
+    .size ms5351_write_byte, . - ms5351_write_byte

@@ -2,23 +2,23 @@
     .syntax unified
     .arm
     .section .text.4005ad8c, "ax", %progbits
-    .global func_4005ad8c
-    .type func_4005ad8c, %function
-func_4005ad8c:  /* 0x4005ad8c */
+    .global f_unlink
+    .type f_unlink, %function
+f_unlink:  /* 0x4005ad8c */
 .Lstart_4005ad8c:
     push {r0, r4, lr}  /* 4005ad8c */
     mov r2, #2  /* 4005ad90 */
     sub sp, sp, #0xdc  /* 4005ad94 */
     mov r1, sp  /* 4005ad98 */
     add r0, sp, #0xdc  /* 4005ad9c */
-    bl func_40059520  /* 4005ada0 */
+    bl find_volume  /* 4005ada0 */
     movs r1, r0  /* 4005ada4 */
     bne .L4005aecc  /* 4005ada8 */
     ldr r0, [sp]  /* 4005adac */
     ldr r1, [sp, #0xdc]  /* 4005adb0 */
     str r0, [sp, #0x88]  /* 4005adb4 */
     add r0, sp, #0x88  /* 4005adb8 */
-    bl func_400592b8  /* 4005adbc */
+    bl follow_path  /* 4005adbc */
     movs r1, r0  /* 4005adc0 */
     bne .L4005aecc  /* 4005adc4 */
     ldrb r1, [sp, #0xd3]  /* 4005adc8 */
@@ -36,13 +36,13 @@ func_4005ad8c:  /* 0x4005ad8c */
     bne .L4005ae10  /* 4005adf8 */
     add r1, sp, #8  /* 4005adfc */
     mov r0, r2  /* 4005ae00 */
-    bl func_400583e4  /* 4005ae04 */
+    bl init_alloc_info  /* 4005ae04 */
     ldr r4, [sp, #0x10]  /* 4005ae08 */
     b .L4005ae20  /* 4005ae0c */
 .L4005ae10:
     ldr r1, [sp, #0xc4]  /* 4005ae10 */
     mov r0, r2  /* 4005ae14 */
-    bl func_40057cdc  /* 4005ae18 */
+    bl ld_clust  /* 4005ae18 */
     mov r4, r0  /* 4005ae1c */
 .L4005ae20:
     ldrb r1, [sp, #0x8e]  /* 4005ae20 */
@@ -62,12 +62,12 @@ func_4005ad8c:  /* 0x4005ad8c */
 .L4005ae58:
     mov r1, #0  /* 4005ae58 */
     add r0, sp, #0x38  /* 4005ae5c */
-    bl func_400579d4  /* 4005ae60 */
+    bl dir_sdi  /* 4005ae60 */
     movs r1, r0  /* 4005ae64 */
     bne .L4005aecc  /* 4005ae68 */
     mov r1, #0  /* 4005ae6c */
     add r0, sp, #0x38  /* 4005ae70 */
-    bl func_4005860c  /* 4005ae74 */
+    bl dir_read  /* 4005ae74 */
     movs r1, r0  /* 4005ae78 */
     bne .L4005ae8c  /* 4005ae7c */
 .L4005ae80:
@@ -79,7 +79,7 @@ func_4005ad8c:  /* 0x4005ad8c */
     bne .L4005aecc  /* 4005ae90 */
 .L4005ae94:
     add r0, sp, #0x88  /* 4005ae94 */
-    bl func_40058ce4  /* 4005ae98 */
+    bl dir_remove  /* 4005ae98 */
     movs r1, r0  /* 4005ae9c */
     bne .L4005aebc  /* 4005aea0 */
     cmp r4, #0  /* 4005aea4 */
@@ -87,14 +87,14 @@ func_4005ad8c:  /* 0x4005ad8c */
     mov r2, #0  /* 4005aeac */
     mov r1, r4  /* 4005aeb0 */
     add r0, sp, #8  /* 4005aeb4 */
-    bl func_400574d4  /* 4005aeb8 */
+    bl remove_chain  /* 4005aeb8 */
 .L4005aebc:
     movs r1, r0  /* 4005aebc */
     bne .L4005aecc  /* 4005aec0 */
 .L4005aec4:
     ldr r0, [sp]  /* 4005aec4 */
-    bl func_40056dd8  /* 4005aec8 */
+    bl sync_fs  /* 4005aec8 */
 .L4005aecc:
     add sp, sp, #0xe0  /* 4005aecc */
     pop {r4, pc}  /* 4005aed0 */
-    .size func_4005ad8c, . - func_4005ad8c
+    .size f_unlink, . - f_unlink

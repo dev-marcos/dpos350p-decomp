@@ -2,14 +2,14 @@
     .syntax unified
     .arm
     .section .text.40042cd8, "ax", %progbits
-    .global func_40042cd8
-    .type func_40042cd8, %function
-func_40042cd8:  /* 0x40042cd8 */
+    .global avs_init
+    .type avs_init, %function
+avs_init:  /* 0x40042cd8 */
 .Lstart_40042cd8:
     stmdb sp!, {lr}  /* 40042cd8 */
     sub sp, sp, #4  /* 40042cdc */
-    bl func_40042d40  /* 40042ce0 */
+    bl avs0_set_div_default  /* 40042ce0 */
     add sp, sp, #4  /* 40042ce4 */
     ldm sp!, {lr}  /* 40042ce8 */
-    b func_40042d4c  /* 40042cec */
-    .size func_40042cd8, . - func_40042cd8
+    b avs1_set_div_default  /* 40042cec */
+    .size avs_init, . - avs_init

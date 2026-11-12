@@ -2,10 +2,10 @@
     .syntax unified
     .thumb
     .section .text.4005f91c, "ax", %progbits
-    .global func_4005f91c
-    .type func_4005f91c, %function
+    .global tanh
+    .type tanh, %function
     .thumb_func
-func_4005f91c:  /* 0x4005f91c */
+tanh:  /* 0x4005f91c */
 .Lstart_4005f91c:
     vmov.32 r1, d0[1]  /* 4005f91c */
     movw r2, #0xcc90  /* 4005f920 */
@@ -67,7 +67,7 @@ func_4005f91c:  /* 0x4005f91c */
     vadd.f64 d0, d0, d0  /* 4005f9c6 */
     push {lr}  /* 4005f9ca */
     mov.w r0, #0  /* 4005f9cc */
-    bl func_4006a400  /* 4005f9d0 */
+    bl __exp_kernel  /* 4005f9d0 */
     adds r2, #0x28  /* 4005f9d4 */
     vldmia r2, {d1, d2}  /* 4005f9d6 */
     vadd.f64 d0, d0, d1  /* 4005f9da */
@@ -78,4 +78,4 @@ func_4005f91c:  /* 0x4005f91c */
 .L4005f9ec:
     pop {pc}  /* 4005f9ec */
     .byte 0x00, 0x00  /* 4005f9ee */
-    .size func_4005f91c, . - func_4005f91c
+    .size tanh, . - tanh

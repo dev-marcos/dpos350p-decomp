@@ -54,7 +54,7 @@ func_4004f5e4:  /* 0x4004f5e4 */
     strh r0, [r8, #0x44]  /* 4004f694 */
     bl func_4004aa94  /* 4004f698 */
     mov r0, #0xc8  /* 4004f69c */
-    bl func_40042cf0  /* 4004f6a0 */
+    bl delay_ms  /* 4004f6a0 */
     mov r0, #0x45000000  /* 4004f6a4 */
     orr r0, r0, #0x3b8000  /* 4004f6a8 */
     vmov s16, r0  /* 4004f6ac */

@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40059f7c, "ax", %progbits
-    .global func_40059f7c
-    .type func_40059f7c, %function
-func_40059f7c:  /* 0x40059f7c */
+    .global f_read
+    .type f_read, %function
+f_read:  /* 0x40059f7c */
 .Lstart_40059f7c:
     push {r4, r5, r6, r7, r8, sb, sl, fp, lr}  /* 40059f7c */
     mov r4, r0  /* 40059f80 */
@@ -16,7 +16,7 @@ func_40059f7c:  /* 0x40059f7c */
     mov r5, r2  /* 40059f98 */
     mov r1, sp  /* 40059f9c */
     mov r0, r4  /* 40059fa0 */
-    bl func_40059a88  /* 40059fa4 */
+    bl validate  /* 40059fa4 */
     movs r1, r0  /* 40059fa8 */
     bne .L4005a1cc  /* 40059fac */
     ldrsb r0, [r4, #0x31]  /* 40059fb0 */
@@ -51,7 +51,7 @@ func_40059f7c:  /* 0x40059f7c */
     ldr r0, [sp]  /* 4005a020 */
     mov r3, fp  /* 4005a024 */
     ldrb r0, [r0, #1]  /* 4005a028 */
-    bl func_40049c78  /* 4005a02c */
+    bl disk_read  /* 4005a02c */
     cmp r0, #0  /* 4005a030 */
     bne .L4005a1b4  /* 4005a034 */
     ldrb r0, [r4, #0x30]  /* 4005a038 */
@@ -64,7 +64,7 @@ func_40059f7c:  /* 0x40059f7c */
     add r0, r6, r0, lsl #9  /* 4005a054 */
     mov r2, #128, #30  /* 4005a058 */
     add r1, r4, #0x50  /* 4005a05c */
-    bl func_40056b90  /* 4005a060 */
+    bl mem_cpy  /* 4005a060 */
 .L4005a064:
     lsl sb, fp, #9  /* 4005a064 */
 .L4005a068:
@@ -100,7 +100,7 @@ func_40059f7c:  /* 0x40059f7c */
 .L4005a0d8:
     ldr r1, [r4, #0x40]  /* 4005a0d8 */
     mov r0, r4  /* 4005a0dc */
-    bl func_40056ed4  /* 4005a0e0 */
+    bl get_fat  /* 4005a0e0 */
 .L4005a0e4:
     cmp r0, #1  /* 4005a0e4 */
     bls .L4005a10c  /* 4005a0e8 */
@@ -110,7 +110,7 @@ func_40059f7c:  /* 0x40059f7c */
 .L4005a0f8:
     ldr r1, [r4, #0x40]  /* 4005a0f8 */
     ldr r0, [sp]  /* 4005a0fc */
-    bl func_40056ea8  /* 4005a100 */
+    bl clst2sect  /* 4005a100 */
     cmp r0, #0  /* 4005a104 */
     bne .L40059ff8  /* 4005a108 */
 .L4005a10c:
@@ -129,7 +129,7 @@ func_40059f7c:  /* 0x40059f7c */
     mov r3, #1  /* 4005a138 */
     add r1, r4, #0x50  /* 4005a13c */
     ldrb r0, [ip, #1]  /* 4005a140 */
-    bl func_40049ce8  /* 4005a144 */
+    bl disk_write  /* 4005a144 */
     cmp r0, #0  /* 4005a148 */
     bne .L4005a1b4  /* 4005a14c */
     ldrb r0, [r4, #0x30]  /* 4005a150 */
@@ -141,7 +141,7 @@ func_40059f7c:  /* 0x40059f7c */
     mov r2, sl  /* 4005a164 */
     add r1, r4, #0x50  /* 4005a168 */
     ldrb r0, [ip, #1]  /* 4005a16c */
-    bl func_40049c78  /* 4005a170 */
+    bl disk_read  /* 4005a170 */
     cmp r0, #0  /* 4005a174 */
     bne .L4005a1b4  /* 4005a178 */
 .L4005a17c:
@@ -158,7 +158,7 @@ func_40059f7c:  /* 0x40059f7c */
     add r1, r3, ip  /* 4005a1a0 */
     mov r2, sb  /* 4005a1a4 */
     mov r0, r6  /* 4005a1a8 */
-    bl func_40056b90  /* 4005a1ac */
+    bl mem_cpy  /* 4005a1ac */
     b .L4005a068  /* 4005a1b0 */
 .L4005a1b4:
     mov lr, #1  /* 4005a1b4 */
@@ -171,4 +171,4 @@ func_40059f7c:  /* 0x40059f7c */
 .L4005a1cc:
     add sp, sp, #4  /* 4005a1cc */
     pop {r4, r5, r6, r7, r8, sb, sl, fp, pc}  /* 4005a1d0 */
-    .size func_40059f7c, . - func_40059f7c
+    .size f_read, . - f_read

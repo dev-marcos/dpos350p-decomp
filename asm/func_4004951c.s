@@ -2,22 +2,22 @@
     .syntax unified
     .arm
     .section .text.4004951c, "ax", %progbits
-    .global gt911_send_ack_nack
-    .type gt911_send_ack_nack, %function
-gt911_send_ack_nack:  /* 0x4004951c */
+    .global gt911_send_ack
+    .type gt911_send_ack, %function
+gt911_send_ack:  /* 0x4004951c */
 .Lstart_4004951c:
     push {r4, lr}  /* 4004951c */
     mov r1, #6  /* 40049520 */
     ldr r4, [pc, #0x63c]  /* 40049524 */
     mov r0, r4  /* 40049528 */
-    bl func_40063288  /* 4004952c */
+    bl pio_clr_bit  /* 4004952c */
     mov r1, #7  /* 40049530 */
     mov r0, r4  /* 40049534 */
-    bl func_40063274  /* 40049538 */
+    bl pio_set_bit  /* 40049538 */
     mov r0, #1  /* 4004953c */
-    bl func_40042d0c  /* 40049540 */
+    bl delay_us  /* 40049540 */
     mov r0, r4  /* 40049544 */
     mov r1, #7  /* 40049548 */
     pop {r4, lr}  /* 4004954c */
-    b func_40063288  /* 40049550 */
-    .size gt911_send_ack_nack, . - gt911_send_ack_nack
+    b pio_clr_bit  /* 40049550 */
+    .size gt911_send_ack, . - gt911_send_ack

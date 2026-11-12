@@ -2,19 +2,19 @@
     .syntax unified
     .arm
     .section .text.40042de4, "ax", %progbits
-    .global func_40042de4
-    .type func_40042de4, %function
-func_40042de4:  /* 0x40042de4 */
+    .global avs1_restart
+    .type avs1_restart, %function
+avs1_restart:  /* 0x40042de4 */
 .Lstart_40042de4:
     push {r4, lr}  /* 40042de4 */
     mov r1, #0  /* 40042de8 */
     ldr r0, [pc, #0x74]  /* 40042dec */
-    bl func_40042b58  /* 40042df0 */
+    bl writel_d  /* 40042df0 */
     ldr r4, [pc, #0x68]  /* 40042df4 */
     mov r0, r4  /* 40042df8 */
-    bl func_40042b50  /* 40042dfc */
+    bl readl_d  /* 40042dfc */
     orr r1, r0, #2  /* 40042e00 */
     mov r0, r4  /* 40042e04 */
     pop {r4, lr}  /* 40042e08 */
-    b func_40042b58  /* 40042e0c */
-    .size func_40042de4, . - func_40042de4
+    b writel_d  /* 40042e0c */
+    .size avs1_restart, . - avs1_restart

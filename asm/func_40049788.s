@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40049788, "ax", %progbits
-    .global func_40049788
-    .type func_40049788, %function
-func_40049788:  /* 0x40049788 */
+    .global gt911_i2c_pins_init
+    .type gt911_i2c_pins_init, %function
+gt911_i2c_pins_init:  /* 0x40049788 */
 .Lstart_40049788:
     push {r4, lr}  /* 40049788 */
     mov r3, #1  /* 4004978c */
@@ -12,17 +12,17 @@ func_40049788:  /* 0x40049788 */
     mov r2, #1  /* 40049794 */
     mov r1, #6  /* 40049798 */
     mov r0, r4  /* 4004979c */
-    bl func_400631d4  /* 400497a0 */
+    bl pio_cfg_pin  /* 400497a0 */
     mov r3, #1  /* 400497a4 */
     mov r2, #1  /* 400497a8 */
     mov r1, #7  /* 400497ac */
     mov r0, r4  /* 400497b0 */
-    bl func_400631d4  /* 400497b4 */
+    bl pio_cfg_pin  /* 400497b4 */
     mov r1, #6  /* 400497b8 */
     mov r0, r4  /* 400497bc */
-    bl func_40063274  /* 400497c0 */
+    bl pio_set_bit  /* 400497c0 */
     mov r0, r4  /* 400497c4 */
     mov r1, #7  /* 400497c8 */
     pop {r4, lr}  /* 400497cc */
-    b func_40063274  /* 400497d0 */
-    .size func_40049788, . - func_40049788
+    b pio_set_bit  /* 400497d0 */
+    .size gt911_i2c_pins_init, . - gt911_i2c_pins_init

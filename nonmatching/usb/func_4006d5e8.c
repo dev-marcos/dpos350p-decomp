@@ -1,0 +1,36 @@
+/*
+ * usb_setup_handle -- stock 0x4006D5E8 (184 bytes, ARM)
+ * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
+ * Copy and print the 8-byte setup packet, then dispatch standard (type 0) or class (type 1) requests; vendor requests are ignored.
+ */
+#include "hw/usb.h"
+
+#define setup_req      ((unsigned char *)0x42E68C58u)   /* copy of the last setup packet */
+#define line_coding    ((unsigned char *)0x40095484u)   /* 7 bytes */
+#define line_coding_rx (*(u32 *)0x42E68CECu)
+void usb_mass_send_data(unsigned char *buf, int len);
+void usb_mass_send_csw(u32 status, u32 next);
+void usb_mass_set_sense(u32 lun, u32 key, u32 asc);
+
+void usb_standard_request(unsigned char *req);
+void usb_class_request(unsigned char *req);
+
+void usb_setup_handle(unsigned char *req, int len)
+{
+    volatile int Timeout = 10000000;
+    (void)Timeout;
+    if (len != 8) {
+        debug_printf_stub(STR(0x4008EEC4));
+        return;
+    }
+    memcpy(setup_req, req, 8);
+    debug_printf_stub(STR(0x4008E7FC), setup_req[0]);
+    debug_printf_stub(STR(0x4008EEB0), setup_req[1]);
+    debug_printf_stub(STR(0x4008F97C), *(unsigned short *)(setup_req + 2));
+    debug_printf_stub(STR(0x4008F98C), *(unsigned short *)(setup_req + 4));
+    debug_printf_stub(STR(0x4008F99C), *(unsigned short *)(setup_req + 6));
+    if (!(setup_req[0] & 0x60))
+        usb_standard_request(setup_req);
+    else if ((setup_req[0] & 0x60) == 0x20)
+        usb_class_request(setup_req);
+}

@@ -2,34 +2,34 @@
     .syntax unified
     .arm
     .section .text.400587c8, "ax", %progbits
-    .global func_400587c8
-    .type func_400587c8, %function
-func_400587c8:  /* 0x400587c8 */
+    .global dir_find
+    .type dir_find, %function
+dir_find:  /* 0x400587c8 */
 .Lstart_400587c8:
     push {r4, r5, r6, r7, r8, sb, sl, fp, lr}  /* 400587c8 */
     mov r4, r0  /* 400587cc */
     sub sp, sp, #4  /* 400587d0 */
     mov r1, #0  /* 400587d4 */
     ldr r6, [r4]  /* 400587d8 */
-    bl func_400579d4  /* 400587dc */
+    bl dir_sdi  /* 400587dc */
     movs r8, r0  /* 400587e0 */
     bne .L400589ec  /* 400587e4 */
     ldrb r0, [r6]  /* 400587e8 */
     cmp r0, #4  /* 400587ec */
     bne .L400588c4  /* 400587f0 */
     ldr r0, [r6, #0xc]  /* 400587f4 */
-    bl func_40058118  /* 400587f8 */
+    bl xname_sum  /* 400587f8 */
     str r4, [sp]  /* 400587fc */
     mov r4, r0  /* 40058800 */
 .L40058804:
     ldr r0, [sp]  /* 40058804 */
     mov r1, #0  /* 40058808 */
-    bl func_4005860c  /* 4005880c */
+    bl dir_read  /* 4005880c */
     movs r5, r0  /* 40058810 */
     bne .L400588b8  /* 40058814 */
     ldr r0, [r6, #0x10]  /* 40058818 */
     add r0, r0, #0x24  /* 4005881c */
-    bl func_40056a70  /* 40058820 */
+    bl ld_word  /* 40058820 */
     cmp r0, r4  /* 40058824 */
     bne .L40058804  /* 40058828 */
     ldr r1, [r6, #0x10]  /* 4005882c */
@@ -44,12 +44,12 @@ func_400587c8:  /* 0x400587c8 */
     tst r8, #0x1f  /* 4005884c */
     addeq r8, r8, #2  /* 40058850 */
     add r0, r0, r8  /* 40058854 */
-    bl func_40056a70  /* 40058858 */
-    bl func_40069e38  /* 4005885c */
+    bl ld_word  /* 40058858 */
+    bl ff_wtoupper  /* 4005885c */
     mov fp, r0  /* 40058860 */
     ldr r0, [r6, #0xc]  /* 40058864 */
     ldrh r0, [r0, sl]  /* 40058868 */
-    bl func_40069e38  /* 4005886c */
+    bl ff_wtoupper  /* 4005886c */
     cmp fp, r0  /* 40058870 */
     bne .L40058898  /* 40058874 */
     sub r7, r7, #1  /* 40058878 */
@@ -82,7 +82,7 @@ func_400587c8:  /* 0x400587c8 */
 .L400588d4:
     ldr r1, [r4, #0x38]  /* 400588d4 */
     mov r0, r6  /* 400588d8 */
-    bl func_40056d80  /* 400588dc */
+    bl move_window  /* 400588dc */
     movs r8, r0  /* 400588e0 */
     bne .L400589ec  /* 400588e4 */
     ldr r1, [r4, #0x3c]  /* 400588e8 */
@@ -117,7 +117,7 @@ func_400587c8:  /* 0x400587c8 */
     cmp sb, r0  /* 40058954 */
     bne .L40058988  /* 40058958 */
     ldr r0, [r6, #0xc]  /* 4005895c */
-    bl func_40057d50  /* 40058960 */
+    bl cmp_lfn  /* 40058960 */
     cmp r0, #0  /* 40058964 */
     beq .L40058988  /* 40058968 */
     sub sl, sl, #1  /* 4005896c */
@@ -137,7 +137,7 @@ func_400587c8:  /* 0x400587c8 */
     cmp sl, #0  /* 40058994 */
     bne .L400589ac  /* 40058998 */
     mov r0, r1  /* 4005899c */
-    bl func_40058094  /* 400589a0 */
+    bl sum_sfn  /* 400589a0 */
     cmp sb, r0  /* 400589a4 */
     beq .L400589ec  /* 400589a8 */
 .L400589ac:
@@ -147,7 +147,7 @@ func_400587c8:  /* 0x400587c8 */
     ldr r0, [r4, #0x3c]  /* 400589b8 */
     mov r2, #0xb  /* 400589bc */
     add r1, r4, #0x40  /* 400589c0 */
-    bl func_40056bbc  /* 400589c4 */
+    bl mem_cmp  /* 400589c4 */
     cmp r0, #0  /* 400589c8 */
     beq .L400589ec  /* 400589cc */
 .L400589d0:
@@ -156,11 +156,11 @@ func_400587c8:  /* 0x400587c8 */
 .L400589d8:
     mov r1, #0  /* 400589d8 */
     mov r0, r4  /* 400589dc */
-    bl func_40057aec  /* 400589e0 */
+    bl dir_next  /* 400589e0 */
     movs r8, r0  /* 400589e4 */
     beq .L400588d4  /* 400589e8 */
 .L400589ec:
     mov r0, r8  /* 400589ec */
     add sp, sp, #4  /* 400589f0 */
     pop {r4, r5, r6, r7, r8, sb, sl, fp, pc}  /* 400589f4 */
-    .size func_400587c8, . - func_400587c8
+    .size dir_find, . - dir_find

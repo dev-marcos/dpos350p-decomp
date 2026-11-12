@@ -45,11 +45,11 @@ func_4003a300:  /* 0x4003a300 */
     strb r7, [r6, #0x21]  /* 4003a38c */
     vcvt.f64.s32 d0, s0  /* 4003a390 */
     strb r7, [r6, #0x22]  /* 4003a394 */
-    blx func_4005dad0  /* 4003a398 */
+    blx log10  /* 4003a398 */
     vmov.f64 d9, d0  /* 4003a39c */
     vldr s2, [r5, #0x58]  /* 4003a3a0 */
     vcvt.f64.s32 d0, s2  /* 4003a3a4 */
-    blx func_4005dad0  /* 4003a3a8 */
+    blx log10  /* 4003a3a8 */
     vsub.f64 d1, d0, d9  /* 4003a3ac */
     movw r0, #0x8d08  /* 4003a3b0 */
     vldr s4, [r5, #0x5c]  /* 4003a3b4 */
@@ -140,7 +140,7 @@ func_4003a300:  /* 0x4003a300 */
     vmrs apsr_nzcv, fpscr  /* 4003a4f8 */
     strbge r4, [r6, #0x22]  /* 4003a4fc */
     vstr d0, [fp]  /* 4003a500 */
-    blx func_4005dad0  /* 4003a504 */
+    blx log10  /* 4003a504 */
     vmov.f64 d2, #2.000000e+01  /* 4003a508 */
     add r0, fp, #0x3e80  /* 4003a50c */
     vmul.f64 d0, d0, d2  /* 4003a510 */
@@ -170,7 +170,7 @@ func_4003a300:  /* 0x4003a300 */
     add r4, r4, #1  /* 4003a564 */
     vstr d1, [r8]  /* 4003a568 */
     vmov.f64 d0, #1.000000e+00  /* 4003a56c */
-    blx func_4005dad0  /* 4003a570 */
+    blx log10  /* 4003a570 */
     vmov.f64 d4, #2.000000e+01  /* 4003a574 */
     add r0, r8, #0x3e80  /* 4003a578 */
     vmul.f64 d3, d0, d4  /* 4003a57c */

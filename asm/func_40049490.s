@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40049490, "ax", %progbits
-    .global gt911_wait_ack_timeout_50000
-    .type gt911_wait_ack_timeout_50000, %function
-gt911_wait_ack_timeout_50000:  /* 0x40049490 */
+    .global gt911_wait_ack
+    .type gt911_wait_ack, %function
+gt911_wait_ack:  /* 0x40049490 */
 .Lstart_40049490:
     push {r4, r5, lr}  /* 40049490 */
     mov r3, #1  /* 40049494 */
@@ -14,21 +14,21 @@ gt911_wait_ack_timeout_50000:  /* 0x40049490 */
     mov r1, #6  /* 400494a4 */
     mov r0, r4  /* 400494a8 */
     movw r5, #0xc350  /* 400494ac */
-    bl func_400631d4  /* 400494b0 */
+    bl pio_cfg_pin  /* 400494b0 */
     mov r1, #6  /* 400494b4 */
     mov r0, r4  /* 400494b8 */
-    bl func_40063274  /* 400494bc */
+    bl pio_set_bit  /* 400494bc */
     mov r0, #1  /* 400494c0 */
-    bl func_40042d0c  /* 400494c4 */
+    bl delay_us  /* 400494c4 */
     mov r1, #7  /* 400494c8 */
     mov r0, r4  /* 400494cc */
-    bl func_40063274  /* 400494d0 */
+    bl pio_set_bit  /* 400494d0 */
     mov r0, #1  /* 400494d4 */
-    bl func_40042d0c  /* 400494d8 */
+    bl delay_us  /* 400494d8 */
 .L400494dc:
     mov r1, #6  /* 400494dc */
     mov r0, r4  /* 400494e0 */
-    bl func_400632a0  /* 400494e4 */
+    bl pio_get_bit  /* 400494e4 */
     cmp r0, #0  /* 400494e8 */
     subsne r5, r5, #1  /* 400494ec */
     bne .L400494dc  /* 400494f0 */
@@ -36,10 +36,10 @@ gt911_wait_ack_timeout_50000:  /* 0x40049490 */
     mov r2, #1  /* 400494f8 */
     mov r1, #6  /* 400494fc */
     mov r0, r4  /* 40049500 */
-    bl func_400631d4  /* 40049504 */
+    bl pio_cfg_pin  /* 40049504 */
     mov r0, r4  /* 40049508 */
     add sp, sp, #4  /* 4004950c */
     pop {r4, r5, lr}  /* 40049510 */
     mov r1, #7  /* 40049514 */
-    b func_40063288  /* 40049518 */
-    .size gt911_wait_ack_timeout_50000, . - gt911_wait_ack_timeout_50000
+    b pio_clr_bit  /* 40049518 */
+    .size gt911_wait_ack, . - gt911_wait_ack

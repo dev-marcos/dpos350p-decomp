@@ -2,13 +2,13 @@
     .syntax unified
     .arm
     .section .text.40063274, "ax", %progbits
-    .global func_40063274
-    .type func_40063274, %function
-func_40063274:  /* 0x40063274 */
+    .global pio_set_bit
+    .type pio_set_bit, %function
+pio_set_bit:  /* 0x40063274 */
 .Lstart_40063274:
     ldr r2, [r0, #0x10]  /* 40063274 */
     mov r3, #1  /* 40063278 */
     orr r1, r2, r3, lsl r1  /* 4006327c */
     str r1, [r0, #0x10]  /* 40063280 */
     bx lr  /* 40063284 */
-    .size func_40063274, . - func_40063274
+    .size pio_set_bit, . - pio_set_bit

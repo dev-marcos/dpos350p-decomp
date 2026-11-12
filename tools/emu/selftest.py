@@ -12,7 +12,7 @@ from pathlib import Path
 
 from tools import nmbuild
 from tools.emu.run_tests import run_one
-from tools.emu.tests import fatfs, fatfs_fs, rtlib, drivers
+from tools.emu.tests import fatfs, fatfs_fs, rtlib, drivers, usb
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -61,6 +61,15 @@ MUTANTS = [
     (0x400427B0, "if (f >= 0x2DC6C001u)", "if (f > 0x2DC6C001u)"),            # PLL_CPU P=1 threshold
     (0x400428AC, "((v >> 4) & 3) + 1", "((v >> 4) & 1) + 1"),                # PLL_PERIPH0 K field
     (0x40042978, "~(1u << (code & 0x1F)) & readl_e(r)", "~(1u << (code & 0xF)) & readl_e(r)"),  # reset-bit field
+    # USB stack (EasyUSB-derived + FNIRSI mass storage)
+    (0x4006ADBC, "usb_ep0_state = (d[0] & 0x80) ? 1 : 2;", "usb_ep0_state = (d[0] & 0x40) ? 1 : 2;"),  # ep0 data direction
+    (0x4006BA98, "if (max_lun < CBW_LUN", "if (max_lun <= CBW_LUN"),                    # CBW LUN bound
+    (0x4006DCE4, "if (lun_blocks[lun] < lba + count)", "if (lun_blocks[lun] <= lba + count)"),  # READ/WRITE range
+    (0x4006D898, "if ((int)n >= 0x25) n = 0x24;", "if ((int)n >= 0x25) n = 0x23;"),    # INQUIRY length clamp
+    (0x4006C264, "v |= ((ep_index - 1) << 1) << 1 | 1;", "v |= ((ep_index - 1) << 1) | 1;"),  # DMA DRQ select
+    (0x4006C9A8, "u32 temp = ((fifo_size + 511) & ~511u) >> 4", "u32 temp = ((fifo_size + 511) & ~511u) >> 3"),  # FIFO size code
+    (0x4006C08C, "mass_stage = next ? 4 : 5;", "mass_stage = next ? 5 : 4;"),          # CSW next stage
+    (0x4006AA28, "if (len > ep_max_len[ep]) {", "if (len >= ep_max_len[ep]) {"),       # short/long IN split
 ]
 
 
@@ -75,8 +84,8 @@ def main():
             mut = Path(tmp) / src.name
             mut.write_text(text.replace(old, new, 1))
             nmbuild.build(mut, syms)
-            suite = next(s for s in (fatfs.TESTS, fatfs_fs.TESTS, rtlib.TESTS, drivers.TESTS) if orig in s)
-            _, fails, _ = run_one(orig, suite[orig], 40 if suite is fatfs_fs.TESTS else (80 if suite is drivers.TESTS else 400), 7)
+            suite = next(s for s in (fatfs.TESTS, fatfs_fs.TESTS, rtlib.TESTS, drivers.TESTS, usb.TESTS) if orig in s)
+            _, fails, _ = run_one(orig, suite[orig], 40 if suite is fatfs_fs.TESTS else (80 if suite in (drivers.TESTS, usb.TESTS) else 400), 7)
             ok = bool(fails)
             caught += ok
             print(f"{'caught ' if ok else 'MISSED '} 0x{orig:08x}: {old!r} -> {new!r}")

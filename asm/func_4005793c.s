@@ -2,28 +2,28 @@
     .syntax unified
     .arm
     .section .text.4005793c, "ax", %progbits
-    .global func_4005793c
-    .type func_4005793c, %function
-func_4005793c:  /* 0x4005793c */
+    .global dir_clear
+    .type dir_clear, %function
+dir_clear:  /* 0x4005793c */
 .Lstart_4005793c:
     push {r4, r5, r6, r7, lr}  /* 4005793c */
     mov r4, r0  /* 40057940 */
     sub sp, sp, #4  /* 40057944 */
     mov r5, r1  /* 40057948 */
-    bl func_40056cf0  /* 4005794c */
+    bl sync_window  /* 4005794c */
     cmp r0, #0  /* 40057950 */
     movne r0, #1  /* 40057954 */
     bne .L400579cc  /* 40057958 */
     mov r1, r5  /* 4005795c */
     mov r0, r4  /* 40057960 */
-    bl func_40056ea8  /* 40057964 */
+    bl clst2sect  /* 40057964 */
     mov r7, r0  /* 40057968 */
     mov r2, #128, #30  /* 4005796c */
     str r7, [r4, #0x34]  /* 40057970 */
     mov r1, #0  /* 40057974 */
     add r0, r4, #0x38  /* 40057978 */
     mov r5, #0  /* 4005797c */
-    bl func_40056bac  /* 40057980 */
+    bl mem_set  /* 40057980 */
     mov r6, #0  /* 40057984 */
     b .L40057994  /* 40057988 */
 .L4005798c:
@@ -37,7 +37,7 @@ func_4005793c:  /* 0x4005793c */
     mov r3, #1  /* 400579a4 */
     mov r2, r7  /* 400579a8 */
     add r1, r4, #0x38  /* 400579ac */
-    bl func_40049ce8  /* 400579b0 */
+    bl disk_write  /* 400579b0 */
     cmp r0, #0  /* 400579b4 */
     beq .L4005798c  /* 400579b8 */
 .L400579bc:
@@ -48,4 +48,4 @@ func_4005793c:  /* 0x4005793c */
 .L400579cc:
     add sp, sp, #4  /* 400579cc */
     pop {r4, r5, r6, r7, pc}  /* 400579d0 */
-    .size func_4005793c, . - func_4005793c
+    .size dir_clear, . - dir_clear

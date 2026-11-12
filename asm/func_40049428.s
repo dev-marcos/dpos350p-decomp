@@ -8,28 +8,28 @@ gt911_i2c_stop:  /* 0x40049428 */
 .Lstart_40049428:
     push {r4, lr}  /* 40049428 */
     mov r0, #1  /* 4004942c */
-    bl func_40042d0c  /* 40049430 */
+    bl delay_us  /* 40049430 */
     ldr r4, [pc, #0x72c]  /* 40049434 */
     mov r1, #7  /* 40049438 */
     mov r0, r4  /* 4004943c */
-    bl func_40063288  /* 40049440 */
+    bl pio_clr_bit  /* 40049440 */
     mov r1, #6  /* 40049444 */
     mov r0, r4  /* 40049448 */
-    bl func_40063288  /* 4004944c */
+    bl pio_clr_bit  /* 4004944c */
     mov r1, #7  /* 40049450 */
     mov r0, r4  /* 40049454 */
-    bl func_40063274  /* 40049458 */
+    bl pio_set_bit  /* 40049458 */
     mov r0, #1  /* 4004945c */
-    bl func_40042d0c  /* 40049460 */
+    bl delay_us  /* 40049460 */
     mov r1, #6  /* 40049464 */
     mov r0, r4  /* 40049468 */
-    bl func_40063274  /* 4004946c */
+    bl pio_set_bit  /* 4004946c */
     mov r0, #1  /* 40049470 */
-    bl func_40042d0c  /* 40049474 */
+    bl delay_us  /* 40049474 */
     mov r1, #7  /* 40049478 */
     mov r0, r4  /* 4004947c */
-    bl func_40063288  /* 40049480 */
+    bl pio_clr_bit  /* 40049480 */
     pop {r4, lr}  /* 40049484 */
     mov r0, #1  /* 40049488 */
-    b func_40042d0c  /* 4004948c */
+    b delay_us  /* 4004948c */
     .size gt911_i2c_stop, . - gt911_i2c_stop

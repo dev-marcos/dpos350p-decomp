@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40042914, "ax", %progbits
-    .global func_40042914
-    .type func_40042914, %function
-func_40042914:  /* 0x40042914 */
+    .global ccu_gate_on
+    .type ccu_gate_on, %function
+ccu_gate_on:  /* 0x40042914 */
 .Lstart_40042914:
     push {r4, r5, r6, lr}  /* 40042914 */
     mov r4, r0  /* 40042918 */
@@ -13,22 +13,22 @@ func_40042914:  /* 0x40042914 */
     orr r5, r5, #0xc20000  /* 40042924 */
     mov r6, #1  /* 40042928 */
     add r0, r5, r0  /* 4004292c */
-    bl func_400427a0  /* 40042930 */
+    bl readl_e  /* 40042930 */
     asr r1, r4, #0x10  /* 40042934 */
     and r2, r1, #0x1f  /* 40042938 */
     orr r1, r0, r6, lsl r2  /* 4004293c */
     ubfx r0, r4, #0x15, #0xb  /* 40042940 */
     add r0, r5, r0  /* 40042944 */
-    bl func_400427a8  /* 40042948 */
+    bl writel_e  /* 40042948 */
     ubfx r0, r4, #5, #0xb  /* 4004294c */
     add r0, r5, r0  /* 40042950 */
-    bl func_400427a0  /* 40042954 */
+    bl readl_e  /* 40042954 */
     and r1, r4, #0x1f  /* 40042958 */
     orr r1, r0, r6, lsl r1  /* 4004295c */
     ubfx r0, r4, #5, #0xb  /* 40042960 */
     add r0, r5, r0  /* 40042964 */
-    bl func_400427a8  /* 40042968 */
+    bl writel_e  /* 40042968 */
     pop {r4, r5, r6, lr}  /* 4004296c */
     mov r0, #0x64  /* 40042970 */
-    b func_40042d0c  /* 40042974 */
-    .size func_40042914, . - func_40042914
+    b delay_us  /* 40042974 */
+    .size ccu_gate_on, . - ccu_gate_on

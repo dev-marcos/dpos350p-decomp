@@ -2,12 +2,12 @@
     .syntax unified
     .arm
     .section .text.40056bac, "ax", %progbits
-    .global func_40056bac
-    .type func_40056bac, %function
-func_40056bac:  /* 0x40056bac */
+    .global mem_set
+    .type mem_set, %function
+mem_set:  /* 0x40056bac */
 .Lstart_40056bac:
     subs r2, r2, #1  /* 40056bac */
     strb r1, [r0], #1  /* 40056bb0 */
     bne .Lstart_40056bac  /* 40056bb4 */
     bx lr  /* 40056bb8 */
-    .size func_40056bac, . - func_40056bac
+    .size mem_set, . - mem_set

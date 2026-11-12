@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40049c78, "ax", %progbits
-    .global func_40049c78
-    .type func_40049c78, %function
-func_40049c78:  /* 0x40049c78 */
+    .global disk_read
+    .type disk_read, %function
+disk_read:  /* 0x40049c78 */
 .Lstart_40049c78:
     push {r4, r5, r6, r7, lr}  /* 40049c78 */
     cmp r0, #0  /* 40049c7c */
@@ -35,4 +35,4 @@ func_40049c78:  /* 0x40049c78 */
     mov r0, r4  /* 40049cdc */
     add sp, sp, #4  /* 40049ce0 */
     pop {r4, r5, r6, r7, pc}  /* 40049ce4 */
-    .size func_40049c78, . - func_40049c78
+    .size disk_read, . - disk_read

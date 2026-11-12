@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40069df4, "ax", %progbits
-    .global func_40069df4
-    .type func_40069df4, %function
-func_40069df4:  /* 0x40069df4 */
+    .global ff_oem2uni
+    .type ff_oem2uni, %function
+ff_oem2uni:  /* 0x40069df4 */
 .Lstart_40069df4:
     mov r2, r0  /* 40069df4 */
     mov r0, #0  /* 40069df8 */
@@ -25,4 +25,4 @@ func_40069df4:  /* 0x40069df4 */
     ldrh r0, [r1, r2]  /* 40069e30 */
 .L40069e34:
     bx lr  /* 40069e34 */
-    .size func_40069df4, . - func_40069df4
+    .size ff_oem2uni, . - ff_oem2uni

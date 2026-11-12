@@ -2,12 +2,12 @@
     .syntax unified
     .arm
     .section .text.40056b04, "ax", %progbits
-    .global func_40056b04
-    .type func_40056b04, %function
-func_40056b04:  /* 0x40056b04 */
+    .global st_word
+    .type st_word, %function
+st_word:  /* 0x40056b04 */
 .Lstart_40056b04:
     strb r1, [r0]  /* 40056b04 */
     lsr r1, r1, #8  /* 40056b08 */
     strb r1, [r0, #1]  /* 40056b0c */
     bx lr  /* 40056b10 */
-    .size func_40056b04, . - func_40056b04
+    .size st_word, . - st_word

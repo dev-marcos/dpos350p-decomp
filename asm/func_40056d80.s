@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40056d80, "ax", %progbits
-    .global func_40056d80
-    .type func_40056d80, %function
-func_40056d80:  /* 0x40056d80 */
+    .global move_window
+    .type move_window, %function
+move_window:  /* 0x40056d80 */
 .Lstart_40056d80:
     push {r4, r5, r6, lr}  /* 40056d80 */
     mov r4, r0  /* 40056d84 */
@@ -14,14 +14,14 @@ func_40056d80:  /* 0x40056d80 */
     cmp r5, r0  /* 40056d94 */
     beq .L40056dd0  /* 40056d98 */
     mov r0, r4  /* 40056d9c */
-    bl func_40056cf0  /* 40056da0 */
+    bl sync_window  /* 40056da0 */
     movs r6, r0  /* 40056da4 */
     bne .L40056dd0  /* 40056da8 */
     ldrb r0, [r4, #1]  /* 40056dac */
     mov r3, #1  /* 40056db0 */
     mov r2, r5  /* 40056db4 */
     add r1, r4, #0x38  /* 40056db8 */
-    bl func_40049c78  /* 40056dbc */
+    bl disk_read  /* 40056dbc */
     cmp r0, #0  /* 40056dc0 */
     mvnne r5, #0  /* 40056dc4 */
     movne r6, #1  /* 40056dc8 */
@@ -29,4 +29,4 @@ func_40056d80:  /* 0x40056d80 */
 .L40056dd0:
     mov r0, r6  /* 40056dd0 */
     pop {r4, r5, r6, pc}  /* 40056dd4 */
-    .size func_40056d80, . - func_40056d80
+    .size move_window, . - move_window

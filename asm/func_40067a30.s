@@ -26,10 +26,10 @@ func_40067a30:  /* 0x40067a30 */
     cmp r6, r0  /* 40067a74 */
     movlo r6, r0  /* 40067a78 */
     mov r0, r5  /* 40067a7c */
-    bl func_40067598  /* 40067a80 */
+    bl readl_a  /* 40067a80 */
     orr r1, r0, #128, #8  /* 40067a84 */
     mov r0, r5  /* 40067a88 */
-    bl func_400675a0  /* 40067a8c */
+    bl writel_a  /* 40067a8c */
     lsrs r7, r7, #2  /* 40067a90 */
     beq .L40067b24  /* 40067a94 */
     add r8, r5, #128, #30  /* 40067a98 */
@@ -41,14 +41,14 @@ func_40067a30:  /* 0x40067a30 */
     bl func_400675a8  /* 40067aac */
 .L40067ab0:
     mov r0, sb  /* 40067ab0 */
-    bl func_40067598  /* 40067ab4 */
+    bl readl_a  /* 40067ab4 */
     tst sl, r0  /* 40067ab8 */
     beq .L40067af0  /* 40067abc */
     movs r0, r6  /* 40067ac0 */
     sub r6, r6, #1  /* 40067ac4 */
     bne .L40067aa8  /* 40067ac8 */
     mov r0, sb  /* 40067acc */
-    bl func_40067598  /* 40067ad0 */
+    bl readl_a  /* 40067ad0 */
     mov r2, r0  /* 40067ad4 */
     mov r1, r5  /* 40067ad8 */
     ldr r0, [pc, #0xe20]  /* 40067adc */
@@ -60,13 +60,13 @@ func_40067a30:  /* 0x40067a30 */
     cmp r4, #0  /* 40067af0 */
     beq .L40067b08  /* 40067af4 */
     mov r0, r8  /* 40067af8 */
-    bl func_40067598  /* 40067afc */
+    bl readl_a  /* 40067afc */
     str r0, [fp]  /* 40067b00 */
     b .L40067b14  /* 40067b04 */
 .L40067b08:
     ldr r1, [fp]  /* 40067b08 */
     mov r0, r8  /* 40067b0c */
-    bl func_400675a0  /* 40067b10 */
+    bl writel_a  /* 40067b10 */
 .L40067b14:
     add r5, r5, #1  /* 40067b14 */
     add fp, fp, #4  /* 40067b18 */

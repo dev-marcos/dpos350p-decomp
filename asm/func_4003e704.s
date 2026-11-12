@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.4003e704, "ax", %progbits
-    .global func_4003e704
-    .type func_4003e704, %function
-func_4003e704:  /* 0x4003e704 */
+    .global __aeabi_ldiv0
+    .type __aeabi_ldiv0, %function
+__aeabi_ldiv0:  /* 0x4003e704 */
 .Lstart_4003e704:
     bx lr  /* 4003e704 */
-    .size func_4003e704, . - func_4003e704
+    .size __aeabi_ldiv0, . - __aeabi_ldiv0

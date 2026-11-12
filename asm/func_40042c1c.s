@@ -2,17 +2,17 @@
     .syntax unified
     .arm
     .section .text.40042c1c, "ax", %progbits
-    .global func_40042c1c
-    .type func_40042c1c, %function
-func_40042c1c:  /* 0x40042c1c */
+    .global timer_start
+    .type timer_start, %function
+timer_start:  /* 0x40042c1c */
 .Lstart_40042c1c:
     push {r4, lr}  /* 40042c1c */
     ldr r1, [pc, #0x220]  /* 40042c20 */
     add r4, r1, r0, lsl #4  /* 40042c24 */
     mov r0, r4  /* 40042c28 */
-    bl func_40042b50  /* 40042c2c */
+    bl readl_d  /* 40042c2c */
     orr r1, r0, #1  /* 40042c30 */
     mov r0, r4  /* 40042c34 */
     pop {r4, lr}  /* 40042c38 */
-    b func_40042b58  /* 40042c3c */
-    .size func_40042c1c, . - func_40042c1c
+    b writel_d  /* 40042c3c */
+    .size timer_start, . - timer_start

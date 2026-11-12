@@ -2,16 +2,16 @@
     .syntax unified
     .arm
     .section .text.40057d50, "ax", %progbits
-    .global func_40057d50
-    .type func_40057d50, %function
-func_40057d50:  /* 0x40057d50 */
+    .global cmp_lfn
+    .type cmp_lfn, %function
+cmp_lfn:  /* 0x40057d50 */
 .Lstart_40057d50:
     push {r4, r5, r6, r7, r8, sb, sl, fp, lr}  /* 40057d50 */
     mov r5, r0  /* 40057d54 */
     mov r6, r1  /* 40057d58 */
     sub sp, sp, #4  /* 40057d5c */
     add r0, r6, #0x1a  /* 40057d60 */
-    bl func_40056a70  /* 40057d64 */
+    bl ld_word  /* 40057d64 */
     cmp r0, #0  /* 40057d68 */
     bne .L40057e2c  /* 40057d6c */
     ldrb r0, [r6]  /* 40057d70 */
@@ -26,19 +26,19 @@ func_40057d50:  /* 0x40057d50 */
 .L40057d94:
     ldrb r0, [r8]  /* 40057d94 */
     add r0, r6, r0  /* 40057d98 */
-    bl func_40056a70  /* 40057d9c */
+    bl ld_word  /* 40057d9c */
     mov sl, r0  /* 40057da0 */
     movs r0, fp  /* 40057da4 */
     beq .L40057de8  /* 40057da8 */
     cmp r7, #0xff  /* 40057dac */
     bhs .L40057e2c  /* 40057db0 */
     mov r0, sl  /* 40057db4 */
-    bl func_40069e38  /* 40057db8 */
+    bl ff_wtoupper  /* 40057db8 */
     mov fp, r0  /* 40057dbc */
     add r0, r5, r7, lsl #1  /* 40057dc0 */
     add r7, r7, #1  /* 40057dc4 */
     ldrh r0, [r0]  /* 40057dc8 */
-    bl func_40069e38  /* 40057dcc */
+    bl ff_wtoupper  /* 40057dcc */
     cmp fp, r0  /* 40057dd0 */
     moveq fp, sl  /* 40057dd4 */
     beq .L40057df0  /* 40057dd8 */
@@ -69,4 +69,4 @@ func_40057d50:  /* 0x40057d50 */
     mov r0, #0  /* 40057e2c */
     add sp, sp, #4  /* 40057e30 */
     pop {r4, r5, r6, r7, r8, sb, sl, fp, pc}  /* 40057e34 */
-    .size func_40057d50, . - func_40057d50
+    .size cmp_lfn, . - cmp_lfn

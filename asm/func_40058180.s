@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40058180, "ax", %progbits
-    .global func_40058180
-    .type func_40058180, %function
-func_40058180:  /* 0x40058180 */
+    .global get_xfileinfo
+    .type get_xfileinfo, %function
+get_xfileinfo:  /* 0x40058180 */
 .Lstart_40058180:
     push {r4, r5, r6, r7, r8, sb, sl, fp, lr}  /* 40058180 */
     mvn r5, #0xff  /* 40058184 */
@@ -31,7 +31,7 @@ func_40058180:  /* 0x40058180 */
     addeq r8, r8, #2  /* 400581d0 */
     add r0, r6, r8  /* 400581d4 */
     add r8, r8, #2  /* 400581d8 */
-    bl func_40056a70  /* 400581dc */
+    bl ld_word  /* 400581dc */
     movs r1, fp  /* 400581e0 */
     bne .L400581f4  /* 400581e4 */
     add r1, r5, r0  /* 400581e8 */
@@ -42,7 +42,7 @@ func_40058180:  /* 0x40058180 */
     orr r0, r0, fp, lsl #16  /* 400581f8 */
     rsb r2, sl, #0xff  /* 400581fc */
     add r1, r1, sl  /* 40058200 */
-    bl func_40056c84  /* 40058204 */
+    bl put_utf  /* 40058204 */
     cmp r0, #0  /* 40058208 */
     addne sl, r0, sl  /* 4005820c */
     movne fp, #0  /* 40058210 */
@@ -67,14 +67,14 @@ func_40058180:  /* 0x40058180 */
     movne r0, #0  /* 40058250 */
     movne r1, #0  /* 40058254 */
     addeq r0, r6, #0x38  /* 40058258 */
-    bleq func_40056aa0  /* 4005825c */
+    bleq ld_qword  /* 4005825c */
     strd r0, r1, [r7]  /* 40058260 */
     add r0, r6, #0xc  /* 40058264 */
-    bl func_40056a70  /* 40058268 */
+    bl ld_word  /* 40058268 */
     strh r0, [r7, #0xa]  /* 4005826c */
     add r0, r6, #0xe  /* 40058270 */
-    bl func_40056a70  /* 40058274 */
+    bl ld_word  /* 40058274 */
     strh r0, [r7, #8]  /* 40058278 */
     add sp, sp, #4  /* 4005827c */
     pop {r4, r5, r6, r7, r8, sb, sl, fp, pc}  /* 40058280 */
-    .size func_40058180, . - func_40058180
+    .size get_xfileinfo, . - get_xfileinfo

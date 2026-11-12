@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40049dd8, "ax", %progbits
-    .global func_40049dd8
-    .type func_40049dd8, %function
-func_40049dd8:  /* 0x40049dd8 */
+    .global get_fattime
+    .type get_fattime, %function
+get_fattime:  /* 0x40049dd8 */
 .Lstart_40049dd8:
     ldr r0, [pc, #0x1c]  /* 40049dd8 */
     bx lr  /* 40049ddc */
@@ -16,4 +16,4 @@ func_40049dd8:  /* 0x40049dd8 */
     .word 0x4009548c  /* 40049df4 */
     .word 0x42e68a18  /* 40049df8 */
     .word 0x53756000  /* 40049dfc */
-    .size func_40049dd8, . - func_40049dd8
+    .size get_fattime, . - get_fattime

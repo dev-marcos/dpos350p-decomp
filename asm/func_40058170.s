@@ -2,12 +2,12 @@
     .syntax unified
     .arm
     .section .text.40058170, "ax", %progbits
-    .global func_40058170
-    .type func_40058170, %function
-func_40058170:  /* 0x40058170 */
+    .global xsum32
+    .type xsum32, %function
+xsum32:  /* 0x40058170 */
 .Lstart_40058170:
     lsr r2, r1, #1  /* 40058170 */
     add r1, r2, r1, lsl #31  /* 40058174 */
     add r0, r1, r0  /* 40058178 */
     bx lr  /* 4005817c */
-    .size func_40058170, . - func_40058170
+    .size xsum32, . - xsum32

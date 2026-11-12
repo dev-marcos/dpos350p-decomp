@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.4005f1bc, "ax", %progbits
-    .global ms5351m_a
-    .type ms5351m_a, %function
-ms5351m_a:  /* 0x4005f1bc */
+    .global ms5351_pins_init
+    .type ms5351_pins_init, %function
+ms5351_pins_init:  /* 0x4005f1bc */
 .Lstart_4005f1bc:
     push {r4, lr}  /* 4005f1bc */
     mov r3, #0  /* 4005f1c0 */
@@ -12,11 +12,11 @@ ms5351m_a:  /* 0x4005f1bc */
     mov r2, #1  /* 4005f1c8 */
     mov r1, #0x14  /* 4005f1cc */
     mov r0, r4  /* 4005f1d0 */
-    bl func_400631d4  /* 4005f1d4 */
+    bl pio_cfg_pin  /* 4005f1d4 */
     mov r0, r4  /* 4005f1d8 */
     mov r3, #0  /* 4005f1dc */
     pop {r4, lr}  /* 4005f1e0 */
     mov r2, #1  /* 4005f1e4 */
     mov r1, #0x15  /* 4005f1e8 */
-    b func_400631d4  /* 4005f1ec */
-    .size ms5351m_a, . - ms5351m_a
+    b pio_cfg_pin  /* 4005f1ec */
+    .size ms5351_pins_init, . - ms5351_pins_init

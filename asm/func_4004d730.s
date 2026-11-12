@@ -22,7 +22,7 @@ func_4004d730:  /* 0x4004d730 */
     udiv r0, r0, r5  /* 4004d764 */
     add r6, r0, #1  /* 4004d768 */
     vmov r0, r1, d1  /* 4004d76c */
-    blx __aeabi_d2uiz_like  /* 4004d770 */
+    blx __aeabi_d2ulz  /* 4004d770 */
     ldr r2, [pc, #0xdc]  /* 4004d774 */
     mov r3, #0  /* 4004d778 */
     ldr sl, [r2, #0x554]  /* 4004d77c */

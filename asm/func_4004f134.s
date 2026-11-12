@@ -23,7 +23,7 @@ func_4004f134:  /* 0x4004f134 */
     str r5, [sp, #4]  /* 4004f16c */
     str r5, [sp]  /* 4004f170 */
     add r1, pc, #0x124  /* 4004f174 */
-    bl func_4005aa2c  /* 4004f178 */
+    bl f_opendir  /* 4004f178 */
     b .L4004f204  /* 4004f17c */
 .L4004f180:
     ldrsb r2, [r0], #1  /* 4004f180 */
@@ -53,17 +53,17 @@ func_4004f134:  /* 0x4004f134 */
     bne .L4004f204  /* 4004f1dc */
     add r0, sp, #88, #30  /* 4004f1e0 */
     mov r8, #0  /* 4004f1e4 */
-    bl func_4005ab20  /* 4004f1e8 */
+    bl f_closedir  /* 4004f1e8 */
     mov r2, #1  /* 4004f1ec */
     add r1, sp, #0x5a  /* 4004f1f0 */
     add r0, sp, #108, #30  /* 4004f1f4 */
-    bl func_40059b8c  /* 4004f1f8 */
+    bl f_open  /* 4004f1f8 */
     cmp r0, #0  /* 4004f1fc */
     moveq sb, #1  /* 4004f200 */
 .L4004f204:
     add r1, sp, #0x40  /* 4004f204 */
     add r0, sp, #88, #30  /* 4004f208 */
-    bl func_4005ab48  /* 4004f20c */
+    bl f_readdir  /* 4004f20c */
     cmp r0, #0  /* 4004f210 */
     bne .L4004f224  /* 4004f214 */
     ldrsb r1, [sp, #0x5a]  /* 4004f218 */
@@ -73,7 +73,7 @@ func_4004f134:  /* 0x4004f134 */
     cmp r8, #0  /* 4004f224 */
     beq .L4004f234  /* 4004f228 */
     add r0, sp, #88, #30  /* 4004f22c */
-    bl func_4005ab20  /* 4004f230 */
+    bl f_closedir  /* 4004f230 */
 .L4004f234:
     cmp sb, #0  /* 4004f234 */
     beq .L4004f570  /* 4004f238 */
@@ -84,12 +84,12 @@ func_4004f134:  /* 0x4004f134 */
     mov r3, #0  /* 4004f24c */
     add r0, sp, #108, #30  /* 4004f250 */
     ldr r7, [pc, #0x334]  /* 4004f254 */
-    bl func_4005a6cc  /* 4004f258 */
+    bl f_lseek  /* 4004f258 */
     mov r3, #0  /* 4004f25c */
     mov r2, #64, #26  /* 4004f260 */
     mov r1, r7  /* 4004f264 */
     add r0, sp, #108, #30  /* 4004f268 */
-    bl func_40059f7c  /* 4004f26c */
+    bl f_read  /* 4004f26c */
     ldr r0, [pc, #0x31c]  /* 4004f270 */
     mov r1, r7  /* 4004f274 */
 .L4004f278:
@@ -102,7 +102,7 @@ func_4004f134:  /* 0x4004f134 */
     beq .L4004f278  /* 4004f290 */
 .L4004f294:
     add r0, sp, #108, #30  /* 4004f294 */
-    bl func_4005a694  /* 4004f298 */
+    bl f_close  /* 4004f298 */
     b .L4004f57c  /* 4004f29c */
     .byte 0x30, 0x3a, 0x00, 0x00  /* 4004f2a0 */
 .L4004f2a4:
@@ -114,14 +114,14 @@ func_4004f134:  /* 0x4004f134 */
     mov r3, #0  /* 4004f2b4 */
     add r0, sp, #108, #30  /* 4004f2b8 */
     sub r8, r8, #64, #26  /* 4004f2bc */
-    bl func_4005a6cc  /* 4004f2c0 */
+    bl f_lseek  /* 4004f2c0 */
     mov r3, #0  /* 4004f2c4 */
     mov r2, r8  /* 4004f2c8 */
     mov r1, r7  /* 4004f2cc */
     add r0, sp, #108, #30  /* 4004f2d0 */
-    bl func_40059f7c  /* 4004f2d4 */
+    bl f_read  /* 4004f2d4 */
     add r0, sp, #108, #30  /* 4004f2d8 */
-    bl func_4005a694  /* 4004f2dc */
+    bl f_close  /* 4004f2dc */
     add r1, r7, r8  /* 4004f2e0 */
     ldrb r2, [r1, #-0x23]  /* 4004f2e4 */
     ldrb r0, [r1, #-0x24]  /* 4004f2e8 */
@@ -281,20 +281,20 @@ func_4004f134:  /* 0x4004f134 */
     ldr r4, [pc, #0x48]  /* 4004f548 */
     mov r1, #64, #26  /* 4004f54c */
     mov r0, r4  /* 4004f550 */
-    bl __aeabi_memclr  /* 4004f554 */
+    bl __aeabi_memclr4  /* 4004f554 */
     mov r3, #64, #26  /* 4004f558 */
     mov r2, r4  /* 4004f55c */
     mov r1, #168, #20  /* 4004f560 */
     mov r0, #0  /* 4004f564 */
     bl persistence_write_read_modify_write  /* 4004f568 */
-    bl func_40067574  /* 4004f56c */
+    bl wdt_system_reset  /* 4004f56c */
 .L4004f570:
     add sp, sp, #4  /* 4004f570 */
     add sp, sp, #64, #28  /* 4004f574 */
     pop {r4, r5, r6, r7, r8, sb, sl, fp, pc}  /* 4004f578 */
 .L4004f57c:
     add r0, sp, #0x5a  /* 4004f57c */
-    bl func_4005ad8c  /* 4004f580 */
+    bl f_unlink  /* 4004f580 */
     add sp, sp, #4  /* 4004f584 */
     add sp, sp, #64, #28  /* 4004f588 */
     pop {r4, r5, r6, r7, r8, sb, sl, fp, pc}  /* 4004f58c */

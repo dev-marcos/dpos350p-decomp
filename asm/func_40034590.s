@@ -87,7 +87,7 @@ __aeabi_uldivmod:  /* 0x40034590 */
     movs r1, lr  /* 400346a8 */
     pop {r4, pc}  /* 400346ac */
 .L400346b0:
-    blo func_4003e704  /* 400346b0 */
+    blo __aeabi_ldiv0  /* 400346b0 */
     movs r2, #0  /* 400346b4 */
     movs r3, #0  /* 400346b8 */
     bx lr  /* 400346bc */

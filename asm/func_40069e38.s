@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40069e38, "ax", %progbits
-    .global func_40069e38
-    .type func_40069e38, %function
-func_40069e38:  /* 0x40069e38 */
+    .global ff_wtoupper
+    .type ff_wtoupper, %function
+ff_wtoupper:  /* 0x40069e38 */
 .Lstart_40069e38:
     cmp r0, #64, #22  /* 40069e38 */
     blo .L40069e44  /* 40069e3c */
@@ -90,4 +90,4 @@ func_40069e38:  /* 0x40069e38 */
     .word 0x4008c50c  /* 40069f48 */
     .word 0x400877ac  /* 40069f4c */
     .word 0x4008c6e0  /* 40069f50 */
-    .size func_40069e38, . - func_40069e38
+    .size ff_wtoupper, . - ff_wtoupper

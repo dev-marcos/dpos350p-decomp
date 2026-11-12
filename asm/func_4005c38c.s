@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.4005c38c, "ax", %progbits
-    .global func_4005c38c
-    .type func_4005c38c, %function
-func_4005c38c:  /* 0x4005c38c */
+    .global __memcpy_dst_unaligned
+    .type __memcpy_dst_unaligned, %function
+__memcpy_dst_unaligned:  /* 0x4005c38c */
 .Lstart_4005c38c:
     subs r2, r2, #4  /* 4005c38c */
     blo .L4005c3d8  /* 4005c390 */
@@ -35,4 +35,4 @@ func_4005c38c:  /* 0x4005c38c */
     strbhs r3, [r0], #1  /* 4005c3e4 */
     bhi .L4005c3dc  /* 4005c3e8 */
     bx lr  /* 4005c3ec */
-    .size func_4005c38c, . - func_4005c38c
+    .size __memcpy_dst_unaligned, . - __memcpy_dst_unaligned

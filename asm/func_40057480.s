@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40057480, "ax", %progbits
-    .global func_40057480
-    .type func_40057480, %function
-func_40057480:  /* 0x40057480 */
+    .global fill_last_frag
+    .type fill_last_frag, %function
+fill_last_frag:  /* 0x40057480 */
 .Lstart_40057480:
     push {r4, r5, r6, lr}  /* 40057480 */
     mov r4, r0  /* 40057484 */
@@ -25,9 +25,9 @@ func_40057480:  /* 0x40057480 */
     addhi r2, r1, #2  /* 400574b8 */
     movls r2, r6  /* 400574bc */
     add r1, r1, #1  /* 400574c0 */
-    bl func_40057108  /* 400574c4 */
+    bl put_fat  /* 400574c4 */
     movs r1, r0  /* 400574c8 */
     beq .L40057494  /* 400574cc */
 .L400574d0:
     pop {r4, r5, r6, pc}  /* 400574d0 */
-    .size func_40057480, . - func_40057480
+    .size fill_last_frag, . - fill_last_frag

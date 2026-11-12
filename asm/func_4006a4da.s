@@ -2,10 +2,10 @@
     .syntax unified
     .thumb
     .section .text.4006a4da, "ax", %progbits
-    .global func_4006a4da
-    .type func_4006a4da, %function
+    .global llabs
+    .type llabs, %function
     .thumb_func
-func_4006a4da:  /* 0x4006a4da */
+llabs:  /* 0x4006a4da */
 .Lstart_4006a4da:
     cmp r1, #0  /* 4006a4da */
     bpl .L4006a4e4  /* 4006a4dc */
@@ -14,4 +14,4 @@ func_4006a4da:  /* 0x4006a4da */
 .L4006a4e4:
     bx lr  /* 4006a4e4 */
     .byte 0x00, 0x00  /* 4006a4e6 */
-    .size func_4006a4da, . - func_4006a4da
+    .size llabs, . - llabs

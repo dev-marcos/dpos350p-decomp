@@ -42,3 +42,53 @@ Related note (clock code, not USB):
 - https://github.com/VeiLiang/BoloRTT (`bsp/f1c/drivers/usb_dev.c`, GPL-2.0, same usb_dev core)
 - https://github.com/pecostm32/FNIRSI-1013D-Hack (1013D USB analysis)
 - https://whycan.com/t_1648.html (Allwinner sunxi_usb BSP, base of the bare-metal port)
+
+## Rewrite status (Phase 5, batch 7)
+
+All 179 functions of the stack are in `nonmatching/usb/` and EQUIVALENT under tools/emu: same
+return value, memory, ordered MMIO log and stub calls. They are generated from
+`tools/gen_usb.py` and `tools/usb_spec/*.py`, which keep one entry per function: address, size,
+name, EasyUSB origin, description and C body. Run `python3 tools/gen_usb.py` to regenerate the
+files, and `--csv` to print the matching `symbols/manual.csv` rows.
+
+| Layer | Functions | Stock range |
+|---|---:|---|
+| `USBC_*` HAL (registers, FIFO, endpoints, ISCR, PHY) | 110 | 0x4006C108..0x4006CF5C |
+| `usb_dev.c` core (EP0 state machine, IRQ, init) | 26 | 0x4006AA28..0x4006B774 |
+| Requests, descriptors, CDC/HID echo | 22 | 0x4006CFB0..0x4006DDE4 |
+| Mass storage: bulk-only transport and SCSI | 21 | 0x4006B95C..0x4006C0C8, 0x4006D888..0x4006DD7C |
+
+### Findings
+
+FNIRSI changes to EasyUSB:
+- EP0 IN replies keep the caller's buffer (`usb_tx_data`, 0x42E68D08), not the copy in
+  `usb_tx_buf`.
+- `usb_config_ep_in/out` dropped the 4 KiB FIFO bound check and always use double buffering.
+- `sunxi_udc_enable` passes the bit numbers 0, 1, 2, 5 as interrupt masks. The resulting mask
+  is 0x07, so DISCONNECT (0x20) is never enabled.
+- `USBC_Dev_IsEpStall` discards the stall bit, so it always returns 0. This EasyUSB bug is
+  kept, and the "ep0 stall" path is therefore dead.
+- `usb_phy_write` does a 32-bit read and an 8-bit write, so the PHY bit address (bits 15:8)
+  never reaches the PHY.
+
+The mass storage class is FNIRSI code:
+- CBW/CSW handling, and a SCSI table covering TEST UNIT READY, REQUEST SENSE, INQUIRY,
+  MODE SENSE 6/10, START STOP, PREVENT ALLOW, READ FORMAT CAPACITIES, READ CAPACITY,
+  READ(10), WRITE(10) and VERIFY.
+- LUN 0/1. A LUN above 1 gets NOT READY / MEDIUM NOT PRESENT.
+- Sense data has a single global buffer, and the LUN argument is ignored.
+- The max-LUN byte is read as an unaligned word.
+
+Overlapping entries (armcc tail sharing). The Phase 2 analyser now recognises these:
+- 0x4006C4CC, 0x4006C4DC and 0x4006C76C are `mov r0,#0` entries that fall into the store at
+  the next address.
+- 0x4006D2D8 loads `&current_usb_type` and falls into 0x4006D2DC.
+- The CBW decoder at 0x4006BB6C is reached only by a tail branch, so the map keeps it inside
+  `usb_mass_out_handler`.
+
+### Not covered
+
+- The 10 000 000-poll timeout of `usb_device_write_data`: it is too long to emulate.
+- `usb_get_device_descriptor` for an unknown class type: it uses an unset register (OPEN).
+- The disk glue (`usb_mass_disk_read/write`, 0x4006A964 / 0x4006A978): it is outside the USB
+  files and is stubbed in the tests.

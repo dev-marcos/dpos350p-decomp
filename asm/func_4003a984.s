@@ -490,9 +490,9 @@ func_4003a984:  /* 0x4003a984 */
 .L4003afe4:
     cmp r1, r0  /* 4003afe4 */
     beq .L4003aff8  /* 4003afe8 */
-    bl ms5351m_b  /* 4003afec */
+    bl ms5351_set_clk0  /* 4003afec */
     mov r0, #5  /* 4003aff0 */
-    bl func_40042cf0  /* 4003aff4 */
+    bl delay_ms  /* 4003aff4 */
 .L4003aff8:
     ldr r8, [r5, #0x34]  /* 4003aff8 */
     mov r3, #0  /* 4003affc */
@@ -635,7 +635,7 @@ func_4003a984:  /* 0x4003a984 */
     vldr d2, [pc, #0x2cc]  /* 4003b204 */
     vmul.f64 d0, d0, d2  /* 4003b208 */
     vmov r0, r1, d0  /* 4003b20c */
-    blx __aeabi_d2uiz_like  /* 4003b210 */
+    blx __aeabi_d2ulz  /* 4003b210 */
 .L4003b214:
     strd r0, r1, [sp, #0x10]  /* 4003b214 */
     ldrb r0, [r4, #0x28]  /* 4003b218 */
@@ -663,7 +663,7 @@ func_4003a984:  /* 0x4003a984 */
     vcvt.f64.u32 d0, s0  /* 4003b26c */
     vmul.f64 d1, d0, d2  /* 4003b270 */
     vmov r0, r1, d1  /* 4003b274 */
-    blx __aeabi_d2uiz_like  /* 4003b278 */
+    blx __aeabi_d2ulz  /* 4003b278 */
     strd r0, r1, [sp, #0x10]  /* 4003b27c */
     mov r0, #0  /* 4003b280 */
     mov r1, #0  /* 4003b284 */
@@ -990,7 +990,7 @@ func_4003a984:  /* 0x4003a984 */
     vldr d2, [pc, #0x128]  /* 4003b6fc */
     vdiv.f64 d1, d0, d2  /* 4003b700 */
     vmov r0, r1, d1  /* 4003b704 */
-    blx __aeabi_d2uiz_like  /* 4003b708 */
+    blx __aeabi_d2ulz  /* 4003b708 */
     ldrb ip, [sp, #2]  /* 4003b70c */
     cmp ip, #0  /* 4003b710 */
     beq .L4003b750  /* 4003b714 */

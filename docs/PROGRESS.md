@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 175 | 13.01% | 33902 | 10.05% |
+| EQUIVALENT | 354 | 26.14% | 46194 | 13.69% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 1170 | 86.99% | 303542 | 89.95% |
-| **total** | 1345 | | 337444 | |
+| ASM | 1000 | 73.86% | 291310 | 86.31% |
+| **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1330 | 175 (13.16%) | 337044 | 33902 (10.06%) |
+| main code | 1339 | 354 (26.44%) | 337104 | 46194 (13.70%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -206,4 +206,183 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4006A4DA` | llabs | 12 | EQUIVALENT | 400 | `nonmatching/libc/func_4006a4da.c` |
 | `0x4006A4E8` | __aeabi_f2lz | 72 | EQUIVALENT | 400 | `nonmatching/libc/func_4006a4e8.c` |
 | `0x4006A6FC` | __aeabi_memset4 | 56 | EQUIVALENT | 400 | `nonmatching/libc/func_4006a6fc.c` |
+| `0x4006AA28` | func_4006aa28 | 196 | EQUIVALENT | 200 | `nonmatching/usb/func_4006aa28.c` |
+| `0x4006AAEC` | func_4006aaec | 44 | EQUIVALENT | 200 | `nonmatching/usb/func_4006aaec.c` |
+| `0x4006AB18` | func_4006ab18 | 12 | EQUIVALENT | 200 | `nonmatching/usb/func_4006ab18.c` |
+| `0x4006AB24` | func_4006ab24 | 12 | EQUIVALENT | 200 | `nonmatching/usb/func_4006ab24.c` |
+| `0x4006AB30` | func_4006ab30 | 272 | EQUIVALENT | 200 | `nonmatching/usb/func_4006ab30.c` |
+| `0x4006AC40` | func_4006ac40 | 4 | EQUIVALENT | 200 | `nonmatching/usb/func_4006ac40.c` |
+| `0x4006AC44` | func_4006ac44 | 24 | EQUIVALENT | 200 | `nonmatching/usb/func_4006ac44.c` |
+| `0x4006AC5C` | func_4006ac5c | 12 | EQUIVALENT | 200 | `nonmatching/usb/func_4006ac5c.c` |
+| `0x4006AC68` | func_4006ac68 | 80 | EQUIVALENT | 200 | `nonmatching/usb/func_4006ac68.c` |
+| `0x4006ACB8` | func_4006acb8 | 36 | EQUIVALENT | 200 | `nonmatching/usb/func_4006acb8.c` |
+| `0x4006ACDC` | func_4006acdc | 48 | EQUIVALENT | 200 | `nonmatching/usb/func_4006acdc.c` |
+| `0x4006AD0C` | func_4006ad0c | 32 | EQUIVALENT | 200 | `nonmatching/usb/func_4006ad0c.c` |
+| `0x4006AD2C` | func_4006ad2c | 32 | EQUIVALENT | 200 | `nonmatching/usb/func_4006ad2c.c` |
+| `0x4006AD4C` | func_4006ad4c | 56 | EQUIVALENT | 200 | `nonmatching/usb/func_4006ad4c.c` |
+| `0x4006AD84` | func_4006ad84 | 56 | EQUIVALENT | 200 | `nonmatching/usb/func_4006ad84.c` |
+| `0x4006ADBC` | func_4006adbc | 804 | EQUIVALENT | 200 | `nonmatching/usb/func_4006adbc.c` |
+| `0x4006B0E0` | func_4006b0e0 | 156 | EQUIVALENT | 200 | `nonmatching/usb/func_4006b0e0.c` |
+| `0x4006B17C` | func_4006b17c | 276 | EQUIVALENT | 200 | `nonmatching/usb/func_4006b17c.c` |
+| `0x4006B290` | func_4006b290 | 552 | EQUIVALENT | 200 | `nonmatching/usb/func_4006b290.c` |
+| `0x4006B4B8` | func_4006b4b8 | 152 | EQUIVALENT | 200 | `nonmatching/usb/func_4006b4b8.c` |
+| `0x4006B550` | func_4006b550 | 152 | EQUIVALENT | 200 | `nonmatching/usb/func_4006b550.c` |
+| `0x4006B5E8` | func_4006b5e8 | 60 | EQUIVALENT | 200 | `nonmatching/usb/func_4006b5e8.c` |
+| `0x4006B624` | func_4006b624 | 108 | EQUIVALENT | 200 | `nonmatching/usb/func_4006b624.c` |
+| `0x4006B6A4` | func_4006b6a4 | 128 | EQUIVALENT | 200 | `nonmatching/usb/func_4006b6a4.c` |
+| `0x4006B728` | func_4006b728 | 76 | EQUIVALENT | 200 | `nonmatching/usb/func_4006b728.c` |
 | `0x4006B86C` | ldexp | 240 | EQUIVALENT | 400 | `nonmatching/libm/func_4006b86c.c` |
+| `0x4006B95C` | func_4006b95c | 28 | EQUIVALENT | 200 | `nonmatching/usb/func_4006b95c.c` |
+| `0x4006B978` | func_4006b978 | 8 | EQUIVALENT | 200 | `nonmatching/usb/func_4006b978.c` |
+| `0x4006B980` | func_4006b980 | 76 | EQUIVALENT | 200 | `nonmatching/usb/func_4006b980.c` |
+| `0x4006B9D8` | func_4006b9d8 | 24 | EQUIVALENT | 200 | `nonmatching/usb/func_4006b9d8.c` |
+| `0x4006B9F0` | func_4006b9f0 | 4 | EQUIVALENT | 200 | `nonmatching/usb/func_4006b9f0.c` |
+| `0x4006B9F4` | func_4006b9f4 | 164 | EQUIVALENT | 200 | `nonmatching/usb/func_4006b9f4.c` |
+| `0x4006BA98` | func_4006ba98 | 1460 | EQUIVALENT | 200 | `nonmatching/usb/func_4006ba98.c` |
+| `0x4006C04C` | func_4006c04c | 64 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c04c.c` |
+| `0x4006C08C` | func_4006c08c | 60 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c08c.c` |
+| `0x4006C108` | func_4006c108 | 4 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c108.c` |
+| `0x4006C10C` | func_4006c10c | 8 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c10c.c` |
+| `0x4006C114` | func_4006c114 | 32 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c114.c` |
+| `0x4006C134` | func_4006c134 | 32 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c134.c` |
+| `0x4006C154` | func_4006c154 | 36 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c154.c` |
+| `0x4006C178` | func_4006c178 | 32 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c178.c` |
+| `0x4006C198` | func_4006c198 | 32 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c198.c` |
+| `0x4006C1B8` | func_4006c1b8 | 36 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c1b8.c` |
+| `0x4006C1DC` | func_4006c1dc | 32 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c1dc.c` |
+| `0x4006C1FC` | func_4006c1fc | 36 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c1fc.c` |
+| `0x4006C220` | func_4006c220 | 32 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c220.c` |
+| `0x4006C240` | func_4006c240 | 36 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c240.c` |
+| `0x4006C264` | func_4006c264 | 84 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c264.c` |
+| `0x4006C2B8` | func_4006c2b8 | 112 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c2b8.c` |
+| `0x4006C328` | func_4006c328 | 64 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c328.c` |
+| `0x4006C368` | func_4006c368 | 28 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c368.c` |
+| `0x4006C384` | func_4006c384 | 80 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c384.c` |
+| `0x4006C3D4` | func_4006c3d4 | 80 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c3d4.c` |
+| `0x4006C424` | func_4006c424 | 16 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c424.c` |
+| `0x4006C434` | func_4006c434 | 12 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c434.c` |
+| `0x4006C440` | func_4006c440 | 20 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c440.c` |
+| `0x4006C454` | func_4006c454 | 20 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c454.c` |
+| `0x4006C468` | func_4006c468 | 12 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c468.c` |
+| `0x4006C474` | func_4006c474 | 20 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c474.c` |
+| `0x4006C488` | func_4006c488 | 20 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c488.c` |
+| `0x4006C49C` | func_4006c49c | 24 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c49c.c` |
+| `0x4006C4B4` | func_4006c4b4 | 24 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c4b4.c` |
+| `0x4006C4CC` | func_4006c4cc | 4 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c4cc.c` |
+| `0x4006C4D0` | func_4006c4d0 | 12 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c4d0.c` |
+| `0x4006C4DC` | func_4006c4dc | 4 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c4dc.c` |
+| `0x4006C4E0` | func_4006c4e0 | 12 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c4e0.c` |
+| `0x4006C4EC` | func_4006c4ec | 36 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c4ec.c` |
+| `0x4006C510` | func_4006c510 | 40 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c510.c` |
+| `0x4006C538` | func_4006c538 | 32 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c538.c` |
+| `0x4006C558` | func_4006c558 | 12 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c558.c` |
+| `0x4006C564` | func_4006c564 | 12 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c564.c` |
+| `0x4006C570` | func_4006c570 | 16 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c570.c` |
+| `0x4006C580` | func_4006c580 | 44 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c580.c` |
+| `0x4006C5AC` | func_4006c5ac | 20 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c5ac.c` |
+| `0x4006C5C0` | func_4006c5c0 | 12 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c5c0.c` |
+| `0x4006C5CC` | func_4006c5cc | 12 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c5cc.c` |
+| `0x4006C5D8` | func_4006c5d8 | 44 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c5d8.c` |
+| `0x4006C604` | func_4006c604 | 20 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c604.c` |
+| `0x4006C618` | func_4006c618 | 20 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c618.c` |
+| `0x4006C62C` | func_4006c62c | 20 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c62c.c` |
+| `0x4006C640` | func_4006c640 | 20 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c640.c` |
+| `0x4006C654` | func_4006c654 | 20 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c654.c` |
+| `0x4006C668` | func_4006c668 | 20 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c668.c` |
+| `0x4006C67C` | func_4006c67c | 20 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c67c.c` |
+| `0x4006C690` | func_4006c690 | 20 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c690.c` |
+| `0x4006C6A4` | func_4006c6a4 | 4 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c6a4.c` |
+| `0x4006C6A8` | func_4006c6a8 | 136 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c6a8.c` |
+| `0x4006C730` | func_4006c730 | 24 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c730.c` |
+| `0x4006C748` | func_4006c748 | 36 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c748.c` |
+| `0x4006C76C` | func_4006c76c | 4 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c76c.c` |
+| `0x4006C770` | func_4006c770 | 12 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c770.c` |
+| `0x4006C77C` | func_4006c77c | 12 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c77c.c` |
+| `0x4006C788` | func_4006c788 | 16 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c788.c` |
+| `0x4006C798` | func_4006c798 | 20 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c798.c` |
+| `0x4006C7AC` | func_4006c7ac | 40 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c7ac.c` |
+| `0x4006C7D4` | func_4006c7d4 | 20 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c7d4.c` |
+| `0x4006C7E8` | func_4006c7e8 | 16 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c7e8.c` |
+| `0x4006C7F8` | func_4006c7f8 | 24 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c7f8.c` |
+| `0x4006C810` | func_4006c810 | 20 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c810.c` |
+| `0x4006C824` | func_4006c824 | 16 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c824.c` |
+| `0x4006C834` | func_4006c834 | 40 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c834.c` |
+| `0x4006C85C` | func_4006c85c | 88 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c85c.c` |
+| `0x4006C8B4` | func_4006c8b4 | 88 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c8b4.c` |
+| `0x4006C90C` | func_4006c90c | 88 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c90c.c` |
+| `0x4006C964` | func_4006c964 | 16 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c964.c` |
+| `0x4006C974` | func_4006c974 | 4 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c974.c` |
+| `0x4006C978` | func_4006c978 | 20 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c978.c` |
+| `0x4006C98C` | func_4006c98c | 12 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c98c.c` |
+| `0x4006C998` | func_4006c998 | 16 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c998.c` |
+| `0x4006C9A8` | func_4006c9a8 | 84 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c9a8.c` |
+| `0x4006C9FC` | func_4006c9fc | 84 | EQUIVALENT | 200 | `nonmatching/usb/func_4006c9fc.c` |
+| `0x4006CA50` | func_4006ca50 | 52 | EQUIVALENT | 200 | `nonmatching/usb/func_4006ca50.c` |
+| `0x4006CA84` | func_4006ca84 | 16 | EQUIVALENT | 200 | `nonmatching/usb/func_4006ca84.c` |
+| `0x4006CA94` | func_4006ca94 | 16 | EQUIVALENT | 200 | `nonmatching/usb/func_4006ca94.c` |
+| `0x4006CAA4` | func_4006caa4 | 28 | EQUIVALENT | 200 | `nonmatching/usb/func_4006caa4.c` |
+| `0x4006CAC0` | func_4006cac0 | 28 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cac0.c` |
+| `0x4006CADC` | func_4006cadc | 76 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cadc.c` |
+| `0x4006CB28` | func_4006cb28 | 76 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cb28.c` |
+| `0x4006CB74` | func_4006cb74 | 16 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cb74.c` |
+| `0x4006CB84` | func_4006cb84 | 16 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cb84.c` |
+| `0x4006CB94` | func_4006cb94 | 24 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cb94.c` |
+| `0x4006CBAC` | func_4006cbac | 24 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cbac.c` |
+| `0x4006CBC4` | func_4006cbc4 | 60 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cbc4.c` |
+| `0x4006CC00` | func_4006cc00 | 60 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cc00.c` |
+| `0x4006CC3C` | func_4006cc3c | 12 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cc3c.c` |
+| `0x4006CC48` | func_4006cc48 | 12 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cc48.c` |
+| `0x4006CC54` | func_4006cc54 | 16 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cc54.c` |
+| `0x4006CC64` | func_4006cc64 | 16 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cc64.c` |
+| `0x4006CC74` | func_4006cc74 | 16 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cc74.c` |
+| `0x4006CC84` | func_4006cc84 | 16 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cc84.c` |
+| `0x4006CC94` | func_4006cc94 | 32 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cc94.c` |
+| `0x4006CCB4` | func_4006ccb4 | 44 | EQUIVALENT | 200 | `nonmatching/usb/func_4006ccb4.c` |
+| `0x4006CCE0` | func_4006cce0 | 48 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cce0.c` |
+| `0x4006CD10` | func_4006cd10 | 68 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cd10.c` |
+| `0x4006CD54` | func_4006cd54 | 68 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cd54.c` |
+| `0x4006CD98` | func_4006cd98 | 20 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cd98.c` |
+| `0x4006CDAC` | func_4006cdac | 24 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cdac.c` |
+| `0x4006CDC4` | func_4006cdc4 | 24 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cdc4.c` |
+| `0x4006CDDC` | func_4006cddc | 72 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cddc.c` |
+| `0x4006CE24` | func_4006ce24 | 20 | EQUIVALENT | 200 | `nonmatching/usb/func_4006ce24.c` |
+| `0x4006CE38` | func_4006ce38 | 24 | EQUIVALENT | 200 | `nonmatching/usb/func_4006ce38.c` |
+| `0x4006CE50` | func_4006ce50 | 24 | EQUIVALENT | 200 | `nonmatching/usb/func_4006ce50.c` |
+| `0x4006CE68` | func_4006ce68 | 72 | EQUIVALENT | 200 | `nonmatching/usb/func_4006ce68.c` |
+| `0x4006CEB0` | func_4006ceb0 | 16 | EQUIVALENT | 200 | `nonmatching/usb/func_4006ceb0.c` |
+| `0x4006CEC0` | func_4006cec0 | 100 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cec0.c` |
+| `0x4006CF24` | func_4006cf24 | 56 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cf24.c` |
+| `0x4006CFB0` | func_4006cfb0 | 52 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cfb0.c` |
+| `0x4006CFE4` | func_4006cfe4 | 104 | EQUIVALENT | 200 | `nonmatching/usb/func_4006cfe4.c` |
+| `0x4006D04C` | func_4006d04c | 44 | EQUIVALENT | 200 | `nonmatching/usb/func_4006d04c.c` |
+| `0x4006D078` | func_4006d078 | 312 | EQUIVALENT | 200 | `nonmatching/usb/func_4006d078.c` |
+| `0x4006D1B0` | func_4006d1b0 | 240 | EQUIVALENT | 200 | `nonmatching/usb/func_4006d1b0.c` |
+| `0x4006D2A0` | func_4006d2a0 | 56 | EQUIVALENT | 200 | `nonmatching/usb/func_4006d2a0.c` |
+| `0x4006D2D8` | func_4006d2d8 | 4 | EQUIVALENT | 200 | `nonmatching/usb/func_4006d2d8.c` |
+| `0x4006D2DC` | func_4006d2dc | 156 | EQUIVALENT | 200 | `nonmatching/usb/func_4006d2dc.c` |
+| `0x4006D378` | func_4006d378 | 312 | EQUIVALENT | 200 | `nonmatching/usb/func_4006d378.c` |
+| `0x4006D4B0` | func_4006d4b0 | 312 | EQUIVALENT | 200 | `nonmatching/usb/func_4006d4b0.c` |
+| `0x4006D5E8` | func_4006d5e8 | 184 | EQUIVALENT | 200 | `nonmatching/usb/func_4006d5e8.c` |
+| `0x4006D764` | func_4006d764 | 16 | EQUIVALENT | 200 | `nonmatching/usb/func_4006d764.c` |
+| `0x4006D774` | func_4006d774 | 76 | EQUIVALENT | 200 | `nonmatching/usb/func_4006d774.c` |
+| `0x4006D7CC` | func_4006d7cc | 16 | EQUIVALENT | 200 | `nonmatching/usb/func_4006d7cc.c` |
+| `0x4006D7DC` | func_4006d7dc | 76 | EQUIVALENT | 200 | `nonmatching/usb/func_4006d7dc.c` |
+| `0x4006D830` | func_4006d830 | 84 | EQUIVALENT | 200 | `nonmatching/usb/func_4006d830.c` |
+| `0x4006D884` | func_4006d884 | 4 | EQUIVALENT | 200 | `nonmatching/usb/func_4006d884.c` |
+| `0x4006D888` | func_4006d888 | 16 | EQUIVALENT | 200 | `nonmatching/usb/func_4006d888.c` |
+| `0x4006D898` | func_4006d898 | 52 | EQUIVALENT | 200 | `nonmatching/usb/func_4006d898.c` |
+| `0x4006D8CC` | func_4006d8cc | 144 | EQUIVALENT | 200 | `nonmatching/usb/func_4006d8cc.c` |
+| `0x4006D95C` | func_4006d95c | 160 | EQUIVALENT | 200 | `nonmatching/usb/func_4006d95c.c` |
+| `0x4006D9FC` | func_4006d9fc | 12 | EQUIVALENT | 200 | `nonmatching/usb/func_4006d9fc.c` |
+| `0x4006DA08` | func_4006da08 | 12 | EQUIVALENT | 200 | `nonmatching/usb/func_4006da08.c` |
+| `0x4006DA14` | func_4006da14 | 24 | EQUIVALENT | 200 | `nonmatching/usb/func_4006da14.c` |
+| `0x4006DA2C` | func_4006da2c | 16 | EQUIVALENT | 200 | `nonmatching/usb/func_4006da2c.c` |
+| `0x4006DA3C` | func_4006da3c | 12 | EQUIVALENT | 200 | `nonmatching/usb/func_4006da3c.c` |
+| `0x4006DA48` | func_4006da48 | 196 | EQUIVALENT | 200 | `nonmatching/usb/func_4006da48.c` |
+| `0x4006DB0C` | func_4006db0c | 152 | EQUIVALENT | 200 | `nonmatching/usb/func_4006db0c.c` |
+| `0x4006DBA4` | func_4006dba4 | 76 | EQUIVALENT | 200 | `nonmatching/usb/func_4006dba4.c` |
+| `0x4006DBF0` | func_4006dbf0 | 84 | EQUIVALENT | 200 | `nonmatching/usb/func_4006dbf0.c` |
+| `0x4006DC44` | func_4006dc44 | 76 | EQUIVALENT | 200 | `nonmatching/usb/func_4006dc44.c` |
+| `0x4006DC90` | func_4006dc90 | 84 | EQUIVALENT | 200 | `nonmatching/usb/func_4006dc90.c` |
+| `0x4006DCE4` | func_4006dce4 | 156 | EQUIVALENT | 200 | `nonmatching/usb/func_4006dce4.c` |
+| `0x4006DDC0` | func_4006ddc0 | 36 | EQUIVALENT | 200 | `nonmatching/usb/func_4006ddc0.c` |

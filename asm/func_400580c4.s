@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.400580c4, "ax", %progbits
-    .global func_400580c4
-    .type func_400580c4, %function
-func_400580c4:  /* 0x400580c4 */
+    .global xdir_sum
+    .type xdir_sum, %function
+xdir_sum:  /* 0x400580c4 */
 .Lstart_400580c4:
     mov r1, r0  /* 400580c4 */
     ldrb r0, [r1, #1]  /* 400580c8 */
@@ -31,4 +31,4 @@ func_400580c4:  /* 0x400580c4 */
     blo .L40058100  /* 40058110 */
 .L40058114:
     bx lr  /* 40058114 */
-    .size func_400580c4, . - func_400580c4
+    .size xdir_sum, . - xdir_sum

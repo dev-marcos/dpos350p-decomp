@@ -2,10 +2,10 @@
     .syntax unified
     .arm
     .section .text.40056c00, "ax", %progbits
-    .global func_40056c00
-    .type func_40056c00, %function
-func_40056c00:  /* 0x40056c00 */
+    .global dbc_1st
+    .type dbc_1st, %function
+dbc_1st:  /* 0x40056c00 */
 .Lstart_40056c00:
     mov r0, #0  /* 40056c00 */
     bx lr  /* 40056c04 */
-    .size func_40056c00, . - func_40056c00
+    .size dbc_1st, . - dbc_1st

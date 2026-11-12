@@ -550,7 +550,7 @@ func_40032e0c:  /* 0x40032e0c */
     vldr d2, [pc, #0x268]  /* 40033600 */
     vmla.f64 d8, d0, d2  /* 40033604 */
     vmov r0, r1, d8  /* 40033608 */
-    blx __aeabi_d2iz_like  /* 4003360c */
+    blx __aeabi_d2lz  /* 4003360c */
     strd r0, r1, [sp, #0xf0]  /* 40033610 */
     mov r2, #0x64  /* 40033614 */
     mul r3, r2, r4  /* 40033618 */

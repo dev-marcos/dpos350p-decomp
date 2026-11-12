@@ -2,30 +2,30 @@
     .syntax unified
     .arm
     .section .text.4005f164, "ax", %progbits
-    .global func_4005f164
-    .type func_4005f164, %function
-func_4005f164:  /* 0x4005f164 */
+    .global ms5351_write_reg
+    .type ms5351_write_reg, %function
+ms5351_write_reg:  /* 0x4005f164 */
 .Lstart_4005f164:
     push {r4, r5, lr}  /* 4005f164 */
     mov r4, r0  /* 4005f168 */
     sub sp, sp, #4  /* 4005f16c */
     mov r5, r1  /* 4005f170 */
-    bl func_4005f014  /* 4005f174 */
+    bl ms5351_i2c_start  /* 4005f174 */
     mov r0, #1  /* 4005f178 */
-    bl func_40042d0c  /* 4005f17c */
+    bl delay_us  /* 4005f17c */
     mov r0, #0xc0  /* 4005f180 */
-    bl func_4005f0bc  /* 4005f184 */
+    bl ms5351_write_byte  /* 4005f184 */
     mov r0, #1  /* 4005f188 */
-    bl func_40042d0c  /* 4005f18c */
+    bl delay_us  /* 4005f18c */
     mov r0, r4  /* 4005f190 */
-    bl func_4005f0bc  /* 4005f194 */
+    bl ms5351_write_byte  /* 4005f194 */
     mov r0, #1  /* 4005f198 */
-    bl func_40042d0c  /* 4005f19c */
+    bl delay_us  /* 4005f19c */
     mov r0, r5  /* 4005f1a0 */
-    bl func_4005f0bc  /* 4005f1a4 */
+    bl ms5351_write_byte  /* 4005f1a4 */
     mov r0, #1  /* 4005f1a8 */
-    bl func_40042d0c  /* 4005f1ac */
+    bl delay_us  /* 4005f1ac */
     add sp, sp, #4  /* 4005f1b0 */
     pop {r4, r5, lr}  /* 4005f1b4 */
-    b func_4005f060  /* 4005f1b8 */
-    .size func_4005f164, . - func_4005f164
+    b ms5351_i2c_stop  /* 4005f1b8 */
+    .size ms5351_write_reg, . - ms5351_write_reg

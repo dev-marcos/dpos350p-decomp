@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40058d7c, "ax", %progbits
-    .global func_40058d7c
-    .type func_40058d7c, %function
-func_40058d7c:  /* 0x40058d7c */
+    .global get_fileinfo
+    .type get_fileinfo, %function
+get_fileinfo:  /* 0x40058d7c */
 .Lstart_40058d7c:
     push {r4, r5, r6, r7, r8, sb, sl, fp, lr}  /* 40058d7c */
     mov r4, r0  /* 40058d80 */
@@ -23,7 +23,7 @@ func_40058d7c:  /* 0x40058d7c */
     mov r1, r7  /* 40058db4 */
     add sp, sp, #4  /* 40058db8 */
     pop {r4, r5, r6, r7, r8, sb, sl, fp, lr}  /* 40058dbc */
-    b func_40058180  /* 40058dc0 */
+    b get_xfileinfo  /* 40058dc0 */
 .L40058dc4:
     ldr r0, [r4, #0x4c]  /* 40058dc4 */
     cmn r0, #1  /* 40058dc8 */
@@ -53,7 +53,7 @@ func_40058d7c:  /* 0x40058d7c */
     orr r0, r0, sl, lsl #16  /* 40058e1c */
     rsb r2, sb, #0xff  /* 40058e20 */
     add r1, r1, sb  /* 40058e24 */
-    bl func_40056c84  /* 40058e28 */
+    bl put_utf  /* 40058e28 */
     cmp r0, #0  /* 40058e2c */
     addne sb, r0, sb  /* 40058e30 */
     movne sl, #0  /* 40058e34 */
@@ -112,16 +112,16 @@ func_40058d7c:  /* 0x40058d7c */
     strb r1, [r7, #0xc]  /* 40058eec */
     ldr r2, [r4, #0x3c]  /* 40058ef0 */
     add r0, r2, #0x1c  /* 40058ef4 */
-    bl func_40056a80  /* 40058ef8 */
+    bl ld_dword  /* 40058ef8 */
     mov r1, #0  /* 40058efc */
     strd r0, r1, [r7]  /* 40058f00 */
     ldr r0, [r4, #0x3c]  /* 40058f04 */
     add r0, r0, #0x16  /* 40058f08 */
-    bl func_40056a70  /* 40058f0c */
+    bl ld_word  /* 40058f0c */
     strh r0, [r7, #0xa]  /* 40058f10 */
     ldr r0, [r4, #0x3c]  /* 40058f14 */
     add r0, r0, #0x18  /* 40058f18 */
-    bl func_40056a70  /* 40058f1c */
+    bl ld_word  /* 40058f1c */
     strh r0, [r7, #8]  /* 40058f20 */
 .L40058f24:
     add sp, sp, #4  /* 40058f24 */
@@ -154,4 +154,4 @@ func_40058d7c:  /* 0x40058d7c */
     movhs lr, #0x10  /* 40058f80 */
     movlo lr, #8  /* 40058f84 */
     b .L40058f40  /* 40058f88 */
-    .size func_40058d7c, . - func_40058d7c
+    .size get_fileinfo, . - get_fileinfo

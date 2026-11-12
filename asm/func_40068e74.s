@@ -9,7 +9,7 @@ func_40068e74:  /* 0x40068e74 */
     stmdb sp!, {lr}  /* 40068e74 */
     sub sp, sp, #4  /* 40068e78 */
     ldr r0, [pc, #0xc]  /* 40068e7c */
-    bl func_40068e64  /* 40068e80 */
+    bl readl_c  /* 40068e80 */
     and r0, r0, #0x3f  /* 40068e84 */
     add sp, sp, #4  /* 40068e88 */
     ldm sp!, {pc}  /* 40068e8c */

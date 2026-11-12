@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.400593dc, "ax", %progbits
-    .global func_400593dc
-    .type func_400593dc, %function
-func_400593dc:  /* 0x400593dc */
+    .global get_ldnumber
+    .type get_ldnumber, %function
+get_ldnumber:  /* 0x400593dc */
 .Lstart_400593dc:
     mov r1, r0  /* 400593dc */
     mvn r0, #0  /* 400593e0 */
@@ -42,4 +42,4 @@ func_400593dc:  /* 0x400593dc */
     mov r0, #0  /* 4005944c */
 .L40059450:
     ldm sp!, {pc}  /* 40059450 */
-    .size func_400593dc, . - func_400593dc
+    .size get_ldnumber, . - get_ldnumber

@@ -13,7 +13,7 @@ func_40035bc4:  /* 0x40035bc4 */
     mov r2, #0xa  /* 40035bd4 */
     ldr r1, [pc, #0xa0c]  /* 40035bd8 */
     add r0, r5, r0  /* 40035bdc */
-    bl __aeabi_memcpy  /* 40035be0 */
+    bl __aeabi_memcpy4  /* 40035be0 */
     movw r0, #0x88c9  /* 40035be4 */
     mov r3, #0x2f  /* 40035be8 */
     cmp r4, #0xa  /* 40035bec */

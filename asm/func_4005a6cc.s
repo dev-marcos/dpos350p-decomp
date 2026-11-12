@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.4005a6cc, "ax", %progbits
-    .global func_4005a6cc
-    .type func_4005a6cc, %function
-func_4005a6cc:  /* 0x4005a6cc */
+    .global f_lseek
+    .type f_lseek, %function
+f_lseek:  /* 0x4005a6cc */
 .Lstart_4005a6cc:
     push {r4, r5, r6, r8, sb, sl, fp, lr}  /* 4005a6cc */
     mov r6, r0  /* 4005a6d0 */
@@ -12,7 +12,7 @@ func_4005a6cc:  /* 0x4005a6cc */
     mov r4, r2  /* 4005a6d8 */
     mov r5, r3  /* 4005a6dc */
     add r1, sp, #0xc  /* 4005a6e0 */
-    bl func_40059a88  /* 4005a6e4 */
+    bl validate  /* 4005a6e4 */
     strb r0, [sp, #8]  /* 4005a6e8 */
     cmp r0, #0  /* 4005a6ec */
     ldrsbeq r1, [r6, #0x31]  /* 4005a6f0 */
@@ -27,7 +27,7 @@ func_4005a6cc:  /* 0x4005a6cc */
     ldr r1, [r6, #0x40]  /* 4005a714 */
     mvn r2, #0  /* 4005a718 */
     mov r0, r6  /* 4005a71c */
-    bl func_40057480  /* 4005a720 */
+    bl fill_last_frag  /* 4005a720 */
     strb r0, [sp, #8]  /* 4005a724 */
 .L4005a728:
     ldrsb r2, [sp, #8]  /* 4005a728 */
@@ -110,7 +110,7 @@ func_4005a6cc:  /* 0x4005a6cc */
     bne .L4005a860  /* 4005a83c */
     mov r1, #0  /* 4005a840 */
     mov r0, r6  /* 4005a844 */
-    bl func_400576b0  /* 4005a848 */
+    bl create_chain  /* 4005a848 */
     cmp r0, #1  /* 4005a84c */
     beq .L4005aa08  /* 4005a850 */
     cmn r0, #1  /* 4005a854 */
@@ -125,7 +125,7 @@ func_4005a6cc:  /* 0x4005a6cc */
     b .L4005a8a4  /* 4005a870 */
 .L4005a874:
     mov r0, r6  /* 4005a874 */
-    bl func_40056ed4  /* 4005a878 */
+    bl get_fat  /* 4005a878 */
     mov r1, r0  /* 4005a87c */
 .L4005a880:
     cmn r1, #1  /* 4005a880 */
@@ -166,7 +166,7 @@ func_4005a6cc:  /* 0x4005a6cc */
     strb r0, [r6, #0x30]  /* 4005a900 */
 .L4005a904:
     mov r0, r6  /* 4005a904 */
-    bl func_400576b0  /* 4005a908 */
+    bl create_chain  /* 4005a908 */
     movs r1, r0  /* 4005a90c */
     bne .L4005a880  /* 4005a910 */
     mov r4, #0  /* 4005a914 */
@@ -180,7 +180,7 @@ func_4005a6cc:  /* 0x4005a6cc */
     strd r2, r3, [r6, #0x38]  /* 4005a930 */
     beq .L4005a958  /* 4005a934 */
     ldr r0, [sp, #0xc]  /* 4005a938 */
-    bl func_40056ea8  /* 4005a93c */
+    bl clst2sect  /* 4005a93c */
     cmp r0, #0  /* 4005a940 */
     beq .L4005aa08  /* 4005a944 */
     lsr r4, r4, #9  /* 4005a948 */
@@ -215,7 +215,7 @@ func_4005a6cc:  /* 0x4005a6cc */
     mov r3, #1  /* 4005a9b0 */
     add r1, r6, #0x50  /* 4005a9b4 */
     ldrb r0, [ip, #1]  /* 4005a9b8 */
-    bl func_40049ce8  /* 4005a9bc */
+    bl disk_write  /* 4005a9bc */
     cmp r0, #0  /* 4005a9c0 */
     bne .L4005aa18  /* 4005a9c4 */
     ldrb r0, [r6, #0x30]  /* 4005a9c8 */
@@ -227,7 +227,7 @@ func_4005a6cc:  /* 0x4005a6cc */
     ldr r2, [sp, #0x10]  /* 4005a9dc */
     add r1, r6, #0x50  /* 4005a9e0 */
     ldrb r0, [ip, #1]  /* 4005a9e4 */
-    bl func_40049c78  /* 4005a9e8 */
+    bl disk_read  /* 4005a9e8 */
     cmp r0, #0  /* 4005a9ec */
     bne .L4005aa18  /* 4005a9f0 */
     ldr r1, [sp, #0x10]  /* 4005a9f4 */
@@ -247,4 +247,4 @@ func_4005a6cc:  /* 0x4005a6cc */
     strb r1, [r6, #0x31]  /* 4005aa20 */
     add sp, sp, #0x18  /* 4005aa24 */
     pop {r4, r5, r6, r8, sb, sl, fp, pc}  /* 4005aa28 */
-    .size func_4005a6cc, . - func_4005a6cc
+    .size f_lseek, . - f_lseek

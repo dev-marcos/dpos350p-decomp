@@ -2,16 +2,16 @@
     .syntax unified
     .arm
     .section .text.40059aec, "ax", %progbits
-    .global func_40059aec
-    .type func_40059aec, %function
-func_40059aec:  /* 0x40059aec */
+    .global f_mount
+    .type f_mount, %function
+f_mount:  /* 0x40059aec */
 .Lstart_40059aec:
     push {r0, r1, r4, r5, lr}  /* 40059aec */
     mov r4, r2  /* 40059af0 */
     sub sp, sp, #4  /* 40059af4 */
     str r1, [sp]  /* 40059af8 */
     mov r0, sp  /* 40059afc */
-    bl func_400593dc  /* 40059b00 */
+    bl get_ldnumber  /* 40059b00 */
     cmp r0, #0  /* 40059b04 */
     movmi r0, #0xb  /* 40059b08 */
     bmi .L40059b58  /* 40059b0c */
@@ -32,7 +32,7 @@ func_40059aec:  /* 0x40059aec */
     mov r2, #0  /* 40059b48 */
     add r1, sp, #4  /* 40059b4c */
     add r0, sp, #8  /* 40059b50 */
-    bl func_40059520  /* 40059b54 */
+    bl find_volume  /* 40059b54 */
 .L40059b58:
     add sp, sp, #0xc  /* 40059b58 */
     pop {r4, r5, pc}  /* 40059b5c */
@@ -47,4 +47,4 @@ func_40059aec:  /* 0x40059aec */
     .word 0x42e68d14  /* 40059b80 */
     .word 0x42e6805c  /* 40059b84 */
     .word 0x42e67bc4  /* 40059b88 */
-    .size func_40059aec, . - func_40059aec
+    .size f_mount, . - f_mount

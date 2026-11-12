@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40056bbc, "ax", %progbits
-    .global func_40056bbc
-    .type func_40056bbc, %function
-func_40056bbc:  /* 0x40056bbc */
+    .global mem_cmp
+    .type mem_cmp, %function
+mem_cmp:  /* 0x40056bbc */
 .Lstart_40056bbc:
     mov r3, r0  /* 40056bbc */
 .L40056bc0:
@@ -17,4 +17,4 @@ func_40056bbc:  /* 0x40056bbc */
     beq .L40056bc0  /* 40056bd8 */
 .L40056bdc:
     bx lr  /* 40056bdc */
-    .size func_40056bbc, . - func_40056bbc
+    .size mem_cmp, . - mem_cmp

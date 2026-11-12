@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.400632b8, "ax", %progbits
-    .global func_400632b8
-    .type func_400632b8, %function
-func_400632b8:  /* 0x400632b8 */
+    .global pio_set_drive
+    .type pio_set_drive, %function
+pio_set_drive:  /* 0x400632b8 */
 .Lstart_400632b8:
     push {r4, lr}  /* 400632b8 */
     lsr ip, r1, #4  /* 400632bc */
@@ -22,4 +22,4 @@ func_400632b8:  /* 0x400632b8 */
     orr r1, ip, r2, lsl r1  /* 400632ec */
     str r1, [r0, #0x14]  /* 400632f0 */
     pop {r4, pc}  /* 400632f4 */
-    .size func_400632b8, . - func_400632b8
+    .size pio_set_drive, . - pio_set_drive

@@ -28,8 +28,8 @@ func_4006b6a4:  /* 0x4006b6a4 */
     mov r2, #0  /* 4006b6ec */
     ldr r1, [pc, #0x160]  /* 4006b6f0 */
     mov r0, #0x67  /* 4006b6f4 */
-    bl func_40066bd4  /* 4006b6f8 */
-    bl func_40066b88  /* 4006b6fc */
+    bl irq_register  /* 4006b6f8 */
+    bl irq_enable  /* 4006b6fc */
     bl func_4006b624  /* 4006b700 */
     ldr r0, [pc, #0x150]  /* 4006b704 */
     bl func_4006709c  /* 4006b708 */

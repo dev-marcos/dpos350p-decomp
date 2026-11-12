@@ -39,7 +39,7 @@ func_40055bd4:  /* 0x40055bd4 */
     uxtah r0, lr, r4  /* 40055c4c */
     bl func_40034134  /* 40055c50 */
     mov r0, #0x1f4  /* 40055c54 */
-    bl func_40042cf0  /* 40055c58 */
+    bl delay_ms  /* 40055c58 */
     bl func_40034284  /* 40055c5c */
     add sp, sp, #4  /* 40055c60 */
     mov r0, #0x1f  /* 40055c64 */

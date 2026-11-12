@@ -2,27 +2,27 @@
     .syntax unified
     .arm
     .section .text.4005ab48, "ax", %progbits
-    .global func_4005ab48
-    .type func_4005ab48, %function
-func_4005ab48:  /* 0x4005ab48 */
+    .global f_readdir
+    .type f_readdir, %function
+f_readdir:  /* 0x4005ab48 */
 .Lstart_4005ab48:
     push {r4, r5, lr}  /* 4005ab48 */
     mov r5, r1  /* 4005ab4c */
     sub sp, sp, #4  /* 4005ab50 */
     mov r4, r0  /* 4005ab54 */
     mov r1, sp  /* 4005ab58 */
-    bl func_40059a88  /* 4005ab5c */
+    bl validate  /* 4005ab5c */
     movs r1, r0  /* 4005ab60 */
     bne .L4005abb8  /* 4005ab64 */
     cmp r5, #0  /* 4005ab68 */
     mov r1, #0  /* 4005ab6c */
     mov r0, r4  /* 4005ab70 */
     bne .L4005ab84  /* 4005ab74 */
-    bl func_400579d4  /* 4005ab78 */
+    bl dir_sdi  /* 4005ab78 */
     add sp, sp, #4  /* 4005ab7c */
     pop {r4, r5, pc}  /* 4005ab80 */
 .L4005ab84:
-    bl func_4005860c  /* 4005ab84 */
+    bl dir_read  /* 4005ab84 */
     cmp r0, #4  /* 4005ab88 */
     beq .L4005ab98  /* 4005ab8c */
     movs r1, r0  /* 4005ab90 */
@@ -30,13 +30,13 @@ func_4005ab48:  /* 0x4005ab48 */
 .L4005ab98:
     mov r1, r5  /* 4005ab98 */
     mov r0, r4  /* 4005ab9c */
-    bl func_40058d7c  /* 4005aba0 */
+    bl get_fileinfo  /* 4005aba0 */
     mov r1, #0  /* 4005aba4 */
     mov r0, r4  /* 4005aba8 */
-    bl func_40057aec  /* 4005abac */
+    bl dir_next  /* 4005abac */
     cmp r0, #4  /* 4005abb0 */
     moveq r0, #0  /* 4005abb4 */
 .L4005abb8:
     add sp, sp, #4  /* 4005abb8 */
     pop {r4, r5, pc}  /* 4005abbc */
-    .size func_4005ab48, . - func_4005ab48
+    .size f_readdir, . - f_readdir

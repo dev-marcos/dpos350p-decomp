@@ -363,6 +363,7 @@
         KEEP(*(.text.4003e05c))  /* func_4003e05c.s */
         KEEP(*(.text.4003e064))  /* func_4003e064.s */
         KEEP(*(.text.4003e2e0))  /* func_4003e2e0.s */
+        KEEP(*(.text.4003e300))  /* func_4003e300.s */
         KEEP(*(.text.4003e304))  /* func_4003e304.s */
         KEEP(*(.text.4003e314))  /* func_4003e314.s */
         KEEP(*(.text.4003e5d8))  /* func_4003e5d8.s */
@@ -843,6 +844,7 @@
         KEEP(*(.text.4005c3f0))  /* func_4005c3f0.s */
         KEEP(*(.text.4005c604))  /* func_4005c604.s */
         KEEP(*(.text.4005c630))  /* func_4005c630.s */
+        KEEP(*(.text.4005c664))  /* func_4005c664.s */
         KEEP(*(.text.4005c678))  /* func_4005c678.s */
         KEEP(*(.text.4005c7bc))  /* func_4005c7bc.s */
         KEEP(*(.text.4005c918))  /* func_4005c918.s */
@@ -1004,8 +1006,10 @@
         KEEP(*(.text.40066030))  /* func_40066030.s */
         KEEP(*(.text.40066054))  /* func_40066054.s */
         KEEP(*(.text.400660ac))  /* func_400660ac.s */
+        KEEP(*(.text.400660c0))  /* func_400660c0.s */
         KEEP(*(.text.400660c4))  /* func_400660c4.s */
         KEEP(*(.text.400660c8))  /* func_400660c8.s */
+        KEEP(*(.text.40066108))  /* func_40066108.s */
         KEEP(*(.text.4006610c))  /* func_4006610c.s */
         KEEP(*(.text.4006613c))  /* func_4006613c.s */
         KEEP(*(.text.40066530))  /* func_40066530.s */
@@ -1035,6 +1039,7 @@
         KEEP(*(.text.40066bd4))  /* func_40066bd4.s */
         KEEP(*(.text.40066c6c))  /* func_40066c6c.s */
         KEEP(*(.text.40066c80))  /* func_40066c80.s */
+        KEEP(*(.text.40066c88))  /* func_40066c88.s */
         KEEP(*(.text.40066c90))  /* func_40066c90.s */
         KEEP(*(.text.40066cf0))  /* func_40066cf0.s */
         KEEP(*(.text.40066d04))  /* func_40066d04.s */
@@ -1137,6 +1142,7 @@
         KEEP(*(.text.40069f6c))  /* func_40069f6c.s */
         KEEP(*(.text.40069fd0))  /* func_40069fd0.s */
         KEEP(*(.text.4006a31c))  /* func_4006a31c.s */
+        KEEP(*(.text.4006a3f8))  /* func_4006a3f8.s */
         KEEP(*(.text.4006a400))  /* func_4006a400.s */
         KEEP(*(.text.4006a4d0))  /* func_4006a4d0.s */
         KEEP(*(.text.4006a4da))  /* func_4006a4da.s */
@@ -1216,7 +1222,9 @@
         KEEP(*(.text.4006c488))  /* func_4006c488.s */
         KEEP(*(.text.4006c49c))  /* func_4006c49c.s */
         KEEP(*(.text.4006c4b4))  /* func_4006c4b4.s */
+        KEEP(*(.text.4006c4cc))  /* func_4006c4cc.s */
         KEEP(*(.text.4006c4d0))  /* func_4006c4d0.s */
+        KEEP(*(.text.4006c4dc))  /* func_4006c4dc.s */
         KEEP(*(.text.4006c4e0))  /* func_4006c4e0.s */
         KEEP(*(.text.4006c4ec))  /* func_4006c4ec.s */
         KEEP(*(.text.4006c510))  /* func_4006c510.s */
@@ -1241,6 +1249,7 @@
         KEEP(*(.text.4006c6a8))  /* func_4006c6a8.s */
         KEEP(*(.text.4006c730))  /* func_4006c730.s */
         KEEP(*(.text.4006c748))  /* func_4006c748.s */
+        KEEP(*(.text.4006c76c))  /* func_4006c76c.s */
         KEEP(*(.text.4006c770))  /* func_4006c770.s */
         KEEP(*(.text.4006c77c))  /* func_4006c77c.s */
         KEEP(*(.text.4006c788))  /* func_4006c788.s */

@@ -2,16 +2,16 @@
     .syntax unified
     .arm
     .section .text.400498a4, "ax", %progbits
-    .global gt911_bus_initialization_wrapper
-    .type gt911_bus_initialization_wrapper, %function
-gt911_bus_initialization_wrapper:  /* 0x400498a4 */
+    .global gt911_bus_init
+    .type gt911_bus_init, %function
+gt911_bus_init:  /* 0x400498a4 */
 .Lstart_400498a4:
     stmdb sp!, {lr}  /* 400498a4 */
     sub sp, sp, #4  /* 400498a8 */
-    bl func_40049834  /* 400498ac */
-    bl func_40049820  /* 400498b0 */
+    bl gt911_reset_seq  /* 400498ac */
+    bl gt911_int_input  /* 400498b0 */
     add sp, sp, #4  /* 400498b4 */
     mov r0, #0x14  /* 400498b8 */
     ldm sp!, {lr}  /* 400498bc */
-    b func_40042cf0  /* 400498c0 */
-    .size gt911_bus_initialization_wrapper, . - gt911_bus_initialization_wrapper
+    b delay_ms  /* 400498c0 */
+    .size gt911_bus_init, . - gt911_bus_init

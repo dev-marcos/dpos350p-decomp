@@ -10,22 +10,22 @@ func_400680b0:  /* 0x400680b0 */
     bl func_4006763c  /* 400680b4 */
     add r4, r0, #0x78  /* 400680b8 */
     mov r0, r4  /* 400680bc */
-    bl func_40067598  /* 400680c0 */
+    bl readl_a  /* 400680c0 */
     orr r1, r0, #2  /* 400680c4 */
     mov r0, r4  /* 400680c8 */
-    bl func_400675a0  /* 400680cc */
+    bl writel_a  /* 400680cc */
     mov r0, r4  /* 400680d0 */
-    bl func_40067598  /* 400680d4 */
+    bl readl_a  /* 400680d4 */
     bic r1, r0, #2  /* 400680d8 */
     mov r0, r4  /* 400680dc */
-    bl func_400675a0  /* 400680e0 */
+    bl writel_a  /* 400680e0 */
     mov r0, #5  /* 400680e4 */
     bl func_400675ac  /* 400680e8 */
     mov r0, r4  /* 400680ec */
-    bl func_40067598  /* 400680f0 */
+    bl readl_a  /* 400680f0 */
     orr r1, r0, #2  /* 400680f4 */
     mov r0, r4  /* 400680f8 */
-    bl func_400675a0  /* 400680fc */
+    bl writel_a  /* 400680fc */
     pop {r4, lr}  /* 40068100 */
     mov r0, #1  /* 40068104 */
     b func_400675ac  /* 40068108 */

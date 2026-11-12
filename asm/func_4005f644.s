@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.4005f644, "ax", %progbits
-    .global func_4005f644
-    .type func_4005f644, %function
-func_4005f644:  /* 0x4005f644 */
+    .global ms5351_write_ms_int
+    .type ms5351_write_ms_int, %function
+ms5351_write_ms_int:  /* 0x4005f644 */
 .Lstart_4005f644:
     push {r4, r5, r6, lr}  /* 4005f644 */
     mov r4, r0  /* 4005f648 */
@@ -14,37 +14,37 @@ func_4005f644:  /* 0x4005f644 */
     add r6, r0, r1, lsl #7  /* 4005f658 */
     mov r1, #0  /* 4005f65c */
     mov r0, r4  /* 4005f660 */
-    bl func_4005f164  /* 4005f664 */
+    bl ms5351_write_reg  /* 4005f664 */
     add r0, r4, #1  /* 4005f668 */
     mov r1, #1  /* 4005f66c */
     uxtb r0, r0  /* 4005f670 */
-    bl func_4005f164  /* 4005f674 */
+    bl ms5351_write_reg  /* 4005f674 */
     lsr r0, r6, #0x10  /* 4005f678 */
     and r1, r0, #3  /* 4005f67c */
     add r0, r4, #2  /* 4005f680 */
     orr r1, r5, r1  /* 4005f684 */
     uxtb r0, r0  /* 4005f688 */
-    bl func_4005f164  /* 4005f68c */
+    bl ms5351_write_reg  /* 4005f68c */
     lsl r1, r6, #0x10  /* 4005f690 */
     add r0, r4, #3  /* 4005f694 */
     lsr r1, r1, #0x18  /* 4005f698 */
     uxtb r0, r0  /* 4005f69c */
-    bl func_4005f164  /* 4005f6a0 */
+    bl ms5351_write_reg  /* 4005f6a0 */
     add r0, r4, #4  /* 4005f6a4 */
     uxtb r1, r6  /* 4005f6a8 */
     uxtb r0, r0  /* 4005f6ac */
-    bl func_4005f164  /* 4005f6b0 */
+    bl ms5351_write_reg  /* 4005f6b0 */
     add r0, r4, #5  /* 4005f6b4 */
     mov r1, #0  /* 4005f6b8 */
     uxtb r0, r0  /* 4005f6bc */
-    bl func_4005f164  /* 4005f6c0 */
+    bl ms5351_write_reg  /* 4005f6c0 */
     add r0, r4, #6  /* 4005f6c4 */
     mov r1, #0  /* 4005f6c8 */
     uxtb r0, r0  /* 4005f6cc */
-    bl func_4005f164  /* 4005f6d0 */
+    bl ms5351_write_reg  /* 4005f6d0 */
     add r0, r4, #7  /* 4005f6d4 */
     mov r1, #0  /* 4005f6d8 */
     pop {r4, r5, r6, lr}  /* 4005f6dc */
     uxtb r0, r0  /* 4005f6e0 */
-    b func_4005f164  /* 4005f6e4 */
-    .size func_4005f644, . - func_4005f644
+    b ms5351_write_reg  /* 4005f6e4 */
+    .size ms5351_write_ms_int, . - ms5351_write_ms_int

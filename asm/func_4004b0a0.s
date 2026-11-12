@@ -40,7 +40,7 @@ func_4004b0a0:  /* 0x4004b0a0 */
     bl func_4003e708  /* 4004b11c */
     bl acquisition_dispatcher  /* 4004b120 */
     mov r0, #0x64  /* 4004b124 */
-    bl func_40042cf0  /* 4004b128 */
+    bl delay_ms  /* 4004b128 */
     ldr r0, [r4, #0x60]  /* 4004b12c */
     ldr r1, [r4, #0x1c0]  /* 4004b130 */
     mul r2, r1, r0  /* 4004b134 */
@@ -77,7 +77,7 @@ func_4004b0a0:  /* 0x4004b0a0 */
     strb r3, [r1, #0x588]  /* 4004b1ac */
     bl func_4003e708  /* 4004b1b0 */
     mov r0, #0x14  /* 4004b1b4 */
-    bl func_40042cf0  /* 4004b1b8 */
+    bl delay_ms  /* 4004b1b8 */
     str r4, [sp]  /* 4004b1bc */
     mov r3, #0x7d0  /* 4004b1c0 */
     mov r2, #0  /* 4004b1c4 */
@@ -152,7 +152,7 @@ func_4004b0a0:  /* 0x4004b0a0 */
     str r1, [r4, #0x120]  /* 4004b2d4 */
     bl func_4003e708  /* 4004b2d8 */
     mov r0, #0x64  /* 4004b2dc */
-    bl func_40042cf0  /* 4004b2e0 */
+    bl delay_ms  /* 4004b2e0 */
     ldr r0, [r4, #0x60]  /* 4004b2e4 */
     ldr r1, [r4, #0x1c0]  /* 4004b2e8 */
     mul r2, r1, r0  /* 4004b2ec */
@@ -185,7 +185,7 @@ func_4004b0a0:  /* 0x4004b0a0 */
     strb r0, [sl, #0x588]  /* 4004b354 */
     bl func_4003e708  /* 4004b358 */
     mov r0, #0x14  /* 4004b35c */
-    bl func_40042cf0  /* 4004b360 */
+    bl delay_ms  /* 4004b360 */
     str sb, [sp]  /* 4004b364 */
     mov r3, #0x7d0  /* 4004b368 */
     mov r2, #0  /* 4004b36c */
@@ -516,7 +516,7 @@ func_4004b0a0:  /* 0x4004b0a0 */
     str r0, [r4, #0x120]  /* 4004b878 */
     bl func_4003e708  /* 4004b87c */
     mov r0, #0x64  /* 4004b880 */
-    bl func_40042cf0  /* 4004b884 */
+    bl delay_ms  /* 4004b884 */
     ldr r0, [r4, #0x60]  /* 4004b888 */
     ldr r1, [r4, #0x1c0]  /* 4004b88c */
     mul r2, r1, r0  /* 4004b890 */
@@ -551,7 +551,7 @@ func_4004b0a0:  /* 0x4004b0a0 */
     strb r0, [sl, #0x588]  /* 4004b900 */
     bl func_4003e708  /* 4004b904 */
     mov r0, #0x14  /* 4004b908 */
-    bl func_40042cf0  /* 4004b90c */
+    bl delay_ms  /* 4004b90c */
     str sb, [sp]  /* 4004b910 */
     mov r3, #0x7d0  /* 4004b914 */
     mov r2, #0  /* 4004b918 */
@@ -628,7 +628,7 @@ func_4004b0a0:  /* 0x4004b0a0 */
     str r0, [sb, #0x120]  /* 4004ba30 */
     bl func_4003e708  /* 4004ba34 */
     mov r0, #0x64  /* 4004ba38 */
-    bl func_40042cf0  /* 4004ba3c */
+    bl delay_ms  /* 4004ba3c */
     ldr r0, [sb, #0x60]  /* 4004ba40 */
     ldr r1, [sb, #0x1c0]  /* 4004ba44 */
     mul r2, r1, r0  /* 4004ba48 */
@@ -659,7 +659,7 @@ func_4004b0a0:  /* 0x4004b0a0 */
     strb r0, [sb, #0x588]  /* 4004baa8 */
     bl func_4003e708  /* 4004baac */
     mov r0, #0x14  /* 4004bab0 */
-    bl func_40042cf0  /* 4004bab4 */
+    bl delay_ms  /* 4004bab4 */
     str sl, [sp]  /* 4004bab8 */
     mov r3, #0x7d0  /* 4004babc */
     mov r2, #0  /* 4004bac0 */

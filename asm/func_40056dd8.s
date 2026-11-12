@@ -2,14 +2,14 @@
     .syntax unified
     .arm
     .section .text.40056dd8, "ax", %progbits
-    .global func_40056dd8
-    .type func_40056dd8, %function
-func_40056dd8:  /* 0x40056dd8 */
+    .global sync_fs
+    .type sync_fs, %function
+sync_fs:  /* 0x40056dd8 */
 .Lstart_40056dd8:
     push {r4, r5, lr}  /* 40056dd8 */
     mov r4, r0  /* 40056ddc */
     sub sp, sp, #4  /* 40056de0 */
-    bl func_40056cf0  /* 40056de4 */
+    bl sync_window  /* 40056de4 */
     movs r5, r0  /* 40056de8 */
     bne .L40056e94  /* 40056dec */
     ldrb r0, [r4]  /* 40056df0 */
@@ -21,37 +21,37 @@ func_40056dd8:  /* 0x40056dd8 */
     mov r2, #128, #30  /* 40056e08 */
     mov r1, #0  /* 40056e0c */
     add r0, r4, #0x38  /* 40056e10 */
-    bl func_40056bac  /* 40056e14 */
+    bl mem_set  /* 40056e14 */
     movw r0, #0x236  /* 40056e18 */
     movw r1, #0xaa55  /* 40056e1c */
     add r0, r4, r0  /* 40056e20 */
-    bl func_40056b04  /* 40056e24 */
+    bl st_word  /* 40056e24 */
     ldr r1, [pc, #0x70]  /* 40056e28 */
     add r0, r4, #0x38  /* 40056e2c */
-    bl func_40056b14  /* 40056e30 */
+    bl st_dword  /* 40056e30 */
     ldr r1, [pc, #0x68]  /* 40056e34 */
     add r0, r4, #0x21c  /* 40056e38 */
-    bl func_40056b14  /* 40056e3c */
+    bl st_dword  /* 40056e3c */
     ldr r1, [r4, #0x18]  /* 40056e40 */
     add r0, r4, #136, #30  /* 40056e44 */
-    bl func_40056b14  /* 40056e48 */
+    bl st_dword  /* 40056e48 */
     ldr r1, [r4, #0x14]  /* 40056e4c */
     add r0, r4, #0x224  /* 40056e50 */
-    bl func_40056b14  /* 40056e54 */
+    bl st_dword  /* 40056e54 */
     ldr r0, [r4, #0x24]  /* 40056e58 */
     mov r3, #1  /* 40056e5c */
     add r1, r4, #0x38  /* 40056e60 */
     add r2, r0, #1  /* 40056e64 */
     ldrb r0, [r4, #1]  /* 40056e68 */
     str r2, [r4, #0x34]  /* 40056e6c */
-    bl func_40049ce8  /* 40056e70 */
+    bl disk_write  /* 40056e70 */
     mov r0, #0  /* 40056e74 */
     strb r0, [r4, #4]  /* 40056e78 */
 .L40056e7c:
     ldrb r0, [r4, #1]  /* 40056e7c */
     mov r2, #0  /* 40056e80 */
     mov r1, #0  /* 40056e84 */
-    bl func_40049d68  /* 40056e88 */
+    bl disk_ioctl  /* 40056e88 */
     cmp r0, #0  /* 40056e8c */
     movne r5, #1  /* 40056e90 */
 .L40056e94:
@@ -60,4 +60,4 @@ func_40056dd8:  /* 0x40056dd8 */
     pop {r4, r5, pc}  /* 40056e9c */
     .word 0x41615252  /* 40056ea0 */
     .word 0x61417272  /* 40056ea4 */
-    .size func_40056dd8, . - func_40056dd8
+    .size sync_fs, . - sync_fs

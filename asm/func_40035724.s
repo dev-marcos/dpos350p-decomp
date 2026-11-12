@@ -6,5 +6,5 @@
     .type func_40035724, %function
 func_40035724:  /* 0x40035724 */
 .Lstart_40035724:
-    b func_4005c31c  /* 40035724 */
+    b __aeabi_memcpy  /* 40035724 */
     .size func_40035724, . - func_40035724

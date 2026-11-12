@@ -15,7 +15,7 @@ func_40049bb4:  /* 0x40049bb4 */
     ldr r3, [pc, #0x214]  /* 40049bcc */
     mov r1, #1  /* 40049bd0 */
     add r0, pc, #0x204  /* 40049bd4 */
-    bl func_4005b1f8  /* 40049bd8 */
+    bl f_mkfs  /* 40049bd8 */
     add sp, sp, #4  /* 40049bdc */
     ldm sp!, {pc}  /* 40049be0 */
     .size func_40049bb4, . - func_40049bb4

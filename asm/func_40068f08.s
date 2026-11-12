@@ -2,10 +2,10 @@
     .syntax unified
     .thumb
     .section .text.40068f08, "ax", %progbits
-    .global func_40068f08
-    .type func_40068f08, %function
+    .global exp
+    .type exp, %function
     .thumb_func
-func_40068f08:  /* 0x40068f08 */
+exp:  /* 0x40068f08 */
 .Lstart_40068f08:
     vmov.32 r1, d0[1]  /* 40068f08 */
     vcmp.f64 d0, #0  /* 40068f0c */
@@ -17,7 +17,7 @@ func_40068f08:  /* 0x40068f08 */
     bls.w .L40068f3c  /* 40068f24 */
     vmrs apsr_nzcv, fpscr  /* 40068f28 */
     mov.w r0, #0  /* 40068f2c */
-    .inst.w 0xf0418262  /* 40068f30 */
+    bne.w func_4006a3f8  /* 40068f30 */
     vmov.f64 d0, d1  /* 40068f34 */
     bx lr  /* 40068f38 */
     .byte 0x00, 0x00  /* 40068f3a */
@@ -38,4 +38,4 @@ func_40068f08:  /* 0x40068f08 */
     vsub.f64 d0, d1, d1  /* 40068f5e */
 .L40068f62:
     bx lr  /* 40068f62 */
-    .size func_40068f08, . - func_40068f08
+    .size exp, . - exp

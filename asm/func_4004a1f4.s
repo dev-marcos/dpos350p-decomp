@@ -35,7 +35,7 @@ func_4004a1f4:  /* 0x4004a1f4 */
     add r0, r0, lr  /* 4004a25c */
     bl func_40034134  /* 4004a260 */
     movw r0, #0xbb8  /* 4004a264 */
-    bl func_40042cf0  /* 4004a268 */
+    bl delay_ms  /* 4004a268 */
     pop {r4, lr}  /* 4004a26c */
     b func_4004a1b4  /* 4004a270 */
 .L4004a274:

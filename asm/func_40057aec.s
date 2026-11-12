@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40057aec, "ax", %progbits
-    .global func_40057aec
-    .type func_40057aec, %function
-func_40057aec:  /* 0x40057aec */
+    .global dir_next
+    .type dir_next, %function
+dir_next:  /* 0x40057aec */
 .Lstart_40057aec:
     push {r4, r5, r6, r7, r8, sb, sl, lr}  /* 40057aec */
     mov r4, r0  /* 40057af0 */
@@ -39,7 +39,7 @@ func_40057aec:  /* 0x40057aec */
     tst r3, r7, lsr #9  /* 40057b60 */
     bne .L40057c1c  /* 40057b64 */
     mov r0, r4  /* 40057b68 */
-    bl func_40056ed4  /* 40057b6c */
+    bl get_fat  /* 40057b6c */
     mov sb, r0  /* 40057b70 */
     cmp sb, #1  /* 40057b74 */
     bls .L40057bd0  /* 40057b78 */
@@ -60,7 +60,7 @@ func_40057aec:  /* 0x40057aec */
 .L40057bac:
     ldr r1, [r4, #0x34]  /* 40057bac */
     mov r0, r4  /* 40057bb0 */
-    bl func_400576b0  /* 40057bb4 */
+    bl create_chain  /* 40057bb4 */
     movs sb, r0  /* 40057bb8 */
     bne .L40057bc8  /* 40057bbc */
     mov r0, #7  /* 40057bc0 */
@@ -76,7 +76,7 @@ func_40057aec:  /* 0x40057aec */
     beq .L40057bf4  /* 40057bdc */
     mov r1, sb  /* 40057be0 */
     mov r0, r6  /* 40057be4 */
-    bl func_4005793c  /* 40057be8 */
+    bl dir_clear  /* 40057be8 */
     cmp r0, #0  /* 40057bec */
     beq .L40057bfc  /* 40057bf0 */
 .L40057bf4:
@@ -90,7 +90,7 @@ func_40057aec:  /* 0x40057aec */
     str sb, [r4, #0x34]  /* 40057c08 */
     mov r1, sb  /* 40057c0c */
     mov r0, r6  /* 40057c10 */
-    bl func_40056ea8  /* 40057c14 */
+    bl clst2sect  /* 40057c14 */
     str r0, [r4, #0x38]  /* 40057c18 */
 .L40057c1c:
     add r0, r6, #0x38  /* 40057c1c */
@@ -100,4 +100,4 @@ func_40057aec:  /* 0x40057aec */
     str r0, [r4, #0x3c]  /* 40057c2c */
     mov r0, #0  /* 40057c30 */
     pop {r4, r5, r6, r7, r8, sb, sl, pc}  /* 40057c34 */
-    .size func_40057aec, . - func_40057aec
+    .size dir_next, . - dir_next

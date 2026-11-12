@@ -32,5 +32,5 @@ func_40066c90:  /* 0x40066c90 */
     mov r0, r5  /* 40066ce0 */
     add sp, sp, #4  /* 40066ce4 */
     pop {r4, r5, lr}  /* 40066ce8 */
-    .inst 0xeaffffe5  /* 40066cec */
+    b func_40066c88  /* 40066cec */
     .size func_40066c90, . - func_40066c90

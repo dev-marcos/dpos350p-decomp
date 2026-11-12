@@ -2,10 +2,10 @@
     .syntax unified
     .thumb
     .section .text.40069f6c, "ax", %progbits
-    .global func_40069f6c
-    .type func_40069f6c, %function
+    .global __frexp_core
+    .type __frexp_core, %function
     .thumb_func
-func_40069f6c:  /* 0x40069f6c */
+__frexp_core:  /* 0x40069f6c */
 .Lstart_40069f6c:
     ubfx r3, r1, #0x14, #0xb  /* 40069f6c */
     cbz r3, .L40069f84  /* 40069f70 */
@@ -43,4 +43,4 @@ func_40069f6c:  /* 0x40069f6c */
 .L40069fcc:
     movs r2, #0  /* 40069fcc */
     bx lr  /* 40069fce */
-    .size func_40069f6c, . - func_40069f6c
+    .size __frexp_core, . - __frexp_core

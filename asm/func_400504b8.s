@@ -70,7 +70,7 @@ func_400504b8:  /* 0x400504b8 */
     bl func_4003e708  /* 400505a8 */
     bl func_4004d18c  /* 400505ac */
     mov r0, #0x1f4  /* 400505b0 */
-    bl func_40042cf0  /* 400505b4 */
+    bl delay_ms  /* 400505b4 */
     bl acquisition_dispatcher  /* 400505b8 */
     bl acquisition_dispatcher  /* 400505bc */
     movw ip, #0x958  /* 400505c0 */

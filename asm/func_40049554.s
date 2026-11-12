@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40049554, "ax", %progbits
-    .global gt911_write_byte_msb_first
-    .type gt911_write_byte_msb_first, %function
-gt911_write_byte_msb_first:  /* 0x40049554 */
+    .global gt911_write_byte
+    .type gt911_write_byte, %function
+gt911_write_byte:  /* 0x40049554 */
 .Lstart_40049554:
     push {r4, r5, r6, lr}  /* 40049554 */
     mov r4, r0  /* 40049558 */
@@ -12,31 +12,31 @@ gt911_write_byte_msb_first:  /* 0x40049554 */
     mov r1, #7  /* 40049560 */
     mov r0, r5  /* 40049564 */
     mov r6, #8  /* 40049568 */
-    bl func_40063288  /* 4004956c */
+    bl pio_clr_bit  /* 4004956c */
 .L40049570:
     tst r4, #0x80  /* 40049570 */
     mov r1, #6  /* 40049574 */
     mov r0, r5  /* 40049578 */
     beq .L40049588  /* 4004957c */
-    bl func_40063274  /* 40049580 */
+    bl pio_set_bit  /* 40049580 */
     b .L4004958c  /* 40049584 */
 .L40049588:
-    bl func_40063288  /* 40049588 */
+    bl pio_clr_bit  /* 40049588 */
 .L4004958c:
     mov r0, #1  /* 4004958c */
     lsl r4, r4, #1  /* 40049590 */
-    bl func_40042d0c  /* 40049594 */
+    bl delay_us  /* 40049594 */
     mov r1, #7  /* 40049598 */
     mov r0, r5  /* 4004959c */
-    bl func_40063274  /* 400495a0 */
+    bl pio_set_bit  /* 400495a0 */
     mov r0, #1  /* 400495a4 */
-    bl func_40042d0c  /* 400495a8 */
+    bl delay_us  /* 400495a8 */
     mov r1, #7  /* 400495ac */
     mov r0, r5  /* 400495b0 */
-    bl func_40063288  /* 400495b4 */
+    bl pio_clr_bit  /* 400495b4 */
     mov r0, #1  /* 400495b8 */
-    bl func_40042d0c  /* 400495bc */
+    bl delay_us  /* 400495bc */
     subs r6, r6, #1  /* 400495c0 */
     bne .L40049570  /* 400495c4 */
     pop {r4, r5, r6, pc}  /* 400495c8 */
-    .size gt911_write_byte_msb_first, . - gt911_write_byte_msb_first
+    .size gt911_write_byte, . - gt911_write_byte

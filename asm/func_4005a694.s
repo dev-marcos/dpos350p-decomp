@@ -2,23 +2,23 @@
     .syntax unified
     .arm
     .section .text.4005a694, "ax", %progbits
-    .global func_4005a694
-    .type func_4005a694, %function
-func_4005a694:  /* 0x4005a694 */
+    .global f_close
+    .type f_close, %function
+f_close:  /* 0x4005a694 */
 .Lstart_4005a694:
     push {r4, lr}  /* 4005a694 */
     mov r4, r0  /* 4005a698 */
     sub sp, sp, #8  /* 4005a69c */
-    bl func_4005a4ac  /* 4005a6a0 */
+    bl f_sync  /* 4005a6a0 */
     movs r1, r0  /* 4005a6a4 */
     bne .L4005a6c4  /* 4005a6a8 */
     mov r1, sp  /* 4005a6ac */
     mov r0, r4  /* 4005a6b0 */
-    bl func_40059a88  /* 4005a6b4 */
+    bl validate  /* 4005a6b4 */
     movs r1, r0  /* 4005a6b8 */
     moveq r1, #0  /* 4005a6bc */
     streq r1, [r4]  /* 4005a6c0 */
 .L4005a6c4:
     add sp, sp, #8  /* 4005a6c4 */
     pop {r4, pc}  /* 4005a6c8 */
-    .size func_4005a694, . - func_4005a694
+    .size f_close, . - f_close

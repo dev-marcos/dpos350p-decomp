@@ -2,14 +2,14 @@
     .syntax unified
     .arm
     .section .text.40042d28, "ax", %progbits
-    .global System_Init
-    .type System_Init, %function
-System_Init:  /* 0x40042d28 */
+    .global timers_init
+    .type timers_init, %function
+timers_init:  /* 0x40042d28 */
 .Lstart_40042d28:
     stmdb sp!, {lr}  /* 40042d28 */
     sub sp, sp, #4  /* 40042d2c */
-    bl func_40042c94  /* 40042d30 */
+    bl timer0_init  /* 40042d30 */
     add sp, sp, #4  /* 40042d34 */
     ldm sp!, {lr}  /* 40042d38 */
-    b func_40042cd8  /* 40042d3c */
-    .size System_Init, . - System_Init
+    b avs_init  /* 40042d3c */
+    .size timers_init, . - timers_init

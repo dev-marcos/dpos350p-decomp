@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40063288, "ax", %progbits
-    .global func_40063288
-    .type func_40063288, %function
-func_40063288:  /* 0x40063288 */
+    .global pio_clr_bit
+    .type pio_clr_bit, %function
+pio_clr_bit:  /* 0x40063288 */
 .Lstart_40063288:
     ldr r2, [r0, #0x10]  /* 40063288 */
     mov r3, #1  /* 4006328c */
@@ -12,4 +12,4 @@ func_40063288:  /* 0x40063288 */
     and r1, r1, r2  /* 40063294 */
     str r1, [r0, #0x10]  /* 40063298 */
     bx lr  /* 4006329c */
-    .size func_40063288, . - func_40063288
+    .size pio_clr_bit, . - pio_clr_bit

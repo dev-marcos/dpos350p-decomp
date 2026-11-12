@@ -2,11 +2,11 @@
     .syntax unified
     .arm
     .section .text.40042d40, "ax", %progbits
-    .global func_40042d40
-    .type func_40042d40, %function
-func_40042d40:  /* 0x40042d40 */
+    .global avs0_set_div_default
+    .type avs0_set_div_default, %function
+avs0_set_div_default:  /* 0x40042d40 */
 .Lstart_40042d40:
     movw r1, #0x5dc0  /* 40042d40 */
     mov r0, #0  /* 40042d44 */
-    b func_40042d54  /* 40042d48 */
-    .size func_40042d40, . - func_40042d40
+    b avs_set_div  /* 40042d48 */
+    .size avs0_set_div_default, . - avs0_set_div_default

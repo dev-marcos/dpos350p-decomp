@@ -98,6 +98,7 @@ def analyse_function(start, thumb, stops, limit=None):
     """Follow all intra-procedural flow from start. 'stops' = known function entries:
     a branch to one of them is a tail call, falling into one ends the walk."""
     f = Func(start, thumb)
+    f.back = set()           # direct B targets (candidate tail-called functions, see main)
     work = [start]
     trail = {}   # addr -> list of preceding insns in straight line (for bound search)
     while work:
@@ -143,6 +144,7 @@ def analyse_function(start, thumb, stops, limit=None):
                         f.tailcalls.add(t)
                     else:
                         work.append(t); trail[t] = prev[-6:] + [ins]
+                        f.back.add(t)
                     stop = not cond(ins)
                 elif ins.id == A.ARM_INS_BL and op.type == A.ARM_OP_IMM:
                     f.calls.add((op.imm, thumb))
@@ -345,6 +347,7 @@ def main():
         origin.setdefault(a, "scatter-table"); forced[a] = t
     callers_mode = {}
     rounds = 0
+    back_done = False
     while True:
         rounds += 1
         order = sorted(origin)
@@ -427,6 +430,16 @@ def main():
                             x += 1
                     x += 1
         new = {k: v for k, v in new.items() if k not in origin}
+        if not new and not back_done:
+            # Converged. B targets outside the caller's span [entry, next entry) that no
+            # function body covers are tail-called functions the walk merged into the caller,
+            # e.g. armcc "mov r0,#0" entries that fall into a shared store (0x4006C4CC).
+            back_done = True
+            for i, s_ in enumerate(order):
+                nxt = order[i + 1] if i + 1 < len(order) else LOAD_END
+                for c in funcs[s_].back:
+                    if (c < s_ or c >= nxt) and c not in origin and free(c):
+                        new[c] = "tailcall"; forced[c] = funcs[s_].thumb
         if not new or rounds > 40:
             break
         origin.update(new)

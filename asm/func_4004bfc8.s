@@ -83,7 +83,7 @@ func_4004bfc8:  /* 0x4004bfc8 */
     bl func_4004abcc  /* 4004c0e4 */
 .L4004c0e8:
     mov r0, #0x64  /* 4004c0e8 */
-    bl func_40042cf0  /* 4004c0ec */
+    bl delay_ms  /* 4004c0ec */
     cmp r5, #0  /* 4004c0f0 */
     bne .L4004c178  /* 4004c0f4 */
     mov r0, #1  /* 4004c0f8 */
@@ -225,7 +225,7 @@ func_4004bfc8:  /* 0x4004bfc8 */
     bl func_4004abcc  /* 4004c2e4 */
 .L4004c2e8:
     mov r0, #0x64  /* 4004c2e8 */
-    bl func_40042cf0  /* 4004c2ec */
+    bl delay_ms  /* 4004c2ec */
     cmp r5, #0  /* 4004c2f0 */
     bne .L4004c370  /* 4004c2f4 */
     mov r0, #1  /* 4004c2f8 */

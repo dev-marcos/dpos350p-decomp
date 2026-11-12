@@ -2,14 +2,14 @@
     .syntax unified
     .arm
     .section .text.400428ac, "ax", %progbits
-    .global func_400428ac
-    .type func_400428ac, %function
-func_400428ac:  /* 0x400428ac */
+    .global periph0_freq
+    .type periph0_freq, %function
+periph0_freq:  /* 0x400428ac */
 .Lstart_400428ac:
     stmdb sp!, {lr}  /* 400428ac */
     sub sp, sp, #4  /* 400428b0 */
     ldr r0, [pc, #0x48]  /* 400428b4 */
-    bl func_400427a0  /* 400428b8 */
+    bl readl_e  /* 400428b8 */
     ubfx r1, r0, #8, #5  /* 400428bc */
     ubfx r0, r0, #4, #2  /* 400428c0 */
     add r1, r1, #1  /* 400428c4 */
@@ -32,4 +32,4 @@ func_400428ac:  /* 0x400428ac */
     .word 0x91004107  /* 40042908 */
     .word 0x01c20010  /* 4004290c */
     .word 0x90041811  /* 40042910 */
-    .size func_400428ac, . - func_400428ac
+    .size periph0_freq, . - periph0_freq

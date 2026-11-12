@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.4005aa2c, "ax", %progbits
-    .global func_4005aa2c
-    .type func_4005aa2c, %function
-func_4005aa2c:  /* 0x4005aa2c */
+    .global f_opendir
+    .type f_opendir, %function
+f_opendir:  /* 0x4005aa2c */
 .Lstart_4005aa2c:
     push {r1, r4, lr}  /* 4005aa2c */
     movs r4, r0  /* 4005aa30 */
@@ -14,14 +14,14 @@ func_4005aa2c:  /* 0x4005aa2c */
     mov r2, #0  /* 4005aa40 */
     mov r1, sp  /* 4005aa44 */
     add r0, sp, #4  /* 4005aa48 */
-    bl func_40059520  /* 4005aa4c */
+    bl find_volume  /* 4005aa4c */
     movs r1, r0  /* 4005aa50 */
     bne .L4005ab08  /* 4005aa54 */
     ldr r1, [sp]  /* 4005aa58 */
     mov r0, r4  /* 4005aa5c */
     str r1, [r4]  /* 4005aa60 */
     ldr r1, [sp, #4]  /* 4005aa64 */
-    bl func_400592b8  /* 4005aa68 */
+    bl follow_path  /* 4005aa68 */
     movs r1, r0  /* 4005aa6c */
     bne .L4005aaf8  /* 4005aa70 */
     ldrb r0, [r4, #0x4b]  /* 4005aa74 */
@@ -45,12 +45,12 @@ func_4005aa2c:  /* 0x4005aa2c */
     str r0, [r4, #0x28]  /* 4005aabc */
     str r3, [r4, #0x24]  /* 4005aac0 */
     ldr r0, [sp]  /* 4005aac4 */
-    bl func_400583e4  /* 4005aac8 */
+    bl init_alloc_info  /* 4005aac8 */
     b .L4005aae0  /* 4005aacc */
 .L4005aad0:
     ldr r1, [r4, #0x3c]  /* 4005aad0 */
     mov r0, r2  /* 4005aad4 */
-    bl func_40057cdc  /* 4005aad8 */
+    bl ld_clust  /* 4005aad8 */
     str r0, [r4, #8]  /* 4005aadc */
 .L4005aae0:
     ldr r1, [sp]  /* 4005aae0 */
@@ -58,7 +58,7 @@ func_4005aa2c:  /* 0x4005aa2c */
     ldrh r2, [r1, #6]  /* 4005aae8 */
     mov r1, #0  /* 4005aaec */
     strh r2, [r4, #4]  /* 4005aaf0 */
-    bl func_400579d4  /* 4005aaf4 */
+    bl dir_sdi  /* 4005aaf4 */
 .L4005aaf8:
     cmp r0, #4  /* 4005aaf8 */
     bne .L4005ab08  /* 4005aafc */
@@ -74,4 +74,4 @@ func_4005aa2c:  /* 0x4005aa2c */
 .L4005ab18:
     add sp, sp, #8  /* 4005ab18 */
     pop {r4, pc}  /* 4005ab1c */
-    .size func_4005aa2c, . - func_4005aa2c
+    .size f_opendir, . - f_opendir

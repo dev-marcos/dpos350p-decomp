@@ -330,7 +330,7 @@ pow:  /* 0x4005d4a4 */
     vmla.f64 d0, d6, d4  /* 4005d87c */
     vmov d1, r6, r7  /* 4005d880 */
     vmla.f64 d0, d2, d4  /* 4005d884 */
-    bl func_40069fd0  /* 4005d888 */
+    bl __pow_core  /* 4005d888 */
     vmov r0, r1, d0  /* 4005d88c */
     bics r1, r1, #0x80000000  /* 4005d890 */
     it eq  /* 4005d894 */

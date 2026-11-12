@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.400631d4, "ax", %progbits
-    .global func_400631d4
-    .type func_400631d4, %function
-func_400631d4:  /* 0x400631d4 */
+    .global pio_cfg_pin
+    .type pio_cfg_pin, %function
+pio_cfg_pin:  /* 0x400631d4 */
 .Lstart_400631d4:
     push {r4, r5, r6, lr}  /* 400631d4 */
     lsr ip, r1, #3  /* 400631d8 */
@@ -49,4 +49,4 @@ func_400631d4:  /* 0x400631d4 */
     orr r1, ip, r3, lsl r1  /* 40063268 */
     str r1, [r0, #0x1c]  /* 4006326c */
     pop {r4, r5, r6, pc}  /* 40063270 */
-    .size func_400631d4, . - func_400631d4
+    .size pio_cfg_pin, . - pio_cfg_pin

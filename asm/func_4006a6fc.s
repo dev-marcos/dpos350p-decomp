@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.4006a6fc, "ax", %progbits
-    .global __aeabi_memset
-    .type __aeabi_memset, %function
-__aeabi_memset:  /* 0x4006a6fc */
+    .global __aeabi_memset4
+    .type __aeabi_memset4, %function
+__aeabi_memset4:  /* 0x4006a6fc */
 .Lstart_4006a6fc:
     stmdb sp!, {lr}  /* 4006a6fc */
     mov r3, r2  /* 4006a700 */
@@ -21,4 +21,4 @@ __aeabi_memset:  /* 0x4006a6fc */
     strhhs r2, [r0], #2  /* 4006a728 */
     strbmi r2, [r0], #1  /* 4006a72c */
     ldm sp!, {pc}  /* 4006a730 */
-    .size __aeabi_memset, . - __aeabi_memset
+    .size __aeabi_memset4, . - __aeabi_memset4

@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40066b88, "ax", %progbits
-    .global func_40066b88
-    .type func_40066b88, %function
-func_40066b88:  /* 0x40066b88 */
+    .global irq_enable
+    .type irq_enable, %function
+irq_enable:  /* 0x40066b88 */
 .Lstart_40066b88:
     b func_40066c6c  /* 40066b88 */
-    .size func_40066b88, . - func_40066b88
+    .size irq_enable, . - irq_enable

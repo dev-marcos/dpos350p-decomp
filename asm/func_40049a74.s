@@ -9,7 +9,7 @@ func_40049a74:  /* 0x40049a74 */
     stmdb sp!, {lr}  /* 40049a74 */
     sub sp, sp, #4  /* 40049a78 */
     bl func_40049a5c  /* 40049a7c */
-    bl gt911_bus_initialization_wrapper  /* 40049a80 */
+    bl gt911_bus_init  /* 40049a80 */
     bl func_40049a38  /* 40049a84 */
     mov r0, #1  /* 40049a88 */
     ldr r1, [pc, #0xe4]  /* 40049a8c */

@@ -2,16 +2,16 @@
     .syntax unified
     .arm
     .section .text.40056c84, "ax", %progbits
-    .global func_40056c84
-    .type func_40056c84, %function
-func_40056c84:  /* 0x40056c84 */
+    .global put_utf
+    .type put_utf, %function
+put_utf:  /* 0x40056c84 */
 .Lstart_40056c84:
     push {r4, r5, lr}  /* 40056c84 */
     mov r4, r1  /* 40056c88 */
     sub sp, sp, #4  /* 40056c8c */
     mov r5, r2  /* 40056c90 */
     movw r1, #0x1b5  /* 40056c94 */
-    bl func_40069d90  /* 40056c98 */
+    bl ff_uni2oem  /* 40056c98 */
     cmp r0, #64, #30  /* 40056c9c */
     blt .L40056cc4  /* 40056ca0 */
     cmp r5, #2  /* 40056ca4 */
@@ -37,4 +37,4 @@ func_40056c84:  /* 0x40056c84 */
 .L40056ce8:
     add sp, sp, #4  /* 40056ce8 */
     pop {r4, r5, pc}  /* 40056cec */
-    .size func_40056c84, . - func_40056c84
+    .size put_utf, . - put_utf

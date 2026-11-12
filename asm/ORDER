@@ -362,6 +362,7 @@ func_4003e00c.s
 func_4003e05c.s
 func_4003e064.s
 func_4003e2e0.s
+func_4003e300.s
 func_4003e304.s
 func_4003e314.s
 func_4003e5d8.s
@@ -842,6 +843,7 @@ func_4005c38c.s
 func_4005c3f0.s
 func_4005c604.s
 func_4005c630.s
+func_4005c664.s
 func_4005c678.s
 func_4005c7bc.s
 func_4005c918.s
@@ -1003,8 +1005,10 @@ func_40065fa8.s
 func_40066030.s
 func_40066054.s
 func_400660ac.s
+func_400660c0.s
 func_400660c4.s
 func_400660c8.s
+func_40066108.s
 func_4006610c.s
 func_4006613c.s
 func_40066530.s
@@ -1034,6 +1038,7 @@ func_40066b8c.s
 func_40066bd4.s
 func_40066c6c.s
 func_40066c80.s
+func_40066c88.s
 func_40066c90.s
 func_40066cf0.s
 func_40066d04.s
@@ -1136,6 +1141,7 @@ func_40069f54.s
 func_40069f6c.s
 func_40069fd0.s
 func_4006a31c.s
+func_4006a3f8.s
 func_4006a400.s
 func_4006a4d0.s
 func_4006a4da.s
@@ -1215,7 +1221,9 @@ func_4006c474.s
 func_4006c488.s
 func_4006c49c.s
 func_4006c4b4.s
+func_4006c4cc.s
 func_4006c4d0.s
+func_4006c4dc.s
 func_4006c4e0.s
 func_4006c4ec.s
 func_4006c510.s
@@ -1240,6 +1248,7 @@ func_4006c6a4.s
 func_4006c6a8.s
 func_4006c730.s
 func_4006c748.s
+func_4006c76c.s
 func_4006c770.s
 func_4006c77c.s
 func_4006c788.s

@@ -13,7 +13,7 @@ func_40049be4:  /* 0x40049be4 */
     add r2, sp, #4  /* 40049bf4 */
     mov r1, sp  /* 40049bf8 */
     add r0, pc, #0x1dc  /* 40049bfc */
-    bl func_4005abc0  /* 40049c00 */
+    bl f_getfree  /* 40049c00 */
     cmp r0, #0  /* 40049c04 */
     bne .L40049c2c  /* 40049c08 */
     ldr r3, [sp, #4]  /* 40049c0c */

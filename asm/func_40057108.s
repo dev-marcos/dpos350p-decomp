@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40057108, "ax", %progbits
-    .global func_40057108
-    .type func_40057108, %function
-func_40057108:  /* 0x40057108 */
+    .global put_fat
+    .type put_fat, %function
+put_fat:  /* 0x40057108 */
 .Lstart_40057108:
     push {r4, r5, r6, r7, r8, sb, sl, lr}  /* 40057108 */
     mov r7, r1  /* 4005710c */
@@ -30,7 +30,7 @@ func_40057108:  /* 0x40057108 */
     add sb, r7, r7, lsr #1  /* 40057158 */
     add r1, r0, sb, lsr #9  /* 4005715c */
     mov r0, r5  /* 40057160 */
-    bl func_40056d80  /* 40057164 */
+    bl move_window  /* 40057164 */
     movs r4, r0  /* 40057168 */
     bne .L40057284  /* 4005716c */
     movw r8, #0x1ff  /* 40057170 */
@@ -53,7 +53,7 @@ func_40057108:  /* 0x40057108 */
     strb sl, [r5, #3]  /* 400571ac */
     add r1, r0, sb, lsr #9  /* 400571b0 */
     mov r0, r5  /* 400571b4 */
-    bl func_40056d80  /* 400571b8 */
+    bl move_window  /* 400571b8 */
     movs r4, r0  /* 400571bc */
     bne .L40057284  /* 400571c0 */
     add r0, r5, #0x38  /* 400571c4 */
@@ -76,20 +76,20 @@ func_40057108:  /* 0x40057108 */
     ldr r0, [r5, #0x28]  /* 40057200 */
     add r1, r0, r7, lsr #8  /* 40057204 */
     mov r0, r5  /* 40057208 */
-    bl func_40056d80  /* 4005720c */
+    bl move_window  /* 4005720c */
     movs r4, r0  /* 40057210 */
     bne .L40057284  /* 40057214 */
     add r0, r5, #0x38  /* 40057218 */
     lsl r3, r7, #0x18  /* 4005721c */
     add r0, r0, r3, lsr #23  /* 40057220 */
     uxth r1, r6  /* 40057224 */
-    bl func_40056b04  /* 40057228 */
+    bl st_word  /* 40057228 */
     b .L4005727c  /* 4005722c */
 .L40057230:
     ldr r0, [r5, #0x28]  /* 40057230 */
     add r1, r0, r7, lsr #7  /* 40057234 */
     mov r0, r5  /* 40057238 */
-    bl func_40056d80  /* 4005723c */
+    bl move_window  /* 4005723c */
     movs r4, r0  /* 40057240 */
     bne .L40057284  /* 40057244 */
     ldrb r3, [r5]  /* 40057248 */
@@ -99,17 +99,17 @@ func_40057108:  /* 0x40057108 */
     cmp r3, #4  /* 40057258 */
     beq .L40057270  /* 4005725c */
     mov r0, r7  /* 40057260 */
-    bl func_40056a80  /* 40057264 */
+    bl ld_dword  /* 40057264 */
     lsr r0, r0, #0x1c  /* 40057268 */
     bfi r6, r0, #0x1c, #4  /* 4005726c */
 .L40057270:
     mov r1, r6  /* 40057270 */
     mov r0, r7  /* 40057274 */
-    bl func_40056b14  /* 40057278 */
+    bl st_dword  /* 40057278 */
 .L4005727c:
     mov r1, #1  /* 4005727c */
     strb r1, [r5, #3]  /* 40057280 */
 .L40057284:
     mov r0, r4  /* 40057284 */
     pop {r4, r5, r6, r7, r8, sb, sl, pc}  /* 40057288 */
-    .size func_40057108, . - func_40057108
+    .size put_fat, . - put_fat

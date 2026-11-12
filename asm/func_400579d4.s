@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.400579d4, "ax", %progbits
-    .global func_400579d4
-    .type func_400579d4, %function
-func_400579d4:  /* 0x400579d4 */
+    .global dir_sdi
+    .type dir_sdi, %function
+dir_sdi:  /* 0x400579d4 */
 .Lstart_400579d4:
     push {r4, r5, r6, r7, r8, sb, lr}  /* 400579d4 */
     mov r4, r0  /* 400579d8 */
@@ -55,7 +55,7 @@ func_400579d4:  /* 0x400579d4 */
     mov r1, r7  /* 40057a78 */
     blo .L40057aa0  /* 40057a7c */
     mov r0, r4  /* 40057a80 */
-    bl func_40056ed4  /* 40057a84 */
+    bl get_fat  /* 40057a84 */
     mov r7, r0  /* 40057a88 */
     cmp r7, sb  /* 40057a8c */
     bne .L40057a5c  /* 40057a90 */
@@ -64,7 +64,7 @@ func_400579d4:  /* 0x400579d4 */
     pop {r4, r5, r6, r7, r8, sb, pc}  /* 40057a9c */
 .L40057aa0:
     mov r0, r5  /* 40057aa0 */
-    bl func_40056ea8  /* 40057aa4 */
+    bl clst2sect  /* 40057aa4 */
 .L40057aa8:
     str r0, [r4, #0x38]  /* 40057aa8 */
     ldr r0, [r4, #0x38]  /* 40057aac */
@@ -85,4 +85,4 @@ func_400579d4:  /* 0x400579d4 */
     str r2, [r4, #0x3c]  /* 40057ae0 */
     add sp, sp, #4  /* 40057ae4 */
     pop {r4, r5, r6, r7, r8, sb, pc}  /* 40057ae8 */
-    .size func_400579d4, . - func_400579d4
+    .size dir_sdi, . - dir_sdi

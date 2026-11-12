@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40056b14, "ax", %progbits
-    .global func_40056b14
-    .type func_40056b14, %function
-func_40056b14:  /* 0x40056b14 */
+    .global st_dword
+    .type st_dword, %function
+st_dword:  /* 0x40056b14 */
 .Lstart_40056b14:
     strb r1, [r0]  /* 40056b14 */
     lsr r1, r1, #8  /* 40056b18 */
@@ -14,4 +14,4 @@ func_40056b14:  /* 0x40056b14 */
     lsr r1, r1, #8  /* 40056b28 */
     strb r1, [r0, #3]  /* 40056b2c */
     bx lr  /* 40056b30 */
-    .size func_40056b14, . - func_40056b14
+    .size st_dword, . - st_dword

@@ -22,7 +22,7 @@ func_4003d46c:  /* 0x4003d46c */
 .L4003d4a0:
     vmov.f64 d0, d8  /* 4003d4a0 */
     mov sb, r7  /* 4003d4a4 */
-    blx func_4005f91c  /* 4003d4a8 */
+    blx tanh  /* 4003d4a8 */
     vldr d3, [pc, #0x360]  /* 4003d4ac */
     vadd.f64 d0, d0, d3  /* 4003d4b0 */
     ldr r3, [pc, #0xa38]  /* 4003d4b4 */

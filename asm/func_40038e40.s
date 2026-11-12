@@ -12,7 +12,7 @@ func_40038e40:  /* 0x40038e40 */
     vmov r0, r1, d0  /* 40038e4c */
     sub sp, sp, #8  /* 40038e50 */
     mov r7, r2  /* 40038e54 */
-    blx __aeabi_d2iz_like  /* 40038e58 */
+    blx __aeabi_d2lz  /* 40038e58 */
     cmp r1, #0  /* 40038e5c */
     mov r6, #0  /* 40038e60 */
     bgt .L40038ed4  /* 40038e64 */

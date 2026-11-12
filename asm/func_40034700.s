@@ -10,7 +10,7 @@ main:  /* 0x40034700 */
     ldr r0, [pc, #0x88]  /* 40034704 */
     bl sys_clock_init  /* 40034708 */
     bl sys_mmu_init  /* 4003470c */
-    bl System_Init  /* 40034710 */
+    bl timers_init  /* 40034710 */
     mov r0, #1  /* 40034714 */
     ldr r1, [pc, #0x78]  /* 40034718 */
     str r0, [r1]  /* 4003471c */

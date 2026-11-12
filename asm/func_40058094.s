@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40058094, "ax", %progbits
-    .global func_40058094
-    .type func_40058094, %function
-func_40058094:  /* 0x40058094 */
+    .global sum_sfn
+    .type sum_sfn, %function
+sum_sfn:  /* 0x40058094 */
 .Lstart_40058094:
     mov r1, r0  /* 40058094 */
     mov r0, #0  /* 40058098 */
@@ -19,4 +19,4 @@ func_40058094:  /* 0x40058094 */
     bne .L400580a0  /* 400580b8 */
     uxtb r0, r0  /* 400580bc */
     bx lr  /* 400580c0 */
-    .size func_40058094, . - func_40058094
+    .size sum_sfn, . - sum_sfn

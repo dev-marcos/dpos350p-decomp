@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.400589f8, "ax", %progbits
-    .global func_400589f8
-    .type func_400589f8, %function
-func_400589f8:  /* 0x400589f8 */
+    .global dir_register
+    .type dir_register, %function
+dir_register:  /* 0x400589f8 */
 .Lstart_400589f8:
     push {r4, r5, r6, r7, sb, lr}  /* 400589f8 */
     mov r4, r0  /* 400589fc */
@@ -35,7 +35,7 @@ func_400589f8:  /* 0x400589f8 */
     mov r0, r4  /* 40058a58 */
     add r7, r1, r3, lsr #3  /* 40058a5c */
     mov r1, r7  /* 40058a60 */
-    bl func_40057c38  /* 40058a64 */
+    bl dir_alloc  /* 40058a64 */
     movs r6, r0  /* 40058a68 */
     bne .L40058cd4  /* 40058a6c */
     ldr r0, [r4, #0x30]  /* 40058a70 */
@@ -49,13 +49,13 @@ func_400589f8:  /* 0x400589f8 */
     and r0, r0, #0xfb  /* 40058a90 */
     strb r0, [r4, #7]  /* 40058a94 */
     mov r0, r4  /* 40058a98 */
-    bl func_40057428  /* 40058a9c */
+    bl fill_first_frag  /* 40058a9c */
     movs r6, r0  /* 40058aa0 */
     bne .L40058cd4  /* 40058aa4 */
     ldr r1, [r4, #0x34]  /* 40058aa8 */
     mvn r2, #0  /* 40058aac */
     mov r0, r4  /* 40058ab0 */
-    bl func_40057480  /* 40058ab4 */
+    bl fill_last_frag  /* 40058ab4 */
     movs r6, r0  /* 40058ab8 */
     bne .L40058cd4  /* 40058abc */
     ldr r0, [r4, #8]  /* 40058ac0 */
@@ -63,7 +63,7 @@ func_400589f8:  /* 0x400589f8 */
     beq .L40058b34  /* 40058ac8 */
     mov r1, r4  /* 40058acc */
     add r0, sp, #0x10  /* 40058ad0 */
-    bl func_40058434  /* 40058ad4 */
+    bl load_obj_xdir  /* 40058ad4 */
     movs r6, r0  /* 40058ad8 */
     bne .L40058cd4  /* 40058adc */
     ldrh ip, [r5, #0xa]  /* 40058ae0 */
@@ -74,23 +74,23 @@ func_400589f8:  /* 0x400589f8 */
     strd r2, r3, [r4, #0x10]  /* 40058af4 */
     ldr r0, [r5, #0x10]  /* 40058af8 */
     add r0, r0, #0x38  /* 40058afc */
-    bl func_40056b34  /* 40058b00 */
+    bl st_qword  /* 40058b00 */
     ldr r0, [r5, #0x10]  /* 40058b04 */
     ldrd r2, r3, [r4, #0x10]  /* 40058b08 */
     add r0, r0, #0x28  /* 40058b0c */
-    bl func_40056b34  /* 40058b10 */
+    bl st_qword  /* 40058b10 */
     ldrb r1, [r4, #7]  /* 40058b14 */
     ldr r2, [r5, #0x10]  /* 40058b18 */
     orr r0, r1, #1  /* 40058b1c */
     strb r0, [r2, #0x21]  /* 40058b20 */
     add r0, sp, #0x10  /* 40058b24 */
-    bl func_4005848c  /* 40058b28 */
+    bl store_xdir  /* 40058b28 */
     movs r6, r0  /* 40058b2c */
     bne .L40058cd4  /* 40058b30 */
 .L40058b34:
     ldr r1, [r5, #0xc]  /* 40058b34 */
     ldr r0, [r5, #0x10]  /* 40058b38 */
-    bl func_4005853c  /* 40058b3c */
+    bl create_xdir  /* 40058b3c */
     mov r0, #0  /* 40058b40 */
     add sp, sp, #0x60  /* 40058b44 */
     pop {r4, r5, r6, r7, sb, pc}  /* 40058b48 */
@@ -98,7 +98,7 @@ func_400589f8:  /* 0x400589f8 */
     mov r2, #0xc  /* 40058b4c */
     add r1, r4, #0x40  /* 40058b50 */
     mov r0, sp  /* 40058b54 */
-    bl func_40056b90  /* 40058b58 */
+    bl mem_cpy  /* 40058b58 */
     ldrb r0, [sp, #0xb]  /* 40058b5c */
     tst r0, #1  /* 40058b60 */
     beq .L40058bc0  /* 40058b64 */
@@ -110,9 +110,9 @@ func_400589f8:  /* 0x400589f8 */
     mov r3, sb  /* 40058b78 */
     mov r1, sp  /* 40058b7c */
     add r0, r4, #0x40  /* 40058b80 */
-    bl func_40057f9c  /* 40058b84 */
+    bl gen_numname  /* 40058b84 */
     mov r0, r4  /* 40058b88 */
-    bl func_400587c8  /* 40058b8c */
+    bl dir_find  /* 40058b8c */
     movs r6, r0  /* 40058b90 */
     bne .L40058ba4  /* 40058b94 */
     add sb, sb, #1  /* 40058b98 */
@@ -141,7 +141,7 @@ func_400589f8:  /* 0x400589f8 */
 .L40058be8:
     mov r1, r7  /* 40058be8 */
     mov r0, r4  /* 40058bec */
-    bl func_40057c38  /* 40058bf0 */
+    bl dir_alloc  /* 40058bf0 */
     movs r6, r0  /* 40058bf4 */
     bne .L40058c80  /* 40058bf8 */
     subs r7, r7, #1  /* 40058bfc */
@@ -150,28 +150,28 @@ func_400589f8:  /* 0x400589f8 */
     sub r1, r7, r7, lsl #1  /* 40058c08 */
     add r1, r0, r1, lsl #5  /* 40058c0c */
     mov r0, r4  /* 40058c10 */
-    bl func_400579d4  /* 40058c14 */
+    bl dir_sdi  /* 40058c14 */
     movs r6, r0  /* 40058c18 */
     bne .L40058c80  /* 40058c1c */
     add r0, r4, #0x40  /* 40058c20 */
-    bl func_40058094  /* 40058c24 */
+    bl sum_sfn  /* 40058c24 */
     mov r6, r0  /* 40058c28 */
 .L40058c2c:
     ldr r1, [r4, #0x38]  /* 40058c2c */
     mov r0, r5  /* 40058c30 */
-    bl func_40056d80  /* 40058c34 */
+    bl move_window  /* 40058c34 */
     movs r1, r0  /* 40058c38 */
     bne .L40058c7c  /* 40058c3c */
     ldr r1, [r4, #0x3c]  /* 40058c40 */
     mov r3, r6  /* 40058c44 */
     ldr r0, [r5, #0xc]  /* 40058c48 */
     uxtb r2, r7  /* 40058c4c */
-    bl func_40057ef0  /* 40058c50 */
+    bl put_lfn  /* 40058c50 */
     mov r0, #1  /* 40058c54 */
     mov r1, #0  /* 40058c58 */
     strb r0, [r5, #3]  /* 40058c5c */
     mov r0, r4  /* 40058c60 */
-    bl func_40057aec  /* 40058c64 */
+    bl dir_next  /* 40058c64 */
     movs r1, r0  /* 40058c68 */
     bne .L40058c7c  /* 40058c6c */
     subs r7, r7, #1  /* 40058c70 */
@@ -185,17 +185,17 @@ func_400589f8:  /* 0x400589f8 */
 .L40058c88:
     ldr r1, [r4, #0x38]  /* 40058c88 */
     mov r0, r5  /* 40058c8c */
-    bl func_40056d80  /* 40058c90 */
+    bl move_window  /* 40058c90 */
     movs r6, r0  /* 40058c94 */
     bne .L40058cd4  /* 40058c98 */
     ldr r0, [r4, #0x3c]  /* 40058c9c */
     mov r2, #0x20  /* 40058ca0 */
     mov r1, #0  /* 40058ca4 */
-    bl func_40056bac  /* 40058ca8 */
+    bl mem_set  /* 40058ca8 */
     ldr r0, [r4, #0x3c]  /* 40058cac */
     mov r2, #0xb  /* 40058cb0 */
     add r1, r4, #0x40  /* 40058cb4 */
-    bl func_40056b90  /* 40058cb8 */
+    bl mem_cpy  /* 40058cb8 */
     ldrb r0, [r4, #0x4b]  /* 40058cbc */
     mov r3, #1  /* 40058cc0 */
     ldr r2, [r4, #0x3c]  /* 40058cc4 */
@@ -208,4 +208,4 @@ func_400589f8:  /* 0x400589f8 */
     add sp, sp, #0x60  /* 40058cd8 */
     pop {r4, r5, r6, r7, sb, pc}  /* 40058cdc */
     .word 0x4008f01c  /* 40058ce0 */
-    .size func_400589f8, . - func_400589f8
+    .size dir_register, . - dir_register

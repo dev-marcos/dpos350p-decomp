@@ -2,16 +2,16 @@
     .syntax unified
     .arm
     .section .text.40042cf0, "ax", %progbits
-    .global func_40042cf0
-    .type func_40042cf0, %function
-func_40042cf0:  /* 0x40042cf0 */
+    .global delay_ms
+    .type delay_ms, %function
+delay_ms:  /* 0x40042cf0 */
 .Lstart_40042cf0:
     push {r4, lr}  /* 40042cf0 */
     mov r4, r0  /* 40042cf4 */
-    bl func_40042db8  /* 40042cf8 */
+    bl avs0_restart  /* 40042cf8 */
 .L40042cfc:
-    bl func_40042e10  /* 40042cfc */
+    bl avs0_read  /* 40042cfc */
     cmp r0, r4  /* 40042d00 */
     blo .L40042cfc  /* 40042d04 */
     pop {r4, pc}  /* 40042d08 */
-    .size func_40042cf0, . - func_40042cf0
+    .size delay_ms, . - delay_ms

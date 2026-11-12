@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.4005c31c, "ax", %progbits
-    .global func_4005c31c
-    .type func_4005c31c, %function
-func_4005c31c:  /* 0x4005c31c */
+    .global __aeabi_memcpy
+    .type __aeabi_memcpy, %function
+__aeabi_memcpy:  /* 0x4005c31c */
 .Lstart_4005c31c:
     tst r1, #3  /* 4005c31c */
     beq .L4005c338  /* 4005c320 */
@@ -15,5 +15,5 @@ func_4005c31c:  /* 0x4005c31c */
     bx lr  /* 4005c334 */
 .L4005c338:
     tst r0, #3  /* 4005c338 */
-    bne func_4005c38c  /* 4005c33c */
-    .size func_4005c31c, . - func_4005c31c
+    bne __memcpy_dst_unaligned  /* 4005c33c */
+    .size __aeabi_memcpy, . - __aeabi_memcpy

@@ -1,0 +1,22 @@
+/*
+ * usb_cdc_store_line_coding -- stock 0x4006CFB0 (52 bytes, ARM)
+ * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
+ * Copy 7 bytes of SET_LINE_CODING data to line_coding; clear the 'waiting for data' flag.
+ */
+#include "hw/usb.h"
+
+#define setup_req      ((unsigned char *)0x42E68C58u)   /* copy of the last setup packet */
+#define line_coding    ((unsigned char *)0x40095484u)   /* 7 bytes */
+#define line_coding_rx (*(u32 *)0x42E68CECu)
+void usb_mass_send_data(unsigned char *buf, int len);
+void usb_mass_send_csw(u32 status, u32 next);
+void usb_mass_set_sense(u32 lun, u32 key, u32 asc);
+
+void usb_cdc_store_line_coding(unsigned char *buf)
+{
+    line_coding_rx = 0;
+    *(u32 *)line_coding = *(u32 *)buf;
+    line_coding[4] = buf[4];
+    line_coding[5] = buf[5];
+    line_coding[6] = buf[6];
+}

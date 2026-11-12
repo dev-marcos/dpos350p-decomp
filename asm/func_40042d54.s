@@ -2,22 +2,22 @@
     .syntax unified
     .arm
     .section .text.40042d54, "ax", %progbits
-    .global func_40042d54
-    .type func_40042d54, %function
-func_40042d54:  /* 0x40042d54 */
+    .global avs_set_div
+    .type avs_set_div, %function
+avs_set_div:  /* 0x40042d54 */
 .Lstart_40042d54:
     push {r4, r5, r6, lr}  /* 40042d54 */
     mov r4, r0  /* 40042d58 */
     ldr r6, [pc, #0xf4]  /* 40042d5c */
     mov r5, r1  /* 40042d60 */
     mov r0, r6  /* 40042d64 */
-    bl func_40042b50  /* 40042d68 */
+    bl readl_d  /* 40042d68 */
     orr r1, r0, #128, #8  /* 40042d6c */
     mov r0, r6  /* 40042d70 */
-    bl func_40042b58  /* 40042d74 */
+    bl writel_d  /* 40042d74 */
     ldr r6, [pc, #0xdc]  /* 40042d78 */
     mov r0, r6  /* 40042d7c */
-    bl func_40042b50  /* 40042d80 */
+    bl readl_d  /* 40042d80 */
     cmp r4, #0  /* 40042d84 */
     bne .L40042d9c  /* 40042d88 */
     bfc r0, #0, #0x10  /* 40042d8c */
@@ -32,5 +32,5 @@ func_40042d54:  /* 0x40042d54 */
     mov r1, r0  /* 40042da8 */
     mov r0, r6  /* 40042dac */
     pop {r4, r5, r6, lr}  /* 40042db0 */
-    b func_40042b58  /* 40042db4 */
-    .size func_40042d54, . - func_40042d54
+    b writel_d  /* 40042db4 */
+    .size avs_set_div, . - avs_set_div

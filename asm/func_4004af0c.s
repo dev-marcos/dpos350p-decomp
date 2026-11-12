@@ -40,7 +40,7 @@ func_4004af0c:  /* 0x4004af0c */
     str r0, [r5, #0x120]  /* 4004af88 */
     bl func_4003e708  /* 4004af8c */
     mov r0, #0x64  /* 4004af90 */
-    bl func_40042cf0  /* 4004af94 */
+    bl delay_ms  /* 4004af94 */
     bl acquisition_dispatcher  /* 4004af98 */
     ldr r1, [r5, #0x60]  /* 4004af9c */
     ldr r0, [r5, #0xb34]  /* 4004afa0 */
@@ -65,7 +65,7 @@ func_4004af0c:  /* 0x4004af0c */
     str r0, [r5, #0x120]  /* 4004afe4 */
     bl func_4003e708  /* 4004afe8 */
     mov r0, #0x64  /* 4004afec */
-    bl func_40042cf0  /* 4004aff0 */
+    bl delay_ms  /* 4004aff0 */
     bl acquisition_dispatcher  /* 4004aff4 */
     ldr r1, [r5, #0x60]  /* 4004aff8 */
     ldr r0, [r5, #0xb34]  /* 4004affc */

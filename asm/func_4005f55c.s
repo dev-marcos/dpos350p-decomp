@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.4005f55c, "ax", %progbits
-    .global func_4005f55c
-    .type func_4005f55c, %function
-func_4005f55c:  /* 0x4005f55c */
+    .global ms5351_write_pll
+    .type ms5351_write_pll, %function
+ms5351_write_pll:  /* 0x4005f55c */
 .Lstart_4005f55c:
     push {r4, r5, r6, r7, lr}  /* 4005f55c */
     mov r5, r3  /* 4005f560 */
@@ -26,25 +26,25 @@ func_4005f55c:  /* 0x4005f55c */
     add r7, r3, r1  /* 4005f5a0 */
     lsl r1, r5, #0x10  /* 4005f5a4 */
     lsr r1, r1, #0x18  /* 4005f5a8 */
-    bl func_4005f164  /* 4005f5ac */
+    bl ms5351_write_reg  /* 4005f5ac */
     add r0, r4, #1  /* 4005f5b0 */
     uxtb r1, r5  /* 4005f5b4 */
     uxtb r0, r0  /* 4005f5b8 */
-    bl func_4005f164  /* 4005f5bc */
+    bl ms5351_write_reg  /* 4005f5bc */
     lsr r0, r7, #0x10  /* 4005f5c0 */
     and r1, r0, #3  /* 4005f5c4 */
     add r0, r4, #2  /* 4005f5c8 */
     uxtb r0, r0  /* 4005f5cc */
-    bl func_4005f164  /* 4005f5d0 */
+    bl ms5351_write_reg  /* 4005f5d0 */
     lsl r1, r7, #0x10  /* 4005f5d4 */
     add r0, r4, #3  /* 4005f5d8 */
     lsr r1, r1, #0x18  /* 4005f5dc */
     uxtb r0, r0  /* 4005f5e0 */
-    bl func_4005f164  /* 4005f5e4 */
+    bl ms5351_write_reg  /* 4005f5e4 */
     add r0, r4, #4  /* 4005f5e8 */
     uxtb r1, r7  /* 4005f5ec */
     uxtb r0, r0  /* 4005f5f0 */
-    bl func_4005f164  /* 4005f5f4 */
+    bl ms5351_write_reg  /* 4005f5f4 */
     lsr r0, r5, #0xc  /* 4005f5f8 */
     lsr r2, r6, #0x10  /* 4005f5fc */
     and r1, r0, #0xf0  /* 4005f600 */
@@ -52,16 +52,16 @@ func_4005f55c:  /* 0x4005f55c */
     add r0, r4, #5  /* 4005f608 */
     orr r1, r3, r1  /* 4005f60c */
     uxtb r0, r0  /* 4005f610 */
-    bl func_4005f164  /* 4005f614 */
+    bl ms5351_write_reg  /* 4005f614 */
     lsl r1, r6, #0x10  /* 4005f618 */
     add r0, r4, #6  /* 4005f61c */
     lsr r1, r1, #0x18  /* 4005f620 */
     uxtb r0, r0  /* 4005f624 */
-    bl func_4005f164  /* 4005f628 */
+    bl ms5351_write_reg  /* 4005f628 */
     uxtb r1, r6  /* 4005f62c */
     add r0, r4, #7  /* 4005f630 */
     add sp, sp, #4  /* 4005f634 */
     uxtb r0, r0  /* 4005f638 */
     pop {r4, r5, r6, r7, lr}  /* 4005f63c */
-    b func_4005f164  /* 4005f640 */
-    .size func_4005f55c, . - func_4005f55c
+    b ms5351_write_reg  /* 4005f640 */
+    .size ms5351_write_pll, . - ms5351_write_pll

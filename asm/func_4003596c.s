@@ -11,7 +11,7 @@ func_4003596c:  /* 0x4003596c */
     sub sp, sp, #148, #30  /* 40035974 */
     ldr r1, [pc, #0xc70]  /* 40035978 */
     mov r0, sp  /* 4003597c */
-    bl func_40059b8c  /* 40035980 */
+    bl f_open  /* 40035980 */
     cmp r0, #0  /* 40035984 */
     beq .L40035998  /* 40035988 */
     bl func_400357ec  /* 4003598c */
@@ -22,16 +22,16 @@ func_4003596c:  /* 0x4003596c */
     mov r3, #0  /* 4003599c */
     mov r0, sp  /* 400359a0 */
     ldr r4, [pc, #0xdbc]  /* 400359a4 */
-    bl func_4005a6cc  /* 400359a8 */
+    bl f_lseek  /* 400359a8 */
     mov r3, #0  /* 400359ac */
     mov r2, #2  /* 400359b0 */
     add r1, r4, #0xfa0  /* 400359b4 */
     mov r0, sp  /* 400359b8 */
-    bl func_4005a1d4  /* 400359bc */
+    bl f_write  /* 400359bc */
     mov r2, #2  /* 400359c0 */
     mov r3, #0  /* 400359c4 */
     mov r0, sp  /* 400359c8 */
-    bl func_4005a6cc  /* 400359cc */
+    bl f_lseek  /* 400359cc */
     movw r0, #0x756  /* 400359d0 */
     mov r3, #0  /* 400359d4 */
     add ip, r0, #0x850  /* 400359d8 */
@@ -39,9 +39,9 @@ func_4003596c:  /* 0x4003596c */
     mov r0, sp  /* 400359e0 */
     lsl r2, r1, #1  /* 400359e4 */
     add r1, r4, ip  /* 400359e8 */
-    bl func_4005a1d4  /* 400359ec */
+    bl f_write  /* 400359ec */
     mov r0, sp  /* 400359f0 */
-    bl func_4005a694  /* 400359f4 */
+    bl f_close  /* 400359f4 */
     add sp, sp, #148, #30  /* 400359f8 */
     pop {r4, pc}  /* 400359fc */
     .size func_4003596c, . - func_4003596c

@@ -87,7 +87,7 @@ func_40060ba4:  /* 0x40060ba4 */
     vldr s17, [r7]  /* 40060cbc */
     vmul.f32 s0, s17, s16  /* 40060cc0 */
     vmov r0, s0  /* 40060cc4 */
-    blx __aeabi_f2iz_like  /* 40060cc8 */
+    blx __aeabi_f2lz  /* 40060cc8 */
     mov r8, r0  /* 40060ccc */
     ldr r0, [sp]  /* 40060cd0 */
     mov sb, r1  /* 40060cd4 */
@@ -98,7 +98,7 @@ func_40060ba4:  /* 0x40060ba4 */
     vmul.f32 s19, s18, s19  /* 40060ce8 */
     vmul.f32 s19, s19, s16  /* 40060cec */
     vmov r0, s19  /* 40060cf0 */
-    blx __aeabi_f2iz_like  /* 40060cf4 */
+    blx __aeabi_f2lz  /* 40060cf4 */
     cmp r1, sb  /* 40060cf8 */
     bgt .L40060d40  /* 40060cfc */
     blt .L40060d0c  /* 40060d00 */

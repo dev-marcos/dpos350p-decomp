@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40056a80, "ax", %progbits
-    .global func_40056a80
-    .type func_40056a80, %function
-func_40056a80:  /* 0x40056a80 */
+    .global ld_dword
+    .type ld_dword, %function
+ld_dword:  /* 0x40056a80 */
 .Lstart_40056a80:
     ldrb r1, [r0, #3]  /* 40056a80 */
     ldrb r2, [r0, #2]  /* 40056a84 */
@@ -14,4 +14,4 @@ func_40056a80:  /* 0x40056a80 */
     orr r1, r1, r2, lsl #8  /* 40056a94 */
     orr r0, r0, r1, lsl #8  /* 40056a98 */
     bx lr  /* 40056a9c */
-    .size func_40056a80, . - func_40056a80
+    .size ld_dword, . - ld_dword

@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.400490f4, "ax", %progbits
-    .global func_400490f4
-    .type func_400490f4, %function
-func_400490f4:  /* 0x400490f4 */
+    .global fpga_bus_output
+    .type fpga_bus_output, %function
+fpga_bus_output:  /* 0x400490f4 */
 .Lstart_400490f4:
     mov r0, #1  /* 400490f4 */
     ldr r1, [pc, #0x238]  /* 400490f8 */
@@ -13,4 +13,4 @@ func_400490f4:  /* 0x400490f4 */
     ldr r3, [pc, #0x230]  /* 40049104 */
     str r2, [r3]  /* 40049108 */
     bx lr  /* 4004910c */
-    .size func_400490f4, . - func_400490f4
+    .size fpga_bus_output, . - fpga_bus_output

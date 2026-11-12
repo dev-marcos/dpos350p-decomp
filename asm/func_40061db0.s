@@ -47,7 +47,7 @@ func_40061db0:  /* 0x40061db0 */
     vldr d0, [pc, #0x39c]  /* 40061e40 */
     vmul.f64 d15, d13, d0  /* 40061e44 */
     vdiv.f64 d0, d15, d8  /* 40061e48 */
-    blx func_4005dad0  /* 40061e4c */
+    blx log10  /* 40061e4c */
     vmov.f64 d3, #2.000000e+01  /* 40061e50 */
     vmul.f64 d2, d0, d3  /* 40061e54 */
     vldr s0, [r4, #0xd0]  /* 40061e58 */
@@ -61,7 +61,7 @@ func_40061db0:  /* 0x40061db0 */
     vmul.f64 d2, d4, d2  /* 40061e78 */
     vdiv.f64 d0, d2, d1  /* 40061e7c */
     vmov r0, r1, d0  /* 40061e80 */
-    blx __aeabi_d2iz_like  /* 40061e84 */
+    blx __aeabi_d2lz  /* 40061e84 */
     mvn r2, #0  /* 40061e88 */
     cmp r1, r2  /* 40061e8c */
     bgt .L40061ea8  /* 40061e90 */

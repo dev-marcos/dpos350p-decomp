@@ -51,7 +51,7 @@ func_40056974:  /* 0x40056974 */
     add r0, r4, lr  /* 40056a1c */
     bl func_40034134  /* 40056a20 */
     mov r0, #0x2bc  /* 40056a24 */
-    bl func_40042cf0  /* 40056a28 */
+    bl delay_ms  /* 40056a28 */
     add sp, sp, #4  /* 40056a2c */
     mov r0, #0x2a  /* 40056a30 */
     pop {r4, r5, r6, r7, lr}  /* 40056a34 */

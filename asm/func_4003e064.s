@@ -31,13 +31,13 @@ func_4003e064:  /* 0x4003e064 */
     mov r0, r7  /* 4003e0bc */
     bl func_4003e004  /* 4003e0c0 */
     ldr r0, [pc, #0x5f8]  /* 4003e0c4 */
-    bl func_40042914  /* 4003e0c8 */
+    bl ccu_gate_on  /* 4003e0c8 */
     mov r1, #128, #8  /* 4003e0cc */
     orr r0, r7, #0x108  /* 4003e0d0 */
     bl func_4003e004  /* 4003e0d4 */
     mov r0, #1  /* 4003e0d8 */
     ldr r7, [pc, #0x5e4]  /* 4003e0dc */
-    bl func_40042cf0  /* 4003e0e0 */
+    bl delay_ms  /* 4003e0e0 */
     mov r0, r7  /* 4003e0e4 */
     bl func_4003dffc  /* 4003e0e8 */
     bic r1, r0, #1  /* 4003e0ec */

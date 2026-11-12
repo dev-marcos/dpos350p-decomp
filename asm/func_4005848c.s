@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.4005848c, "ax", %progbits
-    .global func_4005848c
-    .type func_4005848c, %function
-func_4005848c:  /* 0x4005848c */
+    .global store_xdir
+    .type store_xdir, %function
+store_xdir:  /* 0x4005848c */
 .Lstart_4005848c:
     push {r4, r5, r6, r7, lr}  /* 4005848c */
     mov r4, r0  /* 40058490 */
@@ -12,21 +12,21 @@ func_4005848c:  /* 0x4005848c */
     ldr r0, [r4]  /* 40058498 */
     ldr r5, [r0, #0x10]  /* 4005849c */
     mov r0, r5  /* 400584a0 */
-    bl func_400580c4  /* 400584a4 */
+    bl xdir_sum  /* 400584a4 */
     mov r1, r0  /* 400584a8 */
     add r0, r5, #2  /* 400584ac */
-    bl func_40056b04  /* 400584b0 */
+    bl st_word  /* 400584b0 */
     ldrb r0, [r5, #1]  /* 400584b4 */
     ldr r1, [r4, #0x4c]  /* 400584b8 */
     add r7, r0, #1  /* 400584bc */
     mov r0, r4  /* 400584c0 */
-    bl func_400579d4  /* 400584c4 */
+    bl dir_sdi  /* 400584c4 */
     b .L40058500  /* 400584c8 */
 .L400584cc:
     ldr r0, [r4, #0x3c]  /* 400584cc */
     mov r2, #0x20  /* 400584d0 */
     mov r1, r5  /* 400584d4 */
-    bl func_40056b90  /* 400584d8 */
+    bl mem_cpy  /* 400584d8 */
     ldr r1, [r4]  /* 400584dc */
     mov r0, #1  /* 400584e0 */
     subs r7, r7, #1  /* 400584e4 */
@@ -34,7 +34,7 @@ func_4005848c:  /* 0x4005848c */
     beq .L40058530  /* 400584ec */
     mov r1, #0  /* 400584f0 */
     mov r0, r4  /* 400584f4 */
-    bl func_40057aec  /* 400584f8 */
+    bl dir_next  /* 400584f8 */
     add r5, r5, #0x20  /* 400584fc */
 .L40058500:
     mov r6, r0  /* 40058500 */
@@ -42,7 +42,7 @@ func_4005848c:  /* 0x4005848c */
     bne .L40058520  /* 40058508 */
     ldr r1, [r4, #0x38]  /* 4005850c */
     ldr r0, [r4]  /* 40058510 */
-    bl func_40056d80  /* 40058514 */
+    bl move_window  /* 40058514 */
     movs r6, r0  /* 40058518 */
     beq .L400584cc  /* 4005851c */
 .L40058520:
@@ -54,4 +54,4 @@ func_4005848c:  /* 0x4005848c */
     mov r0, r6  /* 40058530 */
     add sp, sp, #4  /* 40058534 */
     pop {r4, r5, r6, r7, pc}  /* 40058538 */
-    .size func_4005848c, . - func_4005848c
+    .size store_xdir, . - store_xdir

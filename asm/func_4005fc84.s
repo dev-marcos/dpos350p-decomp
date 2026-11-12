@@ -70,7 +70,7 @@ func_4005fc84:  /* 0x4005fc84 */
     cmp r0, #0  /* 4005fd64 */
     beq .L4005fe80  /* 4005fd68 */
     vmov r0, r1, d8  /* 4005fd6c */
-    blx __aeabi_d2iz_like  /* 4005fd70 */
+    blx __aeabi_d2lz  /* 4005fd70 */
     cmp r1, #0  /* 4005fd74 */
     blt .L4005fe30  /* 4005fd78 */
     bgt .L4005fd88  /* 4005fd7c */

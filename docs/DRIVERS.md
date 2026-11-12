@@ -81,5 +81,5 @@ Register meanings are DERIVED from the V3s CCU map. The values are STATIC-CONFIR
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).
 - `FPGA_Start` and the FPGA register helpers built on the bus.
-- The USB device stack (about 69 small functions around 0x4006C264).
+- (USB stack: done, see USB.md.)
 - The display engine and TCON code (DE2 0x01000000, functions of up to 5 KB).

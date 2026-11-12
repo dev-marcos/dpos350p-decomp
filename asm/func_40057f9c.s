@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40057f9c, "ax", %progbits
-    .global func_40057f9c
-    .type func_40057f9c, %function
-func_40057f9c:  /* 0x40057f9c */
+    .global gen_numname
+    .type gen_numname, %function
+gen_numname:  /* 0x40057f9c */
 .Lstart_40057f9c:
     push {r4, r5, r6, r7, lr}  /* 40057f9c */
     mov r6, r2  /* 40057fa0 */
@@ -12,7 +12,7 @@ func_40057f9c:  /* 0x40057f9c */
     mov r4, r0  /* 40057fa8 */
     mov r5, r3  /* 40057fac */
     mov r2, #0xb  /* 40057fb0 */
-    bl func_40056b90  /* 40057fb4 */
+    bl mem_cpy  /* 40057fb4 */
     cmp r5, #6  /* 40057fb8 */
     blo .L40057ffc  /* 40057fbc */
     mov r0, #0x21  /* 40057fc0 */
@@ -58,7 +58,7 @@ func_40057f9c:  /* 0x40057f9c */
     ldrb r0, [r4, r7]  /* 40058044 */
     cmp r0, #0x20  /* 40058048 */
     beq .L40058068  /* 4005804c */
-    bl func_40056c00  /* 40058050 */
+    bl dbc_1st  /* 40058050 */
     cmp r0, #0  /* 40058054 */
     beq .L40058038  /* 40058058 */
     add r0, r7, #1  /* 4005805c */
@@ -76,4 +76,4 @@ func_40057f9c:  /* 0x40057f9c */
     bls .L40058068  /* 40058088 */
     add sp, sp, #0xc  /* 4005808c */
     pop {r4, r5, r6, r7, pc}  /* 40058090 */
-    .size func_40057f9c, . - func_40057f9c
+    .size gen_numname, . - gen_numname

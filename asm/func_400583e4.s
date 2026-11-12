@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.400583e4, "ax", %progbits
-    .global func_400583e4
-    .type func_400583e4, %function
-func_400583e4:  /* 0x400583e4 */
+    .global init_alloc_info
+    .type init_alloc_info, %function
+init_alloc_info:  /* 0x400583e4 */
 .Lstart_400583e4:
     push {r4, r5, lr}  /* 400583e4 */
     mov r5, r0  /* 400583e8 */
@@ -12,11 +12,11 @@ func_400583e4:  /* 0x400583e4 */
     mov r4, r1  /* 400583f0 */
     ldr r0, [r5, #0x10]  /* 400583f4 */
     add r0, r0, #0x34  /* 400583f8 */
-    bl func_40056a80  /* 400583fc */
+    bl ld_dword  /* 400583fc */
     str r0, [r4, #8]  /* 40058400 */
     ldr r0, [r5, #0x10]  /* 40058404 */
     add r0, r0, #0x38  /* 40058408 */
-    bl func_40056aa0  /* 4005840c */
+    bl ld_qword  /* 4005840c */
     strd r0, r1, [r4, #0x10]  /* 40058410 */
     mov r3, #0  /* 40058414 */
     ldr r0, [r5, #0x10]  /* 40058418 */
@@ -26,4 +26,4 @@ func_400583e4:  /* 0x400583e4 */
     strb r2, [r4, #7]  /* 40058428 */
     add sp, sp, #4  /* 4005842c */
     pop {r4, r5, pc}  /* 40058430 */
-    .size func_400583e4, . - func_400583e4
+    .size init_alloc_info, . - init_alloc_info

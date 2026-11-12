@@ -2,31 +2,31 @@
     .syntax unified
     .arm
     .section .text.4005f060, "ax", %progbits
-    .global func_4005f060
-    .type func_4005f060, %function
-func_4005f060:  /* 0x4005f060 */
+    .global ms5351_i2c_stop
+    .type ms5351_i2c_stop, %function
+ms5351_i2c_stop:  /* 0x4005f060 */
 .Lstart_4005f060:
     push {r4, lr}  /* 4005f060 */
     mov r1, #0x14  /* 4005f064 */
     ldr r4, [pc, #0x4c8]  /* 4005f068 */
     mov r0, r4  /* 4005f06c */
-    bl func_40063288  /* 4005f070 */
+    bl pio_clr_bit  /* 4005f070 */
     mov r0, #1  /* 4005f074 */
-    bl func_40042d0c  /* 4005f078 */
+    bl delay_us  /* 4005f078 */
     mov r1, #0x15  /* 4005f07c */
     mov r0, r4  /* 4005f080 */
-    bl func_40063288  /* 4005f084 */
+    bl pio_clr_bit  /* 4005f084 */
     mov r0, #1  /* 4005f088 */
-    bl func_40042d0c  /* 4005f08c */
+    bl delay_us  /* 4005f08c */
     mov r1, #0x14  /* 4005f090 */
     mov r0, r4  /* 4005f094 */
-    bl func_40063274  /* 4005f098 */
+    bl pio_set_bit  /* 4005f098 */
     mov r0, #1  /* 4005f09c */
-    bl func_40042d0c  /* 4005f0a0 */
+    bl delay_us  /* 4005f0a0 */
     mov r1, #0x15  /* 4005f0a4 */
     mov r0, r4  /* 4005f0a8 */
-    bl func_40063274  /* 4005f0ac */
+    bl pio_set_bit  /* 4005f0ac */
     pop {r4, lr}  /* 4005f0b0 */
     mov r0, #1  /* 4005f0b4 */
-    b func_40042d0c  /* 4005f0b8 */
-    .size func_4005f060, . - func_4005f060
+    b delay_us  /* 4005f0b8 */
+    .size ms5351_i2c_stop, . - ms5351_i2c_stop

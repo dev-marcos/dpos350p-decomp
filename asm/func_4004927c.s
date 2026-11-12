@@ -13,24 +13,24 @@ fpga_selector_command_write:  /* 0x4004927c */
     ldrb r1, [r0]  /* 4004928c */
     cmp r1, #0  /* 40049290 */
     bne .L4004929c  /* 40049294 */
-    bl func_400490f4  /* 40049298 */
+    bl fpga_bus_output  /* 40049298 */
 .L4004929c:
     ldr r5, [pc, #0xa0]  /* 4004929c */
     mov r1, #2  /* 400492a0 */
     mov r0, r5  /* 400492a4 */
-    bl func_40063274  /* 400492a8 */
+    bl pio_set_bit  /* 400492a8 */
     mov r1, #3  /* 400492ac */
     mov r0, r5  /* 400492b0 */
-    bl func_40063274  /* 400492b4 */
+    bl pio_set_bit  /* 400492b4 */
     ldr r0, [r5, #0x10]  /* 400492b8 */
     mov r1, #0  /* 400492bc */
     bfi r0, r4, #8, #8  /* 400492c0 */
     str r0, [r5, #0x10]  /* 400492c4 */
     mov r0, r5  /* 400492c8 */
-    bl func_40063288  /* 400492cc */
+    bl pio_clr_bit  /* 400492cc */
     mov r0, r5  /* 400492d0 */
     add sp, sp, #4  /* 400492d4 */
     pop {r4, r5, lr}  /* 400492d8 */
     mov r1, #0  /* 400492dc */
-    b func_40063274  /* 400492e0 */
+    b pio_set_bit  /* 400492e0 */
     .size fpga_selector_command_write, . - fpga_selector_command_write

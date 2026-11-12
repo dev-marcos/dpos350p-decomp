@@ -19,24 +19,24 @@ sys_clock_init:  /* 0x4004282c */
     asr r0, r3, #0x15  /* 40042854 */
     add r0, r0, r0, lsr #31  /* 40042858 */
     mul r0, lr, r0  /* 4004285c */
-    bl func_400427b0  /* 40042860 */
+    bl ccu_set_cpu_pll  /* 40042860 */
     ldr r1, [pc, #0x9c]  /* 40042864 */
     ldr r0, [pc, #0x9c]  /* 40042868 */
-    bl func_400427a8  /* 4004286c */
+    bl writel_e  /* 4004286c */
     ldr r1, [pc, #0x98]  /* 40042870 */
     mov r0, r4  /* 40042874 */
-    bl func_400427a8  /* 40042878 */
+    bl writel_e  /* 40042878 */
 .L4004287c:
     mov r0, r4  /* 4004287c */
-    bl func_400427a0  /* 40042880 */
+    bl readl_e  /* 40042880 */
     tst r0, #64, #10  /* 40042884 */
     beq .L4004287c  /* 40042888 */
     mov r1, #0x3180  /* 4004288c */
     add r0, r4, #0x2c  /* 40042890 */
-    bl func_400427a8  /* 40042894 */
+    bl writel_e  /* 40042894 */
     add r0, r4, #0x134  /* 40042898 */
     mov r1, #3  /* 4004289c */
     pop {r4, lr}  /* 400428a0 */
     orr r1, r1, #0x81000000  /* 400428a4 */
-    b func_400427a8  /* 400428a8 */
+    b writel_e  /* 400428a8 */
     .size sys_clock_init, . - sys_clock_init

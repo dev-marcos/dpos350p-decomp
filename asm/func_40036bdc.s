@@ -11,7 +11,7 @@ func_40036bdc:  /* 0x40036bdc */
     sub sp, sp, #148, #30  /* 40036be4 */
     ldr r1, [pc, #0xc04]  /* 40036be8 */
     mov r0, sp  /* 40036bec */
-    bl func_40059b8c  /* 40036bf0 */
+    bl f_open  /* 40036bf0 */
     cmp r0, #0  /* 40036bf4 */
     beq .L40036c08  /* 40036bf8 */
     bl func_40036958  /* 40036bfc */
@@ -22,7 +22,7 @@ func_40036bdc:  /* 0x40036bdc */
     mov r3, #0  /* 40036c0c */
     mov r0, sp  /* 40036c10 */
     movw r4, #0xd744  /* 40036c14 */
-    bl func_4005a6cc  /* 40036c18 */
+    bl f_lseek  /* 40036c18 */
     ldr r0, [pc, #0x3f8]  /* 40036c1c */
     movw r1, #0x758  /* 40036c20 */
     ldr ip, [pc, #0xcb0]  /* 40036c24 */
@@ -32,9 +32,9 @@ func_40036bdc:  /* 0x40036bdc */
     ldr lr, [r0, ip]  /* 40036c34 */
     mov r0, sp  /* 40036c38 */
     mul r2, lr, r2  /* 40036c3c */
-    bl func_40059f7c  /* 40036c40 */
+    bl f_read  /* 40036c40 */
     mov r0, sp  /* 40036c44 */
-    bl func_4005a694  /* 40036c48 */
+    bl f_close  /* 40036c48 */
     add sp, sp, #148, #30  /* 40036c4c */
     pop {r4, pc}  /* 40036c50 */
     .size func_40036bdc, . - func_40036bdc

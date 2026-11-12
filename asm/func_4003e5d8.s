@@ -27,8 +27,8 @@ func_4003e5d8:  /* 0x4003e5d8 */
     ldr r0, [r4]  /* 4003e620 */
     bl func_4003e2e0  /* 4003e624 */
     mov r0, #1  /* 4003e628 */
-    bl func_40042cf0  /* 4003e62c */
+    bl delay_ms  /* 4003e62c */
     ldr r0, [r4]  /* 4003e630 */
     pop {r4, lr}  /* 4003e634 */
-    .inst 0xeaffff30  /* 4003e638 */
+    b func_4003e300  /* 4003e638 */
     .size func_4003e5d8, . - func_4003e5d8

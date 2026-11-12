@@ -23,7 +23,7 @@ func_400498e4:  /* 0x400498e4 */
     mov r0, r5  /* 40049918 */
     str lr, [r1]  /* 4004991c */
     mov r1, sp  /* 40049920 */
-    bl gt911_16_bit_address_read_wrapper  /* 40049924 */
+    bl gt911_read16  /* 40049924 */
     ldrb r2, [sp]  /* 40049928 */
     mov r4, #0  /* 4004992c */
     strb r4, [sp]  /* 40049930 */
@@ -32,7 +32,7 @@ func_400498e4:  /* 0x400498e4 */
     mov r2, #1  /* 4004993c */
     mov r1, sp  /* 40049940 */
     mov r0, r5  /* 40049944 */
-    bl gt911_16_bit_address_write_wrapper  /* 40049948 */
+    bl gt911_write16  /* 40049948 */
     mov r1, #0  /* 4004994c */
     mov r2, #0  /* 40049950 */
 .L40049954:
@@ -56,11 +56,11 @@ func_400498e4:  /* 0x400498e4 */
     mov r2, #4  /* 40049994 */
     add r1, sp, #4  /* 40049998 */
     add r0, r5, #2  /* 4004999c */
-    bl gt911_16_bit_address_read_wrapper  /* 400499a0 */
+    bl gt911_read16  /* 400499a0 */
     mov r2, #1  /* 400499a4 */
     mov r1, sp  /* 400499a8 */
     mov r0, r5  /* 400499ac */
-    bl gt911_16_bit_address_write_wrapper  /* 400499b0 */
+    bl gt911_write16  /* 400499b0 */
     add r0, sp, #4  /* 400499b4 */
     ldrb ip, [sp, #4]  /* 400499b8 */
     ldrb r1, [r0, #1]  /* 400499bc */

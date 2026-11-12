@@ -11,7 +11,7 @@ frexp:  /* 0x40069f54 */
     vmov r0, r1, d0  /* 40069f56 */
     push {r4, lr}  /* 40069f5a */
     mov r4, r2  /* 40069f5c */
-    bl func_40069f6c  /* 40069f5e */
+    bl __frexp_core  /* 40069f5e */
     vmov d0, r0, r1  /* 40069f62 */
     str r2, [r4]  /* 40069f66 */
     pop {r4, pc}  /* 40069f68 */

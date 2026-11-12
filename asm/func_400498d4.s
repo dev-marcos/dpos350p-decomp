@@ -2,12 +2,12 @@
     .syntax unified
     .arm
     .section .text.400498d4, "ax", %progbits
-    .global gt911_16_bit_address_read_wrapper
-    .type gt911_16_bit_address_read_wrapper, %function
-gt911_16_bit_address_read_wrapper:  /* 0x400498d4 */
+    .global gt911_read16
+    .type gt911_read16, %function
+gt911_read16:  /* 0x400498d4 */
 .Lstart_400498d4:
     mov r3, r2  /* 400498d4 */
     mov r2, r1  /* 400498d8 */
     mov r1, #2  /* 400498dc */
-    b gt911_register_buffer_read  /* 400498e0 */
-    .size gt911_16_bit_address_read_wrapper, . - gt911_16_bit_address_read_wrapper
+    b gt911_read_regs  /* 400498e0 */
+    .size gt911_read16, . - gt911_read16

@@ -11,7 +11,7 @@ func_40067cfc:  /* 0x40067cfc */
     bl func_4006763c  /* 40067d04 */
     mov r1, r4  /* 40067d08 */
     add r0, r0, #0xc  /* 40067d0c */
-    bl func_400675a0  /* 40067d10 */
+    bl writel_a  /* 40067d10 */
     mov r0, #0  /* 40067d14 */
     pop {r4, pc}  /* 40067d18 */
     .size func_40067cfc, . - func_40067cfc

@@ -8,5 +8,5 @@ func_4003f9f8:  /* 0x4003f9f8 */
 .Lstart_4003f9f8:
     mov r1, #1  /* 4003f9f8 */
     ldr r0, [pc, #0xef4]  /* 4003f9fc */
-    b func_40063274  /* 4003fa00 */
+    b pio_set_bit  /* 4003fa00 */
     .size func_4003f9f8, . - func_4003f9f8

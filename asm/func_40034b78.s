@@ -13,7 +13,7 @@ func_40034b78:  /* 0x40034b78 */
     mov r2, #0xd  /* 40034b88 */
     ldr r1, [pc, #0x9a4]  /* 40034b8c */
     add r0, r5, r0  /* 40034b90 */
-    bl __aeabi_memcpy  /* 40034b94 */
+    bl __aeabi_memcpy4  /* 40034b94 */
     movw r0, #0x88cc  /* 40034b98 */
     mov r3, #0x2f  /* 40034b9c */
     cmp r4, #0xa  /* 40034ba0 */

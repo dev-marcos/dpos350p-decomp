@@ -19,7 +19,7 @@ func_4004a3c0:  /* 0x4004a3c0 */
     add r5, ip, r1, lsr #1  /* 4004a3e8 */
     bne .L4004a440  /* 4004a3ec */
     mov r0, #0  /* 4004a3f0 */
-    bl func_40042c40  /* 4004a3f4 */
+    bl timer_stop  /* 4004a3f4 */
     bl func_400342cc  /* 4004a3f8 */
     movw r1, #0x195  /* 4004a3fc */
     ldr r0, [pc, #0xdc]  /* 4004a400 */
@@ -34,7 +34,7 @@ func_4004a3c0:  /* 0x4004a3c0 */
     add r0, r4, r5  /* 4004a424 */
     bl func_40034134  /* 4004a428 */
     movw r0, #0xbb8  /* 4004a42c */
-    bl func_40042cf0  /* 4004a430 */
+    bl delay_ms  /* 4004a430 */
     add sp, sp, #4  /* 4004a434 */
     pop {r4, r5, lr}  /* 4004a438 */
     b func_4004a1b4  /* 4004a43c */

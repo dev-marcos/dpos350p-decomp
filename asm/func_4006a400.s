@@ -2,10 +2,10 @@
     .syntax unified
     .thumb
     .section .text.4006a400, "ax", %progbits
-    .global func_4006a400
-    .type func_4006a400, %function
+    .global __exp_kernel
+    .type __exp_kernel, %function
     .thumb_func
-func_4006a400:  /* 0x4006a400 */
+__exp_kernel:  /* 0x4006a400 */
 .Lstart_4006a400:
     vmla.f64 d2, d0, d3  /* 4006a400 */
     vcvt.s32.f64 s4, d2  /* 4006a404 */
@@ -72,4 +72,4 @@ loc_4006a47e:
     itt lt  /* 4006a4c8 */
     .inst.w 0xee310b41  /* 4006a4ca */
     .inst.n 0xe7d8  /* 4006a4ce */
-    .size func_4006a400, . - func_4006a400
+    .size __exp_kernel, . - __exp_kernel

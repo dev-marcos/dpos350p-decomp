@@ -8,8 +8,8 @@ func_40049a5c:  /* 0x40049a5c */
 .Lstart_40049a5c:
     stmdb sp!, {lr}  /* 40049a5c */
     sub sp, sp, #4  /* 40049a60 */
-    bl func_40049788  /* 40049a64 */
+    bl gt911_i2c_pins_init  /* 40049a64 */
     add sp, sp, #4  /* 40049a68 */
     ldm sp!, {lr}  /* 40049a6c */
-    b func_400497d4  /* 40049a70 */
+    b gt911_ctrl_pins_out  /* 40049a70 */
     .size func_40049a5c, . - func_40049a5c

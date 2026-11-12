@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.400592b8, "ax", %progbits
-    .global func_400592b8
-    .type func_400592b8, %function
-func_400592b8:  /* 0x400592b8 */
+    .global follow_path
+    .type follow_path, %function
+follow_path:  /* 0x400592b8 */
 .Lstart_400592b8:
     push {r1, r4, r5, lr}  /* 400592b8 */
     mov r4, r0  /* 400592bc */
@@ -32,7 +32,7 @@ func_400592b8:  /* 0x400592b8 */
     mov r1, #0  /* 4005930c */
     strb r3, [r4, #0x4b]  /* 40059310 */
     mov r0, r4  /* 40059314 */
-    bl func_400579d4  /* 40059318 */
+    bl dir_sdi  /* 40059318 */
     add sp, sp, #4  /* 4005931c */
     pop {r4, r5, pc}  /* 40059320 */
 .L40059324:
@@ -47,15 +47,15 @@ func_400592b8:  /* 0x400592b8 */
     str r0, [r4, #0x28]  /* 40059344 */
     mov r0, r5  /* 40059348 */
     str r2, [r4, #0x24]  /* 4005934c */
-    bl func_400583e4  /* 40059350 */
+    bl init_alloc_info  /* 40059350 */
 .L40059354:
     mov r1, sp  /* 40059354 */
     mov r0, r4  /* 40059358 */
-    bl func_40058f8c  /* 4005935c */
+    bl create_name  /* 4005935c */
     movs r1, r0  /* 40059360 */
     bne .L400593a8  /* 40059364 */
     mov r0, r4  /* 40059368 */
-    bl func_400587c8  /* 4005936c */
+    bl dir_find  /* 4005936c */
     movs r2, r0  /* 40059370 */
     ldrb r1, [r4, #0x4b]  /* 40059374 */
     beq .L40059390  /* 40059378 */
@@ -84,7 +84,7 @@ func_400592b8:  /* 0x400592b8 */
     lsl r2, r1, #0x17  /* 400593c4 */
     add r2, r5, r2, lsr #23  /* 400593c8 */
     add r1, r2, #0x38  /* 400593cc */
-    bl func_40057cdc  /* 400593d0 */
+    bl ld_clust  /* 400593d0 */
     str r0, [r4, #8]  /* 400593d4 */
     b .L40059354  /* 400593d8 */
-    .size func_400592b8, . - func_400592b8
+    .size follow_path, . - follow_path

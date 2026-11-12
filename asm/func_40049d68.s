@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40049d68, "ax", %progbits
-    .global func_40049d68
-    .type func_40049d68, %function
-func_40049d68:  /* 0x40049d68 */
+    .global disk_ioctl
+    .type disk_ioctl, %function
+disk_ioctl:  /* 0x40049d68 */
 .Lstart_40049d68:
     cmp r0, #0  /* 40049d68 */
     bne .L40049dd0  /* 40049d6c */
@@ -40,4 +40,4 @@ func_40049d68:  /* 0x40049d68 */
 .L40049dd0:
     mov r0, #4  /* 40049dd0 */
     bx lr  /* 40049dd4 */
-    .size func_40049d68, . - func_40049d68
+    .size disk_ioctl, . - disk_ioctl

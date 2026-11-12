@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40058118, "ax", %progbits
-    .global func_40058118
-    .type func_40058118, %function
-func_40058118:  /* 0x40058118 */
+    .global xname_sum
+    .type xname_sum, %function
+xname_sum:  /* 0x40058118 */
 .Lstart_40058118:
     push {r4, r5, lr}  /* 40058118 */
     mov r4, r0  /* 4005811c */
@@ -12,7 +12,7 @@ func_40058118:  /* 0x40058118 */
     mov r5, #0  /* 40058124 */
     b .L40058158  /* 40058128 */
 .L4005812c:
-    bl func_40069e38  /* 4005812c */
+    bl ff_wtoupper  /* 4005812c */
     asr r2, r5, #1  /* 40058130 */
     and r3, r0, #0xff  /* 40058134 */
     add r1, r2, r5, lsl #15  /* 40058138 */
@@ -30,4 +30,4 @@ func_40058118:  /* 0x40058118 */
     mov r0, r5  /* 40058164 */
     add sp, sp, #4  /* 40058168 */
     pop {r4, r5, pc}  /* 4005816c */
-    .size func_40058118, . - func_40058118
+    .size xname_sum, . - xname_sum

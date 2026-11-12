@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.4005b130, "ax", %progbits
-    .global func_4005b130
-    .type func_4005b130, %function
-func_4005b130:  /* 0x4005b130 */
+    .global f_chmod
+    .type f_chmod, %function
+f_chmod:  /* 0x4005b130 */
 .Lstart_4005b130:
     push {r0, r4, r5, lr}  /* 4005b130 */
     mov r4, r1  /* 4005b134 */
@@ -13,14 +13,14 @@ func_4005b130:  /* 0x4005b130 */
     mov r2, #2  /* 4005b140 */
     mov r1, sp  /* 4005b144 */
     add r0, sp, #0x58  /* 4005b148 */
-    bl func_40059520  /* 4005b14c */
+    bl find_volume  /* 4005b14c */
     movs r1, r0  /* 4005b150 */
     bne .L4005b1f0  /* 4005b154 */
     ldr r0, [sp]  /* 4005b158 */
     ldr r1, [sp, #0x58]  /* 4005b15c */
     str r0, [sp, #8]  /* 4005b160 */
     add r0, sp, #8  /* 4005b164 */
-    bl func_400592b8  /* 4005b168 */
+    bl follow_path  /* 4005b168 */
     movs r1, r0  /* 4005b16c */
     bne .L4005b1f0  /* 4005b170 */
     ldrb r1, [sp, #0x53]  /* 4005b174 */
@@ -40,7 +40,7 @@ func_4005b130:  /* 0x4005b130 */
     orr r0, r1, r0  /* 4005b1ac */
     strb r0, [r2, #4]  /* 4005b1b0 */
     add r0, sp, #8  /* 4005b1b4 */
-    bl func_4005848c  /* 4005b1b8 */
+    bl store_xdir  /* 4005b1b8 */
     movs r1, r0  /* 4005b1bc */
     bne .L4005b1f0  /* 4005b1c0 */
     b .L4005b1e8  /* 4005b1c4 */
@@ -55,8 +55,8 @@ func_4005b130:  /* 0x4005b130 */
     strb r2, [lr, #3]  /* 4005b1e4 */
 .L4005b1e8:
     ldr r0, [sp]  /* 4005b1e8 */
-    bl func_40056dd8  /* 4005b1ec */
+    bl sync_fs  /* 4005b1ec */
 .L4005b1f0:
     add sp, sp, #0x5c  /* 4005b1f0 */
     pop {r4, r5, pc}  /* 4005b1f4 */
-    .size func_4005b130, . - func_4005b130
+    .size f_chmod, . - f_chmod

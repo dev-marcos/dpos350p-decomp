@@ -758,7 +758,7 @@ func_4004d880:  /* 0x4004d880 */
     add r4, r4, #1  /* 4004e35c */
     vcvt.f64.s32 d0, s0  /* 4004e360 */
     vmul.f64 d0, d0, d9  /* 4004e364 */
-    blx func_40068f08  /* 4004e368 */
+    blx exp  /* 4004e368 */
     vldr d2, [pc, #0x318]  /* 4004e36c */
     vmul.f64 d1, d0, d2  /* 4004e370 */
     vldr s6, [r7, #0x34]  /* 4004e374 */
@@ -792,7 +792,7 @@ func_4004d880:  /* 0x4004d880 */
     add r5, r5, #1  /* 4004e3dc */
     vcvt.f64.s32 d0, s0  /* 4004e3e0 */
     vmul.f64 d0, d0, d8  /* 4004e3e4 */
-    blx func_40068f08  /* 4004e3e8 */
+    blx exp  /* 4004e3e8 */
     vldr d2, [pc, #0x298]  /* 4004e3ec */
     cmp r5, r4  /* 4004e3f0 */
     vmul.f64 d0, d0, d2  /* 4004e3f4 */

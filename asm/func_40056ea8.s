@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40056ea8, "ax", %progbits
-    .global func_40056ea8
-    .type func_40056ea8, %function
-func_40056ea8:  /* 0x40056ea8 */
+    .global clst2sect
+    .type clst2sect, %function
+clst2sect:  /* 0x40056ea8 */
 .Lstart_40056ea8:
     ldr r2, [r0, #0x1c]  /* 40056ea8 */
     sub r1, r1, #2  /* 40056eac */
@@ -18,4 +18,4 @@ func_40056ea8:  /* 0x40056ea8 */
     ldrh r0, [r0, #0xa]  /* 40056ec8 */
     mla r0, r1, r0, r2  /* 40056ecc */
     bx lr  /* 40056ed0 */
-    .size func_40056ea8, . - func_40056ea8
+    .size clst2sect, . - clst2sect

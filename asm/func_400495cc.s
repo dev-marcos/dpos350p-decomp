@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.400495cc, "ax", %progbits
-    .global gt911_read_byte_msb_first
-    .type gt911_read_byte_msb_first, %function
-gt911_read_byte_msb_first:  /* 0x400495cc */
+    .global gt911_read_byte
+    .type gt911_read_byte, %function
+gt911_read_byte:  /* 0x400495cc */
 .Lstart_400495cc:
     push {r4, r5, r6, lr}  /* 400495cc */
     mov r1, #7  /* 400495d0 */
@@ -12,31 +12,31 @@ gt911_read_byte_msb_first:  /* 0x400495cc */
     mov r4, #0  /* 400495d8 */
     mov r0, r5  /* 400495dc */
     mov r6, #8  /* 400495e0 */
-    bl func_40063288  /* 400495e4 */
+    bl pio_clr_bit  /* 400495e4 */
     mov r3, #1  /* 400495e8 */
     mov r2, #0  /* 400495ec */
     mov r1, #6  /* 400495f0 */
     mov r0, r5  /* 400495f4 */
-    bl func_400631d4  /* 400495f8 */
+    bl pio_cfg_pin  /* 400495f8 */
     mov r0, #1  /* 400495fc */
-    bl func_40042d0c  /* 40049600 */
+    bl delay_us  /* 40049600 */
 .L40049604:
     mov r1, #7  /* 40049604 */
     mov r0, r5  /* 40049608 */
-    bl func_40063274  /* 4004960c */
+    bl pio_set_bit  /* 4004960c */
     mov r0, #1  /* 40049610 */
     lsl r4, r4, #1  /* 40049614 */
-    bl func_40042d0c  /* 40049618 */
+    bl delay_us  /* 40049618 */
     mov r1, #6  /* 4004961c */
     mov r0, r5  /* 40049620 */
-    bl func_400632a0  /* 40049624 */
+    bl pio_get_bit  /* 40049624 */
     cmp r0, #0  /* 40049628 */
     mov r1, #7  /* 4004962c */
     addne r4, r4, #1  /* 40049630 */
     mov r0, r5  /* 40049634 */
-    bl func_40063288  /* 40049638 */
+    bl pio_clr_bit  /* 40049638 */
     mov r0, #1  /* 4004963c */
-    bl func_40042d0c  /* 40049640 */
+    bl delay_us  /* 40049640 */
     mov r0, #0x50  /* 40049644 */
 .L40049648:
     nop  /* 40049648 */
@@ -49,10 +49,10 @@ gt911_read_byte_msb_first:  /* 0x400495cc */
     mov r2, #1  /* 40049664 */
     mov r1, #6  /* 40049668 */
     mov r0, r5  /* 4004966c */
-    bl func_400631d4  /* 40049670 */
+    bl pio_cfg_pin  /* 40049670 */
     mov r1, #6  /* 40049674 */
     mov r0, r5  /* 40049678 */
-    bl func_40063274  /* 4004967c */
+    bl pio_set_bit  /* 4004967c */
     uxtb r0, r4  /* 40049680 */
     pop {r4, r5, r6, pc}  /* 40049684 */
-    .size gt911_read_byte_msb_first, . - gt911_read_byte_msb_first
+    .size gt911_read_byte, . - gt911_read_byte

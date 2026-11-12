@@ -11,21 +11,21 @@ fpga_data_byte_read:  /* 0x400491b8 */
     ldrb r1, [r0]  /* 400491c0 */
     cmp r1, #0  /* 400491c4 */
     beq .L400491d0  /* 400491c8 */
-    bl pe0_pe3_function_1_pe0_pe3  /* 400491cc */
+    bl fpga_bus_input  /* 400491cc */
 .L400491d0:
     ldr r4, [pc, #0x16c]  /* 400491d0 */
     mov r1, #2  /* 400491d4 */
     mov r0, r4  /* 400491d8 */
-    bl func_40063288  /* 400491dc */
+    bl pio_clr_bit  /* 400491dc */
     mov r1, #3  /* 400491e0 */
     mov r0, r4  /* 400491e4 */
-    bl func_40063288  /* 400491e8 */
+    bl pio_clr_bit  /* 400491e8 */
     mov r1, #0  /* 400491ec */
     mov r0, r4  /* 400491f0 */
-    bl func_40063288  /* 400491f4 */
+    bl pio_clr_bit  /* 400491f4 */
     mov r1, #0  /* 400491f8 */
     mov r0, r4  /* 400491fc */
-    bl func_40063274  /* 40049200 */
+    bl pio_set_bit  /* 40049200 */
     ldr r0, [r4, #0x10]  /* 40049204 */
     lsl r0, r0, #0x10  /* 40049208 */
     lsr r0, r0, #0x18  /* 4004920c */

@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40056b90, "ax", %progbits
-    .global func_40056b90
-    .type func_40056b90, %function
-func_40056b90:  /* 0x40056b90 */
+    .global mem_cpy
+    .type mem_cpy, %function
+mem_cpy:  /* 0x40056b90 */
 .Lstart_40056b90:
     cmp r2, #0  /* 40056b90 */
     beq .L40056ba8  /* 40056b94 */
@@ -15,4 +15,4 @@ func_40056b90:  /* 0x40056b90 */
     bne .L40056b98  /* 40056ba4 */
 .L40056ba8:
     bx lr  /* 40056ba8 */
-    .size func_40056b90, . - func_40056b90
+    .size mem_cpy, . - mem_cpy

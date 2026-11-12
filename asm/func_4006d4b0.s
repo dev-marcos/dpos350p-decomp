@@ -24,7 +24,7 @@ func_4006d4b0:  /* 0x4006d4b0 */
     mov r0, #1  /* 4006d4ec */
     str r0, [r4]  /* 4006d4f0 */
     mov r0, #0xc8  /* 4006d4f4 */
-    bl func_40042d0c  /* 4006d4f8 */
+    bl delay_us  /* 4006d4f8 */
     mov r0, #1  /* 4006d4fc */
     bl func_4006cce0  /* 4006d500 */
     mov r5, r0  /* 4006d504 */

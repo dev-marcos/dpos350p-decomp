@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40042b60, "ax", %progbits
-    .global func_40042b60
-    .type func_40042b60, %function
-func_40042b60:  /* 0x40042b60 */
+    .global timer_setup
+    .type timer_setup, %function
+timer_setup:  /* 0x40042b60 */
 .Lstart_40042b60:
     push {r4, r5, r6, r7, r8, lr}  /* 40042b60 */
     mov r4, r0  /* 40042b64 */
@@ -15,43 +15,43 @@ func_40042b60:  /* 0x40042b60 */
     mov r6, r2  /* 40042b78 */
     mov r1, #0  /* 40042b7c */
     mov r0, r8  /* 40042b80 */
-    bl func_40042b58  /* 40042b84 */
+    bl writel_d  /* 40042b84 */
     mov r0, r8  /* 40042b88 */
-    bl func_40042b50  /* 40042b8c */
+    bl readl_d  /* 40042b8c */
     mov r1, r0  /* 40042b90 */
     mov r0, r8  /* 40042b94 */
-    bl func_40042b58  /* 40042b98 */
+    bl writel_d  /* 40042b98 */
     mov r0, r8  /* 40042b9c */
-    bl func_40042b50  /* 40042ba0 */
+    bl readl_d  /* 40042ba0 */
     mov r1, r0  /* 40042ba4 */
     mov r0, r8  /* 40042ba8 */
-    bl func_40042b58  /* 40042bac */
+    bl writel_d  /* 40042bac */
     mov r0, r8  /* 40042bb0 */
-    bl func_40042b50  /* 40042bb4 */
+    bl readl_d  /* 40042bb4 */
     orr r1, r0, #4  /* 40042bb8 */
     mov r0, r8  /* 40042bbc */
-    bl func_40042b58  /* 40042bc0 */
+    bl writel_d  /* 40042bc0 */
     mov r0, r8  /* 40042bc4 */
-    bl func_40042b50  /* 40042bc8 */
+    bl readl_d  /* 40042bc8 */
     orr r1, r0, #2  /* 40042bcc */
     mov r0, r8  /* 40042bd0 */
-    bl func_40042b58  /* 40042bd4 */
+    bl writel_d  /* 40042bd4 */
     add r0, r5, r5, lsl #1  /* 40042bd8 */
     ldr r2, [pc, #0x268]  /* 40042bdc */
     lsl r1, r0, #3  /* 40042be0 */
     add r0, r2, r7  /* 40042be4 */
-    bl func_40042b58  /* 40042be8 */
+    bl writel_d  /* 40042be8 */
     cmp r6, #1  /* 40042bec */
     bne .L40042c18  /* 40042bf0 */
     mov r5, #112, #14  /* 40042bf4 */
     orr r5, r5, #0x20c00  /* 40042bf8 */
     mov r0, r5  /* 40042bfc */
-    bl func_40042b50  /* 40042c00 */
+    bl readl_d  /* 40042c00 */
     mov r1, #1  /* 40042c04 */
     orr r1, r0, r1, lsl r4  /* 40042c08 */
     mov r0, r5  /* 40042c0c */
     pop {r4, r5, r6, r7, r8, lr}  /* 40042c10 */
-    b func_40042b58  /* 40042c14 */
+    b writel_d  /* 40042c14 */
 .L40042c18:
     pop {r4, r5, r6, r7, r8, pc}  /* 40042c18 */
-    .size func_40042b60, . - func_40042b60
+    .size timer_setup, . - timer_setup

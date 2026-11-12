@@ -2,21 +2,21 @@
     .syntax unified
     .arm
     .section .text.4006752c, "ax", %progbits
-    .global func_4006752c
-    .type func_4006752c, %function
-func_4006752c:  /* 0x4006752c */
+    .global wdt_irq_ack
+    .type wdt_irq_ack, %function
+wdt_irq_ack:  /* 0x4006752c */
 .Lstart_4006752c:
     push {r4, lr}  /* 4006752c */
     ldr r4, [pc, #0x38]  /* 40067530 */
     mov r0, r4  /* 40067534 */
-    bl func_40067478  /* 40067538 */
+    bl readl_b  /* 40067538 */
     tst r0, #1  /* 4006753c */
     beq .L40067560  /* 40067540 */
     mov r0, r4  /* 40067544 */
-    bl func_40067478  /* 40067548 */
+    bl readl_b  /* 40067548 */
     orr r1, r0, #1  /* 4006754c */
     mov r0, r4  /* 40067550 */
-    bl func_40067480  /* 40067554 */
+    bl writel_b  /* 40067554 */
     mov r0, #1  /* 40067558 */
     pop {r4, pc}  /* 4006755c */
 .L40067560:
@@ -25,4 +25,4 @@ func_4006752c:  /* 0x4006752c */
     .word 0x01c20cb4  /* 40067568 */
     .word 0x01c20cb8  /* 4006756c */
     .word 0x01c20ca4  /* 40067570 */
-    .size func_4006752c, . - func_4006752c
+    .size wdt_irq_ack, . - wdt_irq_ack

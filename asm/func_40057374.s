@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40057374, "ax", %progbits
-    .global func_40057374
-    .type func_40057374, %function
-func_40057374:  /* 0x40057374 */
+    .global change_bitmap
+    .type change_bitmap, %function
+change_bitmap:  /* 0x40057374 */
 .Lstart_40057374:
     push {r4, r5, r6, r7, r8, sb, sl, lr}  /* 40057374 */
     mov r8, r0  /* 40057378 */
@@ -31,7 +31,7 @@ func_40057374:  /* 0x40057374 */
 .L400573c8:
     mov r1, r7  /* 400573c8 */
     mov r0, r8  /* 400573cc */
-    bl func_40056d80  /* 400573d0 */
+    bl move_window  /* 400573d0 */
     cmp r0, #0  /* 400573d4 */
     add r7, r7, #1  /* 400573d8 */
     beq .L400573e8  /* 400573dc */
@@ -55,4 +55,4 @@ func_40057374:  /* 0x40057374 */
     bne .L400573a4  /* 4005741c */
     mov r0, #0  /* 40057420 */
     pop {r4, r5, r6, r7, r8, sb, sl, pc}  /* 40057424 */
-    .size func_40057374, . - func_40057374
+    .size change_bitmap, . - change_bitmap

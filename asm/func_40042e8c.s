@@ -2,31 +2,31 @@
     .syntax unified
     .arm
     .section .text.40042e8c, "ax", %progbits
-    .global func_40042e8c
-    .type func_40042e8c, %function
-func_40042e8c:  /* 0x40042e8c */
+    .global spi0_clk_init
+    .type spi0_clk_init, %function
+spi0_clk_init:  /* 0x40042e8c */
 .Lstart_40042e8c:
     push {r4, r5, lr}  /* 40042e8c */
     cmp r0, #0  /* 40042e90 */
     sub sp, sp, #4  /* 40042e94 */
     bne .L40042ef4  /* 40042e98 */
-    bl func_400428ac  /* 40042e9c */
+    bl periph0_freq  /* 40042e9c */
     mov r4, r0  /* 40042ea0 */
     ldr r5, [pc, #0x950]  /* 40042ea4 */
     mov r0, r5  /* 40042ea8 */
-    bl func_40042e74  /* 40042eac */
+    bl readl_f  /* 40042eac */
     bic r1, r0, #128, #8  /* 40042eb0 */
     mov r0, r5  /* 40042eb4 */
-    bl func_40042e84  /* 40042eb8 */
+    bl writel_f  /* 40042eb8 */
     mov r1, #2  /* 40042ebc */
     mov r0, r5  /* 40042ec0 */
     orr r1, r1, #64, #14  /* 40042ec4 */
-    bl func_40042e84  /* 40042ec8 */
+    bl writel_f  /* 40042ec8 */
     mov r0, r5  /* 40042ecc */
-    bl func_40042e74  /* 40042ed0 */
+    bl readl_f  /* 40042ed0 */
     orr r1, r0, #128, #8  /* 40042ed4 */
     mov r0, r5  /* 40042ed8 */
-    bl func_40042e84  /* 40042edc */
+    bl writel_f  /* 40042edc */
     ldr r0, [pc, #0x918]  /* 40042ee0 */
     add sp, sp, #4  /* 40042ee4 */
     smull r1, r0, r4, r0  /* 40042ee8 */
@@ -36,4 +36,4 @@ func_40042e8c:  /* 0x40042e8c */
     mov r0, #0  /* 40042ef4 */
     add sp, sp, #4  /* 40042ef8 */
     pop {r4, r5, pc}  /* 40042efc */
-    .size func_40042e8c, . - func_40042e8c
+    .size spi0_clk_init, . - spi0_clk_init

@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40056be0, "ax", %progbits
-    .global func_40056be0
-    .type func_40056be0, %function
-func_40056be0:  /* 0x40056be0 */
+    .global chk_chr
+    .type chk_chr, %function
+chk_chr:  /* 0x40056be0 */
 .Lstart_40056be0:
     b func_40056be8  /* 40056be0 */
-    .size func_40056be0, . - func_40056be0
+    .size chk_chr, . - chk_chr

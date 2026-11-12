@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.4005728c, "ax", %progbits
-    .global func_4005728c
-    .type func_4005728c, %function
-func_4005728c:  /* 0x4005728c */
+    .global find_bitmap
+    .type find_bitmap, %function
+find_bitmap:  /* 0x4005728c */
 .Lstart_4005728c:
     push {r4, r5, r6, r7, r8, sb, lr}  /* 4005728c */
     sub r5, r1, #2  /* 40057290 */
@@ -22,7 +22,7 @@ func_4005728c:  /* 0x4005728c */
     ldr r0, [r4, #0x30]  /* 400572bc */
     add r1, r0, r6, lsr #12  /* 400572c0 */
     mov r0, r4  /* 400572c4 */
-    bl func_40056d80  /* 400572c8 */
+    bl move_window  /* 400572c8 */
     cmp r0, #0  /* 400572cc */
     bne .L400572e8  /* 400572d0 */
     mov r1, #1  /* 400572d4 */
@@ -70,4 +70,4 @@ func_4005728c:  /* 0x4005728c */
     cmp r0, #128, #30  /* 40057368 */
     blo .L400572f4  /* 4005736c */
     b .L400572bc  /* 40057370 */
-    .size func_4005728c, . - func_4005728c
+    .size find_bitmap, . - find_bitmap

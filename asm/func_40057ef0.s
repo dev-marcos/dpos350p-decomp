@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40057ef0, "ax", %progbits
-    .global func_40057ef0
-    .type func_40057ef0, %function
-func_40057ef0:  /* 0x40057ef0 */
+    .global put_lfn
+    .type put_lfn, %function
+put_lfn:  /* 0x40057ef0 */
 .Lstart_40057ef0:
     push {r4, r5, r6, r7, r8, sb, sl, fp, lr}  /* 40057ef0 */
     mov r4, r0  /* 40057ef4 */
@@ -18,7 +18,7 @@ func_40057ef0:  /* 0x40057ef0 */
     add r0, r5, #0x1a  /* 40057f14 */
     strb r1, [r5, #0xc]  /* 40057f18 */
     mov r6, #0xd  /* 40057f1c */
-    bl func_40056b04  /* 40057f20 */
+    bl st_word  /* 40057f20 */
     sub r1, sb, #1  /* 40057f24 */
     mov sl, #0xff  /* 40057f28 */
     mul r7, r6, r1  /* 40057f2c */
@@ -33,7 +33,7 @@ func_40057ef0:  /* 0x40057ef0 */
     mov r1, r8  /* 40057f48 */
     add fp, fp, #1  /* 40057f4c */
     add r0, r5, r0  /* 40057f50 */
-    bl func_40056b04  /* 40057f54 */
+    bl st_word  /* 40057f54 */
     movs r0, r8  /* 40057f58 */
     moveq r8, sl  /* 40057f5c */
     subs r6, r6, #1  /* 40057f60 */
@@ -54,4 +54,4 @@ func_40057ef0:  /* 0x40057ef0 */
     strb sb, [r5]  /* 40057f90 */
     add sp, sp, #4  /* 40057f94 */
     pop {r4, r5, r6, r7, r8, sb, sl, fp, pc}  /* 40057f98 */
-    .size func_40057ef0, . - func_40057ef0
+    .size put_lfn, . - put_lfn

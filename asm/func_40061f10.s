@@ -58,7 +58,7 @@ func_40061f10:  /* 0x40061f10 */
     vdiv.f64 d5, d4, d6  /* 40061fd0 */
     vmul.f64 d0, d5, d7  /* 40061fd4 */
     vdiv.f64 d0, d0, d8  /* 40061fd8 */
-    blx func_4005dad0  /* 40061fdc */
+    blx log10  /* 40061fdc */
     vmov.f64 d2, #2.000000e+01  /* 40061fe0 */
     ldr r1, [sp, #4]  /* 40061fe4 */
     vmul.f64 d12, d0, d2  /* 40061fe8 */
@@ -70,7 +70,7 @@ func_40061f10:  /* 0x40061f10 */
     str sl, [sp, #4]  /* 40062000 */
     mov fp, r8  /* 40062004 */
     vmov.f64 d15, d12  /* 40062008 */
-    blx __aeabi_f2iz_like  /* 4006200c */
+    blx __aeabi_f2lz  /* 4006200c */
     mov r4, r0  /* 40062010 */
     mov r5, r1  /* 40062014 */
 .L40062018:
@@ -108,7 +108,7 @@ func_40061f10:  /* 0x40061f10 */
     vldr d1, [r6, #0x50]  /* 4006208c */
     vdiv.f64 d1, d0, d1  /* 40062090 */
     vmov r0, r1, d1  /* 40062094 */
-    blx __aeabi_d2iz_like  /* 40062098 */
+    blx __aeabi_d2lz  /* 40062098 */
     ldr r2, [r6, #0xf8]  /* 4006209c */
     rsb r3, r8, #0  /* 400620a0 */
     add r2, r2, r2, lsr #31  /* 400620a4 */
@@ -122,7 +122,7 @@ func_40061f10:  /* 0x40061f10 */
     mov r5, r1  /* 400620c4 */
 .L400620c8:
     ldr r0, [sl]  /* 400620c8 */
-    blx __aeabi_f2iz_like  /* 400620cc */
+    blx __aeabi_f2lz  /* 400620cc */
     cmp r5, r1  /* 400620d0 */
     bgt .L400620f4  /* 400620d4 */
     blt .L400620e4  /* 400620d8 */

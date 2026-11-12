@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40058434, "ax", %progbits
-    .global func_40058434
-    .type func_40058434, %function
-func_40058434:  /* 0x40058434 */
+    .global load_obj_xdir
+    .type load_obj_xdir, %function
+load_obj_xdir:  /* 0x40058434 */
 .Lstart_40058434:
     push {r4, lr}  /* 40058434 */
     mov r4, r0  /* 40058438 */
@@ -22,10 +22,10 @@ func_40058434:  /* 0x40058434 */
     str r3, [r4, #0x1c]  /* 40058468 */
     ldr r1, [r1, #0x28]  /* 4005846c */
     str r1, [r4, #0x4c]  /* 40058470 */
-    bl func_400579d4  /* 40058474 */
+    bl dir_sdi  /* 40058474 */
     movs r1, r0  /* 40058478 */
     moveq r0, r4  /* 4005847c */
     popeq {r4, lr}  /* 40058480 */
-    beq func_40058284  /* 40058484 */
+    beq load_xdir  /* 40058484 */
     pop {r4, pc}  /* 40058488 */
-    .size func_40058434, . - func_40058434
+    .size load_obj_xdir, . - load_obj_xdir

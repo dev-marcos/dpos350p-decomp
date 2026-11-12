@@ -11,7 +11,7 @@ func_40049b90:  /* 0x40049b90 */
     sub sp, sp, #4  /* 40049b98 */
     mov r0, #0  /* 40049b9c */
     add r1, pc, #0x238  /* 40049ba0 */
-    bl func_40059aec  /* 40049ba4 */
+    bl f_mount  /* 40049ba4 */
     add sp, sp, #4  /* 40049ba8 */
     ldm sp!, {lr}  /* 40049bac */
     b func_40049b80  /* 40049bb0 */

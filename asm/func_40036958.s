@@ -12,30 +12,30 @@ func_40036958:  /* 0x40036958 */
     sub sp, sp, #0x254  /* 40036964 */
     mov r0, r4  /* 40036968 */
     ldr r5, [pc, #0x6a8]  /* 4003696c */
-    bl func_4005aed4  /* 40036970 */
+    bl f_mkdir  /* 40036970 */
     mov r2, #2  /* 40036974 */
     mov r1, #2  /* 40036978 */
     mov r0, r4  /* 4003697c */
     ldr r7, [pc, #0xbbc]  /* 40036980 */
-    bl func_4005b130  /* 40036984 */
+    bl f_chmod  /* 40036984 */
     mov r2, #4  /* 40036988 */
     mov r1, #4  /* 4003698c */
     mov r0, r4  /* 40036990 */
     ldr r4, [pc, #0xbac]  /* 40036994 */
-    bl func_4005b130  /* 40036998 */
+    bl f_chmod  /* 40036998 */
     mov r2, #0xb  /* 4003699c */
     mov r1, r4  /* 400369a0 */
     mov r0, sp  /* 400369a4 */
-    bl func_40059b8c  /* 400369a8 */
+    bl f_open  /* 400369a8 */
     mov r2, #2  /* 400369ac */
     mov r1, #2  /* 400369b0 */
     mov r0, r4  /* 400369b4 */
-    bl func_4005b130  /* 400369b8 */
+    bl f_chmod  /* 400369b8 */
     mov r2, #4  /* 400369bc */
     mov r1, #4  /* 400369c0 */
     mov r0, r4  /* 400369c4 */
     movw r4, #0x758  /* 400369c8 */
-    bl func_4005b130  /* 400369cc */
+    bl f_chmod  /* 400369cc */
     ldrh r2, [r5, r4]  /* 400369d0 */
     mov r1, #0  /* 400369d4 */
     add r0, r5, r6  /* 400369d8 */
@@ -48,47 +48,47 @@ func_40036958:  /* 0x40036958 */
     mov r2, #0  /* 400369f4 */
     mov r3, #0  /* 400369f8 */
     mov r0, sp  /* 400369fc */
-    bl func_4005a6cc  /* 40036a00 */
+    bl f_lseek  /* 40036a00 */
     mov r3, #0  /* 40036a04 */
     mov r2, #2  /* 40036a08 */
     add r1, r5, #0xfa0  /* 40036a0c */
     mov r0, sp  /* 40036a10 */
-    bl func_4005a1d4  /* 40036a14 */
+    bl f_write  /* 40036a14 */
     mov r2, #2  /* 40036a18 */
     mov r3, #0  /* 40036a1c */
     mov r0, sp  /* 40036a20 */
-    bl func_4005a6cc  /* 40036a24 */
+    bl f_lseek  /* 40036a24 */
     mov r3, #0  /* 40036a28 */
     mov r2, #2  /* 40036a2c */
     add r1, r5, r7  /* 40036a30 */
     mov r0, sp  /* 40036a34 */
-    bl func_4005a1d4  /* 40036a38 */
+    bl f_write  /* 40036a38 */
     mov r2, #4  /* 40036a3c */
     mov r3, #0  /* 40036a40 */
     mov r0, sp  /* 40036a44 */
     add r7, r7, #0x16  /* 40036a48 */
-    bl func_4005a6cc  /* 40036a4c */
+    bl f_lseek  /* 40036a4c */
     ldrh r0, [r5, r4]  /* 40036a50 */
     mov r3, #0  /* 40036a54 */
     add r1, r5, r6  /* 40036a58 */
     ldr r6, [pc, #0xd90]  /* 40036a5c */
     lsl r2, r0, #1  /* 40036a60 */
     mov r0, sp  /* 40036a64 */
-    bl func_4005a1d4  /* 40036a68 */
+    bl f_write  /* 40036a68 */
     mov r0, sp  /* 40036a6c */
-    bl func_4005a694  /* 40036a70 */
+    bl f_close  /* 40036a70 */
     mov r2, #0xb  /* 40036a74 */
     mov r1, r6  /* 40036a78 */
     mov r0, sp  /* 40036a7c */
-    bl func_40059b8c  /* 40036a80 */
+    bl f_open  /* 40036a80 */
     mov r2, #2  /* 40036a84 */
     mov r1, #2  /* 40036a88 */
     mov r0, r6  /* 40036a8c */
-    bl func_4005b130  /* 40036a90 */
+    bl f_chmod  /* 40036a90 */
     mov r2, #4  /* 40036a94 */
     mov r1, #4  /* 40036a98 */
     mov r0, r6  /* 40036a9c */
-    bl func_4005b130  /* 40036aa0 */
+    bl f_chmod  /* 40036aa0 */
     ldrh r1, [r5, r4]  /* 40036aa4 */
     movw r0, #0xd744  /* 40036aa8 */
     ldr r3, [r5, r7]  /* 40036aac */
@@ -100,16 +100,16 @@ func_40036958:  /* 0x40036958 */
     mov r2, #0  /* 40036ac4 */
     mov r3, #0  /* 40036ac8 */
     mov r0, sp  /* 40036acc */
-    bl func_4005a6cc  /* 40036ad0 */
+    bl f_lseek  /* 40036ad0 */
     ldrh r1, [r5, r4]  /* 40036ad4 */
     mov r3, #0  /* 40036ad8 */
     ldr ip, [r5, r7]  /* 40036adc */
     mov r0, sp  /* 40036ae0 */
     mul r2, ip, r1  /* 40036ae4 */
     mov r1, r6  /* 40036ae8 */
-    bl func_4005a1d4  /* 40036aec */
+    bl f_write  /* 40036aec */
     mov r0, sp  /* 40036af0 */
-    bl func_4005a694  /* 40036af4 */
+    bl f_close  /* 40036af4 */
     add sp, sp, #0x254  /* 40036af8 */
     pop {r4, r5, r6, r7, pc}  /* 40036afc */
     .size func_40036958, . - func_40036958

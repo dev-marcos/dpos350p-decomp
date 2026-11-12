@@ -9,7 +9,7 @@ func_4006d2a0:  /* 0x4006d2a0 */
     push {r4, lr}  /* 4006d2a0 */
     mov r4, r0  /* 4006d2a4 */
     mov r0, #1  /* 4006d2a8 */
-    bl func_40042cf0  /* 4006d2ac */
+    bl delay_ms  /* 4006d2ac */
     mov r0, r4  /* 4006d2b0 */
     bl func_4006ac44  /* 4006d2b4 */
     mov r0, #1  /* 4006d2b8 */

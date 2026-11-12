@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.400497d4, "ax", %progbits
-    .global func_400497d4
-    .type func_400497d4, %function
-func_400497d4:  /* 0x400497d4 */
+    .global gt911_ctrl_pins_out
+    .type gt911_ctrl_pins_out, %function
+gt911_ctrl_pins_out:  /* 0x400497d4 */
 .Lstart_400497d4:
     push {r4, lr}  /* 400497d4 */
     mov r3, #0  /* 400497d8 */
@@ -12,17 +12,17 @@ func_400497d4:  /* 0x400497d4 */
     mov r2, #1  /* 400497e0 */
     mov r1, #0x16  /* 400497e4 */
     mov r0, r4  /* 400497e8 */
-    bl func_400631d4  /* 400497ec */
+    bl pio_cfg_pin  /* 400497ec */
     mov r3, #0  /* 400497f0 */
     mov r2, #1  /* 400497f4 */
     mov r1, #0x18  /* 400497f8 */
     mov r0, r4  /* 400497fc */
-    bl func_400631d4  /* 40049800 */
+    bl pio_cfg_pin  /* 40049800 */
     mov r1, #0x16  /* 40049804 */
     mov r0, r4  /* 40049808 */
-    bl func_40063274  /* 4004980c */
+    bl pio_set_bit  /* 4004980c */
     mov r0, r4  /* 40049810 */
     mov r1, #0x18  /* 40049814 */
     pop {r4, lr}  /* 40049818 */
-    b func_40063274  /* 4004981c */
-    .size func_400497d4, . - func_400497d4
+    b pio_set_bit  /* 4004981c */
+    .size gt911_ctrl_pins_out, . - gt911_ctrl_pins_out

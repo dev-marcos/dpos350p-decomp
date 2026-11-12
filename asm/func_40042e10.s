@@ -2,15 +2,15 @@
     .syntax unified
     .arm
     .section .text.40042e10, "ax", %progbits
-    .global func_40042e10
-    .type func_40042e10, %function
-func_40042e10:  /* 0x40042e10 */
+    .global avs0_read
+    .type avs0_read, %function
+avs0_read:  /* 0x40042e10 */
 .Lstart_40042e10:
     stmdb sp!, {lr}  /* 40042e10 */
     sub sp, sp, #4  /* 40042e14 */
     ldr r0, [pc, #0x40]  /* 40042e18 */
-    bl func_40042b50  /* 40042e1c */
+    bl readl_d  /* 40042e1c */
     lsl r0, r0, #1  /* 40042e20 */
     add sp, sp, #4  /* 40042e24 */
     ldm sp!, {pc}  /* 40042e28 */
-    .size func_40042e10, . - func_40042e10
+    .size avs0_read, . - avs0_read

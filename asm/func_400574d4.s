@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.400574d4, "ax", %progbits
-    .global func_400574d4
-    .type func_400574d4, %function
-func_400574d4:  /* 0x400574d4 */
+    .global remove_chain
+    .type remove_chain, %function
+remove_chain:  /* 0x400574d4 */
 .Lstart_400574d4:
     push {r4, r5, r6, r7, r8, sb, sl, lr}  /* 400574d4 */
     mov r4, r0  /* 400574d8 */
@@ -29,13 +29,13 @@ func_400574d4:  /* 0x400574d4 */
     mvn r2, #0  /* 40057520 */
     mov r1, r5  /* 40057524 */
     mov r0, r6  /* 40057528 */
-    bl func_40057108  /* 4005752c */
+    bl put_fat  /* 4005752c */
     movs r1, r0  /* 40057530 */
     bne .L4005767c  /* 40057534 */
 .L40057538:
     mov r1, r8  /* 40057538 */
     mov r0, r4  /* 4005753c */
-    bl func_40056ed4  /* 40057540 */
+    bl get_fat  /* 40057540 */
     movs sb, r0  /* 40057544 */
     beq .L400575fc  /* 40057548 */
     cmp sb, #1  /* 4005754c */
@@ -48,7 +48,7 @@ func_400574d4:  /* 0x400574d4 */
     mov r2, #0  /* 40057568 */
     mov r1, r8  /* 4005756c */
     mov r0, r6  /* 40057570 */
-    bl func_40057108  /* 40057574 */
+    bl put_fat  /* 40057574 */
     movs r1, r0  /* 40057578 */
     bne .L4005767c  /* 4005757c */
 .L40057580:
@@ -75,7 +75,7 @@ func_400574d4:  /* 0x400574d4 */
     add r2, r2, #1  /* 400575cc */
     mov r1, r7  /* 400575d0 */
     mov r0, r6  /* 400575d4 */
-    bl func_40057374  /* 400575d8 */
+    bl change_bitmap  /* 400575d8 */
     movs r1, r0  /* 400575dc */
     bne .L4005767c  /* 400575e0 */
 .L400575e4:
@@ -111,7 +111,7 @@ func_400574d4:  /* 0x400574d4 */
     beq .L40057670  /* 40057648 */
     mov r1, r6  /* 4005764c */
     mov r0, r4  /* 40057650 */
-    bl func_40056ed4  /* 40057654 */
+    bl get_fat  /* 40057654 */
     cmp r0, #1  /* 40057658 */
     bhi .L4005762c  /* 4005765c */
 .L40057660:
@@ -141,4 +141,4 @@ func_400574d4:  /* 0x400574d4 */
     mov r2, #2  /* 400576a4 */
     strb r2, [r4, #7]  /* 400576a8 */
     b .L40057678  /* 400576ac */
-    .size func_400574d4, . - func_400574d4
+    .size remove_chain, . - remove_chain

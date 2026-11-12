@@ -12,40 +12,40 @@ func_40051c28:  /* 0x40051c28 */
     ldr r1, [pc, #0x1d0]  /* 40051c34 */
     add r0, sp, #0x20  /* 40051c38 */
     ldr r4, [pc, #0x1cc]  /* 40051c3c */
-    bl func_4005c31c  /* 40051c40 */
+    bl __aeabi_memcpy  /* 40051c40 */
     bl func_40051c04  /* 40051c44 */
     mov r2, #0xb  /* 40051c48 */
     mov r1, r4  /* 40051c4c */
     add r0, sp, #0x40  /* 40051c50 */
-    bl func_40059b8c  /* 40051c54 */
+    bl f_open  /* 40051c54 */
     mov r2, #0  /* 40051c58 */
     mov r3, #0  /* 40051c5c */
     add r0, sp, #0x40  /* 40051c60 */
-    bl func_4005a6cc  /* 40051c64 */
+    bl f_lseek  /* 40051c64 */
     mov r3, #0  /* 40051c68 */
     mov r2, #0x1e  /* 40051c6c */
     add r1, sp, #0x20  /* 40051c70 */
     add r0, sp, #0x40  /* 40051c74 */
-    bl func_4005a1d4  /* 40051c78 */
+    bl f_write  /* 40051c78 */
     add r0, sp, #0x40  /* 40051c7c */
-    bl func_4005a694  /* 40051c80 */
+    bl f_close  /* 40051c80 */
     mov r2, #3  /* 40051c84 */
     mov r1, r4  /* 40051c88 */
     add r0, sp, #0x40  /* 40051c8c */
-    bl func_40059b8c  /* 40051c90 */
+    bl f_open  /* 40051c90 */
     mov r2, #0  /* 40051c94 */
     mov r3, #0  /* 40051c98 */
     add r0, sp, #0x40  /* 40051c9c */
-    bl func_4005a6cc  /* 40051ca0 */
+    bl f_lseek  /* 40051ca0 */
     mov r3, #0  /* 40051ca4 */
     mov r2, #0x1e  /* 40051ca8 */
     mov r1, sp  /* 40051cac */
     add r0, sp, #0x40  /* 40051cb0 */
-    bl func_40059f7c  /* 40051cb4 */
+    bl f_read  /* 40051cb4 */
     add r0, sp, #0x40  /* 40051cb8 */
-    bl func_4005a694  /* 40051cbc */
+    bl f_close  /* 40051cbc */
     mov r0, r4  /* 40051cc0 */
-    bl func_4005ad8c  /* 40051cc4 */
+    bl f_unlink  /* 40051cc4 */
     mov r1, sp  /* 40051cc8 */
     add r0, sp, #0x20  /* 40051ccc */
     bl func_40068f78  /* 40051cd0 */

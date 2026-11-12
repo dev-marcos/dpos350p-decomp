@@ -90,7 +90,7 @@ func_40055978:  /* 0x40055978 */
     bl func_40034134  /* 40055aa8 */
 .L40055aac:
     mov r0, #0x3e8  /* 40055aac */
-    bl func_40042cf0  /* 40055ab0 */
+    bl delay_ms  /* 40055ab0 */
     mov r0, #0x1d  /* 40055ab4 */
     bl func_4003ce50  /* 40055ab8 */
     add sp, sp, #4  /* 40055abc */

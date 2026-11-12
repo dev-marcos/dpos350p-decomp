@@ -74,3 +74,14 @@ misplaced unit and the first differing byte when `make check` fails.
 
 Assembler warnings such as "source register same as write-back base" reproduce encodings
 from the original binary. They are expected.
+
+## Analyser fix: tail-called entries hidden in gaps (Phase 5, batch 7)
+
+armcc emits entries such as `mov r0,#0` that fall into another function's store (0x4006C4CC).
+The analyser used to classify these as zero padding. It now runs one more pass after the
+function list converges. A direct `B` target becomes a new function entry when two conditions
+hold:
+- the target lies outside the caller's span [entry, next entry);
+- no analysed function body covers it.
+
+Nine entries were added. No other function changed. `make check` still matches.

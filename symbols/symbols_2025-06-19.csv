@@ -549,8 +549,7 @@ address,size,name,type,evidence_level,source
 0x4003E05C,8,func_4003e05c,function_arm,DERIVED,analyze.py:rea
 0x4003E064,636,func_4003e064,function_arm,DERIVED,analyze.py:rea
 0x4003E2E0,32,func_4003e2e0,function_arm,DERIVED,analyze.py:rea
-0x4003E300,2,pad_4003e300,padding,STATIC-CONFIRMED,analyze.py:zero
-0x4003E302,2,code_4003e302,data,OPEN,analyze.py
+0x4003E300,4,func_4003e300,function_arm,DERIVED,analyze.py:tailcall
 0x4003E304,16,func_4003e304,function_arm,DERIVED,analyze.py:gap-code
 0x4003E314,708,func_4003e314,function_arm,DERIVED,analyze.py:rea
 0x4003E5D8,100,func_4003e5d8,function_arm,DERIVED,analyze.py:prologue
@@ -1113,7 +1112,7 @@ address,size,name,type,evidence_level,source
 0x4005C5EC,24,pool_4005c5ec,literal_pool,DERIVED,analyze.py
 0x4005C604,44,func_4005c604,function_arm,DERIVED,analyze.py:gap-code
 0x4005C630,52,func_4005c630,function_arm,DERIVED,analyze.py:prologue
-0x4005C664,20,code_4005c664,data,OPEN,analyze.py
+0x4005C664,20,func_4005c664,function_arm,DERIVED,analyze.py:tailcall
 0x4005C678,324,simple_integer_index_mapping_nearest_neighbour,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2295
 0x4005C7BC,348,workspace_copy_and_resampling,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2419
 0x4005C918,60,func_4005c918,function_arm,DERIVED,analyze.py:rea
@@ -1325,12 +1324,10 @@ address,size,name,type,evidence_level,source
 0x40066030,36,func_40066030,function_arm,DERIVED,analyze.py:rea
 0x40066054,88,func_40066054,function_arm,DERIVED,analyze.py:prologue
 0x400660AC,20,enable_csi_capture,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:3300
-0x400660C0,2,pad_400660c0,padding,STATIC-CONFIRMED,analyze.py:zero
-0x400660C2,2,code_400660c2,data,OPEN,analyze.py
+0x400660C0,4,func_400660c0,function_arm,DERIVED,analyze.py:tailcall
 0x400660C4,4,func_400660c4,function_arm,DERIVED,analyze.py:gap-code
 0x400660C8,64,is_a_generic_delay_helper,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2864
-0x40066108,2,pad_40066108,padding,STATIC-CONFIRMED,analyze.py:zero
-0x4006610A,2,code_4006610a,data,OPEN,analyze.py
+0x40066108,4,func_40066108,function_arm,DERIVED,analyze.py:tailcall
 0x4006610C,12,func_4006610c,function_arm,DERIVED,analyze.py:gap-code
 0x40066118,36,pool_40066118,literal_pool,DERIVED,analyze.py
 0x4006613C,1012,__sincos_core,function_thumb,DERIVED,this-project:phase2
@@ -1363,8 +1360,7 @@ address,size,name,type,evidence_level,source
 0x40066C5C,16,pool_40066c5c,literal_pool,DERIVED,analyze.py
 0x40066C6C,20,func_40066c6c,function_arm,DERIVED,analyze.py:rea
 0x40066C80,8,func_40066c80,function_arm,DERIVED,analyze.py:rea
-0x40066C88,1,pad_40066c88,padding,STATIC-CONFIRMED,analyze.py:zero
-0x40066C89,7,code_40066c89,data,OPEN,analyze.py
+0x40066C88,8,func_40066c88,function_arm,DERIVED,analyze.py:tailcall
 0x40066C90,96,func_40066c90,function_arm,DERIVED,analyze.py:prologue
 0x40066CF0,20,func_40066cf0,function_arm,DERIVED,analyze.py:rea
 0x40066D04,36,func_40066d04,function_arm,DERIVED,analyze.py:rea
@@ -1486,7 +1482,7 @@ address,size,name,type,evidence_level,source
 0x4006A31A,2,pad_4006a31a,padding,STATIC-CONFIRMED,analyze.py:zero
 0x4006A31C,218,log,function_thumb,DERIVED,this-project:phase5 (emulation vs math.log)
 0x4006A3F6,2,pad_4006a3f6,padding,STATIC-CONFIRMED,analyze.py:zero
-0x4006A3F8,8,code_4006a3f8,data,OPEN,analyze.py
+0x4006A3F8,8,func_4006a3f8,function_thumb,DERIVED,analyze.py:tailcall
 0x4006A400,208,__exp_kernel,function_thumb,OPEN,this-project:phase5 (shared by exp and tanh)
 0x4006A4D0,10,func_4006a4d0,function_thumb,DERIVED,analyze.py:gap-code
 0x4006A4DA,12,llabs,function_thumb,DERIVED,this-project:phase5 (conditional 64-bit negate)
@@ -1573,11 +1569,9 @@ address,size,name,type,evidence_level,source
 0x4006C488,20,func_4006c488,function_arm,DERIVED,analyze.py:gap-code
 0x4006C49C,24,func_4006c49c,function_arm,DERIVED,analyze.py:gap-code
 0x4006C4B4,24,func_4006c4b4,function_arm,DERIVED,analyze.py:gap-code
-0x4006C4CC,2,pad_4006c4cc,padding,STATIC-CONFIRMED,analyze.py:zero
-0x4006C4CE,2,code_4006c4ce,data,OPEN,analyze.py
+0x4006C4CC,4,func_4006c4cc,function_arm,DERIVED,analyze.py:tailcall
 0x4006C4D0,12,func_4006c4d0,function_arm,DERIVED,analyze.py:gap-code
-0x4006C4DC,2,pad_4006c4dc,padding,STATIC-CONFIRMED,analyze.py:zero
-0x4006C4DE,2,code_4006c4de,data,OPEN,analyze.py
+0x4006C4DC,4,func_4006c4dc,function_arm,DERIVED,analyze.py:tailcall
 0x4006C4E0,12,func_4006c4e0,function_arm,DERIVED,analyze.py:gap-code
 0x4006C4EC,36,func_4006c4ec,function_arm,DERIVED,analyze.py:rea
 0x4006C510,40,func_4006c510,function_arm,DERIVED,analyze.py:rea
@@ -1602,8 +1596,7 @@ address,size,name,type,evidence_level,source
 0x4006C6A8,136,func_4006c6a8,function_arm,DERIVED,analyze.py:rea
 0x4006C730,24,func_4006c730,function_arm,DERIVED,analyze.py:rea
 0x4006C748,36,func_4006c748,function_arm,DERIVED,analyze.py:rea
-0x4006C76C,2,pad_4006c76c,padding,STATIC-CONFIRMED,analyze.py:zero
-0x4006C76E,2,code_4006c76e,data,OPEN,analyze.py
+0x4006C76C,4,func_4006c76c,function_arm,DERIVED,analyze.py:tailcall
 0x4006C770,12,func_4006c770,function_arm,DERIVED,analyze.py:gap-code
 0x4006C77C,12,func_4006c77c,function_arm,DERIVED,analyze.py:rea
 0x4006C788,16,func_4006c788,function_arm,DERIVED,analyze.py:rea

@@ -24,7 +24,7 @@ func_40041d38:  /* 0x40041d38 */
 .L40041d74:
     vldr s0, [r8]  /* 40041d74 */
     vcvt.f64.f32 d0, s0  /* 40041d78 */
-    blx func_4005dad0  /* 40041d7c */
+    blx log10  /* 40041d7c */
     vldr d2, [pc, #0x264]  /* 40041d80 */
     vmul.f64 d1, d0, d2  /* 40041d84 */
     vcvt.f32.f64 s2, d1  /* 40041d88 */
@@ -56,7 +56,7 @@ func_40041d38:  /* 0x40041d38 */
 .L40041de8:
     vldr s0, [r7]  /* 40041de8 */
     vcvt.f64.f32 d0, s0  /* 40041dec */
-    blx func_4005dad0  /* 40041df0 */
+    blx log10  /* 40041df0 */
     vldr d2, [pc, #0x1f0]  /* 40041df4 */
     vmul.f64 d1, d0, d2  /* 40041df8 */
     vcvt.f32.f64 s1, d1  /* 40041dfc */

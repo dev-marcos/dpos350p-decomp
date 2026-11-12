@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40049688, "ax", %progbits
-    .global gt911_register_buffer_write
-    .type gt911_register_buffer_write, %function
-gt911_register_buffer_write:  /* 0x40049688 */
+    .global gt911_write_regs
+    .type gt911_write_regs, %function
+gt911_write_regs:  /* 0x40049688 */
 .Lstart_40049688:
     push {r4, r5, r6, r7, r8, lr}  /* 40049688 */
     mov r4, r0  /* 4004968c */
@@ -12,32 +12,32 @@ gt911_register_buffer_write:  /* 0x40049688 */
     mov r6, r2  /* 40049694 */
     mov r7, r3  /* 40049698 */
     mov r8, #0  /* 4004969c */
-    bl gt911_i2c_start_bus_prepare  /* 400496a0 */
+    bl gt911_i2c_start  /* 400496a0 */
     mov r0, #0xba  /* 400496a4 */
-    bl gt911_write_byte_msb_first  /* 400496a8 */
-    bl gt911_wait_ack_timeout_50000  /* 400496ac */
+    bl gt911_write_byte  /* 400496a8 */
+    bl gt911_wait_ack  /* 400496ac */
     cmp r5, #1  /* 400496b0 */
     beq .L400496cc  /* 400496b4 */
     cmp r5, #2  /* 400496b8 */
     bne .L400496d8  /* 400496bc */
     lsr r0, r4, #8  /* 400496c0 */
-    bl gt911_write_byte_msb_first  /* 400496c4 */
-    bl gt911_wait_ack_timeout_50000  /* 400496c8 */
+    bl gt911_write_byte  /* 400496c4 */
+    bl gt911_wait_ack  /* 400496c8 */
 .L400496cc:
     uxtb r0, r4  /* 400496cc */
-    bl gt911_write_byte_msb_first  /* 400496d0 */
-    bl gt911_wait_ack_timeout_50000  /* 400496d4 */
+    bl gt911_write_byte  /* 400496d0 */
+    bl gt911_wait_ack  /* 400496d4 */
 .L400496d8:
     cmp r7, #0  /* 400496d8 */
     beq .L400496f8  /* 400496dc */
 .L400496e0:
     ldrb r0, [r6, r8]  /* 400496e0 */
     add r8, r8, #1  /* 400496e4 */
-    bl gt911_write_byte_msb_first  /* 400496e8 */
-    bl gt911_wait_ack_timeout_50000  /* 400496ec */
+    bl gt911_write_byte  /* 400496e8 */
+    bl gt911_wait_ack  /* 400496ec */
     cmp r8, r7  /* 400496f0 */
     blt .L400496e0  /* 400496f4 */
 .L400496f8:
     pop {r4, r5, r6, r7, r8, lr}  /* 400496f8 */
     b gt911_i2c_stop  /* 400496fc */
-    .size gt911_register_buffer_write, . - gt911_register_buffer_write
+    .size gt911_write_regs, . - gt911_write_regs

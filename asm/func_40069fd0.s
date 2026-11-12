@@ -2,10 +2,10 @@
     .syntax unified
     .thumb
     .section .text.40069fd0, "ax", %progbits
-    .global func_40069fd0
-    .type func_40069fd0, %function
+    .global __pow_core
+    .type __pow_core, %function
     .thumb_func
-func_40069fd0:  /* 0x40069fd0 */
+__pow_core:  /* 0x40069fd0 */
 .Lstart_40069fd0:
     mov ip, r0  /* 40069fd0 */
     push.w {r3, r4, r5, r6, r7, sl, fp, lr}  /* 40069fd2 */
@@ -284,4 +284,4 @@ func_40069fd0:  /* 0x40069fd0 */
     vpop {d8}  /* 4006a312 */
     pop.w {r0, r4, r5, r6, r7, sl, fp, pc}  /* 4006a316 */
     .byte 0x00, 0x00  /* 4006a31a */
-    .size func_40069fd0, . - func_40069fd0
+    .size __pow_core, . - __pow_core

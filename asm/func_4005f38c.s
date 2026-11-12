@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.4005f38c, "ax", %progbits
-    .global ms5351m_c
-    .type ms5351m_c, %function
-ms5351m_c:  /* 0x4005f38c */
+    .global ms5351_set_clk1
+    .type ms5351_set_clk1, %function
+ms5351_set_clk1:  /* 0x4005f38c */
 .Lstart_4005f38c:
     push {r4, r5, r6, r7, r8, sb, lr}  /* 4005f38c */
     mov r4, #0  /* 4005f390 */
@@ -103,22 +103,22 @@ ms5351m_c:  /* 0x4005f38c */
     vdiv.f32 s2, s1, s2  /* 4005f4e4 */
     vcvt.u32.f32 s2, s2  /* 4005f4e8 */
     vmov r2, s2  /* 4005f4ec */
-    bl func_4005f55c  /* 4005f4f0 */
+    bl ms5351_write_pll  /* 4005f4f0 */
     cmp r6, r7  /* 4005f4f4 */
     mov r0, #0x32  /* 4005f4f8 */
     movlo r2, r4  /* 4005f4fc */
     movlo r1, r5  /* 4005f500 */
     movhs r2, #0xc  /* 4005f504 */
     movhs r1, #4  /* 4005f508 */
-    bl func_4005f644  /* 4005f50c */
+    bl ms5351_write_ms_int  /* 4005f50c */
     mov r1, #0x80  /* 4005f510 */
     mov r0, #0xb1  /* 4005f514 */
-    bl func_4005f164  /* 4005f518 */
+    bl ms5351_write_reg  /* 4005f518 */
     add sp, sp, #4  /* 4005f51c */
     mov r1, #0x6f  /* 4005f520 */
     pop {r4, r5, r6, r7, r8, sb, lr}  /* 4005f524 */
     mov r0, #0x11  /* 4005f528 */
-    b func_4005f164  /* 4005f52c */
+    b ms5351_write_reg  /* 4005f52c */
     .word 0x497ffff0  /* 4005f530 */
     .word 0x4bbebc20  /* 4005f534 */
     .word 0x01c20890  /* 4005f538 */
@@ -130,4 +130,4 @@ ms5351m_c:  /* 0x4005f38c */
     .word 0xabcc7712  /* 4005f550 */
     .word 0x017d7840  /* 4005f554 */
     .word 0x42e68c68  /* 4005f558 */
-    .size ms5351m_c, . - ms5351m_c
+    .size ms5351_set_clk1, . - ms5351_set_clk1

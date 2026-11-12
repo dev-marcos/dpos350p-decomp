@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40066bd4, "ax", %progbits
-    .global func_40066bd4
-    .type func_40066bd4, %function
-func_40066bd4:  /* 0x40066bd4 */
+    .global irq_register
+    .type irq_register, %function
+irq_register:  /* 0x40066bd4 */
 .Lstart_40066bd4:
     push {r4, r5, r6, r7, r8, sb, sl, lr}  /* 40066bd4 */
     mov r4, r0  /* 40066bd8 */
@@ -44,4 +44,4 @@ func_40066bd4:  /* 0x40066bd4 */
     .word 0x42e67954  /* 40066c60 */
     .word 0xa0a0a0a0  /* 40066c64 */
     .word 0x4008e724  /* 40066c68 */
-    .size func_40066bd4, . - func_40066bd4
+    .size irq_register, . - irq_register

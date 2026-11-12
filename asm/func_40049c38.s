@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40049c38, "ax", %progbits
-    .global func_40049c38
-    .type func_40049c38, %function
-func_40049c38:  /* 0x40049c38 */
+    .global disk_initialize
+    .type disk_initialize, %function
+disk_initialize:  /* 0x40049c38 */
 .Lstart_40049c38:
     movs r1, r0  /* 40049c38 */
     mov r0, #1  /* 40049c3c */
@@ -24,4 +24,4 @@ func_40049c38:  /* 0x40049c38 */
 .L40049c70:
     add sp, sp, #4  /* 40049c70 */
     ldm sp!, {pc}  /* 40049c74 */
-    .size func_40049c38, . - func_40049c38
+    .size disk_initialize, . - disk_initialize

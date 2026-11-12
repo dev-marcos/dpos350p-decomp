@@ -22,7 +22,7 @@ func_4004aa24:  /* 0x4004aa24 */
     add sp, sp, #4  /* 4004aa58 */
     mov r0, #0x32  /* 4004aa5c */
     pop {r4, r5, lr}  /* 4004aa60 */
-    b func_40042cf0  /* 4004aa64 */
+    b delay_ms  /* 4004aa64 */
 .L4004aa68:
     add sp, sp, #4  /* 4004aa68 */
     pop {r4, r5, pc}  /* 4004aa6c */

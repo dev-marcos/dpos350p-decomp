@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.400576b0, "ax", %progbits
-    .global func_400576b0
-    .type func_400576b0, %function
-func_400576b0:  /* 0x400576b0 */
+    .global create_chain
+    .type create_chain, %function
+create_chain:  /* 0x400576b0 */
 .Lstart_400576b0:
     push {r4, r5, r6, r7, r8, sb, lr}  /* 400576b0 */
     mov r8, r0  /* 400576b4 */
@@ -22,7 +22,7 @@ func_400576b0:  /* 0x400576b0 */
     mov r5, #1  /* 400576e0 */
     b .L4005770c  /* 400576e4 */
 .L400576e8:
-    bl func_40056ed4  /* 400576e8 */
+    bl get_fat  /* 400576e8 */
     cmp r0, #1  /* 400576ec */
     bls .L40057760  /* 400576f0 */
     cmn r0, #1  /* 400576f4 */
@@ -41,7 +41,7 @@ func_400576b0:  /* 0x400576b0 */
     mov r2, #1  /* 40057724 */
     mov r1, r5  /* 40057728 */
     mov r0, r4  /* 4005772c */
-    bl func_4005728c  /* 40057730 */
+    bl find_bitmap  /* 40057730 */
     movs sb, r0  /* 40057734 */
     beq .L40057930  /* 40057738 */
     cmn sb, #1  /* 4005773c */
@@ -50,7 +50,7 @@ func_400576b0:  /* 0x400576b0 */
     mov r2, #1  /* 40057748 */
     mov r1, sb  /* 4005774c */
     mov r0, r4  /* 40057750 */
-    bl func_40057374  /* 40057754 */
+    bl change_bitmap  /* 40057754 */
     cmp r0, #2  /* 40057758 */
     bne .L4005776c  /* 4005775c */
 .L40057760:
@@ -92,7 +92,7 @@ func_400576b0:  /* 0x400576b0 */
     mov r1, r6  /* 400577e0 */
     streq r0, [r8, #0x1c]  /* 400577e4 */
     mov r0, r8  /* 400577e8 */
-    bl func_40057480  /* 400577ec */
+    bl fill_last_frag  /* 400577ec */
     cmp r0, #0  /* 400577f0 */
     bne .L400578f0  /* 400577f4 */
     mov r0, #1  /* 400577f8 */
@@ -107,7 +107,7 @@ func_400576b0:  /* 0x400576b0 */
     cmp sb, r1  /* 40057818 */
     movhs sb, #2  /* 4005781c */
     mov r1, sb  /* 40057820 */
-    bl func_40056ed4  /* 40057824 */
+    bl get_fat  /* 40057824 */
     cmp r0, #1  /* 40057828 */
     beq .L40057934  /* 4005782c */
     cmn r0, #1  /* 40057830 */
@@ -139,7 +139,7 @@ func_400576b0:  /* 0x400576b0 */
 .L4005788c:
     mov r1, sb  /* 4005788c */
     mov r0, r8  /* 40057890 */
-    bl func_40056ed4  /* 40057894 */
+    bl get_fat  /* 40057894 */
     cmp r0, #0  /* 40057898 */
     beq .L400578c0  /* 4005789c */
     cmp r0, #1  /* 400578a0 */
@@ -155,7 +155,7 @@ func_400576b0:  /* 0x400576b0 */
     mvn r2, #0  /* 400578c0 */
     mov r1, sb  /* 400578c4 */
     mov r0, r4  /* 400578c8 */
-    bl func_40057108  /* 400578cc */
+    bl put_fat  /* 400578cc */
     cmp r0, #0  /* 400578d0 */
     bne .L400578f0  /* 400578d4 */
     cmp r6, #0  /* 400578d8 */
@@ -163,7 +163,7 @@ func_400576b0:  /* 0x400576b0 */
     mov r2, sb  /* 400578e0 */
     mov r1, r6  /* 400578e4 */
     mov r0, r4  /* 400578e8 */
-    bl func_40057108  /* 400578ec */
+    bl put_fat  /* 400578ec */
 .L400578f0:
     cmp r0, #0  /* 400578f0 */
     bne .L40057924  /* 400578f4 */
@@ -188,4 +188,4 @@ func_400576b0:  /* 0x400576b0 */
 .L40057934:
     add sp, sp, #4  /* 40057934 */
     pop {r4, r5, r6, r7, r8, sb, pc}  /* 40057938 */
-    .size func_400576b0, . - func_400576b0
+    .size create_chain, . - create_chain

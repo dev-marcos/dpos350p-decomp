@@ -10,29 +10,29 @@ func_40068e94:  /* 0x40068e94 */
     mov r4, #112, #14  /* 40068e98 */
     orr r4, r4, #0x22800  /* 40068e9c */
     mov r0, r4  /* 40068ea0 */
-    bl func_40068e64  /* 40068ea4 */
+    bl readl_c  /* 40068ea4 */
     bic r1, r0, #192, #26  /* 40068ea8 */
     mov r0, r4  /* 40068eac */
-    bl func_40068e6c  /* 40068eb0 */
+    bl writel_c  /* 40068eb0 */
     mov r0, r4  /* 40068eb4 */
-    bl func_40068e64  /* 40068eb8 */
+    bl readl_c  /* 40068eb8 */
     orr r1, r0, #128, #26  /* 40068ebc */
     mov r0, r4  /* 40068ec0 */
-    bl func_40068e6c  /* 40068ec4 */
+    bl writel_c  /* 40068ec4 */
     mov r0, r4  /* 40068ec8 */
-    bl func_40068e64  /* 40068ecc */
+    bl readl_c  /* 40068ecc */
     bic r1, r0, #0x30  /* 40068ed0 */
     mov r0, r4  /* 40068ed4 */
-    bl func_40068e6c  /* 40068ed8 */
+    bl writel_c  /* 40068ed8 */
     mov r0, r4  /* 40068edc */
-    bl func_40068e64  /* 40068ee0 */
+    bl readl_c  /* 40068ee0 */
     mov r1, r0  /* 40068ee4 */
     mov r0, r4  /* 40068ee8 */
-    bl func_40068e6c  /* 40068eec */
+    bl writel_c  /* 40068eec */
     mov r0, r4  /* 40068ef0 */
-    bl func_40068e64  /* 40068ef4 */
+    bl readl_c  /* 40068ef4 */
     orr r1, r0, #1  /* 40068ef8 */
     mov r0, r4  /* 40068efc */
     pop {r4, lr}  /* 40068f00 */
-    b func_40068e6c  /* 40068f04 */
+    b writel_c  /* 40068f04 */
     .size func_40068e94, . - func_40068e94

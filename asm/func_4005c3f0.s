@@ -114,22 +114,22 @@ func_4005c3f0:  /* 0x4005c3f0 */
     mov r2, #0xb  /* 4005c590 */
     mov r1, r6  /* 4005c594 */
     mov r0, sp  /* 4005c598 */
-    bl func_40059b8c  /* 4005c59c */
+    bl f_open  /* 4005c59c */
     cmp r0, #0  /* 4005c5a0 */
     bne .L4005c5dc  /* 4005c5a4 */
     mov r2, #0  /* 4005c5a8 */
     mov r3, #0  /* 4005c5ac */
     mov r0, sp  /* 4005c5b0 */
-    bl func_4005a6cc  /* 4005c5b4 */
+    bl f_lseek  /* 4005c5b4 */
     mov r3, #0  /* 4005c5b8 */
     ldr r2, [pc, #0x3c]  /* 4005c5bc */
     mov r1, r5  /* 4005c5c0 */
     mov r0, sp  /* 4005c5c4 */
-    bl func_4005a1d4  /* 4005c5c8 */
+    bl f_write  /* 4005c5c8 */
     cmp r0, #0  /* 4005c5cc */
     mov r0, sp  /* 4005c5d0 */
     moveq r4, #1  /* 4005c5d4 */
-    bl func_4005a694  /* 4005c5d8 */
+    bl f_close  /* 4005c5d8 */
 .L4005c5dc:
     bl func_400342dc  /* 4005c5dc */
     mov r0, r4  /* 4005c5e0 */

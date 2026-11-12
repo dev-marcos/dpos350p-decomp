@@ -2,10 +2,10 @@
     .syntax unified
     .arm
     .section .text.40068e5c, "ax", %progbits
-    .global __aeabi_memclr
-    .type __aeabi_memclr, %function
-__aeabi_memclr:  /* 0x40068e5c */
+    .global __aeabi_memclr4
+    .type __aeabi_memclr4, %function
+__aeabi_memclr4:  /* 0x40068e5c */
 .Lstart_40068e5c:
     movs r2, #0  /* 40068e5c */
-    b __aeabi_memset  /* 40068e60 */
-    .size __aeabi_memclr, . - __aeabi_memclr
+    b __aeabi_memset4  /* 40068e60 */
+    .size __aeabi_memclr4, . - __aeabi_memclr4

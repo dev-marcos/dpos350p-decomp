@@ -12,17 +12,17 @@ func_40065ef8:  /* 0x40065ef8 */
     mov r2, #2  /* 40065f04 */
     mov r1, #0  /* 40065f08 */
     mov r0, r4  /* 40065f0c */
-    bl func_400631d4  /* 40065f10 */
+    bl pio_cfg_pin  /* 40065f10 */
     mov r3, #0  /* 40065f14 */
     mov r2, #2  /* 40065f18 */
     mov r1, #2  /* 40065f1c */
     mov r0, r4  /* 40065f20 */
-    bl func_400631d4  /* 40065f24 */
+    bl pio_cfg_pin  /* 40065f24 */
     mov r3, #0  /* 40065f28 */
     mov r2, #2  /* 40065f2c */
     mov r1, #3  /* 40065f30 */
     mov r0, r4  /* 40065f34 */
-    bl func_400631d4  /* 40065f38 */
+    bl pio_cfg_pin  /* 40065f38 */
     ldr r0, [pc, #0x1e0]  /* 40065f3c */
     str r0, [r4, #4]  /* 40065f40 */
     pop {r4, pc}  /* 40065f44 */

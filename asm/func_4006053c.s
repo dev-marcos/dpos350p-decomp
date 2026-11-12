@@ -25,7 +25,7 @@ func_4006053c:  /* 0x4006053c */
     vmov.f64 d1, d10  /* 4006057c */
     vmla.f64 d1, d0, d8  /* 40060580 */
     vmov r0, r1, d1  /* 40060584 */
-    blx __aeabi_d2iz_like  /* 40060588 */
+    blx __aeabi_d2lz  /* 40060588 */
     vldr s4, [r8, #0x60]  /* 4006058c */
     mov r6, r0  /* 40060590 */
     vcvt.f64.s32 d2, s4  /* 40060594 */
@@ -33,12 +33,12 @@ func_4006053c:  /* 0x4006053c */
     vdiv.f64 d2, d2, d9  /* 4006059c */
     vmla.f64 d10, d2, d8  /* 400605a0 */
     vmov r0, r1, d10  /* 400605a4 */
-    blx __aeabi_d2iz_like  /* 400605a8 */
+    blx __aeabi_d2lz  /* 400605a8 */
     mov r4, r0  /* 400605ac */
     mov r5, r1  /* 400605b0 */
     subs r0, r4, r6  /* 400605b4 */
     sbc r1, r5, r7  /* 400605b8 */
-    blx func_4006a4da  /* 400605bc */
+    blx llabs  /* 400605bc */
     strd r4, r5, [r8, #0x70]  /* 400605c0 */
     strd r6, r7, [r8, #0x68]  /* 400605c4 */
     strd r0, r1, [r8, #0x78]  /* 400605c8 */

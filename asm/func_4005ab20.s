@@ -2,18 +2,18 @@
     .syntax unified
     .arm
     .section .text.4005ab20, "ax", %progbits
-    .global func_4005ab20
-    .type func_4005ab20, %function
-func_4005ab20:  /* 0x4005ab20 */
+    .global f_closedir
+    .type f_closedir, %function
+f_closedir:  /* 0x4005ab20 */
 .Lstart_4005ab20:
     push {r4, lr}  /* 4005ab20 */
     mov r4, r0  /* 4005ab24 */
     sub sp, sp, #8  /* 4005ab28 */
     mov r1, sp  /* 4005ab2c */
-    bl func_40059a88  /* 4005ab30 */
+    bl validate  /* 4005ab30 */
     movs r1, r0  /* 4005ab34 */
     moveq r2, #0  /* 4005ab38 */
     streq r2, [r4]  /* 4005ab3c */
     add sp, sp, #8  /* 4005ab40 */
     pop {r4, pc}  /* 4005ab44 */
-    .size func_4005ab20, . - func_4005ab20
+    .size f_closedir, . - f_closedir

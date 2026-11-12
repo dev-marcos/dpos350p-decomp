@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.400490dc, "ax", %progbits
-    .global pe0_pe3_function_1_pe0_pe3
-    .type pe0_pe3_function_1_pe0_pe3, %function
-pe0_pe3_function_1_pe0_pe3:  /* 0x400490dc */
+    .global fpga_bus_input
+    .type fpga_bus_input, %function
+fpga_bus_input:  /* 0x400490dc */
 .Lstart_400490dc:
     mov r0, #0  /* 400490dc */
     ldr r1, [pc, #0x250]  /* 400490e0 */
@@ -12,4 +12,4 @@ pe0_pe3_function_1_pe0_pe3:  /* 0x400490dc */
     ldr r2, [pc, #0x24c]  /* 400490e8 */
     str r0, [r2]  /* 400490ec */
     bx lr  /* 400490f0 */
-    .size pe0_pe3_function_1_pe0_pe3, . - pe0_pe3_function_1_pe0_pe3
+    .size fpga_bus_input, . - fpga_bus_input

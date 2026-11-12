@@ -8,11 +8,11 @@ func_400490b8:  /* 0x400490b8 */
 .Lstart_400490b8:
     stmdb sp!, {lr}  /* 400490b8 */
     sub sp, sp, #4  /* 400490bc */
-    bl ms5351m_a  /* 400490c0 */
+    bl ms5351_pins_init  /* 400490c0 */
     ldr r0, [pc, #0x264]  /* 400490c4 */
-    bl ms5351m_b  /* 400490c8 */
+    bl ms5351_set_clk0  /* 400490c8 */
     add sp, sp, #4  /* 400490cc */
     ldr r0, [pc, #0x25c]  /* 400490d0 */
     ldm sp!, {lr}  /* 400490d4 */
-    b ms5351m_c  /* 400490d8 */
+    b ms5351_set_clk1  /* 400490d8 */
     .size func_400490b8, . - func_400490b8

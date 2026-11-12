@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40057c38, "ax", %progbits
-    .global func_40057c38
-    .type func_40057c38, %function
-func_40057c38:  /* 0x40057c38 */
+    .global dir_alloc
+    .type dir_alloc, %function
+dir_alloc:  /* 0x40057c38 */
 .Lstart_40057c38:
     push {r4, r5, r6, r7, lr}  /* 40057c38 */
     mov r4, r0  /* 40057c3c */
@@ -12,14 +12,14 @@ func_40057c38:  /* 0x40057c38 */
     mov r5, r1  /* 40057c44 */
     ldr r6, [r4]  /* 40057c48 */
     mov r1, #0  /* 40057c4c */
-    bl func_400579d4  /* 40057c50 */
+    bl dir_sdi  /* 40057c50 */
     movs r1, r0  /* 40057c54 */
     bne .L40057c98  /* 40057c58 */
     mov r7, #0  /* 40057c5c */
 .L40057c60:
     ldr r1, [r4, #0x38]  /* 40057c60 */
     mov r0, r6  /* 40057c64 */
-    bl func_40056d80  /* 40057c68 */
+    bl move_window  /* 40057c68 */
     movs r1, r0  /* 40057c6c */
     bne .L40057c98  /* 40057c70 */
     ldrb r2, [r6]  /* 40057c74 */
@@ -50,8 +50,8 @@ func_40057c38:  /* 0x40057c38 */
 .L40057cc4:
     mov r1, #1  /* 40057cc4 */
     mov r0, r4  /* 40057cc8 */
-    bl func_40057aec  /* 40057ccc */
+    bl dir_next  /* 40057ccc */
     movs r1, r0  /* 40057cd0 */
     beq .L40057c60  /* 40057cd4 */
     b .L40057c98  /* 40057cd8 */
-    .size func_40057c38, . - func_40057c38
+    .size dir_alloc, . - dir_alloc

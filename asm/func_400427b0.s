@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.400427b0, "ax", %progbits
-    .global func_400427b0
-    .type func_400427b0, %function
-func_400427b0:  /* 0x400427b0 */
+    .global ccu_set_cpu_pll
+    .type ccu_set_cpu_pll, %function
+ccu_set_cpu_pll:  /* 0x400427b0 */
 .Lstart_400427b0:
     push {r4, r5, r6, r7, lr}  /* 400427b0 */
     mov r4, #0  /* 400427b4 */
@@ -20,22 +20,22 @@ func_400427b0:  /* 0x400427b0 */
     ldr r1, [pc, #0x110]  /* 400427dc */
     mov r0, r6  /* 400427e0 */
     bic r7, r6, #0x50  /* 400427e4 */
-    bl func_400427a8  /* 400427e8 */
+    bl writel_e  /* 400427e8 */
     sub r0, r5, #1  /* 400427ec */
     mov r1, #124, #26  /* 400427f0 */
     and r1, r1, r0, lsl #8  /* 400427f4 */
     mov r0, r7  /* 400427f8 */
     orr r1, r4, r1  /* 400427fc */
     orr r1, r1, #128, #8  /* 40042800 */
-    bl func_400427a8  /* 40042804 */
+    bl writel_e  /* 40042804 */
 .L40042808:
     mov r0, r7  /* 40042808 */
-    bl func_400427a0  /* 4004280c */
+    bl readl_e  /* 4004280c */
     tst r0, #64, #10  /* 40042810 */
     beq .L40042808  /* 40042814 */
     mov r0, r6  /* 40042818 */
     add sp, sp, #4  /* 4004281c */
     pop {r4, r5, r6, r7, lr}  /* 40042820 */
     ldr r1, [pc, #0xcc]  /* 40042824 */
-    b func_400427a8  /* 40042828 */
-    .size func_400427b0, . - func_400427b0
+    b writel_e  /* 40042828 */
+    .size ccu_set_cpu_pll, . - ccu_set_cpu_pll

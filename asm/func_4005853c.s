@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.4005853c, "ax", %progbits
-    .global func_4005853c
-    .type func_4005853c, %function
-func_4005853c:  /* 0x4005853c */
+    .global create_xdir
+    .type create_xdir, %function
+create_xdir:  /* 0x4005853c */
 .Lstart_4005853c:
     push {r4, r5, r6, r7, r8, sb, sl, fp, lr}  /* 4005853c */
     mov r6, r1  /* 40058540 */
@@ -12,7 +12,7 @@ func_4005853c:  /* 0x4005853c */
     mov r8, r0  /* 40058548 */
     mov r2, #0x40  /* 4005854c */
     mov r1, #0  /* 40058550 */
-    bl func_40056bac  /* 40058554 */
+    bl mem_set  /* 40058554 */
     mov r0, #0x85  /* 40058558 */
     mov r1, #0xc0  /* 4005855c */
     strb r0, [r8]  /* 40058560 */
@@ -40,7 +40,7 @@ func_4005853c:  /* 0x4005853c */
 .L400585b0:
     mov r1, r4  /* 400585b0 */
     mov r0, fp  /* 400585b4 */
-    bl func_40056b04  /* 400585b8 */
+    bl st_word  /* 400585b8 */
     add r5, r5, #2  /* 400585bc */
     add fp, fp, #2  /* 400585c0 */
     tst r5, #0x1f  /* 400585c4 */
@@ -55,10 +55,10 @@ func_4005853c:  /* 0x4005853c */
     strb sl, [r8, #0x23]  /* 400585e8 */
     strb r0, [r8, #1]  /* 400585ec */
     mov r0, r6  /* 400585f0 */
-    bl func_40058118  /* 400585f4 */
+    bl xname_sum  /* 400585f4 */
     mov r1, r0  /* 400585f8 */
     add r0, r8, #0x24  /* 400585fc */
     add sp, sp, #4  /* 40058600 */
     pop {r4, r5, r6, r7, r8, sb, sl, fp, lr}  /* 40058604 */
-    b func_40056b04  /* 40058608 */
-    .size func_4005853c, . - func_4005853c
+    b st_word  /* 40058608 */
+    .size create_xdir, . - create_xdir

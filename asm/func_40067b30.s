@@ -87,29 +87,29 @@ func_40067b30:  /* 0x40067b30 */
     mov r0, r5  /* 40067c50 */
     bl func_400688fc  /* 40067c54 */
     mov r0, r4  /* 40067c58 */
-    bl func_40067598  /* 40067c5c */
+    bl readl_a  /* 40067c5c */
     bic r1, r0, #128, #8  /* 40067c60 */
     mov r0, r4  /* 40067c64 */
-    bl func_400675a0  /* 40067c68 */
+    bl writel_a  /* 40067c68 */
     mov r0, r4  /* 40067c6c */
-    bl func_40067598  /* 40067c70 */
+    bl readl_a  /* 40067c70 */
     orr r1, r0, #0x24  /* 40067c74 */
     mov r0, r4  /* 40067c78 */
-    bl func_400675a0  /* 40067c7c */
+    bl writel_a  /* 40067c7c */
     mov r1, #1  /* 40067c80 */
     mov r0, r6  /* 40067c84 */
-    bl func_400675a0  /* 40067c88 */
+    bl writel_a  /* 40067c88 */
 .L40067c8c:
     mov r0, r6  /* 40067c8c */
-    bl func_40067598  /* 40067c90 */
+    bl readl_a  /* 40067c90 */
     tst r0, #1  /* 40067c94 */
     bne .L40067c8c  /* 40067c98 */
     mov r1, #0x82  /* 40067c9c */
     mov r0, r6  /* 40067ca0 */
-    bl func_400675a0  /* 40067ca4 */
+    bl writel_a  /* 40067ca4 */
     add r6, r4, #0x8c  /* 40067ca8 */
     mov r0, r6  /* 40067cac */
-    bl func_40067598  /* 40067cb0 */
+    bl readl_a  /* 40067cb0 */
     ldr r2, [sp, #8]  /* 40067cb4 */
     bic r0, r0, #3  /* 40067cb8 */
     ldrb r3, [r2, #4]  /* 40067cbc */
@@ -117,14 +117,14 @@ func_40067b30:  /* 0x40067b30 */
     orrne r1, r0, #1  /* 40067cc4 */
     orreq r1, r0, #2  /* 40067cc8 */
     mov r0, r6  /* 40067ccc */
-    bl func_400675a0  /* 40067cd0 */
+    bl writel_a  /* 40067cd0 */
     mov r1, r5  /* 40067cd4 */
     add r0, r4, #0x84  /* 40067cd8 */
-    bl func_400675a0  /* 40067cdc */
+    bl writel_a  /* 40067cdc */
     mov r1, #0x20000008  /* 40067ce0 */
     add r0, r4, #0x40  /* 40067ce4 */
     orr r1, r1, #112, #20  /* 40067ce8 */
-    bl func_400675a0  /* 40067cec */
+    bl writel_a  /* 40067cec */
     mov r0, #0  /* 40067cf0 */
 .L40067cf4:
     add sp, sp, #0xc  /* 40067cf4 */

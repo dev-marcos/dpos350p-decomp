@@ -45,7 +45,7 @@ func_4004ef10:  /* 0x4004ef10 */
     bl func_4003e708  /* 4004efa0 */
     bl func_4004ed18  /* 4004efa4 */
     mov r0, #0x64  /* 4004efa8 */
-    bl func_40042cf0  /* 4004efac */
+    bl delay_ms  /* 4004efac */
     bl acquisition_dispatcher  /* 4004efb0 */
     add ip, r4, r7  /* 4004efb4 */
     mov r2, #0x3e8  /* 4004efb8 */
@@ -61,7 +61,7 @@ func_4004ef10:  /* 0x4004ef10 */
     bl func_4003e708  /* 4004efe0 */
     bl func_4004ed18  /* 4004efe4 */
     mov r0, #0x64  /* 4004efe8 */
-    bl func_40042cf0  /* 4004efec */
+    bl delay_ms  /* 4004efec */
     bl acquisition_dispatcher  /* 4004eff0 */
     add r0, r4, r7  /* 4004eff4 */
     mov r2, #0x3e8  /* 4004eff8 */
@@ -78,7 +78,7 @@ func_4004ef10:  /* 0x4004ef10 */
     bl func_4003e708  /* 4004f024 */
     bl func_4004ed18  /* 4004f028 */
     mov r0, #0x64  /* 4004f02c */
-    bl func_40042cf0  /* 4004f030 */
+    bl delay_ms  /* 4004f030 */
     bl acquisition_dispatcher  /* 4004f034 */
     add r0, r4, r7  /* 4004f038 */
     mov r2, #0x3e8  /* 4004f03c */

@@ -2,10 +2,10 @@
     .syntax unified
     .thumb
     .section .text.4005dad0, "ax", %progbits
-    .global func_4005dad0
-    .type func_4005dad0, %function
+    .global log10
+    .type log10, %function
     .thumb_func
-func_4005dad0:  /* 0x4005dad0 */
+log10:  /* 0x4005dad0 */
 .Lstart_4005dad0:
     vmov.32 r1, d0[1]  /* 4005dad0 */
     vcmp.f64 d0, #0  /* 4005dad4 */
@@ -63,4 +63,4 @@ func_4005dad0:  /* 0x4005dad0 */
     sub.w ip, ip, #0x34  /* 4005db94 */
     b .L4005db06  /* 4005db98 */
     .byte 0x00, 0x00  /* 4005db9a */
-    .size func_4005dad0, . - func_4005dad0
+    .size log10, . - log10

@@ -2,10 +2,10 @@
     .syntax unified
     .thumb
     .section .text.4006a4e8, "ax", %progbits
-    .global __aeabi_f2iz_like
-    .type __aeabi_f2iz_like, %function
+    .global __aeabi_f2lz
+    .type __aeabi_f2lz, %function
     .thumb_func
-__aeabi_f2iz_like:  /* 0x4006a4e8 */
+__aeabi_f2lz:  /* 0x4006a4e8 */
 .Lstart_4006a4e8:
     ubfx r2, r0, #0x17, #8  /* 4006a4e8 */
     asrs r1, r0, #0x1f  /* 4006a4ec */
@@ -38,4 +38,4 @@ __aeabi_f2iz_like:  /* 0x4006a4e8 */
 .L4006a52c:
     movs r1, #0  /* 4006a52c */
     bx lr  /* 4006a52e */
-    .size __aeabi_f2iz_like, . - __aeabi_f2iz_like
+    .size __aeabi_f2lz, . - __aeabi_f2lz

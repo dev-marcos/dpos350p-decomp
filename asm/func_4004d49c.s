@@ -25,7 +25,7 @@ func_4004d49c:  /* 0x4004d49c */
     str r1, [sp]  /* 4004d4dc */
     add r6, r0, #1  /* 4004d4e0 */
     vmov r0, r1, d1  /* 4004d4e4 */
-    blx __aeabi_d2uiz_like  /* 4004d4e8 */
+    blx __aeabi_d2ulz  /* 4004d4e8 */
     ldr r2, [pc, #0x364]  /* 4004d4ec */
     mov r3, #0  /* 4004d4f0 */
     ldr sl, [r2, #0x554]  /* 4004d4f4 */

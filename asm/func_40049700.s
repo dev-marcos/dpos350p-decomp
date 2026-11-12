@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40049700, "ax", %progbits
-    .global gt911_register_buffer_read
-    .type gt911_register_buffer_read, %function
-gt911_register_buffer_read:  /* 0x40049700 */
+    .global gt911_read_regs
+    .type gt911_read_regs, %function
+gt911_read_regs:  /* 0x40049700 */
 .Lstart_40049700:
     push {r4, r5, r6, r7, lr}  /* 40049700 */
     mov r4, r0  /* 40049704 */
@@ -12,36 +12,36 @@ gt911_register_buffer_read:  /* 0x40049700 */
     mov r5, r1  /* 4004970c */
     mov r6, r2  /* 40049710 */
     mov r7, r3  /* 40049714 */
-    bl gt911_i2c_start_bus_prepare  /* 40049718 */
+    bl gt911_i2c_start  /* 40049718 */
     mov r0, #0xba  /* 4004971c */
-    bl gt911_write_byte_msb_first  /* 40049720 */
-    bl gt911_wait_ack_timeout_50000  /* 40049724 */
+    bl gt911_write_byte  /* 40049720 */
+    bl gt911_wait_ack  /* 40049724 */
     cmp r5, #1  /* 40049728 */
     beq .L40049744  /* 4004972c */
     cmp r5, #2  /* 40049730 */
     bne .L40049750  /* 40049734 */
     lsr r0, r4, #8  /* 40049738 */
-    bl gt911_write_byte_msb_first  /* 4004973c */
-    bl gt911_wait_ack_timeout_50000  /* 40049740 */
+    bl gt911_write_byte  /* 4004973c */
+    bl gt911_wait_ack  /* 40049740 */
 .L40049744:
     uxtb r0, r4  /* 40049744 */
-    bl gt911_write_byte_msb_first  /* 40049748 */
-    bl gt911_wait_ack_timeout_50000  /* 4004974c */
+    bl gt911_write_byte  /* 40049748 */
+    bl gt911_wait_ack  /* 4004974c */
 .L40049750:
-    bl gt911_i2c_start_bus_prepare  /* 40049750 */
+    bl gt911_i2c_start  /* 40049750 */
     mov r0, #0xbb  /* 40049754 */
-    bl gt911_write_byte_msb_first  /* 40049758 */
-    bl gt911_wait_ack_timeout_50000  /* 4004975c */
+    bl gt911_write_byte  /* 40049758 */
+    bl gt911_wait_ack  /* 4004975c */
     movs r0, r7  /* 40049760 */
     beq .L4004977c  /* 40049764 */
 .L40049768:
-    bl gt911_read_byte_msb_first  /* 40049768 */
+    bl gt911_read_byte  /* 40049768 */
     strb r0, [r6], #1  /* 4004976c */
-    bl gt911_send_ack_nack  /* 40049770 */
+    bl gt911_send_ack  /* 40049770 */
     subs r7, r7, #1  /* 40049774 */
     bne .L40049768  /* 40049778 */
 .L4004977c:
     add sp, sp, #4  /* 4004977c */
     pop {r4, r5, r6, r7, lr}  /* 40049780 */
     b gt911_i2c_stop  /* 40049784 */
-    .size gt911_register_buffer_read, . - gt911_register_buffer_read
+    .size gt911_read_regs, . - gt911_read_regs

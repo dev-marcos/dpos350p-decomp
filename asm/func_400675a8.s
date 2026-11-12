@@ -6,5 +6,5 @@
     .type func_400675a8, %function
 func_400675a8:  /* 0x400675a8 */
 .Lstart_400675a8:
-    b func_40042d0c  /* 400675a8 */
+    b delay_us  /* 400675a8 */
     .size func_400675a8, . - func_400675a8

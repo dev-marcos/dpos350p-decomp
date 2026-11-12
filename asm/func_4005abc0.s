@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.4005abc0, "ax", %progbits
-    .global func_4005abc0
-    .type func_4005abc0, %function
-func_4005abc0:  /* 0x4005abc0 */
+    .global f_getfree
+    .type f_getfree, %function
+f_getfree:  /* 0x4005abc0 */
 .Lstart_4005abc0:
     push {r0, r4, r5, r6, r7, r8, sb, sl, lr}  /* 4005abc0 */
     mov r6, r1  /* 4005abc4 */
@@ -13,7 +13,7 @@ func_4005abc0:  /* 0x4005abc0 */
     mov r2, #0  /* 4005abd0 */
     mov r1, sp  /* 4005abd4 */
     add r0, sp, #0x3c  /* 4005abd8 */
-    bl func_40059520  /* 4005abdc */
+    bl find_volume  /* 4005abdc */
     movs r8, r0  /* 4005abe0 */
     bne .L4005ad80  /* 4005abe4 */
     ldr r0, [sp]  /* 4005abe8 */
@@ -35,7 +35,7 @@ func_4005abc0:  /* 0x4005abc0 */
 .L4005ac28:
     mov r1, r5  /* 4005ac28 */
     add r0, sp, #8  /* 4005ac2c */
-    bl func_40056ed4  /* 4005ac30 */
+    bl get_fat  /* 4005ac30 */
     cmp r0, r7  /* 4005ac34 */
     beq .L4005ac64  /* 4005ac38 */
     cmp r0, #1  /* 4005ac3c */
@@ -64,7 +64,7 @@ func_4005abc0:  /* 0x4005abc0 */
     ldr r0, [sp]  /* 4005ac88 */
     mov r1, r5  /* 4005ac8c */
     add r5, r5, #1  /* 4005ac90 */
-    bl func_40056d80  /* 4005ac94 */
+    bl move_window  /* 4005ac94 */
     mov r8, r0  /* 4005ac98 */
     movs r1, r8  /* 4005ac9c */
     bne .L4005ad64  /* 4005aca0 */
@@ -97,7 +97,7 @@ func_4005abc0:  /* 0x4005abc0 */
     ldr r0, [sp]  /* 4005acf8 */
     mov r1, sb  /* 4005acfc */
     add sb, sb, #1  /* 4005ad00 */
-    bl func_40056d80  /* 4005ad04 */
+    bl move_window  /* 4005ad04 */
     mov r8, r0  /* 4005ad08 */
     movs r0, r8  /* 4005ad0c */
     bne .L4005ad64  /* 4005ad10 */
@@ -107,13 +107,13 @@ func_4005abc0:  /* 0x4005abc0 */
     cmp r3, #2  /* 4005ad1c */
     add r0, r2, sl  /* 4005ad20 */
     bne .L4005ad3c  /* 4005ad24 */
-    bl func_40056a70  /* 4005ad28 */
+    bl ld_word  /* 4005ad28 */
     cmp r0, #0  /* 4005ad2c */
     add r0, sl, #2  /* 4005ad30 */
     addeq r4, r4, #1  /* 4005ad34 */
     b .L4005ad4c  /* 4005ad38 */
 .L4005ad3c:
-    bl func_40056a80  /* 4005ad3c */
+    bl ld_dword  /* 4005ad3c */
     bics r3, r0, #240, #8  /* 4005ad40 */
     add r0, sl, #4  /* 4005ad44 */
     addeq r4, r4, #1  /* 4005ad48 */
@@ -136,4 +136,4 @@ func_4005abc0:  /* 0x4005abc0 */
     mov r0, r8  /* 4005ad80 */
     add sp, sp, #0x40  /* 4005ad84 */
     pop {r4, r5, r6, r7, r8, sb, sl, pc}  /* 4005ad88 */
-    .size func_4005abc0, . - func_4005abc0
+    .size f_getfree, . - f_getfree

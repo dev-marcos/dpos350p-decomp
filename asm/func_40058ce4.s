@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40058ce4, "ax", %progbits
-    .global func_40058ce4
-    .type func_40058ce4, %function
-func_40058ce4:  /* 0x40058ce4 */
+    .global dir_remove
+    .type dir_remove, %function
+dir_remove:  /* 0x40058ce4 */
 .Lstart_40058ce4:
     push {r4, r5, r6, lr}  /* 40058ce4 */
     mov r4, r0  /* 40058ce8 */
@@ -13,13 +13,13 @@ func_40058ce4:  /* 0x40058ce4 */
     ldr r6, [r4, #0x30]  /* 40058cf4 */
     cmn r1, #1  /* 40058cf8 */
     moveq r0, #0  /* 40058cfc */
-    blne func_400579d4  /* 40058d00 */
+    blne dir_sdi  /* 40058d00 */
     movs r1, r0  /* 40058d04 */
     bne .L40058d78  /* 40058d08 */
 .L40058d0c:
     ldr r1, [r4, #0x38]  /* 40058d0c */
     mov r0, r5  /* 40058d10 */
-    bl func_40056d80  /* 40058d14 */
+    bl move_window  /* 40058d14 */
     movs r1, r0  /* 40058d18 */
     bne .L40058d70  /* 40058d1c */
     ldrb r2, [r5]  /* 40058d20 */
@@ -41,7 +41,7 @@ func_40058ce4:  /* 0x40058ce4 */
     bhs .L40058d78  /* 40058d58 */
     mov r1, #0  /* 40058d5c */
     mov r0, r4  /* 40058d60 */
-    bl func_40057aec  /* 40058d64 */
+    bl dir_next  /* 40058d64 */
     movs r1, r0  /* 40058d68 */
     beq .L40058d0c  /* 40058d6c */
 .L40058d70:
@@ -49,4 +49,4 @@ func_40058ce4:  /* 0x40058ce4 */
     moveq r0, #2  /* 40058d74 */
 .L40058d78:
     pop {r4, r5, r6, pc}  /* 40058d78 */
-    .size func_40058ce4, . - func_40058ce4
+    .size dir_remove, . - dir_remove

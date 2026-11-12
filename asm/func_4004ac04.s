@@ -45,6 +45,6 @@ func_4004ac04:  /* 0x4004ac04 */
     cmp r4, #0  /* 4004ac90 */
     popne {r4, r5, r6, lr}  /* 4004ac94 */
     movne r0, #0x3c  /* 4004ac98 */
-    bne func_40042cf0  /* 4004ac9c */
+    bne delay_ms  /* 4004ac9c */
     pop {r4, r5, r6, pc}  /* 4004aca0 */
     .size func_4004ac04, . - func_4004ac04

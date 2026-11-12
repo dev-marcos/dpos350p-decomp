@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.400675b0, "ax", %progbits
-    .global func_400675b0
-    .type func_400675b0, %function
-func_400675b0:  /* 0x400675b0 */
+    .global sdmmc_pins_init
+    .type sdmmc_pins_init, %function
+sdmmc_pins_init:  /* 0x400675b0 */
 .Lstart_400675b0:
     push {r4, lr}  /* 400675b0 */
     cmp r0, #0  /* 400675b4 */
@@ -15,7 +15,7 @@ func_400675b0:  /* 0x400675b0 */
     mov r2, #2  /* 400675c4 */
     mov r1, r4  /* 400675c8 */
     ldr r0, [pc, #0xe20]  /* 400675cc */
-    bl func_400631d4  /* 400675d0 */
+    bl pio_cfg_pin  /* 400675d0 */
     add r4, r4, #1  /* 400675d4 */
     cmp r4, #6  /* 400675d8 */
     blt .L400675c0  /* 400675dc */
@@ -29,7 +29,7 @@ func_400675b0:  /* 0x400675b0 */
     mov r2, #2  /* 400675f0 */
     mov r1, r4  /* 400675f4 */
     ldr r0, [pc, #0xdf8]  /* 400675f8 */
-    bl func_400631d4  /* 400675fc */
+    bl pio_cfg_pin  /* 400675fc */
     add r4, r4, #1  /* 40067600 */
     cmp r4, #6  /* 40067604 */
     blt .L400675ec  /* 40067608 */
@@ -42,9 +42,9 @@ func_400675b0:  /* 0x400675b0 */
     mov r2, #2  /* 4006761c */
     mov r1, r4  /* 40067620 */
     ldr r0, [pc, #0xdcc]  /* 40067624 */
-    bl func_400631d4  /* 40067628 */
+    bl pio_cfg_pin  /* 40067628 */
     add r4, r4, #1  /* 4006762c */
     cmp r4, #0xb  /* 40067630 */
     blt .L40067618  /* 40067634 */
     pop {r4, pc}  /* 40067638 */
-    .size func_400675b0, . - func_400675b0
+    .size sdmmc_pins_init, . - sdmmc_pins_init

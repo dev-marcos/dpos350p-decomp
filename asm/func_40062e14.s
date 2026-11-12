@@ -30,7 +30,7 @@ func_40062e14:  /* 0x40062e14 */
     vstr d0, [r6, #0x140]  /* 40062e68 */
     vstr d2, [r6, #0x148]  /* 40062e6c */
     ldrd r0, r1, [r6, #0x48]  /* 40062e70 */
-    blx __aeabi_d2iz_like  /* 40062e74 */
+    blx __aeabi_d2lz  /* 40062e74 */
     mov r4, r0  /* 40062e78 */
     mov r5, r1  /* 40062e7c */
     adds r0, r0, r0  /* 40062e80 */

@@ -13,24 +13,24 @@ fpga_data_byte_write:  /* 0x40049214 */
     ldrb r1, [r0]  /* 40049224 */
     cmp r1, #0  /* 40049228 */
     bne .L40049234  /* 4004922c */
-    bl func_400490f4  /* 40049230 */
+    bl fpga_bus_output  /* 40049230 */
 .L40049234:
     ldr r5, [pc, #0x108]  /* 40049234 */
     mov r1, #2  /* 40049238 */
     mov r0, r5  /* 4004923c */
-    bl func_40063274  /* 40049240 */
+    bl pio_set_bit  /* 40049240 */
     mov r1, #3  /* 40049244 */
     mov r0, r5  /* 40049248 */
-    bl func_40063288  /* 4004924c */
+    bl pio_clr_bit  /* 4004924c */
     ldr r0, [r5, #0x10]  /* 40049250 */
     mov r1, #0  /* 40049254 */
     bfi r0, r4, #8, #8  /* 40049258 */
     str r0, [r5, #0x10]  /* 4004925c */
     mov r0, r5  /* 40049260 */
-    bl func_40063288  /* 40049264 */
+    bl pio_clr_bit  /* 40049264 */
     mov r0, r5  /* 40049268 */
     add sp, sp, #4  /* 4004926c */
     pop {r4, r5, lr}  /* 40049270 */
     mov r1, #0  /* 40049274 */
-    b func_40063274  /* 40049278 */
+    b pio_set_bit  /* 40049278 */
     .size fpga_data_byte_write, . - fpga_data_byte_write

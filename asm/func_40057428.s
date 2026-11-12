@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40057428, "ax", %progbits
-    .global func_40057428
-    .type func_40057428, %function
-func_40057428:  /* 0x40057428 */
+    .global fill_first_frag
+    .type fill_first_frag, %function
+fill_first_frag:  /* 0x40057428 */
 .Lstart_40057428:
     push {r4, r5, r6, lr}  /* 40057428 */
     mov r4, r0  /* 4005742c */
@@ -19,7 +19,7 @@ func_40057428:  /* 0x40057428 */
     ldr r0, [r4]  /* 4005744c */
     add r6, r1, #1  /* 40057450 */
     mov r2, r6  /* 40057454 */
-    bl func_40057108  /* 40057458 */
+    bl put_fat  /* 40057458 */
     movs r1, r0  /* 4005745c */
     bne .L4005747c  /* 40057460 */
     subs r5, r5, #1  /* 40057464 */
@@ -32,4 +32,4 @@ func_40057428:  /* 0x40057428 */
     mov r0, #0  /* 40057478 */
 .L4005747c:
     pop {r4, r5, r6, pc}  /* 4005747c */
-    .size func_40057428, . - func_40057428
+    .size fill_first_frag, . - fill_first_frag

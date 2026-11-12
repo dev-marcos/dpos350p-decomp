@@ -130,12 +130,12 @@ func_40060dc8:  /* 0x40060dc8 */
     vldr s17, [r0]  /* 40060f84 */
     vmul.f32 s2, s17, s16  /* 40060f88 */
     vmov r0, s2  /* 40060f8c */
-    blx __aeabi_f2iz_like  /* 40060f90 */
+    blx __aeabi_f2lz  /* 40060f90 */
     vmul.f32 s2, s18, s16  /* 40060f94 */
     mov sl, r0  /* 40060f98 */
     mov fp, r1  /* 40060f9c */
     vmov r0, s2  /* 40060fa0 */
-    blx __aeabi_f2iz_like  /* 40060fa4 */
+    blx __aeabi_f2lz  /* 40060fa4 */
     cmp r1, fp  /* 40060fa8 */
     bgt .L40060fc4  /* 40060fac */
     blt .L40060fbc  /* 40060fb0 */

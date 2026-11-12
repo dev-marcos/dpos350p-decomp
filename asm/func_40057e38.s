@@ -2,15 +2,15 @@
     .syntax unified
     .arm
     .section .text.40057e38, "ax", %progbits
-    .global func_40057e38
-    .type func_40057e38, %function
-func_40057e38:  /* 0x40057e38 */
+    .global pick_lfn
+    .type pick_lfn, %function
+pick_lfn:  /* 0x40057e38 */
 .Lstart_40057e38:
     push {r4, r5, r6, r7, r8, sb, sl, lr}  /* 40057e38 */
     mov sb, r0  /* 40057e3c */
     mov r7, r1  /* 40057e40 */
     add r0, r7, #0x1a  /* 40057e44 */
-    bl func_40056a70  /* 40057e48 */
+    bl ld_word  /* 40057e48 */
     cmp r0, #0  /* 40057e4c */
     bne .L40057ee8  /* 40057e50 */
     ldrb r0, [r7]  /* 40057e54 */
@@ -25,7 +25,7 @@ func_40057e38:  /* 0x40057e38 */
 .L40057e78:
     ldrb r0, [r6]  /* 40057e78 */
     add r0, r7, r0  /* 40057e7c */
-    bl func_40056a70  /* 40057e80 */
+    bl ld_word  /* 40057e80 */
     movs r1, r5  /* 40057e84 */
     beq .L40057eac  /* 40057e88 */
     cmp r4, #0xff  /* 40057e8c */
@@ -57,4 +57,4 @@ func_40057e38:  /* 0x40057e38 */
 .L40057ee8:
     mov r0, #0  /* 40057ee8 */
     pop {r4, r5, r6, r7, r8, sb, sl, pc}  /* 40057eec */
-    .size func_40057e38, . - func_40057e38
+    .size pick_lfn, . - pick_lfn

@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.40056ed4, "ax", %progbits
-    .global func_40056ed4
-    .type func_40056ed4, %function
-func_40056ed4:  /* 0x40056ed4 */
+    .global get_fat
+    .type get_fat, %function
+get_fat:  /* 0x40056ed4 */
 .Lstart_40056ed4:
     push {r4, r5, r6, r7, r8, sb, lr}  /* 40056ed4 */
     mov r2, r0  /* 40056ed8 */
@@ -31,7 +31,7 @@ func_40056ed4:  /* 0x40056ed4 */
     add r7, r5, r5, lsr #1  /* 40056f28 */
     add r1, r0, r7, lsr #9  /* 40056f2c */
     mov r0, r6  /* 40056f30 */
-    bl func_40056d80  /* 40056f34 */
+    bl move_window  /* 40056f34 */
     cmp r0, #0  /* 40056f38 */
     bne .L400570fc  /* 40056f3c */
     lsr r8, r4, #0x17  /* 40056f40 */
@@ -42,7 +42,7 @@ func_40056ed4:  /* 0x40056ed4 */
     ldrb sb, [r0, r1]  /* 40056f54 */
     add r1, r2, r7, lsr #9  /* 40056f58 */
     mov r0, r6  /* 40056f5c */
-    bl func_40056d80  /* 40056f60 */
+    bl move_window  /* 40056f60 */
     cmp r0, #0  /* 40056f64 */
     bne .L400570fc  /* 40056f68 */
     add r0, r6, #0x38  /* 40056f6c */
@@ -60,13 +60,13 @@ func_40056ed4:  /* 0x40056ed4 */
     ldr r1, [r6, #0x28]  /* 40056f98 */
     mov r0, r6  /* 40056f9c */
     add r1, r1, r5, lsr #8  /* 40056fa0 */
-    bl func_40056d80  /* 40056fa4 */
+    bl move_window  /* 40056fa4 */
     cmp r0, #0  /* 40056fa8 */
     bne .L400570fc  /* 40056fac */
     add r0, r6, #0x38  /* 40056fb0 */
     lsl r2, r5, #0x18  /* 40056fb4 */
     add r0, r0, r2, lsr #23  /* 40056fb8 */
-    bl func_40056a70  /* 40056fbc */
+    bl ld_word  /* 40056fbc */
     mov r4, r0  /* 40056fc0 */
     add sp, sp, #4  /* 40056fc4 */
     mov r0, r4  /* 40056fc8 */
@@ -75,13 +75,13 @@ func_40056ed4:  /* 0x40056ed4 */
     ldr r0, [r6, #0x28]  /* 40056fd0 */
     add r1, r0, r5, lsr #7  /* 40056fd4 */
     mov r0, r6  /* 40056fd8 */
-    bl func_40056d80  /* 40056fdc */
+    bl move_window  /* 40056fdc */
     cmp r0, #0  /* 40056fe0 */
     bne .L400570fc  /* 40056fe4 */
     add r0, r6, #0x38  /* 40056fe8 */
     lsl r2, r5, #0x19  /* 40056fec */
     add r0, r0, r2, lsr #23  /* 40056ff0 */
-    bl func_40056a80  /* 40056ff4 */
+    bl ld_dword  /* 40056ff4 */
     bic r4, r0, #240, #8  /* 40056ff8 */
     add sp, sp, #4  /* 40056ffc */
     mov r0, r4  /* 40057000 */
@@ -143,13 +143,13 @@ func_40056ed4:  /* 0x40056ed4 */
     ldr r0, [r6, #0x28]  /* 400570c0 */
     add r1, r0, r5, lsr #7  /* 400570c4 */
     mov r0, r6  /* 400570c8 */
-    bl func_40056d80  /* 400570cc */
+    bl move_window  /* 400570cc */
     cmp r0, #0  /* 400570d0 */
     bne .L400570fc  /* 400570d4 */
     add r0, r6, #0x38  /* 400570d8 */
     lsl r2, r5, #0x19  /* 400570dc */
     add r0, r0, r2, lsr #23  /* 400570e0 */
-    bl func_40056a80  /* 400570e4 */
+    bl ld_dword  /* 400570e4 */
     bic r4, r0, #128, #8  /* 400570e8 */
     add sp, sp, #4  /* 400570ec */
     mov r0, r4  /* 400570f0 */
@@ -160,4 +160,4 @@ func_40056ed4:  /* 0x40056ed4 */
     mov r0, r4  /* 400570fc */
     add sp, sp, #4  /* 40057100 */
     pop {r4, r5, r6, r7, r8, sb, pc}  /* 40057104 */
-    .size func_40056ed4, . - func_40056ed4
+    .size get_fat, . - get_fat

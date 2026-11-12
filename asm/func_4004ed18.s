@@ -35,7 +35,7 @@ func_4004ed18:  /* 0x4004ed18 */
     movlo r0, r1  /* 4004ed7c */
 .L4004ed80:
     str r0, [r6, #0x44]  /* 4004ed80 */
-    bl ms5351m_c  /* 4004ed84 */
+    bl ms5351_set_clk1  /* 4004ed84 */
     mov r0, #0x31  /* 4004ed88 */
     bl fpga_selector_command_write  /* 4004ed8c */
     ldr r0, [r6, #0x3c]  /* 4004ed90 */

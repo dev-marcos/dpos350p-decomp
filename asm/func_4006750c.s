@@ -2,16 +2,16 @@
     .syntax unified
     .arm
     .section .text.4006750c, "ax", %progbits
-    .global func_4006750c
-    .type func_4006750c, %function
-func_4006750c:  /* 0x4006750c */
+    .global wdt_enable
+    .type wdt_enable, %function
+wdt_enable:  /* 0x4006750c */
 .Lstart_4006750c:
     push {r4, lr}  /* 4006750c */
     ldr r4, [pc, #0x54]  /* 40067510 */
     mov r0, r4  /* 40067514 */
-    bl func_40067478  /* 40067518 */
+    bl readl_b  /* 40067518 */
     orr r1, r0, #1  /* 4006751c */
     mov r0, r4  /* 40067520 */
     pop {r4, lr}  /* 40067524 */
-    b func_40067480  /* 40067528 */
-    .size func_4006750c, . - func_4006750c
+    b writel_b  /* 40067528 */
+    .size wdt_enable, . - wdt_enable

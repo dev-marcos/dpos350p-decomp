@@ -8,7 +8,7 @@ func_40065f48:  /* 0x40065f48 */
 .Lstart_40065f48:
     push {r4, lr}  /* 40065f48 */
     ldr r0, [pc, #0x1d4]  /* 40065f4c */
-    bl func_40042914  /* 40065f50 */
+    bl ccu_gate_on  /* 40065f50 */
     ldr r4, [pc, #0x1d0]  /* 40065f54 */
     mov r0, r4  /* 40065f58 */
     bl func_4006582c  /* 40065f5c */

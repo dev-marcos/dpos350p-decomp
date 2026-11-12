@@ -14,7 +14,7 @@ func_40038c00:  /* 0x40038c00 */
     sub sp, sp, #8  /* 40038c14 */
     mov r6, r2  /* 40038c18 */
     vmov r0, r1, d0  /* 40038c1c */
-    blx __aeabi_d2iz_like  /* 40038c20 */
+    blx __aeabi_d2lz  /* 40038c20 */
     mvn r2, #0  /* 40038c24 */
     cmp r1, r2  /* 40038c28 */
     bgt .L40038c4c  /* 40038c2c */

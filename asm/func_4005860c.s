@@ -2,9 +2,9 @@
     .syntax unified
     .arm
     .section .text.4005860c, "ax", %progbits
-    .global func_4005860c
-    .type func_4005860c, %function
-func_4005860c:  /* 0x4005860c */
+    .global dir_read
+    .type dir_read, %function
+dir_read:  /* 0x4005860c */
 .Lstart_4005860c:
     push {r4, r5, r6, r7, sb, lr}  /* 4005860c */
     mov r5, r0  /* 40058610 */
@@ -18,7 +18,7 @@ func_4005860c:  /* 0x4005860c */
     cmp r1, #0  /* 4005862c */
     beq .L40058688  /* 40058630 */
     mov r0, r4  /* 40058634 */
-    bl func_40056d80  /* 40058638 */
+    bl move_window  /* 40058638 */
     movs r1, r0  /* 4005863c */
     bne .L40058688  /* 40058640 */
     ldr r1, [r5, #0x3c]  /* 40058644 */
@@ -61,7 +61,7 @@ func_4005860c:  /* 0x4005860c */
     mov r6, r4  /* 400586c0 */
     str r0, [r5, #0x4c]  /* 400586c4 */
     mov r0, r5  /* 400586c8 */
-    bl func_40058284  /* 400586cc */
+    bl load_xdir  /* 400586cc */
     movs r4, r0  /* 400586d0 */
     bne .L4005868c  /* 400586d4 */
     ldr r0, [r6, #0x10]  /* 400586d8 */
@@ -101,7 +101,7 @@ func_4005860c:  /* 0x4005860c */
     cmp r7, r2  /* 40058758 */
     bne .L40058774  /* 4005875c */
     ldr r0, [r4, #0xc]  /* 40058760 */
-    bl func_40057e38  /* 40058764 */
+    bl pick_lfn  /* 40058764 */
     cmp r0, #0  /* 40058768 */
     subne r6, r6, #1  /* 4005876c */
     bne .L40058778  /* 40058770 */
@@ -110,7 +110,7 @@ func_4005860c:  /* 0x4005860c */
 .L40058778:
     mov r1, #0  /* 40058778 */
     mov r0, r5  /* 4005877c */
-    bl func_40057aec  /* 40058780 */
+    bl dir_next  /* 40058780 */
     movs r1, r0  /* 40058784 */
     beq .L40058628  /* 40058788 */
     b .L40058688  /* 4005878c */
@@ -122,11 +122,11 @@ func_4005860c:  /* 0x4005860c */
     strne r0, [r5, #0x4c]  /* 400587a0 */
     bne .L400586ac  /* 400587a4 */
     mov r0, r1  /* 400587a8 */
-    bl func_40058094  /* 400587ac */
+    bl sum_sfn  /* 400587ac */
     cmp r7, r0  /* 400587b0 */
     beq .L400586ac  /* 400587b4 */
     mvn r1, #0  /* 400587b8 */
     sxtb r0, r4  /* 400587bc */
     str r1, [r5, #0x4c]  /* 400587c0 */
     pop {r4, r5, r6, r7, sb, pc}  /* 400587c4 */
-    .size func_4005860c, . - func_4005860c
+    .size dir_read, . - dir_read
