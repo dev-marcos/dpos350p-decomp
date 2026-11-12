@@ -26,6 +26,8 @@ accesses** (address, width, value, read/write). Names are DERIVED unless noted.
 | Watchdog 0 | `wdt_config`, `wdt_enable`, `wdt_irq_ack`, `wdt_system_reset` | registers 0x01C20CA0..0x01C20CB8 |
 | GT911 touch | start/stop/ack, byte I/O, register read/write (8/16-bit address), pin and reset sequences | `gt911_read_byte` keeps the stock 80-iteration NOP delay |
 | MS5351M clock | I2C primitives, `ms5351_write_pll`, `ms5351_write_ms_int`, `ms5351_set_clk0/1` | Si5351-compatible register map, below |
+| Timers / AVS / delays | `timer_setup/start/stop`, `timer0_init`, `timer0_isr` (increments `g_tick_count` 0x42E68CD8), `avs_init`, `avs_set_div`, `avs0/1_restart`, `avs0/1_read`, `delay_us`, `delay_ms`, `timers_init` | timer block 0x01C20C00; interval = µs·24 (24 MHz OSC); delays poll AVS counter 0 |
+| CCU | `ccu_set_cpu_pll`, `sys_clock_init`, `periph0_freq`, `ccu_gate_on/off`, `spi0_clk_init` | below |
 
 ### MS5351M frequency planning (`ms5351_set_clk0/1`)
 
@@ -45,20 +47,39 @@ accesses** (address, width, value, read/write). Names are DERIVED unless noted.
 6. Side effects: `set_clk0` stores the requested frequency in `SYS_INFO+0x5F0`; `set_clk1`
    stores the VCO frequency in `0x42E68C68`.
 
+### Clock setup (CCU 0x01C20000)
+
+- `ccu_set_cpu_pll(f)`: N = f / 24 MHz (multiply-high by 0xB2F4FC08). Above 768 MHz it sets the
+  P bit (0x10) and halves N. AXI/APB dividers are 0x10102 before and 0x20101 after; it waits on
+  LOCK (bit 28).
+- `sys_clock_init(f)`: f < 1500 means MHz. It rounds down to a multiple of 24 MHz, then writes:
+  - PLL_VIDEO (0x10) = 0x91004107;
+  - PLL_PERIPH0 (0x28) = 0x90041811, then waits for LOCK; this gives 600 MHz;
+  - AHB/APB0 (0x54) = 0x3180;
+  - MBUS (0x15C) = 0x81000003.
+- `ccu_gate_on/off(code)`: one word encodes a bus-gating register and bit (bits 31..21 and
+  20..16) and a reset register and bit (bits 15..5 and 4..0). The function sets or clears both
+  bits, then calls `delay_us(100)`.
+- `spi0_clk_init(0)`: SPI0_CLK (0xA0) is set to PLL_PERIPH0 with divider 3. The function returns
+  that rate, 200 MHz.
+
+Register meanings are DERIVED from the V3s CCU map. The values are STATIC-CONFIRMED.
+
 ## Test harness additions
 
 - `Machine.mmio` is the ordered log of every access to 0x01000000..0x01FFFFFF. It is compared
   between the stock function and the C build.
 - `Machine.devices` holds models that answer reads. The GT911 tests drive PG_DAT bit 6 (SDA)
   from a seeded bit stream, so both outcomes of every ACK poll and data bit are exercised.
-- The delay routines (`delay_us` 0x40042D0C, `delay_ms` 0x40042CF0) poll a hardware timer. In
-  driver tests they are stubs, and their calls and arguments are compared. They will be
-  rewritten with a timer model in a later batch.
+- The delay routines (`delay_us` 0x40042D0C, `delay_ms` 0x40042CF0) are stubs in the tests of
+  their callers, and the calls and arguments are compared. Their own tests use an AVS counter
+  model: AVS_CNT0/1 advance by a seeded step on every read.
+- PLL wait loops use a LOCK model. Reads of PLL_CPU and PLL_PERIPH0 report bit 28 with a seeded
+  probability, so both "not yet locked" and "locked" are exercised.
 
 ## Not yet rewritten (next batches)
 
-- Timer/delay functions (0x40042B60..0x40042E2C).
-- CCU and clock setup (`sys_clock_init`, 0x400427B0, 0x400428AC, 0x4003E00C..).
+- Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).
 - `FPGA_Start` and the FPGA register helpers built on the bus.
 - The USB device stack (about 69 small functions around 0x4006C264).
 - The display engine and TCON code (DE2 0x01000000, functions of up to 5 KB).

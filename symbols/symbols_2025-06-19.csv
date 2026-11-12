@@ -694,41 +694,41 @@ address,size,name,type,evidence_level,source
 0x400424D4,76,func_400424d4,function_arm,DERIVED,analyze.py:rea
 0x40042520,616,func_40042520,function_arm,DERIVED,analyze.py:rea
 0x40042788,24,pool_40042788,literal_pool,DERIVED,analyze.py
-0x400427A0,8,func_400427a0,function_arm,DERIVED,analyze.py:rea
-0x400427A8,8,func_400427a8,function_arm,DERIVED,analyze.py:rea
-0x400427B0,124,func_400427b0,function_arm,DERIVED,analyze.py:rea
+0x400427A0,8,readl_e,function_arm,DERIVED,this-project:phase5 (ldr r0;bx lr; copy in the CCU source file)
+0x400427A8,8,writel_e,function_arm,DERIVED,this-project:phase5
+0x400427B0,124,ccu_set_cpu_pll,function_arm,DERIVED,this-project:phase5 (writes PLL_CPU 0x01C20000; waits LOCK bit 28)
 0x4004282C,128,sys_clock_init,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:176
-0x400428AC,60,func_400428ac,function_arm,DERIVED,analyze.py:rea
+0x400428AC,60,periph0_freq,function_arm,DERIVED,this-project:phase5 (24 MHz*N*K/2 from PLL_PERIPH0 0x01C20028)
 0x400428E8,44,pool_400428e8,literal_pool,DERIVED,analyze.py
-0x40042914,100,func_40042914,function_arm,DERIVED,analyze.py:rea
-0x40042978,108,func_40042978,function_arm,DERIVED,analyze.py:prologue
+0x40042914,100,ccu_gate_on,function_arm,DERIVED,this-project:phase5 (sets gate+reset bits packed in one word; delay_us(100))
+0x40042978,108,ccu_gate_off,function_arm,DERIVED,this-project:phase5 (clears the same bits)
 0x400429E4,124,func_400429e4,function_arm,DERIVED,analyze.py:rea
 0x40042A60,236,sys_mmu_init,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:177
 0x40042B4C,4,pool_40042b4c,literal_pool,DERIVED,analyze.py
-0x40042B50,8,func_40042b50,function_arm,DERIVED,analyze.py:rea
-0x40042B58,8,func_40042b58,function_arm,DERIVED,analyze.py:rea
-0x40042B60,188,func_40042b60,function_arm,DERIVED,analyze.py:rea
-0x40042C1C,36,func_40042c1c,function_arm,DERIVED,analyze.py:rea
-0x40042C40,36,func_40042c40,function_arm,DERIVED,analyze.py:rea
-0x40042C64,48,func_40042c64,function_arm,DERIVED,analyze.py:rea
-0x40042C94,68,func_40042c94,function_arm,DERIVED,analyze.py:rea
-0x40042CD8,24,func_40042cd8,function_arm,DERIVED,analyze.py:prologue
+0x40042B50,8,readl_d,function_arm,DERIVED,this-project:phase5
+0x40042B58,8,writel_d,function_arm,DERIVED,this-project:phase5
+0x40042B60,188,timer_setup,function_arm,DERIVED,this-project:phase5 (TMRn_CTRL/INTV at 0x01C20C10+16n; INTV = 24*interval)
+0x40042C1C,36,timer_start,function_arm,DERIVED,this-project:phase5
+0x40042C40,36,timer_stop,function_arm,DERIVED,this-project:phase5
+0x40042C64,48,timer0_isr,function_arm,DERIVED,this-project:phase5 (ack + tick counter; registered by timer0_init)
+0x40042C94,68,timer0_init,function_arm,DERIVED,this-project:phase5 (1000-count reload; IRQ 50)
+0x40042CD8,24,avs_init,function_arm,DERIVED,this-project:phase5
 0x40042CF0,28,delay_ms,function_arm,OPEN,this-project:phase5 (timer-polling delay; used with 20/40 in GT911 reset)
 0x40042D0C,28,delay_us,function_arm,OPEN,this-project:phase5 (timer-polling delay; unit inferred from use as 1-tick I2C delay)
-0x40042D28,24,System_Init,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:178
-0x40042D40,12,func_40042d40,function_arm,DERIVED,analyze.py:rea
-0x40042D4C,8,func_40042d4c,function_arm,DERIVED,analyze.py:gap-code
-0x40042D54,100,func_40042d54,function_arm,DERIVED,analyze.py:chunk
-0x40042DB8,44,func_40042db8,function_arm,DERIVED,analyze.py:rea
-0x40042DE4,44,func_40042de4,function_arm,DERIVED,analyze.py:rea
-0x40042E10,28,func_40042e10,function_arm,DERIVED,analyze.py:rea
-0x40042E2C,28,func_40042e2c,function_arm,DERIVED,analyze.py:rea
+0x40042D28,24,timers_init,function_arm,DERIVED,this-project:phase5
+0x40042D40,12,avs0_set_div_default,function_arm,DERIVED,this-project:phase5 (div 24000)
+0x40042D4C,8,avs1_set_div_default,function_arm,DERIVED,this-project:phase5 (div 24; falls into avs_set_div)
+0x40042D54,100,avs_set_div,function_arm,DERIVED,this-project:phase5 (CCU AVS_CLK gate + AVS_CNT_DIV)
+0x40042DB8,44,avs0_restart,function_arm,DERIVED,this-project:phase5
+0x40042DE4,44,avs1_restart,function_arm,DERIVED,this-project:phase5
+0x40042E10,28,avs0_read,function_arm,DERIVED,this-project:phase5 (2*AVS_CNT0)
+0x40042E2C,28,avs1_read,function_arm,DERIVED,this-project:phase5 (2*AVS_CNT1)
 0x40042E48,36,pool_40042e48,literal_pool,DERIVED,analyze.py
-0x40042E6C,8,func_40042e6c,function_arm,DERIVED,analyze.py:rea
-0x40042E74,8,func_40042e74,function_arm,DERIVED,analyze.py:rea
-0x40042E7C,8,func_40042e7c,function_arm,DERIVED,analyze.py:rea
-0x40042E84,8,func_40042e84,function_arm,DERIVED,analyze.py:rea
-0x40042E8C,116,func_40042e8c,function_arm,DERIVED,analyze.py:rea
+0x40042E6C,8,readb_f,function_arm,DERIVED,this-project:phase5
+0x40042E74,8,readl_f,function_arm,DERIVED,this-project:phase5
+0x40042E7C,8,writeb_f,function_arm,DERIVED,this-project:phase5
+0x40042E84,8,writel_f,function_arm,DERIVED,this-project:phase5
+0x40042E8C,116,spi0_clk_init,function_arm,DERIVED,this-project:phase5 (SPI0_CLK 0x01C200A0 = PLL_PERIPH0/3; returns the rate)
 0x40042F00,300,func_40042f00,function_arm,DERIVED,analyze.py:prologue
 0x4004302C,92,func_4004302c,function_arm,DERIVED,analyze.py:rea
 0x40043088,96,func_40043088,function_arm,DERIVED,analyze.py:rea
@@ -1357,9 +1357,9 @@ address,size,name,type,evidence_level,source
 0x400669D8,8,func_400669d8,function_arm,DERIVED,analyze.py:rea
 0x400669E0,304,func_400669e0,function_arm,DERIVED,analyze.py:rea
 0x40066B10,120,func_40066b10,function_arm,DERIVED,analyze.py:prologue
-0x40066B88,4,func_40066b88,function_arm,DERIVED,analyze.py:rea
-0x40066B8C,72,func_40066b8c,function_arm,DERIVED,analyze.py:rea
-0x40066BD4,136,func_40066bd4,function_arm,DERIVED,analyze.py:rea
+0x40066B88,4,irq_enable,function_arm,OPEN,this-project:phase5 (called around timer IRQ registration)
+0x40066B8C,72,irq_disable,function_arm,OPEN,this-project:phase5
+0x40066BD4,136,irq_register,function_arm,OPEN,this-project:phase5 (irq number + handler; prints via 0x4006709C)
 0x40066C5C,16,pool_40066c5c,literal_pool,DERIVED,analyze.py
 0x40066C6C,20,func_40066c6c,function_arm,DERIVED,analyze.py:rea
 0x40066C80,8,func_40066c80,function_arm,DERIVED,analyze.py:rea
@@ -2691,5 +2691,6 @@ address,size,name,type,evidence_level,source
 0x42E6805C,0,LfnBuf,label,DERIVED,ff.c static WCHAR LfnBuf[256]; find_volume
 0x42E68C68,0,g_ms5351_clk1_vco,label,DERIVED,this-project:phase5 (written by ms5351_set_clk1)
 0x42E68C6C,0,FatFs,label,DERIVED,ff.c static FATFS* FatFs[1]; f_mount/find_volume pool
+0x42E68CD8,0,g_tick_count,label,DERIVED,this-project:phase5 (incremented by timer0_isr)
 0x42E68D14,0,Fsid,label,DERIVED,ff.c static WORD Fsid; find_volume
 0x42E68D18,0,g_fpga_bus_is_output,label,DERIVED,this-project:phase5 (byte flag tested by the FPGA bus routines)

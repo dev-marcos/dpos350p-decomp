@@ -160,3 +160,111 @@ TESTS.update({
                                    r.choice([0, 0x0C, 0x10, 0x70])]),
     0x4005F1F0: ms_case(lambda r: [freq(r)]), 0x4005F38C: ms_case(lambda r: [freq(r)]),
 })
+
+
+# ---------------------------------------------------------------- timers / AVS / delays
+TMR = 0x01C20C00
+
+
+def avs_model(seed):
+    """AVS_CNT0/1 advance by a seeded step on every read (so delay loops terminate)."""
+    rng = _random.Random(seed)
+
+    def dev(m, op, addr, size, value):
+        if op == "R" and addr in (0x01C20C84, 0x01C20C88):
+            cur = int.from_bytes(m.uc.mem_read(addr, 4), "little")
+            return cur + rng.choice([0, 1, 1, 2, 7])
+        return None
+    return dev
+
+
+def tmr_case(args_fn, ret=0, extra_stubs=()):
+    def case(rng):
+        seed = rng.getrandbits(32)
+        init = compose(regs(rng, TMR, 0x24), regs(rng, 0x01C20144, 1), regs(rng, 0x42E68CD8, 1))
+
+        def setup(m):
+            init(m)
+            m.devices.append((0x01C20C84, 0x01C20C8C, avs_model(seed)))
+        return Case(args_fn(rng), setup, ret=ret, stubs=tuple(extra_stubs))
+    return case
+
+
+IRQ_STUBS = (Stub("irq_disable", 0x40066B8C, lambda m, a: None, 0), Stub("irq_enable", 0x40066B88, lambda m, a: None, 0),
+             Stub("irq_register", 0x40066BD4, lambda m, a: 0, 4))
+
+TESTS.update({
+    0x40042B50: t_readl, 0x40042B58: t_writel,
+    0x40042B60: tmr_case(lambda r: [r.choice([0, 1, 2, 31, 32]), r.choice([0, 1, 1000, r.getrandbits(32)]),
+                                    r.choice([0, 1, 2])]),
+    0x40042C1C: tmr_case(lambda r: [r.choice([0, 1, 2])]), 0x40042C40: tmr_case(lambda r: [r.choice([0, 1, 2])]),
+    0x40042C64: tmr_case(lambda r: []), 0x40042C94: tmr_case(lambda r: [], extra_stubs=IRQ_STUBS),
+    0x40042CD8: tmr_case(lambda r: []),
+    0x40042CF0: tmr_case(lambda r: [r.choice([0, 1, 2, 5, 40, 100])]),
+    0x40042D0C: tmr_case(lambda r: [r.choice([0, 1, 2, 5, 40, 100])]),
+    0x40042D28: tmr_case(lambda r: [], extra_stubs=IRQ_STUBS),
+    0x40042D40: tmr_case(lambda r: []), 0x40042D4C: tmr_case(lambda r: []),
+    0x40042D54: tmr_case(lambda r: [r.choice([0, 1, 2]), r.choice([0, 1, 24, 0x5DC0, r.getrandbits(32)])]),
+    0x40042DB8: tmr_case(lambda r: []), 0x40042DE4: tmr_case(lambda r: []),
+    0x40042E10: tmr_case(lambda r: [], ret=32), 0x40042E2C: tmr_case(lambda r: [], ret=32),
+})
+
+# ---------------------------------------------------------------- CCU (clocks, PLLs, gating)
+CCU = 0x01C20000
+
+
+def lock_model(seed, p):
+    """PLL_CPU (0x00) / PLL_PERIPH0 (0x28): bit 28 (LOCK) reads as set with seeded probability p."""
+    rng = _random.Random(seed)
+
+    def dev(m, op, addr, size, value):
+        if op == "R" and addr in (CCU, CCU + 0x28):
+            cur = int.from_bytes(m.uc.mem_read(addr, 4), "little")
+            return cur | 0x10000000 if rng.random() < p else cur & ~0x10000000
+        return None
+    return dev
+
+
+def ccu_case(args_fn, ret=0):
+    def case(rng):
+        seed, p = rng.getrandbits(32), rng.choice([0.05, 0.3, 1.0])
+        init = regs(rng, CCU, 0x200)
+
+        def setup(m):
+            init(m)
+            m.devices.append((CCU, CCU + 0x2C, lock_model(seed, p)))
+        return Case(args_fn(rng), setup, ret=ret, stubs=delay_stubs())
+    return case
+
+
+def t_readb(rng):
+    a = rng.choice([0x01C20800, 0x01C20CB9, 0x01C0F003, 0x41000001])
+    return Case([a], regs(rng, a & ~3, 1), ret=8)
+
+
+def cpu_freq(rng):
+    return rng.choice([0, 24000000, 408000000, 768000000, 768000001, 1008000000, 1200000000,
+                       rng.randrange(1 << 31), rng.getrandbits(32)])
+
+
+def sys_freq(rng):
+    return rng.choice([0, 1, 24, 408, 1008, 1200, 1499, 1500, 1501, 408000000, 1200000000,
+                       -1, -24000001, rng.randrange(1500), rng.getrandbits(32)])
+
+
+def gate_code(rng):
+    return rng.choice([rng.getrandbits(32), (0x60 << 21) | (rng.randrange(32) << 16) | (0x2C0 << 5) | rng.randrange(32)])
+
+
+TESTS.update({
+    0x400427A0: t_readl, 0x400427A8: t_writel,
+    0x400427B0: ccu_case(lambda r: [cpu_freq(r)]),
+    0x4004282C: ccu_case(lambda r: [sys_freq(r)]),
+    0x400428AC: ccu_case(lambda r: [], ret=32),
+    0x40042914: ccu_case(lambda r: [gate_code(r)]),
+    0x40042978: ccu_case(lambda r: [gate_code(r)]),
+    0x40042E6C: t_readb, 0x40042E74: t_readl,
+    0x40042E7C: lambda r: Case([r.choice([0x01C20801, 0x41000003]), r.getrandbits(32)], ret=0),
+    0x40042E84: t_writel,
+    0x40042E8C: ccu_case(lambda r: [r.choice([0, 0, 1, 2, r.getrandbits(32)])], ret=32),
+})

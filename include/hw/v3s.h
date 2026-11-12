@@ -21,6 +21,17 @@ typedef struct {
 #define PIO_PE     0x01C20890u
 #define PIO_PF     0x01C208B4u
 
+/* Timer block 0x01C20C00: timers 0/1, AVS counters */
+#define TMR_IRQ_EN    0x01C20C00u
+#define TMR_IRQ_STA   0x01C20C04u
+#define TMR_CTRL(n)   (0x01C20C10u + ((u32)(n) << 4))
+#define TMR_INTV(n)   (0x01C20C14u + ((u32)(n) << 4))
+#define AVS_CNT_CTL   0x01C20C80u
+#define AVS_CNT0      0x01C20C84u
+#define AVS_CNT1      0x01C20C88u
+#define AVS_CNT_DIV   0x01C20C8Cu
+#define CCU_AVS_CLK   0x01C20144u
+
 /* Watchdog 0 (timer block 0x01C20C00) */
 #define WDOG0_IRQ_EN  0x01C20CA0u
 #define WDOG0_IRQ_STA 0x01C20CA4u

@@ -57,6 +57,10 @@ MUTANTS = [
     (0x40049490, "u32 n = 50000;", "u32 n = 5;"),                             # GT911 ACK timeout
     (0x4005F55C, "u32 p1 = f + (a << 7) - 512;", "u32 p1 = f + (a << 7) - 511;"),  # MS5351 P1 encoding
     (0x4006750C, "readl_b(WDOG0_MODE) | 1);", "readl_b(WDOG0_MODE) | 2);"),   # watchdog enable bit
+    (0x40042B60, "interval * 24", "interval * 25"),                         # timer interval scale
+    (0x400427B0, "if (f >= 0x2DC6C001u)", "if (f > 0x2DC6C001u)"),            # PLL_CPU P=1 threshold
+    (0x400428AC, "((v >> 4) & 3) + 1", "((v >> 4) & 1) + 1"),                # PLL_PERIPH0 K field
+    (0x40042978, "~(1u << (code & 0x1F)) & readl_e(r)", "~(1u << (code & 0xF)) & readl_e(r)"),  # reset-bit field
 ]
 
 
