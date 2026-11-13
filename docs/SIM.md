@@ -83,9 +83,24 @@ Findings (STATIC-CONFIRMED from the code unless marked):
   0 = 20 V ... 12 = 2 mV in 1-2-5 steps.
 - The 8 lanes behave as interleaved ADC phases (DERIVED from the stable trace and the frequency
   reading): byte i of lane L is sample 8i + L.
-- OPEN: the drawn time axis spans about 21 % less than 12 x time/div, but the firmware's frequency
-  reading agrees with a 250 MS/s generator.
-- OPEN: the CH2 enable switch does not toggle with emulated touches.
+- Capture (RUNTIME-CONFIRMED in the emulator):
+  - Each CSI capture fills **one** bank of 0x1800 bytes at BUF0. The firmware steps BUF0 through the
+    8 banks (0x42DF76D4 + bank * 0x2134).
+  - The conversion places lane L at 8i + slot (one channel). With two channels, lanes 0..3 are CH1
+    and 4..7 are CH2, 4 per channel.
+- The firmware converts the first N samples of every lane, where N*8 = samples on screen + ~1604:
+  N = 6138 at 20 us, 2576 at 2 us, 794 at 500 ns and 438 at 200 ns per lane.
+- The screen holds 10 horizontal divisions of 95 px, at 50 samples per px. The capture rate is
+  therefore 4750 samples per division: 237.5 MS/s at 20 us/div, where the label says 250 MS/s. It
+  tops out near 0.95 GS/s, where the label says 1 GS/s.
+- Time/div index SYS+0x588: 22 = 10 us, 23 = 20 us, 24 = 50 us (picked in the HOR menu). DERIVED:
+  41 = 20 s ... 12 = 5 ns, in menu order.
+- The firmware stops timer 0 around each capture (func_40040638: timer_stop, start CSI, wait for
+  SYS+0x70E, timer_start).
+- Timer 0 runs at 1 kHz (interval 24000). Both simulators used to deliver interrupts only every
+  500k instructions, so the 1 ms tick lost about 9 of 10 IRQs and the UI read the touch panel only
+  every ~2 s. The browser emulator now stops at the next timer or capture event. The Python
+  reference still has the old behaviour.
 
 ## Command-line simulator
 
