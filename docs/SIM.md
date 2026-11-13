@@ -17,6 +17,20 @@ interpreter exactly (`tools/sim/tests/jit_equiv.mjs`). That gives about 180-240 
 second, and touches take effect in about 0.2 s. The page is in English, with Portuguese available
 from the top bar.
 
+Signal generator (RUNTIME-CONFIRMED in the emulator, by changing one GEN setting at a time):
+- State words: waveform u8 at 0x42E4287E, in menu order (0 Sine, 1 Square, 2 Triangular, 3/4
+  Sawtooth1/2, 5 Step, 6 Half, 7 Full, 8 Exponent, 9 Ringing, 10 Sqrt, 11 Multi-sin, 12 SinC, 13 DC,
+  14 Capture). Frequency u32 Hz at 0x42E42880, amplitude mVpp at +0x84, offset mV at +0x88, duty
+  0.1 % at +0x8C.
+- The firmware programs the FPGA through selectors 0x31..0x44:
+  - 0x31 is a value that follows the amplitude (0x4AF at 1 Vpp; the same number is at
+    0x42E428BC).
+  - 0x41 tracks the period. Its value + 1 is about 125 MHz / f (1235 at 101 kHz, 619 at 201 kHz), so
+    the DAC clock is probably 125 MHz.
+  - 0x3F/0x40 are register address/data pairs.
+  - 0x43 is a long block, probably the sample table.
+- The browser emulator can play the generator on the computer's sound card or connect it to a probe.
+
 ## Python web emulator (local server + browser, reference)
 
 ```
