@@ -3,7 +3,16 @@
 The simulator lives in its own repository, https://github.com/dev-marcos/dpos350p-emu, included here as the
 git submodule `tools/sim` (`git submodule update --init` after cloning).
 
-## Web emulator (local server + browser)
+## Browser emulator (no server)
+
+The emulator runs entirely in the browser: an ARMv7 core in JavaScript in a Web Worker
+(`tools/sim/web/core/`). It is published on GitHub Pages from the dpos350p-emu repository.
+Locally: `node tools/sim/tests/serve.mjs`, then open http://localhost:8351. The firmware, the SD
+image and saved states stay in the browser (IndexedDB). The CPU core is checked against Unicorn
+instruction by instruction: `tools/sim/tests/gen_cpu_cases.py` + `tools/sim/tests/cpu_test.mjs`
+(see tools/sim/README.md).
+
+## Python web emulator (local server + browser, reference)
 
 ```
 python3 -m tools.sim.server            # inside dpos-re; then open http://localhost:8350
