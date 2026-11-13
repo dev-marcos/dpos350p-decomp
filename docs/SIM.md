@@ -1,4 +1,53 @@
-# Whole-system simulator (prototype)
+# Whole-system simulator
+
+## Web emulator (local server + browser)
+
+```
+python3 -m tools.sim.server            # inside dpos-re; then open http://localhost:8350
+```
+
+The page `tools/sim/web/` shows the device in its frame (`frame.svg`) with the emulated screen.
+The emulator core runs in this Python process. The page talks only to the JSON/binary API in
+`tools/sim/server.py`, so the core can later move to WebAssembly without changing the page.
+
+**Firmware.** Upload the `.iso` update file or `app.bin` from the page (button or drag and drop).
+It is kept in `build/sim/` only. The default is `build/extract/app.bin`.
+
+**Screen.** It is refreshed about 7 times per second. Mouse press, drag and release go to the
+emulated GT911 touch controller. A quick click is held until the firmware has polled it twice.
+
+**Side panel tabs:**
+
+| Tab | What it does |
+|---|---|
+| Arquivos | File manager for the emulated SD card (`build/sim/sdcard.img`): browse, download, upload, new folder, delete, FAT32 format. Reset the device after changing files so the firmware sees them. |
+| Canais | CH1/CH2 virtual probes: on/off, source (generator or computer audio), waveform, frequency, Vpp, offset, probe 1x/10x. Audio input: choose a capture device, the page streams PCM to the emulator, with a full-scale voltage setting. |
+| Sistema | Firmware info and upload, battery voltage and charger state, the "factory process complete" boot option, save/restore emulator state, write the SD image. |
+| Dev | PC, instruction count and speed, IRQ counts, FPGA register reads, unmodelled peripheral registers with the first function that touched them, hot spots, UART log. The API also offers `/api/peek` and `/api/poke` to read and write memory. |
+
+**Boot.** A shipped unit has finished the factory flow. Its saved state at 0x42E68AE0 holds
+0x5A5555A5, so the firmware skips the POST and the "insert the tester and press OK" steps.
+`factory_done` (on by default) reproduces that state, and the main screen appears about 35 s
+after power-on. With it off, the firmware runs the full factory flow:
+- the POST: disk, FPGA, security chip and ADC pass. Calibration, channel multiplex and the
+  150 MHz bandwidth check need calibrated measurements, so `bypass_calibration` marks them OK.
+- then the tester screen.
+
+**Battery.** The battery is read from the LRADC (0x01C2280C, 6 bits). The firmware's default
+coefficients give mV = 32.947 × code + 2735.7, and it shows 10 bars at 4150 mV or more. The
+charger status comes from FPGA selector 0x02, bit 0.
+
+**Time.** Emulated time advances 0.5 OSC tick per instruction, about 48 M instructions per
+emulated second. The emulator runs at about 45–50 M instructions per second, so the
+interface runs near real time.
+
+**Known limit: no live trace yet.** Samples reach the acquisition ring, but the firmware's
+processing chain needs the calibration tables that a real unit keeps in its SPI flash. Ours
+starts blank, so the trace and the measurements stay constant (−796 mV). Next step, in the
+acquisition batch: let the firmware's own "System calibration" succeed with a faithful front
+end, or reconstruct the calibration format.
+
+## Command-line simulator
 
 `tools/sim/` runs a complete application image on an emulated V3s (Unicorn, Cortex-A7)
 from `Reset_Handler` (0x4008CB28). Every peripheral access without a model is logged together
