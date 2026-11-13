@@ -14,6 +14,8 @@ values are STATIC-CONFIRMED.
 | CSI | 38 | 0x4006582C..0x40066118 | Allwinner `csi_reg` layout (interface/timing/format config, buffer address = address / 4, size, offset, interrupts), clock bring-up, frame-done ISR (sets SYS_INFO+0x70E). |
 | SD/MMC, part 1 | 21 | 0x400675A8..0x40068900 | Base table, range check, RINTSTS wait, update-clock command, module clock (OSC24M or PLL_PERIPH0, M/N dividers, phases), PIO and IDMAC data paths, cache maintenance by address. |
 | SD/MMC, part 2 | 8 | 0x40067D70..0x40068DDC | `mmc_send_cmd`, `mmc_cmd`, hardware reset, high-speed switch (CMD6), select/4-bit/block length setup, block read/write, card init (SD 2.0 / SD 1.1 / MMC); plus `__aeabi_llsl`. |
+| Display: TCON0 + DE2 | 17 | 0x4003DFFC..0x4003E63C, 0x40062F9C..0x400631D0 | `display_init(w, h, fb)` fills the descriptor at 0x42E68B68 (DE2 0x01000000, TCON 0x01C0C000, 16 bpp). `tcon_init` derives PLL_VIDEO and the TCON0 timing from the panel table at 0x400952B0. `de_init` brings up mixer 0 and the blender. `de_setup_ui` routes pipe 0 to UI channel 2 with the framebuffer as layer 0 (format 0x0A RGB565, pitch 2 * width). `de_commit` applies the shadow registers. |
+| Framebuffer helpers | 9 | 0x4003442C..0x40035744 | `fb_present` copies the back buffer 0x41BFBF68 to the scanned-out buffer 0x41FB8FE8 (1022 x 600) and flushes the cache. `fb_clear_all`, halfword/word fill, halfword copy, `memset_w`, `memcpy`. |
 
 ## Findings
 
@@ -57,6 +59,17 @@ values are STATIC-CONFIRMED.
 - **`mmc_read_csd_cid` stays in assembly.** This function (0x40068134) copies 4 bytes past the
   end of its local CID array into the SD info block (+0x50). Those bytes come from the saved
   registers of the caller's frame. OPEN. In the tests of its callers it is replaced by a stub.
+
+## Display findings
+
+- **Screen setup.** The panel is driven by TCON0 in parallel RGB mode. The stock code sets the
+  FRM dither tables, and disables FRM only for 18 bpp. The IO polarity bits (0x10000000,
+  0x02000000, 0x01000000, 0x08000000, 0x04000000) come from four flags in the panel table.
+- **One layer.** Only mixer 0 is used, with one UI layer (channel 2, layer 0, pipe 0). The
+  emulator screenshot reads this layer (see SIM.md).
+- **The waveform renderer is not display code.** `0x4004D880` (5 KB) and `0x4004D730` hold DE2
+  literals, but they compute on acquisition data (SYS_INFO), so they are left for the
+  acquisition batch.
 
 ## Not yet rewritten
 

@@ -471,3 +471,82 @@ for a in (0x4006866C, 0x40068794):
                              r.choice([BUF + 0x400, BUF + 0x401, 0])])
 TESTS[0x40068918] = m2(lambda r: [mn(r)])
 TESTS[0x4006A530] = lambda r: Case([r.getrandbits(32), r.getrandbits(32), r.choice([0, 1, 31, 32, 33, 63, 64, 100, 255, 256, r.getrandbits(32)])], ret=64)
+
+# ---------------------------------------------------------------- display (TCON0 + DE2)
+DE, TCON, DISP, DISP_PTR, TIMING = 0x01000000, 0x01C0C000, 0x42E68B68, 0x42E68CB4, 0x400952B0
+
+
+def disp_state(r):
+    blocks = [(DE, 8), (DE + 0x100000, 8), (DE + 0x101000, 0x48), (DE + 0x102000, 0x30), (DE + 0x103000, 0x30),
+              (DE + 0x104000, 0x30), (DE + 0x105000, 0x30), (TCON, 0x40), (0x01C20000, 0xC0)]
+    init = compose(*[regs(r, a, n) for a, n in blocks])
+    w, h = r.choice([1022, 800, 480, 1, r.getrandbits(12)]), r.choice([600, 480, 272, 1, r.getrandbits(12)])
+    fb = r.choice([0x41FB8FE8, r.getrandbits(32)])
+    bpp = r.choice([16, 0x12, 24])
+    timing = [r.choice([0, 1, 2, 10, 40, 600, 1024, r.getrandbits(12), r.getrandbits(32)]) for _ in range(0x12)]
+
+    def setup(m):
+        init(m)
+        for i, v in enumerate([DE, TCON, w, h, bpp, fb]):
+            m.w32(DISP + 4 * i, v)
+        m.w32(DISP_PTR, DISP)
+        for i, v in enumerate(timing):
+            m.w32(TIMING + 4 * i, v)
+    return setup
+
+
+DISP_STUBS = PRINTF + (rec("delay_us", 0x40042D0C, 1), rec("delay_ms", 0x40042CF0, 1))
+
+
+def dcase(args_fn, ret=V, stack=None):
+    def mk(r):
+        return Case(args_fn(r), disp_state(r), ret=ret, stubs=DISP_STUBS, stack=stack(r) if stack else ())
+    return mk
+
+
+dreg = lambda r: r.choice([TCON + 4 * r.randrange(0x10), DE + 0x101000 + 4 * r.randrange(0x10)])
+for a in (0x4003DFFC, 0x40062F9C):
+    TESTS[a] = dcase(lambda r: [dreg(r)], R)
+for a in (0x4003E004, 0x40062FA4):
+    TESTS[a] = dcase(lambda r: [dreg(r), r.getrandbits(32)])
+for a in (0x4003E00C, 0x4003E05C):
+    TESTS[a] = dcase(lambda r: [])
+for a in (0x4003E064, 0x4003E2E0, 0x4003E300, 0x4003E314):
+    TESTS[a] = dcase(lambda r: [DISP])
+TESTS[0x4003E304] = dcase(lambda r: [DE])
+TESTS[0x4003E5D8] = dcase(lambda r: [r.choice([1022, 800, r.getrandbits(12)]), r.choice([600, 480, r.getrandbits(12)]),
+                                     r.choice([0x41FB8FE8, r.getrandbits(32)])])
+TESTS[0x40062FAC] = dcase(lambda r: [r.choice([0, 1, 2, 3, 23, 24, r.getrandbits(8)]), r.choice([0, 1, 2])], R)
+TESTS[0x4006301C] = dcase(lambda r: [r.choice([0, 1, 2, 3, 7]), r.choice([0, 1, 2, 15, r.getrandbits(8)])], R)
+TESTS[0x40063070] = dcase(lambda r: [r.choice([0, 1, 2, 3]), r.choice([0, 1, 2, 3]), r.getrandbits(12), r.getrandbits(12)], R,
+                          stack=lambda r: [r.getrandbits(12), r.getrandbits(12), r.getrandbits(32), r.getrandbits(16),
+                                           r.choice([0x0A, 0x08, 0x80, 0xFF, r.getrandbits(8)])])
+TESTS[0x40063108] = dcase(lambda r: [r.choice([0, 1, 2, 3]), r.getrandbits(12), r.getrandbits(12)], R)
+TESTS[0x4006314C] = dcase(lambda r: [], R)
+
+# ---------------------------------------------------------------- framebuffer helpers
+FB_STUBS = (rec("copy_u16", 0x40035728, 3), rec("fill_u16", 0x400356F4, 3), rec("fill_u32", 0x4003570C, 3),
+            rec("dcache_clean_inv_all", 0x400632F8, 0), rec("fb_present", 0x4003442C, 0))
+
+
+def fbcase(args_fn, ret=V, stubs=FB_STUBS):
+    def mk(r):
+        data = bytes(r.getrandbits(8) for _ in range(512))
+        ptr = r.choice([BUF + 0x200, 0x41FB8FE8])
+        def setup(m):
+            m.write(BUF, data)
+            m.w32(0x40095498, ptr)
+        return Case(args_fn(r), setup, ret=ret, stubs=stubs)
+    return mk
+
+
+TESTS[0x4003442C] = fbcase(lambda r: [], stubs=FB_STUBS[:4])
+TESTS[0x40034454] = fbcase(lambda r: [])
+TESTS[0x4003446C] = fbcase(lambda r: [])
+TESTS[0x400356E4] = fbcase(lambda r: [BUF + r.choice([0, 1, 2, 3]), r.getrandbits(8) | r.choice([0, 0x100]),
+                                      r.choice([0, 1, 3, 4, 7, 16, 33, 100])], R, stubs=())
+TESTS[0x400356F4] = fbcase(lambda r: [BUF + 2 * r.randrange(8), r.getrandbits(32), r.choice([0, 1, 2, 7, 100])], stubs=())
+TESTS[0x4003570C] = fbcase(lambda r: [BUF + 4 * r.randrange(8), r.getrandbits(32), r.choice([0, 1, 2, 7, 100])], stubs=())
+TESTS[0x40035724] = fbcase(lambda r: [BUF + 0x100 + r.randrange(4), BUF + r.randrange(4), r.choice([0, 1, 3, 4, 17, 64, 100])], R, stubs=())
+TESTS[0x40035728] = fbcase(lambda r: [BUF + 0x100 + 2 * r.randrange(4), BUF + 2 * r.randrange(4), r.choice([0, 1, 2, 7, 100])], stubs=())
+TESTS[0x4003E6F4] = fbcase(lambda r: [], stubs=(rec("dcache_clean_inv_all", 0x400632F8, 0),))

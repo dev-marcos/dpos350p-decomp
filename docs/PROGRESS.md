@@ -16,27 +16,46 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 457 | 33.75% | 56834 | 16.84% |
+| EQUIVALENT | 483 | 35.67% | 59278 | 17.56% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 897 | 66.25% | 280670 | 83.16% |
+| ASM | 871 | 64.33% | 278226 | 82.44% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 457 (34.13%) | 337104 | 56834 (16.86%) |
+| main code | 1339 | 483 (36.07%) | 337104 | 59278 (17.58%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
 
 | address | name | size | level | cases | source |
 |---|---|---:|---|---:|---|
+| `0x4003442C` | func_4003442c | 40 | EQUIVALENT | 200 | `nonmatching/platform/func_4003442c.c` |
+| `0x40034454` | func_40034454 | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_40034454.c` |
+| `0x4003446C` | func_4003446c | 116 | EQUIVALENT | 200 | `nonmatching/platform/func_4003446c.c` |
 | `0x4003453C` | __aeabi_ldivmod | 84 | EQUIVALENT | 400 | `nonmatching/libc/func_4003453c.c` |
 | `0x40034590` | __aeabi_uldivmod | 304 | EQUIVALENT | 400 | `nonmatching/libc/func_40034590.c` |
+| `0x400356E4` | func_400356e4 | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_400356e4.c` |
+| `0x400356F4` | func_400356f4 | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_400356f4.c` |
+| `0x4003570C` | func_4003570c | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4003570c.c` |
+| `0x40035724` | func_40035724 | 4 | EQUIVALENT | 200 | `nonmatching/platform/func_40035724.c` |
+| `0x40035728` | copy_u16 | 28 | EQUIVALENT | 200 | `nonmatching/platform/func_40035728.c` |
 | `0x4003A5D8` | __aeabi_l2d | 84 | EQUIVALENT | 400 | `nonmatching/libc/func_4003a5d8.c` |
 | `0x4003DF74` | sqrt | 30 | EQUIVALENT | 400 | `nonmatching/libm/func_4003df74.c` |
 | `0x4003DF94` | __aeabi_d2lz | 102 | EQUIVALENT | 400 | `nonmatching/libc/func_4003df94.c` |
+| `0x4003DFFC` | func_4003dffc | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_4003dffc.c` |
+| `0x4003E004` | func_4003e004 | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_4003e004.c` |
+| `0x4003E00C` | func_4003e00c | 80 | EQUIVALENT | 200 | `nonmatching/platform/func_4003e00c.c` |
+| `0x4003E05C` | func_4003e05c | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_4003e05c.c` |
+| `0x4003E064` | func_4003e064 | 636 | EQUIVALENT | 200 | `nonmatching/platform/func_4003e064.c` |
+| `0x4003E2E0` | func_4003e2e0 | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_4003e2e0.c` |
+| `0x4003E300` | func_4003e300 | 4 | EQUIVALENT | 200 | `nonmatching/platform/func_4003e300.c` |
+| `0x4003E304` | func_4003e304 | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_4003e304.c` |
+| `0x4003E314` | func_4003e314 | 708 | EQUIVALENT | 200 | `nonmatching/platform/func_4003e314.c` |
+| `0x4003E5D8` | func_4003e5d8 | 100 | EQUIVALENT | 200 | `nonmatching/platform/func_4003e5d8.c` |
+| `0x4003E6F4` | func_4003e6f4 | 4 | EQUIVALENT | 200 | `nonmatching/platform/func_4003e6f4.c` |
 | `0x4003E6F8` | __aeabi_uidivmod | 12 | EQUIVALENT | 400 | `nonmatching/libc/func_4003e6f8.c` |
 | `0x4003E704` | __aeabi_ldiv0 | 4 | EQUIVALENT | 400 | `nonmatching/libc/func_4003e704.c` |
 | `0x400427A0` | readl_e | 8 | EQUIVALENT | 300 | `nonmatching/drivers/func_400427a0.c` |
@@ -188,6 +207,13 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4005F6E8` | __aeabi_d2ulz | 70 | EQUIVALENT | 400 | `nonmatching/libc/func_4005f6e8.c` |
 | `0x4005F730` | __aeabi_ul2d | 70 | EQUIVALENT | 400 | `nonmatching/libc/func_4005f730.c` |
 | `0x4005F91C` | tanh | 210 | EQUIVALENT | 400 | `nonmatching/libm/func_4005f91c.c` |
+| `0x40062F9C` | func_40062f9c | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_40062f9c.c` |
+| `0x40062FA4` | func_40062fa4 | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_40062fa4.c` |
+| `0x40062FAC` | func_40062fac | 112 | EQUIVALENT | 200 | `nonmatching/platform/func_40062fac.c` |
+| `0x4006301C` | func_4006301c | 84 | EQUIVALENT | 200 | `nonmatching/platform/func_4006301c.c` |
+| `0x40063070` | func_40063070 | 152 | EQUIVALENT | 200 | `nonmatching/platform/func_40063070.c` |
+| `0x40063108` | func_40063108 | 68 | EQUIVALENT | 200 | `nonmatching/platform/func_40063108.c` |
+| `0x4006314C` | func_4006314c | 132 | EQUIVALENT | 200 | `nonmatching/platform/func_4006314c.c` |
 | `0x400631D4` | pio_cfg_pin | 160 | EQUIVALENT | 300 | `nonmatching/drivers/func_400631d4.c` |
 | `0x40063274` | pio_set_bit | 20 | EQUIVALENT | 300 | `nonmatching/drivers/func_40063274.c` |
 | `0x40063288` | pio_clr_bit | 24 | EQUIVALENT | 300 | `nonmatching/drivers/func_40063288.c` |

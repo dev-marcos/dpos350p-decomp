@@ -81,6 +81,11 @@ MUTANTS = [
     (0x40067D70, "if (data->blksz * data->blocks > 0x40) {", "if (data->blksz * data->blocks >= 0x40) {"),  # CPU vs DMA data path
     (0x40068918, "if (cmd.resp[3] & 0x40000000u) {", "if (cmd.resp[3] & 0x20000000u) {"),  # SDHC (CCS) detection
     (0x4006866C, "if (mmc_card_type != 1) sector <<= 9;", "if (mmc_card_type != 1) sector <<= 8;"),  # byte addressing
+    # display (TCON0 / DE2) and framebuffer helpers
+    (0x4003E064, "if (t[0x2C / 4] == 0) v |= 0x08000000;", "if (t[0x2C / 4] == 0) v |= 0x00800000;"),  # TCON IO polarity
+    (0x4006301C, "~(0xFu << sh)", "~(0x7u << sh)"),                              # DE2 blender route mask
+    (0x40063070, "de_writel(r + 4, 0xFFFEFFFFu + (w + (h << 16)));", "de_writel(r + 4, 0xFFFFFFFFu + (w + (h << 16)));"),  # UI layer size
+    (0x400356F4, "while (n) { *d++ = v; n--; }", "while (n > 1) { *d++ = v; n--; }"),  # fill count
 ]
 
 
