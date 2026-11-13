@@ -12,6 +12,11 @@ image and saved states stay in the browser (IndexedDB). The CPU core is checked 
 instruction by instruction: `tools/sim/tests/gen_cpu_cases.py` + `tools/sim/tests/cpu_test.mjs`
 (see tools/sim/README.md).
 
+Speed: ARM code runs through a basic-block compiler (`tools/sim/web/core/jit.js`), which matches the
+interpreter exactly (`tools/sim/tests/jit_equiv.mjs`). That gives about 180-240 M instructions per
+second, and touches take effect in about 0.2 s. The page is in English, with Portuguese available
+from the top bar.
+
 ## Python web emulator (local server + browser, reference)
 
 ```
