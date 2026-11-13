@@ -53,11 +53,39 @@ charger status comes from FPGA selector 0x02, bit 0.
 emulated second. The emulator runs at about 45–50 M instructions per second, so the
 interface runs near real time.
 
-**Known limit: no live trace yet.** Samples reach the acquisition ring, but the firmware's
-processing chain needs the calibration tables that a real unit keeps in its SPI flash. Ours
-starts blank, so the trace and the measurements stay constant (−796 mV). Next step, in the
-acquisition batch: let the firmware's own "System calibration" succeed with a faithful front
-end, or reconstruct the calibration format.
+**Live trace (browser emulator).** The firmware converts each raw ADC byte with per-lane
+coefficients loaded from SPI flash (calibration_load_wrapper 0x400446B4, storage SYS_INFO+0x7E0 =
+0x1FB000) and chosen by the selector 0x4004C544. A blank flash gives A = B = -1, so every sample
+converts to the same value (the flat -796 mV trace). The browser emulator writes a synthetic
+calibration there (`tools/sim/web/core/calibration.js`). Its front end produces the ADC codes that
+this calibration converts into offset + volts / (V/div) x 62.9 px/div. The Python reference does not
+have this yet.
+
+Findings (STATIC-CONFIRMED from the code unless marked):
+- Serialized format: big-endian u32. A matrix of **50 rows x 32 columns** comes first, written row by
+  row (RAM object+0x190 + col*0xC8 + row*4). Then come four arrays of 20 values, interleaved per
+  index: +0x50, +0xF0, +0xA0, +0x140. That is 0x1A40 bytes in all. The Hack notes (SYS_INFO.md
+  section 10) say 25 columns, but the traversal at 0x40044450 walks 32.
+- Selector: the row is min(SYS+0x588, SYS+0x6ED) - SYS+0x6EC.
+  - Two-channel mode (SYS+0x100 != 0): A = columns 0..7, B = columns 8..15.
+  - One-channel mode: A = columns 16..23, B = columns 24..31.
+  - The auxiliary arrays (indexed by the CH1/CH2 V/div) go to object+0..+0xC.
+- Conversion 0x4004073C:
+  - ip = gain[V/div] * A / 1000 (magic 0x10624DD3, shift 6);
+  - x = ip * (raw - SYS+0x1B8) + B;
+  - out = r2 + E0 * ((x >> SYS+0x264) - r2) / 32, clamped to [0, SYS+0x0A * SYS+0x1C0];
+  - r2 = SYS+0x1C0 * offset.
+  - At run time: SYS+0x1B8 = 20, SYS+0x264 = 6, SYS+0x1C0 = 64, E0 = 32, SYS+0x0A = 503 px.
+- The offset (SYS+0x60 / +0x120) is the screen position of 0 V in pixels. The POST
+  channel-multiplex check 0x4004AF0C sets it to 0xAA and 0x1E and expects the measured mean
+  (SYS+0xB34 / +0xB50) to follow.
+- V/div index (SYS+0x41 / +0x105): 6 shows 200 mV, 5 shows 500 mV (seen in the emulated UI). DERIVED:
+  0 = 20 V ... 12 = 2 mV in 1-2-5 steps.
+- The 8 lanes behave as interleaved ADC phases (DERIVED from the stable trace and the frequency
+  reading): byte i of lane L is sample 8i + L.
+- OPEN: the drawn time axis spans about 21 % less than 12 x time/div, but the firmware's frequency
+  reading agrees with a 250 MS/s generator.
+- OPEN: the CH2 enable switch does not toggle with emulated touches.
 
 ## Command-line simulator
 
