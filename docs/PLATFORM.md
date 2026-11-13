@@ -13,6 +13,7 @@ values are STATIC-CONFIRMED.
 | SPI | 9 | 0x40042F00..0x4004341C | Clock divider search, master mode, soft reset, PIO transfer with FIFO-level polling, chip select by TCR or GPIO. |
 | CSI | 38 | 0x4006582C..0x40066118 | Allwinner `csi_reg` layout (interface/timing/format config, buffer address = address / 4, size, offset, interrupts), clock bring-up, frame-done ISR (sets SYS_INFO+0x70E). |
 | SD/MMC, part 1 | 21 | 0x400675A8..0x40068900 | Base table, range check, RINTSTS wait, update-clock command, module clock (OSC24M or PLL_PERIPH0, M/N dividers, phases), PIO and IDMAC data paths, cache maintenance by address. |
+| SD/MMC, part 2 | 8 | 0x40067D70..0x40068DDC | `mmc_send_cmd`, `mmc_cmd`, hardware reset, high-speed switch (CMD6), select/4-bit/block length setup, block read/write, card init (SD 2.0 / SD 1.1 / MMC); plus `__aeabi_llsl`. |
 
 ## Findings
 
@@ -37,11 +38,27 @@ values are STATIC-CONFIRMED.
 - **Unset register in `uart_putc`.** A port number above 2 uses an unset register for the
   base address. OPEN, and not tested.
 
+## SD/MMC part 2 findings
+
+- **Card identification.** `mmc_card_init` uses CMD8 (argument 0x155) to choose between two
+  paths:
+  - SD 2.0: ACMD41 with 0x40FF8000. The OCR CCS bit gives SDHC (`mmc_card_type` = 1) or byte
+    addressed SD (2).
+  - SD 1.1: ACMD41 with 0x00FF8000.
+  The MMC branch (CMD1) cannot be reached: it compares the command result with +0x98, while
+  errors are -0x98.
+- **Clock after selection.** `mmc_select_setup` sets 25 MHz on SDHC cards after a successful
+  high-speed switch, and 50 MHz on byte-addressed SD cards. It then sets a 4-bit bus and a
+  512-byte block length.
+- **Read errors are ignored.** `mmc_read_blocks` does not check the result of the data command
+  (`mmc_write_blocks` does).
+- **Data path.** Transfers of more than 64 bytes use IDMAC, with descriptors at 0x42E5D010.
+  Smaller ones use the FIFO.
+- **`mmc_read_csd_cid` stays in assembly.** This function (0x40068134) copies 4 bytes past the
+  end of its local CID array into the SD info block (+0x50). Those bytes come from the saved
+  registers of the caller's frame. OPEN. In the tests of its callers it is replaced by a stub.
+
 ## Not yet rewritten
 
-The SD/MMC part 2 functions remain in assembly:
-- command send, 0x40067D70 (832 bytes);
-- 0x400680B0 and the command wrapper 0x4006810C;
-- CSD/size decode, 0x40068134;
-- block read/write: 0x400682E0, 0x4006840C, 0x4006866C, 0x40068794;
-- card init, 0x40068918 (1220 bytes).
+- `mmc_read_csd_cid` (0x40068134): see above.
+- `csi_set_fmt` (0x40065D04): reads uninitialised stack arrays.

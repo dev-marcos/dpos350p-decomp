@@ -361,6 +361,10 @@ def mmc_model(seed, p_busy, p_err):
         if off in (0x18, 0x80):                 # self-clearing start / IDMAC reset bits
             bit = 0x80000000 if off == 0x18 else 1
             return cur & ~bit | (bit if rng.random() < p_busy else 0)
+        if off == 0x2C:                         # RESP3: card-ready (bit 31) / CCS (bit 30) re-drawn
+            return rng.getrandbits(30) | (rng.random() < 0.4) << 31 | (rng.random() < 0.5) << 30
+        if off == 0x88:                         # IDST: TX/RX done bits re-drawn on every read
+            return rng.getrandbits(32) & ~3 | (rng.choice([1, 2, 3]) if rng.random() < 0.5 else 0)
         if off == 0x3C:                         # STATUS: FIFO empty (2) / full (3)
             return rng.getrandbits(32) & ~0xC | (rng.choice([0, 4, 8, 12]) if rng.random() < p_busy else 0)
         return None
@@ -416,3 +420,54 @@ TESTS[0x40067CFC] = mcase(lambda r: [mn(r), r.getrandbits(32)], R)
 TESTS[0x400688BC] = mcase(lambda r: [BUF + r.getrandbits(12)])
 TESTS[0x400688C8] = mcase(lambda r: (lambda s: [s, s + r.choice([0, 1, 31, 32, 100, 4096])])(BUF + r.getrandbits(12)))
 TESTS[0x400688FC] = mcase(lambda r: [BUF + r.getrandbits(12), r.choice([0, 1, 31, 32, 100, 4096])])
+
+# ---------------------------------------------------------------- SD/MMC (part 2)
+def _csd_stub():
+    def fn(m, a):           # record (n, info): the cmd pointer is a stack address
+        m.calls.append(("mmc_read_csd_cid", m.reg(A.UC_ARM_REG_R0), m.reg(A.UC_ARM_REG_R2)))
+    return Stub("mmc_read_csd_cid*", 0x40068134, fn, 0)
+
+
+MMC2_STUBS = MMC_STUBS + (_csd_stub(),)
+
+
+def mmc2_state(r):
+    base = mmc_state(r)
+    t = r.choice([0, 1, 2, 3])
+    rca = r.getrandbits(32)
+    buf = bytes(r.getrandbits(8) for _ in range(64))
+    cmd = bytes(r.getrandbits(8) for _ in range(0x1C))
+    op = r.choice([0, 2, 7, 12, 17, 18, 41, 55, r.getrandbits(6)])
+    flags = r.choice([0, 1, 3, 5, 7, 0xD, 0xF, r.getrandbits(4)])
+
+    def setup(m):
+        base(m)
+        m.w32(0x42E68CB8, t); m.w32(0x42E68CBC, rca)
+        m.write(0x42E68B28, buf)
+        m.write(BUF + 0x3100, cmd)
+        m.uc.mem_write(BUF + 0x3100, op.to_bytes(2, "little"))
+        m.w32(BUF + 0x3104, flags)
+        if r_xfer_blocks is not None:
+            m.w32(BUF + 0x3008, r_xfer_blocks); m.w32(BUF + 0x300C, r_xfer_blksz)
+    r_xfer_blocks = r.choice([None, 1, 2, 8])
+    r_xfer_blksz = r.choice([4, 8, 64, 512])
+    return setup
+
+
+def m2(args_fn, ret=R):
+    def mk(r):
+        return Case(args_fn(r), mmc2_state(r), ret=ret, stubs=MMC2_STUBS)
+    return mk
+
+
+TESTS[0x40067D70] = m2(lambda r: [mn(r), BUF + 0x3100, r.choice([0, BUF + 0x3000, BUF + 0x3000])])
+TESTS[0x400680B0] = m2(lambda r: [mn(r)], V)
+TESTS[0x4006810C] = lambda r: Case([mn(r), BUF + 0x3100, r.choice([0, BUF + 0x3000]), r.choice([0, 7, 12, 17, 55])],
+                                   mmc2_state(r), ret=R, stubs=MMC2_STUBS, stack=[r.getrandbits(32), r.choice([0, 5, 7, 0xD])])
+TESTS[0x400682E0] = m2(lambda r: [mn(r), BUF + 0x3100])
+TESTS[0x4006840C] = m2(lambda r: [mn(r), BUF + 0x3100, r.choice([0, 1, 2])])
+for a in (0x4006866C, 0x40068794):
+    TESTS[a] = m2(lambda r: [mn(r), r.choice([0, 1, 1000, r.getrandbits(32)]), r.choice([0, 1, 2, 8]),
+                             r.choice([BUF + 0x400, BUF + 0x401, 0])])
+TESTS[0x40068918] = m2(lambda r: [mn(r)])
+TESTS[0x4006A530] = lambda r: Case([r.getrandbits(32), r.getrandbits(32), r.choice([0, 1, 31, 32, 33, 63, 64, 100, 255, 256, r.getrandbits(32)])], ret=64)

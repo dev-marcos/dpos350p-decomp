@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 448 | 33.09% | 53194 | 15.76% |
+| EQUIVALENT | 457 | 33.75% | 56834 | 16.84% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 906 | 66.91% | 284310 | 84.24% |
+| ASM | 897 | 66.25% | 280670 | 83.16% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 448 (33.46%) | 337104 | 53194 (15.78%) |
+| main code | 1339 | 457 (34.13%) | 337104 | 56834 (16.86%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -287,9 +287,17 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40067B30` | func_40067b30 | 460 | EQUIVALENT | 200 | `nonmatching/platform/func_40067b30.c` |
 | `0x40067CFC` | func_40067cfc | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_40067cfc.c` |
 | `0x40067D1C` | func_40067d1c | 84 | EQUIVALENT | 200 | `nonmatching/platform/func_40067d1c.c` |
+| `0x40067D70` | func_40067d70 | 832 | EQUIVALENT | 200 | `nonmatching/platform/func_40067d70.c` |
+| `0x400680B0` | func_400680b0 | 92 | EQUIVALENT | 200 | `nonmatching/platform/func_400680b0.c` |
+| `0x4006810C` | func_4006810c | 40 | EQUIVALENT | 200 | `nonmatching/platform/func_4006810c.c` |
+| `0x400682E0` | func_400682e0 | 276 | EQUIVALENT | 200 | `nonmatching/platform/func_400682e0.c` |
+| `0x4006840C` | func_4006840c | 576 | EQUIVALENT | 200 | `nonmatching/platform/func_4006840c.c` |
+| `0x4006866C` | func_4006866c | 284 | EQUIVALENT | 200 | `nonmatching/platform/func_4006866c.c` |
+| `0x40068794` | func_40068794 | 288 | EQUIVALENT | 200 | `nonmatching/platform/func_40068794.c` |
 | `0x400688BC` | func_400688bc | 12 | EQUIVALENT | 200 | `nonmatching/platform/func_400688bc.c` |
 | `0x400688C8` | func_400688c8 | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_400688c8.c` |
 | `0x400688FC` | func_400688fc | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_400688fc.c` |
+| `0x40068918` | func_40068918 | 1220 | EQUIVALENT | 200 | `nonmatching/platform/func_40068918.c` |
 | `0x40068E5C` | __aeabi_memclr4 | 8 | EQUIVALENT | 400 | `nonmatching/libc/func_40068e5c.c` |
 | `0x40068E64` | readl_c | 8 | EQUIVALENT | 300 | `nonmatching/drivers/func_40068e64.c` |
 | `0x40068E6C` | writel_c | 8 | EQUIVALENT | 300 | `nonmatching/drivers/func_40068e6c.c` |
@@ -299,6 +307,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4006A31C` | log | 218 | EQUIVALENT | 400 | `nonmatching/libm/func_4006a31c.c` |
 | `0x4006A4DA` | llabs | 12 | EQUIVALENT | 400 | `nonmatching/libc/func_4006a4da.c` |
 | `0x4006A4E8` | __aeabi_f2lz | 72 | EQUIVALENT | 400 | `nonmatching/libc/func_4006a4e8.c` |
+| `0x4006A530` | func_4006a530 | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_4006a530.c` |
 | `0x4006A6FC` | __aeabi_memset4 | 56 | EQUIVALENT | 400 | `nonmatching/libc/func_4006a6fc.c` |
 | `0x4006AA28` | func_4006aa28 | 196 | EQUIVALENT | 200 | `nonmatching/usb/func_4006aa28.c` |
 | `0x4006AAEC` | func_4006aaec | 44 | EQUIVALENT | 200 | `nonmatching/usb/func_4006aaec.c` |

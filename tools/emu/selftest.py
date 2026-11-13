@@ -78,6 +78,9 @@ MUTANTS = [
     (0x40065954, "cfg[3] == 1 ? 0x10000 : 0", "cfg[3] == 2 ? 0x10000 : 0"),    # CSI clock edge
     (0x400677E4, "if (hz < 25000001) src |= 0x500000;", "if (hz < 25000001) src |= 0x400000;"),  # SD clock phase
     (0x40067B30, "if (cnt >= 0x101)", "if (cnt >= 0x100)"),                    # IDMAC descriptor limit
+    (0x40067D70, "if (data->blksz * data->blocks > 0x40) {", "if (data->blksz * data->blocks >= 0x40) {"),  # CPU vs DMA data path
+    (0x40068918, "if (cmd.resp[3] & 0x40000000u) {", "if (cmd.resp[3] & 0x20000000u) {"),  # SDHC (CCS) detection
+    (0x4006866C, "if (mmc_card_type != 1) sector <<= 9;", "if (mmc_card_type != 1) sector <<= 8;"),  # byte addressing
 ]
 
 
