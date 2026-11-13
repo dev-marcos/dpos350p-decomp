@@ -19,7 +19,9 @@ The stock image reaches the power-on self test and draws it on the emulated disp
 | 磁盘初始化 | disk (SD card) init | 成功 (OK) |
 | FPGA检测 | FPGA identity | 成功 |
 | 加密芯片检测 | security chip | 成功 |
-| ADC检测 | ADC / acquisition | waits: needs interrupts + CSI capture |
+| ADC检测 | ADC / acquisition | 成功 (CSI frames + DAC-following front end) |
+| 系统校准 | system calibration (per-channel, FFT-based) | fails with the simple front end (通道1/2异常); `bypass_calibration=True` marks it OK (emulator shortcut, OPEN) |
+| 通道复用检测 | channel multiplex check | fails (异常): next to model |
 
 ## Peripheral models (`tools/sim/devices.py`)
 
@@ -48,6 +50,23 @@ Assumptions:
   异常 in red.
 - **Different status selector.** This build polls job status on selector 0x64. The Hack notes
   describe 0x65.
+
+## Interrupts, capture, touch, live view (second iteration)
+
+- IRQ delivery: GIC model (enables 0x01C81100, IAR/EOIR 0x01C8200C/2010) + ARM exception entry
+  done by the simulator between execution slices (500k instructions, ~0.5 ms emulated).
+- Timer 0/1 -> IRQ 50/51. CSI0 -> IRQ 116 (0x74): a capture start (CAP +0x08) fills the ring
+  (BUF0 holds address/4; 8 slots x 6144 bytes, stride 0x2134) from the virtual front end:
+  ADC code = (DAC at SYS_INFO+0x44 - 3000) * 256 / 7000 + probe sine. FPGA 0x0A (acquisition
+  complete) reads 1.
+- Fast paths: FPGA bus primitives, delay_us/ms and GT911 register access are executed in Python
+  at function level (same effect, far fewer emulated PIO accesses). D-cache set/way clean
+  (0x4006A550) is skipped.
+- GT911 touch model (register level; one point; panel axes = display axes, ASSUMPTION).
+- `python3 -m tools.sim.live` serves the live display on http://localhost:8350 (frames + mouse
+  clicks -> touch). Snapshots: `save_snapshot` / `load_snapshot` in sim.py (not yet wired to
+  the live viewer).
+- Speed: ~25-45 M instructions/s; the POST (ADC test = 7200 captures) takes about 4 minutes.
 
 ## Next steps
 
