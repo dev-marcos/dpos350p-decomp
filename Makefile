@@ -21,7 +21,7 @@ BLOBS_OK  := $(BUILD)/.blobs_ok
 ASM_SRCS  := $(wildcard asm/*.s)
 ASM_OBJS  := $(patsubst %.s,$(BUILD)/%.o,$(ASM_SRCS))
 
-.PHONY: all extract check map split nonmatching emutest selftest progress clean distclean
+.PHONY: all extract check map split nonmatching emutest selftest progress clean distclean testiso
 .DELETE_ON_ERROR:
 
 all: $(ISO)
@@ -77,6 +77,11 @@ emutest: nonmatching
 
 selftest: nonmatching
 	$(PYTHON) -m tools.emu.selftest
+
+# TEST image for the emulator only (never write it to a device): every EQUIVALENT C function that
+# fits compiled in place, each build re-verified (tools/testiso.py) -> build/test/DPOS350P_TEST.iso
+testiso: emutest
+	$(PYTHON) tools/testiso.py
 
 progress: $(BUILD)/analysis/map.json
 	-$(PYTHON) -m tools.emu.run_tests >/dev/null

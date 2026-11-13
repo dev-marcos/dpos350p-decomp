@@ -106,7 +106,7 @@ void battery_coeffs_default(void);           /* 0x4004A2A0 */
 int  mmc_card_init(int n);                                        /* 0x40068918 */
 int  mmc_read_blocks(int n, u32 sector, u32 count, void *buf);    /* 0x4006866C */
 int  mmc_write_blocks(int n, u32 sector, u32 count, const void *buf);   /* 0x40068794 */
-void *func_40035724(void *d, const void *s, unsigned int n);      /* memcpy veneer */
+void *memcpy(void *d, const void *s, unsigned int n);      /* memcpy veneer */
 int  f_mount(void *fs, const char *path, int opt);                /* 0x40059AEC */
 int  f_mkfs(const char *path, int opt, u32 au, void *work, u32 len);   /* 0x4005B1F8 */
 int  f_getfree(const char *path, u32 *nclst, void **fatfs);       /* 0x4005ABC0 */

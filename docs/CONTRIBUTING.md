@@ -49,6 +49,27 @@ When an Arm Compiler 5 licence is available, the same C files are compiled with 
 flags and compared with `tools/cmpfunc.py`. A byte-identical function moves to `src/` and
 replaces its `asm/func_XXXXXXXX.s`.
 
+## TEST image for the emulator
+
+`make testiso` builds `build/test/DPOS350P_TEST.iso`: the stock image with every EQUIVALENT C
+function compiled in place (`tools/testiso.py`). **Emulator only, never write it to a device.**
+
+- Each function is compiled with GCC and linked at its original address. Calls and data go to
+  the original addresses.
+- It is written over the stock bytes only if it fits in the original function's size. `-O2` is
+  tried first, then `-Os`.
+- The TEST builds use VFP without NEON. The stock code has no NEON and neither does the browser
+  emulator: one NEON instruction made the first attempt stop.
+- Every chosen build is therefore run again through its `tools/emu` cases, and used only if it
+  is EQUIVALENT.
+- Left out:
+  - functions that do not fit;
+  - functions whose stock code is Thumb (callers enter them in Thumb state);
+  - C files that define their own variables.
+- `build/test/testiso_report.json` lists what was replaced and why the rest was not. The
+  container (logo, header, checksum footer) is packed by `tools/dposiso.py`, as for the stock
+  file.
+
 ## Tools
 
 | Tool | Purpose |

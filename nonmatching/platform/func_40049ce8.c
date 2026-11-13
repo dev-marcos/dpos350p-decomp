@@ -13,6 +13,6 @@ int disk_write(u32 pdrv, const unsigned char *buff, u32 sector, u32 count)
         return 4;
     if (g_sd_state != 1)
         return 0;
-    func_40035724(SD_BOUNCE, buff, g_sector_size * count);
+    memcpy(SD_BOUNCE, buff, g_sector_size * count);
     return mmc_write_blocks(0, sector, count, SD_BOUNCE) ? 1 : 0;
 }
