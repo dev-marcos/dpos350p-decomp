@@ -1,5 +1,8 @@
 # Whole-system simulator
 
+The simulator lives in its own repository, https://github.com/dev-marcos/dpos350p-emu, included here as the
+git submodule `tools/sim` (`git submodule update --init` after cloning).
+
 ## Web emulator (local server + browser)
 
 ```
