@@ -77,9 +77,74 @@ Register meanings are DERIVED from the V3s CCU map. The values are STATIC-CONFIR
 - PLL wait loops use a LOCK model. Reads of PLL_CPU and PLL_PERIPH0 report bit 28 with a seeded
   probability, so both "not yet locked" and "locked" are exercised.
 
+## FPGA start-up, SMEC jobs, touch, power, disk glue (batch 11)
+
+C: `tools/platform_spec/f_fpga_smec.py` → `nonmatching/platform/`. Types and macros:
+`include/hw/fpga.h`. Tests: `tools/emu/tests/fpga.py`. Addresses and behaviour are
+STATIC-CONFIRMED from the code. Names are DERIVED unless they come from the Hack notes.
+
+- **Shared PE pins** (`fpga_pe_mode_select`, 0x42E68D19): mode 0 sets them up as the FPGA control
+  bus (`fpga_bus_init`); any other mode sets up CSI capture (`csi_pins_init_0`). The pins are only
+  reprogrammed when the mode changes.
+- **`FPGA_Start`**:
+  1. `csi_full_init(8000)`;
+  2. switches the pins to bus mode;
+  3. starts the MS5351M with CLK0 at 95 MHz and CLK1 at 10 MHz (`ms5351_start_clocks`).
+
+  `perform_fpga_identification_probe` reads selector 0x01. A5 A5 5A 5A means OK, and the result
+  goes to SYS_INFO+0x7FC.
+- **SMEC jobs** (`smec_run_job`). A parameter goes to the FPGA as a job, (index, 32-bit value):
+  1. timing to selector 0x69 (16 bit), index to 0x6A, value to 0x6B (32 bit, MSB first);
+  2. start with 0x68 = 1, wait for 0x64 bit 0, then 0x68 = 0;
+  3. wait for 0x65 bit 0;
+  4. the FPGA echoes the index on 0x68 and sets 0x67 bit 0 when the result is valid;
+  5. the result is read from 0x66 (32 bit).
+
+  On a wrong echo or an invalid result, the per-index timing (0x42E67558, reset to 2000) grows by
+  100 up to 3000. After that come 4 more tries at 3000, then the job returns 0.
+
+  `fpga_param_updater` caches the last value per index (state block 0x42E62C2C) and sends only
+  changes. `fpga_params_push` sends SYS_INFO 0x1B8, 0x1C0, 0x268, 0x270, 0x26C, 0x08 and 0x62C as
+  jobs 1..7. `smec_commit` sends a closing job (value 0) after changes, and
+  `security_chip_check` uses it with job 0xB4 before reading selector 0x60.
+- **Touch** (state block 0x42E68BB0, `touch_t`). `gt911_poll` runs at most every 15 ms:
+  - it reads the GT911 status 0x814E (low nibble = point count) and the first point at 0x8150,
+    clamped to 1022 × 600, then clears the status;
+  - it latches press and release edges with their points.
+
+  `touch_service` (UI loop) and `runtime_event_service` (acquisition loop) mark an event for the
+  UI on an edge, or while held when repeat is on (0x42E61FF8). The Hack name of the second one is
+  kept; the code services the touch panel.
+- **Power**:
+  - `auto_off_arm` sets the auto power-off deadline: tick + minutes (SYS_INFO+0x658) × 60 000,
+    kept in SYS_INFO+0x65C.
+  - `auto_off_check` runs when that deadline has passed. It draws the shutdown image at the screen
+    centre, waits 3 s and calls `power_off`. `power_off` (0x4004A1B4) sets FPGA selector 0x03 to 1
+    and waits forever for the supply to drop, so it stays in asm.
+  - `battery_coeffs_default` stores the LRADC conversion, as floats: 32.947 × code + 2565.74 + 170.
+  - `charge_status_read` reads selector 0x02 bit 0 into SYS_INFO+0x779.
+- **FatFs disk glue** for drive 0 (the SD card): reads and writes go through the bounce buffer
+  0x427EB634. Stock quirks, kept as they are:
+  - `disk_read` copies the bounce buffer to the caller even when the read failed;
+  - a wrong drive or an unready card makes `disk_read` return 0, and `disk_write` return 0 when
+    the card is not ready;
+  - `get_fattime` is fixed at 2021-11-21 12:00:00.
+
+  `disk_mount`, `disk_remount`, `disk_format` (FAT, 16 KiB clusters) and `disk_free_bytes` wrap
+  `f_mount`, `f_mkfs` and `f_getfree` on "0:".
+- **Tests**:
+  - A seeded FPGA model answers each selector (ready bits, index echo, valid flag, identity), so
+    the retry paths run.
+  - The model and the stub random streams are created in each run's setup, so the stock code and
+    the C see the same answers.
+  - Stubs that receive stack buffers (GT911 register access, `f_getfree`, `f_mkfs` with its stack
+    argument) record contents instead of addresses.
+- **Kept in asm**: `power_off`. Also `smec_job_result`'s tail at 0x4004A094, which the analyser
+  split off; the C of `smec_job_result` covers the whole function.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).
-- `FPGA_Start` and the FPGA register helpers built on the bus.
 - (USB stack: done, see USB.md.)
 - The display engine and TCON code (DE2 0x01000000, functions of up to 5 KB).
+- The rest of 0x4004A2D0..0x4004AF0C (FPGA runtime helpers around the POST checks).

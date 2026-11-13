@@ -280,9 +280,9 @@ address,size,name,type,evidence_level,source
 0x400342FC,112,func_400342fc,function_arm,DERIVED,analyze.py:rea
 0x4003436C,88,func_4003436c,function_arm,DERIVED,analyze.py:prologue
 0x400343C4,104,func_400343c4,function_arm,DERIVED,analyze.py:rea
-0x4003442C,40,func_4003442c,function_arm,DERIVED,analyze.py:rea
-0x40034454,24,func_40034454,function_arm,DERIVED,analyze.py:rea
-0x4003446C,116,func_4003446c,function_arm,DERIVED,analyze.py:prologue
+0x4003442C,40,fb_present,function_arm,DERIVED,this-project:phase5 (display)
+0x40034454,24,fb_clear_current,function_arm,DERIVED,this-project:phase5 (display)
+0x4003446C,116,fb_clear_all,function_arm,DERIVED,this-project:phase5 (display)
 0x400344E0,44,func_400344e0,function_arm,DERIVED,analyze.py:rea
 0x4003450C,48,pool_4003450c,literal_pool,DERIVED,analyze.py
 0x4003453C,84,__aeabi_ldivmod,function_arm,DERIVED,this-project:phase2
@@ -313,11 +313,11 @@ address,size,name,type,evidence_level,source
 0x40035578,172,func_40035578,function_arm,DERIVED,analyze.py:rea
 0x40035624,116,func_40035624,function_arm,DERIVED,analyze.py:rea
 0x40035698,76,pool_40035698,literal_pool,DERIVED,analyze.py
-0x400356E4,16,func_400356e4,function_arm,DERIVED,analyze.py:rea
-0x400356F4,24,func_400356f4,function_arm,DERIVED,analyze.py:rea
-0x4003570C,24,func_4003570c,function_arm,DERIVED,analyze.py:rea
-0x40035724,4,func_40035724,function_arm,DERIVED,analyze.py:rea
-0x40035728,28,copy_u16,function_arm,OPEN,this-project:phase2
+0x400356E4,16,memset_w,function_arm,DERIVED,this-project:phase5 (memset(dst
+0x400356F4,24,fill_u16,function_arm,DERIVED,this-project:phase5 (display)
+0x4003570C,24,fill_u32,function_arm,DERIVED,this-project:phase5 (display)
+0x40035724,4,memcpy,function_arm,DERIVED,this-project:phase5 (display)
+0x40035728,28,copy_u16,function_arm,DERIVED,this-project:phase5 (display)
 0x40035744,60,func_40035744,function_arm,DERIVED,analyze.py:prologue
 0x40035780,108,func_40035780,function_arm,DERIVED,analyze.py:rea
 0x400357EC,204,func_400357ec,function_arm,DERIVED,analyze.py:rea
@@ -543,20 +543,20 @@ address,size,name,type,evidence_level,source
 0x4003DF92,2,pad_4003df92,padding,STATIC-CONFIRMED,analyze.py:zero
 0x4003DF94,102,__aeabi_d2lz,function_thumb,DERIVED,this-project:phase5 (emulation: 64-bit result; Inf/NaN give 0)
 0x4003DFFA,2,pad_4003dffa,padding,STATIC-CONFIRMED,analyze.py:zero
-0x4003DFFC,8,func_4003dffc,function_arm,DERIVED,analyze.py:rea
-0x4003E004,8,func_4003e004,function_arm,DERIVED,analyze.py:rea
-0x4003E00C,80,func_4003e00c,function_arm,DERIVED,analyze.py:rea
-0x4003E05C,8,func_4003e05c,function_arm,DERIVED,analyze.py:rea
-0x4003E064,636,func_4003e064,function_arm,DERIVED,analyze.py:rea
-0x4003E2E0,32,func_4003e2e0,function_arm,DERIVED,analyze.py:rea
-0x4003E300,4,func_4003e300,function_arm,DERIVED,analyze.py:tailcall
-0x4003E304,16,func_4003e304,function_arm,DERIVED,analyze.py:gap-code
-0x4003E314,708,func_4003e314,function_arm,DERIVED,analyze.py:rea
-0x4003E5D8,100,func_4003e5d8,function_arm,DERIVED,analyze.py:prologue
+0x4003DFFC,8,lcd_readl,function_arm,DERIVED,this-project:phase5 (display)
+0x4003E004,8,lcd_writel,function_arm,DERIVED,this-project:phase5 (display)
+0x4003E00C,80,tcon_clock_off,function_arm,DERIVED,this-project:phase5 (display)
+0x4003E05C,8,de_clock_off,function_arm,DERIVED,this-project:phase5 (display)
+0x4003E064,636,tcon_init,function_arm,DERIVED,this-project:phase5 (display)
+0x4003E2E0,32,tcon_enable,function_arm,DERIVED,this-project:phase5 (display)
+0x4003E300,4,de_commit,function_arm,DERIVED,this-project:phase5 (display)
+0x4003E304,16,de_commit_base,function_arm,DERIVED,this-project:phase5 (display)
+0x4003E314,708,de_init,function_arm,DERIVED,this-project:phase5 (display)
+0x4003E5D8,100,display_init,function_arm,DERIVED,this-project:phase5 (display)
 0x4003E63C,76,func_4003e63c,function_arm,DERIVED,analyze.py:rea
 0x4003E688,44,func_4003e688,function_arm,DERIVED,analyze.py:rea
 0x4003E6B4,64,pool_4003e6b4,literal_pool,DERIVED,analyze.py
-0x4003E6F4,4,func_4003e6f4,function_arm,DERIVED,analyze.py:rea
+0x4003E6F4,4,dcache_clean_inv_all_t,function_arm,DERIVED,this-project:phase5 (display)
 0x4003E6F8,12,__aeabi_uidivmod,function_thumb,DERIVED,this-project:phase2
 0x4003E704,4,__aeabi_ldiv0,function_arm,DERIVED,this-project:phase5 (bx lr; target of the uldivmod divide-by-zero path)
 0x4003E708,48,func_4003e708,function_arm,DERIVED,analyze.py:rea
@@ -728,15 +728,15 @@ address,size,name,type,evidence_level,source
 0x40042E7C,8,writeb_f,function_arm,DERIVED,this-project:phase5
 0x40042E84,8,writel_f,function_arm,DERIVED,this-project:phase5
 0x40042E8C,116,spi0_clk_init,function_arm,DERIVED,this-project:phase5 (SPI0_CLK 0x01C200A0 = PLL_PERIPH0/3; returns the rate)
-0x40042F00,300,func_40042f00,function_arm,DERIVED,analyze.py:prologue
-0x4004302C,92,func_4004302c,function_arm,DERIVED,analyze.py:rea
-0x40043088,96,func_40043088,function_arm,DERIVED,analyze.py:rea
-0x400430E8,80,func_400430e8,function_arm,DERIVED,analyze.py:rea
-0x40043138,44,func_40043138,function_arm,DERIVED,analyze.py:rea
-0x40043164,460,func_40043164,function_arm,DERIVED,analyze.py:rea
-0x40043330,48,func_40043330,function_arm,DERIVED,analyze.py:rea
-0x40043360,104,func_40043360,function_arm,DERIVED,analyze.py:rea
-0x400433C8,84,func_400433c8,function_arm,DERIVED,analyze.py:rea
+0x40042F00,300,sys_spi_init,function_arm,DERIVED,this-project:phase5 (SPI)
+0x4004302C,92,sys_spi_select,function_arm,DERIVED,this-project:phase5 (SPI)
+0x40043088,96,sys_spi_deselect,function_arm,DERIVED,this-project:phase5 (SPI)
+0x400430E8,80,sys_spi_set_counts,function_arm,DERIVED,this-project:phase5 (SPI)
+0x40043138,44,sys_spi_start_xch,function_arm,DERIVED,this-project:phase5 (SPI)
+0x40043164,460,sys_spi_cpu_transfer,function_arm,DERIVED,this-project:phase5 (SPI)
+0x40043330,48,sys_spi_transfer,function_arm,DERIVED,this-project:phase5 (SPI)
+0x40043360,104,sys_spi_write_then_read,function_arm,DERIVED,this-project:phase5 (SPI)
+0x400433C8,84,sys_spi_write_then_write,function_arm,DERIVED,this-project:phase5 (SPI)
 0x4004341C,80,func_4004341c,function_arm,DERIVED,analyze.py:rea
 0x4004346C,8,func_4004346c,function_arm,DERIVED,analyze.py:rea
 0x40043474,32,func_40043474,function_arm,DERIVED,analyze.py:rea
@@ -805,16 +805,16 @@ address,size,name,type,evidence_level,source
 0x40048E84,112,pool_40048e84,literal_pool,DERIVED,analyze.py
 0x40048EF4,4,code_40048ef4,data,OPEN,analyze.py
 0x40048EF8,412,pool_40048ef8,literal_pool,DERIVED,analyze.py
-0x40049094,36,func_40049094,function_arm,DERIVED,analyze.py:rea
-0x400490B8,36,func_400490b8,function_arm,DERIVED,analyze.py:prologue
+0x40049094,36,fpga_pe_mode_select,function_arm,DERIVED,this-project:phase5 (fpga)
+0x400490B8,36,ms5351_start_clocks,function_arm,DERIVED,this-project:phase5 (fpga)
 0x400490DC,24,fpga_bus_input,function_arm,DERIVED,this-project:phase5 + Hack FPGA_PROTOCOL.md (PE_CFG1=0; flag 0)
 0x400490F4,28,fpga_bus_output,function_arm,DERIVED,this-project:phase5 (PE_CFG1=0x11111111; flag 1)
 0x40049110,120,fpga_bus_init,function_arm,DERIVED,this-project:phase5 (PE0..PE3 outputs)
-0x40049188,48,FPGA_Start,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:180
+0x40049188,48,FPGA_Start,function_arm,DERIVED,this-project:phase5 (fpga; name: Hack FPGA.md)
 0x400491B8,92,fpga_data_byte_read,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:451
 0x40049214,104,fpga_data_byte_write,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:450
 0x4004927C,104,fpga_selector_command_write,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:449
-0x400492E4,72,perform_fpga_identification_probe,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:1059
+0x400492E4,72,perform_fpga_identification_probe,function_arm,DERIVED,this-project:phase5 (fpga; name: Hack FPGA.md)
 0x4004932C,36,pool_4004932c,literal_pool,DERIVED,analyze.py
 0x40049350,216,gt911_i2c_start,function_arm,DERIVED,this-project:phase5 + Hack FPGA.md:1220
 0x40049428,104,gt911_i2c_stop,function_arm,DERIVED,this-project:phase5 + Hack FPGA.md:1221
@@ -831,17 +831,17 @@ address,size,name,type,evidence_level,source
 0x400498A4,32,gt911_bus_init,function_arm,DERIVED,this-project:phase5 + Hack FPGA.md:1228
 0x400498C4,16,gt911_write16,function_arm,DERIVED,this-project:phase5 + Hack FPGA.md:1229
 0x400498D4,16,gt911_read16,function_arm,DERIVED,this-project:phase5 + Hack FPGA.md:1230
-0x400498E4,340,func_400498e4,function_arm,DERIVED,analyze.py:rea
-0x40049A38,36,func_40049a38,function_arm,DERIVED,analyze.py:rea
-0x40049A5C,24,func_40049a5c,function_arm,DERIVED,analyze.py:rea
-0x40049A74,40,func_40049a74,function_arm,DERIVED,analyze.py:rea
-0x40049A9C,108,func_40049a9c,function_arm,DERIVED,analyze.py:rea
-0x40049B08,96,runtime_event_service,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:566
+0x400498E4,340,gt911_poll,function_arm,DERIVED,this-project:phase5 (fpga)
+0x40049A38,36,touch_state_clear,function_arm,DERIVED,this-project:phase5 (fpga)
+0x40049A5C,24,gt911_pins_init,function_arm,DERIVED,this-project:phase5 (fpga)
+0x40049A74,40,touch_init,function_arm,DERIVED,this-project:phase5 (fpga)
+0x40049A9C,108,touch_service,function_arm,DERIVED,this-project:phase5 (fpga)
+0x40049B08,96,runtime_event_service,function_arm,DERIVED,this-project:phase5 (touch; name: Hack ACQUISITION.md)
 0x40049B68,24,pool_40049b68,literal_pool,DERIVED,analyze.py
-0x40049B80,16,func_40049b80,function_arm,DERIVED,analyze.py:rea
-0x40049B90,36,func_40049b90,function_arm,DERIVED,analyze.py:prologue
-0x40049BB4,48,func_40049bb4,function_arm,DERIVED,analyze.py:rea
-0x40049BE4,84,func_40049be4,function_arm,DERIVED,analyze.py:rea
+0x40049B80,16,disk_mount,function_arm,DERIVED,this-project:phase5 (diskio)
+0x40049B90,36,disk_remount,function_arm,DERIVED,this-project:phase5 (diskio)
+0x40049BB4,48,disk_format,function_arm,DERIVED,this-project:phase5 (diskio)
+0x40049BE4,84,disk_free_bytes,function_arm,DERIVED,this-project:phase5 (diskio)
 0x40049C38,64,disk_initialize,function_arm,DERIVED,FatFs diskio.h (called by f_mkfs; STA_NOINIT/STA_PROTECT tests)
 0x40049C78,112,disk_read,function_arm,DERIVED,FatFs diskio.h (called by move_window)
 0x40049CE8,128,disk_write,function_arm,DERIVED,FatFs diskio.h (called by sync_window)
@@ -849,30 +849,30 @@ address,size,name,type,evidence_level,source
 0x40049DD8,8,get_fattime,function_arm,DERIVED,FatFs diskio contract (called by f_open/f_sync/f_mkdir/f_mkfs)
 0x40049DE0,4,code_40049de0,data,OPEN,analyze.py
 0x40049DE4,28,pool_40049de4,literal_pool,DERIVED,analyze.py
-0x40049E00,48,func_40049e00,function_arm,DERIVED,analyze.py:rea
-0x40049E30,148,func_40049e30,function_arm,DERIVED,analyze.py:prologue
+0x40049E00,48,security_chip_check,function_arm,DERIVED,this-project:phase5 (smec)
+0x40049E30,148,fpga_params_push,function_arm,DERIVED,this-project:phase5 (smec)
 0x40049EC4,88,fpga_param_updater,function_arm,DERIVED,user-brief
-0x40049F1C,40,func_40049f1c,function_arm,DERIVED,analyze.py:rea
-0x40049F44,28,func_40049f44,function_arm,DERIVED,analyze.py:rea
-0x40049F60,28,selector_0x6a_one_byte_job_index,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SMEC.md:405
-0x40049F7C,60,selector_0x6b_32_bit_job_value,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SMEC.md:406
-0x40049FB8,36,selector_0x69_16_bit_timing_retry,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SMEC.md:407
-0x40049FDC,68,func_40049fdc,function_arm,DERIVED,analyze.py:rea
-0x4004A020,32,func_4004a020,function_arm,DERIVED,analyze.py:rea
-0x4004A040,36,func_4004a040,function_arm,DERIVED,analyze.py:rea
-0x4004A064,28,func_4004a064,function_arm,DERIVED,analyze.py:rea
-0x4004A080,20,func_4004a080,function_arm,DERIVED,analyze.py:prologue
+0x40049F1C,40,smec_commit,function_arm,DERIVED,this-project:phase5 (smec)
+0x40049F44,28,smec_timing_reset,function_arm,DERIVED,this-project:phase5 (smec)
+0x40049F60,28,selector_0x6a_one_byte_job_index,function_arm,DERIVED,this-project:phase5 (smec; name: Hack SMEC.md)
+0x40049F7C,60,selector_0x6b_32_bit_job_value,function_arm,DERIVED,this-project:phase5 (smec; name: Hack SMEC.md)
+0x40049FB8,36,selector_0x69_16_bit_timing_retry,function_arm,DERIVED,this-project:phase5 (smec; name: Hack SMEC.md)
+0x40049FDC,68,smec_start_job,function_arm,DERIVED,this-project:phase5 (smec)
+0x4004A020,32,smec_job_valid,function_arm,DERIVED,this-project:phase5 (smec)
+0x4004A040,36,smec_wait_ready,function_arm,DERIVED,this-project:phase5 (smec)
+0x4004A064,28,smec_job_echo,function_arm,DERIVED,this-project:phase5 (smec)
+0x4004A080,20,smec_job_result,function_arm,DERIVED,this-project:phase5 (smec)
 0x4004A094,28,func_4004a094,function_arm,DERIVED,analyze.py:pointer
-0x4004A0B0,140,func_4004a0b0,function_arm,DERIVED,analyze.py:rea
-0x4004A13C,32,func_4004a13c,function_arm,DERIVED,analyze.py:rea
-0x4004A15C,48,SMEC_Init,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SMEC.md:102
+0x4004A0B0,140,smec_run_job,function_arm,DERIVED,this-project:phase5 (smec)
+0x4004A13C,32,smec_reset_cmd,function_arm,DERIVED,this-project:phase5 (smec)
+0x4004A15C,48,SMEC_Init,function_arm,DERIVED,this-project:phase5 (smec; name: Hack SMEC.md)
 0x4004A18C,12,pool_4004a18c,literal_pool,DERIVED,analyze.py
-0x4004A198,28,func_4004a198,function_arm,DERIVED,analyze.py:rea
-0x4004A1B4,28,func_4004a1b4,function_arm,DERIVED,analyze.py:prologue
-0x4004A1D0,36,func_4004a1d0,function_arm,DERIVED,analyze.py:rea
-0x4004A1F4,132,func_4004a1f4,function_arm,DERIVED,analyze.py:prologue
-0x4004A278,40,func_4004a278,function_arm,DERIVED,analyze.py:rea
-0x4004A2A0,48,func_4004a2a0,function_arm,DERIVED,analyze.py:prologue
+0x4004A198,28,power_monitor_init,function_arm,DERIVED,this-project:phase5 (power)
+0x4004A1B4,28,power_off,function_arm,DERIVED,this-project:phase5 (power; selector 0x03 = 1 then waits forever for the supply to drop: kept in asm)
+0x4004A1D0,36,auto_off_arm,function_arm,DERIVED,this-project:phase5 (power)
+0x4004A1F4,132,auto_off_check,function_arm,DERIVED,this-project:phase5 (power)
+0x4004A278,40,charge_status_read,function_arm,DERIVED,this-project:phase5 (power)
+0x4004A2A0,48,battery_coeffs_default,function_arm,DERIVED,this-project:phase5 (power)
 0x4004A2D0,240,func_4004a2d0,function_arm,DERIVED,analyze.py:rea
 0x4004A3C0,136,func_4004a3c0,function_arm,DERIVED,analyze.py:rea
 0x4004A448,148,func_4004a448,function_arm,DERIVED,analyze.py:rea
@@ -1110,7 +1110,7 @@ address,size,name,type,evidence_level,source
 0x4005C38C,100,__memcpy_dst_unaligned,function_arm,OPEN,this-project:phase5 (memcpy path for aligned src and unaligned dst; name OPEN)
 0x4005C3F0,508,func_4005c3f0,function_arm,DERIVED,analyze.py:rea
 0x4005C5EC,24,pool_4005c5ec,literal_pool,DERIVED,analyze.py
-0x4005C604,44,func_4005c604,function_arm,DERIVED,analyze.py:gap-code
+0x4005C604,44,__aeabi_memset_entry,function_arm,DERIVED,this-project:phase5 (memset(dst
 0x4005C630,52,func_4005c630,function_arm,DERIVED,analyze.py:prologue
 0x4005C664,20,func_4005c664,function_arm,DERIVED,analyze.py:tailcall
 0x4005C678,324,simple_integer_index_mapping_nearest_neighbour,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2295
@@ -1238,20 +1238,20 @@ address,size,name,type,evidence_level,source
 0x40062EDC,12,pool_40062edc,literal_pool,DERIVED,analyze.py
 0x40062EE8,92,func_40062ee8,function_arm,DERIVED,analyze.py:prologue
 0x40062F44,88,pool_40062f44,literal_pool,DERIVED,analyze.py
-0x40062F9C,8,func_40062f9c,function_arm,DERIVED,analyze.py:rea
-0x40062FA4,8,func_40062fa4,function_arm,DERIVED,analyze.py:rea
-0x40062FAC,112,func_40062fac,function_arm,DERIVED,analyze.py:rea
-0x4006301C,84,func_4006301c,function_arm,DERIVED,analyze.py:rea
-0x40063070,152,func_40063070,function_arm,DERIVED,analyze.py:rea
-0x40063108,68,func_40063108,function_arm,DERIVED,analyze.py:rea
-0x4006314C,132,func_4006314c,function_arm,DERIVED,analyze.py:prologue
+0x40062F9C,8,de_readl,function_arm,DERIVED,this-project:phase5 (display)
+0x40062FA4,8,de_writel,function_arm,DERIVED,this-project:phase5 (display)
+0x40062FAC,112,de_pipe_enable,function_arm,DERIVED,this-project:phase5 (display)
+0x4006301C,84,de_route,function_arm,DERIVED,this-project:phase5 (display)
+0x40063070,152,de_ui_set_layer,function_arm,DERIVED,this-project:phase5 (display)
+0x40063108,68,de_ui_set_size,function_arm,DERIVED,this-project:phase5 (display)
+0x4006314C,132,de_setup_ui,function_arm,DERIVED,this-project:phase5 (display)
 0x400631D0,4,pool_400631d0,literal_pool,DERIVED,analyze.py
 0x400631D4,160,pio_cfg_pin,function_arm,DERIVED,this-project:phase5 (V3s PIO CFG/PUL register layout)
 0x40063274,20,pio_set_bit,function_arm,DERIVED,this-project:phase5 (PIO DAT |= 1<<pin)
 0x40063288,24,pio_clr_bit,function_arm,DERIVED,this-project:phase5 (PIO DAT &= ~(1<<pin))
 0x400632A0,24,pio_get_bit,function_arm,DERIVED,this-project:phase5 (PIO DAT bit test)
 0x400632B8,64,pio_set_drive,function_arm,DERIVED,this-project:phase5 (PIO DRV 2-bit field)
-0x400632F8,4,func_400632f8,function_arm,DERIVED,analyze.py:rea
+0x400632F8,4,dcache_clean_inv_all,function_arm,DERIVED,this-project:phase5 (b 0x4006A550: D-cache clean+invalidate by set/way)
 0x400632FC,16,func_400632fc,function_arm,DERIVED,analyze.py:rea
 0x4006330C,28,func_4006330c,function_arm,DERIVED,analyze.py:gap-code
 0x40063328,44,func_40063328,function_arm,DERIVED,analyze.py:prologue
@@ -1289,46 +1289,46 @@ address,size,name,type,evidence_level,source
 0x4006529C,1312,func_4006529c,function_arm,DERIVED,analyze.py:rea
 0x400657BC,64,pool_400657bc,literal_pool,DERIVED,analyze.py
 0x400657FC,48,func_400657fc,function_arm,DERIVED,analyze.py:rea
-0x4006582C,8,func_4006582c,function_arm,DERIVED,analyze.py:rea
-0x40065834,8,func_40065834,function_arm,DERIVED,analyze.py:rea
-0x4006583C,40,func_4006583c,function_arm,DERIVED,analyze.py:prologue
-0x40065864,40,func_40065864,function_arm,DERIVED,analyze.py:prologue
-0x4006588C,4,func_4006588c,function_arm,DERIVED,analyze.py:gap-code
-0x40065890,4,func_40065890,function_arm,DERIVED,analyze.py:rea
-0x40065894,40,func_40065894,function_arm,DERIVED,analyze.py:rea
-0x400658BC,32,func_400658bc,function_arm,DERIVED,analyze.py:rea
-0x400658DC,16,func_400658dc,function_arm,DERIVED,analyze.py:rea
-0x400658EC,16,func_400658ec,function_arm,DERIVED,analyze.py:rea
-0x400658FC,88,func_400658fc,function_arm,DERIVED,analyze.py:rea
-0x40065954,124,func_40065954,function_arm,DERIVED,analyze.py:rea
-0x400659D0,144,func_400659d0,function_arm,DERIVED,analyze.py:rea
-0x40065A60,56,func_40065a60,function_arm,DERIVED,analyze.py:rea
-0x40065A98,80,func_40065a98,function_arm,DERIVED,analyze.py:gap-code
-0x40065AE8,136,func_40065ae8,function_arm,DERIVED,analyze.py:rea
-0x40065B70,72,func_40065b70,function_arm,DERIVED,analyze.py:rea
-0x40065BB8,28,func_40065bb8,function_arm,DERIVED,analyze.py:gap-code
-0x40065BD4,124,func_40065bd4,function_arm,DERIVED,analyze.py:rea
-0x40065C50,20,func_40065c50,function_arm,DERIVED,analyze.py:rea
-0x40065C64,4,func_40065c64,function_arm,DERIVED,analyze.py:rea
-0x40065C68,24,func_40065c68,function_arm,DERIVED,analyze.py:rea
-0x40065C80,132,func_40065c80,function_arm,DERIVED,analyze.py:rea
-0x40065D04,412,func_40065d04,function_arm,DERIVED,analyze.py:prologue
-0x40065EA0,4,func_40065ea0,function_arm,DERIVED,analyze.py:gap-code
-0x40065EA4,4,func_40065ea4,function_arm,DERIVED,analyze.py:gap-code
-0x40065EA8,4,func_40065ea8,function_arm,DERIVED,analyze.py:rea
-0x40065EAC,4,func_40065eac,function_arm,DERIVED,analyze.py:rea
-0x40065EB0,72,func_40065eb0,function_arm,DERIVED,analyze.py:rea
-0x40065EF8,80,func_40065ef8,function_arm,DERIVED,analyze.py:rea
-0x40065F48,96,func_40065f48,function_arm,DERIVED,analyze.py:rea
-0x40065FA8,136,func_40065fa8,function_arm,DERIVED,analyze.py:rea
-0x40066030,36,func_40066030,function_arm,DERIVED,analyze.py:rea
-0x40066054,88,func_40066054,function_arm,DERIVED,analyze.py:prologue
-0x400660AC,20,enable_csi_capture,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:3300
-0x400660C0,4,func_400660c0,function_arm,DERIVED,analyze.py:tailcall
-0x400660C4,4,func_400660c4,function_arm,DERIVED,analyze.py:gap-code
-0x400660C8,64,is_a_generic_delay_helper,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2864
-0x40066108,4,func_40066108,function_arm,DERIVED,analyze.py:tailcall
-0x4006610C,12,func_4006610c,function_arm,DERIVED,analyze.py:gap-code
+0x4006582C,8,csi_readl,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40065834,8,csi_writel,function_arm,DERIVED,this-project:phase5 (CSI)
+0x4006583C,40,csi_setbits,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40065864,40,csi_clrbits,function_arm,DERIVED,this-project:phase5 (CSI)
+0x4006588C,4,csi_writel_t,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40065890,4,csi_readl_t,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40065894,40,csi_clrsetbits,function_arm,DERIVED,this-project:phase5 (CSI)
+0x400658BC,32,csi_set_base_addr,function_arm,DERIVED,this-project:phase5 (CSI)
+0x400658DC,16,csi_enable,function_arm,DERIVED,this-project:phase5 (CSI)
+0x400658EC,16,csi_disable,function_arm,DERIVED,this-project:phase5 (CSI)
+0x400658FC,88,csi_if_cfg,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40065954,124,csi_timing_cfg,function_arm,DERIVED,this-project:phase5 (CSI)
+0x400659D0,144,csi_fmt_cfg,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40065A60,56,csi_set_buffer_address,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40065A98,80,csi_capture_start,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40065AE8,136,csi_set_size,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40065B70,72,csi_set_offset,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40065BB8,28,csi_int_enable,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40065BD4,124,csi_int_get_status,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40065C50,20,csi_int_clear_status,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40065C64,4,csi_enable_t,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40065C68,24,csi_reset,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40065C80,132,csi_init_cfg,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40065D04,412,csi_set_fmt,function_arm,DERIVED,this-project:phase5 (channel sizes from the descriptors; reads uninitialised stack arrays: kept in asm
+0x40065EA0,4,csi_capture_start_t,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40065EA4,4,csi_int_enable_t,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40065EA8,4,csi_int_get_status_t,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40065EAC,4,csi_int_clear_status_t,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40065EB0,72,csi_isr,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40065EF8,80,csi_pins_init,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40065F48,96,csi_clk_init,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40065FA8,136,csi_init_structs,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40066030,36,csi_set_buffer,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40066054,88,csi_irq_setup,function_arm,DERIVED,this-project:phase5 (CSI)
+0x400660AC,20,enable_csi_capture,function_arm,DERIVED,this-project:phase5 (CSI)
+0x400660C0,4,csi_pins_init_0,function_arm,DERIVED,this-project:phase5 (CSI)
+0x400660C4,4,csi_pins_init_t,function_arm,DERIVED,this-project:phase5 (CSI)
+0x400660C8,64,csi_full_init,function_arm,DERIVED,this-project:phase5 (CSI)
+0x40066108,4,csi_clear_frame_flag,function_arm,DERIVED,this-project:phase5 (CSI)
+0x4006610C,12,csi_set_frame_flag,function_arm,DERIVED,this-project:phase5 (CSI)
 0x40066118,36,pool_40066118,literal_pool,DERIVED,analyze.py
 0x4006613C,1012,__sincos_core,function_thumb,DERIVED,this-project:phase2
 0x40066530,4,cos,function_thumb,OPEN,this-project:phase2
@@ -1345,29 +1345,29 @@ address,size,name,type,evidence_level,source
 0x40066884,28,func_40066884,function_arm,DERIVED,analyze.py:rea
 0x400668A0,28,func_400668a0,function_arm,DERIVED,analyze.py:rea
 0x400668BC,20,func_400668bc,function_arm,DERIVED,analyze.py:rea
-0x400668D0,8,func_400668d0,function_arm,DERIVED,analyze.py:rea
-0x400668D8,8,func_400668d8,function_arm,DERIVED,analyze.py:rea
-0x400668E0,4,func_400668e0,function_arm,DERIVED,analyze.py:gap-code
-0x400668E4,108,irq_dispatch,function_arm,DERIVED,this-project:phase2
-0x40066950,68,func_40066950,function_arm,DERIVED,analyze.py:prologue
-0x40066994,68,func_40066994,function_arm,DERIVED,analyze.py:prologue
-0x400669D8,8,func_400669d8,function_arm,DERIVED,analyze.py:rea
-0x400669E0,304,func_400669e0,function_arm,DERIVED,analyze.py:rea
-0x40066B10,120,func_40066b10,function_arm,DERIVED,analyze.py:prologue
-0x40066B88,4,irq_enable,function_arm,OPEN,this-project:phase5 (called around timer IRQ registration)
-0x40066B8C,72,irq_disable,function_arm,OPEN,this-project:phase5
-0x40066BD4,136,irq_register,function_arm,OPEN,this-project:phase5 (irq number + handler; prints via 0x4006709C)
+0x400668D0,8,gic_readl,function_arm,DERIVED,this-project:phase5 (GIC/IRQ)
+0x400668D8,8,gic_writel,function_arm,DERIVED,this-project:phase5 (GIC/IRQ)
+0x400668E0,4,default_irq_handler,function_arm,DERIVED,this-project:phase5 (GIC/IRQ)
+0x400668E4,108,irq_dispatch,function_arm,DERIVED,this-project:phase5 (GIC/IRQ)
+0x40066950,68,gic_enable_irq,function_arm,DERIVED,this-project:phase5 (GIC/IRQ)
+0x40066994,68,gic_disable_irq,function_arm,DERIVED,this-project:phase5 (GIC/IRQ)
+0x400669D8,8,gic_cpu_id,function_arm,DERIVED,this-project:phase5 (GIC/IRQ)
+0x400669E0,304,gic_dist_init,function_arm,DERIVED,this-project:phase5 (GIC/IRQ)
+0x40066B10,120,gic_cpu_init,function_arm,DERIVED,this-project:phase5 (GIC/IRQ)
+0x40066B88,4,local_irq_enable,function_arm,DERIVED,this-project:phase5 (GIC/IRQ)
+0x40066B8C,72,gic_init,function_arm,DERIVED,this-project:phase5 (GIC/IRQ)
+0x40066BD4,136,irq_register,function_arm,DERIVED,this-project:phase5 (GIC/IRQ)
 0x40066C5C,16,pool_40066c5c,literal_pool,DERIVED,analyze.py
-0x40066C6C,20,func_40066c6c,function_arm,DERIVED,analyze.py:rea
-0x40066C80,8,func_40066c80,function_arm,DERIVED,analyze.py:rea
-0x40066C88,8,func_40066c88,function_arm,DERIVED,analyze.py:tailcall
-0x40066C90,96,func_40066c90,function_arm,DERIVED,analyze.py:prologue
-0x40066CF0,20,func_40066cf0,function_arm,DERIVED,analyze.py:rea
-0x40066D04,36,func_40066d04,function_arm,DERIVED,analyze.py:rea
-0x40066D28,44,func_40066d28,function_arm,DERIVED,analyze.py:rea
-0x40066D54,52,func_40066d54,function_arm,DERIVED,analyze.py:rea
-0x40066D88,328,func_40066d88,function_arm,DERIVED,analyze.py:rea
-0x40066ED0,232,func_40066ed0,function_arm,DERIVED,analyze.py:rea
+0x40066C6C,20,local_irq_enable_body,function_arm,DERIVED,this-project:phase5 (GIC/IRQ)
+0x40066C80,8,readl_g,function_arm,DERIVED,this-project:phase5 (UART/printf)
+0x40066C88,8,writel_g,function_arm,DERIVED,this-project:phase5 (UART/printf)
+0x40066C90,96,uart_putc,function_arm,DERIVED,this-project:phase5 (UART/printf)
+0x40066CF0,20,console_putc,function_arm,DERIVED,this-project:phase5 (UART/printf)
+0x40066D04,36,console_puts,function_arm,DERIVED,this-project:phase5 (UART/printf)
+0x40066D28,44,console_putn,function_arm,DERIVED,this-project:phase5 (UART/printf)
+0x40066D54,52,console_put_reversed,function_arm,DERIVED,this-project:phase5 (UART/printf)
+0x40066D88,328,console_print_num,function_arm,DERIVED,this-project:phase5 (UART/printf)
+0x40066ED0,232,console_format_conv,function_arm,DERIVED,this-project:phase5 (UART/printf)
 0x40066FB8,8,func_40066fb8,function_arm,DERIVED,analyze.py:gap-code
 0x40066FC0,16,func_40066fc0,function_arm,DERIVED,analyze.py:gap-code
 0x40066FD0,2,pad_40066fd0,padding,STATIC-CONFIRMED,analyze.py:zero
@@ -1381,10 +1381,10 @@ address,size,name,type,evidence_level,source
 0x40067068,8,func_40067068,function_arm,DERIVED,analyze.py:gap-code
 0x40067070,8,func_40067070,function_arm,DERIVED,analyze.py:gap-code
 0x40067078,36,func_40067078,function_arm,DERIVED,analyze.py:gap-code
-0x4006709C,120,func_4006709c,function_arm,DERIVED,analyze.py:rea
+0x4006709C,120,dbg_printf,function_arm,DERIVED,this-project:phase5 (UART/printf)
 0x40067114,8,pool_40067114,literal_pool,DERIVED,analyze.py
-0x4006711C,12,debug_printf_stub,function_arm,DERIVED,this-project:phase2
-0x40067128,12,serializer_set_cursor,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:618
+0x4006711C,12,debug_printf_stub,function_arm,DERIVED,this-project:phase5 (UART/printf)
+0x40067128,12,serializer_set_cursor,function_arm,DERIVED,this-project:phase5 (UART/printf)
 0x40067134,16,serializer_set_encode_mode,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:619
 0x40067144,16,serializer_set_decode_mode,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:620
 0x40067154,12,func_40067154,function_arm,DERIVED,analyze.py:rea
@@ -1403,42 +1403,42 @@ address,size,name,type,evidence_level,source
 0x40067574,36,wdt_system_reset,function_arm,DERIVED,this-project:phase5 (wdt_config(0 1 0) + enable)
 0x40067598,8,readl_a,function_arm,DERIVED,this-project:phase5 (ldr r0 [r0])
 0x400675A0,8,writel_a,function_arm,DERIVED,this-project:phase5 (str r1 [r0])
-0x400675A8,4,func_400675a8,function_arm,DERIVED,analyze.py:rea
-0x400675AC,4,func_400675ac,function_arm,DERIVED,analyze.py:rea
+0x400675A8,4,mmc_delay_us,function_arm,DERIVED,this-project:phase5 (SD/MMC)
+0x400675AC,4,mmc_delay_ms,function_arm,DERIVED,this-project:phase5 (SD/MMC)
 0x400675B0,140,sdmmc_pins_init,function_arm,DERIVED,this-project:phase5 (PF0-5 / PC0-5 / PC0-10 function 2)
-0x4006763C,60,func_4006763c,function_arm,DERIVED,analyze.py:rea
-0x40067678,68,func_40067678,function_arm,DERIVED,analyze.py:rea
-0x400676BC,128,func_400676bc,function_arm,DERIVED,analyze.py:rea
-0x4006773C,108,func_4006773c,function_arm,DERIVED,analyze.py:rea
-0x400677A8,60,func_400677a8,function_arm,DERIVED,analyze.py:rea
-0x400677E4,204,func_400677e4,function_arm,DERIVED,analyze.py:rea
-0x400678B0,40,func_400678b0,function_arm,DERIVED,analyze.py:rea
-0x400678D8,64,func_400678d8,function_arm,DERIVED,analyze.py:rea
-0x40067918,64,func_40067918,function_arm,DERIVED,analyze.py:rea
-0x40067958,36,func_40067958,function_arm,DERIVED,analyze.py:rea
-0x4006797C,136,func_4006797c,function_arm,DERIVED,analyze.py:rea
-0x40067A04,44,func_40067a04,function_arm,DERIVED,analyze.py:rea
-0x40067A30,256,func_40067a30,function_arm,DERIVED,analyze.py:rea
-0x40067B30,460,func_40067b30,function_arm,DERIVED,analyze.py:rea
-0x40067CFC,32,func_40067cfc,function_arm,DERIVED,analyze.py:rea
-0x40067D1C,84,func_40067d1c,function_arm,DERIVED,analyze.py:rea
-0x40067D70,832,func_40067d70,function_arm,DERIVED,analyze.py:prologue
-0x400680B0,92,func_400680b0,function_arm,DERIVED,analyze.py:rea
-0x4006810C,40,func_4006810c,function_arm,DERIVED,analyze.py:rea
-0x40068134,428,func_40068134,function_arm,DERIVED,analyze.py:rea
-0x400682E0,276,func_400682e0,function_arm,DERIVED,analyze.py:rea
+0x4006763C,60,mmc_base,function_arm,DERIVED,this-project:phase5 (SD/MMC)
+0x40067678,68,mmc_check_range,function_arm,DERIVED,this-project:phase5 (SD/MMC)
+0x400676BC,128,mmc_wait_rint,function_arm,DERIVED,this-project:phase5 (SD/MMC)
+0x4006773C,108,mmc_update_clk,function_arm,DERIVED,this-project:phase5 (SD/MMC)
+0x400677A8,60,mmc_periph0_freq,function_arm,DERIVED,this-project:phase5 (SD/MMC)
+0x400677E4,204,mmc_set_mod_clk,function_arm,DERIVED,this-project:phase5 (SD/MMC)
+0x400678B0,40,mmc_clk_lowpower_on,function_arm,DERIVED,this-project:phase5 (SD/MMC)
+0x400678D8,64,mmc_clk_enable,function_arm,DERIVED,this-project:phase5 (SD/MMC)
+0x40067918,64,mmc_clk_disable,function_arm,DERIVED,this-project:phase5 (SD/MMC)
+0x40067958,36,mmc_gctrl_clr_bit8,function_arm,DERIVED,this-project:phase5 (SD/MMC)
+0x4006797C,136,mmc_config_clock,function_arm,DERIVED,this-project:phase5 (SD/MMC)
+0x40067A04,44,mmc_reset,function_arm,DERIVED,this-project:phase5 (SD/MMC)
+0x40067A30,256,mmc_trans_data_by_cpu,function_arm,DERIVED,this-project:phase5 (SD/MMC)
+0x40067B30,460,mmc_trans_data_by_dma,function_arm,DERIVED,this-project:phase5 (SD/MMC)
+0x40067CFC,32,mmc_set_bus_width,function_arm,DERIVED,this-project:phase5 (SD/MMC)
+0x40067D1C,84,mmc_idma_status,function_arm,DERIVED,this-project:phase5 (SD/MMC)
+0x40067D70,832,mmc_send_cmd,function_arm,DERIVED,this-project:phase5 (SD/MMC)
+0x400680B0,92,mmc_hw_reset,function_arm,DERIVED,this-project:phase5 (SD/MMC)
+0x4006810C,40,mmc_cmd,function_arm,DERIVED,this-project:phase5 (SD/MMC)
+0x40068134,428,mmc_read_csd_cid,function_arm,DERIVED,this-project:phase5 (CMD9/CMD10 decode into the SD info block; copies 4 bytes past its local CID array: kept in asm
+0x400682E0,276,mmc_switch_hs,function_arm,DERIVED,this-project:phase5 (SD/MMC)
 0x400683F4,24,pool_400683f4,literal_pool,DERIVED,analyze.py
-0x4006840C,576,func_4006840c,function_arm,DERIVED,analyze.py:rea
+0x4006840C,576,mmc_select_setup,function_arm,DERIVED,this-project:phase5 (SD/MMC)
 0x4006864C,32,pool_4006864c,literal_pool,DERIVED,analyze.py
-0x4006866C,284,func_4006866c,function_arm,DERIVED,analyze.py:rea
+0x4006866C,284,mmc_read_blocks,function_arm,DERIVED,this-project:phase5 (SD/MMC)
 0x40068788,12,pool_40068788,literal_pool,DERIVED,analyze.py
-0x40068794,288,func_40068794,function_arm,DERIVED,analyze.py:rea
+0x40068794,288,mmc_write_blocks,function_arm,DERIVED,this-project:phase5 (SD/MMC)
 0x400688B4,8,pool_400688b4,literal_pool,DERIVED,analyze.py
-0x400688BC,12,func_400688bc,function_arm,DERIVED,analyze.py:rea
-0x400688C8,52,func_400688c8,function_arm,DERIVED,analyze.py:prologue
-0x400688FC,8,func_400688fc,function_arm,DERIVED,analyze.py:rea
+0x400688BC,12,dcache_clean_inv_mva,function_arm,DERIVED,this-project:phase5 (SD/MMC)
+0x400688C8,52,dcache_flush_range_se,function_arm,DERIVED,this-project:phase5 (SD/MMC)
+0x400688FC,8,dcache_flush_range,function_arm,DERIVED,this-project:phase5 (SD/MMC)
 0x40068904,20,pool_40068904,literal_pool,DERIVED,analyze.py
-0x40068918,1220,func_40068918,function_arm,DERIVED,analyze.py:rea
+0x40068918,1220,mmc_card_init,function_arm,DERIVED,this-project:phase5 (SD/MMC)
 0x40068DDC,128,pool_40068ddc,literal_pool,DERIVED,analyze.py
 0x40068E5C,8,__aeabi_memclr4,function_arm,DERIVED,this-project:phase5 (movs r2 #0 then b __aeabi_memset4)
 0x40068E64,8,readl_c,function_arm,DERIVED,this-project:phase5 (ldr r0 [r0])
@@ -1488,210 +1488,210 @@ address,size,name,type,evidence_level,source
 0x4006A4DA,12,llabs,function_thumb,DERIVED,this-project:phase5 (conditional 64-bit negate)
 0x4006A4E6,2,pad_4006a4e6,padding,STATIC-CONFIRMED,analyze.py:zero
 0x4006A4E8,72,__aeabi_f2lz,function_thumb,DERIVED,this-project:phase5 (emulation: float to int64)
-0x4006A530,32,func_4006a530,function_arm,DERIVED,analyze.py:rea
+0x4006A530,32,__aeabi_llsl,function_arm,DERIVED,this-project:phase5 (AEABI)
 0x4006A550,172,func_4006a550,function_arm,DERIVED,analyze.py:rea
 0x4006A5FC,92,func_4006a5fc,function_arm,DERIVED,analyze.py:gap-code
 0x4006A658,4,func_4006a658,function_thumb,DERIVED,analyze.py:prologue
 0x4006A65C,76,func_4006a65c,function_arm,DERIVED,analyze.py:gap-code
-0x4006A6A8,84,func_4006a6a8,function_arm,DERIVED,analyze.py:rea
+0x4006A6A8,84,strlen,function_arm,DERIVED,this-project:phase5 (word-at-a-time strlen; called by console_format_conv)
 0x4006A6FC,56,__aeabi_memset4,function_arm,DERIVED,this-project:phase5 (stores the r2 word as is: aligned memset4 entry)
 0x4006A734,4,func_4006a734,function_arm,DERIVED,analyze.py:gap-code
 0x4006A738,304,func_4006a738,function_arm,DERIVED,analyze.py:prologue
 0x4006A868,252,func_4006a868,function_arm,DERIVED,analyze.py:prologue
-0x4006A964,20,func_4006a964,function_arm,DERIVED,analyze.py:gap-code
-0x4006A978,20,func_4006a978,function_arm,DERIVED,analyze.py:gap-code
+0x4006A964,20,usb_mass_disk_read,function_arm,DERIVED,this-project:phase5 (READ(10) data source; dispatches on 0x40095490)
+0x4006A978,20,usb_mass_disk_write,function_arm,DERIVED,this-project:phase5 (WRITE(10) data sink; dispatches on 0x40095490)
 0x4006A98C,80,func_4006a98c,function_arm,DERIVED,analyze.py:rea
 0x4006A9DC,76,pool_4006a9dc,literal_pool,DERIVED,analyze.py
-0x4006AA28,196,func_4006aa28,function_arm,DERIVED,analyze.py:rea
-0x4006AAEC,44,func_4006aaec,function_arm,DERIVED,analyze.py:rea
-0x4006AB18,12,func_4006ab18,function_arm,DERIVED,analyze.py:rea
-0x4006AB24,12,func_4006ab24,function_arm,DERIVED,analyze.py:rea
-0x4006AB30,272,func_4006ab30,function_arm,DERIVED,analyze.py:rea
-0x4006AC40,4,func_4006ac40,function_arm,DERIVED,analyze.py:rea
-0x4006AC44,24,func_4006ac44,function_arm,DERIVED,analyze.py:rea
-0x4006AC5C,12,func_4006ac5c,function_arm,DERIVED,analyze.py:rea
-0x4006AC68,80,func_4006ac68,function_arm,DERIVED,analyze.py:rea
-0x4006ACB8,36,func_4006acb8,function_arm,DERIVED,analyze.py:rea
-0x4006ACDC,48,func_4006acdc,function_arm,DERIVED,analyze.py:rea
-0x4006AD0C,32,func_4006ad0c,function_arm,DERIVED,analyze.py:prologue
-0x4006AD2C,32,func_4006ad2c,function_arm,DERIVED,analyze.py:prologue
-0x4006AD4C,56,func_4006ad4c,function_arm,DERIVED,analyze.py:gap-code
-0x4006AD84,56,func_4006ad84,function_arm,DERIVED,analyze.py:rea
-0x4006ADBC,804,func_4006adbc,function_arm,DERIVED,analyze.py:rea
-0x4006B0E0,156,func_4006b0e0,function_arm,DERIVED,analyze.py:rea
-0x4006B17C,276,func_4006b17c,function_arm,DERIVED,analyze.py:rea
-0x4006B290,552,func_4006b290,function_arm,DERIVED,analyze.py:rea
-0x4006B4B8,152,func_4006b4b8,function_arm,DERIVED,analyze.py:rea
-0x4006B550,152,func_4006b550,function_arm,DERIVED,analyze.py:rea
-0x4006B5E8,60,func_4006b5e8,function_arm,DERIVED,analyze.py:rea
-0x4006B624,108,func_4006b624,function_arm,DERIVED,analyze.py:rea
+0x4006AA28,196,usb_device_write_data_ep_pack,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
+0x4006AAEC,44,usb_device_read_data_ep_pack,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
+0x4006AB18,12,usb_device_send_nullpack_ep0,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
+0x4006AB24,12,usb_device_read_data_status_ep0,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
+0x4006AB30,272,usb_device_write_data,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
+0x4006AC40,4,usb_device_clear_setup_end,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
+0x4006AC44,24,usb_device_set_address,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
+0x4006AC5C,12,usb_device_set_ep0_state,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
+0x4006AC68,80,usb_dev_bsp_init,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
+0x4006ACB8,36,clear_all_irq,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
+0x4006ACDC,48,filtrate_irq_misc,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
+0x4006AD0C,32,usbd_start_work,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
+0x4006AD2C,32,usbd_stop_work,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
+0x4006AD4C,56,cfg_udc_command,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
+0x4006AD84,56,sunxi_udc_disable,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
+0x4006ADBC,804,usb_handle_ep0,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
+0x4006B0E0,156,usb_handle_epn_in,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
+0x4006B17C,276,usb_handle_epn_out,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
+0x4006B290,552,usb_irq_handle,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
+0x4006B4B8,152,usb_config_ep_in,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
+0x4006B550,152,usb_config_ep_out,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
+0x4006B5E8,60,usb_device_clear_ep_halt,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
+0x4006B624,108,sunxi_udc_enable,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
 0x4006B690,20,pool_4006b690,literal_pool,DERIVED,analyze.py
-0x4006B6A4,128,func_4006b6a4,function_arm,DERIVED,analyze.py:prologue
+0x4006B6A4,128,usb_device_init,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
 0x4006B724,4,pool_4006b724,literal_pool,DERIVED,analyze.py
-0x4006B728,76,func_4006b728,function_arm,DERIVED,analyze.py:rea
+0x4006B728,76,usb_device_exit,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
 0x4006B774,248,pool_4006b774,literal_pool,DERIVED,analyze.py
 0x4006B86C,240,ldexp,function_thumb,DERIVED,this-project:phase2
-0x4006B95C,28,func_4006b95c,function_arm,DERIVED,analyze.py:rea
-0x4006B978,8,func_4006b978,function_arm,DERIVED,analyze.py:rea
-0x4006B980,76,func_4006b980,function_arm,DERIVED,analyze.py:prologue
+0x4006B95C,28,usb_mass_write,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
+0x4006B978,8,usb_mass_max_lun_ptr,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
+0x4006B980,76,usb_mass_get_cfg_descriptor,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
 0x4006B9CC,12,pool_4006b9cc,literal_pool,DERIVED,analyze.py
-0x4006B9D8,24,func_4006b9d8,function_arm,DERIVED,analyze.py:rea
-0x4006B9F0,4,func_4006b9f0,function_arm,DERIVED,analyze.py:rea
-0x4006B9F4,164,func_4006b9f4,function_arm,DERIVED,analyze.py:rea
-0x4006BA98,1460,func_4006ba98,function_arm,DERIVED,analyze.py:rea
-0x4006C04C,64,func_4006c04c,function_arm,DERIVED,analyze.py:prologue
-0x4006C08C,60,func_4006c08c,function_arm,DERIVED,analyze.py:rea
+0x4006B9D8,24,usb_mass_in_ep_callback,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
+0x4006B9F0,4,usb_mass_out_ep_callback,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
+0x4006B9F4,164,usb_mass_in_handler,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
+0x4006BA98,1460,usb_mass_out_handler,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
+0x4006C04C,64,usb_mass_send_data,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
+0x4006C08C,60,usb_mass_send_csw,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
 0x4006C0C8,64,pool_4006c0c8,literal_pool,DERIVED,analyze.py
-0x4006C108,4,func_4006c108,function_arm,DERIVED,analyze.py:gap-code
-0x4006C10C,8,func_4006c10c,function_arm,DERIVED,analyze.py:rea
-0x4006C114,32,func_4006c114,function_arm,DERIVED,analyze.py:rea
-0x4006C134,32,func_4006c134,function_arm,DERIVED,analyze.py:rea
-0x4006C154,36,func_4006c154,function_arm,DERIVED,analyze.py:prologue
-0x4006C178,32,func_4006c178,function_arm,DERIVED,analyze.py:prologue
-0x4006C198,32,func_4006c198,function_arm,DERIVED,analyze.py:prologue
-0x4006C1B8,36,func_4006c1b8,function_arm,DERIVED,analyze.py:rea
-0x4006C1DC,32,func_4006c1dc,function_arm,DERIVED,analyze.py:prologue
-0x4006C1FC,36,func_4006c1fc,function_arm,DERIVED,analyze.py:prologue
-0x4006C220,32,func_4006c220,function_arm,DERIVED,analyze.py:prologue
-0x4006C240,36,func_4006c240,function_arm,DERIVED,analyze.py:rea
-0x4006C264,84,func_4006c264,function_arm,DERIVED,analyze.py:rea
-0x4006C2B8,112,func_4006c2b8,function_arm,DERIVED,analyze.py:rea
-0x4006C328,64,func_4006c328,function_arm,DERIVED,analyze.py:rea
-0x4006C368,28,func_4006c368,function_arm,DERIVED,analyze.py:rea
-0x4006C384,80,func_4006c384,function_arm,DERIVED,analyze.py:rea
-0x4006C3D4,80,func_4006c3d4,function_arm,DERIVED,analyze.py:rea
-0x4006C424,16,func_4006c424,function_arm,DERIVED,analyze.py:rea
-0x4006C434,12,func_4006c434,function_arm,DERIVED,analyze.py:gap-code
-0x4006C440,20,func_4006c440,function_arm,DERIVED,analyze.py:gap-code
-0x4006C454,20,func_4006c454,function_arm,DERIVED,analyze.py:gap-code
-0x4006C468,12,func_4006c468,function_arm,DERIVED,analyze.py:gap-code
-0x4006C474,20,func_4006c474,function_arm,DERIVED,analyze.py:gap-code
-0x4006C488,20,func_4006c488,function_arm,DERIVED,analyze.py:gap-code
-0x4006C49C,24,func_4006c49c,function_arm,DERIVED,analyze.py:gap-code
-0x4006C4B4,24,func_4006c4b4,function_arm,DERIVED,analyze.py:gap-code
-0x4006C4CC,4,func_4006c4cc,function_arm,DERIVED,analyze.py:tailcall
-0x4006C4D0,12,func_4006c4d0,function_arm,DERIVED,analyze.py:gap-code
-0x4006C4DC,4,func_4006c4dc,function_arm,DERIVED,analyze.py:tailcall
-0x4006C4E0,12,func_4006c4e0,function_arm,DERIVED,analyze.py:gap-code
-0x4006C4EC,36,func_4006c4ec,function_arm,DERIVED,analyze.py:rea
-0x4006C510,40,func_4006c510,function_arm,DERIVED,analyze.py:rea
-0x4006C538,32,func_4006c538,function_arm,DERIVED,analyze.py:rea
-0x4006C558,12,func_4006c558,function_arm,DERIVED,analyze.py:rea
-0x4006C564,12,func_4006c564,function_arm,DERIVED,analyze.py:rea
-0x4006C570,16,func_4006c570,function_arm,DERIVED,analyze.py:gap-code
-0x4006C580,44,func_4006c580,function_arm,DERIVED,analyze.py:rea
-0x4006C5AC,20,func_4006c5ac,function_arm,DERIVED,analyze.py:rea
-0x4006C5C0,12,func_4006c5c0,function_arm,DERIVED,analyze.py:rea
-0x4006C5CC,12,func_4006c5cc,function_arm,DERIVED,analyze.py:rea
-0x4006C5D8,44,func_4006c5d8,function_arm,DERIVED,analyze.py:gap-code
-0x4006C604,20,func_4006c604,function_arm,DERIVED,analyze.py:rea
-0x4006C618,20,func_4006c618,function_arm,DERIVED,analyze.py:rea
-0x4006C62C,20,func_4006c62c,function_arm,DERIVED,analyze.py:rea
-0x4006C640,20,func_4006c640,function_arm,DERIVED,analyze.py:rea
-0x4006C654,20,func_4006c654,function_arm,DERIVED,analyze.py:rea
-0x4006C668,20,func_4006c668,function_arm,DERIVED,analyze.py:gap-code
-0x4006C67C,20,func_4006c67c,function_arm,DERIVED,analyze.py:gap-code
-0x4006C690,20,func_4006c690,function_arm,DERIVED,analyze.py:gap-code
-0x4006C6A4,4,func_4006c6a4,function_arm,DERIVED,analyze.py:gap-code
-0x4006C6A8,136,func_4006c6a8,function_arm,DERIVED,analyze.py:rea
-0x4006C730,24,func_4006c730,function_arm,DERIVED,analyze.py:rea
-0x4006C748,36,func_4006c748,function_arm,DERIVED,analyze.py:rea
-0x4006C76C,4,func_4006c76c,function_arm,DERIVED,analyze.py:tailcall
-0x4006C770,12,func_4006c770,function_arm,DERIVED,analyze.py:gap-code
-0x4006C77C,12,func_4006c77c,function_arm,DERIVED,analyze.py:rea
-0x4006C788,16,func_4006c788,function_arm,DERIVED,analyze.py:rea
-0x4006C798,20,func_4006c798,function_arm,DERIVED,analyze.py:rea
-0x4006C7AC,40,func_4006c7ac,function_arm,DERIVED,analyze.py:rea
-0x4006C7D4,20,func_4006c7d4,function_arm,DERIVED,analyze.py:rea
-0x4006C7E8,16,func_4006c7e8,function_arm,DERIVED,analyze.py:rea
-0x4006C7F8,24,func_4006c7f8,function_arm,DERIVED,analyze.py:rea
-0x4006C810,20,func_4006c810,function_arm,DERIVED,analyze.py:rea
-0x4006C824,16,func_4006c824,function_arm,DERIVED,analyze.py:rea
-0x4006C834,40,func_4006c834,function_arm,DERIVED,analyze.py:rea
-0x4006C85C,88,func_4006c85c,function_arm,DERIVED,analyze.py:rea
-0x4006C8B4,88,func_4006c8b4,function_arm,DERIVED,analyze.py:rea
-0x4006C90C,88,func_4006c90c,function_arm,DERIVED,analyze.py:rea
-0x4006C964,16,func_4006c964,function_arm,DERIVED,analyze.py:rea
-0x4006C974,4,func_4006c974,function_arm,DERIVED,analyze.py:rea
-0x4006C978,20,func_4006c978,function_arm,DERIVED,analyze.py:rea
-0x4006C98C,12,func_4006c98c,function_arm,DERIVED,analyze.py:rea
-0x4006C998,16,func_4006c998,function_arm,DERIVED,analyze.py:rea
-0x4006C9A8,84,func_4006c9a8,function_arm,DERIVED,analyze.py:prologue
-0x4006C9FC,84,func_4006c9fc,function_arm,DERIVED,analyze.py:prologue
-0x4006CA50,52,func_4006ca50,function_arm,DERIVED,analyze.py:rea
-0x4006CA84,16,func_4006ca84,function_arm,DERIVED,analyze.py:rea
-0x4006CA94,16,func_4006ca94,function_arm,DERIVED,analyze.py:rea
-0x4006CAA4,28,func_4006caa4,function_arm,DERIVED,analyze.py:rea
-0x4006CAC0,28,func_4006cac0,function_arm,DERIVED,analyze.py:rea
-0x4006CADC,76,func_4006cadc,function_arm,DERIVED,analyze.py:prologue
-0x4006CB28,76,func_4006cb28,function_arm,DERIVED,analyze.py:prologue
-0x4006CB74,16,func_4006cb74,function_arm,DERIVED,analyze.py:rea
-0x4006CB84,16,func_4006cb84,function_arm,DERIVED,analyze.py:rea
-0x4006CB94,24,func_4006cb94,function_arm,DERIVED,analyze.py:rea
-0x4006CBAC,24,func_4006cbac,function_arm,DERIVED,analyze.py:rea
-0x4006CBC4,60,func_4006cbc4,function_arm,DERIVED,analyze.py:prologue
-0x4006CC00,60,func_4006cc00,function_arm,DERIVED,analyze.py:prologue
-0x4006CC3C,12,func_4006cc3c,function_arm,DERIVED,analyze.py:rea
-0x4006CC48,12,func_4006cc48,function_arm,DERIVED,analyze.py:rea
-0x4006CC54,16,func_4006cc54,function_arm,DERIVED,analyze.py:gap-code
-0x4006CC64,16,func_4006cc64,function_arm,DERIVED,analyze.py:gap-code
-0x4006CC74,16,func_4006cc74,function_arm,DERIVED,analyze.py:gap-code
-0x4006CC84,16,func_4006cc84,function_arm,DERIVED,analyze.py:gap-code
-0x4006CC94,32,func_4006cc94,function_arm,DERIVED,analyze.py:rea
-0x4006CCB4,44,func_4006ccb4,function_arm,DERIVED,analyze.py:rea
-0x4006CCE0,48,func_4006cce0,function_arm,DERIVED,analyze.py:rea
-0x4006CD10,68,func_4006cd10,function_arm,DERIVED,analyze.py:rea
-0x4006CD54,68,func_4006cd54,function_arm,DERIVED,analyze.py:rea
-0x4006CD98,20,func_4006cd98,function_arm,DERIVED,analyze.py:gap-code
-0x4006CDAC,24,func_4006cdac,function_arm,DERIVED,analyze.py:gap-code
-0x4006CDC4,24,func_4006cdc4,function_arm,DERIVED,analyze.py:gap-code
-0x4006CDDC,72,func_4006cddc,function_arm,DERIVED,analyze.py:rea
-0x4006CE24,20,func_4006ce24,function_arm,DERIVED,analyze.py:gap-code
-0x4006CE38,24,func_4006ce38,function_arm,DERIVED,analyze.py:gap-code
-0x4006CE50,24,func_4006ce50,function_arm,DERIVED,analyze.py:gap-code
-0x4006CE68,72,func_4006ce68,function_arm,DERIVED,analyze.py:rea
-0x4006CEB0,16,func_4006ceb0,function_arm,DERIVED,analyze.py:rea
-0x4006CEC0,100,func_4006cec0,function_arm,DERIVED,analyze.py:rea
-0x4006CF24,56,func_4006cf24,function_arm,DERIVED,analyze.py:rea
+0x4006C108,4,usb_phy_nop,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C10C,8,USBC_WakeUp_ClearChangeDetect,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C114,32,USBC_EnableDpDmPullUp,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C134,32,USBC_EnableIdPullUp,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C154,36,USBC_ForceIdToLow,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C178,32,USBC_ForceIdToHigh,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C198,32,USBC_ForceIdDisable,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C1B8,36,USBC_ForceId,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C1DC,32,USBC_ForceVbusValidDisable,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C1FC,36,USBC_ForceVbusValidToLow,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C220,32,USBC_ForceVbusValidToHigh,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C240,36,USBC_ForceVbusValid,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C264,84,USBC_SelectBus,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C2B8,112,usb_phy_write,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C328,64,USBC_PhyConfig,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C368,28,USBC_ConfigFIFO_Base,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C384,80,usb_phy_open_clock_Device,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C3D4,80,usb_phy_close_clock_Device,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C424,16,USBC_INT_DisableUsbMiscAll,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C434,12,USBC_INT_TxPending,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C440,20,USBC_INT_ClearTxPending,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C454,20,USBC_INT_ClearTxPendingAll,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C468,12,USBC_INT_RxPending,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C474,20,USBC_INT_ClearRxPending,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C488,20,USBC_INT_ClearRxPendingAll,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C49C,24,USBC_INT_EnableTxEp,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C4B4,24,USBC_INT_EnableRxEp,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C4CC,4,USBC_INT_DisableTxAll,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C4D0,12,USBC_INT_WriteTxE,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C4DC,4,USBC_INT_DisableRxAll,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C4E0,12,USBC_INT_WriteRxE,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C4EC,36,USBC_INT_EpPending,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C510,40,USBC_INT_ClearEpPending,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C538,32,USBC_INT_ClearEpPendingAll,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C558,12,USBC_INT_MiscPending,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C564,12,USBC_INT_ClearMiscPending,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C570,16,USBC_INT_ClearMiscPendingAll,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C580,44,USBC_INT_EnableEp,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C5AC,20,USBC_INT_EnableUsbMiscUint,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C5C0,12,USBC_GetActiveEp,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C5CC,12,USBC_SelectActiveEp,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C5D8,44,USBC_Dev_ConectSwitch,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C604,20,__USBC_Dev_TsType_default,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C618,20,__USBC_Dev_TsType_Ctrl,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C62C,20,__USBC_Dev_TsType_Iso,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C640,20,__USBC_Dev_TsType_Int,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C654,20,__USBC_Dev_TsType_Bulk,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C668,20,__USBC_Dev_TsMode_default,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C67C,20,__USBC_Dev_TsMode_Hs,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C690,20,__USBC_Dev_TsMode_Fs,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C6A4,4,__USBC_Dev_TsMode_Ls,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C6A8,136,USBC_Dev_ConfigTransferMode,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C730,24,USBC_Dev_QueryTransferMode,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C748,36,USBC_INT_DisableEpAll,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C76C,4,USBC_Dev_SetAddress_default,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C770,12,USBC_Dev_WriteFAddr,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C77C,12,USBC_Dev_SetAddress,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C788,16,__USBC_Dev_ep0_IsEpStall,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C798,20,__USBC_Dev_ep0_SendStall,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C7AC,40,__USBC_Dev_ep0_ClearStall,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C7D4,20,__USBC_Dev_Tx_SendStall,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C7E8,16,__USBC_Dev_Tx_IsEpStall,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C7F8,24,__USBC_Dev_Tx_ClearStall,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C810,20,__USBC_Dev_Rx_SendStall,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C824,16,__USBC_Dev_Rx_IsEpStall,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C834,40,__USBC_Dev_Rx_ClearStall,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C85C,88,USBC_Dev_IsEpStall,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C8B4,88,USBC_Dev_EpSendStall,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C90C,88,USBC_Dev_EpClearStall,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C964,16,__USBC_Dev_ep0_IsSetupEnd,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C974,4,USBC_Dev_Ctrl_IsSetupEnd,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C978,20,USBC_Dev_Ctrl_ClearSetupEnd,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C98C,12,USBC_Dev_Read_EP0_CSR,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C998,16,USBC_SelectFIFO,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C9A8,84,__USBC_ConfigFifo_TxEp,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006C9FC,84,__USBC_ConfigFifo_RxEp,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CA50,52,USBC_ConfigFifo,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CA84,16,__USBC_Dev_ep0_WriteDataHalf,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CA94,16,__USBC_Dev_ep0_WriteDataComplete,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CAA4,28,__USBC_Dev_Tx_WriteDataHalf,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CAC0,28,__USBC_Dev_Tx_WriteDataComplete,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CADC,76,__USBC_Dev_WriteDataHalf,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CB28,76,__USBC_Dev_WriteDataComplete,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CB74,16,__USBC_Dev_ep0_ReadDataHalf,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CB84,16,__USBC_Dev_ep0_ReadDataComplete,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CB94,24,__USBC_Dev_Rx_ReadDataHalf,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CBAC,24,__USBC_Dev_Rx_ReadDataComplete,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CBC4,60,__USBC_Dev_ReadDataHalf,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CC00,60,__USBC_Dev_ReadDataComplete,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CC3C,12,USBC_Dev_WriteDataStatus,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CC48,12,USBC_Dev_ReadDataStatus,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CC54,16,__USBC_Dev_Tx_IsWriteDataReady,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CC64,16,__USBC_Dev_Rx_IsReadDataReady,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CC74,16,__USBC_Dev_ep0_IsReadDataReady,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CC84,16,__USBC_Dev_ep0_IsWriteDataReady,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CC94,32,USBC_Dev_IsReadDataReady,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CCB4,44,USBC_Dev_IsWriteDataReady,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CCE0,48,USBC_ReadLenFromFifo,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CD10,68,USBC_WritePacket,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CD54,68,USBC_ReadPacket,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CD98,20,__USBC_Dev_Tx_EnableIsoEp,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CDAC,24,__USBC_Dev_Tx_EnableIntEp,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CDC4,24,__USBC_Dev_Tx_EnableBulkEp,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CDDC,72,__USBC_Dev_Tx_ConfigEp,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CE24,20,__USBC_Dev_Rx_EnableIsoEp,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CE38,24,__USBC_Dev_Rx_EnableIntEp,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CE50,24,__USBC_Dev_Rx_EnableBulkEp,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CE68,72,__USBC_Dev_Rx_ConfigEp,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CEB0,16,__USBC_Dev_ep0_ConfigEp0,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CEC0,100,USBC_Dev_ConfigEp,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
+0x4006CF24,56,USBC_Clear_Feature_HALT,function_arm,DERIVED,EasyUSB:usb_phy.c (this-project:phase5)
 0x4006CF5C,84,pool_4006cf5c,literal_pool,DERIVED,analyze.py
-0x4006CFB0,52,func_4006cfb0,function_arm,DERIVED,analyze.py:rea
-0x4006CFE4,104,func_4006cfe4,function_arm,DERIVED,analyze.py:prologue
-0x4006D04C,44,func_4006d04c,function_arm,DERIVED,analyze.py:gap-code
-0x4006D078,312,func_4006d078,function_arm,DERIVED,analyze.py:prologue
-0x4006D1B0,240,func_4006d1b0,function_arm,DERIVED,analyze.py:prologue
-0x4006D2A0,56,func_4006d2a0,function_arm,DERIVED,analyze.py:prologue
-0x4006D2D8,4,func_4006d2d8,function_arm,DERIVED,analyze.py:gap-code
-0x4006D2DC,156,func_4006d2dc,function_arm,DERIVED,analyze.py:prologue
-0x4006D378,312,func_4006d378,function_arm,DERIVED,analyze.py:prologue
-0x4006D4B0,312,func_4006d4b0,function_arm,DERIVED,analyze.py:prologue
-0x4006D5E8,184,func_4006d5e8,function_arm,DERIVED,analyze.py:rea
+0x4006CFB0,52,usb_cdc_store_line_coding,function_arm,DERIVED,EasyUSB:usb_cdc.c/usb_hid.c (this-project:phase5)
+0x4006CFE4,104,usb_get_device_descriptor,function_arm,DERIVED,EasyUSB:usb_cdc.c/usb_hid.c (this-project:phase5)
+0x4006D04C,44,usb_get_cfg_descriptor,function_arm,DERIVED,EasyUSB:usb_cdc.c/usb_hid.c (this-project:phase5)
+0x4006D078,312,udp_get_dev_descriptor_string,function_arm,DERIVED,EasyUSB:usb_cdc.c/usb_hid.c (this-project:phase5)
+0x4006D1B0,240,usb_get_descriptor,function_arm,DERIVED,EasyUSB:usb_cdc.c/usb_hid.c (this-project:phase5)
+0x4006D2A0,56,usb_set_address,function_arm,DERIVED,EasyUSB:usb_cdc.c/usb_hid.c (this-project:phase5)
+0x4006D2D8,4,usb_set_configuration,function_arm,DERIVED,EasyUSB:usb_cdc.c/usb_hid.c (this-project:phase5)
+0x4006D2DC,156,usb_set_configuration_body,function_arm,DERIVED,EasyUSB:usb_cdc.c/usb_hid.c (this-project:phase5)
+0x4006D378,312,usb_standard_request,function_arm,DERIVED,EasyUSB:usb_cdc.c/usb_hid.c (this-project:phase5)
+0x4006D4B0,312,usb_class_request,function_arm,DERIVED,EasyUSB:usb_cdc.c/usb_hid.c (this-project:phase5)
+0x4006D5E8,184,usb_setup_handle,function_arm,DERIVED,EasyUSB:usb_cdc.c/usb_hid.c (this-project:phase5)
 0x4006D6A0,196,pool_4006d6a0,literal_pool,DERIVED,analyze.py
-0x4006D764,16,func_4006d764,function_arm,DERIVED,analyze.py:gap-code
-0x4006D774,76,func_4006d774,function_arm,DERIVED,analyze.py:prologue
+0x4006D764,16,usb_hid_get_report_descriptor,function_arm,DERIVED,EasyUSB:usb_cdc.c/usb_hid.c (this-project:phase5)
+0x4006D774,76,usb_hid_get_cfg_descriptor,function_arm,DERIVED,EasyUSB:usb_cdc.c/usb_hid.c (this-project:phase5)
 0x4006D7C0,12,pool_4006d7c0,literal_pool,DERIVED,analyze.py
-0x4006D7CC,16,func_4006d7cc,function_arm,DERIVED,analyze.py:rea
-0x4006D7DC,76,func_4006d7dc,function_arm,DERIVED,analyze.py:prologue
+0x4006D7CC,16,usb_hid_out_ep_callback,function_arm,DERIVED,EasyUSB:usb_cdc.c/usb_hid.c (this-project:phase5)
+0x4006D7DC,76,usb_cdc_get_cfg_descriptor,function_arm,DERIVED,EasyUSB:usb_cdc.c/usb_hid.c (this-project:phase5)
 0x4006D828,8,pool_4006d828,literal_pool,DERIVED,analyze.py
-0x4006D830,84,func_4006d830,function_arm,DERIVED,analyze.py:rea
-0x4006D884,4,func_4006d884,function_arm,DERIVED,analyze.py:rea
-0x4006D888,16,func_4006d888,function_arm,DERIVED,analyze.py:rea
-0x4006D898,52,func_4006d898,function_arm,DERIVED,analyze.py:gap-code
-0x4006D8CC,144,func_4006d8cc,function_arm,DERIVED,analyze.py:prologue
-0x4006D95C,160,func_4006d95c,function_arm,DERIVED,analyze.py:prologue
-0x4006D9FC,12,func_4006d9fc,function_arm,DERIVED,analyze.py:gap-code
-0x4006DA08,12,func_4006da08,function_arm,DERIVED,analyze.py:gap-code
-0x4006DA14,24,func_4006da14,function_arm,DERIVED,analyze.py:gap-code
-0x4006DA2C,16,func_4006da2c,function_arm,DERIVED,analyze.py:rea
-0x4006DA3C,12,func_4006da3c,function_arm,DERIVED,analyze.py:gap-code
-0x4006DA48,196,func_4006da48,function_arm,DERIVED,analyze.py:prologue
-0x4006DB0C,152,func_4006db0c,function_arm,DERIVED,analyze.py:prologue
-0x4006DBA4,76,func_4006dba4,function_arm,DERIVED,analyze.py:prologue
-0x4006DBF0,84,func_4006dbf0,function_arm,DERIVED,analyze.py:prologue
-0x4006DC44,76,func_4006dc44,function_arm,DERIVED,analyze.py:prologue
-0x4006DC90,84,func_4006dc90,function_arm,DERIVED,analyze.py:prologue
-0x4006DCE4,156,func_4006dce4,function_arm,DERIVED,analyze.py:rea
+0x4006D830,84,usb_cdc_echo,function_arm,DERIVED,EasyUSB:usb_cdc.c/usb_hid.c (this-project:phase5)
+0x4006D884,4,usb_cdc_out_ep_callback,function_arm,DERIVED,EasyUSB:usb_cdc.c/usb_hid.c (this-project:phase5)
+0x4006D888,16,scsi_lun_invalid,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
+0x4006D898,52,scsi_inquiry,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
+0x4006D8CC,144,scsi_read_format_capacities,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
+0x4006D95C,160,scsi_read_capacity10,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
+0x4006D9FC,12,scsi_mode_sense6,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
+0x4006DA08,12,scsi_mode_sense10,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
+0x4006DA14,24,scsi_request_sense,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
+0x4006DA2C,16,usb_mass_set_sense,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
+0x4006DA3C,12,scsi_start_stop,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
+0x4006DA48,196,scsi_read10,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
+0x4006DB0C,152,scsi_write10,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
+0x4006DBA4,76,scsi_verify10,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
+0x4006DBF0,84,scsi_test_unit_ready,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
+0x4006DC44,76,scsi_format_unit,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
+0x4006DC90,84,scsi_invalid_cmd,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
+0x4006DCE4,156,scsi_check_range,function_arm,DERIVED,this-project:phase5 (FNIRSI code; EasyUSB-style API)
 0x4006DD80,64,pool_4006dd80,literal_pool,DERIVED,analyze.py
-0x4006DDC0,36,func_4006ddc0,function_arm,DERIVED,analyze.py:prologue
+0x4006DDC0,36,usb_uvc_get_cfg_descriptor,function_arm,DERIVED,EasyUSB:usb_cdc.c/usb_hid.c (this-project:phase5)
 0x4006DDE4,8,pool_4006dde4,literal_pool,DERIVED,analyze.py
 0x4006DDEC,1135,graphics_4006ddec,data,DERIVED,analyze.py
 0x4006E25B,1135,pad_4006e25b,padding,STATIC-CONFIRMED,analyze.py:zero

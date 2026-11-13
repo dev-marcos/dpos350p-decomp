@@ -12,7 +12,7 @@ from pathlib import Path
 
 from tools import nmbuild
 from tools.emu.run_tests import run_one
-from tools.emu.tests import fatfs, fatfs_fs, rtlib, drivers, usb, platform
+from tools.emu.tests import fatfs, fatfs_fs, rtlib, drivers, usb, platform, fpga
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -86,6 +86,17 @@ MUTANTS = [
     (0x4006301C, "~(0xFu << sh)", "~(0x7u << sh)"),                              # DE2 blender route mask
     (0x40063070, "de_writel(r + 4, 0xFFFEFFFFu + (w + (h << 16)));", "de_writel(r + 4, 0xFFFFFFFFu + (w + (h << 16)));"),  # UI layer size
     (0x400356F4, "while (n) { *d++ = v; n--; }", "while (n > 1) { *d++ = v; n--; }"),  # fill count
+    # batch 11: FPGA / SMEC / touch / power / disk glue
+    (0x4004A0B0, "if (v <= 3000)", "if (v < 3000)"),                                # SMEC timing ceiling
+    (0x4004A0B0, "if (tries >= 4)", "if (tries >= 3)"),                             # SMEC retries
+    (0x40049F7C, "fpga_data_byte_write((v << 16) >> 24);", "fpga_data_byte_write((v << 16) >> 23);"),  # job value byte 2
+    (0x40049EC4, "s->valid[idx] == 0", "s->valid[idx] == 1"),                       # parameter cache
+    (0x400498E4, "if (x > 0x3FE) x = 0x3FE;", "if (x > 0x3FF) x = 0x3FF;"),         # touch x clamp
+    (0x400498E4, "g_touch_last + 15 < g_tick_count", "g_touch_last + 14 < g_tick_count"),  # poll period
+    (0x40049A9C, "t->busy2 = 0;", "t->busy = 0;"),                                  # touch enable gate
+    (0x40049C78, "res = 1;", "res = 2;"),                                           # disk_read error code
+    (0x40049CE8, "return 4;", "return 1;"),                                         # disk_write wrong drive
+    (0x4004A1F4, "SYS32(0x65C) < g_tick_count", "SYS32(0x65C) <= g_tick_count"),    # auto power-off deadline
 ]
 
 
@@ -100,8 +111,8 @@ def main():
             mut = Path(tmp) / src.name
             mut.write_text(text.replace(old, new, 1))
             nmbuild.build(mut, syms)
-            suite = next(s for s in (fatfs.TESTS, fatfs_fs.TESTS, rtlib.TESTS, drivers.TESTS, usb.TESTS, platform.TESTS) if orig in s)
-            _, fails, _ = run_one(orig, suite[orig], 40 if suite is fatfs_fs.TESTS else (80 if suite in (drivers.TESTS, usb.TESTS, platform.TESTS) else 400), 7)
+            suite = next(s for s in (fatfs.TESTS, fatfs_fs.TESTS, rtlib.TESTS, drivers.TESTS, usb.TESTS, platform.TESTS, fpga.TESTS) if orig in s)
+            _, fails, _ = run_one(orig, suite[orig], 40 if suite is fatfs_fs.TESTS else (80 if suite in (drivers.TESTS, usb.TESTS, platform.TESTS, fpga.TESTS) else 400), 7)
             ok = bool(fails)
             caught += ok
             print(f"{'caught ' if ok else 'MISSED '} 0x{orig:08x}: {old!r} -> {new!r}")
