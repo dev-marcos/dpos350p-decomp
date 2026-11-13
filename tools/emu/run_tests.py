@@ -15,7 +15,7 @@ from pathlib import Path
 from tools.emu.emu import Machine, load_c_build, outcome_equal
 
 ROOT = Path(__file__).resolve().parents[2]
-SUITES = ["tools.emu.tests.fatfs", "tools.emu.tests.fatfs_fs", "tools.emu.tests.rtlib", "tools.emu.tests.drivers", "tools.emu.tests.usb"]
+SUITES = ["tools.emu.tests.fatfs", "tools.emu.tests.fatfs_fs", "tools.emu.tests.rtlib", "tools.emu.tests.drivers", "tools.emu.tests.usb", "tools.emu.tests.platform"]
 
 
 _THUMB = None

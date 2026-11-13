@@ -12,7 +12,7 @@ from pathlib import Path
 
 from tools import nmbuild
 from tools.emu.run_tests import run_one
-from tools.emu.tests import fatfs, fatfs_fs, rtlib, drivers, usb
+from tools.emu.tests import fatfs, fatfs_fs, rtlib, drivers, usb, platform
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -70,6 +70,14 @@ MUTANTS = [
     (0x4006C9A8, "u32 temp = ((fifo_size + 511) & ~511u) >> 4", "u32 temp = ((fifo_size + 511) & ~511u) >> 3"),  # FIFO size code
     (0x4006C08C, "mass_stage = next ? 4 : 5;", "mass_stage = next ? 5 : 4;"),          # CSW next stage
     (0x4006AA28, "if (len > ep_max_len[ep]) {", "if (len >= ep_max_len[ep]) {"),       # short/long IN split
+    # platform drivers (GIC, UART/printf, SPI, CSI, SD/MMC)
+    (0x40066D88, "len == 3 || len == 7", "len == 4 || len == 7"),              # printf thousands separator
+    (0x40066950, "+ 0x1100;", "+ 0x1104;"),                                    # GIC ISENABLER offset
+    (0x40066C90, "& 2))", "& 4))"),                                            # UART TX-not-full bit
+    (0x40043164, "if (txn >= 32) {", "if (txn > 32) {"),                       # SPI word/byte TX split
+    (0x40065954, "cfg[3] == 1 ? 0x10000 : 0", "cfg[3] == 2 ? 0x10000 : 0"),    # CSI clock edge
+    (0x400677E4, "if (hz < 25000001) src |= 0x500000;", "if (hz < 25000001) src |= 0x400000;"),  # SD clock phase
+    (0x40067B30, "if (cnt >= 0x101)", "if (cnt >= 0x100)"),                    # IDMAC descriptor limit
 ]
 
 
@@ -84,8 +92,8 @@ def main():
             mut = Path(tmp) / src.name
             mut.write_text(text.replace(old, new, 1))
             nmbuild.build(mut, syms)
-            suite = next(s for s in (fatfs.TESTS, fatfs_fs.TESTS, rtlib.TESTS, drivers.TESTS, usb.TESTS) if orig in s)
-            _, fails, _ = run_one(orig, suite[orig], 40 if suite is fatfs_fs.TESTS else (80 if suite in (drivers.TESTS, usb.TESTS) else 400), 7)
+            suite = next(s for s in (fatfs.TESTS, fatfs_fs.TESTS, rtlib.TESTS, drivers.TESTS, usb.TESTS, platform.TESTS) if orig in s)
+            _, fails, _ = run_one(orig, suite[orig], 40 if suite is fatfs_fs.TESTS else (80 if suite in (drivers.TESTS, usb.TESTS, platform.TESTS) else 400), 7)
             ok = bool(fails)
             caught += ok
             print(f"{'caught ' if ok else 'MISSED '} 0x{orig:08x}: {old!r} -> {new!r}")
