@@ -25,6 +25,7 @@ wsl -d dpos-re -- bash tools/run.sh make check
 - `docs/LIBRARY.md`: Arm C library routines found in the image (AEABI, libm) and their status
 - `docs/DRIVERS.md`: low-level drivers (PIO, FPGA bus, GT911, MS5351M, watchdog) and the recovered pin map
 - `docs/PROGRESS.md`: progress per level and area (`make progress`)
+- `docs/STATUS.md`: current status, what is left, suggested next batches and the resume checklist
 
 Status: Phase 5 (equivalent C verified by emulation; Arm Compiler 5 unlicensed, so no
 byte matching yet). Earlier phases: The image is rebuilt from per-function assembly (`asm/`) plus four data
