@@ -873,31 +873,31 @@ address,size,name,type,evidence_level,source
 0x4004A1F4,132,auto_off_check,function_arm,DERIVED,this-project:phase5 (power)
 0x4004A278,40,charge_status_read,function_arm,DERIVED,this-project:phase5 (power)
 0x4004A2A0,48,battery_coeffs_default,function_arm,DERIVED,this-project:phase5 (power)
-0x4004A2D0,240,func_4004a2d0,function_arm,DERIVED,analyze.py:rea
-0x4004A3C0,136,func_4004a3c0,function_arm,DERIVED,analyze.py:rea
-0x4004A448,148,func_4004a448,function_arm,DERIVED,analyze.py:rea
+0x4004A2D0,240,battery_level_update,function_arm,DERIVED,this-project:phase5 (power)
+0x4004A3C0,136,battery_empty_check,function_arm,DERIVED,this-project:phase5 (power)
+0x4004A448,148,battery_service,function_arm,DERIVED,this-project:phase5 (power)
 0x4004A4DC,48,pool_4004a4dc,literal_pool,DERIVED,analyze.py
-0x4004A50C,4,func_4004a50c,function_arm,DERIVED,analyze.py:rea
-0x4004A510,64,func_4004a510,function_arm,DERIVED,analyze.py:rea
-0x4004A550,184,func_4004a550,function_arm,DERIVED,analyze.py:rea
-0x4004A608,444,func_4004a608,function_arm,DERIVED,analyze.py:rea
-0x4004A7C4,192,func_4004a7c4,function_arm,DERIVED,analyze.py:rea
-0x4004A884,384,func_4004a884,function_arm,DERIVED,analyze.py:rea
-0x4004AA04,32,func_4004aa04,function_arm,DERIVED,analyze.py:rea
-0x4004AA24,76,func_4004aa24,function_arm,DERIVED,analyze.py:rea
-0x4004AA70,36,func_4004aa70,function_arm,DERIVED,analyze.py:rea
-0x4004AA94,44,func_4004aa94,function_arm,DERIVED,analyze.py:rea
-0x4004AAC0,160,func_4004aac0,function_arm,DERIVED,analyze.py:rea
-0x4004AB60,36,func_4004ab60,function_arm,DERIVED,analyze.py:rea
-0x4004AB84,36,func_4004ab84,function_arm,DERIVED,analyze.py:rea
-0x4004ABA8,36,func_4004aba8,function_arm,DERIVED,analyze.py:rea
-0x4004ABCC,56,func_4004abcc,function_arm,DERIVED,analyze.py:rea
-0x4004AC04,160,func_4004ac04,function_arm,DERIVED,analyze.py:rea
-0x4004ACA4,36,func_4004aca4,function_arm,DERIVED,analyze.py:rea
-0x4004ACC8,260,func_4004acc8,function_arm,DERIVED,analyze.py:rea
-0x4004ADCC,36,func_4004adcc,function_arm,DERIVED,analyze.py:rea
-0x4004ADF0,284,func_4004adf0,function_arm,DERIVED,analyze.py:rea
-0x4004AF0C,368,func_4004af0c,function_arm,DERIVED,analyze.py:rea
+0x4004A50C,4,rate_table_init_entry,function_arm,DERIVED,this-project:phase5 (frontend)
+0x4004A510,64,frontend_apply_all,function_arm,DERIVED,this-project:phase5 (frontend)
+0x4004A550,184,rate_table_init,function_arm,DERIVED,this-project:phase5 (frontend)
+0x4004A608,444,vscale_update,function_arm,DERIVED,this-project:phase5 (frontend)
+0x4004A7C4,192,offset_clamp,function_arm,DERIVED,this-project:phase5 (frontend)
+0x4004A884,384,vdiv_label,function_arm,DERIVED,this-project:phase5 (frontend)
+0x4004AA04,32,vdiv_labels_update,function_arm,DERIVED,this-project:phase5 (frontend)
+0x4004AA24,76,fpga_channel_mode_apply,function_arm,DERIVED,this-project:phase5 (frontend)
+0x4004AA70,36,fpga_write_sel_0x62,function_arm,DERIVED,this-project:phase5 (frontend)
+0x4004AA94,44,fpga_write_sel_0x2a,function_arm,DERIVED,this-project:phase5 (frontend)
+0x4004AAC0,160,ch1_frontend_apply,function_arm,DERIVED,this-project:phase5 (frontend)
+0x4004AB60,36,fpga_write_sel_0x2f,function_arm,DERIVED,this-project:phase5 (frontend)
+0x4004AB84,36,fpga_write_sel_0x29,function_arm,DERIVED,this-project:phase5 (frontend)
+0x4004ABA8,36,fpga_write_sel_0x2c,function_arm,DERIVED,this-project:phase5 (frontend)
+0x4004ABCC,56,fpga_write_sel_0x2d,function_arm,DERIVED,this-project:phase5 (frontend)
+0x4004AC04,160,ch2_frontend_apply,function_arm,DERIVED,this-project:phase5 (frontend)
+0x4004ACA4,36,fpga_write_sel_0x30,function_arm,DERIVED,this-project:phase5 (frontend)
+0x4004ACC8,260,lane_level_sum,function_arm,DERIVED,this-project:phase5 (frontend)
+0x4004ADCC,36,lane_level_mean,function_arm,DERIVED,this-project:phase5 (frontend)
+0x4004ADF0,284,channel_level_mean,function_arm,DERIVED,this-project:phase5 (frontend)
+0x4004AF0C,368,post_channel_mux_check,function_arm,DERIVED,this-project:phase5 (post)
 0x4004B07C,36,pool_4004b07c,literal_pool,DERIVED,analyze.py
 0x4004B0A0,3864,func_4004b0a0,function_arm,DERIVED,analyze.py:rea
 0x4004BFB8,16,pool_4004bfb8,literal_pool,DERIVED,analyze.py

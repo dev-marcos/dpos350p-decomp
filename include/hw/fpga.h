@@ -95,6 +95,37 @@ void power_off(void);                        /* 0x4004A1B4 (never returns) */
 void auto_off_arm(void);                     /* 0x4004A1D0 */
 void battery_coeffs_default(void);           /* 0x4004A2A0 */
 
+/* ---- battery monitor (batch 12) */
+#define g_batt_sum     (*(volatile u32 *)0x42E68CA0u)   /* LRADC readings accumulated */
+#define g_batt_avg     (*(volatile int *)0x42E68CA4u)   /* averaged LRADC code */
+#define g_batt_count   (*(volatile u32 *)0x42E68CA8u)
+#define g_batt_last    (*(volatile u32 *)0x42E68CACu)   /* tick of the last average */
+#define g_batt_slope   (*(volatile float *)0x42E68C94u)
+#define g_batt_base    (*(volatile float *)0x42E68C98u)
+#define g_batt_offset  (*(volatile float *)0x42E68C9Cu)
+u32  func_40068e74(void);                    /* LRADC read */
+void timer_stop(int n);                      /* 0x40042C40 */
+void func_400342cc(void);                    /* screen helper before the shutdown image (OPEN) */
+void charge_status_read(void);               /* 0x4004A278 */
+void auto_off_check(void);                   /* 0x4004A1F4 */
+void battery_level_update(void);             /* 0x4004A2D0 */
+void battery_empty_check(void);              /* 0x4004A3C0 */
+
+/* ---- front end set-up (batch 12) */
+#define SYS64(o)  (*(volatile unsigned long long *)(0x40544E68u + (o)))
+#define CAL_OBJ   ((volatile u32 *)0x42E53A0Cu)          /* calibration object: aux values at +0..+0xC */
+void rate_table_init(void);                  /* 0x4004A550 */
+void retained_inside_current_sc1_3_t6(void); /* 0x4004C544 calibration coefficient selector (Hack name) */
+void vdiv_label(u32 ch, u32 r1, int d_in, int unit_in);   /* 0x4004A884 */
+long long __aeabi_ldivmod(long long n, long long d);       /* 0x4003453C */
+void func_4003f948(void);                    /* acquisition helpers (OPEN) */
+void acquisition_prepare(void);              /* 0x4003FA10 (Hack name) */
+void func_4003fcc0(void);
+void func_400406a4(u32 lane, u32 n, unsigned char *buf);  /* copies one lane's raw samples */
+u32  lane_level_sum(u32 start, u32 lane, u32 ch, u32 n, unsigned char *buf);   /* 0x4004ACC8 */
+void func_4003e708(void);                    /* SysConfigExec (Hack FPGA.md section 18) */
+void acquisition_dispatcher(void);           /* 0x400419CC (Hack name) */
+
 /* ---- disk glue (FatFs diskio for the SD card, drive 0) */
 #define g_sd_state     (*(volatile u32 *)0x40095490u)   /* 1 = card ready */
 #define g_sector_size  (*(volatile u32 *)0x4009548Cu)

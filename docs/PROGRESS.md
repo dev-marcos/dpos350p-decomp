@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 523 | 38.63% | 61886 | 18.34% |
+| EQUIVALENT | 547 | 40.40% | 65338 | 19.36% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 831 | 61.37% | 275618 | 81.66% |
+| ASM | 807 | 59.60% | 272166 | 80.64% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 523 (39.06%) | 337104 | 61886 (18.36%) |
+| main code | 1339 | 547 (40.85%) | 337104 | 65338 (19.38%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -158,6 +158,30 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4004A1F4` | auto_off_check | 132 | EQUIVALENT | 200 | `nonmatching/platform/func_4004a1f4.c` |
 | `0x4004A278` | charge_status_read | 40 | EQUIVALENT | 200 | `nonmatching/platform/func_4004a278.c` |
 | `0x4004A2A0` | battery_coeffs_default | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_4004a2a0.c` |
+| `0x4004A2D0` | battery_level_update | 240 | EQUIVALENT | 200 | `nonmatching/platform/func_4004a2d0.c` |
+| `0x4004A3C0` | battery_empty_check | 136 | EQUIVALENT | 200 | `nonmatching/platform/func_4004a3c0.c` |
+| `0x4004A448` | battery_service | 148 | EQUIVALENT | 200 | `nonmatching/platform/func_4004a448.c` |
+| `0x4004A50C` | rate_table_init_entry | 4 | EQUIVALENT | 200 | `nonmatching/platform/func_4004a50c.c` |
+| `0x4004A510` | frontend_apply_all | 64 | EQUIVALENT | 200 | `nonmatching/platform/func_4004a510.c` |
+| `0x4004A550` | rate_table_init | 184 | EQUIVALENT | 200 | `nonmatching/platform/func_4004a550.c` |
+| `0x4004A608` | vscale_update | 444 | EQUIVALENT | 200 | `nonmatching/platform/func_4004a608.c` |
+| `0x4004A7C4` | offset_clamp | 192 | EQUIVALENT | 200 | `nonmatching/platform/func_4004a7c4.c` |
+| `0x4004A884` | vdiv_label | 384 | EQUIVALENT | 200 | `nonmatching/platform/func_4004a884.c` |
+| `0x4004AA04` | vdiv_labels_update | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_4004aa04.c` |
+| `0x4004AA24` | fpga_channel_mode_apply | 76 | EQUIVALENT | 200 | `nonmatching/platform/func_4004aa24.c` |
+| `0x4004AA70` | fpga_write_sel_0x62 | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4004aa70.c` |
+| `0x4004AA94` | fpga_write_sel_0x2a | 44 | EQUIVALENT | 200 | `nonmatching/platform/func_4004aa94.c` |
+| `0x4004AAC0` | ch1_frontend_apply | 160 | EQUIVALENT | 200 | `nonmatching/platform/func_4004aac0.c` |
+| `0x4004AB60` | fpga_write_sel_0x2f | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4004ab60.c` |
+| `0x4004AB84` | fpga_write_sel_0x29 | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4004ab84.c` |
+| `0x4004ABA8` | fpga_write_sel_0x2c | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4004aba8.c` |
+| `0x4004ABCC` | fpga_write_sel_0x2d | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4004abcc.c` |
+| `0x4004AC04` | ch2_frontend_apply | 160 | EQUIVALENT | 200 | `nonmatching/platform/func_4004ac04.c` |
+| `0x4004ACA4` | fpga_write_sel_0x30 | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4004aca4.c` |
+| `0x4004ACC8` | lane_level_sum | 260 | EQUIVALENT | 200 | `nonmatching/platform/func_4004acc8.c` |
+| `0x4004ADCC` | lane_level_mean | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4004adcc.c` |
+| `0x4004ADF0` | channel_level_mean | 284 | EQUIVALENT | 200 | `nonmatching/platform/func_4004adf0.c` |
+| `0x4004AF0C` | post_channel_mux_check | 368 | EQUIVALENT | 200 | `nonmatching/platform/func_4004af0c.c` |
 | `0x40056A70` | ld_word | 16 | EQUIVALENT | 300 | `nonmatching/fatfs/func_40056a70.c` |
 | `0x40056A80` | ld_dword | 32 | EQUIVALENT | 300 | `nonmatching/fatfs/func_40056a80.c` |
 | `0x40056AA0` | ld_qword | 100 | EQUIVALENT | 300 | `nonmatching/fatfs/func_40056aa0.c` |

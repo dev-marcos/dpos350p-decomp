@@ -349,3 +349,198 @@ TESTS[0x40049B80] = ffcase()
 TESTS[0x40049B90] = ffcase()
 TESTS[0x40049BB4] = ffcase()
 TESTS[0x40049BE4] = ffcase()
+
+
+# ================================================================ batch 12: battery, front end, POST
+import struct as _struct
+
+
+def f32(x):
+    return _struct.unpack("<I", _struct.pack("<f", x))[0]
+
+
+def sys_bytes(rng, lo=0, hi=0xC00, overrides=None):
+    """random SYS_INFO bytes in [lo, hi) plus fixed overrides {offset: (size, value)}"""
+    data = bytearray(rng.getrandbits(8) for _ in range(hi - lo))
+    ov = overrides or {}
+
+    def setup(m):
+        m.write(SYS + lo, bytes(data))
+        for o, (sz, v) in ov.items():
+            m.write(SYS + o, (v & ((1 << (8 * sz)) - 1)).to_bytes(sz, "little"))
+    return setup
+
+
+def batt_coeffs(rng):
+    if rng.random() < 0.7:
+        return f32(32.947), f32(2565.74), f32(170.0)
+    return f32(rng.uniform(-50, 80)), f32(rng.uniform(-5000, 5000)), f32(rng.uniform(-500, 500))
+
+
+BATT_THRESH = [4150, 4080, 3970, 3900, 3840, 3790, 3760, 3730, 3690, 3620, 3560]
+
+
+def t_batt_level(r):
+    code = r.choice([r.randrange(15, 50), r.randrange(0, 64), r.getrandbits(32) - (1 << 31)])
+    sl, ba, of = batt_coeffs(r)
+    if r.random() < 0.5:           # land exactly on / next to a level threshold
+        code = r.randrange(0, 64)
+        sl, ba, of = f32(1.0), f32(r.choice(BATT_THRESH) + r.choice([-1, 0, 1]) - code), f32(0.0)
+    ov = r.getrandbits(8)
+
+    def setup(m):
+        m.w32(0x42E68CA4, code & 0xFFFFFFFF); m.w32(0x42E68C94, sl); m.w32(0x42E68C98, ba); m.w32(0x42E68C9C, of)
+        m.w8(SYS + 0x778, ov)
+    return Case([], setup, ret=V)
+
+
+TESTS[0x4004A2D0] = t_batt_level
+
+BATT_STUBS = (rec("timer_stop", 0x40042C40, 1), rec("func_400342cc", 0x400342CC, 0), rec("func_40034134", 0x40034134, 4),
+              rec("delay_ms", 0x40042CF0, 1), rec("power_off", 0x4004A1B4, 0))
+
+
+def t_batt_empty(r):
+    p = 0x42C2FE74 + 0xDD00
+    img, dx, dy = r.getrandbits(32), r.getrandbits(8), r.getrandbits(8)
+    lvl = r.choice([0, 0, 1, 5, r.getrandbits(8)])
+    base = sys_bytes(r, 0, 0x20)
+
+    def setup(m):
+        base(m); m.w8(SYS + 0x778, lvl); m.w32(p, img); m.w8(p + 0x194, dx); m.w8(p + 0x195, dy)
+    return Case([], setup, ret=V, stubs=BATT_STUBS)
+
+
+TESTS[0x4004A3C0] = t_batt_empty
+
+
+def t_batt_service(r):
+    tick = r.getrandbits(32)
+    last = r.choice([tick - 1000, tick - 1001, tick - 5000, tick, r.getrandbits(32)]) & 0xFFFFFFFF
+    cnt = r.choice([0, 2, 3, 10, r.getrandbits(32)])
+    s = r.getrandbits(32)
+    avg = r.getrandbits(32)
+
+    def setup(m):
+        m.w32(TICK, tick); m.w32(0x42E68CAC, last); m.w32(0x42E68CA8, cnt); m.w32(0x42E68CA0, s); m.w32(0x42E68CA4, avg)
+    stubs = (rec("charge_status_read", 0x4004A278, 0), rec("lradc_read", 0x40068E74, 0, ret=lambda m, a: m.srng.getrandbits(8)),
+             rec("battery_level_update", 0x4004A2D0, 0), rec("battery_empty_check", 0x4004A3C0, 0), rec("auto_off_check", 0x4004A1F4, 0))
+    return Case([], seeded(r.getrandbits(32), setup), ret=V, stubs=stubs)
+
+
+TESTS[0x4004A448] = t_batt_service
+TESTS[0x4004A550] = lambda r: Case([], sys_bytes(r, 0xEE0, 0xF60), ret=V)
+TESTS[0x4004A50C] = lambda r: Case([], sys_bytes(r, 0xEE0, 0xF60), ret=V)
+
+FE_CALLEES = [("offset_clamp", 0x4004A7C4), ("vscale_update", 0x4004A608), ("cal_selector", 0x4004C544), ("vdiv_labels_update", 0x4004AA04),
+              ("sel62", 0x4004AA70), ("ch1_frontend_apply", 0x4004AAC0), ("ch2_frontend_apply", 0x4004AC04), ("sel2f", 0x4004AB60),
+              ("sel29", 0x4004AB84), ("sel30", 0x4004ACA4), ("sel2c", 0x4004ABA8), ("channel_mode", 0x4004AA24)]
+TESTS[0x4004A510] = lambda r: Case([], ret=V, stubs=tuple(rec(n, a, 0) for n, a in FE_CALLEES))
+
+
+def t_vscale(r):
+    ov = {0x40: (1, r.choice([0, 1, 2, 3, 7])), 0x104: (1, r.choice([0, 1, 2, 3, 9])),
+          0x41: (1, r.choice([r.randrange(13), r.getrandbits(8)])), 0x105: (1, r.choice([r.randrange(13), r.getrandbits(8)])),
+          0x1B9: (1, r.choice([r.randrange(14), r.getrandbits(8)]))}
+    return Case([], sys_bytes(r, 0, 0x1800, ov), ret=V)
+
+
+TESTS[0x4004A608] = t_vscale
+
+
+def t_offset(r):
+    mg = r.choice([r.randrange(0, 60), r.getrandbits(16)])
+    hgt = r.choice([503, 503, r.getrandbits(16)])
+
+    def pos():
+        return r.choice([r.randrange(-50, 600), mg, hgt - mg, 2 * mg, hgt - 2 * mg, r.getrandbits(32)])
+    ov = {0x1AE: (2, mg), 0x2AA: (1, r.choice([0, 1, 5])), 0x0A: (2, hgt), 0x60: (4, pos()), 0x120: (4, pos())}
+    return Case([], sys_bytes(r, 0, 0x300, ov), ret=V)
+
+
+TESTS[0x4004A7C4] = t_offset
+
+
+def label_value(r):
+    return r.choice([r.choice([20000000, 10000000, 5000000, 2000000, 1000000, 500000, 200000, 100000, 50000, 20000, 10000, 5000, 2000])
+                     * r.choice([1, 10, 100]), r.randrange(0, 1000), 999, 1000, 999999, 1000000, 999999999, 1000000000,
+                     r.getrandbits(64), r.getrandbits(40)])
+
+
+def t_vdiv_label(r):
+    ov = {0x50: (8, label_value(r)), 0x110: (8, label_value(r))}
+    d = r.choice([r.randrange(0, 1000), r.getrandbits(32) - (1 << 31), 0, 5, 50, 500])
+    unit = r.choice([0, 1, 2, 3, r.getrandbits(32)])
+    return Case([r.choice([0, 1, 2]), r.getrandbits(32), d & 0xFFFFFFFF, unit & 0xFFFFFFFF], sys_bytes(r, 0, 0x140, ov), ret=V)
+
+
+TESTS[0x4004A884] = t_vdiv_label
+
+
+def t_vdiv_labels(r):
+    ov = {0x50: (8, label_value(r)), 0x110: (8, label_value(r))}
+    return Case([r.getrandbits(32), r.getrandbits(32), r.randrange(0, 1000), r.choice([0, 1, 2, 3])], sys_bytes(r, 0, 0x140, ov), ret=V)
+
+
+TESTS[0x4004AA04] = t_vdiv_labels
+
+
+def sel_case(extra=(), ov_fn=None):
+    def mk(r):
+        seed = r.getrandbits(32)
+        ov = ov_fn(r) if ov_fn else {}
+        return Case([], with_fpga(seed, sys_bytes(r, 0, 0xC00, ov)), ret=V, stubs=fpga_stubs() + tuple(extra))
+    return mk
+
+
+DELAY = rec("delay_ms", 0x40042CF0, 1)
+TESTS[0x4004AA24] = sel_case((DELAY,), lambda r: {0xBCA: (1, r.choice([0, 1])), 0x100: (1, r.choice([0, 1, 2]))})
+for _a in (0x4004AA70, 0x4004AA94, 0x4004AB60, 0x4004AB84, 0x4004ABA8, 0x4004ABCC, 0x4004ACA4):
+    TESTS[_a] = sel_case()
+FE_STUBS = (DELAY, rec("fpga_param_updater", 0x40049EC4, 4), rec("smec_commit", 0x40049F1C, 1))
+TESTS[0x4004AAC0] = sel_case(FE_STUBS, lambda r: {0xBC8: (1, r.choice([0, 6, 12])), 0x41: (1, r.choice([0, 6, 12, 11]))})
+TESTS[0x4004AC04] = sel_case(FE_STUBS, lambda r: {0xBC9: (1, r.choice([0, 6, 12])), 0x105: (1, r.choice([0, 6, 12, 11]))})
+
+
+def lane_stubs():
+    def copy(m, a):
+        n, buf = a[1], a[2]
+        m.write(buf, bytes(m.srng.getrandbits(8) for _ in range(min(n, 256))))
+    return (rec("func_4003f948", 0x4003F948, 0), rec("acquisition_prepare", 0x4003FA10, 0), rec("func_4003fcc0", 0x4003FCC0, 0),
+            Stub("lane_copy", 0x400406A4, copy, 3))
+
+
+def lane_ov(r):
+    return {0x41: (1, r.randrange(13)), 0x105: (1, r.randrange(13)), 0x1B8: (1, r.choice([20, 0, 255, r.getrandbits(8)])),
+            0x26C: (4, r.choice([r.randrange(1, 100), r.getrandbits(32)]))}
+
+
+def t_lane(kind):
+    def mk(r):
+        seed = r.getrandbits(32)
+        n = r.choice([0, 1, 8, 64, 200])
+        setup = seeded(seed, sys_bytes(r, 0, 0x700, lane_ov(r)))
+        if kind == "channel":          # channel_level_mean(start, ch, n, buf)
+            args = [r.choice([0, 1]), r.choice([0, 1, 2]), max(n, 1), BUF]
+            return Case(args, setup, ret=R, stubs=lane_stubs())
+        args = [r.choice([0, 1]), r.choice([r.randrange(8), r.getrandbits(16)]), r.choice([0, 1, 2, r.getrandbits(8)]),
+                max(n, 1) if kind == "mean" else n]
+        return Case(args, setup, ret=R, stubs=lane_stubs(), stack=[BUF])
+    return mk
+
+
+TESTS[0x4004ACC8] = t_lane("sum")
+TESTS[0x4004ADCC] = t_lane("mean")
+TESTS[0x4004ADF0] = t_lane("channel")
+
+
+def t_post_mux(r):
+    def dispatch(m, a):
+        for pos, meas in ((0x60, 0xB34), (0x120, 0xB50)):
+            p = m.r32(SYS + pos)
+            m.w32(SYS + meas, (p + m.srng.choice([-7, -6, -4, -3, -2, 0, 2, 3, 4, 6, 7, 1000])) & 0xFFFFFFFF)
+    stubs = (rec("sysconfig_exec", 0x4003E708, 0), DELAY, Stub("acquisition_dispatcher", 0x400419CC, dispatch, 0))
+    return Case([r.choice([0, 6, 11, 12, r.getrandbits(8)])], seeded(r.getrandbits(32), sys_bytes(r, 0, 0xC00)), ret=R, stubs=stubs)
+
+
+TESTS[0x4004AF0C] = t_post_mux

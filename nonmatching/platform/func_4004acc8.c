@@ -1,0 +1,36 @@
+/*
+ * lane_level_sum -- stock 0x4004ACC8 (260 bytes, ARM)
+ * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
+ * Sum over n raw samples of one lane of (sample x q - base), negative terms counted as 0, with q = gain[V/div] x SYS_INFO+0x26C / 1000 and base = q x SYS_INFO+0x1B8. Optionally (start) re-arms an acquisition of n x 1.2 samples first. Stock quirks kept: for ch > 1 the lane number is used as the gain, and the 64-bit difference takes base >> 31 (logical) as its high word (unreachable: base <= 4294967 x 255 < 2^31).
+ */
+#include "hw/platform.h"
+
+#include "hw/fpga.h"
+
+u32 lane_level_sum(u32 start, u32 lane, u32 ch, u32 n, unsigned char *buf)
+{
+    u32 gain, q, base, sum = 0, i;
+    if (ch == 0) gain = SYS32(0x1C4 + 4 * SYS8(0x41));
+    else if (ch == 1) gain = SYS32(0x214 + 4 * SYS8(0x105));
+    else gain = lane;
+    SYS32(0x63C) = n / 10;
+    q = (gain * SYS32(0x26C)) / 1000;
+    base = q * SYS8(0x1B8);
+    if (start) {
+        SYS32(0x30) = (n * 12) / 10;
+        SYS32(0x34) = 0;
+        func_4003f948();
+        acquisition_prepare();
+        func_4003fcc0();
+    }
+    func_400406a4(lane, n, buf);
+    for (i = 0; i < n; i++) {
+        unsigned long long p = (unsigned long long)buf[i] * q;
+        u32 lo = (u32)p, hi = (u32)(p >> 32);
+        u32 dlo = lo - base;
+        u32 dhi = hi - (base >> 31) - (lo < base);
+        if ((int)dhi < 0) dlo = 0;
+        sum += dlo;
+    }
+    return sum;
+}

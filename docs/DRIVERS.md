@@ -142,9 +142,53 @@ STATIC-CONFIRMED from the code. Names are DERIVED unless they come from the Hack
 - **Kept in asm**: `power_off`. Also `smec_job_result`'s tail at 0x4004A094, which the analyser
   split off; the C of `smec_job_result` covers the whole function.
 
+## Battery monitor, front-end set-up, lane levels, POST multiplex check (batch 12)
+
+C: `tools/platform_spec/g_frontend_power.py`. Tests: `tools/emu/tests/fpga.py` (second part).
+
+- **Battery**:
+  - `battery_service` (UI loop) reads the charger status and sums LRADC readings.
+  - About once a second (at least 1001 ms and 3 readings), it averages them.
+  - `battery_level_update` converts the average with the float coefficients:
+    mV = code × 32.947 + 2565.74 + 170, truncated. It then sets level 0..10 in SYS_INFO+0x778. The
+    thresholds are 4150, 4080, 3970, 3900, 3840, 3790, 3760, 3730, 3690 and 3560 mV. The code also
+    tests 3620, which changes nothing.
+  - Level 0: `battery_empty_check` draws the empty-battery image, waits 3 s and powers off.
+- **Vertical scale** (`vscale_update`):
+  - The u64 table at SYS_INFO+0xEF0 (`rate_table_init`) holds µV per division: 20 000 000 down
+    to 2 000, in 1-2-5 steps, indexed by the V/div index.
+  - It is multiplied by the probe factor: SYS_INFO+0x40 / +0x104 = 0, 1, 2 for ×1, ×10, ×100.
+    This gives SYS_INFO+0x50 (CH1) and +0x110 (CH2).
+  - The 1x/10x/100x setting therefore only scales the displayed values. It does not change the
+    hardware.
+  - `vdiv_label` turns those values into the "200mV" / "2V" / "1KV" text at SYS_INFO+0x70 /
+    +0x130. Below 1000 µV the stock code uses the r2/r3 it was called with; the C takes them as
+    parameters.
+- **Positions**: `offset_clamp` keeps SYS_INFO+0x60/+0x120 within [m, height − m], with
+  m = SYS_INFO+0x1AE (doubled when SYS_INFO+0x2AA is set).
+- **Front end to the FPGA**:
+  - CH1 (`ch1_frontend_apply`): the V/div index goes to selector 0x28 when it changes, with index
+    12 sent as 11. The calibration aux values (object+0, +8) go out as jobs 8 and 10, and the
+    position as job 12. Then come commit 0xB5 and the 16-bit selector 0x2A (SYS_INFO+0x44).
+  - CH2 (`ch2_frontend_apply`): selector 0x2B, jobs 9, 11 and 13, commit 0xB6, selector 0x2D.
+  - Other selectors: 0x2E is the channel mode (SYS_INFO+0x100, 50 ms settle). 0x62, 0x2F, 0x29,
+    0x30 and 0x2C send single SYS_INFO bytes whose meaning is OPEN.
+  - `frontend_apply_all` runs the whole sequence.
+- **Lane levels**: `lane_level_sum`, `lane_level_mean` and `channel_level_mean` sum
+  sample × q − base over one lane's raw samples, counting negative terms as 0. Here
+  q = gain[V/div] × SYS_INFO+0x26C / 1000 and base = q × SYS_INFO+0x1B8. When asked, they first
+  re-arm an acquisition. Stock quirks:
+  - for ch > 1 the lane number is used as the gain;
+  - the borrow uses base >> 31 (logical). This is unreachable, because base < 2³¹.
+- **POST channel multiplex** (`post_channel_mux_check`, 0x4004AF0C):
+  1. both channels on, positions 0xAA, then 0x1E;
+  2. each time, the measured mean position (SYS_INFO+0xB34 / +0xB50) must be within ±3, or ±6 at
+     V/div index 12;
+  3. it returns 1 (both), −2 (CH1 only), −1 (CH2 only) or 0.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).
 - (USB stack: done, see USB.md.)
 - The display engine and TCON code (DE2 0x01000000, functions of up to 5 KB).
-- The rest of 0x4004A2D0..0x4004AF0C (FPGA runtime helpers around the POST checks).
+- The next region (0x4004B0A0 onwards: POST and factory flow).

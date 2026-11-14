@@ -1,0 +1,31 @@
+/*
+ * ch1_frontend_apply -- stock 0x4004AAC0 (160 bytes, ARM)
+ * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
+ * CH1: V/div index to selector 0x28 when it changed (12 sent as 11, copy in +0xBC8), jobs 8 and 10 (calibration aux values), job 12 (position), commit 0xB5, selector 0x2A; 60 ms after a V/div change.
+ */
+#include "hw/platform.h"
+
+#include "hw/fpga.h"
+
+void fpga_write_sel_0x2a(void);
+
+void ch1_frontend_apply(void)
+{
+    int changed = 0;
+    if (SYS8(0xBC8) != SYS8(0x41)) {
+        u32 v;
+        SYS8(0xBC8) = SYS8(0x41);
+        fpga_selector_command_write(0x28);
+        v = SYS8(0xBC8);
+        changed = 1;
+        if (v == 12) v = 11;
+        fpga_data_byte_write(v);
+    }
+    fpga_param_updater(8, 4, CAL_OBJ[0], CAL_OBJ[0]);
+    fpga_param_updater(10, 4, CAL_OBJ[2], CAL_OBJ[2]);
+    fpga_param_updater(12, 4, SYS32(0x60), SYS32(0x60));
+    smec_commit(0xB5);
+    fpga_write_sel_0x2a();
+    if (changed)
+        delay_ms(60);
+}

@@ -97,6 +97,15 @@ MUTANTS = [
     (0x40049C78, "res = 1;", "res = 2;"),                                           # disk_read error code
     (0x40049CE8, "return 4;", "return 1;"),                                         # disk_write wrong drive
     (0x4004A1F4, "SYS32(0x65C) < g_tick_count", "SYS32(0x65C) <= g_tick_count"),    # auto power-off deadline
+    # batch 12: battery, front end, POST
+    (0x4004A2D0, "else if (mv >= 3970) lv = 8;", "else if (mv >= 3980) lv = 8;"),  # battery threshold
+    (0x4004A448, "g_batt_last >= 1001", "g_batt_last >= 1000"),                                             # battery average period
+    (0x4004A608, "p1 == 1 ? 10 : 100", "p1 == 1 ? 10 : 10"),                        # probe x100
+    (0x4004A7C4, "int lo = m * 2", "int lo = m * 3"),                               # position margin
+    (0x4004A884, "s[n] = 'm';", "s[n] = 'u';"),                                     # mV label
+    (0x4004ACC8, "if ((int)dhi < 0) dlo = 0;", "if ((int)dhi < -1) dlo = 0;"),     # negative terms clipped
+    (0x4004AF0C, "u32 tol = vdiv == 12 ? 6 : 3;", "u32 tol = vdiv == 12 ? 6 : 4;"), # POST tolerance
+    (0x4004AAC0, "if (v == 12) v = 11;", "if (v == 12) v = 12;"),                   # V/div 12 -> 11
 ]
 
 
