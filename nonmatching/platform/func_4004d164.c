@@ -1,0 +1,19 @@
+/*
+ * Gen_Init -- stock 0x4004D164 (40 bytes, ARM)
+ * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
+ * Reads the generator files (0x40036B00, 0x40036BDC), applies the value at 0x4091F396, loads the samples, then continues into gen_update (the stock code falls through). (name: Hack FPGA.md)
+ */
+#include "hw/platform.h"
+
+#include "hw/fpga.h"
+
+void gen_update(void);
+
+void Gen_Init(void)
+{
+    func_40036b00();
+    func_40036bdc();
+    func_40036ea4(*(volatile unsigned short *)0x4091F396u);
+    gen_load_samples();
+    gen_update();
+}

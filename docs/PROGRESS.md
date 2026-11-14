@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 547 | 40.40% | 65338 | 19.36% |
+| EQUIVALENT | 563 | 41.58% | 68282 | 20.23% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 807 | 59.60% | 272166 | 80.64% |
+| ASM | 791 | 58.42% | 269222 | 79.77% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 547 (40.85%) | 337104 | 65338 (19.38%) |
+| main code | 1339 | 563 (42.05%) | 337104 | 68282 (20.26%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -182,6 +182,22 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4004ADCC` | lane_level_mean | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4004adcc.c` |
 | `0x4004ADF0` | channel_level_mean | 284 | EQUIVALENT | 200 | `nonmatching/platform/func_4004adf0.c` |
 | `0x4004AF0C` | post_channel_mux_check | 368 | EQUIVALENT | 200 | `nonmatching/platform/func_4004af0c.c` |
+| `0x4004C544` | retained_inside_current_sc1_3_t6 | 368 | EQUIVALENT | 200 | `nonmatching/platform/func_4004c544.c` |
+| `0x4004C6B4` | system_calibration | 212 | EQUIVALENT | 200 | `nonmatching/platform/func_4004c6b4.c` |
+| `0x4004C794` | percent_at_least | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_4004c794.c` |
+| `0x4004CF34` | gen_limits | 352 | EQUIVALENT | 200 | `nonmatching/platform/func_4004cf34.c` |
+| `0x4004D094` | gen_table_repeat_default | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_4004d094.c` |
+| `0x4004D09C` | gen_table_repeat | 144 | EQUIVALENT | 200 | `nonmatching/platform/func_4004d09c.c` |
+| `0x4004D12C` | gen_load_samples | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4004d12c.c` |
+| `0x4004D164` | Gen_Init | 40 | EQUIVALENT | 200 | `nonmatching/platform/func_4004d164.c` |
+| `0x4004D18C` | gen_update | 40 | EQUIVALENT | 200 | `nonmatching/platform/func_4004d18c.c` |
+| `0x4004D1B4` | gen_send_params | 412 | EQUIVALENT | 200 | `nonmatching/platform/func_4004d1b4.c` |
+| `0x4004D350` | gen_decimate | 64 | EQUIVALENT | 200 | `nonmatching/platform/func_4004d350.c` |
+| `0x4004D390` | gen_normalize | 268 | EQUIVALENT | 200 | `nonmatching/platform/func_4004d390.c` |
+| `0x4004D49C` | gen_resample | 304 | EQUIVALENT | 200 | `nonmatching/platform/func_4004d49c.c` |
+| `0x4004D5CC` | gen_decimate2 | 76 | EQUIVALENT | 200 | `nonmatching/platform/func_4004d5cc.c` |
+| `0x4004D618` | gen_normalize2 | 272 | EQUIVALENT | 200 | `nonmatching/platform/func_4004d618.c` |
+| `0x4004D730` | gen_resample2 | 280 | EQUIVALENT | 200 | `nonmatching/platform/func_4004d730.c` |
 | `0x40056A70` | ld_word | 16 | EQUIVALENT | 300 | `nonmatching/fatfs/func_40056a70.c` |
 | `0x40056A80` | ld_dword | 32 | EQUIVALENT | 300 | `nonmatching/fatfs/func_40056a80.c` |
 | `0x40056AA0` | ld_qword | 100 | EQUIVALENT | 300 | `nonmatching/fatfs/func_40056aa0.c` |

@@ -186,6 +186,63 @@ C: `tools/platform_spec/g_frontend_power.py`. Tests: `tools/emu/tests/fpga.py` (
      V/div index 12;
   3. it returns 1 (both), −2 (CH1 only), −1 (CH2 only) or 0.
 
+## Signal generator, calibration selector, system calibration (batch 13)
+
+C: `tools/platform_spec/h_generator.py`. Tests: `tools/emu/tests/fpga.py` (third part).
+
+- **Generator state**:
+  - The block G = 0x42E3F984 holds the sample table at G+0xE (2000 u16), a second table at
+    G+0xFB6, and the loaded samples at G+0x1F56. The count is at G+0x2EF8 and the period length at
+    G+0x2EF6.
+  - The settings block G+0x2EFC (0x42E42880) is the one the emulator reads for the GEN menu:
+    frequency, amplitude, offset, duty, limits and float scales. The waveform byte is at G+0x2EFA.
+- **`Gen_Init`** (Hack name):
+  1. reads the generator files (0x40036B00 / 0x40036BDC);
+  2. applies the value at 0x4091F396;
+  3. loads the samples (`gen_load_samples`, from SYS_INFO+0x3DA548);
+  4. falls through into `gen_update`.
+- **`gen_update`** runs, in order: 0x4004EEEC, `gen_limits`, `gen_send_params`, 0x4004D880 (the
+  big table builder, not rewritten yet), 0x4004ED18, then `gen_table_repeat_default`.
+- **`gen_limits`** clamps the settings:
+  - amplitude to [0, max];
+  - offset to ±limit, and offset ± amplitude/2 into the output range;
+  - waveform index;
+  - duty to [1, max];
+  - frequency to the waveform's maximum: 50 MHz (Sine, Ringing), 10 MHz (Square, Half, Full),
+    5 MHz (Triangular, Sawtooth1/2, Step, Multi-sin, SinC, DC), 3 MHz (Exponent, Sqrt, Capture).
+- **`gen_send_params`** sends the FPGA parameters as SMEC jobs 0x14..0x18, then commits 0xB7.
+  These are the Hack "Gen_Init owns SMEC IDs 0x14..0x18":
+  - 0x14: offset;
+  - 0x15, 0x16, 0x18: the floats at +0x70, +0x68, +0x6C, sent as both raw word and integer;
+  - 0x17: a step value derived from the amplitude through the float scale at +0x50 and the
+    divisors at +0x5C / +0x54.
+
+  For a sine at 1 MHz or above, the amplitude is first corrected by the table at 0x400951E8, one
+  entry per MHz above the reference frequency: 4180, 4620, 4700, 4580, …. This is the output's
+  frequency-response compensation. Finally it sets the period length: +0x60 / frequency, capped by
+  +0x38.
+- **Table building**:
+  - `gen_normalize` / `gen_normalize2` copy the loaded samples, invert them (max − v) and scale
+    them in double precision to the output span.
+  - `gen_resample` / `gen_resample2` compute a step of (u64)(period × 1.02) × SYS_INFO+0x554 × m /
+    total. They decimate by m, resample with the nearest-neighbour mapper into the work buffer
+    0x41648008, copy back and clamp.
+  - `gen_table_repeat` inverts one period and repeats it over the table.
+- **Calibration**:
+  - `retained_inside_current_sc1_3_t6` (Hack working name) is the coefficient selector described
+    in docs/SIM.md.
+  - `system_calibration` is the factory "System calibration":
+    1. clears the calibration object;
+    2. calibrates each row (0x4004BFC8, not rewritten);
+    3. fills the aux arrays above the calibrated rows with the last value;
+    4. runs 0x4004B0A0;
+    5. runs the channel-multiplex check for V/div 0..10, and saves the calibration only when all
+       11 pass.
+- **Quirks kept**: `gen_limits` (wave index above 14) and `gen_update` pass on whatever r0..r3
+  held. `gen_table_repeat_default` (0x4004D094) is the real entry of `gen_table_repeat`; the
+  analyser split it off. `__aeabi_d2ulz` is Thumb with the base AAPCS, so the C calls it through
+  its Thumb address.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

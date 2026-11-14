@@ -544,3 +544,179 @@ def t_post_mux(r):
 
 
 TESTS[0x4004AF0C] = t_post_mux
+
+
+# ================================================================ batch 13: generator, calibration selector
+GEN = 0x42E3F984
+GSET = GEN + 0x2EFC          # settings block (0x42E42880)
+CAL = 0x42E53A0C
+
+
+def w16(m, a, v):
+    m.write(a, (v & 0xFFFF).to_bytes(2, "little"))
+
+
+def t_selector(r):
+    obj = bytes(r.getrandbits(8) for _ in range(0x1A90))
+    ov = {0x41: (1, r.randrange(20)), 0x105: (1, r.randrange(20)), 0x100: (1, r.choice([0, 1, 2])),
+          0x6EC: (1, r.randrange(0, 12)), 0x588: (1, r.randrange(12, 40)), 0x6ED: (1, r.randrange(12, 40))}
+    base = sys_bytes(r, 0, 0x700, ov)
+
+    def setup(m):
+        base(m); m.write(CAL, obj)
+    return Case([], setup, ret=V)
+
+
+TESTS[0x4004C544] = t_selector
+
+
+def t_syscal(r):
+    obj = bytes(r.getrandbits(8) for _ in range(0x1A90))
+    ov = {0x1B9: (1, r.choice([0, 1, 5, 10])), 0x1BA: (1, r.choice([0, 3, 10, 20]))}
+    base = sys_bytes(r, 0x100, 0x200, ov)
+    tch = bytes(r.getrandbits(8) for _ in range(0x18))
+
+    def setup(m):
+        base(m); m.write(CAL, obj); m.write(TOUCH, tch)
+    stubs = (rec("func_4003f0c0", 0x4003F0C0, 0), rec("func_4003f0e0", 0x4003F0E0, 0), rec("calib_row", 0x4004BFC8, 1),
+             rec("calib_step", 0x4004B0A0, 0), rec("calibration_save_wrapper", 0x40044680, 0),
+             rec("post_channel_mux_check", 0x4004AF0C, 1, ret=lambda m, a: m.srng.choice([1, 1, 1, 1, 1, 1, 1, 1, 0, -1, -2])))
+    return Case([], seeded(r.getrandbits(32), setup), ret=R, stubs=stubs)
+
+
+TESTS[0x4004C6B4] = t_syscal
+
+
+def t_pct(r):
+    def num():
+        return r.choice([r.randrange(-100, 1000), 0, r.getrandbits(32), r.randrange(1, 50)]) & 0xFFFFFFFF
+    return Case([num(), num(), num()], ret=R)
+
+
+TESTS[0x4004C794] = t_pct
+
+
+def gen_block(r):
+    """settings block G+0x2EFC..+0x80 with plausible values and limits"""
+    def i32(v):
+        return (v & 0xFFFFFFFF).to_bytes(4, "little")
+    words = [r.getrandbits(32) for _ in range(0x80 // 4)]
+    words[0] = r.choice([0, 1000, 999999, 1000000, 3000000, 5000001, 10000000, 50000000, 60000000, -5, r.getrandbits(32)])
+    words[1] = r.choice([0, 1000, 5000, -10, r.getrandbits(32), r.randrange(0, 20000)])
+    words[2] = r.choice([0, 1000, -3000, 9000, -9000, r.getrandbits(32)])
+    words[3] = r.choice([0, -1, 500, 1000, 1200, r.getrandbits(32)])
+    words[5] = r.choice([14, 13, 5, 20])
+    words[6] = r.choice([60000000, 20000000, 1000000, r.getrandbits(32)])
+    words[7] = r.choice([10000, 5000, 20000])
+    words[8] = r.choice([5000, 10000])
+    words[9] = r.choice([999, 1000])
+    words[10] = r.choice([10000, 5000])
+    words[11] = r.choice([-10000, -5000])
+    return b"".join(i32(w) for w in words)
+
+
+def t_gen_limits(r):
+    blk = gen_block(r)
+    wave = r.choice(list(range(16)) + [20, 255])
+    tch = bytearray(r.getrandbits(8) for _ in range(0x18))
+    tch[0x17] = r.choice([0, 0, 0, 1])
+
+    def setup(m):
+        m.write(GSET, blk); m.w8(GEN + 0x2EFA, wave); m.write(TOUCH, bytes(tch))
+    return Case([r.getrandbits(32), r.getrandbits(32), r.getrandbits(32), r.choice([0, 1, 0xFFFFFFFF, r.getrandbits(32)])], setup, ret=V)
+
+
+TESTS[0x4004CF34] = t_gen_limits
+
+
+def gen_tables(r, desc_off=0xFAE):
+    buf = bytes(r.getrandbits(8) for _ in range(4000))
+    buf2 = bytes(r.getrandbits(8) for _ in range(4000))
+    src = bytes(r.getrandbits(8) for _ in range(4000))
+    length = r.choice([0, 1, 100, 1000, 2000, r.randrange(1, 2000)])
+    cnt = r.choice([1, 2, 4, 8, r.randrange(1, 10)])
+    top = r.getrandbits(16)
+    tot = r.choice([0, 100, 1000, 2000, r.randrange(1, 2000)])
+    tch = bytearray(r.getrandbits(8) for _ in range(0x18))
+    tch[0x17] = r.choice([0, 0, 0, 1])
+    extra = {0xFB0: r.getrandbits(16), 0x2EF6: r.choice([10, 100, 500, r.randrange(1, 1000)]),
+             0x2F30: r.choice([1000, 2000, r.getrandbits(16)]), 0x2F48: r.getrandbits(16), 0x2F58: r.choice([1000, 2000, r.getrandbits(16)])}
+
+    def setup(m):
+        m.write(GEN + 0xE, buf); m.write(GEN + 0xFB6, buf2); m.write(GEN + 0x1F56, src)
+        w16(m, GEN + desc_off, length); w16(m, GEN + desc_off + 2, top); w16(m, GEN + desc_off + 6, cnt)
+        w16(m, GEN + 0x2EF8, tot); m.write(TOUCH, bytes(tch))
+        for o, v in extra.items():
+            m.w32(GEN + o, v) if o in (0x2F30, 0x2F48, 0x2F58) else w16(m, GEN + o, v)
+    return setup
+
+
+TESTS[0x4004D09C] = lambda r: Case([0xFAE, r.getrandbits(32), TOUCH], gen_tables(r), ret=V)
+TESTS[0x4004D094] = lambda r: Case([r.getrandbits(32), r.getrandbits(32)], gen_tables(r), ret=V)
+TESTS[0x4004D350] = lambda r: Case([r.choice([0, 1, 2, 3, 7, 50, -3]) & 0xFFFFFFFF], gen_tables(r), ret=V)
+TESTS[0x4004D5CC] = lambda r: Case([r.choice([0, 1, 2, 3, 7, 50, -3]) & 0xFFFFFFFF], gen_tables(r), ret=V)
+TESTS[0x4004D390] = lambda r: Case([], gen_tables(r), ret=V)
+TESTS[0x4004D618] = lambda r: Case([], gen_tables(r), ret=V)
+
+
+def t_load_samples(r):
+    cnt = r.choice([0, 10, 1000, 2000, r.randrange(0, 2000)])
+    data = bytes(r.getrandbits(8) for _ in range(4000))
+
+    def setup(m):
+        m.w32(SYS + 0x3DA53C, (r.getrandbits(16) << 16) | cnt if False else cnt); m.write(SYS + 0x3DA548, data)
+    return Case([], setup, ret=V)
+
+
+TESTS[0x4004D12C] = t_load_samples
+TESTS[0x4004D164] = lambda r: Case([], (lambda v: lambda m: w16(m, 0x4091F396, v))(r.getrandbits(16)), ret=V,
+                                   stubs=(rec("gen_file_a", 0x40036B00, 0), rec("gen_file_b", 0x40036BDC, 0), rec("gen_apply", 0x40036EA4, 1),
+                                          rec("gen_load_samples", 0x4004D12C, 0), rec("gen_update", 0x4004D18C, 0)))
+TESTS[0x4004D18C] = lambda r: Case([r.getrandbits(32) for _ in range(4)], ret=V,
+                                   stubs=(rec("eeec", 0x4004EEEC, 0), rec("gen_limits", 0x4004CF34, 4), rec("gen_send_params", 0x4004D1B4, 0),
+                                          rec("d880", 0x4004D880, 0), rec("ed18", 0x4004ED18, 0), rec("gen_table_repeat_default", 0x4004D094, 0)))
+
+
+def t_send_params(r):
+    blk = bytearray(gen_block(r))
+    v = _struct
+    v.pack_into("<f", blk, 0x50, r.choice([1.0, 2.5, 0.37, 1000.0]))
+    v.pack_into("<I", blk, 0x54, r.choice([1, 10, 100, 1000]))
+    v.pack_into("<I", blk, 0x5C, r.choice([1, 3, 64, 1000]))
+    for o in (0x68, 0x6C, 0x70):
+        v.pack_into("<f", blk, o, r.choice([0.0, 1.5, -3.25, 12345.6, 1e10]))
+    v.pack_into("<I", blk, 0x60, r.getrandbits(32))
+    v.pack_into("<I", blk, 0x38, r.choice([100, 2000, 65535, r.getrandbits(32)]))
+    v.pack_into("<i", blk, 0x18, r.choice([60000000, 20000000, 12000000]))
+    wave = r.choice([0, 0, 1, 5])
+    tch = bytearray(r.getrandbits(8) for _ in range(0x18))
+    tch[0x17] = r.choice([0, 0, 0, 1])
+
+    def setup(m):
+        m.write(GSET, bytes(blk)); m.w8(GEN + 0x2EFA, wave); m.write(TOUCH, bytes(tch))
+    return Case([], setup, ret=V, stubs=(rec("fpga_param_updater", 0x40049EC4, 4), rec("smec_commit", 0x40049F1C, 1)))
+
+
+TESTS[0x4004D1B4] = t_send_params
+
+
+def nn_stub():
+    def fn(m, a):
+        sp = m.reg(A.UC_ARM_REG_SP)
+        q = regs3(m)
+        m.calls.append(("nn_resample", q[0], q[1], q[2], q[3], m.r32(sp), m.r32(sp + 4)))
+        m.write(0x416431E8, bytes(m.srng.getrandbits(8) for _ in range(0x4E20 + 4000)))
+    return Stub("nn_resample*", 0x4005C678, fn, 0)
+
+
+def t_resample(r):
+    sysw = r.choice([1, 100, 250, r.getrandbits(32)])
+    tables = gen_tables(r)
+
+    def setup(m):
+        tables(m); m.w32(SYS + 0x554, sysw)
+    return Case([], seeded(r.getrandbits(32), setup), ret=V, stubs=(nn_stub(),))
+
+
+TESTS[0x4004D49C] = t_resample
+TESTS[0x4004D730] = t_resample

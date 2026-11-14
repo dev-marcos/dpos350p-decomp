@@ -126,6 +126,42 @@ u32  lane_level_sum(u32 start, u32 lane, u32 ch, u32 n, unsigned char *buf);   /
 void func_4003e708(void);                    /* SysConfigExec (Hack FPGA.md section 18) */
 void acquisition_dispatcher(void);           /* 0x400419CC (Hack name) */
 
+/* ---- signal generator (batch 13). State block G = 0x42E3F984; the settings block at G+0x2EFC
+ * (0x42E42880: frequency, amplitude, offset, duty, ...) is the one the GEN menu edits. */
+#define GEN_G        0x42E3F984u
+#define G16(o)       (*(volatile unsigned short *)(GEN_G + (o)))
+#define G32(o)       (*(volatile u32 *)(GEN_G + (o)))
+#define GS32(o)      (*(volatile int *)(GEN_G + (o)))
+#define GF32(o)      (*(volatile float *)(GEN_G + (o)))
+#define GEN_WAVE     (*(volatile unsigned char *)(GEN_G + 0x2EFA))
+#define GEN_BUF      ((unsigned short *)(GEN_G + 0x0E))      /* sample table */
+#define GEN_BUF2     ((unsigned short *)(GEN_G + 0xFB6))     /* second table */
+void copy_u16(unsigned short *d, const unsigned short *s, u32 n);   /* 0x40035728 */
+void *memset_w(void *d, int v, unsigned int n);                     /* 0x400356E4 */
+/* __aeabi_d2ulz is Thumb code and uses the base AAPCS (double in r0:r1): called through a pointer
+ * to its Thumb address so the BLX switches state, as the stock BLX does */
+typedef unsigned long long (*d2ulz_fn)(double) __attribute__((pcs("aapcs")));
+#define D2ULZ(d) (((d2ulz_fn)0x4005F6E9u)(d))
+unsigned long long __aeabi_uldivmod(unsigned long long n, unsigned long long d);   /* 0x40034590 */
+void simple_integer_index_mapping_nearest_neighbour(u32 dst, u32 n, u32 m, u32 step, u32 a4, u32 a5);   /* Hack name */
+void gen_table_repeat(u32 off, u32 r1, volatile touch_t *t);        /* 0x4004D09C */
+void gen_decimate(int n);                                           /* 0x4004D350 */
+void gen_decimate2(int n);                                          /* 0x4004D5CC */
+void gen_limits(u32 r0, u32 r1, u32 lo, u32 hi);                    /* 0x4004CF34 */
+void gen_send_params(void);                                         /* 0x4004D1B4 */
+void func_4004eeec(void);
+void func_4004d880(void);
+void func_4004ed18(void);
+void gen_table_repeat_default(void);                                /* 0x4004D094 */
+void func_4003f0c0(void);
+void func_4003f0e0(void);
+void func_4004bfc8(u32 row);                                        /* per-row calibration (OPEN) */
+void func_4004b0a0(void);                                           /* calibration step (OPEN) */
+int  post_channel_mux_check(u32 vdiv);                              /* 0x4004AF0C */
+void calibration_save_wrapper(void);                                /* 0x40044680 (Hack name) */
+void func_40036b00(void); void func_40036bdc(void); void func_40036ea4(u32 v);
+void gen_load_samples(void);                                        /* 0x4004D12C */
+
 /* ---- disk glue (FatFs diskio for the SD card, drive 0) */
 #define g_sd_state     (*(volatile u32 *)0x40095490u)   /* 1 = card ready */
 #define g_sector_size  (*(volatile u32 *)0x4009548Cu)

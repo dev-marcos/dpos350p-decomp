@@ -106,6 +106,16 @@ MUTANTS = [
     (0x4004ACC8, "if ((int)dhi < 0) dlo = 0;", "if ((int)dhi < -1) dlo = 0;"),     # negative terms clipped
     (0x4004AF0C, "u32 tol = vdiv == 12 ? 6 : 3;", "u32 tol = vdiv == 12 ? 6 : 4;"), # POST tolerance
     (0x4004AAC0, "if (v == 12) v = 11;", "if (v == 12) v = 12;"),                   # V/div 12 -> 11
+    # batch 13: generator, calibration selector, system calibration
+    (0x4004C544, "base = SYS8(0x100) == 0 ? 16 : 0;", "base = SYS8(0x100) == 0 ? 15 : 0;"),  # column block
+    (0x4004C6B4, "if (++r >= 11)", "if (++r >= 10)"),                               # POST rounds before save
+    (0x4004C794, "(v * 100) / total < min_pct", "(v * 10) / total < min_pct"),      # percent scale
+    (0x4004CF34, "case 8: case 10: case 14: lo = 3000000;", "case 8: case 10: case 14: lo = 3000001;"),  # 3 MHz cap
+    (0x4004CF34, "else if (off < -lim) off = -lim;", "else if (off < -lim) off = lim;"),  # negative offset limit
+    (0x4004D09C, "*p = e[1] - *p;", "*p = e[1] + *p;"),                             # period inversion
+    (0x4004D390, "t = t - hd;", "t = t - hd - 1.0;"),                               # normalisation shift
+    (0x4004D1B4, "v = fr != 0 ? (u32)g[0x60 / 4] / fr : mx;", "v = fr != 0 ? (u32)g[0x60 / 4] / (fr + 1) : mx;"),  # period length
+    (0x4004D49C, "GEN_BUF[0] = GEN_BUF[1];", "GEN_BUF[0] = GEN_BUF[2];"),           # resample edge repeat
 ]
 
 
