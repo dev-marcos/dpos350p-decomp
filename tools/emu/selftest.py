@@ -116,6 +116,17 @@ MUTANTS = [
     (0x4004D390, "t = t - hd;", "t = t - hd - 1.0;"),                               # normalisation shift
     (0x4004D1B4, "v = fr != 0 ? (u32)g[0x60 / 4] / fr : mx;", "v = fr != 0 ? (u32)g[0x60 / 4] / (fr + 1) : mx;"),  # period length
     (0x4004D49C, "GEN_BUF[0] = GEN_BUF[1];", "GEN_BUF[0] = GEN_BUF[2];"),           # resample edge repeat
+    # batch 15: serialiser, code page, strlen, USB veneers, touch helpers
+    (0x40067160, "d[6] = *p >> 8;", "d[6] = *p >> 16;"),
+    (0x400672A8, "for (i = 1; i < 7; i++)", "for (i = 1; i < 6; i++)"),
+    (0x40067278, "SER_CURSOR = SER_CURSOR + size;", "SER_CURSOR = SER_CURSOR + 1;"),
+    (0x40067450, "if (SER_MODE == 0)", "if (SER_MODE != 1)"),
+    (0x40069D90, "return (c + 0x80) & 0xFF;", "return c + 0x80;"),
+    (0x40069DF4, "if (oem < 0x80)", "if ((u32)oem < 0x80)"),
+    (0x40069E38, "case 8: uc -= 0x1C60; break;", "case 8: uc -= 0x1C50; break;"),
+    (0x40069E38, "if (cmd == 0)", "if (cmd != 1)"),
+    (0x4006A964, "return a;", "return 0;"),
+    (0x40069CF8, "dx /= 10;", "dx /= 8;"),
     # batch 14: acquisition control
     (0x4003F948, "u32 v = n - 2;", "u32 v = n - 1;"),                                  # sample count bias
     (0x4003FAB8, "u32 v = L + SYS32(0x63C)", "u32 v = SYS32(0x63C)"),                  # wrap term

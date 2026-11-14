@@ -827,3 +827,81 @@ def t_class(r):
 
 
 TESTS[0x4003FD10] = t_class
+
+
+# ================================================================ batch 15: serialiser, code page, strlen, USB veneers
+SER_CUR, SER_MODE, SER_IMG = 0x4091F38C, 0x4091F390, 0x408A526C
+
+
+def ser_setup(r, mode=None):
+    img = bytes(r.getrandbits(8) for _ in range(0x220))
+    src = bytes(r.getrandbits(8) for _ in range(16))
+    cur = r.randrange(0, 0x200)
+    md = r.choice([0, 1, 2]) if mode is None else mode
+
+    def setup(m):
+        m.write(SER_IMG, img); m.write(BUF, src); m.w32(SER_CUR, cur); m.w8(SER_MODE, md)
+    return setup
+
+
+SIZES = [1, 2, 4, 8, 1, 2, 4, 8, 0, 3, 16]
+TESTS[0x40067134] = lambda r: Case([], ser_setup(r), ret=V)
+TESTS[0x40067144] = lambda r: Case([], ser_setup(r), ret=V)
+TESTS[0x40067154] = lambda r: Case([], ser_setup(r), ret=R)
+TESTS[0x40067160] = lambda r: Case([r.randrange(0, 0x200), BUF, r.choice(SIZES)], ser_setup(r), ret=V)
+TESTS[0x400672A8] = lambda r: Case([r.randrange(0, 0x200), BUF, r.choice(SIZES)], ser_setup(r), ret=V)
+TESTS[0x40067278] = lambda r: Case([BUF, r.choice(SIZES)], ser_setup(r), ret=V)
+TESTS[0x40067420] = lambda r: Case([BUF, r.choice(SIZES)], ser_setup(r), ret=V)
+TESTS[0x40067450] = lambda r: Case([BUF, r.choice(SIZES)], ser_setup(r), ret=V,
+                                   stubs=(rec("enc", 0x40067278, 2), rec("dec", 0x40067420, 2)))
+CPS = [437, 437, 437, 850, 0, 437 + 65536]
+TESTS[0x40069D90] = lambda r: Case([r.choice([r.randrange(0x80), r.randrange(0x80, 0x100), r.randrange(0x80, 0x100), 0x100, 0x7F, 0x80, 0xFF,
+                                              r.getrandbits(32), r.getrandbits(16)]), r.choice(CPS)], ret=R)
+TESTS[0x40069DF4] = lambda r: Case([r.choice([r.randrange(0x80), r.randrange(0x80, 0x100), 0x7F, 0x80, 0xFF, 0x100, -1 & 0xFFFFFFFF,
+                                              r.getrandbits(32), r.getrandbits(9)]), r.choice(CPS)], ret=R)
+TESTS[0x40069E38] = lambda r: Case([r.choice([r.randrange(0x61, 0x7B), r.randrange(0x80, 0x600), r.randrange(0x1D00, 0x2200),
+                                              r.randrange(0x2C00, 0x2D30), r.randrange(0x2D00, 0x2D26), r.randrange(0xA640, 0xA800), r.randrange(0xFF00, 0x10000),
+                                              r.getrandbits(16), r.getrandbits(32), 0, 0xFFFF, 0x10000, 0x1000, 0xFFF])], ret=R)
+
+
+def t_strlen(r):
+    n = r.choice([0, 1, 2, 3, 4, 5, 7, 8, 9, r.randrange(0, 300)])
+    off = r.randrange(8)
+    data = bytes(r.randrange(1, 256) for _ in range(n)) + b"\0" + bytes(r.randrange(1, 256) for _ in range(16))
+    return Case([BUF + off], lambda m: m.write(BUF + off, data), ret=R)
+
+
+TESTS[0x4006A6A8] = t_strlen
+SDSTATE = 0x40095490
+
+
+def t_disk(tgt):
+    def mk(r):
+        st = r.choice([0, 1, 1, 2, 0xFFFFFFFF])
+        return Case([r.getrandbits(32) for _ in range(4)], seeded(r.getrandbits(32), lambda m: m.w32(SDSTATE, st)), ret=R,
+                    stubs=(rec("io", tgt, 4, ret=lambda m, a: m.srng.getrandbits(32)),))
+    return mk
+
+
+TESTS[0x4006A964] = t_disk(0x4006A738)
+TESTS[0x4006A978] = t_disk(0x4006A868)
+TESTS[0x40069018] = lambda r: Case([], ret=V, stubs=(rec("a98c", 0x4006A98C, 0), rec("usb_device_init", 0x4006B6A4, 1)))
+TESTS[0x40069034] = lambda r: Case([], ret=V, stubs=(rec("usb_device_exit", 0x4006B728, 0), rec("disk_remount", 0x40049B90, 0)))
+TESTS[0x40068E74] = lambda r: Case([], seeded(r.getrandbits(32)), ret=R,
+                                   stubs=(rec("readl_c", 0x40068E64, 1, ret=lambda m, a: m.srng.getrandbits(32)),))
+
+
+def t_touch(r):
+    w = [r.choice([0, 0, 1, -1, 9, 10, -10, -11, 32767, -32768, r.getrandbits(16)]) & 0xFFFF for _ in range(4)]
+    flag = r.choice([0, 1, 5])
+    tail = bytes(r.getrandbits(8) for _ in range(0x10))
+
+    def setup(m):
+        for i, v in enumerate(w):
+            m.write(TOUCH + 2 * i, v.to_bytes(2, "little"))
+        m.write(TOUCH + 8, tail); m.w8(SYS + 0x671, flag)
+    return Case([], setup, ret=V)
+
+
+TESTS[0x40069CF8] = t_touch
+TESTS[0x4006904C] = t_touch

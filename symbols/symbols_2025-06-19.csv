@@ -1385,14 +1385,14 @@ address,size,name,type,evidence_level,source
 0x40067114,8,pool_40067114,literal_pool,DERIVED,analyze.py
 0x4006711C,12,debug_printf_stub,function_arm,DERIVED,this-project:phase5 (UART/printf)
 0x40067128,12,serializer_set_cursor,function_arm,DERIVED,this-project:phase5 (UART/printf)
-0x40067134,16,serializer_set_encode_mode,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:619
-0x40067144,16,serializer_set_decode_mode,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:620
-0x40067154,12,func_40067154,function_arm,DERIVED,analyze.py:rea
-0x40067160,280,serializer_encode_scalar_be,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:621
-0x40067278,48,serializer_encode_field,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:622
-0x400672A8,376,serializer_decode_scalar_be,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:623
-0x40067420,48,serializer_decode_field,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:624
-0x40067450,20,serializer_process_field,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:625
+0x40067134,16,serializer_set_encode_mode,function_arm,DERIVED,this-project:phase5 (serializer; name: Hack)
+0x40067144,16,serializer_set_decode_mode,function_arm,DERIVED,this-project:phase5 (serializer; name: Hack)
+0x40067154,12,serializer_get_cursor,function_arm,DERIVED,this-project:phase5 (serializer)
+0x40067160,280,serializer_encode_scalar_be,function_arm,DERIVED,this-project:phase5 (serializer; name: Hack)
+0x40067278,48,serializer_encode_field,function_arm,DERIVED,this-project:phase5 (serializer; name: Hack)
+0x400672A8,376,serializer_decode_scalar_be,function_arm,DERIVED,this-project:phase5 (serializer; name: Hack)
+0x40067420,48,serializer_decode_field,function_arm,DERIVED,this-project:phase5 (serializer; name: Hack)
+0x40067450,20,serializer_process_field,function_arm,DERIVED,this-project:phase5 (serializer; name: Hack)
 0x40067464,20,pool_40067464,literal_pool,DERIVED,analyze.py
 0x40067478,8,readl_b,function_arm,DERIVED,this-project:phase5 (ldr r0 [r0]; watchdog file)
 0x40067480,8,writel_b,function_arm,DERIVED,this-project:phase5 (str r1 [r0]; watchdog file)
@@ -1443,15 +1443,15 @@ address,size,name,type,evidence_level,source
 0x40068E5C,8,__aeabi_memclr4,function_arm,DERIVED,this-project:phase5 (movs r2 #0 then b __aeabi_memset4)
 0x40068E64,8,readl_c,function_arm,DERIVED,this-project:phase5 (ldr r0 [r0])
 0x40068E6C,8,writel_c,function_arm,DERIVED,this-project:phase5 (str r1 [r0])
-0x40068E74,28,func_40068e74,function_arm,DERIVED,analyze.py:rea
+0x40068E74,28,lradc_data_read,function_arm,DERIVED,this-project:phase5 (platform)
 0x40068E90,4,pool_40068e90,literal_pool,DERIVED,analyze.py
 0x40068E94,116,func_40068e94,function_arm,DERIVED,analyze.py:rea
 0x40068F08,92,exp,function_thumb,DERIVED,this-project:phase5 (emulation vs math.exp)
 0x40068F64,20,func_40068f64,function_arm,DERIVED,analyze.py:gap-code
 0x40068F78,160,func_40068f78,function_arm,DERIVED,analyze.py:rea
-0x40069018,28,func_40069018,function_arm,DERIVED,analyze.py:prologue
-0x40069034,24,func_40069034,function_arm,DERIVED,analyze.py:rea
-0x4006904C,56,func_4006904c,function_arm,DERIVED,analyze.py:rea
+0x40069018,28,usb_mode_enter,function_arm,DERIVED,this-project:phase5 (usb)
+0x40069034,24,usb_mode_exit,function_arm,DERIVED,this-project:phase5 (usb)
+0x4006904C,56,touch_moved_flag,function_arm,DERIVED,this-project:phase5 (touch)
 0x40069084,96,func_40069084,function_arm,DERIVED,analyze.py:rea
 0x400690E4,108,func_400690e4,function_arm,DERIVED,analyze.py:rea
 0x40069150,132,func_40069150,function_arm,DERIVED,analyze.py:rea
@@ -1469,7 +1469,7 @@ address,size,name,type,evidence_level,source
 0x40069AFC,8,func_40069afc,function_arm,DERIVED,analyze.py:rea
 0x40069B04,8,func_40069b04,function_arm,DERIVED,analyze.py:rea
 0x40069B0C,492,func_40069b0c,function_arm,DERIVED,analyze.py:rea
-0x40069CF8,96,func_40069cf8,function_arm,DERIVED,analyze.py:rea
+0x40069CF8,96,touch_drag_delta,function_arm,DERIVED,this-project:phase5 (touch)
 0x40069D58,56,pool_40069d58,literal_pool,DERIVED,analyze.py
 0x40069D90,100,ff_uni2oem,function_arm,DERIVED,FatFs ffunicode.c (called with cp=437)
 0x40069DF4,68,ff_oem2uni,function_arm,DERIVED,FatFs ffunicode.c (called with cp=437)

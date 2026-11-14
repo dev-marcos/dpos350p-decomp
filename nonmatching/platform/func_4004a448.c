@@ -20,6 +20,6 @@ void battery_service(void)
         auto_off_check();
         return;
     }
-    g_batt_sum = func_40068e74() + g_batt_sum;
+    g_batt_sum = lradc_data_read() + g_batt_sum;
     g_batt_count = g_batt_count + 1;
 }

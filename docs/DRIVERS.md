@@ -294,6 +294,40 @@ C: `tools/platform_spec/i_acq_control.py`. Tests: `tools/emu/tests/fpga.py` (fou
   fragments by the analyser) and the fragment at 0x4003FFE4; `final_per_channel_normalization`
   (0x4003FE14).
 
+## Settings serialiser, code page, strlen, USB veneers (batch 15)
+
+C: `tools/platform_spec/j_serializer.py`. Tests: `tools/emu/tests/fpga.py` (fifth part).
+
+- **Serialiser** (Hack names). It encodes or decodes fields into a big-endian image at
+  SYS_INFO+0x360404 (0x408A526C):
+  - the cursor is at 0x4091F38C (SYS_INFO+0x3DA524);
+  - the mode byte at 0x4091F390 is 0 for encode and 1 for decode;
+  - `serializer_process_field(p, size)` picks encode or decode by the mode, then advances the
+    cursor;
+  - sizes 1, 2, 4 and 8 are handled; any other size does nothing but still advances the cursor.
+
+  The encoder re-reads the source for every byte, and the decoder stores each partial result.
+  The C keeps both through `volatile`.
+- **FatFs code page** (ffunicode.c, CP437 only; table of the upper half at 0x4008C50C):
+  - `ff_uni2oem`: an unmatched character gives 0, because (0x80 + 0x80) & 0xFF = 0;
+  - `ff_oem2uni`: the comparison with 0x80 is signed, and the value is returned untruncated;
+  - `ff_wtoupper`: the R0.13b algorithm with tables at 0x400877AC and 0x4008C6E0.
+- **`strlen`**: the stock code scans a word at a time once aligned; the result is the same.
+- **USB mass-storage veneers** `usb_mass_disk_read/write`. When the SD state (0x40095490) is 1
+  they call 0x4006A738 / 0x4006A868, otherwise they return their first argument. Stock quirk
+  kept: the callee also receives r3 = 0x40095490.
+- **USB mode switches**:
+  - `usb_mode_enter` runs 0x4006A98C, then `usb_device_init(4)`;
+  - `usb_mode_exit` runs `usb_device_exit`, then `disk_remount`.
+- **`lradc_data_read`** (was `func_40068e74`) returns LRADC data register 0 (0x01C2280C) & 0x3F.
+  The battery service reads it. The block address is from the V3s manual.
+- **Touch helpers**:
+  - `touch_drag_delta`: the second point minus the first, divided by 10 when SYS_INFO+0x671 is
+    set, stored at 0x42E68998+0x30/+0x34;
+  - `touch_moved_flag`: 0x42E68998 = 0x12 when the second point is not (0, 0), else 0.
+- **Skipped**: 0x40066FB8..0x40067078 are fragments of a split formatting function (they pop a
+  frame they never pushed), so they wait until that function is merged.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

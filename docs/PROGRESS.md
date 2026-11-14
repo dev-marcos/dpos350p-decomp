@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 592 | 43.72% | 69902 | 20.71% |
+| EQUIVALENT | 611 | 45.13% | 71514 | 21.19% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 762 | 56.28% | 267602 | 79.29% |
+| ASM | 743 | 54.87% | 265990 | 78.81% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 592 (44.21%) | 337104 | 69902 (20.74%) |
+| main code | 1339 | 611 (45.63%) | 337104 | 71514 (21.21%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -395,6 +395,14 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4006709C` | dbg_printf | 120 | EQUIVALENT | 200 | `nonmatching/platform/func_4006709c.c` |
 | `0x4006711C` | debug_printf_stub | 12 | EQUIVALENT | 200 | `nonmatching/platform/func_4006711c.c` |
 | `0x40067128` | serializer_set_cursor | 12 | EQUIVALENT | 200 | `nonmatching/platform/func_40067128.c` |
+| `0x40067134` | serializer_set_encode_mode | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_40067134.c` |
+| `0x40067144` | serializer_set_decode_mode | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_40067144.c` |
+| `0x40067154` | serializer_get_cursor | 12 | EQUIVALENT | 200 | `nonmatching/platform/func_40067154.c` |
+| `0x40067160` | serializer_encode_scalar_be | 280 | EQUIVALENT | 200 | `nonmatching/platform/func_40067160.c` |
+| `0x40067278` | serializer_encode_field | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_40067278.c` |
+| `0x400672A8` | serializer_decode_scalar_be | 376 | EQUIVALENT | 200 | `nonmatching/platform/func_400672a8.c` |
+| `0x40067420` | serializer_decode_field | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_40067420.c` |
+| `0x40067450` | serializer_process_field | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_40067450.c` |
 | `0x40067478` | readl_b | 8 | EQUIVALENT | 300 | `nonmatching/drivers/func_40067478.c` |
 | `0x40067480` | writel_b | 8 | EQUIVALENT | 300 | `nonmatching/drivers/func_40067480.c` |
 | `0x40067488` | wdt_config | 132 | EQUIVALENT | 300 | `nonmatching/drivers/func_40067488.c` |
@@ -436,14 +444,25 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40068E5C` | __aeabi_memclr4 | 8 | EQUIVALENT | 400 | `nonmatching/libc/func_40068e5c.c` |
 | `0x40068E64` | readl_c | 8 | EQUIVALENT | 300 | `nonmatching/drivers/func_40068e64.c` |
 | `0x40068E6C` | writel_c | 8 | EQUIVALENT | 300 | `nonmatching/drivers/func_40068e6c.c` |
+| `0x40068E74` | lradc_data_read | 28 | EQUIVALENT | 200 | `nonmatching/platform/func_40068e74.c` |
 | `0x40068F08` | exp | 92 | EQUIVALENT | 400 | `nonmatching/libm/func_40068f08.c` |
+| `0x40069018` | usb_mode_enter | 28 | EQUIVALENT | 200 | `nonmatching/platform/func_40069018.c` |
+| `0x40069034` | usb_mode_exit | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_40069034.c` |
+| `0x4006904C` | touch_moved_flag | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4006904c.c` |
+| `0x40069CF8` | touch_drag_delta | 96 | EQUIVALENT | 200 | `nonmatching/platform/func_40069cf8.c` |
+| `0x40069D90` | ff_uni2oem | 100 | EQUIVALENT | 200 | `nonmatching/platform/func_40069d90.c` |
+| `0x40069DF4` | ff_oem2uni | 68 | EQUIVALENT | 200 | `nonmatching/platform/func_40069df4.c` |
+| `0x40069E38` | ff_wtoupper | 272 | EQUIVALENT | 200 | `nonmatching/platform/func_40069e38.c` |
 | `0x40069F54` | frexp | 22 | EQUIVALENT | 400 | `nonmatching/libm/func_40069f54.c` |
 | `0x40069FD0` | __pow_core | 842 | EQUIVALENT | 400 | `nonmatching/libm/func_40069fd0.c` |
 | `0x4006A31C` | log | 218 | EQUIVALENT | 400 | `nonmatching/libm/func_4006a31c.c` |
 | `0x4006A4DA` | llabs | 12 | EQUIVALENT | 400 | `nonmatching/libc/func_4006a4da.c` |
 | `0x4006A4E8` | __aeabi_f2lz | 72 | EQUIVALENT | 400 | `nonmatching/libc/func_4006a4e8.c` |
 | `0x4006A530` | __aeabi_llsl | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_4006a530.c` |
+| `0x4006A6A8` | strlen | 84 | EQUIVALENT | 200 | `nonmatching/platform/func_4006a6a8.c` |
 | `0x4006A6FC` | __aeabi_memset4 | 56 | EQUIVALENT | 400 | `nonmatching/libc/func_4006a6fc.c` |
+| `0x4006A964` | usb_mass_disk_read | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_4006a964.c` |
+| `0x4006A978` | usb_mass_disk_write | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_4006a978.c` |
 | `0x4006AA28` | usb_device_write_data_ep_pack | 196 | EQUIVALENT | 200 | `nonmatching/usb/func_4006aa28.c` |
 | `0x4006AAEC` | usb_device_read_data_ep_pack | 44 | EQUIVALENT | 200 | `nonmatching/usb/func_4006aaec.c` |
 | `0x4006AB18` | usb_device_send_nullpack_ep0 | 12 | EQUIVALENT | 200 | `nonmatching/usb/func_4006ab18.c` |

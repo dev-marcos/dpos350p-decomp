@@ -103,7 +103,7 @@ void battery_coeffs_default(void);           /* 0x4004A2A0 */
 #define g_batt_slope   (*(volatile float *)0x42E68C94u)
 #define g_batt_base    (*(volatile float *)0x42E68C98u)
 #define g_batt_offset  (*(volatile float *)0x42E68C9Cu)
-u32  func_40068e74(void);                    /* LRADC read */
+u32  lradc_data_read(void);                  /* 0x40068E74 LRADC read */
 void timer_stop(int n);                      /* 0x40042C40 */
 void func_400342cc(void);                    /* screen helper before the shutdown image (OPEN) */
 void charge_status_read(void);               /* 0x4004A278 */
