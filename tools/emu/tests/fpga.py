@@ -506,7 +506,7 @@ def lane_stubs():
     def copy(m, a):
         n, buf = a[1], a[2]
         m.write(buf, bytes(m.srng.getrandbits(8) for _ in range(min(n, 256))))
-    return (rec("func_4003f948", 0x4003F948, 0), rec("acquisition_prepare", 0x4003FA10, 0), rec("func_4003fcc0", 0x4003FCC0, 0),
+    return (rec("fpga_sample_count_write", 0x4003F948, 1), rec("acquisition_prepare", 0x4003FA10, 0), rec("func_4003fcc0", 0x4003FCC0, 0),
             Stub("lane_copy", 0x400406A4, copy, 3))
 
 
@@ -720,3 +720,110 @@ def t_resample(r):
 
 TESTS[0x4004D49C] = t_resample
 TESTS[0x4004D730] = t_resample
+
+
+
+# ================================================================ batch 14: acquisition control
+MEMCPY = rec("memcpy", 0x40035724, 3)
+for _a in (0x4003F024, 0x4003F034, 0x4003F044, 0x4003F054, 0x4003F088, 0x4003F098, 0x4003F0A8):
+    TESTS[_a] = lambda r: Case([], ret=V, stubs=(MEMCPY,))
+TESTS[0x4003F064] = lambda r: Case([], ret=V, stubs=(MEMCPY, rec("ef1c", 0x4003EF1C, 0)))
+TESTS[0x4003F0C0] = lambda r: Case([], ret=V, stubs=tuple(rec("s%x" % a, a, 0) for a in (0x4003F024, 0x4003F034, 0x4003F044, 0x4003F054)))
+TESTS[0x4003F0E0] = lambda r: Case([], ret=V, stubs=tuple(rec("s%x" % a, a, 0) for a in (0x4003F064, 0x4003F088, 0x4003F098, 0x4003F0A8)))
+TESTS[0x4003F894] = lambda r: Case([], ret=V, stubs=tuple(rec("s%x" % a, a, 0) for a in (0x4003F2F4, 0x4003F160, 0x40063F04, 0x40063CD0, 0x40063CB0)))
+for _a, _t in ((0x4003FAB0, 0x400636BC), (0x4003FAB4, 0x40063714), (0x4003FAE4, 0x40063798)):
+    TESTS[_a] = (lambda t: lambda r: Case([r.getrandbits(32)], ret=V, stubs=(rec("t", t, 1),)))(_t)
+PIO = (rec("pio_set_bit", 0x40063274, 2), rec("pio_clr_bit", 0x40063288, 2))
+TESTS[0x4003F9F8] = lambda r: Case([], ret=V, stubs=PIO)
+TESTS[0x4003FA04] = lambda r: Case([], ret=V, stubs=PIO)
+
+# FPGA selector writers/readers
+for _a in (0x4003F8B8, 0x4003F8E0, 0x4003F910, 0x4003F9D0, 0x4003FA10):
+    TESTS[_a] = sel_case()
+TESTS[0x4003F948] = fcase(lambda r: [r.choice([0, 1, 2, 3, 0x80000001, r.getrandbits(32), r.getrandbits(16)])])
+TESTS[0x4003F988] = fcase(lambda r: [small_or_big(r)])
+TESTS[0x4003FA94] = fcase(lambda r: [small_or_big(r)])
+TRIG = rec("fpga_trigger_pos_write", 0x4003F988, 1)
+TESTS[0x4003FAB8] = lambda r: Case([], sys_bytes(r, 0x500, 0x700, {0x520: (4, r.choice([1, 7, 1000, 4750, r.getrandbits(32) | 1]))}),
+                                   ret=V, stubs=(TRIG,))
+
+
+def trig_ov(r, loop_safe=False):
+    """SYS fields used by the trigger offset arithmetic; non-zero divisors"""
+    neg = r.random() < 0.2
+    num = r.randrange(0, 10 ** 6) if loop_safe else r.getrandbits(48)
+    den = r.randrange(1, 100)
+    if neg:
+        num, den = -num, -den if r.random() < 0.5 else den
+    ov = {0x570: (8, num), 0x590: (8, den), 0x564: (4, r.randrange(1, 10)), 0x560: (4, r.randrange(1, 10)),
+          0x558: (4, r.randrange(1, 10)), 0x1B1: (1, r.randrange(1, 5)), 0x2B4: (4, r.getrandbits(32)),
+          0x2BC: (4, r.getrandbits(32) if r.random() < 0.7 else r.randrange(0, 100)),
+          0x290: (4, r.getrandbits(32) if r.random() < 0.7 else r.randrange(0, 100))}
+    if loop_safe:
+        ov[0x520] = (4, r.randrange(10 ** 6, 2 ** 32) if r.random() < 0.7 else r.randrange(10 ** 8, 2 ** 32))
+        ov[0x274] = (1, r.choice([0, 1, 1, 1, 7]))
+        ov[0x275] = (1, r.choice([0, 1, 1, 1, 9]))
+    else:
+        ov[0x520] = (4, r.choice([1, 3, 1000, 4750, r.getrandbits(32) | 1]))
+    return ov
+
+
+TESTS[0x4003FAE8] = lambda r: Case([], sys_bytes(r, 0x100, 0x700, trig_ov(r)), ret=V,
+                                   stubs=(rec("v6bc", 0x4003FAB0, 0), rec("v714", 0x4003FAB4, 0)))
+def t_delay(r):
+    ov = trig_ov(r, True)
+    if r.random() < 0.3:          # delay exactly 0 or -L before the wrap loop (the d < 1 boundary)
+        L = r.randrange(1, 10 ** 6)
+        h = r.randrange(L, 10 ** 7)
+        ov.update({0x570: (8, 0), 0x520: (4, L), 0x2BC: (4, 2 * h), 0x290: (4, h - r.choice([0, L, 2 * L]) + r.choice([0, 0, 1])),
+                   0x274: (1, 1), 0x275: (1, 1)})
+    return Case([], sys_bytes(r, 0x100, 0x700, ov), ret=V, stubs=(rec("trigger_pos_update", 0x4003FAB8, 0),))
+
+
+TESTS[0x4003FB90] = t_delay
+
+
+def t_wait(r):
+    done_at = r.choice([1, 2, 5, 2499, 2500, 2501, 2503, 2600])
+    touch_at = r.choice([1, 2, 3, 50, 10 ** 6])
+    tch = bytes(r.getrandbits(8) for _ in range(0x18))
+    f38 = r.getrandbits(8) | 1
+
+    def setup(m):
+        m.write(TOUCH, tch); m.w8(TOUCH + 0x15, 0); m.w8(SYS + 0x38, f38)
+        m.acq = [0, 0]
+
+    def rd(m, a):
+        m.acq[0] += 1
+        return 0xFF if m.acq[0] >= done_at else 0xFE
+
+    def svc(m, a):
+        m.acq[1] += 1
+        if m.acq[1] >= touch_at:
+            m.w8(TOUCH + 0x15, 1)
+    stubs = (Stub("fpga_cmd", 0x4004927C, lambda m, a: None, 1), Stub("fpga_rd", 0x400491B8, rd, 0),
+             Stub("runtime_event_service", 0x40049B08, svc, 0))
+    return Case([], setup, ret=V, stubs=stubs)
+
+
+TESTS[0x4003FCC0] = t_wait
+
+
+def t_class(r):
+    rate = r.choice([1, 10, 100, 4750, 1000, r.randrange(1, 10 ** 6)])
+    k = r.randrange(1, 5)
+    p1 = (22000000 // rate) * k
+    p2 = (250000000 // rate) * k
+    span = r.choice([p1 - 1, p1, p1 + 1, p2 - 1, p2, p2 + 1, 0, r.getrandbits(64), r.randrange(0, 2 * p2 + 2)]) & (2 ** 64 - 1)
+    scale = r.choice([0.0, 1.0, 22.9, 23.0, 23.5, 100.0, -5.0, 0.37])
+    n55c, n554 = r.choice([(1, 1), (23, 1), (46, 2), (100, 4), (r.getrandbits(16), r.randrange(1, 1000))])
+    div = r.randrange(1, 1000)
+    amp = r.choice([24 * div, 25 * div, 25 * div - 1, r.getrandbits(32)])
+    ch = r.choice([0, 1, 2, 0xFFFFFFFF])
+    ov = {0x524: (4, rate), 0x1B1: (1, k), 0x55C: (4, n55c), 0x554: (4, n554), 0x1C0: (4, div),
+          0xB68: (4, amp), 0xB90: (4, amp), 0xB70: (4, f32(scale)), 0xB98: (4, f32(scale)),
+          0xB78: (8, span), 0xBA0: (8, span ^ (r.getrandbits(1) if r.random() < 0.2 else 0))}
+    return Case([ch], sys_bytes(r, 0x500, 0xC00, ov), ret=V)
+
+
+TESTS[0x4003FD10] = t_class

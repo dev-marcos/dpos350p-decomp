@@ -243,6 +243,57 @@ C: `tools/platform_spec/h_generator.py`. Tests: `tools/emu/tests/fpga.py` (third
   analyser split it off. `__aeabi_d2ulz` is Thumb with the base AAPCS, so the C calls it through
   its Thumb address.
 
+## Acquisition control (batch 14)
+
+C: `tools/platform_spec/i_acq_control.py`. Tests: `tools/emu/tests/fpga.py` (fourth part).
+
+- **State backup / restore** (all STATIC-CONFIRMED copies through `memcpy`):
+
+  | Block | Size | Copy at |
+  |---|---|---|
+  | SYS_INFO 0x40544E68 | 0x3DD588 | 0x409223F0 |
+  | generator block G 0x42E3F984 | 0x2F70 | 0x42E428F4 |
+  | 0x42E180C8 | 0xAD20 | 0x42E22DE8 |
+  | 0x42E68668 | 0x198 | 0x42E68800 |
+
+  `state_backup_all` (0x4003F0C0) saves all four and `state_restore_all` (0x4003F0E0) restores
+  them. `system_calibration` brackets the factory calibration with this pair. Restoring SYS_INFO
+  also runs 0x4003EF1C. What the third and fourth blocks hold is OPEN.
+- **FPGA acquisition selectors** (bus primitives from batch 8):
+  - 0x08: written 0 then 1 (re-arm);
+  - 0x09: 16-bit value from SYS_INFO+0x6F0, high byte first;
+  - 0x0A: read, bit 0 → SYS_INFO+0x38 (acquisition done);
+  - 0x0B: read, bit 0 → SYS_INFO+0x6EE;
+  - 0x0E: 32-bit sample count minus 2, MSB first;
+  - 0x1F: one byte;
+  - 0x20 + strobe 0x21 (0 then 1): 16-bit trigger position;
+  - `acquisition_prepare` (Hack name): 0x0F=0, 0x01 pulse 1→0, 0x11 pulse 0→1,
+    0x02 ← SYS_INFO+0xBB3, 0x0F=1.
+- **Trigger arithmetic** (DERIVED meaning; the arithmetic itself is STATIC-CONFIRMED). With
+  L = SYS_INFO+0x520 (record length) and k = (SYS+0x570 / SYS+0x590 / SYS+0x564) × SYS+0x560 ×
+  SYS+0x558 / SYS+0x1B1 (signed 64-bit divisions):
+  - `trigger_offsets_update`: a = SYS+0x2BC/2 + k; SYS+0x288 = a mod L, SYS+0x28C =
+    (SYS+0x2BC − a) mod L;
+  - `consumer_translator_of_the_16_bit` (Hack name): the delay SYS+0x63C = SYS+0x290 −
+    SYS+0x2BC/2 − k, raised by whole records until it is ≥ 1, or 1 when SYS+0x274/0x275 is 0.
+    It then sends the trigger position and sets SYS+0x2A0;
+  - `trigger_pos_update`: position = (L + SYS+0x63C − SYS+0x6F2) mod L, sent via 0x20/0x21.
+- **`acq_wait_done`** polls selector 0x0A. After 2500 polls it also runs `runtime_event_service`
+  on each poll, and gives up as soon as a touch event sets the touch block's busy flag.
+- **`amplitude_statistical_normalization`** (Hack name; the code classifies, it does not
+  normalise) writes a class per channel to SYS+0x51C / 0x51D:
+  - 0 when the 64-bit sample span is below 22,000,000 / rate × SYS+0x1B1 (rate = SYS+0x524),
+    or when the amplitude / SYS+0x1C0 is below 25;
+  - 2 when the span reaches 250,000,000 / rate × SYS+0x1B1 and SYS+0x55C × scale / SYS+0x554
+    is at least 23;
+  - 1 otherwise.
+- **Fix to batch 12**: `lane_level_sum` passes the acquisition length n × 12 / 10 in r0 to
+  `fpga_sample_count_write`. The batch 12 C called it with no argument, and its stub did not record
+  r0. The C and the stub now pass and check it.
+- **Not rewritten here**: the time-base switch at 0x4003F160..0x4003F868 (one function split into
+  fragments by the analyser) and the fragment at 0x4003FFE4; `final_per_channel_normalization`
+  (0x4003FE14).
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

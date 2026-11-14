@@ -568,17 +568,17 @@ address,size,name,type,evidence_level,source
 0x4003EEB0,108,func_4003eeb0,function_arm,DERIVED,analyze.py:rea
 0x4003EF1C,144,func_4003ef1c,function_arm,DERIVED,analyze.py:rea
 0x4003EFAC,120,func_4003efac,function_arm,DERIVED,analyze.py:rea
-0x4003F024,16,func_4003f024,function_arm,DERIVED,analyze.py:rea
-0x4003F034,16,func_4003f034,function_arm,DERIVED,analyze.py:rea
-0x4003F044,16,func_4003f044,function_arm,DERIVED,analyze.py:rea
-0x4003F054,16,func_4003f054,function_arm,DERIVED,analyze.py:gap-code
-0x4003F064,36,func_4003f064,function_arm,DERIVED,analyze.py:rea
-0x4003F088,16,func_4003f088,function_arm,DERIVED,analyze.py:rea
-0x4003F098,16,func_4003f098,function_arm,DERIVED,analyze.py:rea
-0x4003F0A8,16,func_4003f0a8,function_arm,DERIVED,analyze.py:gap-code
+0x4003F024,16,sys_info_backup,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003F034,16,gen_state_backup,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003F044,16,state_c_backup,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003F054,16,state_d_backup,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003F064,36,sys_info_restore,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003F088,16,gen_state_restore,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003F098,16,state_c_restore,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003F0A8,16,state_d_restore,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003F0B8,8,pool_4003f0b8,literal_pool,DERIVED,analyze.py
-0x4003F0C0,32,func_4003f0c0,function_arm,DERIVED,analyze.py:rea
-0x4003F0E0,32,func_4003f0e0,function_arm,DERIVED,analyze.py:rea
+0x4003F0C0,32,state_backup_all,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003F0E0,32,state_restore_all,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003F100,96,pool_4003f100,literal_pool,DERIVED,analyze.py
 0x4003F160,404,func_4003f160,function_arm,DERIVED,analyze.py:rea
 0x4003F2F4,432,func_4003f2f4,function_arm,DERIVED,analyze.py:rea
@@ -606,25 +606,25 @@ address,size,name,type,evidence_level,source
 0x4003F6CC,28,func_4003f6cc,function_arm,DERIVED,analyze.py:gap-code
 0x4003F6E8,28,func_4003f6e8,function_arm,DERIVED,analyze.py:gap-code
 0x4003F704,400,func_4003f704,function_arm,DERIVED,analyze.py:gap-code
-0x4003F894,36,func_4003f894,function_arm,DERIVED,analyze.py:prologue
-0x4003F8B8,40,func_4003f8b8,function_arm,DERIVED,analyze.py:rea
-0x4003F8E0,48,pulse_fpga_selector_0x08_0_1,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:565
-0x4003F910,56,write_sys_info_0x6f0_to_fpga,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:564
-0x4003F948,64,func_4003f948,function_arm,DERIVED,analyze.py:rea
-0x4003F988,72,func_4003f988,function_arm,DERIVED,analyze.py:prologue
-0x4003F9D0,40,func_4003f9d0,function_arm,DERIVED,analyze.py:rea
-0x4003F9F8,12,func_4003f9f8,function_arm,DERIVED,analyze.py:rea
-0x4003FA04,12,func_4003fa04,function_arm,DERIVED,analyze.py:rea
-0x4003FA10,132,acquisition_prepare,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/STOCK_LIKE_MINIMAL_RUNTIME.md:489
-0x4003FA94,28,func_4003fa94,function_arm,DERIVED,analyze.py:rea
-0x4003FAB0,4,func_4003fab0,function_arm,DERIVED,analyze.py:rea
-0x4003FAB4,4,func_4003fab4,function_arm,DERIVED,analyze.py:gap-code
-0x4003FAB8,44,func_4003fab8,function_arm,DERIVED,analyze.py:rea
-0x4003FAE4,4,func_4003fae4,function_arm,DERIVED,analyze.py:rea
-0x4003FAE8,168,func_4003fae8,function_arm,DERIVED,analyze.py:rea
-0x4003FB90,304,consumer_translator_of_the_16_bit,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2459
-0x4003FCC0,80,func_4003fcc0,function_arm,DERIVED,analyze.py:rea
-0x4003FD10,260,amplitude_statistical_normalization,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2417
+0x4003F894,36,timebase_apply,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003F8B8,40,runtime_ready_read,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003F8E0,48,pulse_fpga_selector_0x08_0_1,function_arm,DERIVED,this-project:phase5 (acquisition; name: Hack ACQUISITION.md)
+0x4003F910,56,write_sys_info_0x6f0_to_fpga,function_arm,DERIVED,this-project:phase5 (acquisition; name: Hack ACQUISITION.md)
+0x4003F948,64,fpga_sample_count_write,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003F988,72,fpga_trigger_pos_write,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003F9D0,40,acq_done_read,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003F9F8,12,pe0_set,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003FA04,12,pe0_clr,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003FA10,132,acquisition_prepare,function_arm,DERIVED,this-project:phase5 (acquisition; name: Hack STOCK_LIKE_MINIMAL_RUNTIME.md)
+0x4003FA94,28,fpga_write_sel_0x1f,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003FAB0,4,veneer_400636bc,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003FAB4,4,veneer_40063714,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003FAB8,44,trigger_pos_update,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003FAE4,4,veneer_40063798,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003FAE8,168,trigger_offsets_update,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003FB90,304,consumer_translator_of_the_16_bit,function_arm,DERIVED,this-project:phase5 (acquisition; name: Hack FPGA.md)
+0x4003FCC0,80,acq_wait_done,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003FD10,260,amplitude_statistical_normalization,function_arm,DERIVED,this-project:phase5 (acquisition; name: Hack FPGA.md)
 0x4003FE14,464,final_per_channel_normalization,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2421
 0x4003FFE4,32,func_4003ffe4,function_arm,DERIVED,analyze.py:prologue
 0x40040004,44,func_40040004,function_arm,DERIVED,analyze.py:pointer

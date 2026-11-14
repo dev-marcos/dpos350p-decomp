@@ -323,9 +323,9 @@ u32 lane_level_sum(u32 start, u32 lane, u32 ch, u32 n, unsigned char *buf)
     if (start) {
         SYS32(0x30) = (n * 12) / 10;
         SYS32(0x34) = 0;
-        func_4003f948();
+        fpga_sample_count_write((n * 12) / 10);
         acquisition_prepare();
-        func_4003fcc0();
+        acq_wait_done();
     }
     func_400406a4(lane, n, buf);
     for (i = 0; i < n; i++) {

@@ -116,6 +116,19 @@ MUTANTS = [
     (0x4004D390, "t = t - hd;", "t = t - hd - 1.0;"),                               # normalisation shift
     (0x4004D1B4, "v = fr != 0 ? (u32)g[0x60 / 4] / fr : mx;", "v = fr != 0 ? (u32)g[0x60 / 4] / (fr + 1) : mx;"),  # period length
     (0x4004D49C, "GEN_BUF[0] = GEN_BUF[1];", "GEN_BUF[0] = GEN_BUF[2];"),           # resample edge repeat
+    # batch 14: acquisition control
+    (0x4003F948, "u32 v = n - 2;", "u32 v = n - 1;"),                                  # sample count bias
+    (0x4003FAB8, "u32 v = L + SYS32(0x63C)", "u32 v = SYS32(0x63C)"),                  # wrap term
+    (0x4003FAE8, "t = __aeabi_ldivmod(t, (long long)SYS8(0x1B1));", "t = __aeabi_ldivmod(t, 1);"),
+    (0x4003FAE8, "b = r4 - a;", "b = a - r4;"),
+    (0x4003FB90, "while (d < 1)", "while (d < 0)"),                                    # strictly positive delay
+    (0x4003FB90, "SYS32(0x63C) = 1;", "SYS32(0x63C) = 0;"),
+    (0x4003FCC0, "if (++n < 2500)", "if (++n < 2499)"),
+    (0x4003FCC0, "if (g_touch->busy2 != 0)", "if (g_touch->busy2 == 0)"),
+    (0x4003FD10, "(int)r5 >= 23", "(int)r5 >= 24"),
+    (0x4003FD10, "if (span < p)", "if (span <= p)"),
+    (0x4003FD10, "< 25)", "< 24)"),
+    (0x4003FA10, "fpga_selector_command_write(0x11); fpga_data_byte_write(1);", "fpga_selector_command_write(0x11); fpga_data_byte_write(0);"),
 ]
 
 

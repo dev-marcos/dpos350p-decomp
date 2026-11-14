@@ -11,7 +11,7 @@ int system_calibration(void)
 {
     u32 i, r;
     int res;
-    func_4003f0c0();
+    state_backup_all();
     memset_w((void *)CAL_OBJ, 0, 0x1A90);
     for (i = 0; i < SYS8(0x1B9); )
         func_4004bfc8(i++ & 0xFF);
@@ -40,7 +40,7 @@ int system_calibration(void)
             break;
         }
     }
-    func_4003f0e0();
+    state_restore_all();
     g_touch->enabled = 1;
     return res;
 }

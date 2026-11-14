@@ -118,9 +118,9 @@ void rate_table_init(void);                  /* 0x4004A550 */
 void retained_inside_current_sc1_3_t6(void); /* 0x4004C544 calibration coefficient selector (Hack name) */
 void vdiv_label(u32 ch, u32 r1, int d_in, int unit_in);   /* 0x4004A884 */
 long long __aeabi_ldivmod(long long n, long long d);       /* 0x4003453C */
-void func_4003f948(void);                    /* acquisition helpers (OPEN) */
+void fpga_sample_count_write(u32 n);         /* 0x4003F948 */
 void acquisition_prepare(void);              /* 0x4003FA10 (Hack name) */
-void func_4003fcc0(void);
+void acq_wait_done(void);                    /* 0x4003FCC0 */
 void func_400406a4(u32 lane, u32 n, unsigned char *buf);  /* copies one lane's raw samples */
 u32  lane_level_sum(u32 start, u32 lane, u32 ch, u32 n, unsigned char *buf);   /* 0x4004ACC8 */
 void func_4003e708(void);                    /* SysConfigExec (Hack FPGA.md section 18) */
@@ -153,14 +153,33 @@ void func_4004eeec(void);
 void func_4004d880(void);
 void func_4004ed18(void);
 void gen_table_repeat_default(void);                                /* 0x4004D094 */
-void func_4003f0c0(void);
-void func_4003f0e0(void);
+void state_backup_all(void);                 /* 0x4003F0C0 */
+void state_restore_all(void);                /* 0x4003F0E0 */
 void func_4004bfc8(u32 row);                                        /* per-row calibration (OPEN) */
 void func_4004b0a0(void);                                           /* calibration step (OPEN) */
 int  post_channel_mux_check(u32 vdiv);                              /* 0x4004AF0C */
 void calibration_save_wrapper(void);                                /* 0x40044680 (Hack name) */
 void func_40036b00(void); void func_40036bdc(void); void func_40036ea4(u32 v);
 void gen_load_samples(void);                                        /* 0x4004D12C */
+
+/* ---- acquisition control (batch 14) */
+#define SYS_BACKUP   ((void *)0x409223F0u)     /* copy of SYS_INFO (0x3DD588 bytes) */
+#define SYS_SIZE     0x3DD588u
+void func_4003ef1c(void);
+void func_4003f2f4(void);                    /* time-base set-up (split by the analyser, OPEN) */
+void func_4003f160(void);
+void func_40063f04(void);
+void func_40063cd0(void);
+void func_40063cb0(void);
+void func_400636bc(void);
+void func_40063714(void);
+void func_40063798(void);
+void fpga_trigger_pos_write(u32 v);          /* 0x4003F988 */
+void acq_done_read(void);                    /* 0x4003F9D0 */
+void veneer_400636bc(void);                  /* 0x4003FAB0 */
+void veneer_40063714(void);                  /* 0x4003FAB4 */
+void trigger_pos_update(void);               /* 0x4003FAB8 */
+void runtime_event_service(void);            /* 0x40049B08 */
 
 /* ---- disk glue (FatFs diskio for the SD card, drive 0) */
 #define g_sd_state     (*(volatile u32 *)0x40095490u)   /* 1 = card ready */
