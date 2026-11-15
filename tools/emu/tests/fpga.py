@@ -1138,3 +1138,49 @@ def t_disp(r):
 
 
 TESTS[0x400419CC] = t_disp
+
+
+# ================================================================ batch 18: CSI bank unpacking
+BANKS, CALOBJ = 0x42DF76D4, 0x42E53A0C
+
+
+def conv_state(r):
+    bank = bytes(r.getrandbits(8) for _ in range(8 * 0x2134 + 0x1400))
+    cal = b"".join(_struct.pack("<i", r.choice([1000, 990, 1012, r.randrange(500, 1500), r.randrange(-3000, 3000), r.getrandbits(31)])) for _ in range(16))
+    ov = {0x41: (1, r.randrange(13)), 0x105: (1, r.randrange(13)), 0x1C0: (4, r.choice([1, 2, 10, r.randrange(1, 100)])),
+          0x60: (4, r.randrange(0, 300)), 0x120: (4, r.randrange(0, 300)), 0xE0: (4, r.choice([32, 31, 40, r.randrange(0, 100), r.getrandbits(32)])),
+          0x1A0: (4, r.choice([32, 33, r.randrange(0, 100)])), 0x1B8: (1, r.getrandbits(8)), 0xA: (2, r.choice([480, 400, 0, r.getrandbits(16)])),
+          0x264: (4, r.randrange(0, 32)), 0x6F2: (2, r.randrange(0, 0x1000))}
+    for i in range(13):
+        ov[0x1C4 + 4 * i] = (4, r.choice([r.randrange(1, 5000), r.getrandbits(32)]))
+        ov[0x214 + 4 * i] = (4, r.choice([r.randrange(1, 5000), r.getrandbits(32)]))
+    sb = sys_bytes(r, 0, 0x300, ov)
+
+    def setup(m):
+        sb(m); m.write(BANKS, bank); m.write(CALOBJ + 0x10, cal)
+        m.write(SYS + 0x6F2, _struct.pack("<H", ov[0x6F2][1]))
+    return setup
+
+
+def t_conv(r):
+    n = r.choice([0, 1, 2, 100, r.randrange(0, 600), 0x10000 + 3])
+    stack = [r.choice([0, 3, 7]) | (r.getrandbits(16) << 16 if r.random() < 0.2 else 0), r.randrange(0, 256), n]
+    return Case([r.randrange(8), r.choice([0, 1]), BUF, r.choice([4, 8, 0x10004])], conv_state(r), ret=V, stack=stack)
+
+
+TESTS[0x4004073C] = t_conv
+
+
+def conv_stub():
+    def fn(m, a):
+        q = regs3(m)
+        sp = m.reg(A.UC_ARM_REG_SP)
+        m.calls.append(("conv", q[0], q[1], q[2], q[3], m.r32(sp), m.r32(sp + 4), m.r32(sp + 8)))
+    return Stub("conv*", 0x4004073C, fn, 0)
+
+
+for _a in (0x40040BEC, 0x40040D74, 0x40040E44):
+    TESTS[_a] = lambda r: Case([BUF, r.choice([0, 1])], sys_bytes(r, 0x600, 0x700), ret=V, stubs=(conv_stub(),))
+for _a in (0x400408FC, 0x40040A5C, 0x40040B20):
+    TESTS[_a] = lambda r: Case([BUF, r.choice([0, 1]), r.choice([0, 5, 0x10005, r.getrandbits(32)])], sys_bytes(r, 0x600, 0x700), ret=V,
+                               stubs=(conv_stub(),))

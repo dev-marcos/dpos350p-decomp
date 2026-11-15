@@ -430,6 +430,51 @@ STATIC-CONFIRMED; the roles are DERIVED.
   - the conversion wrappers;
   - `moving_average_and_crossing_alignment_search`.
 
+## CSI bank unpacking: raw ADC bytes to channel samples (batch 18)
+
+C: `tools/platform_spec/m_bank_unpack.py`. Tests: `tools/emu/tests/fpga.py` (eighth part).
+
+This is where the raw ADC data becomes the channel signal. The arithmetic is STATIC-CONFIRMED;
+the meaning of the fields is DERIVED.
+
+- **Banks**:
+  - each capture lands in 8 CSI banks of 0x2134 bytes at 0x42DF76D4 (batch 17);
+  - a bank holds one 8-bit ADC lane, starting at byte SYS16+0x6F2 plus a per-lane phase;
+  - the channel buffer interleaves the lanes. With 8 lanes, sample j of lane i goes to
+    buf[(7 − i) + 8j]; with 4 lanes, to buf[(3 − i) + 4j];
+  - the lane → bank map is SYS_INFO+0x6DC..0x6E3, and the per-lane phase SYS+0x6D4..0x6DB.
+- **`calibration_gain_baseline_clamp_conversion`** (Hack name) converts one lane. Per sample:
+
+  ```
+  q    = gain[V/div] × cal_gain[bank] / 1000          (signed)
+  off  = cal_offset[bank] − q × SYS+0x1B8
+  v    = ((q × raw + off) >> SYS+0x264) − base
+  out  = clamp(base + (k × v) >> 5,  0,  SYS+0x1C0 × SYS16+0xA)
+  ```
+
+  The calibration object is 0x42E53A0C: per-bank gain at +0x10 and offset at +0x30. The
+  per-channel parameters are:
+
+  | | CH1 | CH2 |
+  |---|---|---|
+  | gain | SYS+0x1C4[SYS+0x41] | SYS+0x214[SYS+0x105] |
+  | base | SYS+0x1C0 × SYS+0x60 | SYS+0x1C0 × SYS+0x120 |
+  | k | SYS+0xE0 | SYS+0x1A0 |
+
+  For a bank above 7 or a channel above 1 the stock code reads stale registers, so the C uses 0.
+  The firmware never does this.
+- **Wrappers**:
+  - `bank_unpack_all` and `first_conversion_wrapper` (Hack name) unpack all 8 lanes;
+  - `bank_unpack_0_3` / `bank_unpack_0_3_n` unpack lanes 0–3;
+  - `bank_unpack_4_7` and `second_conversion_wrapper` (Hack name) unpack lanes 4–7.
+
+  The plain ones use SYS16+0x6F4 samples per lane; the `_n` / `*_conversion_wrapper` ones take
+  the count as an argument.
+- **For an external analysis tool**: the samples in SYS+0x7B4 (CH1) / 0x7B8 (CH2) are already
+  calibrated and clamped. The raw 8-bit ADC values only exist in the banks, before this step.
+  Each lane is probably one ADC of a time-interleaved set: 8 for one channel, 4 per channel when
+  both are on (DERIVED from the bank modes, not checked on hardware).
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

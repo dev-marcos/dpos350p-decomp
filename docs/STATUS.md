@@ -1,6 +1,6 @@
 # Project status and resume point
 
-Snapshot from 2026-11-14, after Phase 5 batch 17. All addresses apply to build
+Snapshot from 2026-11-14, after Phase 5 batch 18. All addresses apply to build
 2025-06-19 only. Work is paused here; this page is the place to start from next time.
 
 ## 1. Where things stand
@@ -8,12 +8,12 @@ Snapshot from 2026-11-14, after Phase 5 batch 17. All addresses apply to build
 | Item | State |
 |---|---|
 | `make check` | MATCH, SHA-256 `6635ddd6…cefd58c` |
-| Functions with equivalent C | 641 of 1354 (47.34%) |
-| Code bytes covered by C | 74,486 of 337,504 (22.07%) |
+| Functions with equivalent C | 648 of 1354 (47.86%) |
+| Code bytes covered by C | 76,466 of 337,504 (22.66%) |
 | MATCHING C | 0 by construction: Arm Compiler 5 is not licensed here (docs/COMPILER.md) |
 | Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library) |
-| Mutation self-test | 130/130 mutants detected (`make selftest`) |
-| TEST image | `make testiso`: 402 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
+| Mutation self-test | 137/137 mutants detected (`make selftest`) |
+| TEST image | `make testiso`: 409 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
 | Browser emulator | repo `dev-marcos/dpos350p-emu`, submodule `tools/sim` at `5ed2f7e`, runs fully in the browser (docs/SIM.md) |
 
 The two numbers in the table differ because the finished work is mostly small and medium
@@ -38,6 +38,7 @@ functions. The large ones (UI, the table builders, the calibration steps) are st
 | 15 | settings serialiser, CP437 code page, `ff_wtoupper`, `strlen`, USB disk veneers and mode switches, LRADC read, touch helpers | 19 | DRIVERS.md |
 | 16 | touch-control hit tests and drag helpers, complex helpers, LRADC init, `strcmp`, USB disk geometry | 15 | DRIVERS.md |
 | 17 | acquisition pipeline: dispatcher, sweep path, capture step, CSI capture blocks and banks, channel post-processing | 15 | DRIVERS.md |
+| 18 | CSI bank unpacking: raw ADC lanes to calibrated, interleaved channel samples | 7 | DRIVERS.md |
 
 The exact list, with addresses and case counts, is in PROGRESS.md (`make progress`).
 
@@ -75,10 +76,9 @@ The exact list, with addresses and case counts, is in PROGRESS.md (`make progres
 1. **Rest of 0x40060000–0x4006BFFF**: `mmc_read_csd_cid`, `csi_set_fmt`, the two large touch
    functions 0x400695D0 / 0x40069858, 0x40069B0C, and `func_4006a738/4006a868` behind the USB disk
    veneers. Batches 15–16 did the serialiser, code page and touch helpers.
-2. **Rest of the acquisition pipeline in 0x40040000**: the bank unpackers 0x40040BEC / 0x40040D74 /
-   0x40040E44 (CSI banks to channel samples: the raw ADC data an amplifier-distortion app needs),
-   `full_acquisition_entry`, the conversion wrappers. Batch 17 did the dispatcher, sweep, capture
-   step and capture blocks.
+2. **Rest of the acquisition pipeline in 0x40040000**: `full_acquisition_entry` (1 KB),
+   `moving_average_and_crossing_alignment_search`, 0x400403AC, 0x40040F18..0x40041324. Batches 17–18
+   did the dispatcher, sweep, capture blocks and the bank unpacking (raw ADC to samples).
 3. **Remaining small functions in 0x4003C000 and 0x40034000–0x4003BFFF**, including `main`.
 4. **The time-base switch** (0x4003F160..0x4003F868). First merge the fragments into one function
    in the symbols (`make map` / analyser), then write it.

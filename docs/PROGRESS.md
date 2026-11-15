@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 641 | 47.34% | 74486 | 22.07% |
+| EQUIVALENT | 648 | 47.86% | 76466 | 22.66% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 713 | 52.66% | 263018 | 77.93% |
+| ASM | 706 | 52.14% | 261038 | 77.34% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 641 (47.87%) | 337104 | 74486 (22.10%) |
+| main code | 1339 | 648 (48.39%) | 337104 | 76466 (22.68%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -98,6 +98,13 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x400406DC` | capture_banks_all | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_400406dc.c` |
 | `0x400406FC` | capture_banks_0_3 | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_400406fc.c` |
 | `0x4004071C` | capture_banks_4_7 | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_4004071c.c` |
+| `0x4004073C` | calibration_gain_baseline_clamp_conversion | 444 | EQUIVALENT | 200 | `nonmatching/platform/func_4004073c.c` |
+| `0x400408FC` | first_conversion_wrapper | 352 | EQUIVALENT | 200 | `nonmatching/platform/func_400408fc.c` |
+| `0x40040A5C` | bank_unpack_0_3_n | 192 | EQUIVALENT | 200 | `nonmatching/platform/func_40040a5c.c` |
+| `0x40040B20` | second_conversion_wrapper | 192 | EQUIVALENT | 200 | `nonmatching/platform/func_40040b20.c` |
+| `0x40040BEC` | bank_unpack_all | 384 | EQUIVALENT | 200 | `nonmatching/platform/func_40040bec.c` |
+| `0x40040D74` | bank_unpack_0_3 | 208 | EQUIVALENT | 200 | `nonmatching/platform/func_40040d74.c` |
+| `0x40040E44` | bank_unpack_4_7 | 208 | EQUIVALENT | 200 | `nonmatching/platform/func_40040e44.c` |
 | `0x400417E4` | one_runtime_capture_step | 308 | EQUIVALENT | 200 | `nonmatching/platform/func_400417e4.c` |
 | `0x40041918` | full_acquisition_veneer | 4 | EQUIVALENT | 200 | `nonmatching/platform/func_40041918.c` |
 | `0x4004191C` | runtime_sweep_path | 176 | EQUIVALENT | 200 | `nonmatching/platform/func_4004191c.c` |

@@ -644,17 +644,17 @@ address,size,name,type,evidence_level,source
 0x400406DC,32,capture_banks_all,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x400406FC,32,capture_banks_0_3,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4004071C,32,capture_banks_4_7,function_arm,DERIVED,this-project:phase5 (acquisition)
-0x4004073C,444,calibration_gain_baseline_clamp_conversion,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2411
+0x4004073C,444,calibration_gain_baseline_clamp_conversion,function_arm,DERIVED,this-project:phase5 (acquisition; name: Hack)
 0x400408F8,4,pool_400408f8,literal_pool,DERIVED,analyze.py
-0x400408FC,352,first_conversion_wrapper,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2461
-0x40040A5C,192,func_40040a5c,function_arm,DERIVED,analyze.py:rea
+0x400408FC,352,first_conversion_wrapper,function_arm,DERIVED,this-project:phase5 (acquisition; name: Hack)
+0x40040A5C,192,bank_unpack_0_3_n,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40040B1C,4,pool_40040b1c,literal_pool,DERIVED,analyze.py
-0x40040B20,192,second_conversion_wrapper,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2462
+0x40040B20,192,second_conversion_wrapper,function_arm,DERIVED,this-project:phase5 (acquisition; name: Hack)
 0x40040BE0,12,pool_40040be0,literal_pool,DERIVED,analyze.py
-0x40040BEC,384,func_40040bec,function_arm,DERIVED,analyze.py:rea
+0x40040BEC,384,bank_unpack_all,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40040D6C,8,pool_40040d6c,literal_pool,DERIVED,analyze.py
-0x40040D74,208,func_40040d74,function_arm,DERIVED,analyze.py:rea
-0x40040E44,208,func_40040e44,function_arm,DERIVED,analyze.py:rea
+0x40040D74,208,bank_unpack_0_3,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x40040E44,208,bank_unpack_4_7,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40040F14,4,pool_40040f14,literal_pool,DERIVED,analyze.py
 0x40040F18,172,func_40040f18,function_arm,DERIVED,analyze.py:rea
 0x40040FC4,204,func_40040fc4,function_arm,DERIVED,analyze.py:rea
