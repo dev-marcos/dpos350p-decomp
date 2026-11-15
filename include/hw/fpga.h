@@ -121,7 +121,7 @@ long long __aeabi_ldivmod(long long n, long long d);       /* 0x4003453C */
 void fpga_sample_count_write(u32 n);         /* 0x4003F948 */
 void acquisition_prepare(void);              /* 0x4003FA10 (Hack name) */
 void acq_wait_done(void);                    /* 0x4003FCC0 */
-void func_400406a4(u32 lane, u32 n, unsigned char *buf);  /* copies one lane's raw samples */
+void capture_with_length(u32 v, u32 len, u32 buf);   /* 0x400406A4: capture len + 20 samples into buf */
 u32  lane_level_sum(u32 start, u32 lane, u32 ch, u32 n, unsigned char *buf);   /* 0x4004ACC8 */
 void func_4003e708(void);                    /* SysConfigExec (Hack FPGA.md section 18) */
 void acquisition_dispatcher(void);           /* 0x400419CC (Hack name) */

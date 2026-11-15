@@ -23,7 +23,7 @@ u32 lane_level_sum(u32 start, u32 lane, u32 ch, u32 n, unsigned char *buf)
         acquisition_prepare();
         acq_wait_done();
     }
-    func_400406a4(lane, n, buf);
+    capture_with_length(lane, n, (u32)buf);
     for (i = 0; i < n; i++) {
         unsigned long long p = (unsigned long long)buf[i] * q;
         u32 lo = (u32)p, hi = (u32)(p >> 32);

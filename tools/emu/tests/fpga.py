@@ -1029,3 +1029,112 @@ def t_geom(r):
 
 
 TESTS[0x4006A98C] = t_geom
+
+
+# ================================================================ batch 17: acquisition pipeline
+FFE4 = rec("timebase_ffe4", 0x4003FFE4, 1)
+TESTS[0x40040030] = lambda r: Case([], sys_bytes(r, 0x200, 0x300), ret=V, stubs=(FFE4,))
+TESTS[0x4004003C] = lambda r: Case([], sys_bytes(r, 0x200, 0x300), ret=V, stubs=(FFE4,))
+TESTS[0x40040048] = lambda r: Case([], sys_bytes(r, 0x200, 0x300, {0x2B0: (4, r.choice([0, 1, 10, 4750, 0xFFFFFFFF, r.getrandbits(32)]))}),
+                                   ret=V, stubs=(FFE4,))
+
+
+def wcr_stub():
+    def fn(m, a):
+        q = regs3(m)
+        m.calls.append(("workspace_copy_and_resampling", q[0], q[1], q[2], q[3], m.r32(m.reg(A.UC_ARM_REG_SP))))
+    return Stub("wcr*", 0x4005C7BC, fn, 0)
+
+
+def t_postproc(r):
+    ov = {0x3E: (1, r.choice([0, 1])), 0x102: (1, r.choice([0, 1])), 0x554: (4, r.choice([1, 5, 100])), 0x55C: (4, r.choice([1, 5, 100, 4]))}
+    return Case([r.choice([0, 1, 2, 7])], sys_bytes(r, 0, 0x800, ov), ret=V,
+                stubs=(rec("tb13", 0x40040048, 0), rec("amp", 0x4003FD10, 1), wcr_stub(), rec("final", 0x4003FE14, 1)))
+
+
+TESTS[0x4004006C] = t_postproc
+TESTS[0x400405E0] = fcase(lambda r: [], state=lambda r: (sys_bytes(r, 0x600, 0x700), None), extra=(rec("fa8", 0x40065FA8, 1),))
+
+
+def t_capblock(r):
+    pre = r.choice([0, 0, 1])
+    base = sys_bytes(r, 0x600, 0x800, {0x70E: (1, pre)})
+
+    def pe0_set(m, a):
+        m.w8(SYS + 0x70E, 1)
+    stubs = (rec("trig", 0x4003FAB8, 0), rec("sel1f", 0x4003FA94, 1), rec("f094", 0x40049094, 1), rec("csi_buf", 0x40066030, 1),
+             rec("timer_stop", 0x40042C40, 1), rec("csi_on", 0x400660AC, 0), Stub("pe0_set", 0x4003F9F8, pe0_set, 0),
+             rec("pe0_clr", 0x4003FA04, 0), rec("timer_start", 0x40042C1C, 1), rec("f108", 0x40066108, 0))
+    return Case([r.getrandbits(32), r.getrandbits(32)], base, ret=V, stubs=stubs)
+
+
+TESTS[0x40040638] = t_capblock
+CAPB = rec("capture_block", 0x40040638, 2)
+TESTS[0x400406A4] = lambda r: Case([r.getrandbits(32) for _ in range(3)], sys_bytes(r, 0x600, 0x700), ret=V, stubs=(CAPB,))
+TESTS[0x400406C8] = lambda r: Case([r.choice([0, 1, 7, 0x7FFF, 0x8000, 0xFFFF, r.getrandbits(32)])], ret=V, stubs=(CAPB,))
+for _a in (0x400406DC, 0x400406FC, 0x4004071C):
+    TESTS[_a] = lambda r: Case([], ret=V, stubs=(rec("capture_bank", 0x400406C8, 1),))
+
+
+def t_step(r):
+    p_ready = r.choice([0.3, 0.9])
+    ov = {0x3E: (1, r.choice([0, 1])), 0x102: (1, r.choice([0, 1])), 0x100: (1, r.choice([0, 1, 2, 3])),
+          0x6EE: (1, 0), 0x6F6: (2, r.randrange(0, 3000)), 0x6FC: (4, r.randrange(0, 5000)), 0x704: (4, r.randrange(0, 5000)),
+          0x7B4: (4, 0x41000000 + r.randrange(0, 0x10000)), 0x7B8: (4, 0x41100000 + r.randrange(0, 0x10000))}
+    base = sys_bytes(r, 0, 0x800, ov)
+
+    def setup(m):
+        base(m); m.w8(TOUCH + 0x15, 0)
+
+    def ready(m, a):
+        m.w8(SYS + 0x6EE, 1 if m.srng.random() < p_ready else 0)
+
+    def svc(m, a):
+        if m.srng.random() < 0.3:
+            m.w8(TOUCH + 0x15, 1)
+    stubs = (Stub("ready", 0x4003F8B8, ready, 0), Stub("svc", 0x40049B08, svc, 0), rec("tb", 0x4004003C, 0), rec("geom", 0x400405E0, 0),
+             rec("all", 0x400406DC, 0), rec("b03", 0x400406FC, 0), rec("b47", 0x4004071C, 0),
+             rec("d74", 0x40040D74, 2), rec("e44", 0x40040E44, 2), rec("bec", 0x40040BEC, 2), rec("copy_u16", 0x40035728, 3))
+    return Case([], seeded(r.getrandbits(32), setup), ret=V, stubs=stubs)
+
+
+TESTS[0x400417E4] = t_step
+TESTS[0x40041918] = lambda r: Case([], ret=V, stubs=(rec("full", 0x400413C8, 0),))
+
+
+def t_sweep(r):
+    tb = bytearray(r.getrandbits(8) for _ in range(0x20))
+    tb[0x18] = r.choice([0, 1, 2, 3, 4, 5, 0x13, 0x12, 6])
+    for o in (0x17, 0x15, 0x0D):
+        tb[o] = r.choice([0, 0, 0, 1])
+    n = r.randrange(0, 6)
+    ov = {8: (2, n), 0x700: (4, r.randrange(0, 4)), 0x38: (1, r.getrandbits(8))}
+    base = sys_bytes(r, 0, 0x800, ov)
+
+    def setup(m):
+        base(m); m.write(TOUCH, bytes(tb))
+
+    def adv(m, a):
+        m.w32(SYS + 0x700, m.r32(SYS + 0x700) + 1)
+
+    def svc(m, a):
+        if m.srng.random() < 0.2:
+            m.w8(TOUCH + 0x15, 1)
+    stubs = (rec("rearm", 0x4003C520, 0), rec("step", 0x400417E4, 0), rec("commit", 0x4003BEB4, 0), rec("pcp", 0x4003C9F4, 0),
+             Stub("adv", 0x4003BF98, adv, 0), rec("w6f0", 0x4003F910, 0), rec("p08", 0x4003F8E0, 0), Stub("svc", 0x40049B08, svc, 0))
+    return Case([], seeded(r.getrandbits(32), setup), ret=V, stubs=stubs)
+
+
+TESTS[0x4004191C] = t_sweep
+
+
+def t_disp(r):
+    tb = bytearray(r.getrandbits(8) for _ in range(0x20))
+    tb[0x17] = r.choice([0, 0, 0, 1])
+    ov = {0x3C: (1, r.choice([0, 0, 1])), 0x28: (1, r.choice([0, 1])), 0x38: (1, r.getrandbits(8))}
+    base = sys_bytes(r, 0, 0x100, ov)
+    return Case([], lambda m: (base(m), m.write(TOUCH, bytes(tb))), ret=V,
+                stubs=(rec("full", 0x40041918, 0), rec("sweep", 0x4004191C, 0), rec("commit", 0x4003BEB4, 0)))
+
+
+TESTS[0x400419CC] = t_disp

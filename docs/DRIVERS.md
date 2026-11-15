@@ -371,6 +371,65 @@ C: `tools/platform_spec/k_touch_misc.py`. Tests: `tools/emu/tests/fpga.py` (sixt
 - **Skipped**: the CP15 helpers (0x4006680C..0x400668BC, cache maintenance 0x4006A5FC), which the
   harness does not emulate, and the Thumb fragments of the maths library.
 
+## Acquisition pipeline (batch 17)
+
+C: `tools/platform_spec/l_acq_pipeline.py`. Tests: `tools/emu/tests/fpga.py` (seventh part).
+
+This is the path that brings CH1/CH2 samples from the FPGA into memory. Call structure is
+STATIC-CONFIRMED; the roles are DERIVED.
+
+- **`acquisition_dispatcher`** (Hack name) runs once per main-loop pass:
+  - it does nothing while touch byte +0x17 is set;
+  - with SYS_INFO+0x3C (stop) set, it only clears SYS+0x38;
+  - otherwise it runs the full acquisition (`full_acquisition_entry`, when SYS+0x28 = 0) or
+    `runtime_sweep_path`, then `runtime_state_commit_copy`.
+- **`runtime_sweep_path`** (Hack name) runs only for run modes 1, 2, 3, 5 and 0x13 (byte
+  0x42E68BC8) and only with no touch activity. It re-arms, then loops while SYS+0x700 <
+  SYS16+8. Each pass runs:
+  1. `one_runtime_capture_step`;
+  2. `runtime_state_commit_copy`;
+  3. `per_channel_processing`;
+  4. `runtime_counter_progress_advance`;
+  5. the 0x09 write and the 0x08 re-arm;
+  6. `runtime_event_service`.
+
+  A touch stops the loop and sets SYS+0x38 = 1.
+- **`one_runtime_capture_step`** (Hack name):
+  1. waits for FPGA ready (selector 0x0B; a touch also ends the wait);
+  2. applies the time base;
+  3. for each enabled channel (CH1 = SYS+0x3E, CH2 = SYS+0x102), writes the stream geometry
+     (selector 0x22) and captures the CSI banks chosen by the bank mode SYS+0x100:
+
+     | Mode | CH1 | CH2 |
+     |---|---|---|
+     | 0 | banks 0–3, then 0x40040D74 | banks 4–7, then 0x40040E44 |
+     | 1 | all 8 banks, then 0x40040BEC | — |
+     | 2 | — | all 8 banks, then 0x40040BEC |
+
+  4. copies SYS16+0x6F6 samples of each channel buffer (SYS+0x7B4 / 0x7B8, from sample SYS+0x704)
+     into the display buffers at 0x42AC7CF4 (+0x62250 for CH2), at index SYS+0x6FC.
+- **`capture_block(v, buf)`**:
+  1. trigger position, selector 0x1F ← v;
+  2. FPGA pins switched to capture (`fpga_pe_mode_select(1)`), `csi_set_buffer(buf)`;
+  3. timer 0 stopped, CSI capture on;
+  4. PE0 high until SYS+0x70E is set (by the CSI interrupt), then PE0 low;
+  5. timer 0 restarted, pins back to the control bus, `csi_clear_frame_flag`.
+
+  `capture_bank(i)` captures bank i into 0x42DF76D4 + i × 0x2134 (8512 bytes per bank).
+  `capture_with_length(v, len, buf)` sets the delay to 20 and the length to len + 20 first.
+  `lane_level_sum` (batch 12) uses it; its old prototype there was a wrong guess, now fixed.
+- **`channel_post_process(ch)`** runs while SYS+0x554 < SYS+0x55C, for an enabled channel. It
+  applies the time base × 1.3, then `amplitude_statistical_normalization`, then
+  `workspace_copy_and_resampling` of the channel buffer, then `final_per_channel_normalization`.
+- **Time-base steps** `timebase_apply_2b4` / `_2b0` / `_2b0_x1_3` call the fragment 0x4003FFE4
+  of the split time-base switch with SYS+0x2B4, SYS+0x2B0 or SYS+0x2B0 × 1.3.
+- **Still assembly in this area**:
+  - `full_acquisition_entry` (1 KB);
+  - the bank unpackers 0x40040BEC / 0x40040D74 / 0x40040E44 (they turn the CSI banks into channel
+    samples, so they are the next step for getting at the raw ADC data);
+  - the conversion wrappers;
+  - `moving_average_and_crossing_alignment_search`.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

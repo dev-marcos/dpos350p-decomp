@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 626 | 46.23% | 73338 | 21.73% |
+| EQUIVALENT | 641 | 47.34% | 74486 | 22.07% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 728 | 53.77% | 264166 | 78.27% |
+| ASM | 713 | 52.66% | 263018 | 77.93% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 626 (46.75%) | 337104 | 73338 (21.76%) |
+| main code | 1339 | 641 (47.87%) | 337104 | 74486 (22.10%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -87,6 +87,21 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4003FB90` | consumer_translator_of_the_16_bit | 304 | EQUIVALENT | 200 | `nonmatching/platform/func_4003fb90.c` |
 | `0x4003FCC0` | acq_wait_done | 80 | EQUIVALENT | 200 | `nonmatching/platform/func_4003fcc0.c` |
 | `0x4003FD10` | amplitude_statistical_normalization | 260 | EQUIVALENT | 200 | `nonmatching/platform/func_4003fd10.c` |
+| `0x40040030` | timebase_apply_2b4 | 12 | EQUIVALENT | 200 | `nonmatching/platform/func_40040030.c` |
+| `0x4004003C` | timebase_apply_2b0 | 12 | EQUIVALENT | 200 | `nonmatching/platform/func_4004003c.c` |
+| `0x40040048` | timebase_apply_2b0_x1_3 | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_40040048.c` |
+| `0x4004006C` | channel_post_process | 164 | EQUIVALENT | 200 | `nonmatching/platform/func_4004006c.c` |
+| `0x400405E0` | stream_geometry_fpga_selector_0x22_configuration | 88 | EQUIVALENT | 200 | `nonmatching/platform/func_400405e0.c` |
+| `0x40040638` | capture_block | 108 | EQUIVALENT | 200 | `nonmatching/platform/func_40040638.c` |
+| `0x400406A4` | capture_with_length | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_400406a4.c` |
+| `0x400406C8` | capture_bank | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_400406c8.c` |
+| `0x400406DC` | capture_banks_all | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_400406dc.c` |
+| `0x400406FC` | capture_banks_0_3 | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_400406fc.c` |
+| `0x4004071C` | capture_banks_4_7 | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_4004071c.c` |
+| `0x400417E4` | one_runtime_capture_step | 308 | EQUIVALENT | 200 | `nonmatching/platform/func_400417e4.c` |
+| `0x40041918` | full_acquisition_veneer | 4 | EQUIVALENT | 200 | `nonmatching/platform/func_40041918.c` |
+| `0x4004191C` | runtime_sweep_path | 176 | EQUIVALENT | 200 | `nonmatching/platform/func_4004191c.c` |
+| `0x400419CC` | acquisition_dispatcher | 92 | EQUIVALENT | 200 | `nonmatching/platform/func_400419cc.c` |
 | `0x400427A0` | readl_e | 8 | EQUIVALENT | 300 | `nonmatching/drivers/func_400427a0.c` |
 | `0x400427A8` | writel_e | 8 | EQUIVALENT | 300 | `nonmatching/drivers/func_400427a8.c` |
 | `0x400427B0` | ccu_set_cpu_pll | 124 | EQUIVALENT | 300 | `nonmatching/drivers/func_400427b0.c` |

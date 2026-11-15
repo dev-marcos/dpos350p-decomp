@@ -116,6 +116,18 @@ MUTANTS = [
     (0x4004D390, "t = t - hd;", "t = t - hd - 1.0;"),                               # normalisation shift
     (0x4004D1B4, "v = fr != 0 ? (u32)g[0x60 / 4] / fr : mx;", "v = fr != 0 ? (u32)g[0x60 / 4] / (fr + 1) : mx;"),  # period length
     (0x4004D49C, "GEN_BUF[0] = GEN_BUF[1];", "GEN_BUF[0] = GEN_BUF[2];"),           # resample edge repeat
+    # batch 17: acquisition pipeline
+    (0x40040048, "* 1.3));", "* 1.25));"),
+    (0x4004006C, "if (SYS32(0x554) >= SYS32(0x55C))", "if (SYS32(0x554) > SYS32(0x55C))"),
+    (0x4004006C, "w >> 1, w & 0xFFFF", "w >> 2, w & 0xFFFF"),
+    (0x400405E0, "w = 0x14 + 2u *", "w = 0x12 + 2u *"),
+    (0x400406C8, "(int)(short)i * 0x2134", "(int)(unsigned short)i * 0x2134"),
+    (0x4004071C, "for (i = 4; i < 8; i++)", "for (i = 4; i < 7; i++)"),
+    (0x400417E4, "} else if (m == 2) {", "} else if (m == 1) {"),
+    (0x400417E4, "+ 0x62250), (const", "+ 0x62200), (const"),
+    (0x4004191C, "mode != 5 && mode != 0x13", "mode != 5 && mode != 0x12"),
+    (0x4004191C, "while (SYS32(0x700) < SYS16(8))", "while (SYS32(0x700) <= SYS16(8))"),
+    (0x400419CC, "if (SYS8(0x28) == 0)", "if (SYS8(0x28) != 0)"),
     # batch 16: touch controls, complex helpers, LRADC, strcmp, USB disk geometry
     (0x400690E4, "if (TS32(0x74) < d1) d1 = 0xFFFF;", "if (TS32(0x74) <= d1) d1 = 0xFFFF;"),
     (0x40069234, "int a = (int)(*(volatile u32 *)(b + 0xAC64) + o);", "int a = (unsigned short)(*(volatile u32 *)(b + 0xAC64) + o);"),
