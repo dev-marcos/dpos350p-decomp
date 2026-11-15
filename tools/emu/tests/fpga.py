@@ -905,3 +905,127 @@ def t_touch(r):
 
 TESTS[0x40069CF8] = t_touch
 TESTS[0x4006904C] = t_touch
+
+
+# ================================================================ batch 16: touch controls, complex helpers, LRADC, strcmp
+TSTATE, OBJ_A, OBJ_B, EN_B = 0x42E68998, 0x42E68668, 0x42E180C8, 0x42E22D28
+
+
+def pos(r):
+    return r.choice([0, 0, r.randrange(0, 800), r.randrange(0, 800), r.randrange(-5, 5), r.getrandbits(16)]) & 0xFFFF
+
+
+def s32(v):
+    return v - (1 << 32) if v & 0x80000000 else v
+
+
+def touch_ctl(r):
+    tp = [pos(r) for _ in range(4)]
+    if r.random() < 0.15:
+        tp[2] = tp[3] = 0
+    st = bytearray(r.getrandbits(8) for _ in range(0x80))
+    for o in (4, 0x60, 0x74):
+        _struct.pack_into("<I", st, o, r.choice([0, 5, 20, 60, 0xFFFF, 0x7FFFFFFF, r.randrange(0, 400), r.getrandbits(32)]))
+    a = bytearray(r.getrandbits(8) for _ in range(0xB8))
+    for o in (0x5C, 0x60, 0xB0):
+        _struct.pack_into("<I", a, o, r.choice([r.randrange(0, 800), r.randrange(0, 40), r.getrandbits(32)]))
+    _struct.pack_into("<I", a, 0x58, r.choice([0, 1, r.getrandbits(32)]))
+    a[3] = r.choice([0, 1, 7])
+    b0 = r.randrange(0, 60) | (r.getrandbits(16) if r.random() < 0.1 else 0)
+    bw = [r.choice([r.randrange(0, 800), r.getrandbits(32), 0x7FFFFFF0]) for _ in range(2)]
+    b46 = r.choice([0, 1])
+    en = r.choice([0, 1, 9])
+    ov = {4: (2, r.choice([0, 30, r.getrandbits(16)])), 6: (2, r.choice([0, 30, r.getrandbits(16)])), 0xA: (2, r.choice([0, 480, 300, r.getrandbits(16)])),
+          0x2AA: (1, r.choice([0, 1])), 0x671: (1, r.choice([0, 1, 4])),
+          0x808: (4, r.randrange(0, 800)), 0x80C: (4, r.randrange(0, 800)), 0x810: (4, r.choice([r.randrange(0, 600), r.getrandbits(32)])),
+          0x814: (4, r.choice([r.randrange(0, 600), -r.randrange(1, 600)]))}
+    # exact boundaries: ties between the two marks, limits equal to a distance, y on the third line
+    def s16(v):
+        v &= 0xFFFF
+        return v - 0x10000 if v & 0x8000 else v
+    x, y = s16(tp[2]), s16(tp[3])
+    mode = r.random()
+    if mode < 0.15:
+        a[0x60:0x64] = a[0x5C:0x60]
+        bw[1] = bw[0]
+    elif mode < 0.5:
+        o = _struct.unpack_from("<I", a, 0xB0)[0]
+        da = [abs(x - ((_struct.unpack_from("<I", a, q)[0] + o) & 0xFFFF)) for q in (0x5C, 0x60)]
+        _struct.pack_into("<I", st, 0x74, r.choice(da))
+        db = [abs(x - s32((w + b0) & 0xFFFFFFFF)) & 0xFFFFFFFF for w in bw]
+        _struct.pack_into("<I", st, 0x60, r.choice(db))
+    if r.random() < 0.3:
+        tp[3] = (ov[6][1] + ((ov[0xA][1] * 0xAAAB) >> 17) + r.choice([0, 0, -1, 1])) & 0xFFFF
+    sb = sys_bytes(r, 0, 0x820, ov)
+    xb = [r.choice([r.randrange(0, 800), r.getrandbits(32)]) for _ in range(2)]
+
+    def setup(m):
+        sb(m)
+        for i, v in enumerate(tp):
+            m.write(TOUCH + 2 * i, v.to_bytes(2, "little"))
+        m.write(TSTATE, bytes(st)); m.write(OBJ_A, bytes(a))
+        m.write(OBJ_B, (b0 & 0xFFFF).to_bytes(2, "little")); m.w8(OBJ_B + 0x46, b46)
+        m.w32(OBJ_B + 0xAC64, bw[0]); m.w32(OBJ_B + 0xAC68, bw[1]); m.w8(EN_B, en)
+        m.w32(SYS + 0x3DA534, xb[0]); m.w32(SYS + 0x3DA538, xb[1])
+    return setup
+
+
+for _a in (0x40069084, 0x400691D4, 0x40069324, 0x400690E4, 0x40069234, 0x40069384, 0x40069524, 0x40069428):
+    TESTS[_a] = lambda r: Case([], touch_ctl(r), ret=V)
+TESTS[0x40069150] = lambda r: Case([], touch_ctl(r), ret=V)
+TESTS[0x400692A0] = lambda r: Case([], touch_ctl(r), ret=V)
+
+
+def t_cmag(r):
+    n = r.choice([0, 1, 2, 5, 17, -1 & 0xFFFFFFFF])
+    vals = [r.choice([0.0, 1.0, -3.5, 1e-20, 1e20, r.uniform(-1000, 1000)]) for _ in range(40)]
+    src = b"".join(_struct.pack("<f", v) for v in vals)
+    return Case([BUF, BUF + 0x200, n], lambda m: (m.write(BUF, src), m.write(BUF + 0x200, bytes(80))), ret=V)
+
+
+TESTS[0x40066538] = t_cmag
+
+
+def t_cmul(r):
+    v = [f32(r.choice([0.0, 1.0, -2.25, 1e30, r.uniform(-100, 100)])) for _ in range(4)]
+    c = Case([], ret="d")
+    c.dregs = {0: v[0] | (v[1] << 32), 1: v[2] | (v[3] << 32)}
+    return c
+
+
+TESTS[0x40066584] = t_cmul
+TESTS[0x40068E94] = lambda r: Case([], seeded(r.getrandbits(32)), ret=V,
+                                   stubs=(rec("readl_c", 0x40068E64, 1, ret=lambda m, a: m.srng.getrandbits(32)), rec("writel_c", 0x40068E6C, 2)))
+
+
+def t_strcmp(r):
+    n = r.randrange(0, 40)
+    s1 = bytearray(r.randrange(1, 256) for _ in range(n))
+    s2 = bytearray(s1)
+    k = r.random()
+    if k < 0.3 and n:
+        s2[r.randrange(n)] = r.randrange(1, 256)
+    elif k < 0.45:
+        s2 += bytes([r.randrange(1, 256)])
+    elif k < 0.55 and n:
+        s2 = s2[:r.randrange(n)]
+    o1, o2 = r.randrange(4), r.randrange(4)
+    return Case([BUF + o1, BUF + 0x100 + o2], lambda m: (m.write(BUF + o1, bytes(s1) + b"\0" + b"\x55" * 8),
+                                                        m.write(BUF + 0x100 + o2, bytes(s2) + b"\0" + b"\xAA" * 8)), ret=R)
+
+
+TESTS[0x40068F78] = t_strcmp
+
+
+def t_geom(r):
+    ss = r.choice([512, 1, 4096, r.randrange(1, 70000)])
+    st = r.choice([0, 1, 1, 2])
+    cap = r.getrandbits(64) if r.random() < 0.5 else r.getrandbits(40)
+    sec = r.getrandbits(32)
+
+    def setup(m):
+        m.w32(SECTOR_SIZE, ss); m.w32(SDSTATE, st); m.write(0x42E68C60, cap.to_bytes(8, "little")); m.w32(SD_INFO + 4, sec)
+    return Case([], setup, ret=V)
+
+
+TESTS[0x4006A98C] = t_geom

@@ -225,13 +225,13 @@ u32 usb_mass_disk_write(u32 a, u32 b, u32 c)
     return a;
 }
 """, src="usb; name: Hack")
-s(0x40069018, 28, "usb_mode_enter", "Runs 0x4006A98C, then usb_device_init(4).", """
-void func_4006a98c(void);
+s(0x40069018, 28, "usb_mode_enter", "Updates the USB disk geometry, then usb_device_init(4).", """
+void usb_disk_geometry_update(void);
 void usb_device_init(u32 mode);
 
 void usb_mode_enter(void)
 {
-    func_4006a98c();
+    usb_disk_geometry_update();
     usb_device_init(4);
 }
 """, src="usb")

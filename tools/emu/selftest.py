@@ -116,6 +116,18 @@ MUTANTS = [
     (0x4004D390, "t = t - hd;", "t = t - hd - 1.0;"),                               # normalisation shift
     (0x4004D1B4, "v = fr != 0 ? (u32)g[0x60 / 4] / fr : mx;", "v = fr != 0 ? (u32)g[0x60 / 4] / (fr + 1) : mx;"),  # period length
     (0x4004D49C, "GEN_BUF[0] = GEN_BUF[1];", "GEN_BUF[0] = GEN_BUF[2];"),           # resample edge repeat
+    # batch 16: touch controls, complex helpers, LRADC, strcmp, USB disk geometry
+    (0x400690E4, "if (TS32(0x74) < d1) d1 = 0xFFFF;", "if (TS32(0x74) <= d1) d1 = 0xFFFF;"),
+    (0x40069234, "int a = (int)(*(volatile u32 *)(b + 0xAC64) + o);", "int a = (unsigned short)(*(volatile u32 *)(b + 0xAC64) + o);"),
+    (0x40069150, "if (TS32(0x70) < best) {", "if (TS32(0x70) <= best) {"),
+    (0x400692A0, "if (best < TS32(0x60))", "if (best <= TS32(0x60))"),
+    (0x40069384, "TP[3] < (int)(SYS16(6)", "TP[3] <= (int)(SYS16(6)"),
+    (0x40069428, "return (int)(v << 1) / 3 +", "return (v << 1) / 3 +"),
+    (0x40066538, "float m = re * re + im * im;", "float m = re * re + im * re;"),
+    (0x40066584, "r.re = a.re * b.re - a.im * b.im;", "r.re = a.re * b.re + a.im * b.im;"),
+    (0x40068E94, "writel_c(r, readl_c(r) | 0x2000u);", "writel_c(r, readl_c(r) | 0x1000u);"),
+    (0x40068F78, "} while (c >= 1 && c == d);", "} while (c == d);"),
+    (0x4006A98C, "if (*(volatile u32 *)0x40095490u == 1)", "if (*(volatile u32 *)0x40095490u != 0)"),
     # batch 15: serialiser, code page, strlen, USB veneers, touch helpers
     (0x40067160, "d[6] = *p >> 8;", "d[6] = *p >> 16;"),
     (0x400672A8, "for (i = 1; i < 7; i++)", "for (i = 1; i < 6; i++)"),

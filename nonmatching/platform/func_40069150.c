@@ -1,0 +1,37 @@
+/*
+ * touch_pick_a -- stock 0x40069150 (132 bytes, ARM)
+ * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
+ * Control code of a touch: 0 when the second point is (0, 0); otherwise, when 0x42E68668+0x58 is set, the nearer of the two marks of touch_hit_pair_a (0x10 or 0x11) if it is within the limit +0x74, else 0.
+ */
+#include "hw/platform.h"
+
+#include "hw/fpga.h"
+
+#define TP      ((volatile short *)0x42E68BB0u)            /* touch block: x0, y0, x1, y1 (s16) */
+#define TS32(o) (*(volatile u32 *)(0x42E68998u + (o)))     /* touch-control state */
+#define TS8     (*(volatile unsigned char *)0x42E68998u)   /* control code of the current touch */
+
+void touch_hit_pair_a(void);
+
+void touch_pick_a(void)
+{
+    u32 code = 0, best = 0x7FFFFFFF, res = 0;
+    if (TP[2] == 0 && TP[3] == 0) {
+        TS8 = 0;
+        return;
+    }
+    if (*(volatile u32 *)(0x42E68668u + 0x58) != 0) {
+        touch_hit_pair_a();
+        if (TS32(0x6C) < 0x7FFFFFFF) {
+            best = TS32(0x6C);
+            code = 0x10;
+        }
+        if (TS32(0x70) < best) {
+            code = 0x11;
+            best = TS32(0x70);
+        }
+    }
+    if (best < TS32(0x74))
+        res = code;
+    TS8 = res;
+}

@@ -1333,8 +1333,8 @@ address,size,name,type,evidence_level,source
 0x4006613C,1012,__sincos_core,function_thumb,DERIVED,this-project:phase2
 0x40066530,4,cos,function_thumb,OPEN,this-project:phase2
 0x40066534,4,sin,function_thumb,OPEN,this-project:phase2
-0x40066538,76,func_40066538,function_arm,DERIVED,analyze.py:rea
-0x40066584,36,func_40066584,function_arm,DERIVED,analyze.py:rea
+0x40066538,76,cvec_magnitude,function_arm,DERIVED,this-project:phase5 (dsp)
+0x40066584,36,cmul,function_arm,DERIVED,this-project:phase5 (dsp)
 0x400665A8,592,func_400665a8,function_arm,DERIVED,analyze.py:rea
 0x400667F8,20,pool_400667f8,literal_pool,DERIVED,analyze.py
 0x4006680C,8,func_4006680c,function_arm,DERIVED,analyze.py:gap-code
@@ -1445,23 +1445,23 @@ address,size,name,type,evidence_level,source
 0x40068E6C,8,writel_c,function_arm,DERIVED,this-project:phase5 (str r1 [r0])
 0x40068E74,28,lradc_data_read,function_arm,DERIVED,this-project:phase5 (platform)
 0x40068E90,4,pool_40068e90,literal_pool,DERIVED,analyze.py
-0x40068E94,116,func_40068e94,function_arm,DERIVED,analyze.py:rea
+0x40068E94,116,lradc_init,function_arm,DERIVED,this-project:phase5 (platform)
 0x40068F08,92,exp,function_thumb,DERIVED,this-project:phase5 (emulation vs math.exp)
 0x40068F64,20,func_40068f64,function_arm,DERIVED,analyze.py:gap-code
-0x40068F78,160,func_40068f78,function_arm,DERIVED,analyze.py:rea
+0x40068F78,160,strcmp,function_arm,DERIVED,this-project:phase5 (libc)
 0x40069018,28,usb_mode_enter,function_arm,DERIVED,this-project:phase5 (usb)
 0x40069034,24,usb_mode_exit,function_arm,DERIVED,this-project:phase5 (usb)
 0x4006904C,56,touch_moved_flag,function_arm,DERIVED,this-project:phase5 (touch)
-0x40069084,96,func_40069084,function_arm,DERIVED,analyze.py:rea
-0x400690E4,108,func_400690e4,function_arm,DERIVED,analyze.py:rea
-0x40069150,132,func_40069150,function_arm,DERIVED,analyze.py:rea
-0x400691D4,96,func_400691d4,function_arm,DERIVED,analyze.py:rea
-0x40069234,108,func_40069234,function_arm,DERIVED,analyze.py:rea
-0x400692A0,132,func_400692a0,function_arm,DERIVED,analyze.py:rea
-0x40069324,96,func_40069324,function_arm,DERIVED,analyze.py:rea
-0x40069384,164,func_40069384,function_arm,DERIVED,analyze.py:rea
-0x40069428,252,func_40069428,function_arm,DERIVED,analyze.py:rea
-0x40069524,172,func_40069524,function_arm,DERIVED,analyze.py:rea
+0x40069084,96,touch_drag_delta_b,function_arm,DERIVED,this-project:phase5 (touch)
+0x400690E4,108,touch_hit_pair_a,function_arm,DERIVED,this-project:phase5 (touch)
+0x40069150,132,touch_pick_a,function_arm,DERIVED,this-project:phase5 (touch)
+0x400691D4,96,touch_drag_delta_c,function_arm,DERIVED,this-project:phase5 (touch)
+0x40069234,108,touch_hit_pair_b,function_arm,DERIVED,this-project:phase5 (touch)
+0x400692A0,132,touch_pick_b,function_arm,DERIVED,this-project:phase5 (touch)
+0x40069324,96,touch_drag_delta_d,function_arm,DERIVED,this-project:phase5 (touch)
+0x40069384,164,touch_hit_cursor_x,function_arm,DERIVED,this-project:phase5 (touch)
+0x40069428,252,touch_hit_cursor_y,function_arm,DERIVED,this-project:phase5 (touch)
+0x40069524,172,touch_hit_x_b,function_arm,DERIVED,this-project:phase5 (touch)
 0x400695D0,648,func_400695d0,function_arm,DERIVED,analyze.py:prologue
 0x40069858,660,func_40069858,function_arm,DERIVED,analyze.py:prologue
 0x40069AEC,8,func_40069aec,function_arm,DERIVED,analyze.py:rea
@@ -1500,7 +1500,7 @@ address,size,name,type,evidence_level,source
 0x4006A868,252,func_4006a868,function_arm,DERIVED,analyze.py:prologue
 0x4006A964,20,usb_mass_disk_read,function_arm,DERIVED,this-project:phase5 (READ(10) data source; dispatches on 0x40095490)
 0x4006A978,20,usb_mass_disk_write,function_arm,DERIVED,this-project:phase5 (WRITE(10) data sink; dispatches on 0x40095490)
-0x4006A98C,80,func_4006a98c,function_arm,DERIVED,analyze.py:rea
+0x4006A98C,80,usb_disk_geometry_update,function_arm,DERIVED,this-project:phase5 (usb)
 0x4006A9DC,76,pool_4006a9dc,literal_pool,DERIVED,analyze.py
 0x4006AA28,196,usb_device_write_data_ep_pack,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)
 0x4006AAEC,44,usb_device_read_data_ep_pack,function_arm,DERIVED,EasyUSB:usb_dev.c (this-project:phase5)

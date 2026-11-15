@@ -433,7 +433,7 @@ void SMEC_Init(void)
 g(0x4004A198, 28, "power_monitor_init", "LRADC (battery) set-up, auto power-off deadline, default battery coefficients.", """
 void power_monitor_init(void)
 {
-    func_40068e94();
+    lradc_init();
     auto_off_arm();
     battery_coeffs_default();
 }

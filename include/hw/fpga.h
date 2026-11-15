@@ -88,7 +88,7 @@ void touch_state_clear(void);                                    /* 0x40049A38 *
 void gt911_pins_init(void);                                      /* 0x40049A5C */
 
 /* ---- power */
-void func_40068e94(void);                    /* LRADC (battery) init */
+void lradc_init(void);                       /* 0x40068E94 LRADC (battery) init */
 void func_40034134(int x, int y, u32 img, int flags);   /* draws an image (OPEN) */
 void delay_ms(u32 ms);                       /* 0x40042CF0 */
 void power_off(void);                        /* 0x4004A1B4 (never returns) */

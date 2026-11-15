@@ -9,7 +9,7 @@
 
 void power_monitor_init(void)
 {
-    func_40068e94();
+    lradc_init();
     auto_off_arm();
     battery_coeffs_default();
 }

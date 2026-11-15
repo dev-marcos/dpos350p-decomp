@@ -328,6 +328,49 @@ C: `tools/platform_spec/j_serializer.py`. Tests: `tools/emu/tests/fpga.py` (fift
 - **Skipped**: 0x40066FB8..0x40067078 are fragments of a split formatting function (they pop a
   frame they never pushed), so they wait until that function is merged.
 
+## Touch controls, complex helpers, LRADC, strcmp (batch 16)
+
+C: `tools/platform_spec/k_touch_misc.py`. Tests: `tools/emu/tests/fpga.py` (sixth part).
+
+- **Touch-control state** at 0x42E68998 (DERIVED from use). Byte +0 holds the control code of
+  the current touch. The words hold distances and limits:
+
+  | Offset | Meaning |
+  |---|---|
+  | +0x04 | limit for the cursors |
+  | +0x30 / +0x34 | drag dx / dy |
+  | +0x48 / +0x4C | x cursors |
+  | +0x50 / +0x54 | y cursors |
+  | +0x58 / +0x5C | second x pair |
+  | +0x60, +0x64 / +0x68 | limit, then the pair of object B |
+  | +0x6C / +0x70, +0x74 | the pair of object A, then its limit |
+
+- **Drag helpers** `touch_drag_delta`, `_b`, `_c`, `_d`. These are four copies of one routine:
+  the second touch point minus the first. The result is divided by 10 when an enable byte is set:
+  SYS_INFO+0x671, 0x42E6866B or 0x42E1810E.
+- **Hit tests**:
+  - `touch_hit_pair_a`: the marks of the object at 0x42E68668 (the block that batch 14 backs up);
+  - `touch_hit_pair_b`: the object at 0x42E180C8, using 32-bit sums;
+  - `touch_hit_cursor_x` / `_y`: the cursors at SYS_INFO+0x808..0x814;
+  - `touch_hit_x_b`: SYS_INFO+0x3DA534/8.
+
+  Each takes |touch − mark|, and a distance above the limit becomes 0xFFFF. With SYS+0x2AA set,
+  touches above the top third of the plot (y < SYS+6 + SYS+0xA / 3) are ignored. The y cursors
+  are then mapped to 2/3 of the plot.
+- **`touch_pick_a` / `_b`** turn the nearer mark within the limit into a control code:
+  0x10/0x11 for object A, 0x0E/0x0F for object B. When the second point is (0, 0) the code is 0.
+- **`cvec_magnitude`** computes |z| for an array of complex floats through the (Thumb) `sqrt`.
+  **`cmul`** is the complex float product, with both values in s0..s3.
+- **`lradc_init`** (was `func_40068e94`) does read-modify-writes on LRADC_CTRL 0x01C22800:
+  bits 12–13 cleared, bit 13 set, bits 4–5 cleared, then enable (bit 0).
+- **`strcmp`** compares unsigned bytes; the stock code works a word at a time.
+- **`usb_disk_geometry_update`** (was `func_4006a98c`, called by `usb_mode_enter`):
+  - sector size → 0x42E68D0C;
+  - when the SD state is 1, the byte capacity = sectors × size → 0x42E68C60;
+  - 0x42E68D10 = capacity / size.
+- **Skipped**: the CP15 helpers (0x4006680C..0x400668BC, cache maintenance 0x4006A5FC), which the
+  harness does not emulate, and the Thumb fragments of the maths library.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).
