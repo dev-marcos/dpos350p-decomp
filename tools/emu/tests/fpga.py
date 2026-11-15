@@ -1246,3 +1246,90 @@ def blend_stub():
 
 TESTS[0x40041324] = lambda r: Case([], sys_bytes(r, 0, 0x600, {0x588: (1, r.choice([0, 10, 15, 16, 20, 21, 30, 255])), 0x3E: (1, r.choice([0, 1])),
                                                               0x102: (1, r.choice([0, 1]))}), ret=V, stubs=(blend_stub(),))
+
+
+# ================================================================ batch 20: settings records, SPI flash helpers
+SERS = (rec("set_cursor", 0x40067128, 1), rec("process_field", 0x40067450, 2), rec("enc", 0x40067134, 0), rec("dec", 0x40067144, 0),
+        rec("pread", 0x40043620, 4), rec("pwrite", 0x40043874, 4))
+SET_ADDRS = (0x7F4, 0x7E4, 0x7F0, 0x7EC, 0x7DC, 0x7C4)
+
+
+def set_state(r):
+    ov = {o: (4, r.getrandbits(32)) for o in SET_ADDRS}
+    return sys_bytes(r, 0x7A0, 0x800, ov)
+
+
+for _a in (0x400439A0, 0x40043A40, 0x40043CD0, 0x40043DBC, 0x40043EC8):
+    TESTS[_a] = lambda r: Case([], ret=V, stubs=SERS)
+for _a, _lst in ((0x400439D8, 0x400439A0), (0x40043A0C, 0x400439A0), (0x40043A80, 0x40043A40), (0x40043C68, 0x40043B0C), (0x40043C9C, 0x40043B0C),
+                 (0x40043D54, 0x40043CD0), (0x40043D88, 0x40043CD0), (0x40043E00, 0x40043DBC), (0x40043EEC, 0x40043EC8), (0x40043F20, 0x40043EC8)):
+    TESTS[_a] = (lambda lst: lambda r: Case([], set_state(r), ret=V, stubs=SERS + (rec("fields", lst, 0),)))(_lst)
+
+
+def t_b_load(r):
+    old = r.getrandbits(32)
+    change = r.random() < 0.5
+    new = r.getrandbits(32) if change else old
+    base = set_state(r)
+
+    def fields(m, a):
+        m.w32(SYS, new)
+    return Case([], lambda m: (base(m), m.w32(SYS, old)), ret=V,
+                stubs=SERS + (Stub("b_fields", 0x40043A40, fields, 0), rec("c8", 0x400447C8, 0)))
+
+
+TESTS[0x40043AB4] = t_b_load
+
+
+def t_e_load(r):
+    magic = r.choice([0x5A5555A5, 0x5A5555A5, 0, 0xFFFFFFFF, 0x5A5555A4])
+    base = set_state(r)
+
+    def fields(m, a):
+        m.w32(0x42E68AE0, magic)
+
+    def slot(m, a):
+        m.calls.append(("slot", m.read(SYS + 0x7C0, 1)[0]))
+    return Case([], base, ret=V, stubs=SERS + (Stub("e_fields", 0x40043DBC, fields, 0), rec("efac", 0x4003EFAC, 0),
+                                               Stub("slot*", 0x4004435C, slot, 0), rec("f_save", 0x40043EEC, 0), rec("b_save", 0x40043A80, 0)))
+
+
+TESTS[0x40043E34] = t_e_load
+TESTS[0x4004341C] = lambda r: Case([r.choice([0, 0, 1, r.getrandbits(32)])], ret=V,
+                                   stubs=(rec("pio_cfg_pin", 0x400631D4, 4), rec("pio_set_drive", 0x400632B8, 3)))
+TESTS[0x4004346C] = lambda r: Case([r.getrandbits(32)], ret=V, stubs=(rec("ccu_gate_on", 0x40042914, 1),))
+TESTS[0x40043474] = lambda r: Case([r.choice([0, 1, r.getrandbits(32)])], ret=V,
+                                   stubs=(rec("pins", 0x4004341C, 1), rec("clk", 0x4004346C, 0), rec("sys_spi_init", 0x40042F00, 1)))
+SPI_SEL = (rec("select", 0x4004302C, 1), rec("deselect", 0x40043088, 1))
+
+
+def spi_stubs():
+    def wtr(m, a):
+        q = regs3(m)
+        sp = m.reg(A.UC_ARM_REG_SP)
+        m.calls.append(("wtr", q[0], m.read(q[1], 1)[0], q[2], m.r32(sp)))
+        m.w8(q[3], m.srng.getrandbits(8))
+        m.uc.reg_write(A.UC_ARM_REG_R0, m.srng.choice([0, 1, 2, 0xFFFFFFFF]))
+
+    def xfer(m, a):
+        q = regs3(m)
+        m.calls.append(("xfer", q[0], m.read(q[1], 1)[0], q[2], q[3]))
+        m.uc.reg_write(A.UC_ARM_REG_R0, m.srng.choice([1, 1, 0, 2, 0xFFFFFFFF]))
+    return SPI_SEL + (Stub("wtr*", 0x40043360, wtr, 0), Stub("xfer*", 0x40043330, xfer, 0))
+
+
+TESTS[0x40043494] = lambda r: Case([r.getrandbits(32), r.getrandbits(32)], seeded(r.getrandbits(32)), ret=R, stubs=spi_stubs())
+TESTS[0x40043514] = lambda r: Case([r.getrandbits(32)], seeded(r.getrandbits(32)), ret=R, stubs=spi_stubs())
+
+
+def t_wait(r):
+    busy = r.choice([0, 1, 2, 5])
+
+    def st(m, a):
+        m.calls.append(("status", a[0], a[1]))
+        m.k = getattr(m, "k", 0) + 1
+        return (m.srng.getrandbits(8) | 1) if m.k <= busy else (m.srng.getrandbits(8) & ~1)
+    return Case([r.getrandbits(32)], seeded(r.getrandbits(32)), ret=V, stubs=(Stub("status", 0x40043494, st, 2),))
+
+
+TESTS[0x400434F4] = t_wait

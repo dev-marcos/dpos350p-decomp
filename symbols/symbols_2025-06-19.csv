@@ -737,12 +737,12 @@ address,size,name,type,evidence_level,source
 0x40043330,48,sys_spi_transfer,function_arm,DERIVED,this-project:phase5 (SPI)
 0x40043360,104,sys_spi_write_then_read,function_arm,DERIVED,this-project:phase5 (SPI)
 0x400433C8,84,sys_spi_write_then_write,function_arm,DERIVED,this-project:phase5 (SPI)
-0x4004341C,80,func_4004341c,function_arm,DERIVED,analyze.py:rea
-0x4004346C,8,func_4004346c,function_arm,DERIVED,analyze.py:rea
-0x40043474,32,func_40043474,function_arm,DERIVED,analyze.py:rea
-0x40043494,96,func_40043494,function_arm,DERIVED,analyze.py:rea
-0x400434F4,32,func_400434f4,function_arm,DERIVED,analyze.py:rea
-0x40043514,80,func_40043514,function_arm,DERIVED,analyze.py:rea
+0x4004341C,80,spi0_pins_init,function_arm,DERIVED,this-project:phase5 (spi)
+0x4004346C,8,spi0_clock_on,function_arm,DERIVED,this-project:phase5 (spi)
+0x40043474,32,spi0_init,function_arm,DERIVED,this-project:phase5 (spi)
+0x40043494,96,spi_flash_cmd_read1,function_arm,DERIVED,this-project:phase5 (spi)
+0x400434F4,32,spi_flash_wait_ready,function_arm,DERIVED,this-project:phase5 (spi)
+0x40043514,80,spi_flash_write_enable,function_arm,DERIVED,this-project:phase5 (spi)
 0x40043564,188,func_40043564,function_arm,DERIVED,analyze.py:rea
 0x40043620,256,persistence_read,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:636
 0x40043720,12,pool_40043720,literal_pool,DERIVED,analyze.py
@@ -751,25 +751,25 @@ address,size,name,type,evidence_level,source
 0x4004380C,104,func_4004380c,function_arm,DERIVED,analyze.py:rea
 0x40043874,260,persistence_write_read_modify_write,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:637
 0x40043978,40,pool_40043978,literal_pool,DERIVED,analyze.py
-0x400439A0,56,func_400439a0,function_arm,DERIVED,analyze.py:rea
-0x400439D8,52,func_400439d8,function_arm,DERIVED,analyze.py:rea
-0x40043A0C,52,func_40043a0c,function_arm,DERIVED,analyze.py:rea
-0x40043A40,64,func_40043a40,function_arm,DERIVED,analyze.py:rea
-0x40043A80,52,func_40043a80,function_arm,DERIVED,analyze.py:rea
-0x40043AB4,88,func_40043ab4,function_arm,DERIVED,analyze.py:rea
+0x400439A0,56,settings_a_fields,function_arm,DERIVED,this-project:phase5 (settings)
+0x400439D8,52,settings_a_save,function_arm,DERIVED,this-project:phase5 (settings)
+0x40043A0C,52,settings_a_load,function_arm,DERIVED,this-project:phase5 (settings)
+0x40043A40,64,settings_b_fields,function_arm,DERIVED,this-project:phase5 (settings)
+0x40043A80,52,settings_b_save,function_arm,DERIVED,this-project:phase5 (settings)
+0x40043AB4,88,settings_b_load,function_arm,DERIVED,this-project:phase5 (settings)
 0x40043B0C,348,func_40043b0c,function_arm,DERIVED,analyze.py:rea
-0x40043C68,52,func_40043c68,function_arm,DERIVED,analyze.py:prologue
-0x40043C9C,12,func_40043c9c,function_arm,DERIVED,analyze.py:gap-code
+0x40043C68,52,settings_c_save,function_arm,DERIVED,this-project:phase5 (settings)
+0x40043C9C,12,settings_c_load,function_arm,DERIVED,this-project:phase5 (settings)
 0x40043CA8,40,func_40043ca8,function_arm,DERIVED,analyze.py:prologue
-0x40043CD0,132,func_40043cd0,function_arm,DERIVED,analyze.py:rea
-0x40043D54,52,func_40043d54,function_arm,DERIVED,analyze.py:rea
-0x40043D88,52,func_40043d88,function_arm,DERIVED,analyze.py:rea
-0x40043DBC,68,func_40043dbc,function_arm,DERIVED,analyze.py:rea
-0x40043E00,52,func_40043e00,function_arm,DERIVED,analyze.py:rea
-0x40043E34,148,func_40043e34,function_arm,DERIVED,analyze.py:rea
-0x40043EC8,36,func_40043ec8,function_arm,DERIVED,analyze.py:rea
-0x40043EEC,52,func_40043eec,function_arm,DERIVED,analyze.py:rea
-0x40043F20,52,func_40043f20,function_arm,DERIVED,analyze.py:rea
+0x40043CD0,132,settings_d_fields,function_arm,DERIVED,this-project:phase5 (settings)
+0x40043D54,52,settings_d_save,function_arm,DERIVED,this-project:phase5 (settings)
+0x40043D88,52,settings_d_load,function_arm,DERIVED,this-project:phase5 (settings)
+0x40043DBC,68,settings_e_fields,function_arm,DERIVED,this-project:phase5 (settings)
+0x40043E00,52,settings_e_save,function_arm,DERIVED,this-project:phase5 (settings)
+0x40043E34,148,settings_e_load,function_arm,DERIVED,this-project:phase5 (settings)
+0x40043EC8,36,settings_f_fields,function_arm,DERIVED,this-project:phase5 (settings)
+0x40043EEC,52,settings_f_save,function_arm,DERIVED,this-project:phase5 (settings)
+0x40043F20,52,settings_f_load,function_arm,DERIVED,this-project:phase5 (settings)
 0x40043F54,1032,func_40043f54,function_arm,DERIVED,analyze.py:rea
 0x4004435C,120,func_4004435c,function_arm,DERIVED,analyze.py:rea
 0x400443D4,124,func_400443d4,function_arm,DERIVED,analyze.py:rea

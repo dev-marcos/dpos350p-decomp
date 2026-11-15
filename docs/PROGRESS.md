@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 653 | 48.23% | 77642 | 23.00% |
+| EQUIVALENT | 676 | 49.93% | 79042 | 23.42% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 701 | 51.77% | 259862 | 77.00% |
+| ASM | 678 | 50.07% | 258462 | 76.58% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 653 (48.77%) | 337104 | 77642 (23.03%) |
+| main code | 1339 | 676 (50.49%) | 337104 | 79042 (23.45%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -153,6 +153,29 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40043330` | sys_spi_transfer | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_40043330.c` |
 | `0x40043360` | sys_spi_write_then_read | 104 | EQUIVALENT | 200 | `nonmatching/platform/func_40043360.c` |
 | `0x400433C8` | sys_spi_write_then_write | 84 | EQUIVALENT | 200 | `nonmatching/platform/func_400433c8.c` |
+| `0x4004341C` | spi0_pins_init | 80 | EQUIVALENT | 200 | `nonmatching/platform/func_4004341c.c` |
+| `0x4004346C` | spi0_clock_on | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_4004346c.c` |
+| `0x40043474` | spi0_init | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_40043474.c` |
+| `0x40043494` | spi_flash_cmd_read1 | 96 | EQUIVALENT | 200 | `nonmatching/platform/func_40043494.c` |
+| `0x400434F4` | spi_flash_wait_ready | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_400434f4.c` |
+| `0x40043514` | spi_flash_write_enable | 80 | EQUIVALENT | 200 | `nonmatching/platform/func_40043514.c` |
+| `0x400439A0` | settings_a_fields | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_400439a0.c` |
+| `0x400439D8` | settings_a_save | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_400439d8.c` |
+| `0x40043A0C` | settings_a_load | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40043a0c.c` |
+| `0x40043A40` | settings_b_fields | 64 | EQUIVALENT | 200 | `nonmatching/platform/func_40043a40.c` |
+| `0x40043A80` | settings_b_save | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40043a80.c` |
+| `0x40043AB4` | settings_b_load | 88 | EQUIVALENT | 200 | `nonmatching/platform/func_40043ab4.c` |
+| `0x40043C68` | settings_c_save | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40043c68.c` |
+| `0x40043C9C` | settings_c_load | 12 | EQUIVALENT | 200 | `nonmatching/platform/func_40043c9c.c` |
+| `0x40043CD0` | settings_d_fields | 132 | EQUIVALENT | 200 | `nonmatching/platform/func_40043cd0.c` |
+| `0x40043D54` | settings_d_save | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40043d54.c` |
+| `0x40043D88` | settings_d_load | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40043d88.c` |
+| `0x40043DBC` | settings_e_fields | 68 | EQUIVALENT | 200 | `nonmatching/platform/func_40043dbc.c` |
+| `0x40043E00` | settings_e_save | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40043e00.c` |
+| `0x40043E34` | settings_e_load | 148 | EQUIVALENT | 200 | `nonmatching/platform/func_40043e34.c` |
+| `0x40043EC8` | settings_f_fields | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_40043ec8.c` |
+| `0x40043EEC` | settings_f_save | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40043eec.c` |
+| `0x40043F20` | settings_f_load | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40043f20.c` |
 | `0x40049094` | fpga_pe_mode_select | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_40049094.c` |
 | `0x400490B8` | ms5351_start_clocks | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_400490b8.c` |
 | `0x400490DC` | fpga_bus_input | 24 | EQUIVALENT | 300 | `nonmatching/drivers/func_400490dc.c` |

@@ -1,6 +1,6 @@
 # Project status and resume point
 
-Snapshot from 2026-11-14, after Phase 5 batch 19. All addresses apply to build
+Snapshot from 2026-11-14, after Phase 5 batch 20. All addresses apply to build
 2025-06-19 only. Work is paused here; this page is the place to start from next time.
 
 ## 1. Where things stand
@@ -8,12 +8,12 @@ Snapshot from 2026-11-14, after Phase 5 batch 19. All addresses apply to build
 | Item | State |
 |---|---|
 | `make check` | MATCH, SHA-256 `6635ddd6…cefd58c` |
-| Functions with equivalent C | 653 of 1354 (48.23%) |
-| Code bytes covered by C | 77,642 of 337,504 (23.00%) |
+| Functions with equivalent C | 676 of 1354 (49.93%) |
+| Code bytes covered by C | 79,042 of 337,504 (23.42%) |
 | MATCHING C | 0 by construction: Arm Compiler 5 is not licensed here (docs/COMPILER.md) |
-| Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library) |
-| Mutation self-test | 146/146 mutants detected (`make selftest`) |
-| TEST image | `make testiso`: 411 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
+| Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library); full suite last run after batch 20, all EQUIVALENT |
+| Mutation self-test | 156/156 mutants detected (`make selftest`) |
+| TEST image | `make testiso`: 429 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
 | Browser emulator | repo `dev-marcos/dpos350p-emu`, submodule `tools/sim` at `5ed2f7e`, runs fully in the browser (docs/SIM.md) |
 
 The two numbers in the table differ because the finished work is mostly small and medium
@@ -40,6 +40,7 @@ functions. The large ones (UI, the table builders, the calibration steps) are st
 | 17 | acquisition pipeline: dispatcher, sweep path, capture step, CSI capture blocks and banks, channel post-processing | 15 | DRIVERS.md |
 | 18 | CSI bank unpacking: raw ADC lanes to calibrated, interleaved channel samples | 7 | DRIVERS.md |
 | 19 | channel filters: moving average, step limiter, display copy, frame-deviation blend | 5 | DRIVERS.md |
+| 20 | settings records (save/load through the serialiser and persistence layer), SPI flash command helpers | 23 | DRIVERS.md |
 
 The exact list, with addresses and case counts, is in PROGRESS.md (`make progress`).
 

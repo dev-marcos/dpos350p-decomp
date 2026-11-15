@@ -509,6 +509,47 @@ change the signal the device shows.
   | below 16 | 40 | 0.8 |
   | 16–20 | 8 | 0.7 |
 
+## Settings records and SPI flash helpers (batch 20)
+
+C: `tools/platform_spec/o_settings_spiflash.py`. Tests: `tools/emu/tests/fpga.py` (tenth part).
+
+- **Settings records** are built on the batch 15 serialiser. Each record has three parts:
+  - a field list: the cursor is set to 0, then `serializer_process_field` runs per field;
+  - a save: encode mode, the field list, then `persistence_write_read_modify_write(0, flash
+    address, image, length)`;
+  - a load: `persistence_read` into the image, decode mode, then the field list.
+
+  The image is SYS_INFO+0x360404. The flash address of each record is a word in SYS_INFO:
+
+  | Record | Fields | Flash address at | Length |
+  |---|---|---|---|
+  | A | 64 bytes at 0x405454EC (SYS+0x684) | SYS+0x7F4 | 0x1000 |
+  | B | SYS+0x7AC (1), +0x658 (4), +0 (4) | SYS+0x7E4 | 0x1000 |
+  | C | list 0x40043B0C (not rewritten) | SYS+0x7F0 | 0x4000 |
+  | D | 0x42E554B0: 4 words, then 300 × (word, double, double) | SYS+0x7EC | 0x2000 |
+  | E | 4 words at 0x42E68AE0; the first is the magic 0x5A5555A5 | SYS+0x7DC | 0x1000 |
+  | F | the slot byte SYS+0x7C0 | SYS+0x7C4 | 0x1000 |
+
+- **`settings_b_load`**: when the loaded SYS+0 differs from the value before, it sets
+  SYS+0x7AC = 2 and runs 0x400447C8.
+- **`settings_e_load`** without the magic (first start or erased flash) rebuilds the defaults:
+  1. runs 0x4003EFAC;
+  2. runs 0x4004435C for each slot 1..5 (SYS+0x7C0);
+  3. saves slot 1 in record F;
+  4. sets SYS+0x7AC = 2 and saves record B.
+
+  The record C load entry (0x40043C9C) is 12 bytes and falls through into 0x40043CA8.
+- **SPI flash helpers**:
+  - `spi0_pins_init`: PC0–PC3 set to SPI0 (function 3), drive 3;
+  - `spi0_clock_on`: the CCU gate;
+  - `spi0_init`;
+  - `spi_flash_cmd_read1`: one command byte, then one byte read;
+  - `spi_flash_wait_ready`: polls status 0x05 until the busy bit clears;
+  - `spi_flash_write_enable`: command 0x06.
+
+  These are the standard SPI-NOR commands. The C only touches the flash through the stubbed
+  `sys_spi_*` calls: nothing in the tests writes to a real device.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

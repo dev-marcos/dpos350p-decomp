@@ -116,6 +116,17 @@ MUTANTS = [
     (0x4004D390, "t = t - hd;", "t = t - hd - 1.0;"),                               # normalisation shift
     (0x4004D1B4, "v = fr != 0 ? (u32)g[0x60 / 4] / fr : mx;", "v = fr != 0 ? (u32)g[0x60 / 4] / (fr + 1) : mx;"),  # period length
     (0x4004D49C, "GEN_BUF[0] = GEN_BUF[1];", "GEN_BUF[0] = GEN_BUF[2];"),           # resample edge repeat
+    # batch 20: settings records, SPI flash helpers
+    (0x400439A0, "for (i = 0; i < 0x40; i++)", "for (i = 0; i < 0x3F; i++)"),
+    (0x40043CD0, "serializer_process_field(d + 0x960, 8);", "serializer_process_field(d + 0x958, 8);"),
+    (0x40043D54, "SER_IMAGE, 0x2000);", "SER_IMAGE, 0x1000);"),
+    (0x40043AB4, "if (SYS32(0) != old) {", "if (SYS32(0) == old) {"),
+    (0x40043E34, "for (i = 1; i <= 5; i++) {", "for (i = 1; i < 5; i++) {"),
+    (0x40043E34, "== 0x5A5555A5u)", "== 0x5A5555A4u)"),
+    (0x4004341C, "pio_set_drive((void *)0x01C20848u, pin, 3);", "pio_set_drive((void *)0x01C20848u, pin, 2);"),
+    (0x40043494, "sys_spi_write_then_read(dev, &c, 1, &rx, 1);", "sys_spi_write_then_read(dev, &c, 1, &rx, 2);"),
+    (0x400434F4, "while (spi_flash_cmd_read1(dev, 5) & 1)", "while (spi_flash_cmd_read1(dev, 5) & 2)"),
+    (0x40043514, "== 1 ? 0 : -1;", "!= 0 ? 0 : -1;"),
     # batch 19: channel filters
     (0x40040F18, "if (i >= w - 1) {", "if (i >= w) {"),
     (0x40040F18, "if (w < 2)", "if (w < 3)"),

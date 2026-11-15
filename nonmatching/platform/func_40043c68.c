@@ -1,0 +1,25 @@
+/*
+ * settings_c_save -- stock 0x40043C68 (52 bytes, ARM)
+ * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
+ * Saves settings record C (field list 0x40043B0C): encode the field list, then write 0x4000 bytes of the image to the flash address SYS_INFO+0x7F0.
+ */
+#include "hw/platform.h"
+
+#include "hw/fpga.h"
+
+void serializer_set_cursor(u32 c);
+void serializer_set_encode_mode(void);
+void serializer_set_decode_mode(void);
+void serializer_process_field(volatile void *p, u32 size);
+void persistence_read(u32 dev, u32 addr, volatile void *buf, u32 len);
+void persistence_write_read_modify_write(u32 dev, u32 addr, volatile void *buf, u32 len);
+#define SER_IMAGE ((volatile void *)0x408A526Cu)   /* SYS_INFO+0x360404 */
+
+void func_40043b0c(void);
+
+void settings_c_save(void)
+{
+    serializer_set_encode_mode();
+    func_40043b0c();
+    persistence_write_read_modify_write(0, SYS32(0x7F0), SER_IMAGE, 0x4000);
+}
