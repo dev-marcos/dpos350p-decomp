@@ -1184,3 +1184,65 @@ for _a in (0x40040BEC, 0x40040D74, 0x40040E44):
 for _a in (0x400408FC, 0x40040A5C, 0x40040B20):
     TESTS[_a] = lambda r: Case([BUF, r.choice([0, 1]), r.choice([0, 5, 0x10005, r.getrandbits(32)])], sys_bytes(r, 0x600, 0x700), ret=V,
                                stubs=(conv_stub(),))
+
+
+# ================================================================ batch 19: channel filters
+DISP = 0x42AC7CF4
+
+
+def chbuf_state(r, extra=None):
+    b0 = bytes(r.getrandbits(8) for _ in range(0x600))
+    b1 = bytes(r.getrandbits(8) for _ in range(0x600))
+    small = r.random() < 0.6
+    if small:
+        b0 = b"".join(_struct.pack("<H", r.randrange(0, 480)) for _ in range(0x300))
+        b1 = b"".join(_struct.pack("<H", r.randrange(0, 480)) for _ in range(0x300))
+    ov = {0x3E: (1, r.choice([0, 1])), 0x102: (1, r.choice([0, 1])), 0x7B4: (4, BUF), 0x7B8: (4, BUF + 0x800),
+          0x7BC: (4, r.choice([0, 1, 2, 10, 300, -1 & 0xFFFFFFFF, r.randrange(0, 700)]))}
+    ov.update(extra(r) if extra else {})
+    sb = sys_bytes(r, 0, 0x800, ov)
+    return lambda m: (sb(m), m.write(BUF, b0), m.write(BUF + 0x800, b1))
+
+
+CHS = [0, 1, 1, 2]
+TESTS[0x40040F18] = lambda r: Case([r.choice(CHS)], chbuf_state(r, lambda r: {0x662: (2, r.choice([0, 1, 2, 3, 5, 16, 0x8000]))}), ret=V)
+TESTS[0x40040FC4] = lambda r: Case([r.choice(CHS)], chbuf_state(r, lambda r: {0x70D: (1, r.choice([0, 1, 1])), 0x41: (1, r.choice([12, 3, 11])),
+                                                                              0x105: (1, r.choice([12, 0, 13])),
+                                                                              0x1C0: (4, r.choice([1, 2, 10, 0]))}), ret=V)
+TESTS[0x40041094] = lambda r: Case([r.choice(CHS), r.randrange(8)], sys_bytes(r, 0, 0x800, {0x3E: (1, r.choice([0, 1])), 0x102: (1, r.choice([0, 1]))}),
+                                   ret=V, stubs=(rec("copy_u16", 0x40035728, 3),))
+
+
+def t_blend(r):
+    ch = r.choice([0, 1])
+    L, F = r.choice([0, 1, 5, 60, 120]), r.choice([0, 1, 2, 5, 12])
+    offs = [r.randrange(0, 1500) for _ in range(16)]
+    ov = {0x1C0: (4, r.choice([0, 1, 2, 5, 10])), 0x2B0: (4, L), 0x550: (2, F)}
+    for k in range(16):
+        ov[0x2C4 + 4 * k] = (4, offs[k])
+    sb = sys_bytes(r, 0, 0x600, ov)
+    tight = r.random() < 0.5          # small lim and near-constant samples: deviation and init decide the weights
+    if tight:
+        ov[0x1C0] = (4, 1)
+        sb = sys_bytes(r, 0, 0x600, ov)
+    small = r.random() < 0.7
+    lo = r.randrange(0, 470)
+    disp = b"".join(_struct.pack("<H", r.randrange(lo, lo + 4) if tight else r.randrange(0, 480) if small else r.getrandbits(16)) for _ in range(1700))
+    nn = r.choice([2, 3, 4, 5, 8]) if tight else r.choice([8, 40, 0, 1, 1000])
+    c = Case([ch, nn], lambda m: (sb(m), m.write(DISP + ch * 0x62250, disp)), ret=V)
+    c.dregs = {0: f32(r.choice([0.5, 0.25, 0.0, 0.8]) if tight else r.choice([0.8, 0.7, 0.0, 1.0, 1.5, -0.5]))}
+    return c
+
+
+TESTS[0x40041118] = t_blend
+
+
+def blend_stub():
+    def fn(m, a):
+        q = regs3(m)
+        m.calls.append(("blend", q[0], q[1], m.reg(A.UC_ARM_REG_S0)))
+    return Stub("blend*", 0x40041118, fn, 0)
+
+
+TESTS[0x40041324] = lambda r: Case([], sys_bytes(r, 0, 0x600, {0x588: (1, r.choice([0, 10, 15, 16, 20, 21, 30, 255])), 0x3E: (1, r.choice([0, 1])),
+                                                              0x102: (1, r.choice([0, 1]))}), ret=V, stubs=(blend_stub(),))

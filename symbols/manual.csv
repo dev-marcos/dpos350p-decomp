@@ -695,3 +695,8 @@ address,name,type,evidence_level,source,note
 0x400408FC,first_conversion_wrapper,function,DERIVED,this-project:phase5 (acquisition; name: Hack),
 0x40040A5C,bank_unpack_0_3_n,function,DERIVED,this-project:phase5 (acquisition),
 0x40040B20,second_conversion_wrapper,function,DERIVED,this-project:phase5 (acquisition; name: Hack),
+0x40040F18,channel_moving_average,function,DERIVED,this-project:phase5 (acquisition),
+0x40040FC4,channel_step_limiter,function,DERIVED,this-project:phase5 (acquisition),
+0x40041094,channel_to_display_copy,function,DERIVED,this-project:phase5 (acquisition),
+0x40041118,frame_deviation_blend,function,DERIVED,this-project:phase5 (acquisition),
+0x40041324,channel_filters_by_timebase,function,DERIVED,this-project:phase5 (acquisition),

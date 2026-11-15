@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 648 | 47.86% | 76466 | 22.66% |
+| EQUIVALENT | 653 | 48.23% | 77642 | 23.00% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 706 | 52.14% | 261038 | 77.34% |
+| ASM | 701 | 51.77% | 259862 | 77.00% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 648 (48.39%) | 337104 | 76466 (22.68%) |
+| main code | 1339 | 653 (48.77%) | 337104 | 77642 (23.03%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -105,6 +105,11 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40040BEC` | bank_unpack_all | 384 | EQUIVALENT | 200 | `nonmatching/platform/func_40040bec.c` |
 | `0x40040D74` | bank_unpack_0_3 | 208 | EQUIVALENT | 200 | `nonmatching/platform/func_40040d74.c` |
 | `0x40040E44` | bank_unpack_4_7 | 208 | EQUIVALENT | 200 | `nonmatching/platform/func_40040e44.c` |
+| `0x40040F18` | channel_moving_average | 172 | EQUIVALENT | 200 | `nonmatching/platform/func_40040f18.c` |
+| `0x40040FC4` | channel_step_limiter | 204 | EQUIVALENT | 200 | `nonmatching/platform/func_40040fc4.c` |
+| `0x40041094` | channel_to_display_copy | 132 | EQUIVALENT | 200 | `nonmatching/platform/func_40041094.c` |
+| `0x40041118` | frame_deviation_blend | 524 | EQUIVALENT | 200 | `nonmatching/platform/func_40041118.c` |
+| `0x40041324` | channel_filters_by_timebase | 144 | EQUIVALENT | 200 | `nonmatching/platform/func_40041324.c` |
 | `0x400417E4` | one_runtime_capture_step | 308 | EQUIVALENT | 200 | `nonmatching/platform/func_400417e4.c` |
 | `0x40041918` | full_acquisition_veneer | 4 | EQUIVALENT | 200 | `nonmatching/platform/func_40041918.c` |
 | `0x4004191C` | runtime_sweep_path | 176 | EQUIVALENT | 200 | `nonmatching/platform/func_4004191c.c` |

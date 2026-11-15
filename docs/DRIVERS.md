@@ -475,6 +475,40 @@ the meaning of the fields is DERIVED.
   Each lane is probably one ADC of a time-interleaved set: 8 for one channel, 4 per channel when
   both are on (DERIVED from the bank modes, not checked on hardware).
 
+## Channel filters after unpacking (batch 19)
+
+C: `tools/platform_spec/n_channel_filters.py`. Tests: `tools/emu/tests/fpga.py` (ninth part).
+
+These run on the calibrated samples, after batch 18 and before display. All are
+STATIC-CONFIRMED; the names are DERIVED. They matter for an external analysis tool because they
+change the signal the device shows.
+
+- **`channel_moving_average(ch)`**: a box filter of width SYS16+0x662 (off below 2) over the
+  SYS+0x7BC samples of the channel buffer, written in place at the start of each window.
+- **`channel_step_limiter(ch)`**, enabled by SYS+0x70D. Each pair of neighbouring samples is
+  pulled together by half its difference. The difference is clamped to ±SYS+0x1C0 × 5 and the
+  filter runs 3 passes. At the V/div index 12 (the most sensitive range) the clamp is × 15 and it
+  runs 6 passes. This acts as an extra low-pass on the most sensitive range.
+- **`channel_to_display_copy(ch, k)`** copies SYS+0x454[k] samples into the display buffer
+  (0x42AC7CF4, +0x62250 for CH2), at the frame index SYS+0x2C4[k].
+- **`frame_deviation_blend(ch, n, f)`** works across the F = SYS16+0x550 frames stored in the
+  display buffer, each L = SYS+0x2B0 points long:
+  1. computes the mean over the frames at each point (into 0x42C947D4);
+  2. computes each frame's largest deviation from that mean. It starts at (1 − f) × lim and is
+     capped at lim = SYS+0x1C0 × n;
+  3. replaces every sample by (w × sample + (100 − w) × mean) / 100, with
+     w = 100 × deviation / lim.
+
+  A frame close to the mean is pulled further towards it, so this works as a noise-reduction
+  "persistence" blend.
+- **`channel_filters_by_timebase`** applies the blend to the enabled channels at the fast time
+  bases only:
+
+  | Time-base index | n | f |
+  |---|---|---|
+  | below 16 | 40 | 0.8 |
+  | 16–20 | 8 | 0.7 |
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

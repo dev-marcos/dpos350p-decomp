@@ -116,6 +116,16 @@ MUTANTS = [
     (0x4004D390, "t = t - hd;", "t = t - hd - 1.0;"),                               # normalisation shift
     (0x4004D1B4, "v = fr != 0 ? (u32)g[0x60 / 4] / fr : mx;", "v = fr != 0 ? (u32)g[0x60 / 4] / (fr + 1) : mx;"),  # period length
     (0x4004D49C, "GEN_BUF[0] = GEN_BUF[1];", "GEN_BUF[0] = GEN_BUF[2];"),           # resample edge repeat
+    # batch 19: channel filters
+    (0x40040F18, "if (i >= w - 1) {", "if (i >= w) {"),
+    (0x40040F18, "if (w < 2)", "if (w < 3)"),
+    (0x40040FC4, "passes = vd == 12 ? 6 : 3;", "passes = vd == 12 ? 6 : 2;"),
+    (0x40040FC4, "if (d < -lim) d = -lim;", "if (d < -lim) d = lim;"),
+    (0x40041094, "SYS32(0x454 + 4 * k));", "SYS32(0x450 + 4 * k));"),
+    (0x40041118, "if (d < dev[k]) d = dev[k];", "if (d > dev[k]) d = dev[k];"),
+    (0x40041118, "if (lim <= dev[k])", "if (lim < dev[k] - 1)"),
+    (0x40041118, "init = (int)((1.0 - (double)fr) * (double)(float)lim);", "init = (int)((1.0 - (double)fr) * (double)(float)lim) + 1;"),
+    (0x40041324, "} else if (tb < 21) {", "} else if (tb < 20) {"),
     # batch 18: CSI bank unpacking
     (0x4004073C, "q = (int)((u32)gain * (u32)cg) / 1000;", "q = (int)((u32)gain * (u32)cg) / 1024;"),
     (0x4004073C, "v = (int)(base + (u32)(v >> 5));", "v = (int)(base + (u32)(v >> 4));"),

@@ -656,12 +656,12 @@ address,size,name,type,evidence_level,source
 0x40040D74,208,bank_unpack_0_3,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40040E44,208,bank_unpack_4_7,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40040F14,4,pool_40040f14,literal_pool,DERIVED,analyze.py
-0x40040F18,172,func_40040f18,function_arm,DERIVED,analyze.py:rea
-0x40040FC4,204,func_40040fc4,function_arm,DERIVED,analyze.py:rea
+0x40040F18,172,channel_moving_average,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x40040FC4,204,channel_step_limiter,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40041090,4,pool_40041090,literal_pool,DERIVED,analyze.py
-0x40041094,132,func_40041094,function_arm,DERIVED,analyze.py:rea
-0x40041118,524,func_40041118,function_arm,DERIVED,analyze.py:rea
-0x40041324,144,func_40041324,function_arm,DERIVED,analyze.py:rea
+0x40041094,132,channel_to_display_copy,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x40041118,524,frame_deviation_blend,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x40041324,144,channel_filters_by_timebase,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x400413B4,20,pool_400413b4,literal_pool,DERIVED,analyze.py
 0x400413C8,1052,full_acquisition_entry,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:556
 0x400417E4,308,one_runtime_capture_step,function_arm,DERIVED,this-project:phase5 (acquisition; name: Hack)
