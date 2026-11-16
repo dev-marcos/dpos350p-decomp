@@ -1428,3 +1428,73 @@ def t_dispatch(r):
 
 
 TESTS[0x4003CA88] = t_dispatch
+
+
+# ---------------------------------------------------------------- batch 22: trace chain, window stack helpers
+def flags_sys(r, offs, extra=None):
+    ov = {o: (1, r.choice([0, 0, 1, 1, 2, 0x80])) for o in offs}
+    ov.update(extra or {})
+    return sys_bytes(r, 0, 0x800, ov)
+
+
+TRACE_FL = (0x3E, 0x102, 0x2AA, 0x652, 0x101, 0x27A, 0x3C, 0x38, 0x664)
+TESTS[0x4003C520] = lambda r: Case([], ret=V, stubs=tuple(rec(f"c{i}", a, 0) for i, a in enumerate(
+    (0x4003BEA8, 0x4003B7B8, 0x40024E14, 0x4003C008, 0x4003442C, 0x4003F910, 0x4003FA10, 0x4003F8E0))))
+TESTS[0x4003C550] = lambda r: Case([], flags_sys(r, TRACE_FL), ret=V, stubs=(rec("e10c", 0x4005E10C, 1),))
+TESTS[0x4003C790] = lambda r: Case([r.randrange(4)], sys_bytes(r, 0, 0x800), ret=V, stubs=(rec("c5cc", 0x4003C5CC, 3),))
+
+
+def t_c5cc_window(r):
+    a = r.getrandbits(32)
+    b = r.choice([a, a + 1, a - 1, r.getrandbits(32)]) & 0xFFFFFFFF
+    return Case([r.randrange(4)], sys_bytes(r, 0, 0x800, {0x6FC: (4, a), 0x708: (4, b)}), ret=V, stubs=(rec("c5cc", 0x4003C5CC, 3),))
+
+
+TESTS[0x4003C7A0] = t_c5cc_window
+CHAIN_FULL = (0x4005F90C, 0x4003C0AC, 0x4003C158, 0x4003C314, 0x4003BB6C, 0x4003C790, 0x4005E12C, 0x4005DDD4)
+TESTS[0x4003C7E4] = lambda r: Case([r.randrange(4)], flags_sys(r, TRACE_FL), ret=V,
+                                   stubs=(rec("bf78", 0x4003BF78, 1, (lambda k: lambda m, a: k)(r.choice([0, 1, 1, 2]))),)
+                                   + tuple(rec(f"s{i}", a, 1) for i, a in enumerate(CHAIN_FULL)))
+TESTS[0x4003C85C] = lambda r: Case([r.choice([0, 1, 2, r.getrandbits(32)])], flags_sys(r, TRACE_FL), ret=V, stubs=(rec("full", 0x4003C7E4, 1),))
+def t_ordered(r):
+    v = r.choice([0, 1, 0x40])
+    return Case([0x42000000], lambda m: m.w8(0x42000664, v), ret=V, stubs=(rec("ch", 0x4003C85C, 1),))
+
+
+TESTS[0x4003C8D4] = t_ordered
+TESTS[0x4003C8D0] = lambda r: Case([], flags_sys(r, TRACE_FL), ret=V, stubs=(rec("ch", 0x4003C85C, 1),))
+TESTS[0x4003C910] = lambda r: Case([], ret=V, stubs=tuple(rec(f"s{i}", a, 1) for i, a in enumerate(
+    (0x4005F90C, 0x4003C0AC, 0x4003C158, 0x4003C314, 0x4003BB6C, 0x4005EDC0, 0x4005DDD4))))
+
+
+def t_traces_update(r):
+    base = flags_sys(r, TRACE_FL, {0x27A: (1, r.choice([1, 1, 0, 2]))})
+    lock = r.choice([0, 0, 0, 1])
+    return Case([], lambda m: (base(m), m.w8(0x42E68BC7, lock)), ret=V,
+                stubs=(rec("full", 0x4003C8D0, 0), rec("single", 0x4003C910, 0)))
+
+
+TESTS[0x4003C970] = t_traces_update
+TESTS[0x4003C9BC] = lambda r: Case([r.randrange(4)], ret=V, stubs=tuple(rec(f"s{i}", a, 1) for i, a in enumerate(
+    (0x4005F910, 0x4003C0AC, 0x4003BB6C, 0x4003C7A0, 0x4005E838, 0x4005DF5C))))
+TESTS[0x4003C9F4] = lambda r: Case([], flags_sys(r, TRACE_FL), ret=V, stubs=(rec("win", 0x4003C9BC, 1),))
+TESTS[0x4003CA38] = lambda r: Case([], lambda m: m.write(0x42CF64B4, bytes(0x20000)), ret=V)
+
+
+def win_state(r, p_zero=0.3, ids=46):
+    st = stack_setup(r, p_zero, ids)
+    recs = bytearray(r.getrandbits(8) for _ in range(14 * 300))
+    for i in range(300):
+        recs[14 * i] = r.choice([0, 1, 1, 0x80])
+    return lambda m: (st(m), m.write(WREC, bytes(recs)))
+
+
+TESTS[0x4003CDC0] = lambda r: Case([], win_state(r, r.choice([0.1, 0.3, 0.0])), ret=V)
+TESTS[0x4003CD44] = lambda r: Case([r.choice([r.randrange(46), r.randrange(300)]), r.choice([r.randrange(25), r.getrandbits(32)])],
+                                   win_state(r, r.choice([0.1, 0.3, 0.0])), ret=V)
+TESTS[0x4003CE50] = lambda r: Case([r.choice([r.randrange(1, 46), r.randrange(300)]), r.getrandbits(32),
+                                    r.choice([r.randrange(25), r.getrandbits(32), 18, 19])],
+                                   win_state(r, r.choice([0.1, 0.3, 0.0])), ret=V, stubs=(rec("top", 0x4003CD0C, 0),))
+TESTS[0x4003CF0C] = lambda r: Case([], win_state(r), ret=V, stubs=(Stub("clr*", 0x4005F914, lambda m, a: m.calls.append(("clr", *regs3(m)[:2])), 0),))
+TESTS[0x4003CF58] = lambda r: Case([], (lambda v: lambda m: (m.w8(0x42E68BC7, v), m.write(0x42E68BC4, b"\xef\xbe")))(r.choice([0, 0, 1])),
+                                   ret=V, stubs=(rec("redraw", 0x4003CA88, 0), rec("batt", 0x4004A448, 0), rec("present", 0x4003442C, 0)))

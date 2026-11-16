@@ -600,8 +600,41 @@ Stack: +0 is the id on top, +1 is its slot index, and +2..+0x15 hold the 20 slot
   - `ui_window_stack_top_update`;
   - `ui_windows_open_1_5`.
 
-  The close helper 0x4003CD44 is left in assembly: when the id is missing from the stack it
-  uses whatever the caller left in r1 (a stock quirk).
+  The rest of the stack helpers are in batch 22.
+
+## Trace processing chain and window stack helpers (batch 22)
+
+Spec: `tools/platform_spec/q_trace_windows.py`, 18 functions.
+
+- **Trace numbering** (DERIVED from the flags tested):
+  - traces 0 and 1 are CH1 and CH2, gated by SYS+0x3E / SYS+0x102;
+  - traces 2 and 3 are the second trace of each channel, present when SYS+0x2AA is set.
+- **The chain itself.** These functions only fix the order and the gates. The work is done by
+  callees that are still assembly (0x4005E10C, 0x4003C0AC, 0x4003C158, 0x4003C314, 0x4003BB6C,
+  0x4003C5CC, 0x4005E12C, 0x4005DDD4, …).
+  - `traces_update`:
+    - does nothing while the byte 0x42E68BC7 is set;
+    - does nothing when SYS+0x27A = 1 with SYS+0x3C and SYS+0x38 both 0;
+    - otherwise runs `channels_process_full`, or `traces_process_single` when SYS+0x652 is set.
+  - `channels_process_full` processes CH2 first unless SYS+0x664 is set.
+  - `trace_process_full` runs only when SYS+0x101 is set.
+  - `trace_c5cc_window` runs 0x4003C5CC over the capture window, and only when SYS+0x6FC ≥
+    SYS+0x708.
+- **`runtime_rearm_setup`** (Hack name): a fixed list of eight re-arm calls, ending with the
+  FPGA selector pulse.
+- **`table_scatter_42cf64b4`**: clears 0x3AAC bytes, then scatters the 0x3AAC (value, index)
+  pairs from the ROM table 0x40090444 into the halfword array 0x42CF64B4.
+- **Window stack**:
+  - `ui_windows_mark_dirty`;
+  - `ui_window_invalidate_from` (0x4003CD44);
+  - `ui_window_close` (0x4003CE50): removes the id by moving the slots above down, but slot 19
+    keeps its old value;
+  - `ui_windows_reset`;
+  - `ui_frame_update`: redraw, `battery_service`, present.
+
+  Stock quirk: when the id is not on the stack, invalidate uses the caller's r1 and close uses
+  the caller's r2 as the slot. The C takes these as explicit extra parameters, so the behaviour
+  stays the same.
 
 ## Not yet rewritten (next batches)
 

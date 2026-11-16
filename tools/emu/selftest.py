@@ -205,6 +205,17 @@ MUTANTS = [
     (0x400343C4, "u32 n = x1 - x0 + 1", "u32 n = x1 - x0"),
     (0x4003DD5C, "(0x42E68A88u + 2))", "(0x42E68A88u + 3))"),
     (0x4003D8A4, "ui_reveal_bottom_up((volatile", "ui_reveal_slide_down((volatile"),
+    # batch 22: trace chain, window stack helpers
+    (0x4003C550, "if (SYS8(0x2AA))\n            func_4005e10c(3);", "if (SYS8(0x2AA))\n            func_4005e10c(2);"),
+    (0x4003C7A0, "if (SYS32(0x6FC) < SYS32(0x708))", "if (SYS32(0x6FC) <= SYS32(0x708))"),
+    (0x4003C7E4, "if (k == 1 && SYS8(0x2AA) == 0)", "if (k == 0 && SYS8(0x2AA) == 0)"),
+    (0x4003C8D4, "if (p[0x664] == 0)", "if (p[0x664] != 0)"),
+    (0x4003C970, "SYS8(0x3C) == 0 && SYS8(0x38) == 0", "SYS8(0x3C) == 0"),
+    (0x4003CA38, "d[s[1]] = s[0];", "d[s[0]] = s[1];"),
+    (0x4003CD44, "slot &= 0xFF;", "slot &= 0x7F;"),
+    (0x4003CE50, "if (slot < 19)", "if (slot < 18)"),
+    (0x4003CE50, "        if (k)\n", "        if (k || 1)\n"),
+    (0x4003CF58, "        return;\n    fb_present();", "        fb_present();\n    fb_present();"),
 ]
 
 

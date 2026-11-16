@@ -458,31 +458,31 @@ address,size,name,type,evidence_level,source
 0x4003C158,432,func_4003c158,function_arm,DERIVED,analyze.py:rea
 0x4003C308,12,pool_4003c308,literal_pool,DERIVED,analyze.py
 0x4003C314,524,func_4003c314,function_arm,DERIVED,analyze.py:rea
-0x4003C520,48,runtime_rearm_setup,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:559
-0x4003C550,112,func_4003c550,function_arm,DERIVED,analyze.py:rea
+0x4003C520,48,runtime_rearm_setup,function_arm,DERIVED,this-project:phase5 (trace; name: Hack)
+0x4003C550,112,traces_e10c_enabled,function_arm,DERIVED,this-project:phase5 (trace)
 0x4003C5C0,12,pool_4003c5c0,literal_pool,DERIVED,analyze.py
 0x4003C5CC,452,func_4003c5cc,function_arm,DERIVED,analyze.py:prologue
-0x4003C790,16,func_4003c790,function_arm,DERIVED,analyze.py:rea
-0x4003C7A0,68,func_4003c7a0,function_arm,DERIVED,analyze.py:rea
-0x4003C7E4,120,func_4003c7e4,function_arm,DERIVED,analyze.py:rea
-0x4003C85C,116,func_4003c85c,function_arm,DERIVED,analyze.py:rea
-0x4003C8D0,4,func_4003c8d0,function_arm,DERIVED,analyze.py:gap-code
-0x4003C8D4,60,func_4003c8d4,function_arm,DERIVED,analyze.py:prologue
-0x4003C910,96,func_4003c910,function_arm,DERIVED,analyze.py:prologue
-0x4003C970,76,func_4003c970,function_arm,DERIVED,analyze.py:rea
-0x4003C9BC,56,func_4003c9bc,function_arm,DERIVED,analyze.py:rea
-0x4003C9F4,52,per_channel_processing,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:562
+0x4003C790,16,trace_c5cc_full,function_arm,DERIVED,this-project:phase5 (trace)
+0x4003C7A0,68,trace_c5cc_window,function_arm,DERIVED,this-project:phase5 (trace)
+0x4003C7E4,120,trace_process_full,function_arm,DERIVED,this-project:phase5 (trace)
+0x4003C85C,116,channel_traces_process_full,function_arm,DERIVED,this-project:phase5 (trace)
+0x4003C8D0,4,channels_process_full,function_arm,DERIVED,this-project:phase5 (trace)
+0x4003C8D4,60,channels_process_full_ordered,function_arm,DERIVED,this-project:phase5 (trace)
+0x4003C910,96,traces_process_single,function_arm,DERIVED,this-project:phase5 (trace)
+0x4003C970,76,traces_update,function_arm,DERIVED,this-project:phase5 (trace)
+0x4003C9BC,56,trace_process_window,function_arm,DERIVED,this-project:phase5 (trace)
+0x4003C9F4,52,per_channel_processing,function_arm,DERIVED,this-project:phase5 (trace; name: Hack)
 0x4003CA28,16,pool_4003ca28,literal_pool,DERIVED,analyze.py
-0x4003CA38,72,func_4003ca38,function_arm,DERIVED,analyze.py:rea
+0x4003CA38,72,table_scatter_42cf64b4,function_arm,DERIVED,this-project:phase5 (trace)
 0x4003CA80,8,pool_4003ca80,literal_pool,DERIVED,analyze.py
 0x4003CA88,644,ui_window_redraw_dirty,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003CD0C,56,ui_window_stack_top_update,function_arm,DERIVED,this-project:phase5 (ui)
-0x4003CD44,124,func_4003cd44,function_arm,DERIVED,analyze.py:rea
-0x4003CDC0,60,func_4003cdc0,function_arm,DERIVED,analyze.py:prologue
+0x4003CD44,124,ui_window_invalidate_from,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003CDC0,60,ui_windows_mark_dirty,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003CDFC,84,ui_window_open,function_arm,DERIVED,this-project:phase5 (ui)
-0x4003CE50,188,func_4003ce50,function_arm,DERIVED,analyze.py:rea
-0x4003CF0C,76,func_4003cf0c,function_arm,DERIVED,analyze.py:rea
-0x4003CF58,48,func_4003cf58,function_arm,DERIVED,analyze.py:rea
+0x4003CE50,188,ui_window_close,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003CF0C,76,ui_windows_reset,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003CF58,48,ui_frame_update,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003CF88,1228,func_4003cf88,function_arm,DERIVED,analyze.py:rea
 0x4003D454,24,func_4003d454,function_arm,DERIVED,analyze.py:rea
 0x4003D46C,296,ui_reveal_bottom_up,function_arm,DERIVED,this-project:phase5 (ui)
