@@ -275,11 +275,11 @@ address,size,name,type,evidence_level,source
 0x40034284,48,func_40034284,function_arm,DERIVED,analyze.py:rea
 0x400342B4,24,func_400342b4,function_arm,DERIVED,analyze.py:rea
 0x400342CC,16,func_400342cc,function_arm,DERIVED,analyze.py:rea
-0x400342DC,16,func_400342dc,function_arm,DERIVED,analyze.py:rea
-0x400342EC,16,func_400342ec,function_arm,DERIVED,analyze.py:rea
+0x400342DC,16,fb_target_back,function_arm,DERIVED,this-project:phase5 (ui)
+0x400342EC,16,fb_target_offscreen,function_arm,DERIVED,this-project:phase5 (ui)
 0x400342FC,112,func_400342fc,function_arm,DERIVED,analyze.py:rea
 0x4003436C,88,func_4003436c,function_arm,DERIVED,analyze.py:prologue
-0x400343C4,104,func_400343c4,function_arm,DERIVED,analyze.py:rea
+0x400343C4,104,fb_present_rect,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003442C,40,fb_present,function_arm,DERIVED,this-project:phase5 (display)
 0x40034454,24,fb_clear_current,function_arm,DERIVED,this-project:phase5 (display)
 0x4003446C,116,fb_clear_all,function_arm,DERIVED,this-project:phase5 (display)
@@ -475,69 +475,69 @@ address,size,name,type,evidence_level,source
 0x4003CA28,16,pool_4003ca28,literal_pool,DERIVED,analyze.py
 0x4003CA38,72,func_4003ca38,function_arm,DERIVED,analyze.py:rea
 0x4003CA80,8,pool_4003ca80,literal_pool,DERIVED,analyze.py
-0x4003CA88,644,func_4003ca88,function_arm,DERIVED,analyze.py:rea
-0x4003CD0C,56,func_4003cd0c,function_arm,DERIVED,analyze.py:gap-code
+0x4003CA88,644,ui_window_redraw_dirty,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003CD0C,56,ui_window_stack_top_update,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003CD44,124,func_4003cd44,function_arm,DERIVED,analyze.py:rea
 0x4003CDC0,60,func_4003cdc0,function_arm,DERIVED,analyze.py:prologue
-0x4003CDFC,84,func_4003cdfc,function_arm,DERIVED,analyze.py:rea
+0x4003CDFC,84,ui_window_open,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003CE50,188,func_4003ce50,function_arm,DERIVED,analyze.py:rea
 0x4003CF0C,76,func_4003cf0c,function_arm,DERIVED,analyze.py:rea
 0x4003CF58,48,func_4003cf58,function_arm,DERIVED,analyze.py:rea
 0x4003CF88,1228,func_4003cf88,function_arm,DERIVED,analyze.py:rea
 0x4003D454,24,func_4003d454,function_arm,DERIVED,analyze.py:rea
-0x4003D46C,296,func_4003d46c,function_arm,DERIVED,analyze.py:prologue
-0x4003D594,280,func_4003d594,function_arm,DERIVED,analyze.py:prologue
-0x4003D6AC,56,func_4003d6ac,function_arm,DERIVED,analyze.py:rea
+0x4003D46C,296,ui_reveal_bottom_up,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003D594,280,ui_reveal_slide_down,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003D6AC,56,ui_windows_open_1_5,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003D6E4,56,func_4003d6e4,function_arm,DERIVED,analyze.py:prologue
-0x4003D71C,24,func_4003d71c,function_arm,DERIVED,analyze.py:rea
-0x4003D734,24,func_4003d734,function_arm,DERIVED,analyze.py:rea
-0x4003D74C,24,func_4003d74c,function_arm,DERIVED,analyze.py:rea
-0x4003D764,24,func_4003d764,function_arm,DERIVED,analyze.py:rea
-0x4003D77C,24,func_4003d77c,function_arm,DERIVED,analyze.py:rea
-0x4003D794,56,func_4003d794,function_arm,DERIVED,analyze.py:rea
-0x4003D7CC,56,func_4003d7cc,function_arm,DERIVED,analyze.py:rea
+0x4003D71C,24,ui_window_01_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003D734,24,ui_window_02_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003D74C,24,ui_window_03_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003D764,24,ui_window_05_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003D77C,24,ui_window_04_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003D794,56,ui_window_06_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003D7CC,56,ui_window_10_redraw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003D804,24,pool_4003d804,literal_pool,DERIVED,analyze.py
-0x4003D81C,56,func_4003d81c,function_arm,DERIVED,analyze.py:rea
+0x4003D81C,56,ui_window_11_redraw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003D854,24,pool_4003d854,literal_pool,DERIVED,analyze.py
-0x4003D86C,56,func_4003d86c,function_arm,DERIVED,analyze.py:rea
-0x4003D8A4,56,func_4003d8a4,function_arm,DERIVED,analyze.py:rea
-0x4003D8DC,56,func_4003d8dc,function_arm,DERIVED,analyze.py:rea
-0x4003D914,56,func_4003d914,function_arm,DERIVED,analyze.py:rea
+0x4003D86C,56,ui_window_12_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003D8A4,56,ui_window_13_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003D8DC,56,ui_window_14_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003D914,56,ui_window_15_redraw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003D94C,4,pool_4003d94c,literal_pool,DERIVED,analyze.py
-0x4003D950,56,func_4003d950,function_arm,DERIVED,analyze.py:rea
+0x4003D950,56,ui_window_16_redraw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003D988,4,pool_4003d988,literal_pool,DERIVED,analyze.py
-0x4003D98C,56,func_4003d98c,function_arm,DERIVED,analyze.py:rea
+0x4003D98C,56,ui_window_17_redraw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003D9C4,4,pool_4003d9c4,literal_pool,DERIVED,analyze.py
-0x4003D9C8,56,func_4003d9c8,function_arm,DERIVED,analyze.py:rea
-0x4003DA00,24,func_4003da00,function_arm,DERIVED,analyze.py:rea
-0x4003DA18,56,func_4003da18,function_arm,DERIVED,analyze.py:rea
-0x4003DA50,56,func_4003da50,function_arm,DERIVED,analyze.py:rea
-0x4003DA88,56,func_4003da88,function_arm,DERIVED,analyze.py:rea
-0x4003DAC0,24,func_4003dac0,function_arm,DERIVED,analyze.py:rea
-0x4003DAD8,56,func_4003dad8,function_arm,DERIVED,analyze.py:rea
-0x4003DB10,56,func_4003db10,function_arm,DERIVED,analyze.py:rea
-0x4003DB48,56,func_4003db48,function_arm,DERIVED,analyze.py:rea
-0x4003DB80,56,func_4003db80,function_arm,DERIVED,analyze.py:rea
-0x4003DBB8,24,func_4003dbb8,function_arm,DERIVED,analyze.py:rea
-0x4003DBD0,56,func_4003dbd0,function_arm,DERIVED,analyze.py:rea
-0x4003DC08,56,func_4003dc08,function_arm,DERIVED,analyze.py:rea
-0x4003DC40,56,func_4003dc40,function_arm,DERIVED,analyze.py:rea
-0x4003DC78,56,func_4003dc78,function_arm,DERIVED,analyze.py:rea
-0x4003DCB0,56,func_4003dcb0,function_arm,DERIVED,analyze.py:rea
+0x4003D9C8,56,ui_window_18_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DA00,24,ui_window_19_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DA18,56,ui_window_20_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DA50,56,ui_window_21_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DA88,56,ui_window_22_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DAC0,24,ui_window_23_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DAD8,56,ui_window_24_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DB10,56,ui_window_25_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DB48,56,ui_window_26_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DB80,56,ui_window_27_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DBB8,24,ui_window_28_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DBD0,56,ui_window_07_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DC08,56,ui_window_08_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DC40,56,ui_window_09_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DC78,56,ui_window_29_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DCB0,56,ui_window_30_redraw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003DCE8,4,pool_4003dce8,literal_pool,DERIVED,analyze.py
-0x4003DCEC,56,func_4003dcec,function_arm,DERIVED,analyze.py:rea
-0x4003DD24,56,func_4003dd24,function_arm,DERIVED,analyze.py:rea
-0x4003DD5C,84,func_4003dd5c,function_arm,DERIVED,analyze.py:rea
-0x4003DDB0,24,func_4003ddb0,function_arm,DERIVED,analyze.py:rea
-0x4003DDC8,24,func_4003ddc8,function_arm,DERIVED,analyze.py:rea
-0x4003DDE0,24,func_4003dde0,function_arm,DERIVED,analyze.py:rea
-0x4003DDF8,56,func_4003ddf8,function_arm,DERIVED,analyze.py:rea
+0x4003DCEC,56,ui_window_31_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DD24,56,ui_window_32_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DD5C,84,ui_window_33_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DDB0,24,ui_window_34_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DDC8,24,ui_window_35_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DDE0,24,ui_window_36_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DDF8,56,ui_window_37_redraw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003DE30,4,pool_4003de30,literal_pool,DERIVED,analyze.py
-0x4003DE34,24,func_4003de34,function_arm,DERIVED,analyze.py:rea
-0x4003DE4C,24,func_4003de4c,function_arm,DERIVED,analyze.py:rea
-0x4003DE64,24,func_4003de64,function_arm,DERIVED,analyze.py:rea
-0x4003DE7C,56,func_4003de7c,function_arm,DERIVED,analyze.py:rea
-0x4003DEB4,56,func_4003deb4,function_arm,DERIVED,analyze.py:rea
+0x4003DE34,24,ui_window_38_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DE4C,24,ui_window_39_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DE64,24,ui_window_40_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DE7C,56,ui_window_41_redraw,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003DEB4,56,ui_window_42_redraw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003DEEC,136,pool_4003deec,literal_pool,DERIVED,analyze.py
 0x4003DF74,30,sqrt,function_thumb,DERIVED,this-project:phase2
 0x4003DF92,2,pad_4003df92,padding,STATIC-CONFIRMED,analyze.py:zero

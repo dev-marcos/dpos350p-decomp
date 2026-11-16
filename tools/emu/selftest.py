@@ -193,6 +193,18 @@ MUTANTS = [
     (0x4003FD10, "if (span < p)", "if (span <= p)"),
     (0x4003FD10, "< 25)", "< 24)"),
     (0x4003FA10, "fpga_selector_command_write(0x11); fpga_data_byte_write(1);", "fpga_selector_command_write(0x11); fpga_data_byte_write(0);"),
+    # batch 21: UI window layer
+    (0x4003CA88, "need = (w[2] == 0 ? acc : own) | d;", "need = (w[2] == 0 ? own : acc) | d;"),
+    (0x4003CA88, "        w[3] = 0;\n", ""),
+    (0x4003CA88, "case 13: ui_window_13_redraw(anim)", "case 13: ui_window_14_redraw(anim)"),
+    (0x4003D594, "if (s < 0.01)", "if (s < 0.02)"),
+    (0x4003D594, "TANH_T(t) + 0.02", "TANH_T(t) + 0.03"),
+    (0x4003D46C, "(y + h - n) & 0xFFFF", "(y + h - n + 1) & 0xFFFF"),
+    (0x4003CD0C, "for (i = 19; i >= 0; i--)", "for (i = 18; i >= 0; i--)"),
+    (0x4003CDFC, "WIN(id)[3] = 1;", "WIN(id)[2] = 1;"),
+    (0x400343C4, "u32 n = x1 - x0 + 1", "u32 n = x1 - x0"),
+    (0x4003DD5C, "(0x42E68A88u + 2))", "(0x42E68A88u + 3))"),
+    (0x4003D8A4, "ui_reveal_bottom_up((volatile", "ui_reveal_slide_down((volatile"),
 ]
 
 

@@ -1,0 +1,17 @@
+/*
+ * ui_window_28_redraw -- stock 0x4003DBB8 (24 bytes, ARM)
+ * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
+ * Redraws window 28: draw target = back buffer, then the window's draw function 0x40028084.
+ */
+#include "hw/platform.h"
+
+#include "hw/fpga.h"
+
+void fb_target_back(void);
+void func_40028084(void);
+
+void ui_window_28_redraw(void)
+{
+    fb_target_back();
+    func_40028084();
+}

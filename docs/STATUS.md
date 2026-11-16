@@ -1,6 +1,6 @@
 # Project status and resume point
 
-Snapshot from 2026-11-14, after Phase 5 batch 20. All addresses apply to build
+Snapshot from 2026-11-14, after Phase 5 batch 21. All addresses apply to build
 2025-06-19 only. Work is paused here; this page is the place to start from next time.
 
 ## 1. Where things stand
@@ -8,12 +8,12 @@ Snapshot from 2026-11-14, after Phase 5 batch 20. All addresses apply to build
 | Item | State |
 |---|---|
 | `make check` | MATCH, SHA-256 `6635ddd6…cefd58c` |
-| Functions with equivalent C | 676 of 1354 (49.93%) |
-| Code bytes covered by C | 79,042 of 337,504 (23.42%) |
+| Functions with equivalent C | 727 of 1354 (53.69%) |
+| Code bytes covered by C | 82,526 of 337,504 (24.45%) |
 | MATCHING C | 0 by construction: Arm Compiler 5 is not licensed here (docs/COMPILER.md) |
-| Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library); full suite last run after batch 20, all EQUIVALENT |
-| Mutation self-test | 156/156 mutants detected (`make selftest`) |
-| TEST image | `make testiso`: 429 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
+| Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library); full suite last run after batch 20, all EQUIVALENT; batch 21 run on its own 51 functions |
+| Mutation self-test | 167/167 mutants detected (`make selftest`) |
+| TEST image | `make testiso`: 474 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
 | Browser emulator | repo `dev-marcos/dpos350p-emu`, submodule `tools/sim` at `5ed2f7e`, runs fully in the browser (docs/SIM.md) |
 
 The two numbers in the table differ because the finished work is mostly small and medium
@@ -41,6 +41,7 @@ functions. The large ones (UI, the table builders, the calibration steps) are st
 | 18 | CSI bank unpacking: raw ADC lanes to calibrated, interleaved channel samples | 7 | DRIVERS.md |
 | 19 | channel filters: moving average, step limiter, display copy, frame-deviation blend | 5 | DRIVERS.md |
 | 20 | settings records (save/load through the serialiser and persistence layer), SPI flash command helpers | 23 | DRIVERS.md |
+| 21 | UI window layer: window table and stack, redraw dispatcher, 42 redraw wrappers, animated reveal, partial present | 51 | DRIVERS.md |
 
 The exact list, with addresses and case counts, is in PROGRESS.md (`make progress`).
 
@@ -62,7 +63,7 @@ The exact list, with addresses and case counts, is in PROGRESS.md (`make progres
 | 0x40018000–0x40033FFF | 0 / 144 | Nearly 150 KB, mostly very large functions (up to 5.7 KB). Not analysed yet. Probably UI screens and drawing (OPEN). |
 | 0x4002C000 | 0 / 81 | many small functions inside that range; good batch material once their role is known |
 | 0x40034000–0x4003BFFF | 11 / 136 | `main` (0x40034700, 148 bytes), runtime state helpers, a 3.6 KB function at 0x4003A984 |
-| 0x4003C000 | 44 / 157 | the time-base switch 0x4003F160..0x4003F868 (one function split by the analyser), `final_per_channel_normalization` 0x4003FE14, fragment 0x4003FFE4 |
+| 0x4003C000 | 95 / 157 | the time-base switch 0x4003F160..0x4003F868 (one function split by the analyser), `final_per_channel_normalization` 0x4003FE14, fragment 0x4003FFE4 |
 | 0x40040000 | 39 / 124 | acquisition pipeline with Hack names: `full_acquisition_entry`, `one_runtime_capture_step`, `acquisition_dispatcher`, conversion wrappers, `persistence_read/write`; `sys_mmu_init` (CP15, not emulated) |
 | 0x40044000 | 0 / 27 | the largest function in the image (0x40045974, 13.5 KB); calibration serialisation and save/load (0x40044680…) |
 | 0x40048000 | 85 / 89 | almost done; `power_off` stays in assembly on purpose (it waits forever for the supply to drop) |
@@ -87,7 +88,9 @@ The exact list, with addresses and case counts, is in PROGRESS.md (`make progres
 5. **Generator table builder 0x4004D880** and the calibration steps 0x4004B0A0 / 0x4004BFC8. These
    are large but their callers and data are already understood (batch 13, docs/SIM.md).
 6. **First look at 0x40018000–0x40033FFF**: identify the screens through their strings and the
-   draw calls, before writing any C.
+   draw calls, before writing any C. Batch 21 gives a starting point: each of the 42 window draw
+   functions there is called from one `ui_window_NN_redraw` wrapper (table in
+   `tools/platform_spec/p_ui_windows.py`) and reads its own rect from the window table.
 
 ## 3. How to resume (checklist)
 

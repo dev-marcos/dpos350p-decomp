@@ -1333,3 +1333,98 @@ def t_wait(r):
 
 
 TESTS[0x400434F4] = t_wait
+
+
+# ---------------------------------------------------------------- batch 21: UI window layer
+WREC, WSTK, FBP = 0x42E64520, 0x42E68BC8, 0x40095498
+FB_BACK, FB_FRONT, FB_OFF = 0x41BFBF68, 0x41FB8FE8, 0x4233CBBC
+UI_WINDOWS = {}   # id -> (wrapper, draw, kind); filled from the spec table below
+for _l in open(__file__.replace("tests/fpga.py", "../platform_spec/p_ui_windows.py")).read().split("WINDOWS = {")[1].split("}")[0].split("),"):
+    if ":" in _l:
+        _id, _t = _l.split(":", 1)
+        _w, _d, _k = [x.strip(" ()\n\"'") for x in _t.split(",")[:3]]
+        UI_WINDOWS[int(_id.strip(" \n,"))] = (int(_w, 16), int(_d, 16), _k)
+
+
+def stack_setup(r, p_zero=0.3, ids=46):
+    stk = bytes(0 if r.random() < p_zero else r.randrange(ids) for _ in range(20))
+    head = bytes(r.getrandbits(8) for _ in range(2))
+    return lambda m: m.write(WSTK, head + stk)
+
+
+TESTS[0x400342DC] = lambda r: Case([], lambda m: m.w32(FBP, 0), ret=V)
+TESTS[0x400342EC] = lambda r: Case([], lambda m: m.w32(FBP, 0), ret=V)
+
+
+def t_present_rect(r):
+    x0 = r.randrange(1000)
+    x1 = x0 + r.randrange(-1, 20)
+    y0 = r.randrange(590)
+    y1 = r.choice([y0, y0 + 1, y0 + r.randrange(1, 12), max(0, y0 - r.randrange(1, 5))])
+    return Case([x0, y0, x1, y1], ret=V, stubs=(rec("copy_u16", 0x40035728, 3), rec("dflush", 0x4003E6F4, 0)))
+
+
+TESTS[0x400343C4] = t_present_rect
+
+
+def t_reveal(r):
+    x, y = r.randrange(990), r.randrange(560)
+    w, h = r.choice([0, 1, r.randrange(1, 24)]), r.choice([0, 1, r.randrange(1, 32)])
+    rid = r.randrange(1, 43)
+    rec_bytes = bytes(r.getrandbits(8) for _ in range(6)) + bytes(sum(([v & 0xFF, v >> 8] for v in (x, y, w, h)), []))
+    src = [bytes(r.getrandbits(8) for _ in range(2 * w)) for _ in range(h)]
+    dst = [bytes(r.getrandbits(8) for _ in range(2 * w)) for _ in range(h)]
+
+    def setup(m):
+        m.write(WREC + 14 * rid, rec_bytes)
+        for i in range(h):
+            m.write(FB_OFF + 2 * ((y + i) * 1022 + x), src[i])
+            m.write(FB_BACK + 2 * ((y + i) * 1022 + x), dst[i])
+    return Case([WREC + 14 * rid], setup, ret=V, stubs=(rec("present", 0x400343C4, 4), rec("redraw", 0x4003CA88, 0)))
+
+
+TESTS[0x4003D594] = t_reveal
+TESTS[0x4003D46C] = t_reveal
+TESTS[0x4003CD0C] = lambda r: Case([], stack_setup(r, r.choice([0.3, 0.9, 1.0])), ret=V)
+
+
+def t_open(r):
+    st = stack_setup(r, r.choice([0.3, 0.05, 0.0]))
+    wid = r.choice([r.randrange(46), r.getrandbits(8), r.randrange(300)])
+    recs = bytes(r.getrandbits(8) for _ in range(14 * 300 + 14))
+    return Case([wid], lambda m: (st(m), m.write(WREC, recs)), ret=V, stubs=(rec("top", 0x4003CD0C, 0),))
+
+
+TESTS[0x4003CDFC] = t_open
+TESTS[0x4003D6AC] = lambda r: Case([], ret=V, stubs=(rec("open", 0x4003CDFC, 1),))
+UI_TARGET = (rec("target_back", 0x400342DC, 0), rec("target_off", 0x400342EC, 0))
+UI_REVEAL = (rec("slide_down", 0x4003D594, 1), rec("bottom_up", 0x4003D46C, 1))
+for _id, (_w, _d, _k) in UI_WINDOWS.items():
+    if _k == "v":
+        TESTS[_w] = (lambda d: lambda r: Case([r.getrandbits(32)], ret=V, stubs=UI_TARGET + (rec("draw", d, 0),)))(_d)
+    else:
+        TESTS[_w] = (lambda d: lambda r: Case([r.choice([0, 1, r.getrandbits(32), 0x100])], ret=V, stubs=UI_TARGET + UI_REVEAL + (rec("draw", d, 0),)))(_d)
+
+
+def t_wrap33(r):
+    flag = r.choice([0, 1, 0x80])
+    return Case([r.choice([0, 1, r.getrandbits(32)])], lambda m: m.w8(0x42E68A8A, flag), ret=V,
+                stubs=UI_TARGET + UI_REVEAL + (rec("draw", 0x4005FF88, 0),))
+
+
+TESTS[0x4003DD5C] = t_wrap33
+
+
+def t_dispatch(r):
+    st = stack_setup(r, r.choice([0.2, 0.6]), r.choice([43, 46, 256]))
+    recs = bytearray(r.getrandbits(8) for _ in range(14 * 256))
+    pz = r.choice([0.5, 0.8])
+    for i in range(256):        # flags: mostly 0/1 so every branch is reached
+        for k in range(5):
+            recs[14 * i + k] = 0 if r.random() < pz else r.choice([1, 1, 0x80, r.getrandbits(8)])
+    lock = r.choice([0, 0, 0, 0, 1, 0x40])
+    stubs = tuple(rec(f"w{i}", w, 0 if k == "v" else 1) for i, (w, _, k) in UI_WINDOWS.items())
+    return Case([], lambda m: (st(m), m.write(WREC, bytes(recs)), m.w8(0x42E68BC7, lock)), ret=V, stubs=stubs)
+
+
+TESTS[0x4003CA88] = t_dispatch

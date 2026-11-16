@@ -550,6 +550,59 @@ C: `tools/platform_spec/o_settings_spiflash.py`. Tests: `tools/emu/tests/fpga.py
   These are the standard SPI-NOR commands. The C only touches the flash through the stubbed
   `sys_spi_*` calls: nothing in the tests writes to a real device.
 
+## UI window layer (batch 21)
+
+Spec: `tools/platform_spec/p_ui_windows.py`, 51 functions.
+
+The UI is a set of 42 numbered windows (screen regions), each with a 14-byte record in the
+table at 0x42E64520 (id × 14), plus a 20-slot window stack at 0x42E68BC8. The record and stack
+fields below are read from the dispatcher and the draw functions. The meaning of each flag is
+**DERIVED**; which screen each window id shows is still **OPEN**.
+
+| Record offset | Use |
+|---|---|
+| +0 | open (set by `ui_window_open`) |
+| +1 | dirty |
+| +2 | self-contained: when 0 the window is redrawn whenever a window below it set +4 |
+| +3 | animate on the next redraw |
+| +4 | forces the windows above to redraw |
+| +6 / +8 / +0xA / +0xC | x, y, w, h (halfwords, pixels) |
+
+Stack: +0 is the id on top, +1 is its slot index, and +2..+0x15 hold the 20 slots, bottom first.
+
+- **Buffers** (all 1022 pixels wide, RGB565):
+  - `fb_back` 0x41BFBF68, where the windows are composed;
+  - `fb_front` 0x41FB8FE8, scanned out (names from `e_display.py`);
+  - the offscreen buffer 0x4233CBBC, used for animated windows.
+
+  `fb_target_back` / `fb_target_offscreen` set the draw-target pointer at 0x40095498.
+  `fb_present_rect` copies a rect from the back buffer to the front buffer, then flushes the
+  D-cache.
+- **`ui_window_redraw_dirty`** (0x4003CA88):
+  - It does nothing while the byte 0x42E68BC7 is set.
+  - Otherwise it walks the stack bottom to top. Each window that needs a redraw has its +1 and
+    +3 cleared, then gets its wrapper called with the old +3 as the animate flag.
+- **42 redraw wrappers** `ui_window_NN_redraw` (0x4003D71C..0x4003DEB4):
+  - 14 of them are plain: target the back buffer, then call the draw function.
+  - 28 of them, when animate is set, draw into the offscreen buffer and then reveal the window
+    with `ui_reveal_slide_down` or `ui_reveal_bottom_up`. Window 33 picks one of the two from the
+    byte 0x42E68A8A.
+
+  The draw functions (0x40019DB8 … 0x4002C32C, 0x40037AB8, 0x4005FF88, 0x40062EE8) are still
+  assembly; all of them load their own record's rect.
+- **Reveal**: per step, n = min(h, h × floor(10000 × (tanh(t) + 0.02)) / 10000).
+  - t starts at 0; the step starts at 0.2 and shrinks by 0.012 per frame down to 0.01, so the
+    window eases in fast, then slows down.
+  - Each step copies n rows and presents them.
+  - Both reveals end by calling the dispatcher again.
+- **Stack helpers**:
+  - `ui_window_open(id)` puts id in the first free slot and sets +0, +1 and +3;
+  - `ui_window_stack_top_update`;
+  - `ui_windows_open_1_5`.
+
+  The close helper 0x4003CD44 is left in assembly: when the id is missing from the stack it
+  uses whatever the caller left in r1 (a stock quirk).
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

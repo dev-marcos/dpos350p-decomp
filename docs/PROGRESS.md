@@ -16,22 +16,25 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 676 | 49.93% | 79042 | 23.42% |
+| EQUIVALENT | 727 | 53.69% | 82526 | 24.45% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 678 | 50.07% | 258462 | 76.58% |
+| ASM | 627 | 46.31% | 254978 | 75.55% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 676 (50.49%) | 337104 | 79042 (23.45%) |
+| main code | 1339 | 727 (54.29%) | 337104 | 82526 (24.48%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
 
 | address | name | size | level | cases | source |
 |---|---|---:|---|---:|---|
+| `0x400342DC` | fb_target_back | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_400342dc.c` |
+| `0x400342EC` | fb_target_offscreen | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_400342ec.c` |
+| `0x400343C4` | fb_present_rect | 104 | EQUIVALENT | 200 | `nonmatching/platform/func_400343c4.c` |
 | `0x4003442C` | fb_present | 40 | EQUIVALENT | 200 | `nonmatching/platform/func_4003442c.c` |
 | `0x40034454` | fb_clear_current | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_40034454.c` |
 | `0x4003446C` | fb_clear_all | 116 | EQUIVALENT | 200 | `nonmatching/platform/func_4003446c.c` |
@@ -43,6 +46,54 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40035724` | memcpy | 4 | EQUIVALENT | 200 | `nonmatching/platform/func_40035724.c` |
 | `0x40035728` | copy_u16 | 28 | EQUIVALENT | 200 | `nonmatching/platform/func_40035728.c` |
 | `0x4003A5D8` | __aeabi_l2d | 84 | EQUIVALENT | 400 | `nonmatching/libc/func_4003a5d8.c` |
+| `0x4003CA88` | ui_window_redraw_dirty | 644 | EQUIVALENT | 200 | `nonmatching/platform/func_4003ca88.c` |
+| `0x4003CD0C` | ui_window_stack_top_update | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003cd0c.c` |
+| `0x4003CDFC` | ui_window_open | 84 | EQUIVALENT | 200 | `nonmatching/platform/func_4003cdfc.c` |
+| `0x4003D46C` | ui_reveal_bottom_up | 296 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d46c.c` |
+| `0x4003D594` | ui_reveal_slide_down | 280 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d594.c` |
+| `0x4003D6AC` | ui_windows_open_1_5 | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d6ac.c` |
+| `0x4003D71C` | ui_window_01_redraw | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d71c.c` |
+| `0x4003D734` | ui_window_02_redraw | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d734.c` |
+| `0x4003D74C` | ui_window_03_redraw | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d74c.c` |
+| `0x4003D764` | ui_window_05_redraw | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d764.c` |
+| `0x4003D77C` | ui_window_04_redraw | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d77c.c` |
+| `0x4003D794` | ui_window_06_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d794.c` |
+| `0x4003D7CC` | ui_window_10_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d7cc.c` |
+| `0x4003D81C` | ui_window_11_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d81c.c` |
+| `0x4003D86C` | ui_window_12_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d86c.c` |
+| `0x4003D8A4` | ui_window_13_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d8a4.c` |
+| `0x4003D8DC` | ui_window_14_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d8dc.c` |
+| `0x4003D914` | ui_window_15_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d914.c` |
+| `0x4003D950` | ui_window_16_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d950.c` |
+| `0x4003D98C` | ui_window_17_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d98c.c` |
+| `0x4003D9C8` | ui_window_18_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d9c8.c` |
+| `0x4003DA00` | ui_window_19_redraw | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4003da00.c` |
+| `0x4003DA18` | ui_window_20_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003da18.c` |
+| `0x4003DA50` | ui_window_21_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003da50.c` |
+| `0x4003DA88` | ui_window_22_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003da88.c` |
+| `0x4003DAC0` | ui_window_23_redraw | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4003dac0.c` |
+| `0x4003DAD8` | ui_window_24_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003dad8.c` |
+| `0x4003DB10` | ui_window_25_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003db10.c` |
+| `0x4003DB48` | ui_window_26_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003db48.c` |
+| `0x4003DB80` | ui_window_27_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003db80.c` |
+| `0x4003DBB8` | ui_window_28_redraw | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4003dbb8.c` |
+| `0x4003DBD0` | ui_window_07_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003dbd0.c` |
+| `0x4003DC08` | ui_window_08_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003dc08.c` |
+| `0x4003DC40` | ui_window_09_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003dc40.c` |
+| `0x4003DC78` | ui_window_29_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003dc78.c` |
+| `0x4003DCB0` | ui_window_30_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003dcb0.c` |
+| `0x4003DCEC` | ui_window_31_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003dcec.c` |
+| `0x4003DD24` | ui_window_32_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003dd24.c` |
+| `0x4003DD5C` | ui_window_33_redraw | 84 | EQUIVALENT | 200 | `nonmatching/platform/func_4003dd5c.c` |
+| `0x4003DDB0` | ui_window_34_redraw | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4003ddb0.c` |
+| `0x4003DDC8` | ui_window_35_redraw | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4003ddc8.c` |
+| `0x4003DDE0` | ui_window_36_redraw | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4003dde0.c` |
+| `0x4003DDF8` | ui_window_37_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003ddf8.c` |
+| `0x4003DE34` | ui_window_38_redraw | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4003de34.c` |
+| `0x4003DE4C` | ui_window_39_redraw | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4003de4c.c` |
+| `0x4003DE64` | ui_window_40_redraw | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4003de64.c` |
+| `0x4003DE7C` | ui_window_41_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003de7c.c` |
+| `0x4003DEB4` | ui_window_42_redraw | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003deb4.c` |
 | `0x4003DF74` | sqrt | 30 | EQUIVALENT | 400 | `nonmatching/libm/func_4003df74.c` |
 | `0x4003DF94` | __aeabi_d2lz | 102 | EQUIVALENT | 400 | `nonmatching/libc/func_4003df94.c` |
 | `0x4003DFFC` | lcd_readl | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_4003dffc.c` |
