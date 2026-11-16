@@ -129,7 +129,7 @@ g(0x40043E34, 148, "settings_e_load",
 void settings_e_fields(void);
 void settings_f_save(void);
 void settings_b_save(void);
-void func_4003efac(void);
+void factory_defaults(void);
 void settings_slot_save(void);
 
 void settings_e_load(void)
@@ -140,7 +140,7 @@ void settings_e_load(void)
     settings_e_fields();
     if (*(volatile u32 *)0x42E68AE0u == 0x5A5555A5u)
         return;
-    func_4003efac();
+    factory_defaults();
     for (i = 1; i <= 5; i++) {
         SYS8(0x7C0) = i;
         settings_slot_save();

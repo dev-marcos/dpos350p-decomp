@@ -1,6 +1,6 @@
 # Project status and resume point
 
-Snapshot from 2026-11-16, after Phase 5 batch 23. All addresses apply to build
+Snapshot from 2026-11-16, after Phase 5 batch 24. All addresses apply to build
 2025-06-19 only. Work is paused here; this page is the place to start from next time.
 
 ## 1. Where things stand
@@ -8,12 +8,12 @@ Snapshot from 2026-11-16, after Phase 5 batch 23. All addresses apply to build
 | Item | State |
 |---|---|
 | `make check` | MATCH, SHA-256 `6635ddd6…cefd58c` |
-| Functions with equivalent C | 764 of 1354 (56.43%) |
-| Code bytes covered by C | 85,102 of 337,504 (25.22%) |
+| Functions with equivalent C | 777 of 1354 (57.39%) |
+| Code bytes covered by C | 86,530 of 337,504 (25.64%) |
 | MATCHING C | 0 by construction: Arm Compiler 5 is not licensed here (docs/COMPILER.md) |
-| Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library); full suite last run after batch 20, all EQUIVALENT; batches 21–23 run on their own 88 functions |
-| Mutation self-test | 187/187 mutants detected (`make selftest`) |
-| TEST image | `make testiso`: 491 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
+| Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library); full suite run after batch 24, all 777 EQUIVALENT |
+| Mutation self-test | 197/197 mutants detected (`make selftest`) |
+| TEST image | `make testiso`: 499 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
 | Browser emulator | repo `dev-marcos/dpos350p-emu`, submodule `tools/sim` at `5ed2f7e`, runs fully in the browser (docs/SIM.md) |
 
 The two numbers in the table differ because the finished work is mostly small and medium
@@ -44,6 +44,7 @@ functions. The large ones (UI, the table builders, the calibration steps) are st
 | 21 | UI window layer: window table and stack, redraw dispatcher, 42 redraw wrappers, animated reveal, partial present | 51 | DRIVERS.md |
 | 22 | per-trace processing chain (order and gates), runtime re-arm, window close/invalidate/reset, frame update | 18 | DRIVERS.md |
 | 23 | user slots, calibration/G/H settings records, load-all at start-up, zoom/time-base index helpers | 19 | DRIVERS.md |
+| 24 | LCD bring-up, factory defaults, state-block initialisers, applied-state invalidation, acquisition geometry, SPI flash erase and paged write | 13 | DRIVERS.md |
 
 The exact list, with addresses and case counts, is in PROGRESS.md (`make progress`).
 

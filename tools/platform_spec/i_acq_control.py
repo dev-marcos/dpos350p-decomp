@@ -26,7 +26,7 @@ q(0x4003F064, 36, "sys_info_restore", "SYS_INFO back from 0x409223F0, then 0x400
 void sys_info_restore(void)
 {
     memcpy((void *)0x40544E68u, SYS_BACKUP, SYS_SIZE);
-    func_4003ef1c();
+    applied_state_invalidate();
 }
 """)
 q(0x4003F0C0, 32, "state_backup_all", "Saves SYS_INFO, the generator state and two other blocks (around calibration).", """

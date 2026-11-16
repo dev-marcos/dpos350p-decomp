@@ -1558,3 +1558,61 @@ TESTS[0x40042470] = t_zoom_sub
 TESTS[0x400424B8] = lambda r: Case([r.getrandbits(32)], ret=V, stubs=(rec("b8", 0x400423B8, 0),))
 TESTS[0x400424D4] = lambda r: Case([], sys_bytes(r, 0x560, 0x600), ret=V,
                                    stubs=(rec("tb", 0x4003BE50, 1), rec("set", 0x400424B8, 1), rec("p570", 0x4003BE98, 2), rec("p578", 0x400424C4, 2)))
+
+
+# ---------------------------------------------------------------- batch 24: display bring-up, defaults, state init, SPI erase/write
+def rand_block(r, base, n):
+    data = bytes(r.getrandbits(8) for _ in range(n))
+    return lambda m: m.write(base, data)
+
+
+TESTS[0x4003E63C] = lambda r: Case([], ret=V, stubs=(rec("pio_cfg_pin", 0x400631D4, 4),))
+TESTS[0x4003E688] = lambda r: Case([], ret=V, stubs=(rec("tcon_off", 0x4003E00C, 0), rec("de_off", 0x4003E05C, 0),
+                                                     rec("pins", 0x4003E63C, 0), rec("display_init", 0x4003E5D8, 3)))
+TESTS[0x4003E708] = lambda r: Case([], (lambda v: lambda m: m.w8(0x42E68BC7, v))(r.choice([0, 0, 1])), ret=V,
+                                   stubs=(rec("a654", 0x4003A654, 0), rec("fe", 0x4004A510, 0), rec("3328", 0x40063328, 0)))
+TESTS[0x4003ED28] = lambda r: Case([], rand_block(r, 0x42E3F984, 0x2F70), ret=V)
+TESTS[0x4003ED80] = lambda r: Case([], rand_block(r, 0x42E180C8, 0xAD20), ret=V)
+TESTS[0x4003EDF4] = lambda r: Case([], rand_block(r, 0x42E68668, 0x1A0), ret=V)
+TESTS[0x4003EEB0] = lambda r: Case([], ret=V, stubs=(rec("eb40", 0x4003EB40, 0), rec("i1", 0x4003ED28, 0), rec("i2", 0x4003ED80, 0),
+                                                     rec("i3", 0x4003EDF4, 0), rec("c0060", 0x40030060, 2), rec("backup", 0x4003F0C0, 0)))
+TESTS[0x4003EF1C] = lambda r: Case([], sys_bytes(r, 0, 0xC00), ret=V, stubs=(rec("3bc0", 0x40063BC0, 0), rec("apply", 0x4003E708, 0)))
+TESTS[0x4003EFAC] = lambda r: Case([], ret=V, stubs=(rec("memset_w", 0x400356E4, 3), rec("e738", 0x4003E738, 0), rec("init", 0x4003EEB0, 0)))
+
+
+def t_geom(r):
+    ov = {0x588: (1, r.choice([0x21, 0x21, 0x20, r.randrange(256)])), 0x1B1: (1, r.choice([0, 1, 4, 8, r.randrange(256)])),
+          0x558: (4, r.choice([r.randrange(5000), r.getrandbits(32)]))}
+    return Case([], sys_bytes(r, 0, 0x800, ov), ret=V)
+
+
+TESTS[0x4003C008] = t_geom
+
+
+def flash_stubs():
+    def xfer(m, a):
+        q = regs3(m)
+        n = q[3] if q[3] <= 16 else 16
+        m.calls.append(("xfer", q[0], bytes(m.read(q[1], n)), q[2], q[3]))
+        m.uc.reg_write(A.UC_ARM_REG_R0, m.srng.choice([q[3], q[3], q[3] - 1, 0]))
+
+    def we(m, a):
+        m.calls.append(("we", a[0]))
+        return m.srng.choice([0, 0, 0xFFFFFFFF, 1])
+    return (rec("select", 0x4004302C, 1), rec("deselect", 0x40043088, 1), rec("wait", 0x400434F4, 1),
+            Stub("we", 0x40043514, we, 1), Stub("xfer*", 0x40043330, xfer, 0))
+
+
+def t_erase(r):
+    four = r.choice([0, 0, 1, 0x100])
+    return Case([r.getrandbits(32), r.getrandbits(32)], seeded(r.getrandbits(32), lambda m: m.w32(0x42E68CD4, four)), ret=R,
+                stubs=flash_stubs())
+
+
+TESTS[0x40043564] = t_erase
+TESTS[0x4004380C] = lambda r: Case([r.getrandbits(32), r.getrandbits(32), r.getrandbits(32),
+                                    r.choice([0, 1, r.randrange(1, 300), r.randrange(256, 2000), 0x10000 + r.randrange(300)])],
+                                   ret=V, stubs=(rec("pp", 0x4004372C, 4),))
+TESTS[0x40043CA8] = lambda r: Case([SYS, r.choice([0x360404, r.randrange(0x1000)]), r.getrandbits(32), r.choice([0x4000, r.getrandbits(16)])],
+                                   sys_bytes(r, 0x7A0, 0x800), ret=V,
+                                   stubs=(rec("pread", 0x40043620, 4), rec("dec", 0x40067144, 0), rec("fields", 0x40043B0C, 0)))

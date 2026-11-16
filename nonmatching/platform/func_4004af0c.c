@@ -16,13 +16,13 @@ int post_channel_mux_check(u32 vdiv)
     SYS8(0x3C) = 0; SYS8(0x3E) = 1; SYS8(0x40) = 0; SYS8(0x3F) = 0; SYS8(0x46) = 2;
     SYS8(0x102) = 1; SYS8(0x104) = 0; SYS8(0x103) = 0; SYS8(0x10A) = 2; SYS8(0x275) = 0; SYS8(0x660) = 0;
     SYS32(0x60) = 0xAA; SYS32(0x120) = 0xAA;
-    func_4003e708(); delay_ms(100); acquisition_dispatcher();
+    outputs_apply(); delay_ms(100); acquisition_dispatcher();
     a = SYS32(0x60); m = SYS32(0xB34);
     if (a - tol < m && m < tol + a) ok_hi1 = 1;
     a = SYS32(0x120); m = SYS32(0xB50);
     if (a - tol < m && m < tol + a) ok_hi2 = 1;
     SYS32(0x60) = 0x1E; SYS32(0x120) = 0x1E;
-    func_4003e708(); delay_ms(100); acquisition_dispatcher();
+    outputs_apply(); delay_ms(100); acquisition_dispatcher();
     a = SYS32(0x60); m = SYS32(0xB34);
     if (a - tol < m && m < tol + a) ok_lo1 = 1;
     a = SYS32(0x120); m = SYS32(0xB50);

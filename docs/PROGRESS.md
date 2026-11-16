@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 764 | 56.43% | 85102 | 25.22% |
+| EQUIVALENT | 777 | 57.39% | 86530 | 25.64% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 590 | 43.57% | 252402 | 74.78% |
+| ASM | 577 | 42.61% | 250974 | 74.36% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 764 (57.06%) | 337104 | 85102 (25.25%) |
+| main code | 1339 | 777 (58.03%) | 337104 | 86530 (25.67%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -48,6 +48,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4003A5D8` | __aeabi_l2d | 84 | EQUIVALENT | 400 | `nonmatching/libc/func_4003a5d8.c` |
 | `0x4003BE50` | timebase_index_set | 40 | EQUIVALENT | 200 | `nonmatching/platform/func_4003be50.c` |
 | `0x4003BE98` | sys_word_pair_570_set | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_4003be98.c` |
+| `0x4003C008` | acquisition_geometry_setup | 164 | EQUIVALENT | 200 | `nonmatching/platform/func_4003c008.c` |
 | `0x4003C520` | runtime_rearm_setup | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_4003c520.c` |
 | `0x4003C550` | traces_e10c_enabled | 112 | EQUIVALENT | 200 | `nonmatching/platform/func_4003c550.c` |
 | `0x4003C790` | trace_c5cc_full | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_4003c790.c` |
@@ -126,9 +127,18 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4003E304` | de_commit_base | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_4003e304.c` |
 | `0x4003E314` | de_init | 708 | EQUIVALENT | 200 | `nonmatching/platform/func_4003e314.c` |
 | `0x4003E5D8` | display_init | 100 | EQUIVALENT | 200 | `nonmatching/platform/func_4003e5d8.c` |
+| `0x4003E63C` | lcd_pins_init | 76 | EQUIVALENT | 200 | `nonmatching/platform/func_4003e63c.c` |
+| `0x4003E688` | lcd_start | 44 | EQUIVALENT | 200 | `nonmatching/platform/func_4003e688.c` |
 | `0x4003E6F4` | dcache_clean_inv_all_t | 4 | EQUIVALENT | 200 | `nonmatching/platform/func_4003e6f4.c` |
 | `0x4003E6F8` | __aeabi_uidivmod | 12 | EQUIVALENT | 400 | `nonmatching/libc/func_4003e6f8.c` |
 | `0x4003E704` | __aeabi_ldiv0 | 4 | EQUIVALENT | 400 | `nonmatching/libc/func_4003e704.c` |
+| `0x4003E708` | outputs_apply | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_4003e708.c` |
+| `0x4003ED28` | state_block_3f984_init | 88 | EQUIVALENT | 200 | `nonmatching/platform/func_4003ed28.c` |
+| `0x4003ED80` | state_block_180c8_init | 116 | EQUIVALENT | 200 | `nonmatching/platform/func_4003ed80.c` |
+| `0x4003EDF4` | state_block_68668_init | 188 | EQUIVALENT | 200 | `nonmatching/platform/func_4003edf4.c` |
+| `0x4003EEB0` | state_blocks_init | 108 | EQUIVALENT | 200 | `nonmatching/platform/func_4003eeb0.c` |
+| `0x4003EF1C` | applied_state_invalidate | 144 | EQUIVALENT | 200 | `nonmatching/platform/func_4003ef1c.c` |
+| `0x4003EFAC` | factory_defaults | 120 | EQUIVALENT | 200 | `nonmatching/platform/func_4003efac.c` |
 | `0x4003F024` | sys_info_backup | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_4003f024.c` |
 | `0x4003F034` | gen_state_backup | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_4003f034.c` |
 | `0x4003F044` | state_c_backup | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_4003f044.c` |
@@ -238,6 +248,8 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40043494` | spi_flash_cmd_read1 | 96 | EQUIVALENT | 200 | `nonmatching/platform/func_40043494.c` |
 | `0x400434F4` | spi_flash_wait_ready | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_400434f4.c` |
 | `0x40043514` | spi_flash_write_enable | 80 | EQUIVALENT | 200 | `nonmatching/platform/func_40043514.c` |
+| `0x40043564` | spi_flash_sector_erase | 188 | EQUIVALENT | 200 | `nonmatching/platform/func_40043564.c` |
+| `0x4004380C` | spi_flash_write_paged | 104 | EQUIVALENT | 200 | `nonmatching/platform/func_4004380c.c` |
 | `0x400439A0` | settings_a_fields | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_400439a0.c` |
 | `0x400439D8` | settings_a_save | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_400439d8.c` |
 | `0x40043A0C` | settings_a_load | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40043a0c.c` |
@@ -246,6 +258,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40043AB4` | settings_b_load | 88 | EQUIVALENT | 200 | `nonmatching/platform/func_40043ab4.c` |
 | `0x40043C68` | settings_c_save | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40043c68.c` |
 | `0x40043C9C` | settings_c_load | 12 | EQUIVALENT | 200 | `nonmatching/platform/func_40043c9c.c` |
+| `0x40043CA8` | settings_c_load_tail | 40 | EQUIVALENT | 200 | `nonmatching/platform/func_40043ca8.c` |
 | `0x40043CD0` | settings_d_fields | 132 | EQUIVALENT | 200 | `nonmatching/platform/func_40043cd0.c` |
 | `0x40043D54` | settings_d_save | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40043d54.c` |
 | `0x40043D88` | settings_d_load | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40043d88.c` |

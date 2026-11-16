@@ -123,7 +123,7 @@ void acquisition_prepare(void);              /* 0x4003FA10 (Hack name) */
 void acq_wait_done(void);                    /* 0x4003FCC0 */
 void capture_with_length(u32 v, u32 len, u32 buf);   /* 0x400406A4: capture len + 20 samples into buf */
 u32  lane_level_sum(u32 start, u32 lane, u32 ch, u32 n, unsigned char *buf);   /* 0x4004ACC8 */
-void func_4003e708(void);                    /* SysConfigExec (Hack FPGA.md section 18) */
+void outputs_apply(void);                    /* SysConfigExec (Hack FPGA.md section 18) */
 void acquisition_dispatcher(void);           /* 0x400419CC (Hack name) */
 
 /* ---- signal generator (batch 13). State block G = 0x42E3F984; the settings block at G+0x2EFC
@@ -165,7 +165,7 @@ void gen_load_samples(void);                                        /* 0x4004D12
 /* ---- acquisition control (batch 14) */
 #define SYS_BACKUP   ((void *)0x409223F0u)     /* copy of SYS_INFO (0x3DD588 bytes) */
 #define SYS_SIZE     0x3DD588u
-void func_4003ef1c(void);
+void applied_state_invalidate(void);
 void func_4003f2f4(void);                    /* time-base set-up (split by the analyser, OPEN) */
 void func_4003f160(void);
 void func_40063f04(void);

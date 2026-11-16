@@ -10,5 +10,5 @@
 void sys_info_restore(void)
 {
     memcpy((void *)0x40544E68u, SYS_BACKUP, SYS_SIZE);
-    func_4003ef1c();
+    applied_state_invalidate();
 }

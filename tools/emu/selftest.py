@@ -227,6 +227,17 @@ MUTANTS = [
     (0x40042350, "if (SYS8(0x28) && SYS8(0x3C) == 0)", "if (SYS8(0x28))"),
     (0x40042470, "if (d < b)", "if (d <= b)"),
     (0x400424D4, "zoom_index_set((SYS8(0x5B0) - 1) & 0xFF);", "zoom_index_set(SYS8(0x5B0));"),
+    # batch 24: display bring-up, defaults, state init, SPI erase/write
+    (0x4003E63C, "if (pin == 12)", "if (pin == 11)"),
+    (0x4003ED28, "W(0x2F08) = 500;", "W(0x2F08) = 1000;"),
+    (0x4003ED80, "W(0xAC64) = h / 5u;", "W(0xAC64) = h / 4u;"),
+    (0x4003EDF4, "W(0x5C) = v / 5;", "W(0x5C) = (u32)v / 5u;"),
+    (0x4003EF1C, "SYS8(0xBC9) = ~SYS8(0x105);", "SYS8(0xBC9) = ~SYS8(0x41);"),
+    (0x4003EFAC, "memset_w((void *)0x42E68BCAu, 0, 0x14);", "memset_w((void *)0x42E68BC8u, 0, 0x14);"),
+    (0x4003C008, "SYS16(0x6F4) = q + 2;", "SYS16(0x6F4) = q + 1;"),
+    (0x4003C008, "SYS8(0x588) == 0x21 ? 2 : 1", "SYS8(0x588) == 0x20 ? 2 : 1"),
+    (0x40043564, "cmd[0] = 0x21;", "cmd[0] = 0x20;"),
+    (0x4004380C, "if (n > 0x100)\n            n = 0x100;", "if (n > 0xFF)\n            n = 0xFF;"),
 ]
 
 

@@ -673,6 +673,44 @@ Spec: `tools/platform_spec/r_slots_timebase.py`, 19 functions.
   - `zoom_reset`.
   - `timebase_index_set` (SYS+0x588) and the 64-bit setters for SYS+0x570 and SYS+0x578.
 
+## Start-up, defaults and state initialisers (batch 24)
+
+Spec: `tools/platform_spec/s_init_defaults.py`, 13 functions.
+
+- **Display bring-up**:
+  - `lcd_pins_init` sets PD1..PD21, all except PD12, to function 2 (the RGB LCD bus);
+  - `lcd_start` turns the TCON and DE clocks off, sets up the pins, then calls
+    `display_init(1022, 600, fb_front)`.
+- **`factory_defaults`** (0x4003EFAC, the call used by `settings_e_load` when the magic is
+  missing):
+  - it clears SYS_INFO (0x3DD588 bytes), the block 0x42E3F984, the window table and stack, and
+    the blocks 0x42E68BB0 and 0x42E68A88;
+  - it then runs 0x4003E738 and `state_blocks_init`.
+- **`state_blocks_init`**:
+  - it runs the three block initialisers, 0x42E3F984, 0x42E180C8 and 0x42E68668;
+  - it calls 0x40030060(0, k) for k = 7, 6, 3, 4, 5, 2;
+  - it ends with `state_backup_all`.
+
+  The initialisers write fixed defaults. Among them are the 64-bit values 200000, 500000000 and
+  250100000 at 0x42E68668+0x120.., and the doubles 20.0 and 60.0 at +0x140 / +0x148. Each one
+  ends by setting the byte 0x42E68BC6 = 1. Their meaning is OPEN.
+- **`applied_state_invalidate`**: writes the complement of the current values into the
+  "last applied" copy at SYS+0xBB0..0xBCA. This guarantees the next `outputs_apply` sends
+  everything to the hardware again. The interpretation is DERIVED from the pattern: the
+  complement is never equal to the current value.
+- **`outputs_apply`** (Hack: SysConfigExec): unless the byte 0x42E68BC7 is set, runs
+  0x4003A654, `frontend_apply_all` and 0x40063328.
+- **`acquisition_geometry_setup`**:
+  - the step SYS+0x6F8 is 2 at time-base index 0x21, else 1;
+  - the per-bank count is SYS+0x6F4 = SYS+0x558 × step / SYS+0x1B1 + 2;
+  - the window end is SYS+0x708;
+  - it also sets the display lengths at SYS+0x454 / SYS+0x38C.
+- **SPI flash**:
+  - `spi_flash_sector_erase` sends 0x20 with a 3-byte address, or 0x21 with a 4-byte address
+    when the word 0x42E68CD4 is set; it returns 0 or −1;
+  - `spi_flash_write_paged` splits a write so that no chunk crosses a 256-byte page;
+  - `settings_c_load_tail` is the fall-through half of `settings_c_load`.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

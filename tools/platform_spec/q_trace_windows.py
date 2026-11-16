@@ -15,7 +15,7 @@ t(0x4003C520, 48, "runtime_rearm_setup", "Re-arm after a settings change: 0x4003
 void func_4003bea8(void);
 void func_4003b7b8(void);
 void func_40024e14(void);
-void func_4003c008(void);
+void acquisition_geometry_setup(void);
 void fb_present(void);
 void write_sys_info_0x6f0_to_fpga(void);
 void pulse_fpga_selector_0x08_0_1(void);
@@ -25,7 +25,7 @@ void runtime_rearm_setup(void)
     func_4003bea8();
     func_4003b7b8();
     func_40024e14();
-    func_4003c008();
+    acquisition_geometry_setup();
     fb_present();
     write_sys_info_0x6f0_to_fpga();
     acquisition_prepare();

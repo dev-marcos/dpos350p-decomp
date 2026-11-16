@@ -453,7 +453,7 @@ address,size,name,type,evidence_level,source
 0x4003BF58,32,func_4003bf58,function_arm,DERIVED,analyze.py:rea
 0x4003BF78,32,func_4003bf78,function_arm,DERIVED,analyze.py:rea
 0x4003BF98,112,runtime_counter_progress_advance,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:563
-0x4003C008,164,func_4003c008,function_arm,DERIVED,analyze.py:rea
+0x4003C008,164,acquisition_geometry_setup,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003C0AC,172,func_4003c0ac,function_arm,DERIVED,analyze.py:rea
 0x4003C158,432,func_4003c158,function_arm,DERIVED,analyze.py:rea
 0x4003C308,12,pool_4003c308,literal_pool,DERIVED,analyze.py
@@ -553,21 +553,21 @@ address,size,name,type,evidence_level,source
 0x4003E304,16,de_commit_base,function_arm,DERIVED,this-project:phase5 (display)
 0x4003E314,708,de_init,function_arm,DERIVED,this-project:phase5 (display)
 0x4003E5D8,100,display_init,function_arm,DERIVED,this-project:phase5 (display)
-0x4003E63C,76,func_4003e63c,function_arm,DERIVED,analyze.py:rea
-0x4003E688,44,func_4003e688,function_arm,DERIVED,analyze.py:rea
+0x4003E63C,76,lcd_pins_init,function_arm,DERIVED,this-project:phase5 (display)
+0x4003E688,44,lcd_start,function_arm,DERIVED,this-project:phase5 (display)
 0x4003E6B4,64,pool_4003e6b4,literal_pool,DERIVED,analyze.py
 0x4003E6F4,4,dcache_clean_inv_all_t,function_arm,DERIVED,this-project:phase5 (display)
 0x4003E6F8,12,__aeabi_uidivmod,function_thumb,DERIVED,this-project:phase2
 0x4003E704,4,__aeabi_ldiv0,function_arm,DERIVED,this-project:phase5 (bx lr; target of the uldivmod divide-by-zero path)
-0x4003E708,48,func_4003e708,function_arm,DERIVED,analyze.py:rea
+0x4003E708,48,outputs_apply,function_arm,DERIVED,this-project:phase5 (init)
 0x4003E738,1032,func_4003e738,function_arm,DERIVED,analyze.py:rea
 0x4003EB40,488,func_4003eb40,function_arm,DERIVED,analyze.py:rea
-0x4003ED28,88,func_4003ed28,function_arm,DERIVED,analyze.py:rea
-0x4003ED80,116,func_4003ed80,function_arm,DERIVED,analyze.py:rea
-0x4003EDF4,188,func_4003edf4,function_arm,DERIVED,analyze.py:rea
-0x4003EEB0,108,func_4003eeb0,function_arm,DERIVED,analyze.py:rea
-0x4003EF1C,144,func_4003ef1c,function_arm,DERIVED,analyze.py:rea
-0x4003EFAC,120,func_4003efac,function_arm,DERIVED,analyze.py:rea
+0x4003ED28,88,state_block_3f984_init,function_arm,DERIVED,this-project:phase5 (init)
+0x4003ED80,116,state_block_180c8_init,function_arm,DERIVED,this-project:phase5 (init)
+0x4003EDF4,188,state_block_68668_init,function_arm,DERIVED,this-project:phase5 (init)
+0x4003EEB0,108,state_blocks_init,function_arm,DERIVED,this-project:phase5 (init)
+0x4003EF1C,144,applied_state_invalidate,function_arm,DERIVED,this-project:phase5 (init)
+0x4003EFAC,120,factory_defaults,function_arm,DERIVED,this-project:phase5 (init)
 0x4003F024,16,sys_info_backup,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003F034,16,gen_state_backup,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003F044,16,state_c_backup,function_arm,DERIVED,this-project:phase5 (acquisition)
@@ -743,12 +743,12 @@ address,size,name,type,evidence_level,source
 0x40043494,96,spi_flash_cmd_read1,function_arm,DERIVED,this-project:phase5 (spi)
 0x400434F4,32,spi_flash_wait_ready,function_arm,DERIVED,this-project:phase5 (spi)
 0x40043514,80,spi_flash_write_enable,function_arm,DERIVED,this-project:phase5 (spi)
-0x40043564,188,func_40043564,function_arm,DERIVED,analyze.py:rea
+0x40043564,188,spi_flash_sector_erase,function_arm,DERIVED,this-project:phase5 (spi)
 0x40043620,256,persistence_read,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:636
 0x40043720,12,pool_40043720,literal_pool,DERIVED,analyze.py
 0x4004372C,200,func_4004372c,function_arm,DERIVED,analyze.py:rea
 0x400437F4,24,pool_400437f4,literal_pool,DERIVED,analyze.py
-0x4004380C,104,func_4004380c,function_arm,DERIVED,analyze.py:rea
+0x4004380C,104,spi_flash_write_paged,function_arm,DERIVED,this-project:phase5 (spi)
 0x40043874,260,persistence_write_read_modify_write,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:637
 0x40043978,40,pool_40043978,literal_pool,DERIVED,analyze.py
 0x400439A0,56,settings_a_fields,function_arm,DERIVED,this-project:phase5 (settings)
@@ -760,7 +760,7 @@ address,size,name,type,evidence_level,source
 0x40043B0C,348,func_40043b0c,function_arm,DERIVED,analyze.py:rea
 0x40043C68,52,settings_c_save,function_arm,DERIVED,this-project:phase5 (settings)
 0x40043C9C,12,settings_c_load,function_arm,DERIVED,this-project:phase5 (settings)
-0x40043CA8,40,func_40043ca8,function_arm,DERIVED,analyze.py:prologue
+0x40043CA8,40,settings_c_load_tail,function_arm,DERIVED,this-project:phase5 (settings)
 0x40043CD0,132,settings_d_fields,function_arm,DERIVED,this-project:phase5 (settings)
 0x40043D54,52,settings_d_save,function_arm,DERIVED,this-project:phase5 (settings)
 0x40043D88,52,settings_d_load,function_arm,DERIVED,this-project:phase5 (settings)
