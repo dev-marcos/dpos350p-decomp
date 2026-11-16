@@ -216,6 +216,17 @@ MUTANTS = [
     (0x4003CE50, "if (slot < 19)", "if (slot < 18)"),
     (0x4003CE50, "        if (k)\n", "        if (k || 1)\n"),
     (0x4003CF58, "        return;\n    fb_present();", "        fb_present();\n    fb_present();"),
+    # batch 23: slots, calibration/G/H records, zoom index
+    (0x4004435C, "return s <= 4 ? SYS32(0x7C8 + 4 * s) : 0;", "return s <= 4 ? SYS32(0x7C4 + 4 * s) : 0;"),
+    (0x40044680, "SER_IMAGE, 0x5000", "SER_IMAGE, 0x1000"),
+    (0x4004480C, "serializer_process_field(&SYS32(0x764), 4);", "serializer_process_field(&SYS32(0x760), 4);"),
+    (0x4003BE50, "SYS16(0x870) = 1;", "SYS16(0x872) = 1;"),
+    (0x40041F5C, "SYS8(0x2AA) || SYS8(0x28) || SYS8(0x652)", "SYS8(0x2AA) || SYS8(0x28)"),
+    (0x40041FF8, "SYS32(0xBD0 + 8 * SYS8(0x598))", "SYS32(0xBD0 + 4 * SYS8(0x598))"),
+    (0x40042350, "SYS8(0x598) = lim - 1;", "SYS8(0x598) = lim - 2;"),
+    (0x40042350, "if (SYS8(0x28) && SYS8(0x3C) == 0)", "if (SYS8(0x28))"),
+    (0x40042470, "if (d < b)", "if (d <= b)"),
+    (0x400424D4, "zoom_index_set((SYS8(0x5B0) - 1) & 0xFF);", "zoom_index_set(SYS8(0x5B0));"),
 ]
 
 

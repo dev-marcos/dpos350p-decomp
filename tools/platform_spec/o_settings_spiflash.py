@@ -125,12 +125,12 @@ void settings_e_fields(void)
 """)
 rec("e", "settings_e_fields", 0x40043E00, None, 0x7DC, 0x1000, "four words at 0x42E68AE0")
 g(0x40043E34, 148, "settings_e_load",
-  "Loads record E. Without the magic 0x5A5555A5 (first start or erased flash) it rebuilds the defaults: 0x4003EFAC, then 0x4004435C for slots 1..5 (SYS_INFO+0x7C0), slot 1 saved in record F, SYS+0x7AC = 2 and record B saved.", SER + """
+  "Loads record E. Without the magic 0x5A5555A5 (first start or erased flash) it rebuilds the defaults: 0x4003EFAC, then settings_slot_save for slots 1..5 (SYS_INFO+0x7C0), slot 1 saved in record F, SYS+0x7AC = 2 and record B saved.", SER + """
 void settings_e_fields(void);
 void settings_f_save(void);
 void settings_b_save(void);
 void func_4003efac(void);
-void func_4004435c(void);
+void settings_slot_save(void);
 
 void settings_e_load(void)
 {
@@ -143,7 +143,7 @@ void settings_e_load(void)
     func_4003efac();
     for (i = 1; i <= 5; i++) {
         SYS8(0x7C0) = i;
-        func_4004435c();
+        settings_slot_save();
     }
     SYS8(0x7C0) = 1;
     settings_f_save();

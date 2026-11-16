@@ -1498,3 +1498,63 @@ TESTS[0x4003CE50] = lambda r: Case([r.choice([r.randrange(1, 46), r.randrange(30
 TESTS[0x4003CF0C] = lambda r: Case([], win_state(r), ret=V, stubs=(Stub("clr*", 0x4005F914, lambda m, a: m.calls.append(("clr", *regs3(m)[:2])), 0),))
 TESTS[0x4003CF58] = lambda r: Case([], (lambda v: lambda m: (m.w8(0x42E68BC7, v), m.write(0x42E68BC4, b"\xef\xbe")))(r.choice([0, 0, 1])),
                                    ret=V, stubs=(rec("redraw", 0x4003CA88, 0), rec("batt", 0x4004A448, 0), rec("present", 0x4003442C, 0)))
+
+
+# ---------------------------------------------------------------- batch 23: slots, calibration/G/H records, zoom index
+def slot_state(r):
+    return sys_bytes(r, 0x7A0, 0x800, {0x7C0: (1, r.randrange(1, 6))})
+
+
+TESTS[0x4004435C] = lambda r: Case([], slot_state(r), ret=V, stubs=SERS + (rec("fields", 0x40043F54, 0),))
+TESTS[0x400443D4] = lambda r: Case([], slot_state(r), ret=V, stubs=SERS + (rec("fields", 0x40043F54, 0),))
+TESTS[0x40044680] = lambda r: Case([], set_state(r), ret=V, stubs=SERS + (rec("cal", 0x40044450, 0),))
+TESTS[0x400446B4] = lambda r: Case([], set_state(r), ret=V, stubs=SERS + (rec("cal", 0x40044450, 0),))
+TESTS[0x400446E8] = lambda r: Case([], ret=V, stubs=SERS)
+TESTS[0x4004480C] = lambda r: Case([], ret=V, stubs=SERS)
+TESTS[0x4004472C] = lambda r: Case([], set_state(r), ret=V, stubs=SERS + (rec("g", 0x400446E8, 0),))
+TESTS[0x40044760] = lambda r: Case([], set_state(r), ret=V, stubs=SERS + (rec("g", 0x400446E8, 0),))
+TESTS[0x40044794] = lambda r: Case([], ret=V, stubs=tuple(rec(f"l{i}", a, 0) for i, a in enumerate(
+    (0x40043E34, 0x40043F20, 0x400443D4, 0x40043AB4, 0x400446B4, 0x40043A0C, 0x40044760, 0x40043D88, 0x40043C9C))))
+TESTS[0x4003BE50] = lambda r: Case([r.getrandbits(32)], sys_bytes(r, 0x580, 0x880), ret=V, stubs=(rec("bcf0", 0x4003BCF0, 0),))
+TESTS[0x4003BE98] = lambda r: Case([r.getrandbits(32), r.getrandbits(32)], ret=V)
+TESTS[0x400424C4] = lambda r: Case([r.getrandbits(32), r.getrandbits(32)], ret=V)
+ZFL = (0x2AA, 0x28, 0x652, 0x3C)
+
+
+def t_zoom_update(r):
+    base = flags_sys(r, ZFL)
+    lock = r.choice([0, 0, 0, 1])
+    return Case([], lambda m: (base(m), m.w8(0x42E68BC7, lock)), ret=V,
+                stubs=(rec("a", 0x40041BA0, 0), rec("b", 0x40041D38, 0), rec("c", 0x40041E34, 0)))
+
+
+TESTS[0x40041F5C] = t_zoom_update
+TESTS[0x40041FF8] = lambda r: Case([], (lambda b, z: lambda m: (b(m), m.write(SYS + 0xBD0, z)))(
+                                       sys_bytes(r, 0x580, 0x800, {0x598: (1, r.randrange(256))}), bytes(r.getrandbits(8) for _ in range(0x800))), ret=V)
+
+
+def t_zoom_check(r):
+    lim = r.choice([0, 1, r.randrange(256)])
+    ov = {0x5B0: (1, lim), 0x2A8: (1, r.choice([lim, lim + 1 & 0xFF, r.randrange(256)])),
+          0x598: (1, r.choice([lim, (lim - 1) & 0xFF, (lim + 3) & 0xFF, r.randrange(256)]))}
+    return Case([], flags_sys(r, ZFL, ov), ret=R)
+
+
+TESTS[0x40042350] = t_zoom_check
+TESTS[0x4004245C] = lambda r: Case([r.getrandbits(32)], sys_bytes(r, 0x580, 0x600), ret=V, stubs=(rec("b8", 0x400423B8, 0),))
+
+
+def t_zoom_sub(r):
+    a, b = r.randrange(1, 300), r.randrange(1, 1 << 20)
+    cur = r.randrange(256)
+    n = a * b
+    ov = {0x2AC: (2, a), 0x554: (4, b), 0x614: (4, r.choice([n, n - 1, n + 1, r.getrandbits(32)]) & 0xFFFFFFFF),
+          0x598: (1, cur)}
+    return Case([r.choice([0, 1, cur, cur, r.randrange(256), r.getrandbits(32)])], sys_bytes(r, 0x200, 0x700, ov), ret=V,
+                stubs=(rec("b8", 0x400423B8, 0),))
+
+
+TESTS[0x40042470] = t_zoom_sub
+TESTS[0x400424B8] = lambda r: Case([r.getrandbits(32)], ret=V, stubs=(rec("b8", 0x400423B8, 0),))
+TESTS[0x400424D4] = lambda r: Case([], sys_bytes(r, 0x560, 0x600), ret=V,
+                                   stubs=(rec("tb", 0x4003BE50, 1), rec("set", 0x400424B8, 1), rec("p570", 0x4003BE98, 2), rec("p578", 0x400424C4, 2)))

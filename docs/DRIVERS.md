@@ -636,6 +636,43 @@ Spec: `tools/platform_spec/q_trace_windows.py`, 18 functions.
   the caller's r2 as the slot. The C takes these as explicit extra parameters, so the behaviour
   stays the same.
 
+## User slots, more settings records and the zoom index (batch 23)
+
+Spec: `tools/platform_spec/r_slots_timebase.py`, 19 functions.
+
+- **Settings records.** Every record lives in the serialiser image at SYS+0x360404.
+
+  | Record | Fields | Flash address word | Bytes |
+  |---|---|---|---|
+  | slot 1..5 (SYS+0x7C0) | field list 0x40043F54 (still assembly) | SYS+0x7C8 + 4 × (slot − 1) | 0x1000 |
+  | calibration | `calibration_process_serialized_fields` | SYS+0x7E0 | 0x5000 |
+  | G | three words at 0x42E3F984 + 0x2F64..0x2F6C | SYS+0x7E8 | 0x1000 |
+  | H (fields only) | SYS+0x75C, 768, 760, 76C, 764, 770, 774 | — | — |
+
+  Stock quirk: for a slot number outside 1..5, `settings_slot_save` uses the caller's r4 as the
+  flash address and `settings_slot_load` uses the caller's r1. The C uses 0, and the tests keep
+  the slot in range.
+- **`settings_load_all`** is the start-up order: E (which rebuilds the defaults when the magic
+  is missing), F, the slot, B, calibration, A, G, D, C.
+- **Left in assembly: 0x400447C8**, the factory reset. It does the following:
+  1. rebuilds the defaults, keeping SYS+0x7AC;
+  2. saves slots 5..1 and record B;
+  3. calls `wdt_system_reset` and spins forever.
+
+  It never returns, so the harness cannot compare it.
+- **Zoom / time-base index SYS+0x598** (role DERIVED from how it is used):
+  - `zoom_index_set`, `zoom_index_add` and `zoom_index_sub`. The subtract only happens when
+    SYS+0x614 < SYS16+0x2AC × SYS+0x554.
+  - All three end in 0x400423B8, still assembly. Its first step is to clamp the index to at most
+    SYS+0x588 − 1.
+  - `zoom_entry_select` copies the 64-bit entry SYS+0xBD0 + 8 × index to SYS+0x5A0.
+  - `zoom_mode_check`:
+    - it clears SYS+0x2AA and returns 1 when SYS+0x28 is set with SYS+0x3C clear, when SYS+0x652
+      is set, or when SYS+0x5B0 = SYS+0x2A8;
+    - it clamps the index to SYS+0x5B0 − 1.
+  - `zoom_reset`.
+  - `timebase_index_set` (SYS+0x588) and the 64-bit setters for SYS+0x570 and SYS+0x578.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

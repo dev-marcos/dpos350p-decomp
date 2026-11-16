@@ -444,9 +444,9 @@ address,size,name,type,evidence_level,source
 0x4003BDE0,8,pool_4003bde0,literal_pool,DERIVED,analyze.py
 0x4003BDE8,100,func_4003bde8,function_arm,DERIVED,analyze.py:rea
 0x4003BE4C,4,pool_4003be4c,literal_pool,DERIVED,analyze.py
-0x4003BE50,40,func_4003be50,function_arm,DERIVED,analyze.py:rea
+0x4003BE50,40,timebase_index_set,function_arm,DERIVED,this-project:phase5 (timebase)
 0x4003BE78,32,func_4003be78,function_arm,DERIVED,analyze.py:rea
-0x4003BE98,16,func_4003be98,function_arm,DERIVED,analyze.py:rea
+0x4003BE98,16,sys_word_pair_570_set,function_arm,DERIVED,this-project:phase5 (timebase)
 0x4003BEA8,12,func_4003bea8,function_arm,DERIVED,analyze.py:rea
 0x4003BEB4,160,runtime_state_commit_copy,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:561
 0x4003BF54,4,pool_4003bf54,literal_pool,DERIVED,analyze.py
@@ -674,9 +674,9 @@ address,size,name,type,evidence_level,source
 0x40041D38,252,func_40041d38,function_arm,DERIVED,analyze.py:rea
 0x40041E34,288,func_40041e34,function_arm,DERIVED,analyze.py:prologue
 0x40041F54,8,pool_40041f54,literal_pool,DERIVED,analyze.py
-0x40041F5C,96,func_40041f5c,function_arm,DERIVED,analyze.py:rea
+0x40041F5C,96,zoom_views_update,function_arm,DERIVED,this-project:phase5 (timebase)
 0x40041FBC,60,pool_40041fbc,literal_pool,DERIVED,analyze.py
-0x40041FF8,36,func_40041ff8,function_arm,DERIVED,analyze.py:rea
+0x40041FF8,36,zoom_entry_select,function_arm,DERIVED,this-project:phase5 (timebase)
 0x4004201C,8,func_4004201c,function_arm,DERIVED,analyze.py:prologue
 0x40042024,376,func_40042024,function_arm,DERIVED,analyze.py:pointer
 0x4004219C,4,func_4004219c,function_thumb,DERIVED,analyze.py:prologue
@@ -684,13 +684,13 @@ address,size,name,type,evidence_level,source
 0x400421FC,4,func_400421fc,function_arm,DERIVED,analyze.py:gap-code
 0x40042200,128,func_40042200,function_arm,DERIVED,analyze.py:gap-code
 0x40042280,208,func_40042280,function_arm,DERIVED,analyze.py:gap-code
-0x40042350,104,func_40042350,function_arm,DERIVED,analyze.py:rea
+0x40042350,104,zoom_mode_check,function_arm,DERIVED,this-project:phase5 (timebase)
 0x400423B8,164,func_400423b8,function_arm,DERIVED,analyze.py:prologue
-0x4004245C,20,func_4004245c,function_arm,DERIVED,analyze.py:rea
-0x40042470,72,func_40042470,function_arm,DERIVED,analyze.py:rea
-0x400424B8,12,func_400424b8,function_arm,DERIVED,analyze.py:rea
-0x400424C4,16,func_400424c4,function_arm,DERIVED,analyze.py:rea
-0x400424D4,76,func_400424d4,function_arm,DERIVED,analyze.py:rea
+0x4004245C,20,zoom_index_add,function_arm,DERIVED,this-project:phase5 (timebase)
+0x40042470,72,zoom_index_sub,function_arm,DERIVED,this-project:phase5 (timebase)
+0x400424B8,12,zoom_index_set,function_arm,DERIVED,this-project:phase5 (timebase)
+0x400424C4,16,sys_word_pair_578_set,function_arm,DERIVED,this-project:phase5 (timebase)
+0x400424D4,76,zoom_reset,function_arm,DERIVED,this-project:phase5 (timebase)
 0x40042520,616,func_40042520,function_arm,DERIVED,analyze.py:rea
 0x40042788,24,pool_40042788,literal_pool,DERIVED,analyze.py
 0x400427A0,8,readl_e,function_arm,DERIVED,this-project:phase5 (ldr r0;bx lr; copy in the CCU source file)
@@ -771,18 +771,18 @@ address,size,name,type,evidence_level,source
 0x40043EEC,52,settings_f_save,function_arm,DERIVED,this-project:phase5 (settings)
 0x40043F20,52,settings_f_load,function_arm,DERIVED,this-project:phase5 (settings)
 0x40043F54,1032,func_40043f54,function_arm,DERIVED,analyze.py:rea
-0x4004435C,120,func_4004435c,function_arm,DERIVED,analyze.py:rea
-0x400443D4,124,func_400443d4,function_arm,DERIVED,analyze.py:rea
+0x4004435C,120,settings_slot_save,function_arm,DERIVED,this-project:phase5 (settings)
+0x400443D4,124,settings_slot_load,function_arm,DERIVED,this-project:phase5 (settings)
 0x40044450,560,calibration_process_serialized_fields,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:626
-0x40044680,52,calibration_save_wrapper,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:627
-0x400446B4,52,calibration_load_wrapper,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:628
-0x400446E8,68,func_400446e8,function_arm,DERIVED,analyze.py:rea
-0x4004472C,52,func_4004472c,function_arm,DERIVED,analyze.py:rea
-0x40044760,52,func_40044760,function_arm,DERIVED,analyze.py:rea
-0x40044794,52,func_40044794,function_arm,DERIVED,analyze.py:rea
+0x40044680,52,calibration_save_wrapper,function_arm,DERIVED,this-project:phase5 (settings; name: Hack)
+0x400446B4,52,calibration_load_wrapper,function_arm,DERIVED,this-project:phase5 (settings; name: Hack)
+0x400446E8,68,settings_g_fields,function_arm,DERIVED,this-project:phase5 (settings)
+0x4004472C,52,settings_g_save,function_arm,DERIVED,this-project:phase5 (settings)
+0x40044760,52,settings_g_load,function_arm,DERIVED,this-project:phase5 (settings)
+0x40044794,52,settings_load_all,function_arm,DERIVED,this-project:phase5 (settings)
 0x400447C8,64,func_400447c8,function_arm,DERIVED,analyze.py:rea
 0x40044808,4,pool_40044808,literal_pool,DERIVED,analyze.py
-0x4004480C,124,func_4004480c,function_arm,DERIVED,analyze.py:prologue
+0x4004480C,124,settings_h_fields,function_arm,DERIVED,this-project:phase5 (settings)
 0x40044888,44,pool_40044888,literal_pool,DERIVED,analyze.py
 0x400448B4,3276,func_400448b4,function_arm,DERIVED,analyze.py:rea
 0x40045580,100,func_40045580,function_arm,DERIVED,analyze.py:rea

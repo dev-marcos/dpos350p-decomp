@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 745 | 55.02% | 83918 | 24.86% |
+| EQUIVALENT | 764 | 56.43% | 85102 | 25.22% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 609 | 44.98% | 253586 | 75.14% |
+| ASM | 590 | 43.57% | 252402 | 74.78% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 745 (55.64%) | 337104 | 83918 (24.89%) |
+| main code | 1339 | 764 (57.06%) | 337104 | 85102 (25.25%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -46,6 +46,8 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40035724` | memcpy | 4 | EQUIVALENT | 200 | `nonmatching/platform/func_40035724.c` |
 | `0x40035728` | copy_u16 | 28 | EQUIVALENT | 200 | `nonmatching/platform/func_40035728.c` |
 | `0x4003A5D8` | __aeabi_l2d | 84 | EQUIVALENT | 400 | `nonmatching/libc/func_4003a5d8.c` |
+| `0x4003BE50` | timebase_index_set | 40 | EQUIVALENT | 200 | `nonmatching/platform/func_4003be50.c` |
+| `0x4003BE98` | sys_word_pair_570_set | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_4003be98.c` |
 | `0x4003C520` | runtime_rearm_setup | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_4003c520.c` |
 | `0x4003C550` | traces_e10c_enabled | 112 | EQUIVALENT | 200 | `nonmatching/platform/func_4003c550.c` |
 | `0x4003C790` | trace_c5cc_full | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_4003c790.c` |
@@ -183,6 +185,14 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40041918` | full_acquisition_veneer | 4 | EQUIVALENT | 200 | `nonmatching/platform/func_40041918.c` |
 | `0x4004191C` | runtime_sweep_path | 176 | EQUIVALENT | 200 | `nonmatching/platform/func_4004191c.c` |
 | `0x400419CC` | acquisition_dispatcher | 92 | EQUIVALENT | 200 | `nonmatching/platform/func_400419cc.c` |
+| `0x40041F5C` | zoom_views_update | 96 | EQUIVALENT | 200 | `nonmatching/platform/func_40041f5c.c` |
+| `0x40041FF8` | zoom_entry_select | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_40041ff8.c` |
+| `0x40042350` | zoom_mode_check | 104 | EQUIVALENT | 200 | `nonmatching/platform/func_40042350.c` |
+| `0x4004245C` | zoom_index_add | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_4004245c.c` |
+| `0x40042470` | zoom_index_sub | 72 | EQUIVALENT | 200 | `nonmatching/platform/func_40042470.c` |
+| `0x400424B8` | zoom_index_set | 12 | EQUIVALENT | 200 | `nonmatching/platform/func_400424b8.c` |
+| `0x400424C4` | sys_word_pair_578_set | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_400424c4.c` |
+| `0x400424D4` | zoom_reset | 76 | EQUIVALENT | 200 | `nonmatching/platform/func_400424d4.c` |
 | `0x400427A0` | readl_e | 8 | EQUIVALENT | 300 | `nonmatching/drivers/func_400427a0.c` |
 | `0x400427A8` | writel_e | 8 | EQUIVALENT | 300 | `nonmatching/drivers/func_400427a8.c` |
 | `0x400427B0` | ccu_set_cpu_pll | 124 | EQUIVALENT | 300 | `nonmatching/drivers/func_400427b0.c` |
@@ -245,6 +255,15 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40043EC8` | settings_f_fields | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_40043ec8.c` |
 | `0x40043EEC` | settings_f_save | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40043eec.c` |
 | `0x40043F20` | settings_f_load | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40043f20.c` |
+| `0x4004435C` | settings_slot_save | 120 | EQUIVALENT | 200 | `nonmatching/platform/func_4004435c.c` |
+| `0x400443D4` | settings_slot_load | 124 | EQUIVALENT | 200 | `nonmatching/platform/func_400443d4.c` |
+| `0x40044680` | calibration_save_wrapper | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40044680.c` |
+| `0x400446B4` | calibration_load_wrapper | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_400446b4.c` |
+| `0x400446E8` | settings_g_fields | 68 | EQUIVALENT | 200 | `nonmatching/platform/func_400446e8.c` |
+| `0x4004472C` | settings_g_save | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_4004472c.c` |
+| `0x40044760` | settings_g_load | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40044760.c` |
+| `0x40044794` | settings_load_all | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40044794.c` |
+| `0x4004480C` | settings_h_fields | 124 | EQUIVALENT | 200 | `nonmatching/platform/func_4004480c.c` |
 | `0x40049094` | fpga_pe_mode_select | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_40049094.c` |
 | `0x400490B8` | ms5351_start_clocks | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_400490b8.c` |
 | `0x400490DC` | fpga_bus_input | 24 | EQUIVALENT | 300 | `nonmatching/drivers/func_400490dc.c` |
