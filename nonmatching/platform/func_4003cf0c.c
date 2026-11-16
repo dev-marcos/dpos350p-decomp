@@ -11,7 +11,7 @@
 #define WSTK     ((volatile unsigned char *)0x42E68BC8u)
 void ui_window_stack_top_update(void);
 
-void func_4005f914(volatile void *p, u32 n);
+void mem_clear(volatile void *p, u32 n);
 
 void ui_windows_reset(void)
 {
@@ -24,6 +24,6 @@ void ui_windows_reset(void)
         w[5] = 0;
         w += 14;
     }
-    func_4005f914(WSTK + 2, 20);
+    mem_clear(WSTK + 2, 20);
     *(volatile unsigned short *)WSTK = 0;
 }

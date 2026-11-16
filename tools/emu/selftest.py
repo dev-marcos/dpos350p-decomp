@@ -249,6 +249,17 @@ MUTANTS = [
     (0x4003C0AC, "p = (long long)(int)(SYS32(0x5EC) - 1) * k;\n        SYS32(0x624)", "p = (long long)(u32)(SYS32(0x5EC) - 1) * k;\n        SYS32(0x624)"),
     (0x4003FFE4, "2u * ((0xC738u - n) >> 1)", "(0xC738u - n)"),
     (0x4004372C, "cmd[0] = 0x12;", "cmd[0] = 0x02;"),
+    # batch 26: settings image sections, UI text table, entry pad
+    (0x40045580, 'for (i = 0; i < n; i++)', 'for (i = 0; i <= n; i++)'),
+    (0x400455E4, 'serializer_process_field((volatile void *)(0x42B29F44u + 2 * i), 2);', 'serializer_process_field((volatile void *)(0x42B29F46u + 2 * i), 2);'),
+    (0x40045714, 'SYS32(0x76C) = serializer_get_cursor() - SYS32(0x760);', 'SYS32(0x76C) = serializer_get_cursor() - SYS32(0x75C);'),
+    (0x400342B4, 'while (*s++);', 'while (*++s);'),
+    (0x400457B0, 'if (L < 1 || L > 4)', 'if (L < 1 || L > 3)'),
+    (0x400457B0, 'TB(e + 0x195) = TB(e + 0x197 + 2 * L);', 'TB(e + 0x195) = TB(e + 0x196 + 2 * L);'),
+    (0x400458FC, 'TB(e + 0x19B) = b;', 'TB(e + 0x19B) = a;'),
+    (0x4005FBB4, "else if (c == '.')", "else if (c == ',')"),
+    (0x4005FB4C, '*(volatile u32 *)0x42E68AB4u = 0x42E68AC8u;', '*(volatile u32 *)0x42E68AB4u = 0x42E68AC0u;'),
+    (0x4005F8E8, 'func_4005f778(tr, SYS32(0x6FC), SYS16(0x6F6));', 'func_4005f778(tr, SYS32(0x6F8), SYS16(0x6F6));'),
 ]
 
 

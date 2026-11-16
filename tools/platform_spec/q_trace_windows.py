@@ -75,7 +75,7 @@ void trace_c5cc_window(u32 tr)
 """)
 t(0x4003C7E4, 120, "trace_process_full", "Full processing of trace tr, run only when SYS+0x101 is set and, for a 0x4003BF78(tr) result of 1, SYS+0x2AA is set too: 0x4005F90C, 0x4003C0AC, 0x4003C158, 0x4003C314, 0x4003BB6C, trace_c5cc_full, 0x4005E12C, 0x4005DDD4.", """
 u32 mode_not_0_or_1(u32 tr);
-void func_4005f90c(u32 tr);
+void trace_span_full_veneer(u32 tr);
 void scaled_pair_update(u32 tr);
 void func_4003c158(u32 tr);
 void func_4003c314(u32 tr);
@@ -91,7 +91,7 @@ void trace_process_full(u32 tr)
         return;
     if (k == 1 && SYS8(0x2AA) == 0)
         return;
-    func_4005f90c(tr);
+    trace_span_full_veneer(tr);
     scaled_pair_update(tr);
     func_4003c158(tr);
     func_4003c314(tr);
@@ -144,7 +144,7 @@ void channels_process_full(void)
 }
 """)
 t(0x4003C910, 96, "traces_process_single", "Processing used when SYS+0x652 is set: 0x4005F90C(0/1), 0x4003C0AC(0), 0x4003C158(0/1), 0x4003C314(0/1), 0x4003BB6C(0), 0x4005EDC0(0), 0x4005DDD4(0).", """
-void func_4005f90c(u32 tr);
+void trace_span_full_veneer(u32 tr);
 void scaled_pair_update(u32 tr);
 void func_4003c158(u32 tr);
 void func_4003c314(u32 tr);
@@ -154,8 +154,8 @@ void func_4005ddd4(u32 tr);
 
 void traces_process_single(void)
 {
-    func_4005f90c(0);
-    func_4005f90c(1);
+    trace_span_full_veneer(0);
+    trace_span_full_veneer(1);
     scaled_pair_update(0);
     func_4003c158(0);
     func_4003c158(1);
@@ -183,7 +183,7 @@ void traces_update(void)
 }
 """)
 t(0x4003C9BC, 56, "trace_process_window", "Processing of trace tr over the capture window: 0x4005F910, 0x4003C0AC, 0x4003BB6C, trace_c5cc_window, 0x4005E838, 0x4005DF5C.", """
-void func_4005f910(u32 tr);
+void trace_span_window_veneer(u32 tr);
 void scaled_pair_update(u32 tr);
 void func_4003bb6c(u32 tr);
 void trace_c5cc_window(u32 tr);
@@ -192,7 +192,7 @@ void func_4005df5c(u32 tr);
 
 void trace_process_window(u32 tr)
 {
-    func_4005f910(tr);
+    trace_span_window_veneer(tr);
     scaled_pair_update(tr);
     func_4003bb6c(tr);
     trace_c5cc_window(tr);
@@ -292,7 +292,7 @@ void ui_window_close(u32 id, u32 r1, u32 r2)
 }
 """, src="ui")
 t(0x4003CF0C, 76, "ui_windows_reset", "Clears +0, +1, +3, +5 of the first 100 window records, clears the 20 stack slots (0x4005F914) and the stack top halfword.", W + """
-void func_4005f914(volatile void *p, u32 n);
+void mem_clear(volatile void *p, u32 n);
 
 void ui_windows_reset(void)
 {
@@ -305,7 +305,7 @@ void ui_windows_reset(void)
         w[5] = 0;
         w += 14;
     }
-    func_4005f914(WSTK + 2, 20);
+    mem_clear(WSTK + 2, 20);
     *(volatile unsigned short *)WSTK = 0;
 }
 """, src="ui")

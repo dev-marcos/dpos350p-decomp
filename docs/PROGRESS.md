@@ -16,22 +16,23 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 796 | 58.79% | 88010 | 26.08% |
+| EQUIVALENT | 822 | 60.71% | 89382 | 26.48% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 558 | 41.21% | 249494 | 73.92% |
+| ASM | 532 | 39.29% | 248122 | 73.52% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 796 (59.45%) | 337104 | 88010 (26.11%) |
+| main code | 1339 | 822 (61.39%) | 337104 | 89382 (26.51%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
 
 | address | name | size | level | cases | source |
 |---|---|---:|---|---:|---|
+| `0x400342B4` | str_copy | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_400342b4.c` |
 | `0x400342DC` | fb_target_back | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_400342dc.c` |
 | `0x400342EC` | fb_target_offscreen | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_400342ec.c` |
 | `0x400343C4` | fb_present_rect | 104 | EQUIVALENT | 200 | `nonmatching/platform/func_400343c4.c` |
@@ -296,6 +297,20 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40044760` | settings_g_load | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40044760.c` |
 | `0x40044794` | settings_load_all | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40044794.c` |
 | `0x4004480C` | settings_h_fields | 124 | EQUIVALENT | 200 | `nonmatching/platform/func_4004480c.c` |
+| `0x40045580` | settings_i_fields | 100 | EQUIVALENT | 200 | `nonmatching/platform/func_40045580.c` |
+| `0x400455E4` | settings_j_fields | 140 | EQUIVALENT | 200 | `nonmatching/platform/func_400455e4.c` |
+| `0x40045670` | settings_h_decode | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_40045670.c` |
+| `0x40045688` | settings_block_448b4_decode | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_40045688.c` |
+| `0x400456AC` | settings_i_decode | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_400456ac.c` |
+| `0x400456D0` | settings_j_decode | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_400456d0.c` |
+| `0x400456F4` | settings_image_decode | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_400456f4.c` |
+| `0x40045714` | settings_image_encode | 116 | EQUIVALENT | 200 | `nonmatching/platform/func_40045714.c` |
+| `0x4004579C` | ui_text_init | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_4004579c.c` |
+| `0x400457B0` | ui_text_language_apply | 236 | EQUIVALENT | 200 | `nonmatching/platform/func_400457b0.c` |
+| `0x4004589C` | ui_text_set_lang1 | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_4004589c.c` |
+| `0x400458CC` | ui_text_set_lang2 | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_400458cc.c` |
+| `0x400458FC` | ui_text_set_lang3 | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_400458fc.c` |
+| `0x4004592C` | ui_text_set_lang4 | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_4004592c.c` |
 | `0x40049094` | fpga_pe_mode_select | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_40049094.c` |
 | `0x400490B8` | ms5351_start_clocks | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_400490b8.c` |
 | `0x400490DC` | fpga_bus_input | 24 | EQUIVALENT | 300 | `nonmatching/drivers/func_400490dc.c` |
@@ -485,7 +500,18 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4005F644` | ms5351_write_ms_int | 164 | EQUIVALENT | 300 | `nonmatching/drivers/func_4005f644.c` |
 | `0x4005F6E8` | __aeabi_d2ulz | 70 | EQUIVALENT | 400 | `nonmatching/libc/func_4005f6e8.c` |
 | `0x4005F730` | __aeabi_ul2d | 70 | EQUIVALENT | 400 | `nonmatching/libc/func_4005f730.c` |
+| `0x4005F8D8` | trace_span_full | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_4005f8d8.c` |
+| `0x4005F8E8` | trace_span_window | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_4005f8e8.c` |
+| `0x4005F90C` | trace_span_full_veneer | 4 | EQUIVALENT | 200 | `nonmatching/platform/func_4005f90c.c` |
+| `0x4005F910` | trace_span_window_veneer | 4 | EQUIVALENT | 200 | `nonmatching/platform/func_4005f910.c` |
+| `0x4005F914` | mem_clear | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_4005f914.c` |
 | `0x4005F91C` | tanh | 210 | EQUIVALENT | 400 | `nonmatching/libm/func_4005f91c.c` |
+| `0x4005F9F0` | numpad_open_mode1 | 68 | EQUIVALENT | 200 | `nonmatching/platform/func_4005f9f0.c` |
+| `0x4005FA34` | numpad_open_mode3 | 68 | EQUIVALENT | 200 | `nonmatching/platform/func_4005fa34.c` |
+| `0x4005FB44` | numpad_close | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_4005fb44.c` |
+| `0x4005FB4C` | numpad_reset | 72 | EQUIVALENT | 200 | `nonmatching/platform/func_4005fb4c.c` |
+| `0x4005FB94` | numpad_append_char | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_4005fb94.c` |
+| `0x4005FBB4` | numpad_backspace | 80 | EQUIVALENT | 200 | `nonmatching/platform/func_4005fbb4.c` |
 | `0x40062F9C` | de_readl | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_40062f9c.c` |
 | `0x40062FA4` | de_writel | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_40062fa4.c` |
 | `0x40062FAC` | de_pipe_enable | 112 | EQUIVALENT | 200 | `nonmatching/platform/func_40062fac.c` |

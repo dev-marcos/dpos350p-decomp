@@ -8,7 +8,7 @@
 #include "hw/fpga.h"
 
 u32 mode_not_0_or_1(u32 tr);
-void func_4005f90c(u32 tr);
+void trace_span_full_veneer(u32 tr);
 void scaled_pair_update(u32 tr);
 void func_4003c158(u32 tr);
 void func_4003c314(u32 tr);
@@ -24,7 +24,7 @@ void trace_process_full(u32 tr)
         return;
     if (k == 1 && SYS8(0x2AA) == 0)
         return;
-    func_4005f90c(tr);
+    trace_span_full_veneer(tr);
     scaled_pair_update(tr);
     func_4003c158(tr);
     func_4003c314(tr);

@@ -265,14 +265,14 @@ void trace_buffer_pointers_setup(u32 n)
 """, src="trace")
 
 # ---------------------------------------------------------------- UI glue
-u(0x4003D454, 24, "ui_cf88_then_579c", "Calls 0x4003CF88 then 0x4004579C (roles not yet identified).", """
+u(0x4003D454, 24, "ui_cf88_then_579c", "Calls 0x4003CF88 (role OPEN) then ui_text_init (0x4004579C).", """
 void func_4003cf88(void);
-void func_4004579c(void);
+void ui_text_init(void);
 
 void ui_cf88_then_579c(void)
 {
     func_4003cf88();
-    func_4004579c();
+    ui_text_init();
 }
 """, src="ui")
 u(0x4003D6E4, 56, "ui_windows_invalidate_1_5",

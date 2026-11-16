@@ -1720,3 +1720,87 @@ def t_page_prog(r):
 
 
 TESTS[0x4004372C] = t_page_prog
+
+
+# ---------------------------------------------------------------- batch 26: settings image sections, UI text table, entry pad
+def t_i_fields(r):
+    w, h = r.choice([(0, 5), (3, 0), (r.randrange(1, 12), r.randrange(1, 12)), (0xFFFF, 0xFFFF), (1, r.randrange(1, 40))])
+    return Case([], lambda m: (m.write(SYS + 0x109684, w.to_bytes(2, "little") + h.to_bytes(2, "little"))), ret=V, stubs=SERS)
+
+
+def t_j_fields(r):
+    ov = {0x3E: (1, r.choice([0, 1])), 0x102: (1, r.choice([0, 1, 0x40])), 0x2B0: (4, r.choice([0, 1, r.randrange(2, 30)]))}
+    return Case([], sys_bytes(r, 0, 0x300, ov), ret=V, stubs=SERS)
+
+
+def ser_cursor_stub():
+    return Stub("get_cursor", 0x40067154, lambda m, a: m.srng.getrandbits(32), 0)
+
+
+TESTS[0x40045580] = t_i_fields
+TESTS[0x400455E4] = t_j_fields
+TESTS[0x40045670] = lambda r: Case([], ret=V, stubs=SERS + (rec("h", 0x4004480C, 0),))
+TESTS[0x40045688] = lambda r: Case([], sys_bytes(r, 0x740, 0x780), ret=V, stubs=SERS + (rec("blk", 0x400448B4, 0),))
+TESTS[0x400456AC] = lambda r: Case([], sys_bytes(r, 0x740, 0x780), ret=V, stubs=SERS + (rec("i", 0x40045580, 0),))
+TESTS[0x400456D0] = lambda r: Case([], sys_bytes(r, 0x740, 0x780), ret=V, stubs=SERS + (rec("j", 0x400455E4, 0),))
+TESTS[0x400456F4] = lambda r: Case([], ret=V, stubs=(rec("h", 0x40045670, 0), rec("blk", 0x40045688, 0), rec("i", 0x400456AC, 0), rec("j", 0x400456D0, 0)))
+TESTS[0x40045714] = lambda r: Case([], seeded(r.getrandbits(32), sys_bytes(r, 0x740, 0x780)), ret=V,
+                                   stubs=SERS + (ser_cursor_stub(), rec("blk", 0x400448B4, 0), rec("i", 0x40045580, 0),
+                                                 rec("j", 0x400455E4, 0), rec("h", 0x4004480C, 0)))
+
+STRBUF = SYS + 0x100000
+
+
+def rand_str(r, maxlen=0x60):
+    n = r.choice([0, 1, r.randrange(2, maxlen), r.randrange(2, 12)])
+    return bytes(r.randrange(1, 256) for _ in range(n)) + b"\0" + bytes(r.getrandbits(8) for _ in range(8))
+
+
+def t_str_copy(r):
+    s = rand_str(r)
+    d = bytes(r.getrandbits(8) for _ in range(0x80))
+    return Case([STRBUF + 0x100, STRBUF], lambda m: (m.write(STRBUF, s), m.write(STRBUF + 0x100, d)), ret=R)
+
+
+TXT_BASE, TXT_N = 0x42C2FE74, 141 * 0x1A0
+TESTS[0x400342B4] = t_str_copy
+TESTS[0x400457B0] = lambda r: Case([], (lambda a, b: lambda m: (a(m), b(m)))(
+    rand_block(r, TXT_BASE, TXT_N), sys_bytes(r, 0x7A0, 0x7B0, {0x7AC: (1, r.choice([0, 1, 2, 3, 4, 5, 0x81]))})), ret=V)
+TESTS[0x4004579C] = lambda r: Case([], (lambda a, b: lambda m: (a(m), b(m)))(
+    rand_block(r, TXT_BASE, TXT_N), sys_bytes(r, 0x7A0, 0x7B0, {0x7AC: (1, r.choice([1, 2, 3, 4, 0]))})), ret=V,
+    stubs=(rec("fill", 0x40045974, 0),))
+
+
+def t_set_lang(r):
+    s = rand_str(r)
+    k = r.randrange(141)
+    blk = rand_block(r, TXT_BASE + k * 0x1A0, 0x1A0)
+    return Case([k, STRBUF, r.getrandbits(32), r.getrandbits(32)], lambda m: (m.write(STRBUF, s), blk(m)), ret=V)
+
+
+for _a in (0x4004589C, 0x400458CC, 0x400458FC, 0x4004592C):
+    TESTS[_a] = t_set_lang
+
+PAD_BASE = 0x42E68A88
+TESTS[0x4005F914] = lambda r: Case([STRBUF + r.randrange(8), r.choice([0, 1, 3, 4, 20, r.randrange(200)])], rand_block(r, STRBUF, 0x100), ret=V)
+TESTS[0x4005FB4C] = lambda r: Case([], rand_block(r, PAD_BASE, 0x58), ret=V)
+TESTS[0x4005FB94] = lambda r: Case([r.getrandbits(32)], (lambda b, n: lambda m: (b(m), m.w8(PAD_BASE + 0x17, n)))(
+    rand_block(r, PAD_BASE, 0x58), r.choice([0, 1, 5, 19, r.randrange(0x50)])), ret=V)
+
+
+def t_backspace(r):
+    n = r.choice([0, 1, 2, 5, r.randrange(20)])
+    blk = rand_block(r, PAD_BASE, 0x58)
+    c = r.choice([ord("-"), ord("."), ord("1"), r.getrandbits(8)])
+    pos = n - 1 if n else 0
+    return Case([], lambda m: (blk(m), m.w8(PAD_BASE + 0x17, n), m.w8(PAD_BASE + 3 + pos, c)), ret=V)
+
+
+TESTS[0x4005FBB4] = t_backspace
+for _a in (0x4005F9F0, 0x4005FA34):
+    TESTS[_a] = lambda r: Case([r.getrandbits(32), r.getrandbits(32)], rand_block(r, PAD_BASE, 0x58), ret=V,
+                               stubs=(rec("open", 0x4003CDFC, 1),))
+TESTS[0x4005FB44] = lambda r: Case([r.getrandbits(32), r.getrandbits(32), r.getrandbits(32)], ret=V,
+                                   stubs=(rec("close", 0x4003CE50, 3),))
+for _a in (0x4005F8D8, 0x4005F8E8, 0x4005F90C, 0x4005F910):
+    TESTS[_a] = lambda r: Case([r.getrandbits(32)], sys_bytes(r, 0x2A0, 0x710), ret=V, stubs=(rec("f778", 0x4005F778, 3),))

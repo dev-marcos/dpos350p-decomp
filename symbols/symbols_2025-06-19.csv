@@ -273,7 +273,7 @@ address,size,name,type,evidence_level,source
 0x40034128,12,pool_40034128,literal_pool,DERIVED,analyze.py
 0x40034134,336,func_40034134,function_arm,DERIVED,analyze.py:rea
 0x40034284,48,func_40034284,function_arm,DERIVED,analyze.py:rea
-0x400342B4,24,func_400342b4,function_arm,DERIVED,analyze.py:rea
+0x400342B4,24,str_copy,function_arm,DERIVED,this-project:phase5 (string)
 0x400342CC,16,func_400342cc,function_arm,DERIVED,analyze.py:rea
 0x400342DC,16,fb_target_back,function_arm,DERIVED,this-project:phase5 (ui)
 0x400342EC,16,fb_target_offscreen,function_arm,DERIVED,this-project:phase5 (ui)
@@ -785,21 +785,21 @@ address,size,name,type,evidence_level,source
 0x4004480C,124,settings_h_fields,function_arm,DERIVED,this-project:phase5 (settings)
 0x40044888,44,pool_40044888,literal_pool,DERIVED,analyze.py
 0x400448B4,3276,func_400448b4,function_arm,DERIVED,analyze.py:rea
-0x40045580,100,func_40045580,function_arm,DERIVED,analyze.py:rea
-0x400455E4,140,func_400455e4,function_arm,DERIVED,analyze.py:rea
-0x40045670,24,func_40045670,function_arm,DERIVED,analyze.py:rea
-0x40045688,36,func_40045688,function_arm,DERIVED,analyze.py:rea
-0x400456AC,36,func_400456ac,function_arm,DERIVED,analyze.py:rea
-0x400456D0,36,func_400456d0,function_arm,DERIVED,analyze.py:prologue
-0x400456F4,32,func_400456f4,function_arm,DERIVED,analyze.py:rea
-0x40045714,116,func_40045714,function_arm,DERIVED,analyze.py:rea
+0x40045580,100,settings_i_fields,function_arm,DERIVED,this-project:phase5 (settings)
+0x400455E4,140,settings_j_fields,function_arm,DERIVED,this-project:phase5 (settings)
+0x40045670,24,settings_h_decode,function_arm,DERIVED,this-project:phase5 (settings)
+0x40045688,36,settings_block_448b4_decode,function_arm,DERIVED,this-project:phase5 (settings)
+0x400456AC,36,settings_i_decode,function_arm,DERIVED,this-project:phase5 (settings)
+0x400456D0,36,settings_j_decode,function_arm,DERIVED,this-project:phase5 (settings)
+0x400456F4,32,settings_image_decode,function_arm,DERIVED,this-project:phase5 (settings)
+0x40045714,116,settings_image_encode,function_arm,DERIVED,this-project:phase5 (settings)
 0x40045788,20,pool_40045788,literal_pool,DERIVED,analyze.py
-0x4004579C,20,func_4004579c,function_arm,DERIVED,analyze.py:rea
-0x400457B0,236,func_400457b0,function_arm,DERIVED,analyze.py:rea
-0x4004589C,48,func_4004589c,function_arm,DERIVED,analyze.py:rea
-0x400458CC,48,func_400458cc,function_arm,DERIVED,analyze.py:rea
-0x400458FC,48,func_400458fc,function_arm,DERIVED,analyze.py:rea
-0x4004592C,48,func_4004592c,function_arm,DERIVED,analyze.py:rea
+0x4004579C,20,ui_text_init,function_arm,DERIVED,this-project:phase5 (ui)
+0x400457B0,236,ui_text_language_apply,function_arm,DERIVED,this-project:phase5 (ui)
+0x4004589C,48,ui_text_set_lang1,function_arm,DERIVED,this-project:phase5 (ui)
+0x400458CC,48,ui_text_set_lang2,function_arm,DERIVED,this-project:phase5 (ui)
+0x400458FC,48,ui_text_set_lang3,function_arm,DERIVED,this-project:phase5 (ui)
+0x4004592C,48,ui_text_set_lang4,function_arm,DERIVED,this-project:phase5 (ui)
 0x4004595C,24,pool_4004595c,literal_pool,DERIVED,analyze.py
 0x40045974,13584,func_40045974,function_arm,DERIVED,analyze.py:rea
 0x40048E84,112,pool_40048e84,literal_pool,DERIVED,analyze.py
@@ -1157,23 +1157,23 @@ address,size,name,type,evidence_level,source
 0x4005F730,70,__aeabi_ul2d,function_thumb,DERIVED,this-project:phase2
 0x4005F776,2,pad_4005f776,padding,STATIC-CONFIRMED,analyze.py:zero
 0x4005F778,352,func_4005f778,function_arm,DERIVED,analyze.py:prologue
-0x4005F8D8,16,func_4005f8d8,function_arm,DERIVED,analyze.py:rea
-0x4005F8E8,20,func_4005f8e8,function_arm,DERIVED,analyze.py:rea
+0x4005F8D8,16,trace_span_full,function_arm,DERIVED,this-project:phase5 (trace)
+0x4005F8E8,20,trace_span_window,function_arm,DERIVED,this-project:phase5 (trace)
 0x4005F8FC,16,pool_4005f8fc,literal_pool,DERIVED,analyze.py
-0x4005F90C,4,func_4005f90c,function_arm,DERIVED,analyze.py:rea
-0x4005F910,4,func_4005f910,function_arm,DERIVED,analyze.py:rea
-0x4005F914,8,func_4005f914,function_arm,DERIVED,analyze.py:rea
+0x4005F90C,4,trace_span_full_veneer,function_arm,DERIVED,this-project:phase5 (trace)
+0x4005F910,4,trace_span_window_veneer,function_arm,DERIVED,this-project:phase5 (trace)
+0x4005F914,8,mem_clear,function_arm,DERIVED,this-project:phase5 (string)
 0x4005F91C,210,tanh,function_thumb,DERIVED,this-project:phase5 (emulation vs math.tanh)
 0x4005F9EE,2,pad_4005f9ee,padding,STATIC-CONFIRMED,analyze.py:zero
-0x4005F9F0,68,func_4005f9f0,function_arm,DERIVED,analyze.py:rea
-0x4005FA34,68,func_4005fa34,function_arm,DERIVED,analyze.py:rea
+0x4005F9F0,68,numpad_open_mode1,function_arm,DERIVED,this-project:phase5 (ui)
+0x4005FA34,68,numpad_open_mode3,function_arm,DERIVED,this-project:phase5 (ui)
 0x4005FA78,68,func_4005fa78,function_arm,DERIVED,analyze.py:rea
 0x4005FABC,68,func_4005fabc,function_arm,DERIVED,analyze.py:rea
 0x4005FB00,68,func_4005fb00,function_arm,DERIVED,analyze.py:rea
-0x4005FB44,8,func_4005fb44,function_arm,DERIVED,analyze.py:gap-code
-0x4005FB4C,72,func_4005fb4c,function_arm,DERIVED,analyze.py:rea
-0x4005FB94,32,func_4005fb94,function_arm,DERIVED,analyze.py:gap-code
-0x4005FBB4,80,func_4005fbb4,function_arm,DERIVED,analyze.py:gap-code
+0x4005FB44,8,numpad_close,function_arm,DERIVED,this-project:phase5 (ui)
+0x4005FB4C,72,numpad_reset,function_arm,DERIVED,this-project:phase5 (ui)
+0x4005FB94,32,numpad_append_char,function_arm,DERIVED,this-project:phase5 (ui)
+0x4005FBB4,80,numpad_backspace,function_arm,DERIVED,this-project:phase5 (ui)
 0x4005FC04,128,func_4005fc04,function_arm,DERIVED,analyze.py:gap-code
 0x4005FC84,520,func_4005fc84,function_arm,DERIVED,analyze.py:rea
 0x4005FE8C,8,pool_4005fe8c,literal_pool,DERIVED,analyze.py

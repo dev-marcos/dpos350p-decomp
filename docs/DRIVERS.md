@@ -754,7 +754,7 @@ the code does. The meaning of most SYS_INFO fields is still OPEN.
 - **UI glue**:
   - `ui_windows_invalidate_1_5` invalidates windows 1..5. The stock code chains the hidden r1
     from one call to the next, and the C models that value.
-  - `ui_cf88_then_579c` calls 0x4003CF88 then 0x4004579C. Its role is OPEN.
+  - `ui_cf88_then_579c` calls 0x4003CF88, whose role is OPEN, then `ui_text_init` (batch 26).
 - **SPI flash page program** (`spi_flash_page_program`, 0x4004372C):
   - the command is 0x02 with a 3-byte address, or 0x12 with a 4-byte address;
   - the data follows in the same `sys_spi_write_then_write`;
@@ -762,6 +762,46 @@ the code does. The meaning of most SYS_INFO fields is still OPEN.
 - **Left in assembly on purpose**: 0x4003F2F4..0x4003F894 is a single time-base switch
   function. The analyser split it into 0x4003F2F4, about 24 fragments of 16 to 28 bytes
   (0x4003F4A4..0x4003F6E8) and 0x4003F704. It needs its own batch with corrected bounds.
+
+## Settings image sections, UI text table and the entry pad (batch 26)
+
+Spec: `tools/platform_spec/u_image_text_numpad.py`, 26 functions.
+
+- **Sectioned settings image** (the serialiser image at SYS+0x360404):
+  - `settings_image_encode` writes the field list 0x400448B4 from cursor 0x32, then records I
+    and J;
+  - for each section it records the start (SYS+0x75C / 0x760 / 0x764), the size
+    (SYS+0x768 / 0x76C / 0x770) and the end (SYS+0x774);
+  - it then writes these words as header H at cursor 0;
+  - `settings_image_decode` reads the header and then seeks to each section;
+  - record I (`settings_i_fields`) is a w × h array of halfwords at SYS+0x109684;
+  - record J (`settings_j_fields`) is SYS+0x2B0 halfwords per enabled channel (SYS+0x3E,
+    SYS+0x102), taken from 0x42AC7CF4 and 0x42B29F44.
+  What these arrays hold is OPEN.
+- **UI text table** at 0x42C2FE74:
+  - 141 entries of 0x1A0 bytes;
+  - +0 is a pointer to the current string;
+  - four 0x64-byte string columns sit at +4, +0x68, +0xCC and +0x130;
+  - +0x194/+0x195 are the current byte pair, and +0x196.. hold one pair per column;
+  - `ui_text_set_langN(k, s, a, b)` fills column N; the 13.5 KB function 0x40045974 calls
+    these setters for every entry;
+  - `ui_text_language_apply` selects column SYS+0x7AC (1..4). Reading the columns as languages
+    is DERIVED: the strings are per-entry translations, which fits SYS+0x7AC being the menu
+    language.
+  - `str_copy` (0x400342B4) is a plain strcpy that returns the end pointer.
+- **Entry pad** (state 0x42E68A88, window 0x21). The entry-pad reading is DERIVED from the
+  '-' / '.' handling and the 20-character buffer.
+  - The state holds the 20-character text at +3, the length at +0x17, the '.' and '-' flags at
+    +0x18 / +0x19, a double at +0x20 and three pointers at +0x28..+0x30.
+  - `numpad_reset` clears the state, using `mem_clear` (memset with 0).
+  - `numpad_open_mode1` and `numpad_open_mode3` set the mode byte +1 and the window position,
+    then open window 0x21.
+  - `numpad_close` closes window 0x21.
+  - `numpad_append_char` has no bound check, as in the stock code.
+  - `numpad_backspace` clears the matching flag when it removes '-' or '.'.
+- **Veneers**: `trace_span_full(tr)` calls 0x4005F778(tr, 0, SYS+0x2C0), and
+  `trace_span_window(tr)` calls it with (SYS+0x6FC, SYS+0x6F6). Two 4-byte branches lead to
+  them. The role of 0x4005F778 (352 bytes) is OPEN.
 
 ## Not yet rewritten (next batches)
 
