@@ -70,6 +70,46 @@ function compiled in place (`tools/testiso.py`). **Emulator only, never write it
   container (logo, header, checksum footer) is packed by `tools/dposiso.py`, as for the stock
   file.
 
+## Build and test speed (parallel jobs and caches)
+
+- `tools/nmbuild.py` compiles the C files in parallel, one job per CPU (`-j N` changes this).
+  - The JSON of each build keeps two keys. `okey` hashes the C file, every header in `include/`,
+    the compiler flags and the script. `key` adds the address that each symbol in the object's
+    `undef` list resolves to.
+  - A file is skipped when both keys match, so adding unrelated symbols rebuilds nothing.
+  - The link script lists only the symbols the object uses. The images stay byte-identical,
+    which was checked: every test result stayed cached after the switch.
+  - `--force` rebuilds everything.
+  - Compilation waits mostly on `/mnt/f`: a full rebuild uses about 55 s of CPU in 6 minutes,
+    so `-j 32` can help there.
+- `tools/emu/run_tests.py` runs the functions in parallel worker processes (`-j N`). Each case
+  is seeded with `seed ^ address`, so results do not depend on order.
+  - Each result in `build/emu/results.json` keeps a key, and a function whose key is unchanged
+    keeps its result without running.
+  - The key covers the C build (`.bin` and entry), the test suite file, the harness core
+    (`emu.py`, `fatdisk.py`, `run_tests.py`, `tests/__init__.py`, `tests/fatfs.py`), `app.bin`,
+    the case count and the seed.
+  - Editing a suite file such as `tests/fpga.py` reruns every test in that suite.
+  - `--no-cache` runs everything.
+- `tools/testiso.py` processes the C files in parallel and keeps two caches:
+  - `build/test/process_cache.json` holds the outcome per function: the chosen build bytes, or
+    the reason it was skipped. Its key is the nmbuild link key, `testiso.py`, the stock size and
+    type, the option and the test suite.
+  - `build/test/verify_cache.json` holds the passing emulator checks.
+  - `--no-cache` redoes every function.
+- `make progress` still calls `run_tests`. With the cache, that call only reruns what changed.
+
+Measured on 2026-11-16 with 822 functions and 8 CPUs, under WSL on `/mnt/f`. The results were
+identical to the serial run.
+
+| Step | Before | Parallel, no cache | Cached |
+|---|---:|---:|---:|
+| `nmbuild` | 866 s | 426 s | 5 s |
+| `run_tests` | 1242 s | 397 s | 6 s |
+| `testiso` | not measured | 920 s | 5 s |
+
+Compilation gains less than the CPU count because file access on `/mnt/f` is the limit there.
+
 ## Tools
 
 | Tool | Purpose |
