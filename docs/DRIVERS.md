@@ -711,6 +711,58 @@ Spec: `tools/platform_spec/s_init_defaults.py`, 13 functions.
   - `spi_flash_write_paged` splits a write so that no chunk crosses a 256-byte page;
   - `settings_c_load_tail` is the fall-through half of `settings_c_load`.
 
+## Time-base index, committed copy and acquisition glue (batch 25)
+
+Spec: `tools/platform_spec/t_timebase_acq.py`, 19 functions. The names are DERIVED from what
+the code does. The meaning of most SYS_INFO fields is still OPEN.
+
+- **Time-base index SYS+0x588**:
+  - `timebase_period_load` copies the 64-bit table entry SYS+0xBD0 + 8 × index to SYS+0x590;
+  - `timebase_slow_flag_update` sets SYS+0x28 = (index >= SYS+0x2A9);
+  - `timebase_index_clamp` (0x4003BCF0) does three things in order:
+    - it clamps the index to [SYS+0x2A8, SYS+0x2A7];
+    - when SYS+0x3C is set, it caps the index at the committed index SYS+0x5B0 + 3;
+    - it then steps the index up for as long as SYS+0x5B8 / period / SYS+0x5D4 >= SYS+0x2AC.
+    Each step invalidates the windows from id 3. The stock code passes the old index in the
+    hidden r1, and the C passes it explicitly.
+  - `timebase_index_step(d)` and `timebase_index_step_down(d)` change the index, clamp it, and
+    set the 16-bit flags SYS+0x86E / SYS+0x870. The step down only happens while SYS+0x55C and
+    SYS+0x5FC are below SYS+0x2AC × SYS+0x554, and it compares against the full 32-bit d.
+- **Committed copy**:
+  - `runtime_state_commit_copy` copies the live parameters to SYS+0x5A8..0x5EC, SYS+0x29,
+    +0x58, +0x64, +0x118 and +0x124, but only when SYS+0x38 is set;
+  - `runtime_state_commit_force` sets SYS+0x38 and then falls into the copy.
+- **Acquisition glue**:
+  - `sample_divisor_setup` derives the mode byte SYS+0x100, the divisor SYS+0x1B0 (1 or 2) and
+    SYS+0x1B1 = SYS+0x524 / divisor from the flags SYS+0x3E / SYS+0x102;
+  - `acquisition_apply` (0x4003A654, called by `outputs_apply`) runs, in order:
+    `timebase_slow_flag_update`, `sample_divisor_setup`, 0x4003A984,
+    `fpga_sample_count_write(SYS+0x30)` and `timebase_apply`;
+  - `acquisition_reconfigure` runs the divisor set-up, 0x4003A680, 0x4005DB9C, 0x4005D27C,
+    `acquisition_geometry_setup` and the commit copy;
+  - `acquisition_rearm` runs 0x4003B834, plus 0x4004201C when the second traces are on, unless
+    the lock byte 0x42E68BC7 is set;
+  - `runtime_counter_progress_advance` is the per-bank sample counter step. Its udiv by
+    SYS+0x1B1 gives 0 when the divisor is 0, and the C reproduces that;
+  - `scaled_pair_update(mode)` (0x4003C0AC) scales SYS+0x5E8 + 1 and SYS+0x5EC − 1 by
+    SYS+0x5D4 / SYS+0x5F8, or by SYS+0x5D4 / SYS+0x610, with signed 64-bit arithmetic. The
+    results go to SYS+0x608/0x60C or SYS+0x620/0x624. `mode_not_0_or_1` picks the branch, and
+    `mode_not_0_or_2` is its sibling.
+  - `trace_buffer_pointers_setup(n)` (0x4003FFE4) sets the two read pointers SYS+0x7B4 / 0x7B8
+    into the sample buffer 0x42C62AF4, 0xC738 samples apart. The symbol table splits this
+    function at 0x40040004. That second entry is not a real function and stays in assembly.
+- **UI glue**:
+  - `ui_windows_invalidate_1_5` invalidates windows 1..5. The stock code chains the hidden r1
+    from one call to the next, and the C models that value.
+  - `ui_cf88_then_579c` calls 0x4003CF88 then 0x4004579C. Its role is OPEN.
+- **SPI flash page program** (`spi_flash_page_program`, 0x4004372C):
+  - the command is 0x02 with a 3-byte address, or 0x12 with a 4-byte address;
+  - the data follows in the same `sys_spi_write_then_write`;
+  - it returns 0, or −1 when the write enable or the transfer failed.
+- **Left in assembly on purpose**: 0x4003F2F4..0x4003F894 is a single time-base switch
+  function. The analyser split it into 0x4003F2F4, about 24 fragments of 16 to 28 bytes
+  (0x4003F4A4..0x4003F6E8) and 0x4003F704. It needs its own batch with corrected bounds.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

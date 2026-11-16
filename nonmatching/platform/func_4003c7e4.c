@@ -7,9 +7,9 @@
 
 #include "hw/fpga.h"
 
-u32 func_4003bf78(u32 tr);
+u32 mode_not_0_or_1(u32 tr);
 void func_4005f90c(u32 tr);
-void func_4003c0ac(u32 tr);
+void scaled_pair_update(u32 tr);
 void func_4003c158(u32 tr);
 void func_4003c314(u32 tr);
 void func_4003bb6c(u32 tr);
@@ -19,13 +19,13 @@ void func_4005ddd4(u32 tr);
 
 void trace_process_full(u32 tr)
 {
-    u32 k = func_4003bf78(tr);
+    u32 k = mode_not_0_or_1(tr);
     if (SYS8(0x101) == 0)
         return;
     if (k == 1 && SYS8(0x2AA) == 0)
         return;
     func_4005f90c(tr);
-    func_4003c0ac(tr);
+    scaled_pair_update(tr);
     func_4003c158(tr);
     func_4003c314(tr);
     func_4003bb6c(tr);

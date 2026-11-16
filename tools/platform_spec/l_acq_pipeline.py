@@ -6,25 +6,25 @@ def p(addr, size, name, desc, body, src="acquisition"):
     f(addr, size, name, src, desc, '#include "hw/fpga.h"' + "\n\n" + body.strip("\n"))
 
 
-EXT = """void func_4003ffe4(u32 v);                   /* fragment of the time-base switch (OPEN) */
+EXT = """void trace_buffer_pointers_setup(u32 v);                   /* 0x4003FFE4 */
 """
 
 p(0x40040030, 12, "timebase_apply_2b4", "Time-base step with SYS_INFO+0x2B4 (0x4003FFE4).", EXT + """
 void timebase_apply_2b4(void)
 {
-    func_4003ffe4(SYS32(0x2B4));
+    trace_buffer_pointers_setup(SYS32(0x2B4));
 }
 """)
 p(0x4004003C, 12, "timebase_apply_2b0", "Time-base step with SYS_INFO+0x2B0 (0x4003FFE4).", EXT + """
 void timebase_apply_2b0(void)
 {
-    func_4003ffe4(SYS32(0x2B0));
+    trace_buffer_pointers_setup(SYS32(0x2B0));
 }
 """)
 p(0x40040048, 36, "timebase_apply_2b0_x1_3", "Time-base step with SYS_INFO+0x2B0 x 1.3 (double, truncated).", EXT + """
 void timebase_apply_2b0_x1_3(void)
 {
-    func_4003ffe4((u32)((double)SYS32(0x2B0) * 1.3));
+    trace_buffer_pointers_setup((u32)((double)SYS32(0x2B0) * 1.3));
 }
 """)
 p(0x4004006C, 164, "channel_post_process",

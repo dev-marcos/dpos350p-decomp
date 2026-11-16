@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 777 | 57.39% | 86530 | 25.64% |
+| EQUIVALENT | 796 | 58.79% | 88010 | 26.08% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 577 | 42.61% | 250974 | 74.36% |
+| ASM | 558 | 41.21% | 249494 | 73.92% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 777 (58.03%) | 337104 | 86530 (25.67%) |
+| main code | 1339 | 796 (59.45%) | 337104 | 88010 (26.11%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -46,9 +46,24 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40035724` | memcpy | 4 | EQUIVALENT | 200 | `nonmatching/platform/func_40035724.c` |
 | `0x40035728` | copy_u16 | 28 | EQUIVALENT | 200 | `nonmatching/platform/func_40035728.c` |
 | `0x4003A5D8` | __aeabi_l2d | 84 | EQUIVALENT | 400 | `nonmatching/libc/func_4003a5d8.c` |
+| `0x4003A62C` | acquisition_reconfigure | 40 | EQUIVALENT | 200 | `nonmatching/platform/func_4003a62c.c` |
+| `0x4003A654` | acquisition_apply | 44 | EQUIVALENT | 200 | `nonmatching/platform/func_4003a654.c` |
+| `0x4003A8BC` | timebase_period_load | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4003a8bc.c` |
+| `0x4003A908` | sample_divisor_setup | 92 | EQUIVALENT | 200 | `nonmatching/platform/func_4003a908.c` |
+| `0x4003B7B8` | acquisition_rearm | 68 | EQUIVALENT | 200 | `nonmatching/platform/func_4003b7b8.c` |
+| `0x4003BCF0` | timebase_index_clamp | 188 | EQUIVALENT | 200 | `nonmatching/platform/func_4003bcf0.c` |
+| `0x4003BDB0` | timebase_index_step | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_4003bdb0.c` |
+| `0x4003BDE8` | timebase_index_step_down | 100 | EQUIVALENT | 200 | `nonmatching/platform/func_4003bde8.c` |
 | `0x4003BE50` | timebase_index_set | 40 | EQUIVALENT | 200 | `nonmatching/platform/func_4003be50.c` |
+| `0x4003BE78` | timebase_slow_flag_update | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_4003be78.c` |
 | `0x4003BE98` | sys_word_pair_570_set | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_4003be98.c` |
+| `0x4003BEA8` | runtime_state_commit_force | 12 | EQUIVALENT | 200 | `nonmatching/platform/func_4003bea8.c` |
+| `0x4003BEB4` | runtime_state_commit_copy | 160 | EQUIVALENT | 200 | `nonmatching/platform/func_4003beb4.c` |
+| `0x4003BF58` | mode_not_0_or_2 | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_4003bf58.c` |
+| `0x4003BF78` | mode_not_0_or_1 | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_4003bf78.c` |
+| `0x4003BF98` | runtime_counter_progress_advance | 112 | EQUIVALENT | 200 | `nonmatching/platform/func_4003bf98.c` |
 | `0x4003C008` | acquisition_geometry_setup | 164 | EQUIVALENT | 200 | `nonmatching/platform/func_4003c008.c` |
+| `0x4003C0AC` | scaled_pair_update | 172 | EQUIVALENT | 200 | `nonmatching/platform/func_4003c0ac.c` |
 | `0x4003C520` | runtime_rearm_setup | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_4003c520.c` |
 | `0x4003C550` | traces_e10c_enabled | 112 | EQUIVALENT | 200 | `nonmatching/platform/func_4003c550.c` |
 | `0x4003C790` | trace_c5cc_full | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_4003c790.c` |
@@ -70,9 +85,11 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4003CE50` | ui_window_close | 188 | EQUIVALENT | 200 | `nonmatching/platform/func_4003ce50.c` |
 | `0x4003CF0C` | ui_windows_reset | 76 | EQUIVALENT | 200 | `nonmatching/platform/func_4003cf0c.c` |
 | `0x4003CF58` | ui_frame_update | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_4003cf58.c` |
+| `0x4003D454` | ui_cf88_then_579c | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d454.c` |
 | `0x4003D46C` | ui_reveal_bottom_up | 296 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d46c.c` |
 | `0x4003D594` | ui_reveal_slide_down | 280 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d594.c` |
 | `0x4003D6AC` | ui_windows_open_1_5 | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d6ac.c` |
+| `0x4003D6E4` | ui_windows_invalidate_1_5 | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d6e4.c` |
 | `0x4003D71C` | ui_window_01_redraw | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d71c.c` |
 | `0x4003D734` | ui_window_02_redraw | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d734.c` |
 | `0x4003D74C` | ui_window_03_redraw | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d74c.c` |
@@ -168,6 +185,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4003FB90` | consumer_translator_of_the_16_bit | 304 | EQUIVALENT | 200 | `nonmatching/platform/func_4003fb90.c` |
 | `0x4003FCC0` | acq_wait_done | 80 | EQUIVALENT | 200 | `nonmatching/platform/func_4003fcc0.c` |
 | `0x4003FD10` | amplitude_statistical_normalization | 260 | EQUIVALENT | 200 | `nonmatching/platform/func_4003fd10.c` |
+| `0x4003FFE4` | trace_buffer_pointers_setup | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_4003ffe4.c` |
 | `0x40040030` | timebase_apply_2b4 | 12 | EQUIVALENT | 200 | `nonmatching/platform/func_40040030.c` |
 | `0x4004003C` | timebase_apply_2b0 | 12 | EQUIVALENT | 200 | `nonmatching/platform/func_4004003c.c` |
 | `0x40040048` | timebase_apply_2b0_x1_3 | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_40040048.c` |
@@ -249,6 +267,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x400434F4` | spi_flash_wait_ready | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_400434f4.c` |
 | `0x40043514` | spi_flash_write_enable | 80 | EQUIVALENT | 200 | `nonmatching/platform/func_40043514.c` |
 | `0x40043564` | spi_flash_sector_erase | 188 | EQUIVALENT | 200 | `nonmatching/platform/func_40043564.c` |
+| `0x4004372C` | spi_flash_page_program | 200 | EQUIVALENT | 200 | `nonmatching/platform/func_4004372c.c` |
 | `0x4004380C` | spi_flash_write_paged | 104 | EQUIVALENT | 200 | `nonmatching/platform/func_4004380c.c` |
 | `0x400439A0` | settings_a_fields | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_400439a0.c` |
 | `0x400439D8` | settings_a_save | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_400439d8.c` |

@@ -1616,3 +1616,107 @@ TESTS[0x4004380C] = lambda r: Case([r.getrandbits(32), r.getrandbits(32), r.getr
 TESTS[0x40043CA8] = lambda r: Case([SYS, r.choice([0x360404, r.randrange(0x1000)]), r.getrandbits(32), r.choice([0x4000, r.getrandbits(16)])],
                                    sys_bytes(r, 0x7A0, 0x800), ret=V,
                                    stubs=(rec("pread", 0x40043620, 4), rec("dec", 0x40067144, 0), rec("fields", 0x40043B0C, 0)))
+
+
+# ---------------------------------------------------------------- batch 25: time-base index, committed copy, acquisition glue
+def tb_state(r, extra=None):
+    ov = {0x588: (1, r.choice([0, 3, 0x20, r.randrange(256)])), 0x2A7: (1, r.choice([0x30, r.randrange(256)])),
+          0x2A8: (1, r.choice([0, 2, r.randrange(256)])), 0x3C: (1, r.choice([0, 1, 1])),
+          0x5B0: (1, r.choice([0, 5, r.randrange(256)])), 0x5B8: (8, r.choice([r.getrandbits(40), r.getrandbits(20), r.getrandbits(64)])),
+          0x5D4: (4, r.choice([1, 2, r.randrange(1, 5000), r.getrandbits(32) | 1])), 0x2AC: (2, r.choice([1, 100, r.randrange(1, 65536)]))}
+    for i in range(256):
+        ov[0xBD0 + 8 * i] = (8, r.choice([r.randrange(1, 1000), r.getrandbits(64) | 1, r.getrandbits(64) | 1]))
+    ov.update(extra or {})
+    return sys_bytes(r, 0, 0x1400, ov)
+
+
+TESTS[0x4003A8BC] = lambda r: Case([], tb_state(r), ret=V)
+TESTS[0x4003A908] = lambda r: Case([], sys_bytes(r, 0, 0x600, {0x3E: (1, r.choice([0, 1, 0x80])), 0x102: (1, r.choice([0, 1, 2]))}), ret=V)
+TESTS[0x4003BE78] = lambda r: Case([], sys_bytes(r, 0, 0x600, {0x588: (1, r.choice([0, 0x10, r.randrange(256)])),
+                                                               0x2A9: (1, r.choice([0, 0x10, r.randrange(256)]))}), ret=V)
+TESTS[0x4003BEB4] = lambda r: Case([], sys_bytes(r, 0, 0x700, {0x38: (1, r.choice([0, 1, 0x40]))}), ret=V)
+TESTS[0x4003BEA8] = lambda r: Case([], sys_bytes(r, 0, 0x700), ret=V)
+TESTS[0x4003BF58] = lambda r: Case([r.choice([0, 1, 2, 3, r.getrandbits(32), 0x100, 0x102])], ret=R)
+TESTS[0x4003BF78] = lambda r: Case([r.choice([0, 1, 2, 3, r.getrandbits(32), 0x100, 0x101])], ret=R)
+
+
+def t_progress(r):
+    c = r.getrandbits(32)
+    ov = {0x6FC: (4, c), 0x708: (4, r.choice([c, c + 1, c - 1, r.getrandbits(32)])), 0x1B1: (1, r.choice([0, 1, 2, 7, r.randrange(256)]))}
+    return Case([], sys_bytes(r, 0, 0x800, ov), ret=V)
+
+
+TESTS[0x4003BF98] = t_progress
+def t_clamp(r):
+    if r.random() < 0.4:
+        st = tb_state(r)
+    else:
+        # engineered: committed index c, live index near c + 3, periods P_i = base x (i + 1) and
+        # SYS+0x5B8 around lim x k x P_j, so the loop stops exactly at the q == lim edge
+        c = r.randrange(200)
+        base, k, lim = r.randrange(1, 1 << 20), r.randrange(1, 1 << 12), r.randrange(1, 1 << 16)
+        j = c + r.choice([0, 2, 3, 4, 5, 8])
+        ov = {0x5B0: (1, c), 0x588: (1, c + r.choice([1, 2, 3, 4, 6])), 0x2A8: (1, r.choice([0, 0, c])),
+              0x2A7: (1, r.choice([0xFF, 0xFF, c + 3])), 0x3C: (1, 1), 0x5D4: (4, k), 0x2AC: (2, lim),
+              0x5B8: (8, lim * k * base * (j + 1) + r.choice([0, 0, -1, 1]))}
+        for i in range(256):
+            ov[0xBD0 + 8 * i] = (8, base * (i + 1))
+        st = sys_bytes(r, 0, 0x1400, ov)
+    ws = win_state(r, r.choice([0.1, 0.3]))
+    return Case([], lambda m: (st(m), ws(m)), ret=V)
+
+
+TESTS[0x4003BCF0] = t_clamp
+TESTS[0x4003BDB0] = lambda r: Case([r.choice([1, 0xFF, r.getrandbits(32)])], sys_bytes(r, 0, 0x900), ret=V,
+                                   stubs=(rec("clamp", 0x4003BCF0, 0),))
+
+
+def t_step_down(r):
+    lim = r.randrange(1, 1 << 16)
+    k = r.randrange(1, 1 << 12)
+    ov = {0x2AC: (2, lim), 0x554: (4, k), 0x55C: (4, r.choice([lim * k - 1, lim * k, r.getrandbits(32)])),
+          0x5FC: (4, r.choice([0, lim * k - 1, lim * k, r.getrandbits(32)])), 0x588: (1, r.choice([0, 1, 5, r.randrange(256)]))}
+    return Case([r.choice([0, 1, 2, 5, 0x105, r.getrandbits(32)])], sys_bytes(r, 0, 0x900, ov), ret=V,
+                stubs=(rec("clamp", 0x4003BCF0, 0),))
+
+
+TESTS[0x4003BDE8] = t_step_down
+TESTS[0x4003A62C] = lambda r: Case([], ret=V, stubs=(rec("div", 0x4003A908, 0), rec("a680", 0x4003A680, 0), rec("db9c", 0x4005DB9C, 0),
+                                                     rec("d27c", 0x4005D27C, 0), rec("geom", 0x4003C008, 0), rec("commit", 0x4003BEB4, 0)))
+TESTS[0x4003A654] = lambda r: Case([], sys_bytes(r, 0, 0x40), ret=V,
+                                   stubs=(rec("slow", 0x4003BE78, 0), rec("div", 0x4003A908, 0), rec("a984", 0x4003A984, 0),
+                                          rec("count", 0x4003F948, 1), rec("tb", 0x4003F894, 0)))
+TESTS[0x4003B7B8] = lambda r: Case([], (lambda a, v: lambda m: (a(m), m.w8(0x42E68BC7, v)))(
+    sys_bytes(r, 0x2A0, 0x2B0, {0x2AA: (1, r.choice([0, 1, 0x20]))}), r.choice([0, 0, 1])), ret=V,
+    stubs=(rec("b834", 0x4003B834, 0), rec("201c", 0x4004201C, 0)))
+
+
+def t_scaled(r):
+    ov = {0x5E8: (4, r.choice([0, 0xFFFFFFFF, r.randrange(2000), r.getrandbits(32)])), 0x5EC: (4, r.choice([0, 1, r.randrange(2000), r.getrandbits(32)])),
+          0x5D4: (4, r.choice([1, r.randrange(1, 10000), r.getrandbits(32)])), 0x5F8: (4, r.choice([1, r.randrange(1, 5000), r.getrandbits(32) | 1])),
+          0x610: (4, r.choice([1, r.randrange(1, 5000), r.getrandbits(32) | 1]))}
+    return Case([r.choice([0, 1, 2, 3, r.getrandbits(32)])], sys_bytes(r, 0x500, 0x700, ov), ret=V)
+
+
+TESTS[0x4003C0AC] = t_scaled
+TESTS[0x4003FFE4] = lambda r: Case([r.choice([0, 1, 0xC738, 0xC739, r.randrange(0x10000), r.getrandbits(32)])],
+                                   sys_bytes(r, 0x280, 0x800), ret=V)
+TESTS[0x4003D454] = lambda r: Case([], ret=V, stubs=(rec("cf88", 0x4003CF88, 0), rec("579c", 0x4004579C, 0)))
+TESTS[0x4003D6E4] = lambda r: Case([r.getrandbits(32), r.choice([r.randrange(25), r.getrandbits(32), 0, 19])],
+                                   win_state(r, r.choice([0.1, 0.3, 0.0]), r.choice([8, 46])), ret=V)
+
+
+def t_page_prog(r):
+    four = r.choice([0, 0, 1, 0x100])
+
+    def wtw(m, a):
+        q = regs3(m)
+        n = q[2] if q[2] <= 8 else 8
+        m.calls.append(("wtw", q[0], bytes(m.read(q[1], n)), q[2], q[3], m.r32(m.reg(A.UC_ARM_REG_SP))))
+        m.uc.reg_write(A.UC_ARM_REG_R0, m.srng.choice([0, 0, 0xFFFFFFFF, 1]))
+    stubs = tuple(s for s in flash_stubs() if s.addr != 0x40043330) + (Stub("wtw*", 0x400433C8, wtw, 0),)
+    return Case([r.getrandbits(32), r.getrandbits(32), r.getrandbits(32), r.choice([0, 1, 256, r.getrandbits(32)])],
+                seeded(r.getrandbits(32), lambda m: m.w32(0x42E68CD4, four)), ret=R, stubs=stubs)
+
+
+TESTS[0x4004372C] = t_page_prog

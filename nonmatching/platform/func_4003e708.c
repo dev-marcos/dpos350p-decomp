@@ -7,7 +7,7 @@
 
 #include "hw/fpga.h"
 
-void func_4003a654(void);
+void acquisition_apply(void);
 void frontend_apply_all(void);
 void func_40063328(void);
 
@@ -15,7 +15,7 @@ void outputs_apply(void)
 {
     if ((*(volatile unsigned char *)0x42E68BC7u))
         return;
-    func_4003a654();
+    acquisition_apply();
     frontend_apply_all();
     func_40063328();
 }

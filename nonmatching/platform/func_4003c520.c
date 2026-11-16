@@ -7,8 +7,8 @@
 
 #include "hw/fpga.h"
 
-void func_4003bea8(void);
-void func_4003b7b8(void);
+void runtime_state_commit_force(void);
+void acquisition_rearm(void);
 void func_40024e14(void);
 void acquisition_geometry_setup(void);
 void fb_present(void);
@@ -17,8 +17,8 @@ void pulse_fpga_selector_0x08_0_1(void);
 
 void runtime_rearm_setup(void)
 {
-    func_4003bea8();
-    func_4003b7b8();
+    runtime_state_commit_force();
+    acquisition_rearm();
     func_40024e14();
     acquisition_geometry_setup();
     fb_present();

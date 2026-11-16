@@ -7,7 +7,7 @@
 
 #include "hw/fpga.h"
 
-void func_4004372c(u32 dev, u32 addr, u32 buf, u32 n);
+void spi_flash_page_program(u32 dev, u32 addr, u32 buf, u32 n);
 
 void spi_flash_write_paged(u32 dev, u32 addr, u32 buf, u32 len)
 {
@@ -15,7 +15,7 @@ void spi_flash_write_paged(u32 dev, u32 addr, u32 buf, u32 len)
     if (n > room)
         n = room;
     for (;;) {
-        func_4004372c(dev, addr, buf, (u32)n);
+        spi_flash_page_program(dev, addr, buf, (u32)n);
         if ((u32)n == (len & 0xFFFF))
             return;
         buf += n;

@@ -12,8 +12,8 @@ def t(addr, size, name, desc, body, src="trace"):
 
 # ---------------------------------------------------------------- re-arm
 t(0x4003C520, 48, "runtime_rearm_setup", "Re-arm after a settings change: 0x4003BEA8, 0x4003B7B8, 0x40024E14, 0x4003C008, fb_present, write_sys_info_0x6f0_to_fpga, acquisition_prepare, then pulse_fpga_selector_0x08_0_1. (name: Hack)", """
-void func_4003bea8(void);
-void func_4003b7b8(void);
+void runtime_state_commit_force(void);
+void acquisition_rearm(void);
 void func_40024e14(void);
 void acquisition_geometry_setup(void);
 void fb_present(void);
@@ -22,8 +22,8 @@ void pulse_fpga_selector_0x08_0_1(void);
 
 void runtime_rearm_setup(void)
 {
-    func_4003bea8();
-    func_4003b7b8();
+    runtime_state_commit_force();
+    acquisition_rearm();
     func_40024e14();
     acquisition_geometry_setup();
     fb_present();
@@ -74,9 +74,9 @@ void trace_c5cc_window(u32 tr)
 }
 """)
 t(0x4003C7E4, 120, "trace_process_full", "Full processing of trace tr, run only when SYS+0x101 is set and, for a 0x4003BF78(tr) result of 1, SYS+0x2AA is set too: 0x4005F90C, 0x4003C0AC, 0x4003C158, 0x4003C314, 0x4003BB6C, trace_c5cc_full, 0x4005E12C, 0x4005DDD4.", """
-u32 func_4003bf78(u32 tr);
+u32 mode_not_0_or_1(u32 tr);
 void func_4005f90c(u32 tr);
-void func_4003c0ac(u32 tr);
+void scaled_pair_update(u32 tr);
 void func_4003c158(u32 tr);
 void func_4003c314(u32 tr);
 void func_4003bb6c(u32 tr);
@@ -86,13 +86,13 @@ void func_4005ddd4(u32 tr);
 
 void trace_process_full(u32 tr)
 {
-    u32 k = func_4003bf78(tr);
+    u32 k = mode_not_0_or_1(tr);
     if (SYS8(0x101) == 0)
         return;
     if (k == 1 && SYS8(0x2AA) == 0)
         return;
     func_4005f90c(tr);
-    func_4003c0ac(tr);
+    scaled_pair_update(tr);
     func_4003c158(tr);
     func_4003c314(tr);
     func_4003bb6c(tr);
@@ -145,7 +145,7 @@ void channels_process_full(void)
 """)
 t(0x4003C910, 96, "traces_process_single", "Processing used when SYS+0x652 is set: 0x4005F90C(0/1), 0x4003C0AC(0), 0x4003C158(0/1), 0x4003C314(0/1), 0x4003BB6C(0), 0x4005EDC0(0), 0x4005DDD4(0).", """
 void func_4005f90c(u32 tr);
-void func_4003c0ac(u32 tr);
+void scaled_pair_update(u32 tr);
 void func_4003c158(u32 tr);
 void func_4003c314(u32 tr);
 void func_4003bb6c(u32 tr);
@@ -156,7 +156,7 @@ void traces_process_single(void)
 {
     func_4005f90c(0);
     func_4005f90c(1);
-    func_4003c0ac(0);
+    scaled_pair_update(0);
     func_4003c158(0);
     func_4003c158(1);
     func_4003c314(0);
@@ -184,7 +184,7 @@ void traces_update(void)
 """)
 t(0x4003C9BC, 56, "trace_process_window", "Processing of trace tr over the capture window: 0x4005F910, 0x4003C0AC, 0x4003BB6C, trace_c5cc_window, 0x4005E838, 0x4005DF5C.", """
 void func_4005f910(u32 tr);
-void func_4003c0ac(u32 tr);
+void scaled_pair_update(u32 tr);
 void func_4003bb6c(u32 tr);
 void trace_c5cc_window(u32 tr);
 void func_4005e838(u32 tr);
@@ -193,7 +193,7 @@ void func_4005df5c(u32 tr);
 void trace_process_window(u32 tr)
 {
     func_4005f910(tr);
-    func_4003c0ac(tr);
+    scaled_pair_update(tr);
     func_4003bb6c(tr);
     trace_c5cc_window(tr);
     func_4005e838(tr);

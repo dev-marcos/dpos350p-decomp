@@ -38,7 +38,7 @@ void lcd_start(void)
 
 # ---------------------------------------------------------------- state initialisers
 s(0x4003E708, 48, "outputs_apply", "Unless the byte 0x42E68BC7 is set: 0x4003A654, frontend_apply_all, 0x40063328.", """
-void func_4003a654(void);
+void acquisition_apply(void);
 void frontend_apply_all(void);
 void func_40063328(void);
 
@@ -46,7 +46,7 @@ void outputs_apply(void)
 {
     if (""" + LOCK + """)
         return;
-    func_4003a654();
+    acquisition_apply();
     frontend_apply_all();
     func_40063328();
 }
@@ -252,7 +252,7 @@ int spi_flash_sector_erase(u32 dev, u32 addr)
 """, src="spi")
 s(0x4004380C, 104, "spi_flash_write_paged",
   "Writes len bytes from buf to the flash at addr through the page program 0x4004372C, split so no chunk crosses a 256-byte page. Loop exit is on chunk == (u16) remaining length, as in the stock code.", """
-void func_4004372c(u32 dev, u32 addr, u32 buf, u32 n);
+void spi_flash_page_program(u32 dev, u32 addr, u32 buf, u32 n);
 
 void spi_flash_write_paged(u32 dev, u32 addr, u32 buf, u32 len)
 {
@@ -260,7 +260,7 @@ void spi_flash_write_paged(u32 dev, u32 addr, u32 buf, u32 len)
     if (n > room)
         n = room;
     for (;;) {
-        func_4004372c(dev, addr, buf, (u32)n);
+        spi_flash_page_program(dev, addr, buf, (u32)n);
         if ((u32)n == (len & 0xFFFF))
             return;
         buf += n;

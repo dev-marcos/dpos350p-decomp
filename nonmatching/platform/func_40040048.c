@@ -7,9 +7,9 @@
 
 #include "hw/fpga.h"
 
-void func_4003ffe4(u32 v);                   /* fragment of the time-base switch (OPEN) */
+void trace_buffer_pointers_setup(u32 v);                   /* 0x4003FFE4 */
 
 void timebase_apply_2b0_x1_3(void)
 {
-    func_4003ffe4((u32)((double)SYS32(0x2B0) * 1.3));
+    trace_buffer_pointers_setup((u32)((double)SYS32(0x2B0) * 1.3));
 }

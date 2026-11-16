@@ -8,7 +8,7 @@
 #include "hw/fpga.h"
 
 void func_4005f90c(u32 tr);
-void func_4003c0ac(u32 tr);
+void scaled_pair_update(u32 tr);
 void func_4003c158(u32 tr);
 void func_4003c314(u32 tr);
 void func_4003bb6c(u32 tr);
@@ -19,7 +19,7 @@ void traces_process_single(void)
 {
     func_4005f90c(0);
     func_4005f90c(1);
-    func_4003c0ac(0);
+    scaled_pair_update(0);
     func_4003c158(0);
     func_4003c158(1);
     func_4003c314(0);

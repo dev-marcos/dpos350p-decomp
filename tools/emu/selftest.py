@@ -238,6 +238,17 @@ MUTANTS = [
     (0x4003C008, "SYS8(0x588) == 0x21 ? 2 : 1", "SYS8(0x588) == 0x20 ? 2 : 1"),
     (0x40043564, "cmd[0] = 0x21;", "cmd[0] = 0x20;"),
     (0x4004380C, "if (n > 0x100)\n            n = 0x100;", "if (n > 0xFF)\n            n = 0xFF;"),
+    # batch 25: time-base index, committed copy, acquisition glue
+    (0x4003BCF0, "if (q < lim)\n            return;", "if (q <= lim)\n            return;"),
+    (0x4003BCF0, "ui_window_invalidate_from(3, c);", "ui_window_invalidate_from(3, c + 1);"),
+    (0x4003BCF0, "SYS8(0x588) = c + 3;", "SYS8(0x588) = c + 2;"),
+    (0x4003BDE8, "SYS8(0x588) = c >= d ? c - d : 0;", "SYS8(0x588) = c >= (d & 0xFF) ? c - d : 0;"),
+    (0x4003D6E4, "r1 = inv_r1_out(id, r1);", "r1 = r1;"),
+    (0x4003BF98, "q = d ? c / d : 0;", "q = d ? c / d : c;"),
+    (0x4003BEB4, "SYS64(0x5E0) = SYS64(0x570);", "SYS64(0x5E0) = SYS64(0x578);"),
+    (0x4003C0AC, "p = (long long)(int)(SYS32(0x5EC) - 1) * k;\n        SYS32(0x624)", "p = (long long)(u32)(SYS32(0x5EC) - 1) * k;\n        SYS32(0x624)"),
+    (0x4003FFE4, "2u * ((0xC738u - n) >> 1)", "(0xC738u - n)"),
+    (0x4004372C, "cmd[0] = 0x12;", "cmd[0] = 0x02;"),
 ]
 
 

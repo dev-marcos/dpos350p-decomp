@@ -7,12 +7,12 @@
 
 #include "hw/fpga.h"
 
-void func_4003bcf0(void);
+void timebase_index_clamp(void);
 
 void timebase_index_set(u32 v)
 {
     SYS8(0x588) = v;
-    func_4003bcf0();
+    timebase_index_clamp();
     SYS16(0x86E) = 1;
     SYS16(0x870) = 1;
 }
