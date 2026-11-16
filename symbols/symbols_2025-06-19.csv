@@ -174,54 +174,54 @@ address,size,name,type,evidence_level,source
 0x4002ED90,216,func_4002ed90,function_arm,DERIVED,analyze.py:rea
 0x4002EE68,16,pool_4002ee68,literal_pool,DERIVED,analyze.py
 0x4002EE78,624,func_4002ee78,function_arm,DERIVED,analyze.py:rea
-0x4002F0E8,104,func_4002f0e8,function_arm,DERIVED,analyze.py:rea
+0x4002F0E8,104,draw_text_shadowed,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002F150,16,pool_4002f150,literal_pool,DERIVED,analyze.py
-0x4002F160,32,func_4002f160,function_arm,DERIVED,analyze.py:rea
-0x4002F180,20,func_4002f180,function_arm,DERIVED,analyze.py:rea
-0x4002F194,148,func_4002f194,function_arm,DERIVED,analyze.py:rea
-0x4002F228,148,func_4002f228,function_arm,DERIVED,analyze.py:prologue
-0x4002F2BC,104,func_4002f2bc,function_arm,DERIVED,analyze.py:rea
-0x4002F324,84,func_4002f324,function_arm,DERIVED,analyze.py:rea
-0x4002F378,76,func_4002f378,function_arm,DERIVED,analyze.py:rea
-0x4002F3C4,68,func_4002f3c4,function_arm,DERIVED,analyze.py:rea
-0x4002F408,8,func_4002f408,function_arm,DERIVED,analyze.py:rea
-0x4002F410,128,func_4002f410,function_arm,DERIVED,analyze.py:rea
-0x4002F490,96,func_4002f490,function_arm,DERIVED,analyze.py:rea
-0x4002F4F0,252,func_4002f4f0,function_arm,DERIVED,analyze.py:rea
-0x4002F5EC,40,func_4002f5ec,function_arm,DERIVED,analyze.py:rea
-0x4002F614,112,func_4002f614,function_arm,DERIVED,analyze.py:rea
-0x4002F684,120,func_4002f684,function_arm,DERIVED,analyze.py:rea
-0x4002F6FC,368,func_4002f6fc,function_arm,DERIVED,analyze.py:rea
-0x4002F86C,116,func_4002f86c,function_arm,DERIVED,analyze.py:rea
-0x4002F8E0,136,func_4002f8e0,function_arm,DERIVED,analyze.py:rea
+0x4002F160,32,touch_button_set_rect,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002F180,20,touch_button_disable,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002F194,148,ui_windows_close_untouched,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002F228,148,ui_window_touch_handle,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002F2BC,104,touch_button_update,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002F324,84,touch_group_0002,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002F378,76,touch_group_005C,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002F3C4,68,touch_group_00AC,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002F408,8,touch_button_update_00F2,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002F410,128,touch_group_017E,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002F490,96,touch_group_020A,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002F4F0,252,touch_group_0250,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002F5EC,40,touch_group_0340,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002F614,112,touch_group_035E,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002F684,120,touch_group_03C2,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002F6FC,368,touch_group_0426,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002F86C,116,touch_group_055C,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002F8E0,136,touch_group_05B6,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002F968,316,func_4002f968,function_arm,DERIVED,analyze.py:rea
-0x4002FAA4,8,func_4002faa4,function_arm,DERIVED,analyze.py:rea
+0x4002FAA4,8,touch_button_update_071E,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002FAAC,148,func_4002faac,function_arm,DERIVED,analyze.py:rea
-0x4002FB40,8,func_4002fb40,function_arm,DERIVED,analyze.py:rea
-0x4002FB48,8,func_4002fb48,function_arm,DERIVED,analyze.py:rea
-0x4002FB50,72,func_4002fb50,function_arm,DERIVED,analyze.py:rea
+0x4002FB40,8,touch_button_update_07FA,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002FB48,8,touch_button_update_0804,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002FB50,72,touch_group_080E,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002FB98,152,func_4002fb98,function_arm,DERIVED,analyze.py:rea
-0x4002FC30,8,func_4002fc30,function_arm,DERIVED,analyze.py:rea
+0x4002FC30,8,touch_button_update_0912,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002FC38,148,func_4002fc38,function_arm,DERIVED,analyze.py:rea
-0x4002FCCC,8,func_4002fccc,function_arm,DERIVED,analyze.py:rea
-0x4002FCD4,60,func_4002fcd4,function_arm,DERIVED,analyze.py:rea
-0x4002FD10,44,func_4002fd10,function_arm,DERIVED,analyze.py:rea
-0x4002FD3C,60,func_4002fd3c,function_arm,DERIVED,analyze.py:rea
-0x4002FD78,8,func_4002fd78,function_arm,DERIVED,analyze.py:rea
-0x4002FD80,52,func_4002fd80,function_arm,DERIVED,analyze.py:rea
-0x4002FDB4,8,func_4002fdb4,function_arm,DERIVED,analyze.py:rea
-0x4002FDBC,8,func_4002fdbc,function_arm,DERIVED,analyze.py:rea
-0x4002FDC4,8,func_4002fdc4,function_arm,DERIVED,analyze.py:rea
+0x4002FCCC,8,touch_button_update_09EE,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002FCD4,60,touch_group_09F8,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002FD10,44,touch_group_0106,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002FD3C,60,touch_group_0124,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002FD78,8,touch_button_update_0188,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002FD80,52,touch_group_0156,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002FDB4,8,touch_button_update_01EC,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002FDBC,8,touch_button_update_0200,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002FDC4,8,touch_button_update_019C,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002FDCC,112,func_4002fdcc,function_arm,DERIVED,analyze.py:rea
-0x4002FE3C,92,func_4002fe3c,function_arm,DERIVED,analyze.py:rea
-0x4002FE98,80,func_4002fe98,function_arm,DERIVED,analyze.py:rea
-0x4002FEE8,8,func_4002fee8,function_arm,DERIVED,analyze.py:rea
-0x4002FEF0,8,func_4002fef0,function_arm,DERIVED,analyze.py:rea
-0x4002FEF8,80,func_4002fef8,function_arm,DERIVED,analyze.py:rea
-0x4002FF48,92,func_4002ff48,function_arm,DERIVED,analyze.py:rea
-0x4002FFA4,8,func_4002ffa4,function_arm,DERIVED,analyze.py:rea
-0x4002FFAC,92,func_4002ffac,function_arm,DERIVED,analyze.py:rea
-0x40030008,8,func_40030008,function_arm,DERIVED,analyze.py:rea
+0x4002FE3C,92,touch_group_0AC0,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002FE98,80,touch_group_0B06,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002FEE8,8,touch_button_update_0B42,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002FEF0,8,touch_button_update_0B4C,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002FEF8,80,touch_group_0B56,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002FF48,92,touch_group_0B92,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002FFA4,8,touch_button_update_0BD8,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002FFAC,92,touch_group_0BE2,function_arm,DERIVED,this-project:phase5 (ui)
+0x40030008,8,touch_button_update_0C28,function_arm,DERIVED,this-project:phase5 (ui)
 0x40030010,80,pool_40030010,literal_pool,DERIVED,analyze.py
 0x40030060,136,func_40030060,function_arm,DERIVED,analyze.py:rea
 0x400300E8,192,func_400300e8,function_arm,DERIVED,analyze.py:prologue
@@ -957,7 +957,7 @@ address,size,name,type,evidence_level,source
 0x400519E0,4,pool_400519e0,literal_pool,DERIVED,analyze.py
 0x400519E4,540,func_400519e4,function_arm,DERIVED,analyze.py:rea
 0x40051C00,4,pool_40051c00,literal_pool,DERIVED,analyze.py
-0x40051C04,36,func_40051c04,function_arm,DERIVED,analyze.py:rea
+0x40051C04,36,disk_format_and_reload,function_arm,DERIVED,this-project:phase5 (ui)
 0x40051C28,200,func_40051c28,function_arm,DERIVED,analyze.py:rea
 0x40051CF0,140,func_40051cf0,function_arm,DERIVED,analyze.py:rea
 0x40051D7C,168,pool_40051d7c,literal_pool,DERIVED,analyze.py
@@ -988,7 +988,7 @@ address,size,name,type,evidence_level,source
 0x40054C78,12,pool_40054c78,literal_pool,DERIVED,analyze.py
 0x40054C84,564,func_40054c84,function_arm,DERIVED,analyze.py:rea
 0x40054EB8,80,func_40054eb8,function_arm,DERIVED,analyze.py:rea
-0x40054F08,68,func_40054f08,function_arm,DERIVED,analyze.py:rea
+0x40054F08,68,touch_btn_0804_release,function_arm,DERIVED,this-project:phase5 (ui)
 0x40054F4C,4,pool_40054f4c,literal_pool,DERIVED,analyze.py
 0x40054F50,448,func_40054f50,function_arm,DERIVED,analyze.py:rea
 0x40055110,4,pool_40055110,literal_pool,DERIVED,analyze.py
@@ -1005,9 +1005,9 @@ address,size,name,type,evidence_level,source
 0x40055974,4,pool_40055974,literal_pool,DERIVED,analyze.py
 0x40055978,348,func_40055978,function_arm,DERIVED,analyze.py:rea
 0x40055AD4,196,func_40055ad4,function_arm,DERIVED,analyze.py:rea
-0x40055B98,60,func_40055b98,function_arm,DERIVED,analyze.py:rea
+0x40055B98,60,touch_btn_01ec_release,function_arm,DERIVED,this-project:phase5 (ui)
 0x40055BD4,164,func_40055bd4,function_arm,DERIVED,analyze.py:rea
-0x40055C78,76,func_40055c78,function_arm,DERIVED,analyze.py:rea
+0x40055C78,76,touch_btn_019c_release,function_arm,DERIVED,this-project:phase5 (ui)
 0x40055CC4,616,func_40055cc4,function_arm,DERIVED,analyze.py:rea
 0x40055F2C,340,func_40055f2c,function_arm,DERIVED,analyze.py:rea
 0x40056080,396,func_40056080,function_arm,DERIVED,analyze.py:rea
@@ -1034,8 +1034,8 @@ address,size,name,type,evidence_level,source
 0x40056BAC,16,mem_set,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
 0x40056BBC,36,mem_cmp,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
 0x40056BE0,4,chk_chr,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
-0x40056BE4,4,func_40056be4,function_arm,DERIVED,analyze.py:gap-code
-0x40056BE8,24,func_40056be8,function_arm,DERIVED,analyze.py:rea
+0x40056BE4,4,str_find_char_next,function_arm,DERIVED,this-project:phase5 (string)
+0x40056BE8,24,str_find_char,function_arm,DERIVED,this-project:phase5 (string)
 0x40056C00,8,dbc_1st,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
 0x40056C08,8,dbc_2nd,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
 0x40056C10,116,tchar2uni,function_arm,DERIVED,FatFs R0.13b ff.c (order+body)
@@ -1115,14 +1115,14 @@ address,size,name,type,evidence_level,source
 0x4005C664,20,func_4005c664,function_arm,DERIVED,analyze.py:tailcall
 0x4005C678,324,simple_integer_index_mapping_nearest_neighbour,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2295
 0x4005C7BC,348,workspace_copy_and_resampling,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2419
-0x4005C918,60,func_4005c918,function_arm,DERIVED,analyze.py:rea
+0x4005C918,60,index_map_if_above,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4005C954,8,pool_4005c954,literal_pool,DERIVED,analyze.py
 0x4005C95C,1352,func_4005c95c,function_arm,DERIVED,analyze.py:rea
 0x4005CEA4,212,func_4005cea4,function_arm,DERIVED,analyze.py:rea
 0x4005CF78,208,func_4005cf78,function_arm,DERIVED,analyze.py:rea
 0x4005D048,472,floating_point_interpolation_resampling,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2296
-0x4005D220,92,func_4005d220,function_arm,DERIVED,analyze.py:rea
-0x4005D27C,96,func_4005d27c,function_arm,DERIVED,analyze.py:rea
+0x4005D220,92,sine_table_lookup,function_arm,DERIVED,this-project:phase5 (display)
+0x4005D27C,96,sine_table_build,function_arm,DERIVED,this-project:phase5 (display)
 0x4005D2DC,8,pool_4005d2dc,literal_pool,DERIVED,analyze.py
 0x4005D2E4,372,fixed_point_weighted_or_filtered_resampling,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2297
 0x4005D458,76,pool_4005d458,literal_pool,DERIVED,analyze.py
@@ -1135,7 +1135,7 @@ address,size,name,type,evidence_level,source
 0x4005E0A8,4,func_4005e0a8,function_thumb,DERIVED,analyze.py:prologue
 0x4005E0AC,88,func_4005e0ac,function_arm,DERIVED,analyze.py:gap-code
 0x4005E104,8,func_4005e104,function_arm,DERIVED,analyze.py:gap-code
-0x4005E10C,32,func_4005e10c,function_arm,DERIVED,analyze.py:rea
+0x4005E10C,32,layer_clear,function_arm,DERIVED,this-project:phase5 (display)
 0x4005E12C,1764,func_4005e12c,function_arm,DERIVED,analyze.py:rea
 0x4005E810,40,pool_4005e810,literal_pool,DERIVED,analyze.py
 0x4005E838,1412,func_4005e838,function_arm,DERIVED,analyze.py:rea
@@ -1167,14 +1167,14 @@ address,size,name,type,evidence_level,source
 0x4005F9EE,2,pad_4005f9ee,padding,STATIC-CONFIRMED,analyze.py:zero
 0x4005F9F0,68,numpad_open_mode1,function_arm,DERIVED,this-project:phase5 (ui)
 0x4005FA34,68,numpad_open_mode3,function_arm,DERIVED,this-project:phase5 (ui)
-0x4005FA78,68,func_4005fa78,function_arm,DERIVED,analyze.py:rea
-0x4005FABC,68,func_4005fabc,function_arm,DERIVED,analyze.py:rea
-0x4005FB00,68,func_4005fb00,function_arm,DERIVED,analyze.py:rea
+0x4005FA78,68,numpad_open_mode4,function_arm,DERIVED,this-project:phase5 (ui)
+0x4005FABC,68,numpad_open_mode5,function_arm,DERIVED,this-project:phase5 (ui)
+0x4005FB00,68,numpad_open_mode6,function_arm,DERIVED,this-project:phase5 (ui)
 0x4005FB44,8,numpad_close,function_arm,DERIVED,this-project:phase5 (ui)
 0x4005FB4C,72,numpad_reset,function_arm,DERIVED,this-project:phase5 (ui)
 0x4005FB94,32,numpad_append_char,function_arm,DERIVED,this-project:phase5 (ui)
 0x4005FBB4,80,numpad_backspace,function_arm,DERIVED,this-project:phase5 (ui)
-0x4005FC04,128,func_4005fc04,function_arm,DERIVED,analyze.py:gap-code
+0x4005FC04,128,numpad_sign_apply,function_arm,DERIVED,this-project:phase5 (ui)
 0x4005FC84,520,func_4005fc84,function_arm,DERIVED,analyze.py:rea
 0x4005FE8C,8,pool_4005fe8c,literal_pool,DERIVED,analyze.py
 0x4005FE94,228,func_4005fe94,function_arm,DERIVED,analyze.py:rea
@@ -1184,14 +1184,14 @@ address,size,name,type,evidence_level,source
 0x400604F0,76,pool_400604f0,literal_pool,DERIVED,analyze.py
 0x4006053C,328,func_4006053c,function_arm,DERIVED,analyze.py:rea
 0x40060684,8,pool_40060684,literal_pool,DERIVED,analyze.py
-0x4006068C,20,func_4006068c,function_arm,DERIVED,analyze.py:gap-code
+0x4006068C,20,func_400606a0_unless_locked,function_arm,DERIVED,this-project:phase5 (init)
 0x400606A0,1264,func_400606a0,function_arm,DERIVED,analyze.py:prologue
 0x40060B90,18,code_40060b90,data,OPEN,analyze.py
 0x40060BA2,2,pad_40060ba2,padding,STATIC-CONFIRMED,analyze.py:zero
 0x40060BA4,448,func_40060ba4,function_arm,DERIVED,analyze.py:rea
 0x40060D64,3,code_40060d64,data,OPEN,analyze.py
 0x40060D67,1,pad_40060d67,padding,STATIC-CONFIRMED,analyze.py:zero
-0x40060D68,84,func_40060d68,function_arm,DERIVED,analyze.py:rea
+0x40060D68,84,calib_run_4_channels,function_arm,DERIVED,this-project:phase5 (init)
 0x40060DBC,8,pool_40060dbc,literal_pool,DERIVED,analyze.py
 0x40060DC4,3,code_40060dc4,data,OPEN,analyze.py
 0x40060DC7,1,pad_40060dc7,padding,STATIC-CONFIRMED,analyze.py:zero
@@ -1233,7 +1233,7 @@ address,size,name,type,evidence_level,source
 0x40062C88,16,pool_40062c88,literal_pool,DERIVED,analyze.py
 0x40062C98,352,func_40062c98,function_arm,DERIVED,analyze.py:rea
 0x40062DF8,8,pool_40062df8,literal_pool,DERIVED,analyze.py
-0x40062E00,20,func_40062e00,function_arm,DERIVED,analyze.py:gap-code
+0x40062E00,20,func_40062e14_unless_locked,function_arm,DERIVED,this-project:phase5 (init)
 0x40062E14,200,func_40062e14,function_arm,DERIVED,analyze.py:prologue
 0x40062EDC,12,pool_40062edc,literal_pool,DERIVED,analyze.py
 0x40062EE8,92,func_40062ee8,function_arm,DERIVED,analyze.py:prologue

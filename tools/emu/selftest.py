@@ -260,6 +260,17 @@ MUTANTS = [
     (0x4005FBB4, "else if (c == '.')", "else if (c == ',')"),
     (0x4005FB4C, '*(volatile u32 *)0x42E68AB4u = 0x42E68AC8u;', '*(volatile u32 *)0x42E68AB4u = 0x42E68AC0u;'),
     (0x4005F8E8, 'func_4005f778(tr, SYS32(0x6FC), SYS16(0x6F6));', 'func_4005f778(tr, SYS32(0x6F8), SYS16(0x6F6));'),
+    # batch 27: touch buttons, window touch handling, loose helpers
+    (0x4002F2BC, 'if (!(x < (int)*(volatile unsigned short *)(b + 6)))', 'if (!(x <= (int)*(volatile unsigned short *)(b + 6)))'),
+    (0x4002F2BC, 'if (TCH8(0xC) == 2)\n        b[0] = 2;', 'if (TCH8(0xC) == 3)\n        b[0] = 2;'),
+    (0x4002F194, '                    if (a >= y)\n                        return;', '                    if (a > y)\n                        return;'),
+    (0x4002F194, 'ui_window_close(id, 0, (u32)r2);', 'ui_window_close(id, 0, (u32)x);'),
+    (0x4002F228, 'if (st == 2 && p[2] == 0) {', 'if (st != 1 && p[2] == 0) {'),
+    (0x4002F4F0, '    touch_button_update((volatile unsigned char *)0x42E6227Au);\n', ''),
+    (0x4005FC04, 'for (i = 0x15; i >= 3; i--)', 'for (i = 0x14; i >= 3; i--)'),
+    (0x4005D220, 'return -SINT[n % 20001];', 'return -SINT[n % 20000];'),
+    (0x4005D27C, 'a = (double)i * 0.000314159265359;', 'a = (double)(i + 1) * 0.000314159265359;'),
+    (0x40060D68, 'CB32(0xF4) = old & 0xFF;', 'CB32(0xF4) = old;'),
 ]
 
 

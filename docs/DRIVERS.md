@@ -803,6 +803,57 @@ Spec: `tools/platform_spec/u_image_text_numpad.py`, 26 functions.
   `trace_span_window(tr)` calls it with (SYS+0x6FC, SYS+0x6F6). Two 4-byte branches lead to
   them. The role of 0x4005F778 (352 bytes) is OPEN.
 
+## Touch buttons, window touch handling and loose helpers (batch 27)
+
+Spec: `tools/platform_spec/v_touch_buttons.py`, 59 functions. 36 of them are generated from the
+`GROUPS` table in the spec.
+
+- **Button records**: the table 0x42E61FF8 holds 10-byte records.
+  - Layout: +0 state, +1 a copy of touch byte +0xD, then the rectangle x0, y0, x1, y1 (u16) at
+    +2..+8.
+  - `touch_button_update` acts only when the current touch point (0x42E68BB0+4/+6) lies strictly
+    inside the rectangle. It copies the touch byte and sets the state to 1 on a press or 2 on a
+    release.
+  - `touch_button_set_rect` sets the rectangle, and `touch_button_disable` moves it to x/y 10000.
+  - Byte +0 of the table is cleared together with a released button.
+- **Group updaters**: 36 functions call `touch_button_update` for a fixed list of records, from 1
+  to 31 of them. They are named after the first record offset (`touch_group_0250`,
+  `touch_button_update_0804`, ...). The list probably follows the screens; which screen uses
+  which list is OPEN.
+- **Release handlers**:
+  - each one updates its button and acts on state 2;
+  - button +0x804 opens window 0x17;
+  - button +0x1EC runs the factory reset 0x400447C8;
+  - button +0x19C leaves USB mode and resets the window layer.
+
+  Three more handlers (+0x7FA, +0x912, +0x9EE) also close a window. They pass on hidden r1/r2
+  values that a callee leaves behind, so they stay in assembly for now.
+- **Window touch handling**:
+  - `ui_window_touch_handle(id)`: a touch inside window id invalidates the windows from id;
+  - otherwise a release outside a window that is not self-contained runs
+    `ui_windows_close_untouched`;
+  - `ui_windows_close_untouched` closes windows from the top of the stack down to the first one
+    that contains the point. The hidden r1/r2 of `ui_window_close` are reproduced.
+- **Entry pad**:
+  - modes 4, 5 and 6 work like modes 1 and 3;
+  - `numpad_sign_apply` inserts or removes the leading '-' so that the text agrees with flag
+    +0x19.
+- **Sine table** at 0x42D564B4, 20001 words:
+  - `sine_table_build` stores sin(a) × 10⁸ / 3.1415926;
+  - stock quirk: the first argument is the caller's d0, and after that a = (i − 1) × π/10⁴,
+    because the index is converted before it is incremented;
+  - `sine_table_lookup(x)` returns T[x mod 20001], negated for negative x;
+  - `acquisition_reconfigure` calls the builder with whatever d0 holds at that point.
+- **Small ones**:
+  - `layer_clear(n)` zeroes layer n at 0x400954A4 + n × 0x12BE70 (1022 × 600 × 16 bit);
+  - `str_find_char` returns the matching character itself, not a pointer;
+  - two gates do nothing while the lock byte 0x42E68BC7 is set;
+  - `calib_run_4_channels` runs four steps for each of the 4 channels, with the index at
+    0x42E68668+0xF4, then `settings_c_save`. That these are calibration steps is DERIVED from
+    the block;
+  - `index_map_if_above` maps only when SYS+0x554 < d;
+  - `disk_format_and_reload` formats, mounts and runs three refresh calls.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

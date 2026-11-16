@@ -7,22 +7,22 @@
 
 #include "hw/fpga.h"
 
-void func_4005e10c(u32 tr);
+void layer_clear(u32 tr);
 
 void traces_e10c_enabled(void)
 {
     if (SYS8(0x652)) {
-        func_4005e10c(0);
+        layer_clear(0);
         return;
     }
     if (SYS8(0x3E)) {
-        func_4005e10c(0);
+        layer_clear(0);
         if (SYS8(0x2AA))
-            func_4005e10c(2);
+            layer_clear(2);
     }
     if (SYS8(0x102)) {
-        func_4005e10c(1);
+        layer_clear(1);
         if (SYS8(0x2AA))
-            func_4005e10c(3);
+            layer_clear(3);
     }
 }

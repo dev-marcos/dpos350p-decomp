@@ -1804,3 +1804,180 @@ TESTS[0x4005FB44] = lambda r: Case([r.getrandbits(32), r.getrandbits(32), r.getr
                                    stubs=(rec("close", 0x4003CE50, 3),))
 for _a in (0x4005F8D8, 0x4005F8E8, 0x4005F90C, 0x4005F910):
     TESTS[_a] = lambda r: Case([r.getrandbits(32)], sys_bytes(r, 0x2A0, 0x710), ret=V, stubs=(rec("f778", 0x4005F778, 3),))
+
+
+# ---------------------------------------------------------------- batch 27: touch buttons, window touch handling, loose helpers
+TOUCH_BLK, BTNT = 0x42E68BB0, 0x42E61FF8
+
+
+def touch_pt(r, x=None, y=None, st=None):
+    blk = bytearray(r.getrandbits(8) for _ in range(0x18))
+    x = r.randrange(0, 1100) if x is None else x
+    y = r.randrange(0, 650) if y is None else y
+    blk[4:6] = (x & 0xFFFF).to_bytes(2, "little")
+    blk[6:8] = (y & 0xFFFF).to_bytes(2, "little")
+    blk[0xC] = r.choice([0, 1, 2, 3]) if st is None else st
+    return (lambda m: m.write(TOUCH_BLK, bytes(blk))), x, y
+
+
+def rect_around(r, x, y):
+    """x0, y0, x1, y1 around (x, y): inside, on an edge, or outside"""
+    k = r.random()
+    if k < 0.5:
+        return x - r.randrange(1, 80), y - r.randrange(1, 80), x + r.randrange(1, 80), y + r.randrange(1, 80)
+    if k < 0.75:
+        e = [x - r.randrange(1, 80), y - r.randrange(1, 80), x + r.randrange(1, 80), y + r.randrange(1, 80)]
+        e[r.randrange(4)] = (x, y, x, y)[r.randrange(4)]
+        return tuple(e)
+    return tuple(r.randrange(0, 1100) for _ in range(4))
+
+
+def btn_bytes(r, x0, y0, x1, y1):
+    b = bytearray(r.getrandbits(8) for _ in range(10))
+    for i, v in enumerate((x0, y0, x1, y1)):
+        b[2 + 2 * i:4 + 2 * i] = (v & 0xFFFF).to_bytes(2, "little")
+    return bytes(b)
+
+
+def t_btn_update(r):
+    ts, x, y = touch_pt(r)
+    off = r.randrange(0, 0xC30, 2)
+    b = btn_bytes(r, *rect_around(r, x, y))
+    return Case([BTNT + off], lambda m: (ts(m), m.write(BTNT + off, b)), ret=V)
+
+
+TESTS[0x4002F2BC] = t_btn_update
+TESTS[0x4002F160] = lambda r: Case([r.getrandbits(32), r.getrandbits(32), r.getrandbits(32), r.getrandbits(32)],
+                                   rand_block(r, BTNT + 0x20, 16), ret=V, stack=[BTNT + 0x22])
+TESTS[0x4002F180] = lambda r: Case([BTNT + 0x22], rand_block(r, BTNT + 0x20, 16), ret=V)
+
+
+def win_touch_state(r, x, y):
+    """window stack and table where the rectangles often contain (x, y)"""
+    stk = bytearray([r.randrange(46) if r.random() > 0.2 else 0 for _ in range(20)])
+    head = bytes([r.getrandbits(8), r.choice([0, 1, 3, 7, 19, r.randrange(25), r.getrandbits(8)])])
+    recs = bytearray(r.getrandbits(8) for _ in range(14 * 300))
+    for i in range(300):
+        recs[14 * i] = r.choice([0, 1, 1, 0x80])
+        recs[14 * i + 2] = r.choice([0, 0, 1])
+        x0, y0, x1, y1 = rect_around(r, x, y)
+        wd, ht = (x1 - x0) & 0xFFFF, (y1 - y0) & 0xFFFF
+        for j, v in enumerate((x0, y0, wd, ht)):
+            recs[14 * i + 6 + 2 * j:14 * i + 8 + 2 * j] = (v & 0xFFFF).to_bytes(2, "little")
+    return lambda m: (m.write(WSTK, head + bytes(stk)), m.write(WREC, bytes(recs)))
+
+
+def t_close_untouched(r):
+    ts, x, y = touch_pt(r)
+    ws = win_touch_state(r, x, y)
+    return Case([], lambda m: (ts(m), ws(m)), ret=V, stubs=(rec("close", 0x4003CE50, 3),))
+
+
+def t_touch_handle(r):
+    ts, x, y = touch_pt(r, st=r.choice([0, 1, 2, 2, 3]))
+    ws = win_touch_state(r, x, y)
+    return Case([r.choice([r.randrange(46), r.randrange(300)])], lambda m: (ts(m), ws(m)), ret=V,
+                stubs=(rec("inv", 0x4003CD44, 2), rec("close_untouched", 0x4002F194, 0)))
+
+
+TESTS[0x4002F194] = t_close_untouched
+TESTS[0x4002F228] = t_touch_handle
+TESTS[0x4002F0E8] = lambda r: Case([r.getrandbits(32), r.getrandbits(32), r.getrandbits(32), r.getrandbits(32)],
+                                   lambda m: m.w32(0x42E68664, 0x12345678), ret=V, stack=[r.getrandbits(32), r.getrandbits(32)],
+                                   stubs=(rec("color", 0x4002EA38, 1), rec("text", 0x4002EE78, 3)))
+
+
+def t_group(r):
+    ts, x, y = touch_pt(r)
+    tbl = bytearray(r.getrandbits(8) for _ in range(0xC40))
+    for off in range(0, 0xC30, 2):
+        if r.random() < 0.02:
+            tbl[off:off + 10] = btn_bytes(r, *rect_around(r, x, y))
+    return Case([], lambda m: (ts(m), m.write(BTNT, bytes(tbl))), ret=V)
+
+
+for _a in (0x4002F324, 0x4002F378, 0x4002F3C4, 0x4002F408, 0x4002F410, 0x4002F490, 0x4002F4F0, 0x4002F5EC, 0x4002F614,
+           0x4002F684, 0x4002F6FC, 0x4002F86C, 0x4002F8E0, 0x4002FAA4, 0x4002FB40, 0x4002FB48, 0x4002FB50, 0x4002FC30,
+           0x4002FCCC, 0x4002FCD4, 0x4002FD10, 0x4002FD3C, 0x4002FD78, 0x4002FD80, 0x4002FDB4, 0x4002FDBC, 0x4002FDC4,
+           0x4002FE3C, 0x4002FE98, 0x4002FEE8, 0x4002FEF0, 0x4002FEF8, 0x4002FF48, 0x4002FFA4, 0x4002FFAC, 0x40030008):
+    TESTS[_a] = t_group
+
+
+def t_release(off, upd, stubs):
+    def t(r):
+        tbl = rand_block(r, BTNT, 0xC40)
+        v = r.choice([0, 1, 2, 2, 3])
+        return Case([], lambda m: (tbl(m), m.w8(BTNT + off, v)), ret=V, stubs=(rec("upd", upd, 0),) + stubs)
+    return t
+
+
+TESTS[0x40054F08] = t_release(0x804, 0x4002FB48, (rec("open", 0x4003CDFC, 1),))
+TESTS[0x40055B98] = t_release(0x1EC, 0x4002FDB4, (rec("factory", 0x400447C8, 0),))
+TESTS[0x40055C78] = t_release(0x19C, 0x4002FDC4, (rec("usb_exit", 0x40069034, 0), rec("back", 0x400342DC, 0), rec("reset", 0x4003CF0C, 0),
+                                                  rec("clear", 0x40034454, 0), rec("open15", 0x4003D6AC, 0)))
+
+for _a in (0x4005FA78, 0x4005FABC, 0x4005FB00):
+    TESTS[_a] = lambda r: Case([r.getrandbits(32), r.getrandbits(32)], rand_block(r, PAD_BASE, 0x58), ret=V,
+                               stubs=(rec("open", 0x4003CDFC, 1),))
+
+
+def t_sign(r):
+    blk = rand_block(r, PAD_BASE, 0x58)
+    flag = r.choice([0, 1, 0x80])
+    c0 = r.choice([ord("-"), ord("-"), ord("3"), r.getrandbits(8)])
+    n = r.randrange(0, 21)
+    return Case([], lambda m: (blk(m), m.w8(PAD_BASE + 0x19, flag), m.w8(PAD_BASE + 3, c0), m.w8(PAD_BASE + 0x17, n)), ret=V)
+
+
+TESTS[0x4005FC04] = t_sign
+TESTS[0x4005E10C] = lambda r: Case([r.choice([0, 1, 2, 3, r.getrandbits(32)])], ret=V, stubs=(rec("fill", 0x400356F4, 3),))
+
+
+def t_findchar(r):
+    s = rand_str(r, 40)
+    ch = r.choice([s[r.randrange(len(s))] if s else 0, 0, r.getrandbits(8), (r.getrandbits(8) - 256), r.getrandbits(32)])
+    if ch >= 128 and ch < 256 and r.random() < 0.5:
+        ch -= 256
+    return Case([STRBUF, ch & 0xFFFFFFFF], lambda m: m.write(STRBUF, s), ret=R)
+
+
+TESTS[0x40056BE8] = t_findchar
+TESTS[0x40056BE4] = t_findchar
+TESTS[0x4005D220] = lambda r: Case([r.choice([0, 1, 20000, 20001, -1, -20001, -20002, 0x80000000, 0x7FFFFFFF, r.getrandbits(32),
+                                              r.randrange(-50000, 50000)]) & 0xFFFFFFFF],
+                                   rand_block(r, 0x42D564B4, 20001 * 4), ret=R)
+
+
+def t_sine_build(r):
+    import math, struct
+
+    def sin_stub(m, a):
+        x = struct.unpack("<d", struct.pack("<Q", m.uc.reg_read(A.UC_ARM_REG_D0)))[0]
+        y = math.sin(x) if math.isfinite(x) else 0.5
+        m.uc.reg_write(A.UC_ARM_REG_D0, struct.unpack("<Q", struct.pack("<d", y))[0])
+    x0 = r.choice([0.0, 1.0, -2.5, r.uniform(-10, 10)])
+    c = Case([], ret=V, stubs=(Stub("sin*", 0x40066534, sin_stub, 0),))
+    c.dregs = {0: struct.unpack("<Q", struct.pack("<d", x0))[0]}
+    return c
+
+
+TESTS[0x4005D27C] = t_sine_build
+TESTS[0x4006068C] = lambda r: Case([], (lambda v: lambda m: m.w8(0x42E68BC7, v))(r.choice([0, 0, 1])), ret=V, stubs=(rec("t", 0x400606A0, 0),))
+TESTS[0x40062E00] = lambda r: Case([], (lambda v: lambda m: m.w8(0x42E68BC7, v))(r.choice([0, 0, 1])), ret=V, stubs=(rec("t", 0x40062E14, 0),))
+TESTS[0x40060D68] = lambda r: Case([], rand_block(r, 0x42E68668, 0x1A0), ret=V,
+                                   stubs=(rec("a", 0x400612FC, 0), rec("b", 0x40060FE8, 0), rec("c", 0x40060DC8, 0), rec("d", 0x40060BA4, 0),
+                                          rec("save", 0x40043C68, 0)))
+
+
+def t_map_if(r):
+    lim = r.getrandbits(32)
+    d = r.choice([lim, lim + 1, lim - 1, r.getrandbits(32)]) & 0xFFFFFFFF
+    return Case([r.getrandbits(32), r.getrandbits(32), r.getrandbits(32), d], seeded(r.getrandbits(32), sys_bytes(r, 0x550, 0x558, {0x554: (4, lim)})),
+                ret=V, stack=[r.getrandbits(32), r.getrandbits(32)],
+                stubs=(Stub("map", 0x4005C678, lambda m, a: (m.calls.append(("map", *a, m.r32(m.reg(A.UC_ARM_REG_SP)), m.r32(m.reg(A.UC_ARM_REG_SP) + 4))),
+                                                              m.srng.getrandbits(32))[1], 4),))
+
+
+TESTS[0x4005C918] = t_map_if
+TESTS[0x40051C04] = lambda r: Case([], ret=V, stubs=(rec("fmt", 0x40049BB4, 0), rec("mount", 0x40049B80, 0), rec("a", 0x4003486C, 0),
+                                                     rec("b", 0x400358B8, 0), rec("c", 0x40036B00, 0)))
