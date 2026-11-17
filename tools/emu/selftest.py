@@ -308,6 +308,19 @@ MUTANTS = [
     (0x40036C54, 'f_lseek(fil, 4);', 'f_lseek(fil, 6);'),
     (0x40036BDC, 'SYS32(0x3DA544) * SYS16(0x758), 0);', 'SYS32(0x3DA544) * SYS16(0x756), 0);'),
     (0x400364E0, 'if (f_open(fil, PATHBUF, 1) == 0)', 'if (f_open(fil, PATHBUF, 3) == 0)'),
+    # batch 31: file lists, second part
+    (0x40034A0C, 'SYS16(0xFA6 + 2 * k) = SYS16(0xFA8 + 2 * k);', 'SYS16(0xFA6 + 2 * k) = SYS16(0xFAA + 2 * k);'),
+    (0x40036F74, '    if (c)\n        SS16(0xFA0) = c - 1;', '    SS16(0xFA0) = c - 1;'),
+    (0x40034AB4, 'for (i = 1; i < n; i++) {', 'for (i = 0; i < n; i++) {'),
+    (0x4003709C, '        if (e)\n', '        if (e > 1)\n'),
+    (0x400347A0, 'SYS16(0x754) + 2);', 'SYS16(0x754) + 1);'),
+    (0x40036958, 'SYS16(0x3DA52E) = 1;', 'SYS16(0x3DA52E) = 0;'),
+    (0x40035780, '== 0)\n            r = 1;', '!= 1)\n            r = 1;'),
+    (0x40035578, '    for (row = 0; row < 3; row++) {', '    for (row = 0; row < 2; row++) {'),
+    (0x400366A0, '    if (SYS8(0x665))\n        state_restore_all();\n', '    state_restore_all();\n'),
+    (0x400360F0, 'if (disk_free_bytes() < SYS32(0x774) * 2u) {', 'if (disk_free_bytes() <= SYS32(0x774) * 2u) {'),
+    (0x40036EA4, 'c |= p[3] & 0xFF;', 'c |= p[3];'),
+    (0x400367EC, '    else if (SYS16(8) - 12 < b)', '    else if (SYS16(8) - 11 < b)'),
 ]
 
 

@@ -16,13 +16,13 @@ int f_write(void *fp, const void *buff, u32 btw, u32 *bw);
 int f_lseek(void *fp, unsigned long long ofs);
 int f_unlink(const char *path);
 
-void func_40036958(void);
+void list_c_index_create(void);
 
 void list_c_data_save(void)
 {
     unsigned char fil[0x250];
     if (f_open(fil, (const char *)0x4008E8D4u, 3) != 0) {
-        func_40036958();
+        list_c_index_create();
         return;
     }
     f_lseek(fil, 0);

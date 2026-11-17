@@ -402,7 +402,7 @@ w(0x40051C04, 36, "disk_format_and_reload", "disk_format, disk_mount, 0x4003486C
 void disk_format(void);
 void list_a_index_load(void);
 void list_b_index_load(void);
-void func_40036b00(void);
+void list_c_index_load(void);
 
 void disk_format_and_reload(void)
 {
@@ -410,6 +410,6 @@ void disk_format_and_reload(void)
     disk_mount();
     list_a_index_load();
     list_b_index_load();
-    func_40036b00();
+    list_c_index_load();
 }
 """, src="ui")

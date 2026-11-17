@@ -98,6 +98,8 @@ function compiled in place (`tools/testiso.py`). **Emulator only, never write it
   - The opposite also matters: do not record the address of a buffer on the caller's stack (a
     `FIL`, for example). It depends on the frame layout, so an `-Os` build that is correct fails
     against it. `quiet` in `tests/sweep.py` gives a stub the registers without recording them.
+  - A spec that calls a function renamed in a later batch must use the new name. `ren_generic`
+    does not change names built by a template such as `func_%(fail)08x`; fix those by hand.
   - Spec files run in `gen_platform.py`'s own namespace. Do not define module-level names that
     it uses (`HDR`, `SPEC`, `OUT`, `f`).
   - `--no-cache` runs everything.

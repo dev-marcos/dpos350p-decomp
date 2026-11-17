@@ -403,6 +403,10 @@ def fs_stubs():
             return 0
         return fn
 
+    def wr(m, a):
+        m.calls.append(("write", a[0] == getattr(m, "fil", None), a[1], a[2], a[3]))
+        return getattr(m, "wrc", 0)
+
     def rd(m, a):
         n = min(a[2], len(m.rdata))
         m.write(a[1], m.rdata[:n])
@@ -410,7 +414,7 @@ def fs_stubs():
         return 0
     return (quiet("f_open", F_OPEN, op, 3), quiet("f_close", F_CLOSE, same("close", lambda m, a: ()), 1),
             quiet("f_lseek", F_LSEEK, same("lseek", lambda m, a: (a[2], a[3])), 4),
-            quiet("f_write", F_WRITE, same("write", lambda m, a: (a[1], a[2], a[3])), 4),
+            quiet("f_write", F_WRITE, wr, 4),
             quiet("f_read", F_READ, rd, 4), rec("unlink", F_UNLINK, 1))
 
 
@@ -524,3 +528,211 @@ def t_data(r):
 
 TESTS[0x40036BDC] = t_data
 TESTS[0x40036D10] = t_data
+
+
+# ================================================================ batch 31: file lists, second part
+F_MKDIR, F_CHMOD, FILL_U16, COPY_U16 = 0x4005AED4, 0x4005B130, 0x400356F4, 0x40035728
+LCNT = [0, 1, 2, 3, 5, 12, 20, 40]
+
+
+def ents(r, n=80, top=None):
+    """n u16 entries: zeros, small numbers (up to top) and random values."""
+    top = top or 50
+    return b"".join(s16(r.choice([0, 1, 2, r.randrange(top), r.randrange(top), r.randrange(top),
+                                  r.getrandbits(16)])) for _ in range(n))
+
+
+def t_remove(cnt):
+    def t(r):
+        e = ents(r)
+        n = r.choice(LCNT)
+        v = r.choice([int.from_bytes(e[2 * i:2 * i + 2], "little") for i in range(max(n, 1))] +
+                     [0, 0x10000 + r.getrandbits(8), r.getrandbits(16)])
+        return Case([v], writes([(SYS + 0xF90, bytes(r.getrandbits(8) for _ in range(0x16))), (SYS + 0xFA6, e),
+                                 (SYS + cnt, s16(n)), (SYS + 0xFA0, s16(r.choice(CNT + [0x7FFF])))]), ret=V)
+    return t
+
+
+def t_next_free(cnt):
+    def t(r):
+        n = r.choice(LCNT)
+        e = ents(r, 60, top=r.choice([5, 20, 45]))
+        return Case([], writes([(SYS + 0xF90, bytes(r.getrandbits(8) for _ in range(0x16))), (SYS + 0xFA6, e),
+                                (SYS + 0x8924, bytes(r.getrandbits(8) for _ in range(0x80))),
+                                (SYS + cnt, s16(n)), (SYS + 0xFA0, s16(r.choice(CNT + [40, 60])))]), ret=V)
+    return t
+
+
+for _l, _c in ((0x40034A0C, 0x754), (0x40035A58, 0x756), (0x40036F74, 0x758)):
+    TESTS[_l] = t_remove(_c)
+for _l, _c in ((0x40034AB4, 0x754), (0x40035B00, 0x756), (0x4003709C, 0x758)):
+    TESTS[_l] = t_next_free(_c)
+
+
+def mk_stubs():
+    return fs_stubs() + (rec("mkdir", F_MKDIR, 1), rec("chmod", F_CHMOD, 3), rec("fill", FILL_U16, 3),
+                         rec("copy", COPY_U16, 3))
+
+
+def t_create(cnt):
+    def t(r):
+        return Case([], compose(writes([(SYS + 0xF90, bytes(r.getrandbits(8) for _ in range(0x16))),
+                                        (SYS + cnt, s16(r.choice(LCNT + [r.getrandbits(16)]))),
+                                        (SYS + 0x3DA52E, s16(r.getrandbits(16))),
+                                        (SYS + 0x3DA544, i32(r.choice([0, 1, 7, r.getrandbits(32)])))]),
+                                fs_setup(r, 2)), ret=V, stubs=mk_stubs())
+    return t
+
+
+TESTS[0x400347A0] = t_create(0x754)
+TESTS[0x400357EC] = t_create(0x756)
+TESTS[0x40036958] = t_create(0x758)
+TESTS[0x40036B00] = t_index_load(0x40036958, 0x758)
+
+
+def t_write_file(r):
+    wrc = r.choice([0, 0, 1, 7])
+    st = fs_setup(r)
+
+    def setup(m):
+        st(m)
+        m.wrc = wrc
+    return Case([rnd(r)], compose(writes([(SYS + 0x774, i32(rnd(r)))]), setup), ret=R, stubs=fs_stubs())
+
+
+TESTS[0x40035780] = t_write_file
+
+
+def t_thumb(r):
+    return Case([], compose(writes([(SYS + 0x109680, bytes(r.getrandbits(8) for _ in range(0x10)))]), fs_setup(r)),
+                ret=V, stubs=fs_stubs())
+
+
+TESTS[0x40035188] = t_thumb
+
+
+def t_bfile(r):
+    return Case([], compose(writes([(SYS + 0x760, i32(r.choice([0, 0x1C, 0x40, 0x1000]))),
+                                    (SYS + 0x76C, i32(rnd(r)))]), fs_setup(r)),
+                ret=V, stubs=fs_stubs() + (rec("h", 0x40045670, 0), rec("i", 0x400456AC, 0)))
+
+
+TESTS[0x40036260] = t_bfile
+
+
+def t_thumbs(path, load):
+    def t(r):
+        whs = [r.getrandbits(32) for _ in range(16)]
+
+        def ld(m, a):
+            m.calls.append(("load",))
+            m.w32(SYS + 0x109684, m.whs.pop(0))
+
+        def setup(m):
+            m.whs = list(whs)
+        e = ents(r, 80)
+        return Case([], compose(writes(list_area(r, r.choice(PS), page=r.choice([0, 0, 1, 2, 3, -1])) +
+                                       [(SYS + 0xFA6, e), (SYS + 0x109684, i32(r.getrandbits(32)))]), setup),
+                    ret=V, stubs=(rec("path", path, 1), Stub("load", load, ld, 0), rec("copy", COPY_U16, 3)))
+    return t
+
+
+TESTS[0x40035578] = t_thumbs(0x40034B78, 0x40035188)
+TESTS[0x400365F4] = t_thumbs(0x40035BC4, 0x40036260)
+
+
+def t_cur_a(r):
+    return Case([], compose(writes(list_area(r, sel=r.choice([0, 1, 5, 30, -1, -2])) + [(SYS + 0xFA6, ents(r))]),
+                            fs_setup(r)), ret=V, stubs=fs_stubs() + (rec("path", 0x40034B78, 1),))
+
+
+def t_cur_b(r):
+    return Case([], compose(writes(list_area(r, sel=r.choice([0, 1, 5, 30, -1, -2])) +
+                                   [(SYS + 0xFA6, ents(r)), (SYS + 0x774, i32(rnd(r))),
+                                    (SYS + 0x3C, bytes([r.getrandbits(8)])),
+                                    (SYS + 0x665, bytes([r.choice([0, 0, 1, r.getrandbits(8)])]))]),
+                            fs_setup(r)), ret=V,
+                stubs=fs_stubs() + (rec("path", 0x40035BC4, 1), rec("restore", 0x4003F0E0, 0),
+                                    rec("backup", 0x4003F0C0, 0), rec("h", 0x40045670, 0),
+                                    rec("img", 0x400456F4, 0)))
+
+
+TESTS[0x40035624] = t_cur_a
+TESTS[0x400366A0] = t_cur_b
+
+TBL = 0x42C2FE74
+
+
+def nf_stub(addr):
+    """next-free stub: writes the chosen number m.nf to SYS+0xF9C."""
+    def fn(m, a):
+        m.calls.append(("next_free",))
+        m.write(SYS + 0xF9C, s16(m.nf))
+    return Stub("next_free", addr, fn, 0)
+
+
+def t_save_a(r):
+    rc, nf = r.choice([0, 0, 1, 2, 0xFFFFFFFF]), r.getrandbits(16)
+
+    def setup(m):
+        m.nf = nf
+    return Case([], compose(rand_block(r, SYS, 0x10), rand_block(r, TBL + 0xCB14, 0x10),
+                            writes([(SYS + 0xF9C, s16(r.getrandbits(16)))]), setup), ret=V,
+                stubs=(rec("4e94", 0x40034E94, 0), rec("img", 0x40034134, 4), rec("load", 0x4003486C, 0),
+                       nf_stub(0x40034AB4), rec("path", 0x40034B78, 1), rec("bmp", 0x4005C3F0, 1, ret=rc),
+                       rec("insert", 0x400349B4, 1), rec("save", 0x40034920, 0), rec("rect", 0x40034284, 0)))
+
+
+def t_save_b(r):
+    s774 = r.choice([0, 1, 0x1000, 0x7FFFFFFF, 0x80000000, r.getrandbits(32)])
+    free = r.choice([0, (2 * s774) & 0xFFFFFFFF, (2 * s774 - 1) & 0xFFFFFFFF, (2 * s774 + 1) & 0xFFFFFFFF,
+                     0xFFFFFFFF, r.getrandbits(32)])
+    rc, nf = r.choice([0, 0, 1, 2]), r.getrandbits(16)
+
+    def setup(m):
+        m.nf = nf
+    return Case([], compose(rand_block(r, SYS, 0x10), rand_block(r, TBL + 0xC980, 0x198),
+                            rand_block(r, TBL + 0xD820, 4), rand_block(r, TBL + 0xD9B4, 2),
+                            writes([(SYS + 0xF9C, s16(r.getrandbits(16))), (SYS + 0x774, i32(s774))]), setup),
+                ret=V,
+                stubs=(rec("free", 0x40049BE4, 0, ret=free), rec("delay", 0x40042CF0, 1), rec("load", 0x400358B8, 0),
+                       nf_stub(0x40035B00), rec("5ee0", 0x40035EE0, 0), rec("img", 0x40034134, 4),
+                       rec("path", 0x40035BC4, 1), rec("enc", 0x40045714, 0), rec("wf", 0x40035780, 1, ret=rc),
+                       rec("insert", 0x40035A00, 1), rec("save", 0x4003596C, 0), rec("rect", 0x40034284, 0)))
+
+
+TESTS[0x4003506C] = t_save_a
+TESTS[0x400360F0] = t_save_b
+
+
+def t_record(r):
+    st = r.choice([1, 2, 4, 5, 8, 0, 0xFFFFFFFF])
+    n = r.choice([0, 1, 3, 6])
+    blk = bytes(r.choice([0, 1, 2, r.getrandbits(8)]) for _ in range(0x120))
+    hs = [int.from_bytes(blk[2 * i:2 * i + 2], "little") for i in range(0x90)]
+    keys = [((hs[i] & 0xFF) << 8) | (hs[i + 1] & 0xFF) for i in range(0, 0x40, max(1, st if st < 9 else 1))]
+    v = r.choice(keys + [r.getrandbits(16), 0x10000 | keys[0]])
+    return Case([v], writes([(SYS + 0xD744, blk), (SYS + 0x758, s16(n)), (SYS + 0x3DA544, i32(st)),
+                             (SYS + 0x3DA53C, i32(r.getrandbits(32))), (SYS + 0xF9C, s16(r.getrandbits(16)))]),
+                ret=V, stubs=(rec("copy", COPY_U16, 3),))
+
+
+TESTS[0x40036EA4] = t_record
+
+
+def t_cur3(r):
+    return Case([r.choice([0, 0, 1, 0x80000000, rnd(r)])],
+                writes([(SYS + 0x3DA534, i32(r.choice(WV))), (SYS + 0x3DA538, i32(r.choice(WV))),
+                        (SYS + 0x3DA540, i32(r.choice(WV + [1, 100]))), (SYS + 8, s16(r.choice(HV)))]), ret=V)
+
+
+TESTS[0x400367EC] = t_cur3
+
+
+def t_c_delete(r):
+    return Case([], writes(list_area(r, r.choice(PS), r.choice(CNT[:5])) + [(SYS + 0xFA6, ents(r))]), ret=V,
+                stubs=(rec("adv", 0x40037418, 1), rec("remove", 0x40036F74, 1), rec("7020", 0x40037020, 1)) +
+                tuple(rec("%08x" % x, x, 0) for x in (0x40035320, 0x40036C54, 0x40036D10, 0x40036B00, 0x40036BDC)))
+
+
+TESTS[0x40037460] = t_c_delete

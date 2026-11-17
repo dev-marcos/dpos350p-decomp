@@ -159,7 +159,7 @@ void func_4004bfc8(u32 row);                                        /* per-row c
 void func_4004b0a0(void);                                           /* calibration step (OPEN) */
 int  post_channel_mux_check(u32 vdiv);                              /* 0x4004AF0C */
 void calibration_save_wrapper(void);                                /* 0x40044680 (Hack name) */
-void func_40036b00(void); void list_c_data_load(void); void func_40036ea4(u32 v);
+void list_c_index_load(void); void list_c_data_load(void); void list_c_record_select(u32 v);
 void gen_load_samples(void);                                        /* 0x4004D12C */
 
 /* ---- acquisition control (batch 14) */

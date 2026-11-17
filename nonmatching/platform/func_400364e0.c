@@ -17,7 +17,7 @@ int f_lseek(void *fp, unsigned long long ofs);
 int f_unlink(const char *path);
 
 void func_40035bc4(u32 v);
-void func_40035a58(u32 v);
+void list_b_entry_remove(u32 v);
 void list_b_index_save(void);
 void list_b_index_load(void);
 void list_cursor_clamp_400362f4(void);
@@ -32,7 +32,7 @@ void list_b_prune_missing(void)
         if (f_open(fil, PATHBUF, 1) == 0)
             f_close(fil);
         else
-            func_40035a58(v);
+            list_b_entry_remove(v);
     }
     list_b_index_save();
     list_b_index_load();

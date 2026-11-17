@@ -964,7 +964,61 @@ Spec: `tools/platform_spec/y_file_lists.py`, 19 functions written from templates
   - `delete_marked` removes the marked entries and deletes their files with `f_unlink`;
   - `list_c_data_load` and `list_c_data_save`.
 - The index file names (STATIC-CONFIRMED strings) identify the lists: screenshots, waveforms
-  and captures. The per-entry file name format (built by the path helpers) is OPEN.
+  and captures. The per-entry file name format is covered in the batch 31 section.
+
+## File lists, second part (batch 31)
+
+Spec: `tools/platform_spec/z_list_files.py`, 22 functions. Tests: `tools/emu/tests/sweep.py`.
+
+- **Entry file names** (STATIC-CONFIRMED, from the byte constants the path helpers store; not
+  rewritten yet):
+  - 0x40034B78 builds `/Screenshots/<n>.bmp`;
+  - 0x40035BC4 builds `/Waveform/<n>.wav`.
+
+  `<n>` is the entry number in decimal without leading zeros. The helpers have separate branches
+  for n < 10, < 100, < 1000 and beyond. Both write the path to SYS+0x88C0. The `.wav` extension
+  does not make the file a WAV; the content is a settings image (see below).
+- **Per list** (A, B and C unless noted):
+  - `entry_remove(v)` removes entry v and shifts the rest down;
+  - `next_free` marks the used numbers in SYS+0x8924 and stores the first free one from 1 in
+    SYS+0xF9C;
+  - `index_create` is the handler that runs when an index file does not open. It creates the
+    directory (`/Screenshots`, `/Waveform`, `/Captures`) and writes an empty index. For list C it
+    also writes an empty `/Captures/data.cap`. The firmware clears that data block with
+    `copy_u16` from address 0, not with `fill_u16`; the C keeps that call;
+  - `list_c_index_load` is list C's index loader.
+- **Saving a new item**:
+  - `list_a_save_new`: draws an image, takes the next free number, builds the path and calls
+    0x4005C3F0. That function writes a BMP header (starts with `BM`), so it is DERIVED to be the
+    bitmap writer;
+  - `list_b_save_new`: refuses when `disk_free_bytes` is below twice word SYS+0x774 (it draws an
+    image and waits 1 s). Otherwise it encodes the settings image into SYS+0x360404 and writes
+    word SYS+0x774 bytes of it (`file_write_360404`, mode 0xB).
+  - On success both insert the number (0x400349B4, 0x40035A00) and save the index.
+- **Loading**:
+  - `list_a_thumb_load` reads two u16 at offsets 0x46 and 0x48 of a screenshot file, then their
+    product × 2 bytes from offset 0x4A. That this is a thumbnail (width, height, pixels) is
+    DERIVED;
+  - `list_a/b_page_thumbs` loads up to 3 × 5 entries of the current page into slots of 0x256D8
+    bytes from SYS+0x12ED5C;
+  - `list_a_current_load` reads 0x12B6A0 bytes from offset 0xDEA8 of the selected screenshot to
+    0x42468A58;
+  - `list_b_file_load` and `list_b_current_load` read a waveform file into SYS+0x360404: a
+    0x1C-byte header (`settings_h_decode`), then the rest. The current load also saves the
+    acquisition state first (`state_backup_all`, after `state_restore_all` when SYS+0x665 is
+    set) and sets SYS+0x665 = SYS+0x3C = 1.
+- **List C records**:
+  - records in SYS+0xD744 are word SYS+0x3DA544 halfwords long. The key is the low byte of
+    halfword 0 × 256 + the low byte of halfword 1;
+  - `list_c_record_select(v)` sets SYS+0xF9C and word SYS+0x3DA53C from the record of key v and
+    copies its payload to SYS+0x3DA548;
+  - `list_c_delete_marked` deletes the marked entries, then saves and reloads the index and the
+    data block.
+- `cursor_3da534_clamp(flag)` keeps the cursor pair SYS+0x3DA534/0x3DA538 at least the width
+  SYS+0x3DA540 apart (moving one or the other, by flag) and between 12 and the screen width − 12.
+- Still in assembly, because the result depends on a register the caller leaves:
+  - 0x40036DE4, when no record has key 0;
+  - 0x40037020, when key v is absent.
 
 ## Not yet rewritten (next batches)
 

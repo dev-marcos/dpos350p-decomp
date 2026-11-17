@@ -7,9 +7,9 @@
 
 #include "hw/fpga.h"
 
-void func_40036b00(void);
+void list_c_index_load(void);
 void list_c_data_load(void);
-void func_4003709c(void);
+void list_c_next_free(void);
 void func_40036864(void);
 void func_40036de4(void);
 void list_fa4_insert_758(u32 a);
@@ -18,9 +18,9 @@ void list_c_data_save(void);
 
 void reload_chain_400373e0(void)
 {
-    func_40036b00();
+    list_c_index_load();
     list_c_data_load();
-    func_4003709c();
+    list_c_next_free();
     func_40036864();
     func_40036de4();
     list_fa4_insert_758(*(volatile unsigned short *)0x40545E04u);

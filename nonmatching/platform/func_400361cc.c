@@ -17,7 +17,7 @@ int f_lseek(void *fp, unsigned long long ofs);
 int f_unlink(const char *path);
 
 void func_40035bc4(u32 v);
-void func_40035a58(u32 v);
+void list_b_entry_remove(u32 v);
 void list_b_marks_clear(void);
 void list_b_index_save(void);
 void list_b_index_load(void);
@@ -28,7 +28,7 @@ void list_b_delete_marked(void)
     for (i = SS16(0xFA0) - 1; i >= 0; i--) {
         if (SYS8(0x5DC6 + i)) {
             u32 v = SYS16(0xFA6 + 2 * i);
-            func_40035a58(v);
+            list_b_entry_remove(v);
             func_40035bc4(v);
             f_unlink(PATHBUF);
         }

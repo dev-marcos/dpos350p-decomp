@@ -7,14 +7,14 @@
 
 #include "hw/fpga.h"
 
-void func_40036b00(void);
+void list_c_index_load(void);
 void list_c_data_load(void);
 void list_c_marks_clear(void);
 void list_cursor_clamp_4003771c(void);
 
 void reload_chain_400378e0(void)
 {
-    func_40036b00();
+    list_c_index_load();
     list_c_data_load();
     list_c_marks_clear();
     list_cursor_clamp_4003771c();

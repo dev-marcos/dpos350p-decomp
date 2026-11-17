@@ -11,7 +11,7 @@ void list_b_index_load(void);
 void list_b_marks_clear(void);
 void list_cursor_clamp_400362f4(void);
 void list_b_page_validate(void);
-void func_400365f4(void);
+void list_b_page_thumbs(void);
 
 void reload_chain_40035744(void)
 {
@@ -22,5 +22,5 @@ void reload_chain_40035744(void)
     SYS16(0xF9E) = 0;
     list_cursor_clamp_400362f4();
     list_b_page_validate();
-    func_400365f4();
+    list_b_page_thumbs();
 }

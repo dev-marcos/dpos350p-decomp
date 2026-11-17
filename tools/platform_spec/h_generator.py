@@ -168,9 +168,9 @@ void gen_update(void);
 
 void Gen_Init(void)
 {
-    func_40036b00();
+    list_c_index_load();
     list_c_data_load();
-    func_40036ea4(*(volatile unsigned short *)0x4091F396u);
+    list_c_record_select(*(volatile unsigned short *)0x4091F396u);
     gen_load_samples();
     gen_update();
 }

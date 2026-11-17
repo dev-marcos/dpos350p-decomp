@@ -430,9 +430,9 @@ void sys_3c_leave(void)
 """)
 w(0x400373E0, 56, "reload_chain_400373e0",
   "0x40036B00, 0x40036BDC, 0x4003709C, 0x40036864, 0x40036DE4, 0x40036D88(u16 at 0x40545E04), 0x40036C54, 0x40036D10.", """
-void func_40036b00(void);
+void list_c_index_load(void);
 void list_c_data_load(void);
-void func_4003709c(void);
+void list_c_next_free(void);
 void func_40036864(void);
 void func_40036de4(void);
 void list_fa4_insert_758(u32 a);
@@ -441,9 +441,9 @@ void list_c_data_save(void);
 
 void reload_chain_400373e0(void)
 {
-    func_40036b00();
+    list_c_index_load();
     list_c_data_load();
-    func_4003709c();
+    list_c_next_free();
     func_40036864();
     func_40036de4();
     list_fa4_insert_758(*(volatile unsigned short *)0x40545E04u);
@@ -453,14 +453,14 @@ void reload_chain_400373e0(void)
 """)
 w(0x400378E0, 56, "reload_chain_400378e0",
   "0x40036B00, 0x40036BDC, 0x400377F8, 0x4003771C, then SYS+0xF90 = 0, u16 SYS+0xFA4 = 0, u16 SYS+0xF9E = 0.", """
-void func_40036b00(void);
+void list_c_index_load(void);
 void list_c_data_load(void);
 void list_c_marks_clear(void);
 void list_cursor_clamp_4003771c(void);
 
 void reload_chain_400378e0(void)
 {
-    func_40036b00();
+    list_c_index_load();
     list_c_data_load();
     list_c_marks_clear();
     list_cursor_clamp_4003771c();
@@ -475,7 +475,7 @@ void list_b_index_load(void);
 void list_b_marks_clear(void);
 void list_cursor_clamp_400362f4(void);
 void list_b_page_validate(void);
-void func_400365f4(void);
+void list_b_page_thumbs(void);
 
 void reload_chain_40035744(void)
 {
@@ -486,6 +486,6 @@ void reload_chain_40035744(void)
     SYS16(0xF9E) = 0;
     list_cursor_clamp_400362f4();
     list_b_page_validate();
-    func_400365f4();
+    list_b_page_thumbs();
 }
 """)

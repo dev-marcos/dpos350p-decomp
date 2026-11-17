@@ -72,14 +72,14 @@ for l, P in LISTS.items():
     clear_n = "list_%s_marks_clear" % l
     w(load_a, 180, "list_%s_index_load" % l,
       "Reads the index file 0x%(idx)08X: the count into SYS+0xFA0 (2 bytes at offset 0) and SYS+0x%(cnt)X * 2 bytes of entries from offset 2 into SYS+0xFA6. When it does not open, 0x%(fail)08X. Then the page count SYS+0xFA2 = count / page size, rounded up." % d, FHDR + """
-void func_%(fail)08x(void);
+void list_%(l)s_index_create(void);
 
 void list_%(l)s_index_load(void)
 {
     unsigned char fil[0x250];
     int c, ps, q;
     if (f_open(fil, (const char *)0x%(idx)08Xu, 1) != 0) {
-        func_%(fail)08x();
+        list_%(l)s_index_create();
     } else {
         f_lseek(fil, 0);
         f_read(fil, (void *)(0x40544E68u + 0xFA0u), 2, 0);
@@ -97,13 +97,13 @@ void list_%(l)s_index_load(void)
 """ % d)
     w(save_a, 148, "list_%s_index_save" % l,
       "Writes the index file 0x%(idx)08X (opened read/write): the count at offset 0 and SYS+0x%(cnt)X * 2 bytes of entries at offset 2. When it does not open, 0x%(fail)08X." % d, FHDR + """
-void func_%(fail)08x(void);
+void list_%(l)s_index_create(void);
 
 void list_%(l)s_index_save(void)
 {
     unsigned char fil[0x250];
     if (f_open(fil, (const char *)0x%(idx)08Xu, 3) != 0) {
-        func_%(fail)08x();
+        list_%(l)s_index_create();
         return;
     }
     f_lseek(fil, 0);
@@ -117,7 +117,7 @@ void list_%(l)s_index_save(void)
     w(prune_a, 140, "list_%s_prune_missing" % l,
       "From the last entry down: builds its path (0x%(path)08X) and, when f_open of it fails, removes the entry (0x%(remove)08X); then saves and reloads the index and clamps the cursor." % d, FHDR + """
 void func_%(path)08x(u32 v);
-void func_%(remove)08x(u32 v);
+void list_%(l)s_entry_remove(u32 v);
 void %(save)s(void);
 void %(load)s(void);
 void %(clamp)s(void);
@@ -132,7 +132,7 @@ void list_%(l)s_prune_missing(void)
         if (f_open(fil, PATHBUF, 1) == 0)
             f_close(fil);
         else
-            func_%(remove)08x(v);
+            list_%(l)s_entry_remove(v);
     }
     %(save)s();
     %(load)s();
@@ -168,7 +168,7 @@ void list_%(l)s_page_validate(void)
     w(del_a, 148, "list_%s_delete_marked" % l,
       "From the last entry down: each entry whose mark SYS+0x5DC6+i is set is removed (0x%(remove)08X) and its file deleted (path 0x%(path)08X, f_unlink); then the marks are cleared, the index saved and reloaded, and SYS+0xF90 = 0." % d, FHDR + """
 void func_%(path)08x(u32 v);
-void func_%(remove)08x(u32 v);
+void list_%(l)s_entry_remove(u32 v);
 void %(clear)s(void);
 void %(save)s(void);
 void %(load)s(void);
@@ -179,7 +179,7 @@ void list_%(l)s_delete_marked(void)
     for (i = SS16(0xFA0) - 1; i >= 0; i--) {
         if (SYS8(0x5DC6 + i)) {
             u32 v = SYS16(0xFA6 + 2 * i);
-            func_%(remove)08x(v);
+            list_%(l)s_entry_remove(v);
             func_%(path)08x(v);
             f_unlink(PATHBUF);
         }
@@ -194,13 +194,13 @@ void list_%(l)s_delete_marked(void)
 # ---------------------------------------------------------------- list C files
 w(0x40036C54, 188, "list_c_index_save",
   "Writes the index file 0x4008E2EC (opened read/write): the count at offset 0, the u16 SYS+0x3DA52E at offset 2 and SYS+0x758 * 2 bytes of entries at offset 4. When it does not open, 0x40036958.", FHDR + """
-void func_40036958(void);
+void list_c_index_create(void);
 
 void list_c_index_save(void)
 {
     unsigned char fil[0x250];
     if (f_open(fil, (const char *)0x4008E2ECu, 3) != 0) {
-        func_40036958();
+        list_c_index_create();
         return;
     }
     f_lseek(fil, 0);
@@ -215,13 +215,13 @@ void list_c_index_save(void)
 for a, name, mode, op in ((0x40036BDC, "list_c_data_load", 1, "f_read"), (0x40036D10, "list_c_data_save", 3, "f_write")):
     w(a, 120, name,
       "The file 0x4008E8D4 (mode %d) at offset 0: %s of word SYS+0x3DA544 * u16 SYS+0x758 bytes at SYS+0xD744. When it does not open, 0x40036958." % (mode, op), FHDR + """
-void func_40036958(void);
+void list_c_index_create(void);
 
 void %s(void)
 {
     unsigned char fil[0x250];
     if (f_open(fil, (const char *)0x4008E8D4u, %d) != 0) {
-        func_40036958();
+        list_c_index_create();
         return;
     }
     f_lseek(fil, 0);
