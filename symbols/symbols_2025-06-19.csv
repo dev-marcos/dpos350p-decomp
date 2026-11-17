@@ -964,7 +964,7 @@ address,size,name,type,evidence_level,source
 0x40051E24,100,screenshot_button_poll,function_arm,DERIVED,this-project:phase5 (ui)
 0x40051E88,528,func_40051e88,function_arm,DERIVED,analyze.py:rea
 0x40052098,104,window_touch_poll,function_arm,DERIVED,this-project:phase5 (ui)
-0x40052100,384,func_40052100,function_arm,DERIVED,analyze.py:rea
+0x40052100,384,main_menu_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x40052280,564,func_40052280,function_arm,DERIVED,analyze.py:rea
 0x400524B4,288,buttons_ac_open_windows,function_arm,DERIVED,this-project:phase5 (ui)
 0x400525D4,24,touch_00f2_then_400545f8,function_arm,DERIVED,this-project:phase5 (ui)
@@ -978,7 +978,7 @@ address,size,name,type,evidence_level,source
 0x400531AC,4,pool_400531ac,literal_pool,DERIVED,analyze.py
 0x400531B0,496,func_400531b0,function_arm,DERIVED,analyze.py:rea
 0x400533A0,1060,func_400533a0,function_arm,DERIVED,analyze.py:rea
-0x400537C4,380,func_400537c4,function_arm,DERIVED,analyze.py:rea
+0x400537C4,380,output_select_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x40053940,560,func_40053940,function_arm,DERIVED,analyze.py:rea
 0x40053B70,8,pool_40053b70,literal_pool,DERIVED,analyze.py
 0x40053B78,2504,func_40053b78,function_arm,DERIVED,analyze.py:rea
@@ -1177,7 +1177,7 @@ address,size,name,type,evidence_level,source
 0x4005FC04,128,numpad_sign_apply,function_arm,DERIVED,this-project:phase5 (ui)
 0x4005FC84,520,func_4005fc84,function_arm,DERIVED,analyze.py:rea
 0x4005FE8C,8,pool_4005fe8c,literal_pool,DERIVED,analyze.py
-0x4005FE94,228,func_4005fe94,function_arm,DERIVED,analyze.py:rea
+0x4005FE94,228,numpad_key,function_arm,DERIVED,this-project:phase5 (ui)
 0x4005FF78,16,pool_4005ff78,literal_pool,DERIVED,analyze.py
 0x4005FF88,1376,func_4005ff88,function_arm,DERIVED,analyze.py:rea
 0x400604E8,8,code_400604e8,data,OPEN,analyze.py
@@ -1206,7 +1206,7 @@ address,size,name,type,evidence_level,source
 0x40061604,4,pool_40061604,literal_pool,DERIVED,analyze.py
 0x40061608,112,func_40061608,function_arm,DERIVED,analyze.py:rea
 0x40061678,8,pool_40061678,literal_pool,DERIVED,analyze.py
-0x40061680,292,func_40061680,function_arm,DERIVED,analyze.py:rea
+0x40061680,292,window_64_recalc,function_arm,DERIVED,this-project:phase5 (trace)
 0x400617A4,8,pool_400617a4,literal_pool,DERIVED,analyze.py
 0x400617AC,672,func_400617ac,function_arm,DERIVED,analyze.py:rea
 0x40061A4C,36,pool_40061a4c,literal_pool,DERIVED,analyze.py
@@ -1220,7 +1220,7 @@ address,size,name,type,evidence_level,source
 0x4006227C,8,pool_4006227c,literal_pool,DERIVED,analyze.py
 0x40062284,164,level_stats_60008,function_arm,DERIVED,this-project:phase5 (trace)
 0x40062328,20,pool_40062328,literal_pool,DERIVED,analyze.py
-0x4006233C,24,func_4006233c,function_arm,DERIVED,analyze.py:gap-code
+0x4006233C,24,level_stats_61000,function_arm,DERIVED,this-project:phase5 (trace)
 0x40062354,152,func_40062354,function_arm,DERIVED,analyze.py:prologue
 0x400623EC,8,pool_400623ec,literal_pool,DERIVED,analyze.py
 0x400623F4,76,levels_update_chain,function_arm,DERIVED,this-project:phase5 (trace)
@@ -1271,7 +1271,7 @@ address,size,name,type,evidence_level,source
 0x40063798,148,fpga_position_290_update,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4006382C,524,func_4006382c,function_arm,DERIVED,analyze.py:rea
 0x40063A38,24,pool_40063a38,literal_pool,DERIVED,analyze.py
-0x40063A50,368,func_40063a50,function_arm,DERIVED,analyze.py:rea
+0x40063A50,368,table_684_init,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40063BC0,116,fpga_counters_init,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40063C34,124,fpga_counter_step,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40063CB0,32,func_40063c34_all8,function_arm,DERIVED,this-project:phase5 (acquisition)
@@ -1281,7 +1281,7 @@ address,size,name,type,evidence_level,source
 0x400647F0,4,pool_400647f0,literal_pool,DERIVED,analyze.py
 0x400647F4,1076,func_400647f4,function_arm,DERIVED,analyze.py:rea
 0x40064C28,200,gen_selftest_64c28,function_arm,DERIVED,this-project:phase5 (init)
-0x40064CF0,208,func_40064cf0,function_arm,DERIVED,analyze.py:rea
+0x40064CF0,208,gen_selftest_64cf0,function_arm,DERIVED,this-project:phase5 (init)
 0x40064DC0,52,check_pair_save,function_arm,DERIVED,this-project:phase5 (init)
 0x40064DF4,24,pool_40064df4,literal_pool,DERIVED,analyze.py
 0x40064E0C,1152,func_40064e0c,function_arm,DERIVED,analyze.py:rea

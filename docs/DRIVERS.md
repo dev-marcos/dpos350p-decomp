@@ -1227,6 +1227,36 @@ Spec: `tools/platform_spec/ze_buttons_more.py`, 12 functions. Tests: `tools/emu/
 - Like batch 35, `ui_window_close` (and `ui_window_invalidate_from` after it in
   `system_calibration_button_handler`) gets the r1/r2 left by the previous call.
 
+## Output and menu buttons, numpad keys, 64-bit window, table 0x684 (batch 37)
+
+Spec: `tools/platform_spec/zf_buttons_tables.py`, 7 functions. Tests: `tools/emu/tests/sweep.py`.
+
+- **Buttons:**
+  - `output_select_buttons`: nine buttons set byte SYS+0x660 to 0..8 and apply the outputs;
+  - `main_menu_buttons` opens windows 6, 0xA, 0xB and 0xC, toggles SYS+0x802 and SYS+0x803,
+    and saves a waveform. Its last button resets the zoom and toggles SYS+0x2AA, but only when
+    the zoom count SYS+0x588 is above 12.
+- **Numpad.** `numpad_key(k)` handles the keys:
+  - 1 toggles the sign (modes 2..4 only);
+  - 2 adds the decimal point, once per value;
+  - 3..12 add the digits '0'..'9', up to 10 characters;
+  - 13 is backspace;
+  - 14..16 close the numpad.
+- **Levels.** `level_stats_61000` is the third level function, gated by byte +2 of the block
+  0x42E68668. The stock entry is 24 bytes long and falls into the code at 0x40062354 with the
+  block in r3. The C has the whole body.
+- **64-bit window.** `window_64_recalc` keeps the s64 limits +0x120 / +0x128, centre +0x130 and
+  span +0x138 of the block 0x42E68668 consistent. The mode word +0x18C selects how: from the
+  limits (modes 1 and 2), or from the centre and span (modes 3 and 4).
+- **Generator self-test.** `gen_selftest_64cf0` is the second generator self-test. It has the
+  same shape as `gen_selftest_64c28`, with other values and the check function 0x400647F4.
+- **Table.** `table_684_init` writes 64 fixed bytes (0x34..0x55) at SYS+0x684. The stock stores
+  them one byte at a time; the C stores 16 words with the same final contents. What the table
+  holds is OPEN.
+- Not taken: several remaining functions in 0x40061xxx..0x40062xxx are long double-precision
+  calculations with calls into the math library (log10, pow, l2d). They are left for a batch of
+  their own.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

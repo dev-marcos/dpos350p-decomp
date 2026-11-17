@@ -326,18 +326,18 @@ void security_check_and_copy(void)
 """, src="acquisition")
 w(0x40064DC0, 52, "check_pair_save",
   "0x40063A50; r = 0x40064C28() & 0x40064CF0() & 1; settings_a_save when r; 0x4003EB40; byte 0x42E68AE0+0x45 = r.", """
-void func_40063a50(void);
+void table_684_init(void);
 u32 gen_selftest_64c28(void);
-u32 func_40064cf0(void);
+u32 gen_selftest_64cf0(void);
 void settings_a_save(void);
 void func_4003eb40(void);
 
 void check_pair_save(void)
 {
     u32 a, r;
-    func_40063a50();
+    table_684_init();
     a = gen_selftest_64c28();
-    r = func_40064cf0() & a & 1;
+    r = gen_selftest_64cf0() & a & 1;
     if (r)
         settings_a_save();
     func_4003eb40();

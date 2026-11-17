@@ -1394,3 +1394,52 @@ def t_gst(r):
 
 
 TESTS[0x40064C28] = t_gst
+
+
+# ================================================================ batch 37: output and menu buttons, numpad keys, tables
+TESTS[0x400537C4] = t_btn([0x55C + 10 * i for i in range(9)], [(0x4002F86C, 0), (0x4003E708, 0), (0x4003CD44, 1)],
+                          vals=(0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3),
+                          extra=lambda r: writes([(SYS + 0x660, bytes([r.getrandbits(8)]))]))
+TESTS[0x40052100] = t_btn([2, 0xC, 0x16, 0x20, 0x2A, 0x34, 0x3E, 0x48, 0x52],
+                          [(0x4002F324, 0), (WOPEN, 1), (0x400360F0, 0), (0x400424D4, 0)],
+                          vals=(0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3),
+                          extra=lambda r: compose(rand_block(r, SYS + 0x800, 4), writes([
+                              (SYS + 0x588, bytes([r.choice([0, 12, 13, 0xFF])])), (SYS + 0x2AA, bytes([r.choice([0, 1, 4])]))])))
+TESTS[0x4006233C] = lambda r: Case([], compose(lv_common(r), writes([
+    (0x42E68668 + 2, bytes([r.choice([0, 1, 1, 1])])),
+    (0x42E68668 + 0xEC, i32(r.choice([0, 1, 5, 64, -1]))),
+    (0x42E68668 + 0xF0, i32(r.choice([0, 1, 300, 0x7FFF, -7, 0x10000]))),
+    (0x42E68668 + 0xC0, i32(r.choice([0, 1, -1, 2, 300, 0x8000, -300]))),
+    (0x42E68668 + 0x188, i32(r.choice([0, 1, -1, 3, 10, -4])))])), ret=V)
+
+
+def t_gst2(r):
+    rets = [r.choice([0, 1, 1, 1, 2, 3, 0xFF]) for _ in range(4)]
+
+    def chk(m, a):
+        m.calls.append(("chk", a[0], a[1], a[2]))
+        return m.rets.pop(0) if m.rets else 0
+
+    def setup(m):
+        m.rets = list(rets)
+    return Case([], compose(rand_block(r, 0x42E3F984 + 0x2EF8, 0x10), setup), ret=R,
+                stubs=(rec("gen", 0x4004D18C, 0), Stub("chk", 0x400647F4, chk, 3)))
+
+
+TESTS[0x40064CF0] = t_gst2
+TESTS[0x4005FE94] = lambda r: Case([r.choice(list(range(0, 18)) + [0xFFFFFFFF, 0x103])], compose(
+    rand_block(r, 0x42E68A88, 0x20), writes([(0x42E68A89, bytes([r.choice([0, 1, 2, 3, 4, 5])])),
+                                             (0x42E68A9F, bytes([r.choice([0, 9, 10, 0xFF]), r.choice([0, 0, 1]),
+                                                                 r.choice([0, 1, 7])]))])), ret=V,
+    stubs=(rec("sign", 0x4005FC04, 0), rec("back", 0x4005FBB4, 0), rec("app", 0x4005FB94, 1), rec("fc84", 0x4005FC84, 0),
+           rec("close", 0x4005FB44, 0)))
+
+
+def t_win64(r):
+    v = lambda: r.choice([0, 1, -1, 5, 100, -100, 1 << 40, -(1 << 40), (1 << 63) - 1, -(1 << 63), r.getrandbits(64)])
+    return Case([], writes([(0x42E68668 + 0x120, b"".join(I64(v()) for _ in range(4))),
+                            (0x42E68668 + 0x18C, i32(r.choice([0, 1, 2, 3, 3, 4, 4, 5])))]), ret=V)
+
+
+TESTS[0x40061680] = t_win64
+TESTS[0x40063A50] = lambda r: Case([], rand_block(r, SYS + 0x680, 0x48), ret=V)

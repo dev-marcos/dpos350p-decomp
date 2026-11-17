@@ -392,7 +392,7 @@ void func_40061a70(void);
 void func_4006053c(void);
 void level_stats_5f010(void);
 void level_stats_60008(void);
-void func_4006233c(void);
+void level_stats_61000(void);
 
 void levels_update_chain(void)
 {
@@ -405,7 +405,7 @@ void levels_update_chain(void)
     func_4006053c();
     level_stats_5f010();
     level_stats_60008();
-    func_4006233c();
+    level_stats_61000();
 }
 """, src="trace")
 

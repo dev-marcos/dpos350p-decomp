@@ -393,6 +393,14 @@ MUTANTS = [
     (0x400623F4, '        func_40061a70();\n', ''),
     (0x400634F0, '    fpga_param_updater(0x10, 2, w, (u32)(int)(short)SYS16(0x27E));', '    fpga_param_updater(0x10, 2, w, SYS16(0x27E));'),
     (0x40064C28, '    return c & b & a & 1;', '    return c & a & 1;'),
+    # batch 37: output and menu buttons, numpad keys, tables
+    (0x400537C4, '    for (i = 0; i < 9; i++) {', '    for (i = 0; i < 8; i++) {'),
+    (0x40052100, '        if (SYS8(0x588) > 12) {', '        if (SYS8(0x588) >= 12) {'),
+    (0x4006233C, '        v = sdv(sdv((int)((u32)sc * (u32)(int)*s++), d1), d2);', '        v = sdv((int)((u32)sc * (u32)(int)*s++), d1);'),
+    (0x40064CF0, '    a &= func_400647f4(0x12, 5, 1);', '    a = func_400647f4(0x12, 5, 1);'),
+    (0x4005FE94, '        if (NP8(0x17) < 10)', '        if (NP8(0x17) <= 10)'),
+    (0x40061680, '                c = span / 2;', '                c = span / 2 + 1;'),
+    (0x40063A50, '    p[7] = 0x343A3C40u;', '    p[7] = 0x343A3C41u;'),
 ]
 
 
