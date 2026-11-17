@@ -353,13 +353,13 @@ void func_400606a0_unless_locked(void)
 }
 """, src="init")
 w(0x40062E00, 20, "func_40062e14_unless_locked", "Unless the byte 0x42E68BC7 is set, branches to 0x40062E14.", """
-void func_40062e14(void);
+void measure_setup_62e14(void);
 
 void func_40062e14_unless_locked(void)
 {
     if (*(volatile unsigned char *)0x42E68BC7u)
         return;
-    func_40062e14();
+    measure_setup_62e14();
 }
 """, src="init")
 w(0x40060D68, 96, "calib_run_4_channels",

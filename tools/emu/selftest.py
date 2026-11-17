@@ -360,6 +360,26 @@ MUTANTS = [
     (0x40051E24, '    for (i = WS8(1); i >= 0; i--) {\n        if (WS8(2 + i) == 1) {', '    for (i = WS8(1); i > 0; i--) {\n        if (WS8(2 + i) == 1) {'),
     (0x40052098, '        if (*(volatile unsigned char *)(0x42E64520u + id * 14 + 2) == 0)', '        if (*(volatile unsigned char *)(0x42E64520u + id * 14 + 3) == 0)'),
     (0x400381E8, '    TD(0xACA0) = TD(0x20) - b1;', '    TD(0xACA0) = TD(0x28) - b1;'),
+    # batch 35: button handlers, counters, levels
+    (0x40055344, '    ui_window_close(0x19);', '    ui_window_close(0x1A);'),
+    (0x40054EB8, '    list_a_current_load();\n', ''),
+    (0x400555E8, '    if (TB(0x9EE) != 2)', '    if (TB(0x9EE) == 0)'),
+    (0x40055720, '    } else if (TB(0x11A) == 2) {', '    } else if (TB(0x11A) == 3) {'),
+    (0x40035540, '    SYS16(0xF9E) = 0;\n', ''),
+    (0x40052F08, '        ui_window_open(0x18);', '        ui_window_open(0x14);'),
+    (0x40055AD4, '        TB(0x174) = 0;\n        SYS8(0x7AC) = 4;', '        TB(0x174) = 0;\n        TB(0) = 0;\n        SYS8(0x7AC) = 4;'),
+    (0x40055634, '            r1 = 1;', '            r1 = 0x4091F398u;'),
+    (0x40055BD4, '    delay_ms(500);', '    delay_ms(50);'),
+    (0x40056974, 'TX32(0x9C00 + 0x1A0)', 'TX32(0x9C00 + 0x1A4)'),
+    (0x40054540, '        TB(0) = 1;', '        TB(0) = 0;'),
+    (0x40063484, '        else if (v < 2 * m)', '        else if (v <= 2 * m + 1)'),
+    (0x40063BC0, '        SYS8(0xBC0 + i) = 0;\n', ''),
+    (0x40063C34, '    SYS8(0xBC0 + ch) = SYS8(0x67C + ch);', '    SYS8(0xBC0 + ch) = cur + 1;'),
+    (0x400621EC, '        else if (v <= 0)\n            v = 1;', '        else if (v < 0)\n            v = 1;'),
+    (0x40062284, '        else if (v < 0)\n            v = 0;', '        else if (v < 0)\n            v = 1;'),
+    (0x40061580, '    if (n < (u32)(n << 1)) {', '    if (n > 1) {'),
+    (0x40063798, '        if ((int)r < 0)', '        if ((int)r <= 0)'),
+    (0x40062E14, '    MD(0x148) = MD(0x10) + d * 0.5;', '    MD(0x148) = MD(0x10) + d * 0.25;'),
 ]
 
 

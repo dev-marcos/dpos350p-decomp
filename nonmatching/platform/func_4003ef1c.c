@@ -7,7 +7,7 @@
 
 #include "hw/fpga.h"
 
-void func_40063bc0(void);
+void fpga_counters_init(void);
 void outputs_apply(void);
 
 void applied_state_invalidate(void)
@@ -24,6 +24,6 @@ void applied_state_invalidate(void)
     SYS8(0xBC9) = ~SYS8(0x105);
     SYS8(0xBC8) = ~SYS8(0x41);
     SYS8(0xBCA) = ~SYS8(0x100);
-    func_40063bc0();
+    fpga_counters_init();
     outputs_apply();
 }

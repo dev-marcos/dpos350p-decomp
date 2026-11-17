@@ -1176,3 +1176,141 @@ def t_curvals(r):
 
 
 TESTS[0x400381E8] = t_curvals
+
+
+# ================================================================ batch 35: button handlers, counters, levels
+BT35 = 0x42E61FF8
+WCLOSE, WOPEN = 0x4003CE50, 0x4003CDFC
+
+
+def btn_states(r, offs, vals=(0, 1, 2, 2, 3)):
+    return writes([(BT35, bytes([r.choice([0, 1, 5])]))] + [(BT35 + o, bytes([r.choice(vals)])) for o in offs])
+
+
+def t_btn(offs, callees, vals=(0, 1, 2, 2, 3), extra=None):
+    def t(r):
+        setup = btn_states(r, offs, vals)
+        if extra:
+            setup = compose(setup, extra(r))
+        return Case([], setup, ret=V, stubs=tuple(rec("%08x" % a, a, n) for a, n in callees))
+    return t
+
+
+TESTS[0x40055344] = t_btn([0x912], [(0x4002FC30, 0), (0x400361CC, 0), (WCLOSE, 1), (0x400365F4, 0)])
+TESTS[0x40054EB8] = t_btn([0x7FA], [(0x4002FB40, 0), (0x400350F4, 0), (WCLOSE, 1), (0x40035578, 0), (0x40035624, 0)])
+TESTS[0x400555E8] = t_btn([0x9EE], [(0x4002FCCC, 0), (0x40037460, 0), (WCLOSE, 1)])
+TESTS[0x40055720] = t_btn([0x106, 0x110, 0x11A], [(0x4002FD10, 0), (WOPEN, 1)], vals=(0, 1, 2, 3, 3))
+TESTS[0x40035540] = lambda r: Case([], rand_block(r, SYS + 0xF88, 0x20), ret=V, stubs=tuple(
+    rec("%08x" % a, a, 0) for a in (0x4003486C, 0x40035320, 0x40035248, 0x400354C0, 0x40035578)))
+TESTS[0x40052F08] = t_btn([0x340, 0x34A, 0x354], [(0x4002F5EC, 0), (0x4003CF0C, 0), (WOPEN, 1), (0x40035540, 0),
+                                                  (0x40035744, 0), (0x400378E0, 0)], vals=(0, 1, 2, 3, 3))
+TESTS[0x40055AD4] = t_btn([0x156, 0x160, 0x16A, 0x174], [(0x4002FD80, 0), (0x400457B0, 0), (0x40043A80, 0),
+                                                         (0x4003CDC0, 0)], vals=(0, 1, 2, 3, 3, 3),
+                          extra=lambda r: writes([(SYS + 0x7AC, bytes([r.getrandbits(8)]))]))
+TESTS[0x40055634] = t_btn([0x9F8, 0xA02, 0xA0C, 0xA16], [(0x4002FCD4, 0), (0x400373E0, 0), (0x400367D0, 0),
+                                                         (WCLOSE, 1), (WOPEN, 1), (0x4003CD44, 2)],
+                          vals=(0, 1, 2, 3, 3, 3), extra=lambda r: writes([(0x4091F398, bytes([r.getrandbits(8)]))]))
+
+
+def win_rect(r, off):
+    return writes([(0x42E64520 + off, b"".join(s16(r.choice([0, 1, 100, 1021, 0xFFFF, r.getrandbits(16)]))
+                                                for _ in range(4)))])
+
+
+def msg_texts(r, base):
+    return compose(rand_block(r, 0x42C2FE74 + base + 0x190, 0x8), rand_block(r, 0x42C2FE74 + base + 0x330, 0x8),
+                   writes([(0x42C2FE74 + base, i32(r.getrandbits(32))),
+                           (0x42C2FE74 + base + 0x1A0, i32(r.getrandbits(32)))]))
+
+
+TESTS[0x40055BD4] = t_btn([0x200], [(0x4002FDBC, 0), (0x40049BB4, 0), (0x40034134, 4), (0x40042CF0, 1),
+                                    (0x40034284, 0), (WCLOSE, 1)],
+                          extra=lambda r: compose(win_rect(r, 0x1B8), msg_texts(r, 0xAAA0)))
+TESTS[0x40056974] = t_btn([0xC28], [(0x40030008, 0), (0x40034134, 4), (0x40060D68, 0), (0x40042CF0, 1), (WCLOSE, 1)],
+                          extra=lambda r: compose(win_rect(r, 0x252), msg_texts(r, 0x9C00)))
+TESTS[0x40054540] = t_btn([0x71E, 0x71F], [(0x4002FAA4, 0), (0x4006904C, 0), (0x40069084, 0)], vals=(0, 1, 1, 2, 7),
+                          extra=lambda r: compose(rand_block(r, 0x42E68998, 0x40), rand_block(r, SYS + 0x27E, 2),
+                                                  writes([(0x42E68998, bytes([r.choice([0x12, 0x12, 0x11])]))])))
+TESTS[0x40063484] = lambda r: Case([], writes([
+    (SYS + 0x1AE, s16(r.choice([0, 1, 20, 300, 0x7FFF, 0xFFFF]))), (SYS + 0xA, s16(r.choice([0, 1, 100, 600, 0xFFFF]))),
+    (SYS + 0x27E, s16(r.choice([0, 1, 19, 20, 21, 40, 300, 580, 600, 0x7FFF, 0x8000, 0xFFFF, r.getrandbits(16)]))),
+    (SYS + 0x2AA, bytes([r.choice([0, 1, 9])]))]), ret=V)
+TESTS[0x40063BC0] = lambda r: Case([], compose(rand_block(r, SYS + 0x670, 0x10), rand_block(r, SYS + 0xBBC, 0x10)),
+                                   ret=V, stubs=(rec("sel", SEL, 1), rec("wr", WR, 1)))
+
+
+def t_cstep(r):
+    ch = r.choice([0, 1, 3, 7, 0xFF])
+    cur = r.choice([0, 1, 5, 0x80, 0xFF])
+    old = r.choice([cur, 0, 3, 0x7F, 0xFF])
+    return Case([ch], compose(rand_block(r, SYS + 0x678, 0x110), rand_block(r, SYS + 0xBBC, 0x110),
+                              writes([(SYS + 0x67C + ch, bytes([cur])), (SYS + 0xBC0 + ch, bytes([old]))])),
+                ret=V, stubs=(rec("sel", SEL, 1), rec("wr", WR, 1)))
+
+
+TESTS[0x40063C34] = t_cstep
+LVSRC = SYS + 0x200000
+
+
+def lv_common(r):
+    few = b"".join(s16(r.choice([0, 0, 1, 0xFFFF, 2, 299, 300, 301, 0x7FFF, 0x8000, r.getrandbits(16)]))
+                   for _ in range(0x10))
+    return compose(rand_block(r, LVSRC, 0x100), writes([(LVSRC, few), (0x42E68CB0, i32(LVSRC))]))
+
+
+TESTS[0x400621EC] = lambda r: Case([], compose(lv_common(r), writes([
+    (0x42E68668 + 0xB8, i32(r.choice([0, 1, 5, 64, -1]))),
+    (0x42E68668 + 0xC0, i32(r.choice([0, 1, 2, 300, 0x7FFF, -5, 0x40000000])))])), ret=V)
+TESTS[0x40062284] = lambda r: Case([], compose(lv_common(r), writes([
+    (0x42E68668 + 1, bytes([r.choice([0, 1, 1, 1])])),
+    (0x42E68668 + 0xDC, i32(r.choice([0, 1, 5, 64, -1]))),
+    (0x42E68668 + 0xE0, i32(r.choice([0, 1, 300, 0x7FFF, -7, 0x10000]))),
+    (0x42E68668 + 0xC0, i32(r.choice([0, 1, -1, 2, 300, 0x8000, -300])))])), ret=V)
+
+
+def t_fftb(r):
+    n = r.choice([0, 1, 2, 7, 32])
+    return Case([], compose(rand_block(r, 0x42AC7CF4, 0x200), rand_block(r, 0x42D164B4, 0x120),
+                            writes([(0x42E68668 + 0xF8, i32(n)),
+                                    (SYS + 0x454, i32(r.choice([0, n, 2 * n + 1, 100, 300]))),
+                                    (SYS + 0x264, i32(r.choice([0, 1, 4, 15, 31, 32, 40, 0x101])))])), ret=V)
+
+
+TESTS[0x40061580] = t_fftb
+
+
+def t_pos290(r):
+    flag = r.choice([0, 1, 2])
+    vals = [r.getrandbits(8) for _ in range(2)]
+
+    def cmd18(m, a):
+        m.calls.append(("cmd18",))
+        m.w8(SYS + 0x279, flag)
+
+    def rd(m, a):
+        m.calls.append(("rd",))
+        return m.vals.pop(0) if m.vals else 0
+
+    def setup(m):
+        m.vals = list(vals)
+    x = r.choice([0, 1, 100, 0x1FFF, r.getrandbits(32), ((vals[0] << 8) | vals[1]) & 0x1FFF])
+    t = r.choice([0, x, x + 1, max(x - 1, 0), r.getrandbits(32), r.getrandbits(64)])
+    return Case([], compose(writes([(SYS + 0x28C, i32(x)), (SYS + 0x30, I64(t)),
+                                    (SYS + 0x520, i32(r.choice([1, 7, 0x2000, 0xFFFFFFFF, r.getrandbits(32) | 1])))]),
+                            setup), ret=V,
+                stubs=(Stub("cmd18", 0x40063770, cmd18, 0), Stub("rd", RD, rd, 0), rec("sel", SEL, 1)))
+
+
+TESTS[0x40063798] = t_pos290
+
+
+def t_meas(r):
+    f64 = lambda v: __import__("struct").pack("<d", v)
+    return Case([], writes([(0x42E68668, bytes(r.getrandbits(8) for _ in range(8))),
+                            (0x42E68668 + 0x10, f64(r.uniform(-1e6, 1e6))),
+                            (0x42E68668 + 0x20, f64(r.uniform(-1e6, 1e6)) + f64(r.uniform(-1e6, 1e6))),
+                            (0x42E68668 + 0x48, f64(r.choice([0.0, 0.5, -0.5, 1.5, -3.7, r.uniform(-1e15, 1e15)])))]),
+                ret=V, stubs=tuple(rec("%08x" % a, a, 0) for a in (0x400612FC, 0x40060FE8, 0x40060DC8, 0x40061F10)))
+
+
+TESTS[0x40062E14] = t_meas

@@ -147,7 +147,7 @@ void state_blocks_init(void)
 }
 """)
 s(0x4003EF1C, 144, "applied_state_invalidate", "Fills the 'last applied' copy at SYS+0xBB0..0xBCA with the complement of the current values (bytes SYS+0x6E4..0x6E7, word +0x6E8, V/div bytes +0x41 / +0x105, byte +0x100) and clears +0xBB8..+0xBC7, so that everything is applied again; then 0x40063BC0 and outputs_apply.", """
-void func_40063bc0(void);
+void fpga_counters_init(void);
 void outputs_apply(void);
 
 void applied_state_invalidate(void)
@@ -164,7 +164,7 @@ void applied_state_invalidate(void)
     SYS8(0xBC9) = ~SYS8(0x105);
     SYS8(0xBC8) = ~SYS8(0x41);
     SYS8(0xBCA) = ~SYS8(0x100);
-    func_40063bc0();
+    fpga_counters_init();
     outputs_apply();
 }
 """)

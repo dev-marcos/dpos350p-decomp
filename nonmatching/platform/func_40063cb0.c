@@ -7,11 +7,11 @@
 
 #include "hw/fpga.h"
 
-void func_40063c34(u32 i);
+void fpga_counter_step(u32 i);
 
 void func_40063c34_all8(void)
 {
     u32 i;
     for (i = 0; i < 8; i++)
-        func_40063c34(i & 0xFF);
+        fpga_counter_step(i & 0xFF);
 }

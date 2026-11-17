@@ -1,6 +1,6 @@
 # Project status and resume point
 
-Snapshot from 2026-11-17, after Phase 5 batch 34. All addresses apply to build
+Snapshot from 2026-11-17, after Phase 5 batch 35. All addresses apply to build
 2025-06-19 only. Work is paused here; this page is the place to start from next time.
 
 ## 1. Where things stand
@@ -8,12 +8,12 @@ Snapshot from 2026-11-17, after Phase 5 batch 34. All addresses apply to build
 | Item | State |
 |---|---|
 | `make check` | MATCH, SHA-256 `6635ddd6…cefd58c` |
-| Functions with equivalent C | 1035 of 1354 (76.44%) |
-| Code bytes covered by C | 112,790 of 337,504 (33.42%) |
+| Functions with equivalent C | 1054 of 1354 (77.84%) |
+| Code bytes covered by C | 115,466 of 337,504 (34.21%) |
 | MATCHING C | 0 by construction: Arm Compiler 5 is not licensed here (docs/COMPILER.md) |
-| Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library); full suite after batch 34, all 1035 EQUIVALENT (unchanged builds keep their cached result, see CONTRIBUTING.md) |
-| Mutation self-test | 309/309 mutants detected (`make selftest`) |
-| TEST image | `make testiso`: 624 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
+| Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library); full suite after batch 35, all 1054 EQUIVALENT (unchanged builds keep their cached result, see CONTRIBUTING.md) |
+| Mutation self-test | 328/328 mutants detected (`make selftest`) |
+| TEST image | `make testiso`: 637 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
 | Browser emulator | repo `dev-marcos/dpos350p-emu`, submodule `tools/sim` at `5ed2f7e`, runs fully in the browser (docs/SIM.md) |
 
 The two numbers in the table differ because the finished work is mostly small and medium
@@ -55,6 +55,7 @@ functions. The large ones (UI, the table builders, the calibration steps) are st
 | 32 | widgets (switch, slider, battery, window frame), font descriptors and glyph drawing, pixel blending, framebuffer copy, key repeat, trace cursor limits and defaults | 19 | DRIVERS.md |
 | 33 | drawing primitives (vertical line, rectangle fill and outline, line), tinted glyphs, message box, touch button groups, marker values, channel min/max | 14 | DRIVERS.md |
 | 34 | view bounds and zoom fit, MMU sections, FPGA fill, FFT input and drawing, storage check file, calibration flags, factory steps, window touch polling, trace cursor values | 12 | DRIVERS.md |
+| 35 | touch-button handlers (delete, file lists, language, format, calibration, drag), cursor clamp, FPGA counters, level statistics, second FFT input, FPGA position, measurement setup | 19 | DRIVERS.md |
 
 The exact list, with addresses and case counts, is in PROGRESS.md (`make progress`).
 

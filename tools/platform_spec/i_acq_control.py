@@ -151,7 +151,7 @@ void fpga_write_sel_0x1f(u32 v)
 """)
 q(0x4003FAB0, 4, "veneer_400636bc", "Branch to 0x400636BC.", "void veneer_400636bc(void)\n{\n    fpga_cmd1b_write();\n}\n")
 q(0x4003FAB4, 4, "veneer_40063714", "Branch to 0x40063714.", "void veneer_40063714(void)\n{\n    fpga_cmd1c_write();\n}\n")
-q(0x4003FAE4, 4, "veneer_40063798", "Branch to 0x40063798.", "void veneer_40063798(void)\n{\n    func_40063798();\n}\n")
+q(0x4003FAE4, 4, "veneer_40063798", "Branch to 0x40063798.", "void veneer_40063798(void)\n{\n    fpga_position_290_update();\n}\n")
 q(0x4003FAB8, 44, "trigger_pos_update", "Trigger position = (L + SYS_INFO+0x63C - SYS_INFO+0x6F2) mod L, L = SYS_INFO+0x520, to the FPGA.", """
 void trigger_pos_update(void)
 {

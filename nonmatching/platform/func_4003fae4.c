@@ -9,5 +9,5 @@
 
 void veneer_40063798(void)
 {
-    func_40063798();
+    fpga_position_290_update();
 }

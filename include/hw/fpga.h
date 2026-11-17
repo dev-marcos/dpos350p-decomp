@@ -173,7 +173,7 @@ void func_40063cd0(void);
 void func_40063c34_all8(void);
 void fpga_cmd1b_write(void);
 void fpga_cmd1c_write(void);
-void func_40063798(void);
+void fpga_position_290_update(void);
 void fpga_trigger_pos_write(u32 v);          /* 0x4003F988 */
 void acq_done_read(void);                    /* 0x4003F9D0 */
 void veneer_400636bc(void);                  /* 0x4003FAB0 */

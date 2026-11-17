@@ -1144,6 +1144,49 @@ Spec: `tools/platform_spec/zc_view_fft_boot.py`, 12 functions. Tests: `tools/emu
   is logarithmic (DERIVED: the frequency axis of the Bode plot). The vertical values come from
   the per-x tables 0x42E1FD88 and 0x42E20DE8.
 
+## Button handlers, FPGA counters, level statistics (batch 35)
+
+Spec: `tools/platform_spec/zd_buttons_levels.py`, 19 functions. Tests: `tools/emu/tests/sweep.py`.
+
+- **Button handlers.** Each one updates its buttons in the array at 0x42E61FF8. On release
+  (state 2) it clears the button and the touch byte, then acts:
+  - delete the marked entries of list A, B or C and close its confirmation window (0x15, 0x19,
+    0x1B);
+  - `file_lists_open_buttons` opens window 0x14, 0x18 or 0x1A after resetting the window stack.
+    For list A it calls `list_a_reload`, which ends by falling through into `list_a_page_thumbs`;
+  - `language_select_buttons` sets the language byte SYS+0x7AC to 1..4, applies the texts and
+    saves settings block B. The fourth button does not clear the touch byte (stock behaviour);
+  - `format_button_handler` formats the disk and shows a message for 500 ms;
+  - `calibration_button_handler` shows a message, runs `calib_run_4_channels`, shows a second
+    message and waits 700 ms;
+  - `button_71e_drag_handler` handles a drag on button 0x71E (state 1 = pressed). In drag mode
+    0x12 it moves the s16 SYS+0x27E by the drag delta.
+
+  The handlers call `ui_window_close` with one argument. Its hidden r2 (used only when the window
+  is not on the stack) is whatever the previous call left, as in the stock code.
+  `buttons_9f8_handler` passes r1 to `ui_window_invalidate_from` explicitly: the flag address on
+  one path and the value 1 on the other.
+- **Cursor.** `cursor_27e_clamp` clamps SYS+0x27E to m .. height - m, or 2m .. height - 2m.
+- **FPGA counters.** Selectors 0x96 + 2i and 0x97 + 2i, for i = 0..7:
+  - `fpga_counters_init` sends 130 steps to each counter;
+  - `fpga_counter_step(ch)` sends the direction and |target - last| steps, then keeps the
+    target.
+
+  The step-pulse pattern (1, 0) suggests up/down counters or digital potentiometers. That is
+  DERIVED; which part they drive is OPEN.
+- **Levels.** `level_stats_5f010` and `level_stats_60008` turn the s16 samples at the pointer
+  0x42E68CB0 into clamped screen levels (u16 arrays 0x42E5F010 and 0x42E60008). They keep the
+  mean, max and min in the block 0x42E68668. The divisions follow `sdiv` (division by 0 gives 0).
+- **Other functions:**
+  - `fft_input_prepare_b` is a second FFT input into 0x42D164B4, using consecutive samples;
+  - `fpga_position_290_update` sets SYS+0x290. It uses the 13-bit FPGA value of selector 0x14
+    when flag 0x18 is set, otherwise the remainder (u64 SYS+0x30 - SYS+0x28C) mod SYS+0x520;
+  - `measure_setup_62e14` runs four setup steps of the block 0x42E68668, then derives the
+    doubles +0x140 / +0x148 and the s64 window +0x120 .. +0x138.
+- Not taken: 0x40062354 reads r3 and ip as inputs (a fragment); 0x400447C8 ends in an endless
+  loop after the watchdog reset; 0x40061608 takes a double in d0 (the harness has no FP
+  arguments yet).
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).
