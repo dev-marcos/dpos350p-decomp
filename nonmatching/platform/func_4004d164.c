@@ -12,7 +12,7 @@ void gen_update(void);
 void Gen_Init(void)
 {
     func_40036b00();
-    func_40036bdc();
+    list_c_data_load();
     func_40036ea4(*(volatile unsigned short *)0x4091F396u);
     gen_load_samples();
     gen_update();

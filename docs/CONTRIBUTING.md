@@ -95,6 +95,11 @@ function compiled in place (`tools/testiso.py`). **Emulator only, never write it
     suite's key covers only its own file.
   - A plain `Stub` records only r0..r3. For a callee with stack arguments, record them as well
     (`rec_stk` in `tests/sweep.py`), or a wrong fifth argument goes unnoticed.
+  - The opposite also matters: do not record the address of a buffer on the caller's stack (a
+    `FIL`, for example). It depends on the frame layout, so an `-Os` build that is correct fails
+    against it. `quiet` in `tests/sweep.py` gives a stub the registers without recording them.
+  - Spec files run in `gen_platform.py`'s own namespace. Do not define module-level names that
+    it uses (`HDR`, `SPEC`, `OUT`, `f`).
   - `--no-cache` runs everything.
 - `tools/testiso.py` processes the C files in parallel and keeps two caches:
   - `build/test/process_cache.json` holds the outcome per function: the chosen build bytes, or

@@ -8,15 +8,15 @@
 #include "hw/fpga.h"
 
 void disk_format(void);
-void func_4003486c(void);
-void func_400358b8(void);
+void list_a_index_load(void);
+void list_b_index_load(void);
 void func_40036b00(void);
 
 void disk_format_and_reload(void)
 {
     disk_format();
     disk_mount();
-    func_4003486c();
-    func_400358b8();
+    list_a_index_load();
+    list_b_index_load();
     func_40036b00();
 }

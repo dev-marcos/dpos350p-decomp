@@ -31,6 +31,16 @@ def rec_stk(name, addr, nstack):
     return Stub(name, addr, fn, 4)
 
 
+def regs(m, n):
+    return [m.reg(x) for x in (A.UC_ARM_REG_R0, A.UC_ARM_REG_R1, A.UC_ARM_REG_R2, A.UC_ARM_REG_R3)[:n]]
+
+
+def quiet(name, addr, fn, nargs):
+    """Stub that sees nargs argument registers but records nothing by itself (for stack pointers
+    such as a FIL on the caller's frame, whose address depends on the frame layout)."""
+    return Stub(name, addr, lambda m, a: fn(m, regs(m, nargs)), 0)
+
+
 def rand_block(r, base, n):
     data = bytes(r.getrandbits(8) for _ in range(n))
     return lambda m: m.write(base, data)
@@ -351,8 +361,8 @@ def t_exists(build):
         def cl(m, a):
             m.calls.append(("close", a[0] == m.fil))
             return 0
-        return Case([rnd(r)], ret=R, stubs=(rec("path", build, 1), Stub("f_open", 0x40059B8C, op, 3),
-                                            Stub("f_close", 0x4005A694, cl, 1)))
+        return Case([rnd(r)], ret=R, stubs=(rec("path", build, 1), quiet("f_open", 0x40059B8C, op, 3),
+                                            quiet("f_close", 0x4005A694, cl, 1)))
     return t
 
 
@@ -372,3 +382,145 @@ def t_win40(r):
 
 TESTS[0x40062EE8] = t_win40
 TESTS[0x40063714] = t_fpga({0x274: FLAG, 0x275: FLAG, 0x28C: (4, None)})
+
+
+# ================================================================ batch 30: file lists A, B, C
+F_OPEN, F_CLOSE, F_READ, F_WRITE, F_LSEEK, F_UNLINK = (0x40059B8C, 0x4005A694, 0x40059F7C, 0x4005A1D4, 0x4005A6CC,
+                                                       0x4005AD8C)
+
+
+def fs_stubs():
+    """FatFs stubs. f_open answers from m.rcs (default 0) and remembers the FIL pointer; the
+    other calls record whether they got that same pointer. f_read fills the buffer from m.rdata."""
+    def op(m, a):
+        m.fil = a[0]
+        m.calls.append(("open", a[1], a[2] & 0xFF))
+        return m.rcs.pop(0) if m.rcs else 0
+
+    def same(name, extra):
+        def fn(m, a):
+            m.calls.append((name, a[0] == getattr(m, "fil", None)) + tuple(extra(m, a)))
+            return 0
+        return fn
+
+    def rd(m, a):
+        n = min(a[2], len(m.rdata))
+        m.write(a[1], m.rdata[:n])
+        m.calls.append(("read", a[0] == m.fil, a[1], a[2], a[3]))
+        return 0
+    return (quiet("f_open", F_OPEN, op, 3), quiet("f_close", F_CLOSE, same("close", lambda m, a: ()), 1),
+            quiet("f_lseek", F_LSEEK, same("lseek", lambda m, a: (a[2], a[3])), 4),
+            quiet("f_write", F_WRITE, same("write", lambda m, a: (a[1], a[2], a[3])), 4),
+            quiet("f_read", F_READ, rd, 4), rec("unlink", F_UNLINK, 1))
+
+
+def fs_setup(r, nopen=1, p_fail=0.3):
+    rcs = [r.choice([1, 4, 5]) if r.random() < p_fail else 0 for _ in range(nopen)]
+    rdata = bytes(r.getrandbits(8) for _ in range(0x60))
+
+    def setup(m):
+        m.rcs = list(rcs)
+        m.rdata = rdata
+    return setup
+
+
+PS = [1, 2, 3, 5, 10, 16]
+CNT = [-1, 0, 1, 2, 7, 12, 30]
+
+
+def list_area(r, ps=None, cnt=None, sel=None, page=None):
+    items = [(SYS + 0xF90, bytes(r.getrandbits(8) for _ in range(0x60))),
+             (SYS + 0x5DC6, bytes(r.choice([0, 0, 1, r.getrandbits(8)]) for _ in range(0x48))),
+             (SYS + 0x84D0, bytes(r.getrandbits(8) for _ in range(0x10)))]
+    for o, v in ((0xF9A, ps), (0xFA0, cnt), (0xFA4, sel), (0xF9E, page)):
+        if v is not None:
+            items.append((SYS + o, s16(v)))
+    return items
+
+
+def t_page_mark(r):
+    return Case([], writes(list_area(r, r.choice(PS), r.choice(CNT), page=r.choice([0, 0, 1, 2, 3, -1]))), ret=V,
+                stubs=(rec("memset", 0x4005C604, 3),))
+
+
+for _a in (0x400352A8, 0x40036354, 0x4003777C):
+    TESTS[_a] = t_page_mark
+
+
+def t_marks_clear(r):
+    return Case([], writes(list_area(r, r.choice(PS), r.choice(CNT))), ret=V)
+
+
+for _a in (0x40035320, 0x400363CC, 0x400377F8):
+    TESTS[_a] = t_marks_clear
+
+
+def t_index_load(fail, cnt):
+    def t(r):
+        n = r.choice([0, 1, 5, 20, r.getrandbits(16)])
+        return Case([], compose(writes(list_area(r, r.choice(PS)) + [(SYS + cnt, s16(n))]), fs_setup(r)), ret=V,
+                    stubs=fs_stubs() + (rec("fail", fail, 0),))
+    return t
+
+
+def t_index_save(fail, cnt):
+    def t(r):
+        n = r.choice([0, 1, 5, 20, r.getrandbits(16)])
+        return Case([], compose(writes([(SYS + cnt, s16(n))]), fs_setup(r)), ret=V,
+                    stubs=fs_stubs() + (rec("fail", fail, 0),))
+    return t
+
+
+def t_prune(path, remove, tail):
+    def t(r):
+        return Case([], compose(writes(list_area(r, r.choice(PS), r.choice(CNT[:5]))), fs_setup(r, 8, 0.4)), ret=V,
+                    stubs=fs_stubs() + (rec("path", path, 1), rec("remove", remove, 1)) +
+                    tuple(rec("%08x" % x, x, 0) for x in tail))
+    return t
+
+
+def t_validate(exists, prune, clamp):
+    def t(r):
+        ex = [r.choice([1, 1, 1, 0, 2]) for _ in range(20)]
+        ps = r.choice([1, 2, 4, 8])
+        sel = r.choice([0, 1, 3, 5, 9, -1])
+
+        def setup(m):
+            m.ex = list(ex)
+        ents = b"".join(s16(r.choice([0, 1, 7, r.getrandbits(16), r.getrandbits(16)])) for _ in range(80))
+        area = list_area(r, ps, sel=sel)
+        return Case([], compose(writes(area[:1] + [(SYS + 0xFA6, ents)] + area[1:]), setup), ret=V,
+                    stubs=(Stub("exists", exists, lambda m, a: (m.calls.append(("exists", a[0])), m.ex.pop(0))[1], 1),
+                           rec("prune", prune, 0), rec("clamp", clamp, 0)))
+    return t
+
+
+def t_delete(path, remove, tail):
+    def t(r):
+        return Case([], writes(list_area(r, r.choice(PS), r.choice(CNT[:5]))), ret=V,
+                    stubs=(rec("path", path, 1), rec("remove", remove, 1), rec("unlink", F_UNLINK, 1)) +
+                    tuple(rec("%08x" % x, x, 0) for x in tail))
+    return t
+
+
+TESTS[0x4003486C] = t_index_load(0x400347A0, 0x754)
+TESTS[0x400358B8] = t_index_load(0x400357EC, 0x756)
+TESTS[0x40034920] = t_index_save(0x400347A0, 0x754)
+TESTS[0x4003596C] = t_index_save(0x400357EC, 0x756)
+TESTS[0x40036C54] = t_index_save(0x40036958, 0x758)
+TESTS[0x40035434] = t_prune(0x40034B78, 0x40034A0C, (0x40034920, 0x4003486C, 0x40035248))
+TESTS[0x400364E0] = t_prune(0x40035BC4, 0x40035A58, (0x4003596C, 0x400358B8, 0x400362F4))
+TESTS[0x400354C0] = t_validate(0x400353F4, 0x40035434, 0x40035248)
+TESTS[0x4003656C] = t_validate(0x400364A0, 0x400364E0, 0x400362F4)
+TESTS[0x400350F4] = t_delete(0x40034B78, 0x40034A0C, (0x40035320, 0x40034920, 0x4003486C))
+TESTS[0x400361CC] = t_delete(0x40035BC4, 0x40035A58, (0x400363CC, 0x4003596C, 0x400358B8))
+
+
+def t_data(r):
+    w_, h = r.choice([0, 1, 0x20, 0x1000, r.getrandbits(32)]), r.choice([0, 1, 3, r.getrandbits(16)])
+    return Case([], compose(writes([(SYS + 0x3DA544, i32(w_)), (SYS + 0x758, s16(h))]), fs_setup(r)), ret=V,
+                stubs=fs_stubs() + (rec("fail", 0x40036958, 0),))
+
+
+TESTS[0x40036BDC] = t_data
+TESTS[0x40036D10] = t_data

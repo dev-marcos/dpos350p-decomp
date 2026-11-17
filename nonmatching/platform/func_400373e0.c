@@ -8,22 +8,22 @@
 #include "hw/fpga.h"
 
 void func_40036b00(void);
-void func_40036bdc(void);
+void list_c_data_load(void);
 void func_4003709c(void);
 void func_40036864(void);
 void func_40036de4(void);
 void list_fa4_insert_758(u32 a);
-void func_40036c54(void);
-void func_40036d10(void);
+void list_c_index_save(void);
+void list_c_data_save(void);
 
 void reload_chain_400373e0(void)
 {
     func_40036b00();
-    func_40036bdc();
+    list_c_data_load();
     func_4003709c();
     func_40036864();
     func_40036de4();
     list_fa4_insert_758(*(volatile unsigned short *)0x40545E04u);
-    func_40036c54();
-    func_40036d10();
+    list_c_index_save();
+    list_c_data_save();
 }

@@ -8,15 +8,15 @@
 #include "hw/fpga.h"
 
 void func_40036b00(void);
-void func_40036bdc(void);
-void func_400377f8(void);
+void list_c_data_load(void);
+void list_c_marks_clear(void);
 void list_cursor_clamp_4003771c(void);
 
 void reload_chain_400378e0(void)
 {
     func_40036b00();
-    func_40036bdc();
-    func_400377f8();
+    list_c_data_load();
+    list_c_marks_clear();
     list_cursor_clamp_4003771c();
     SYS8(0xF90) = 0;
     SYS16(0xFA4) = 0;

@@ -932,6 +932,40 @@ Spec: `tools/platform_spec/x_lists_colour.py`, 23 functions. Tests: `tools/emu/t
   0x40060FE8, 0x40060DC8 and 0x40061F10 are skipped when both +0 and +4 are set.
 - `fpga_cmd1c_write`: selector 0x1C with the word SYS+0x28C, like 0x1B with SYS+0x288.
 
+## File lists: screenshots, waveforms, captures (batch 30)
+
+Spec: `tools/platform_spec/y_file_lists.py`, 19 functions written from templates. Tests:
+`tools/emu/tests/sweep.py`, with FatFs stubs that also check that every call gets the same `FIL`.
+
+- **Three lists, one layout.** Only one list is loaded at a time, into the same SYS fields:
+  - s16 count at SYS+0xFA0, u16 entries from SYS+0xFA6;
+  - u16 page size SYS+0xF9A, s16 page index SYS+0xF9E, page count SYS+0xFA2, selected entry
+    SYS+0xFA4;
+  - page marks at SYS+0x84D6, entry marks at SYS+0x5DC6;
+  - the path of an entry's file is built into SYS+0x88C0 (= 0x4054D728).
+- **What differs per list**:
+
+  | List | Index file | Length field | Path helper | Entry remover |
+  |---|---|---|---|---|
+  | A: screenshots | 0x4008DB60 `/Screenshots/number_table.sys` | SYS+0x754 | 0x40034B78 | 0x40034A0C |
+  | B: waveforms | 0x4008E2D0 `/Waveform/number_table.sys` | SYS+0x756 | 0x40035BC4 | 0x40035A58 |
+  | C: captures | 0x4008E2EC `/Captures/num_table.sys` | SYS+0x758 | (0x40036xxx, not in this batch) | |
+
+  List C also stores the u16 SYS+0x3DA52E in its index, at offset 2, and keeps a data block
+  (word SYS+0x3DA544 × SYS+0x758 bytes at SYS+0xD744) in the file 0x4008E8D4 `/Captures/data.cap`.
+- **Functions** (A and B unless noted):
+  - `index_load` reads the count and the entries, then sets the page count. When the file does
+    not open, a per-list handler (0x400347A0, 0x400357EC) runs instead;
+  - `index_save` writes the index back (C as well);
+  - `page_mark` and `marks_clear` (A, B and C);
+  - `page_validate` sets the page from the selected entry and checks the files of that page.
+    At the first missing one it runs `prune_missing`;
+  - `prune_missing` drops the entries whose file no longer opens;
+  - `delete_marked` removes the marked entries and deletes their files with `f_unlink`;
+  - `list_c_data_load` and `list_c_data_save`.
+- The index file names (STATIC-CONFIRMED strings) identify the lists: screenshots, waveforms
+  and captures. The per-entry file name format (built by the path helpers) is OPEN.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

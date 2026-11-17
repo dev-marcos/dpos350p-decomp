@@ -431,38 +431,38 @@ void sys_3c_leave(void)
 w(0x400373E0, 56, "reload_chain_400373e0",
   "0x40036B00, 0x40036BDC, 0x4003709C, 0x40036864, 0x40036DE4, 0x40036D88(u16 at 0x40545E04), 0x40036C54, 0x40036D10.", """
 void func_40036b00(void);
-void func_40036bdc(void);
+void list_c_data_load(void);
 void func_4003709c(void);
 void func_40036864(void);
 void func_40036de4(void);
 void list_fa4_insert_758(u32 a);
-void func_40036c54(void);
-void func_40036d10(void);
+void list_c_index_save(void);
+void list_c_data_save(void);
 
 void reload_chain_400373e0(void)
 {
     func_40036b00();
-    func_40036bdc();
+    list_c_data_load();
     func_4003709c();
     func_40036864();
     func_40036de4();
     list_fa4_insert_758(*(volatile unsigned short *)0x40545E04u);
-    func_40036c54();
-    func_40036d10();
+    list_c_index_save();
+    list_c_data_save();
 }
 """)
 w(0x400378E0, 56, "reload_chain_400378e0",
   "0x40036B00, 0x40036BDC, 0x400377F8, 0x4003771C, then SYS+0xF90 = 0, u16 SYS+0xFA4 = 0, u16 SYS+0xF9E = 0.", """
 void func_40036b00(void);
-void func_40036bdc(void);
-void func_400377f8(void);
+void list_c_data_load(void);
+void list_c_marks_clear(void);
 void list_cursor_clamp_4003771c(void);
 
 void reload_chain_400378e0(void)
 {
     func_40036b00();
-    func_40036bdc();
-    func_400377f8();
+    list_c_data_load();
+    list_c_marks_clear();
     list_cursor_clamp_4003771c();
     SYS8(0xF90) = 0;
     SYS16(0xFA4) = 0;
@@ -471,21 +471,21 @@ void reload_chain_400378e0(void)
 """)
 w(0x40035744, 60, "reload_chain_40035744",
   "0x400358B8, 0x400363CC, SYS+0xF90 = 0, u16 SYS+0xFA4 = 0, u16 SYS+0xF9E = 0, then 0x400362F4, 0x4003656C, 0x400365F4.", """
-void func_400358b8(void);
-void func_400363cc(void);
+void list_b_index_load(void);
+void list_b_marks_clear(void);
 void list_cursor_clamp_400362f4(void);
-void func_4003656c(void);
+void list_b_page_validate(void);
 void func_400365f4(void);
 
 void reload_chain_40035744(void)
 {
-    func_400358b8();
-    func_400363cc();
+    list_b_index_load();
+    list_b_marks_clear();
     SYS8(0xF90) = 0;
     SYS16(0xFA4) = 0;
     SYS16(0xF9E) = 0;
     list_cursor_clamp_400362f4();
-    func_4003656c();
+    list_b_page_validate();
     func_400365f4();
 }
 """)

@@ -7,20 +7,20 @@
 
 #include "hw/fpga.h"
 
-void func_400358b8(void);
-void func_400363cc(void);
+void list_b_index_load(void);
+void list_b_marks_clear(void);
 void list_cursor_clamp_400362f4(void);
-void func_4003656c(void);
+void list_b_page_validate(void);
 void func_400365f4(void);
 
 void reload_chain_40035744(void)
 {
-    func_400358b8();
-    func_400363cc();
+    list_b_index_load();
+    list_b_marks_clear();
     SYS8(0xF90) = 0;
     SYS16(0xFA4) = 0;
     SYS16(0xF9E) = 0;
     list_cursor_clamp_400362f4();
-    func_4003656c();
+    list_b_page_validate();
     func_400365f4();
 }

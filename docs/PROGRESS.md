@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 949 | 70.09% | 97002 | 28.74% |
+| EQUIVALENT | 968 | 71.49% | 99670 | 29.53% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 405 | 29.91% | 240502 | 71.26% |
+| ASM | 386 | 28.51% | 237834 | 70.47% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 949 (70.87%) | 337104 | 97002 (28.78%) |
+| main code | 1339 | 968 (72.29%) | 337104 | 99670 (29.57%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -111,27 +111,46 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4003453C` | __aeabi_ldivmod | 84 | EQUIVALENT | 400 | `nonmatching/libc/func_4003453c.c` |
 | `0x40034590` | __aeabi_uldivmod | 304 | EQUIVALENT | 400 | `nonmatching/libc/func_40034590.c` |
 | `0x400346C0` | ui_frame_chain | 64 | EQUIVALENT | 200 | `nonmatching/platform/func_400346c0.c` |
+| `0x4003486C` | list_a_index_load | 180 | EQUIVALENT | 200 | `nonmatching/platform/func_4003486c.c` |
+| `0x40034920` | list_a_index_save | 148 | EQUIVALENT | 200 | `nonmatching/platform/func_40034920.c` |
 | `0x400349B4` | list_fa4_insert_754 | 88 | EQUIVALENT | 200 | `nonmatching/platform/func_400349b4.c` |
+| `0x400350F4` | list_a_delete_marked | 148 | EQUIVALENT | 200 | `nonmatching/platform/func_400350f4.c` |
 | `0x40035248` | list_cursor_clamp_40035248 | 96 | EQUIVALENT | 200 | `nonmatching/platform/func_40035248.c` |
+| `0x400352A8` | list_a_page_mark | 120 | EQUIVALENT | 200 | `nonmatching/platform/func_400352a8.c` |
+| `0x40035320` | list_a_marks_clear | 136 | EQUIVALENT | 200 | `nonmatching/platform/func_40035320.c` |
 | `0x400353A8` | list_count_nonzero_400353a8 | 76 | EQUIVALENT | 200 | `nonmatching/platform/func_400353a8.c` |
 | `0x400353F4` | file_exists_40034b78 | 64 | EQUIVALENT | 200 | `nonmatching/platform/func_400353f4.c` |
+| `0x40035434` | list_a_prune_missing | 140 | EQUIVALENT | 200 | `nonmatching/platform/func_40035434.c` |
+| `0x400354C0` | list_a_page_validate | 120 | EQUIVALENT | 200 | `nonmatching/platform/func_400354c0.c` |
 | `0x400356E4` | memset_w | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_400356e4.c` |
 | `0x400356F4` | fill_u16 | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_400356f4.c` |
 | `0x4003570C` | fill_u32 | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4003570c.c` |
 | `0x40035724` | memcpy | 4 | EQUIVALENT | 200 | `nonmatching/platform/func_40035724.c` |
 | `0x40035728` | copy_u16 | 28 | EQUIVALENT | 200 | `nonmatching/platform/func_40035728.c` |
 | `0x40035744` | reload_chain_40035744 | 60 | EQUIVALENT | 200 | `nonmatching/platform/func_40035744.c` |
+| `0x400358B8` | list_b_index_load | 180 | EQUIVALENT | 200 | `nonmatching/platform/func_400358b8.c` |
+| `0x4003596C` | list_b_index_save | 148 | EQUIVALENT | 200 | `nonmatching/platform/func_4003596c.c` |
 | `0x40035A00` | list_fa4_insert_756 | 88 | EQUIVALENT | 200 | `nonmatching/platform/func_40035a00.c` |
+| `0x400361CC` | list_b_delete_marked | 148 | EQUIVALENT | 200 | `nonmatching/platform/func_400361cc.c` |
 | `0x400362F4` | list_cursor_clamp_400362f4 | 96 | EQUIVALENT | 200 | `nonmatching/platform/func_400362f4.c` |
+| `0x40036354` | list_b_page_mark | 120 | EQUIVALENT | 200 | `nonmatching/platform/func_40036354.c` |
+| `0x400363CC` | list_b_marks_clear | 136 | EQUIVALENT | 200 | `nonmatching/platform/func_400363cc.c` |
 | `0x40036454` | list_count_nonzero_40036454 | 76 | EQUIVALENT | 200 | `nonmatching/platform/func_40036454.c` |
 | `0x400364A0` | file_exists_40035bc4 | 64 | EQUIVALENT | 200 | `nonmatching/platform/func_400364a0.c` |
+| `0x400364E0` | list_b_prune_missing | 140 | EQUIVALENT | 200 | `nonmatching/platform/func_400364e0.c` |
+| `0x4003656C` | list_b_page_validate | 120 | EQUIVALENT | 200 | `nonmatching/platform/func_4003656c.c` |
 | `0x400367A4` | sys_3c_enter | 44 | EQUIVALENT | 200 | `nonmatching/platform/func_400367a4.c` |
 | `0x400367D0` | sys_3c_leave | 28 | EQUIVALENT | 200 | `nonmatching/platform/func_400367d0.c` |
+| `0x40036BDC` | list_c_data_load | 120 | EQUIVALENT | 200 | `nonmatching/platform/func_40036bdc.c` |
+| `0x40036C54` | list_c_index_save | 188 | EQUIVALENT | 200 | `nonmatching/platform/func_40036c54.c` |
+| `0x40036D10` | list_c_data_save | 120 | EQUIVALENT | 200 | `nonmatching/platform/func_40036d10.c` |
 | `0x40036D88` | list_fa4_insert_758 | 92 | EQUIVALENT | 200 | `nonmatching/platform/func_40036d88.c` |
 | `0x400373E0` | reload_chain_400373e0 | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_400373e0.c` |
 | `0x40037418` | list_current_advance | 72 | EQUIVALENT | 200 | `nonmatching/platform/func_40037418.c` |
 | `0x400374EC` | array_3da548_decimate | 76 | EQUIVALENT | 200 | `nonmatching/platform/func_400374ec.c` |
 | `0x4003771C` | list_cursor_clamp_4003771c | 96 | EQUIVALENT | 200 | `nonmatching/platform/func_4003771c.c` |
+| `0x4003777C` | list_c_page_mark | 120 | EQUIVALENT | 200 | `nonmatching/platform/func_4003777c.c` |
+| `0x400377F8` | list_c_marks_clear | 136 | EQUIVALENT | 200 | `nonmatching/platform/func_400377f8.c` |
 | `0x40037880` | list_count_nonzero_40037880 | 76 | EQUIVALENT | 200 | `nonmatching/platform/func_40037880.c` |
 | `0x400378E0` | reload_chain_400378e0 | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_400378e0.c` |
 | `0x40037A60` | cursor_ac64_clamp | 88 | EQUIVALENT | 200 | `nonmatching/platform/func_40037a60.c` |

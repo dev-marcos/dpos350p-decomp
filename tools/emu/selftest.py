@@ -295,6 +295,19 @@ MUTANTS = [
     (0x40038DEC, 'c & 0xFF, v);', 'c & 0xFF, -v);'),
     (0x400353F4, 'if (f_open(fil, (const char *)0x4054D728u, 1) == 0) {', 'if (f_open(fil, (const char *)0x4054D728u, 1) != 1) {'),
     (0x40062EE8, 'if (CB8(0) == 0 || CB8(4) == 0) {', 'if (CB8(0) == 0 && CB8(4) == 0) {'),
+    # batch 30: file lists A, B, C
+    (0x400352A8, 'if (lim > end)', 'if (lim >= end + 1 || lim < 0)'),
+    (0x400352A8, 'lim - start, 1);', 'lim - start + 1, 1);'),
+    (0x40035320, '/ (int)SYS16(0xF9A) + 1; i++)', '/ (int)SYS16(0xF9A); i++)'),
+    (0x4003486C, 'if (c - ps * q)\n        q++;', 'if (c - ps * q > 0)\n        q++;'),
+    (0x4003486C, 'f_lseek(fil, 2);', 'f_lseek(fil, 0);'),
+    (0x40034920, 'SYS16(0x754) * 2u, 0);', 'SYS16(0x754) * 2u + 2, 0);'),
+    (0x40035434, 'for (i = SS16(0xFA0) - 1; i >= 0; i--) {', 'for (i = SS16(0xFA0) - 1; i > 0; i--) {'),
+    (0x400354C0, '        if (v == 0)\n            break;\n', ''),
+    (0x400350F4, 'if (SYS8(0x5DC6 + i)) {', 'if (SYS8(0x5DC6 + i) & 1) {'),
+    (0x40036C54, 'f_lseek(fil, 4);', 'f_lseek(fil, 6);'),
+    (0x40036BDC, 'SYS32(0x3DA544) * SYS16(0x758), 0);', 'SYS32(0x3DA544) * SYS16(0x756), 0);'),
+    (0x400364E0, 'if (f_open(fil, PATHBUF, 1) == 0)', 'if (f_open(fil, PATHBUF, 3) == 0)'),
 ]
 
 
