@@ -8,7 +8,7 @@
 #include "hw/fpga.h"
 
 void draw_colour_set(u32 c);
-void func_4002ecc4(u32 a, u32 b, u32 c, u32 d);
+void rect_fill(u32 a, u32 b, u32 c, u32 d);
 void func_4002ecc4_span(u32 a, u32 b, u32 c);
 void func_4002ce7c(u32 x, u32 y, const char *s);
 void pixel_put(u32 x, u32 y);
@@ -26,15 +26,15 @@ void switch_on_off_draw(u32 x, u32 y, u32 on)
     half_42e68be2_set(2);
     word_42e68c74_set(0x42E64F58u);
     draw_colour_set(t[0]);
-    func_4002ecc4(x, (unsigned short)(y + 2), 0x3C, 0x1C);
+    rect_fill(x, (unsigned short)(y + 2), 0x3C, 0x1C);
     if (on) {
         draw_colour_set(t[1]);
-        func_4002ecc4((unsigned short)(x + 0x1E), (unsigned short)(y + 2), 0x1E, 0x1C);
+        rect_fill((unsigned short)(x + 0x1E), (unsigned short)(y + 2), 0x1E, 0x1C);
         draw_colour_set(t[3]);
         func_4002ce7c((unsigned short)(x + 7), (unsigned short)(y + 10), (const char *)0x40019DB0u);
     } else {
         draw_colour_set(t[2]);
-        func_4002ecc4(x, (unsigned short)(y + 2), 0x1E, 0x1C);
+        rect_fill(x, (unsigned short)(y + 2), 0x1E, 0x1C);
         draw_colour_set(t[3]);
         func_4002ce7c((unsigned short)(x + 0x23), (unsigned short)(y + 10), (const char *)0x40019DB4u);
     }

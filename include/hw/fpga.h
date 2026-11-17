@@ -89,7 +89,7 @@ void gt911_pins_init(void);                                      /* 0x40049A5C *
 
 /* ---- power */
 void lradc_init(void);                       /* 0x40068E94 LRADC (battery) init */
-void func_40034134(int x, int y, u32 img, int flags);   /* draws an image (OPEN) */
+void message_box_draw(int x, int y, u32 text, int align);   /* 0x40034134: message box, text pointer as u32 */
 void delay_ms(u32 ms);                       /* 0x40042CF0 */
 void power_off(void);                        /* 0x4004A1B4 (never returns) */
 void auto_off_arm(void);                     /* 0x4004A1D0 */

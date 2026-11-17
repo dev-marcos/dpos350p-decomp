@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1009 | 74.52% | 107602 | 31.88% |
+| EQUIVALENT | 1023 | 75.55% | 110474 | 32.73% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 345 | 25.48% | 229902 | 68.12% |
+| ASM | 331 | 24.45% | 227030 | 67.27% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1009 (75.35%) | 337104 | 107602 (31.92%) |
+| main code | 1339 | 1023 (76.40%) | 337104 | 110474 (32.77%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -54,16 +54,22 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4002D6D4` | func_4002d82c_flag1 | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4002d6d4.c` |
 | `0x4002D6F8` | func_4002d82c_flag0 | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4002d6f8.c` |
 | `0x4002D71C` | func_4002d2d4_d0 | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_4002d71c.c` |
+| `0x4002D724` | text_d6f8_shadow_draw | 188 | EQUIVALENT | 200 | `nonmatching/platform/func_4002d724.c` |
 | `0x4002DC40` | half_42e68be2_set | 12 | EQUIVALENT | 200 | `nonmatching/platform/func_4002dc40.c` |
 | `0x4002DC4C` | draw_state_defaults | 40 | EQUIVALENT | 200 | `nonmatching/platform/func_4002dc4c.c` |
 | `0x4002DC74` | byte_42e68be0_set | 12 | EQUIVALENT | 200 | `nonmatching/platform/func_4002dc74.c` |
 | `0x4002DCAC` | font_metrics_build | 196 | EQUIVALENT | 200 | `nonmatching/platform/func_4002dcac.c` |
 | `0x4002E6D8` | font_char_draw | 216 | EQUIVALENT | 200 | `nonmatching/platform/func_4002e6d8.c` |
 | `0x4002E7B0` | char_to_digit_glyph | 200 | EQUIVALENT | 200 | `nonmatching/platform/func_4002e7b0.c` |
+| `0x4002E878` | font_char_tint_draw | 436 | EQUIVALENT | 200 | `nonmatching/platform/func_4002e878.c` |
 | `0x4002EA38` | draw_colour_set | 76 | EQUIVALENT | 200 | `nonmatching/platform/func_4002ea38.c` |
 | `0x4002EA88` | pixel_blend | 232 | EQUIVALENT | 200 | `nonmatching/platform/func_4002ea88.c` |
 | `0x4002EB70` | pixel_put | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_4002eb70.c` |
 | `0x4002EBA8` | func_4002ecc4_span | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_4002eba8.c` |
+| `0x4002EBC8` | vline_draw | 132 | EQUIVALENT | 200 | `nonmatching/platform/func_4002ebc8.c` |
+| `0x4002EC4C` | rect_outline_draw | 120 | EQUIVALENT | 200 | `nonmatching/platform/func_4002ec4c.c` |
+| `0x4002ECC4` | rect_fill | 204 | EQUIVALENT | 200 | `nonmatching/platform/func_4002ecc4.c` |
+| `0x4002ED90` | line_draw | 216 | EQUIVALENT | 200 | `nonmatching/platform/func_4002ed90.c` |
 | `0x4002F0E8` | draw_text_shadowed | 104 | EQUIVALENT | 200 | `nonmatching/platform/func_4002f0e8.c` |
 | `0x4002F160` | touch_button_set_rect | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_4002f160.c` |
 | `0x4002F180` | touch_button_disable | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_4002f180.c` |
@@ -83,11 +89,15 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4002F6FC` | touch_group_0426 | 368 | EQUIVALENT | 200 | `nonmatching/platform/func_4002f6fc.c` |
 | `0x4002F86C` | touch_group_055C | 116 | EQUIVALENT | 200 | `nonmatching/platform/func_4002f86c.c` |
 | `0x4002F8E0` | touch_group_05B6 | 136 | EQUIVALENT | 200 | `nonmatching/platform/func_4002f8e0.c` |
+| `0x4002F968` | touch_buttons_6xx_update | 316 | EQUIVALENT | 200 | `nonmatching/platform/func_4002f968.c` |
 | `0x4002FAA4` | touch_button_update_071E | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_4002faa4.c` |
+| `0x4002FAAC` | touch_buttons_728_update | 148 | EQUIVALENT | 200 | `nonmatching/platform/func_4002faac.c` |
 | `0x4002FB40` | touch_button_update_07FA | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_4002fb40.c` |
 | `0x4002FB48` | touch_button_update_0804 | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_4002fb48.c` |
 | `0x4002FB50` | touch_group_080E | 72 | EQUIVALENT | 200 | `nonmatching/platform/func_4002fb50.c` |
+| `0x4002FB98` | touch_buttons_840_update | 152 | EQUIVALENT | 200 | `nonmatching/platform/func_4002fb98.c` |
 | `0x4002FC30` | touch_button_update_0912 | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_4002fc30.c` |
+| `0x4002FC38` | touch_buttons_91c_update | 148 | EQUIVALENT | 200 | `nonmatching/platform/func_4002fc38.c` |
 | `0x4002FCCC` | touch_button_update_09EE | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_4002fccc.c` |
 | `0x4002FCD4` | touch_group_09F8 | 60 | EQUIVALENT | 200 | `nonmatching/platform/func_4002fcd4.c` |
 | `0x4002FD10` | touch_group_0106 | 44 | EQUIVALENT | 200 | `nonmatching/platform/func_4002fd10.c` |
@@ -97,6 +107,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4002FDB4` | touch_button_update_01EC | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_4002fdb4.c` |
 | `0x4002FDBC` | touch_button_update_0200 | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_4002fdbc.c` |
 | `0x4002FDC4` | touch_button_update_019C | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_4002fdc4.c` |
+| `0x4002FDCC` | touch_buttons_a20_update | 112 | EQUIVALENT | 200 | `nonmatching/platform/func_4002fdcc.c` |
 | `0x4002FE3C` | touch_group_0AC0 | 92 | EQUIVALENT | 200 | `nonmatching/platform/func_4002fe3c.c` |
 | `0x4002FE98` | touch_group_0B06 | 80 | EQUIVALENT | 200 | `nonmatching/platform/func_4002fe98.c` |
 | `0x4002FEE8` | touch_button_update_0B42 | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_4002fee8.c` |
@@ -106,12 +117,15 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4002FFA4` | touch_button_update_0BD8 | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_4002ffa4.c` |
 | `0x4002FFAC` | touch_group_0BE2 | 92 | EQUIVALENT | 200 | `nonmatching/platform/func_4002ffac.c` |
 | `0x40030008` | touch_button_update_0C28 | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_40030008.c` |
+| `0x40030060` | marker_value_add | 136 | EQUIVALENT | 200 | `nonmatching/platform/func_40030060.c` |
 | `0x400301A8` | value_in_table_405456e8 | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_400301a8.c` |
 | `0x40031710` | colour_toggle_42e68d1a | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_40031710.c` |
+| `0x40032A58` | channel_minmax_stats | 228 | EQUIVALENT | 200 | `nonmatching/platform/func_40032a58.c` |
 | `0x40032D3C` | key_repeat_update | 192 | EQUIVALENT | 200 | `nonmatching/platform/func_40032d3c.c` |
 | `0x40034058` | func_40032e0c_both | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_40034058.c` |
 | `0x4003407C` | cursor_808_clamp | 88 | EQUIVALENT | 200 | `nonmatching/platform/func_4003407c.c` |
 | `0x400340D4` | cursor_810_clamp | 84 | EQUIVALENT | 200 | `nonmatching/platform/func_400340d4.c` |
+| `0x40034134` | message_box_draw | 336 | EQUIVALENT | 200 | `nonmatching/platform/func_40034134.c` |
 | `0x40034284` | rect_42e68c38_draw | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_40034284.c` |
 | `0x400342B4` | str_copy | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_400342b4.c` |
 | `0x400342CC` | draw_target_default | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_400342cc.c` |

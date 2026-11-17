@@ -278,7 +278,7 @@ void list_b_current_load(void)
 
 # ---------------------------------------------------------------- saving a new item
 wz(0x4003506C, 136, "list_a_save_new",
-   "Saves a screenshot: func_40034e94, draws the image at 0x42C3C988 (+0xC word) at the screen centre plus its offsets, reloads the index, takes the next free number, builds its path and writes the file (func_4005c3f0); when that returns non-zero the number is inserted and the index saved. Ends with rect_42e68c38_draw.", ZHDR + """
+   "Saves a screenshot: func_40034e94, shows a message box (text pointer word at 0x42C3C994) at the screen centre plus its offsets, reloads the index, takes the next free number, builds its path and writes the file (func_4005c3f0); when that returns non-zero the number is inserted and the index saved. Ends with rect_42e68c38_draw.", ZHDR + """
 void func_40034e94(void);
 void list_a_index_load(void);
 void list_a_next_free(void);
@@ -294,7 +294,7 @@ void list_a_save_new(void)
     int x = SYS16(4) + (SYS16(8) >> 1);
     int y = SYS16(6) + (SYS16(0xA) >> 1);
     func_40034e94();
-    func_40034134(x + t[0], y + t[1], *(const u32 *)(t + 0xC), 0);
+    message_box_draw(x + t[0], y + t[1], *(const u32 *)(t + 0xC), 0);
     list_a_index_load();
     list_a_next_free();
     func_40034b78(SYS16(0xF9C));
@@ -307,7 +307,7 @@ void list_a_save_new(void)
 """)
 
 wz(0x400360F0, 220, "list_b_save_new",
-   "Saves a waveform: when disk_free_bytes is below twice word SYS+0x774, draws the image of 0x42C3D820 at the screen centre (offsets at 0x42C3D828) and waits 1 s; otherwise reloads the index, takes the next free number, func_40035ee0, draws the image of 0x42C3C7F4, builds the path, encodes the settings image and writes it (file_write_360404); on success the number is inserted and the index saved. Ends with rect_42e68c38_draw.", ZHDR + """
+   "Saves a waveform: when disk_free_bytes is below twice word SYS+0x774, shows the message box of the text word 0x42C3D820 at the screen centre (offsets at 0x42C3D828) and waits 1 s; otherwise reloads the index, takes the next free number, func_40035ee0, shows the message box of the text word 0x42C3C7F4, builds the path, encodes the settings image and writes it (file_write_360404); on success the number is inserted and the index saved. Ends with rect_42e68c38_draw.", ZHDR + """
 u32 disk_free_bytes(void);
 void list_b_index_load(void);
 void list_b_next_free(void);
@@ -326,13 +326,13 @@ void list_b_save_new(void)
     int y = SYS16(6) + (SYS16(0xA) >> 1);
     if (disk_free_bytes() < SYS32(0x774) * 2u) {
         const signed char *t = (const signed char *)(0x42C2FE74u + 0xD9B4u);
-        func_40034134(x + t[0], y + t[1], *(const u32 *)(p + 0xEA0), 0);
+        message_box_draw(x + t[0], y + t[1], *(const u32 *)(p + 0xEA0), 0);
         delay_ms(1000);
     } else {
         list_b_index_load();
         list_b_next_free();
         func_40035ee0();
-        func_40034134(x + (signed char)p[0x194], y + (signed char)p[0x195], *(const u32 *)p, 0);
+        message_box_draw(x + (signed char)p[0x194], y + (signed char)p[0x195], *(const u32 *)p, 0);
         func_40035bc4(SYS16(0xF9C));
         settings_image_encode();
         if (file_write_360404(PATHBUF)) {

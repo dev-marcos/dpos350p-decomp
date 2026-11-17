@@ -15,7 +15,7 @@ void battery_empty_check(void)
         unsigned char *p = (unsigned char *)(0x42C2FE74u + 0xDD00);
         timer_stop(0);
         draw_target_default();
-        func_40034134(cx + (signed char)p[0x194], cy + (signed char)p[0x195], *(u32 *)p, 0);
+        message_box_draw(cx + (signed char)p[0x194], cy + (signed char)p[0x195], *(u32 *)p, 0);
         delay_ms(3000);
         power_off();
     }

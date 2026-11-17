@@ -1,7 +1,7 @@
 /*
  * list_a_save_new -- stock 0x4003506C (136 bytes, ARM)
  * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
- * Saves a screenshot: func_40034e94, draws the image at 0x42C3C988 (+0xC word) at the screen centre plus its offsets, reloads the index, takes the next free number, builds its path and writes the file (func_4005c3f0); when that returns non-zero the number is inserted and the index saved. Ends with rect_42e68c38_draw.
+ * Saves a screenshot: func_40034e94, shows a message box (text pointer word at 0x42C3C994) at the screen centre plus its offsets, reloads the index, takes the next free number, builds its path and writes the file (func_4005c3f0); when that returns non-zero the number is inserted and the index saved. Ends with rect_42e68c38_draw.
  */
 #include "hw/platform.h"
 
@@ -33,7 +33,7 @@ void list_a_save_new(void)
     int x = SYS16(4) + (SYS16(8) >> 1);
     int y = SYS16(6) + (SYS16(0xA) >> 1);
     func_40034e94();
-    func_40034134(x + t[0], y + t[1], *(const u32 *)(t + 0xC), 0);
+    message_box_draw(x + t[0], y + t[1], *(const u32 *)(t + 0xC), 0);
     list_a_index_load();
     list_a_next_free();
     func_40034b78(SYS16(0xF9C));

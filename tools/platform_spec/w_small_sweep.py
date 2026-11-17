@@ -107,21 +107,21 @@ void pixel_put(u32 x, u32 y)
 }
 """, src="display")
 w(0x4002EBA8, 32, "func_4002ecc4_span", "(a, b, c): 0x4002ECC4(b, a, (u16)(c - b + 1), 1).", """
-void func_4002ecc4(u32 a, u32 b, u32 c, u32 d);
+void rect_fill(u32 a, u32 b, u32 c, u32 d);
 
 void func_4002ecc4_span(u32 a, u32 b, u32 c)
 {
-    func_4002ecc4(b, a, (c - b + 1) & 0xFFFF, 1);
+    rect_fill(b, a, (c - b + 1) & 0xFFFF, 1);
 }
 """, src="display")
 w(0x4002C5C4, 48, "sys_rect_fill", "Colour 0 (0x4002EA38), then 0x4002ECC4 with the four u16 at SYS+4, +6, +8, +0xA.", """
 void draw_colour_set(u32 c);
-void func_4002ecc4(u32 a, u32 b, u32 c, u32 d);
+void rect_fill(u32 a, u32 b, u32 c, u32 d);
 
 void sys_rect_fill(void)
 {
     draw_colour_set(0);
-    func_4002ecc4(SYS16(4), SYS16(6), SYS16(8), SYS16(0xA));
+    rect_fill(SYS16(4), SYS16(6), SYS16(8), SYS16(0xA));
 }
 """, src="display")
 w(0x40034284, 48, "rect_42e68c38_draw",

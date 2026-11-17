@@ -150,7 +150,7 @@ address,size,name,type,evidence_level,source
 0x4002D6D4,36,func_4002d82c_flag1,function_arm,DERIVED,this-project:phase5 (display)
 0x4002D6F8,36,func_4002d82c_flag0,function_arm,DERIVED,this-project:phase5 (display)
 0x4002D71C,8,func_4002d2d4_d0,function_arm,DERIVED,this-project:phase5 (display)
-0x4002D724,188,func_4002d724,function_arm,DERIVED,analyze.py:rea
+0x4002D724,188,text_d6f8_shadow_draw,function_arm,DERIVED,this-project:phase5 (display)
 0x4002D7E0,76,pool_4002d7e0,literal_pool,DERIVED,analyze.py
 0x4002D82C,1044,func_4002d82c,function_arm,DERIVED,analyze.py:rea
 0x4002DC40,12,half_42e68be2_set,function_arm,DERIVED,this-project:phase5 (ui)
@@ -161,17 +161,17 @@ address,size,name,type,evidence_level,source
 0x4002DD70,2408,func_4002dd70,function_arm,DERIVED,analyze.py:rea
 0x4002E6D8,216,font_char_draw,function_arm,DERIVED,this-project:phase5 (display)
 0x4002E7B0,200,char_to_digit_glyph,function_arm,DERIVED,this-project:phase5 (display)
-0x4002E878,436,func_4002e878,function_arm,DERIVED,analyze.py:rea
+0x4002E878,436,font_char_tint_draw,function_arm,DERIVED,this-project:phase5 (display)
 0x4002EA2C,12,pool_4002ea2c,literal_pool,DERIVED,analyze.py
 0x4002EA38,76,draw_colour_set,function_arm,DERIVED,this-project:phase5 (display)
 0x4002EA84,4,pool_4002ea84,literal_pool,DERIVED,analyze.py
 0x4002EA88,232,pixel_blend,function_arm,DERIVED,this-project:phase5 (display)
 0x4002EB70,56,pixel_put,function_arm,DERIVED,this-project:phase5 (display)
 0x4002EBA8,32,func_4002ecc4_span,function_arm,DERIVED,this-project:phase5 (display)
-0x4002EBC8,132,func_4002ebc8,function_arm,DERIVED,analyze.py:rea
-0x4002EC4C,120,func_4002ec4c,function_arm,DERIVED,analyze.py:rea
-0x4002ECC4,204,func_4002ecc4,function_arm,DERIVED,analyze.py:rea
-0x4002ED90,216,func_4002ed90,function_arm,DERIVED,analyze.py:rea
+0x4002EBC8,132,vline_draw,function_arm,DERIVED,this-project:phase5 (display)
+0x4002EC4C,120,rect_outline_draw,function_arm,DERIVED,this-project:phase5 (display)
+0x4002ECC4,204,rect_fill,function_arm,DERIVED,this-project:phase5 (display)
+0x4002ED90,216,line_draw,function_arm,DERIVED,this-project:phase5 (display)
 0x4002EE68,16,pool_4002ee68,literal_pool,DERIVED,analyze.py
 0x4002EE78,624,func_4002ee78,function_arm,DERIVED,analyze.py:rea
 0x4002F0E8,104,draw_text_shadowed,function_arm,DERIVED,this-project:phase5 (ui)
@@ -194,15 +194,15 @@ address,size,name,type,evidence_level,source
 0x4002F6FC,368,touch_group_0426,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002F86C,116,touch_group_055C,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002F8E0,136,touch_group_05B6,function_arm,DERIVED,this-project:phase5 (ui)
-0x4002F968,316,func_4002f968,function_arm,DERIVED,analyze.py:rea
+0x4002F968,316,touch_buttons_6xx_update,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002FAA4,8,touch_button_update_071E,function_arm,DERIVED,this-project:phase5 (ui)
-0x4002FAAC,148,func_4002faac,function_arm,DERIVED,analyze.py:rea
+0x4002FAAC,148,touch_buttons_728_update,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002FB40,8,touch_button_update_07FA,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002FB48,8,touch_button_update_0804,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002FB50,72,touch_group_080E,function_arm,DERIVED,this-project:phase5 (ui)
-0x4002FB98,152,func_4002fb98,function_arm,DERIVED,analyze.py:rea
+0x4002FB98,152,touch_buttons_840_update,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002FC30,8,touch_button_update_0912,function_arm,DERIVED,this-project:phase5 (ui)
-0x4002FC38,148,func_4002fc38,function_arm,DERIVED,analyze.py:rea
+0x4002FC38,148,touch_buttons_91c_update,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002FCCC,8,touch_button_update_09EE,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002FCD4,60,touch_group_09F8,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002FD10,44,touch_group_0106,function_arm,DERIVED,this-project:phase5 (ui)
@@ -212,7 +212,7 @@ address,size,name,type,evidence_level,source
 0x4002FDB4,8,touch_button_update_01EC,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002FDBC,8,touch_button_update_0200,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002FDC4,8,touch_button_update_019C,function_arm,DERIVED,this-project:phase5 (ui)
-0x4002FDCC,112,func_4002fdcc,function_arm,DERIVED,analyze.py:rea
+0x4002FDCC,112,touch_buttons_a20_update,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002FE3C,92,touch_group_0AC0,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002FE98,80,touch_group_0B06,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002FEE8,8,touch_button_update_0B42,function_arm,DERIVED,this-project:phase5 (ui)
@@ -223,7 +223,7 @@ address,size,name,type,evidence_level,source
 0x4002FFAC,92,touch_group_0BE2,function_arm,DERIVED,this-project:phase5 (ui)
 0x40030008,8,touch_button_update_0C28,function_arm,DERIVED,this-project:phase5 (ui)
 0x40030010,80,pool_40030010,literal_pool,DERIVED,analyze.py
-0x40030060,136,func_40030060,function_arm,DERIVED,analyze.py:rea
+0x40030060,136,marker_value_add,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x400300E8,192,func_400300e8,function_arm,DERIVED,analyze.py:prologue
 0x400301A8,56,value_in_table_405456e8,function_arm,DERIVED,this-project:phase5 (ui)
 0x400301E0,2328,func_400301e0,function_arm,DERIVED,analyze.py:rea
@@ -256,7 +256,7 @@ address,size,name,type,evidence_level,source
 0x40031794,4800,func_40031794,function_arm,DERIVED,analyze.py:rea
 0x40032A54,1,code_40032a54,data,OPEN,analyze.py
 0x40032A55,3,pad_40032a55,padding,STATIC-CONFIRMED,analyze.py:zero
-0x40032A58,228,func_40032a58,function_arm,DERIVED,analyze.py:rea
+0x40032A58,228,channel_minmax_stats,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40032B3C,12,code_40032b3c,data,OPEN,analyze.py
 0x40032B48,4,pool_40032b48,literal_pool,DERIVED,analyze.py
 0x40032B4C,4,code_40032b4c,data,OPEN,analyze.py
@@ -271,7 +271,7 @@ address,size,name,type,evidence_level,source
 0x4003407C,88,cursor_808_clamp,function_arm,DERIVED,this-project:phase5 (ui)
 0x400340D4,84,cursor_810_clamp,function_arm,DERIVED,this-project:phase5 (ui)
 0x40034128,12,pool_40034128,literal_pool,DERIVED,analyze.py
-0x40034134,336,func_40034134,function_arm,DERIVED,analyze.py:rea
+0x40034134,336,message_box_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x40034284,48,rect_42e68c38_draw,function_arm,DERIVED,this-project:phase5 (display)
 0x400342B4,24,str_copy,function_arm,DERIVED,this-project:phase5 (string)
 0x400342CC,16,draw_target_default,function_arm,DERIVED,this-project:phase5 (display)

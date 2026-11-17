@@ -8,7 +8,7 @@ def wa(addr, size, name, desc, body, src="display"):
 
 
 DRAW = """void draw_colour_set(u32 c);
-void func_4002ecc4(u32 a, u32 b, u32 c, u32 d);
+void rect_fill(u32 a, u32 b, u32 c, u32 d);
 void func_4002ecc4_span(u32 a, u32 b, u32 c);
 void func_4002ce7c(u32 x, u32 y, const char *s);
 void pixel_put(u32 x, u32 y);
@@ -41,15 +41,15 @@ void switch_on_off_draw(u32 x, u32 y, u32 on)
     half_42e68be2_set(2);
     word_42e68c74_set(0x42E64F58u);
     draw_colour_set(t[0]);
-    func_4002ecc4(x, (unsigned short)(y + 2), 0x3C, 0x1C);
+    rect_fill(x, (unsigned short)(y + 2), 0x3C, 0x1C);
     if (on) {
         draw_colour_set(t[1]);
-        func_4002ecc4((unsigned short)(x + 0x1E), (unsigned short)(y + 2), 0x1E, 0x1C);
+        rect_fill((unsigned short)(x + 0x1E), (unsigned short)(y + 2), 0x1E, 0x1C);
         draw_colour_set(t[3]);
         func_4002ce7c((unsigned short)(x + 7), (unsigned short)(y + 10), (const char *)0x40019DB0u);
     } else {
         draw_colour_set(t[2]);
-        func_4002ecc4(x, (unsigned short)(y + 2), 0x1E, 0x1C);
+        rect_fill(x, (unsigned short)(y + 2), 0x1E, 0x1C);
         draw_colour_set(t[3]);
         func_4002ce7c((unsigned short)(x + 0x23), (unsigned short)(y + 10), (const char *)0x40019DB4u);
     }
@@ -64,7 +64,7 @@ void icon_19c7c_draw(u32 x, u32 y)
 {
     int k;
     draw_colour_set(W32(0x409223ECu));
-    func_4002ecc4(x, (unsigned short)(y + 3), 10, 15);
+    rect_fill(x, (unsigned short)(y + 3), 10, 15);
     for (k = 0; k < 8; k++) {
         func_4002ecc4_span((unsigned short)(y + 10 + k), (unsigned short)(x + 10), (unsigned short)(x + 20 - k));
         func_4002ecc4_span((unsigned short)(y + 10 - k), (unsigned short)(x + 10), (unsigned short)(x + 20 - k));
@@ -83,34 +83,34 @@ void slider_draw(u32 x, u32 y, unsigned char v)
     else if (c > 400)
         c = 400;
     draw_colour_set(t[1]);
-    func_4002ecc4(x, y, w, 16);
+    rect_fill(x, y, w, 16);
     draw_colour_set(t[0]);
-    func_4002ecc4((unsigned short)(x + w), y, (unsigned short)(410 - w), 16);
+    rect_fill((unsigned short)(x + w), y, (unsigned short)(410 - w), 16);
     draw_colour_set(t[2]);
-    func_4002ecc4((unsigned short)(x + c - 10), (unsigned short)(y - 12), 20, 40);
+    rect_fill((unsigned short)(x + c - 10), (unsigned short)(y - 12), 20, 40);
 }
 """, src="ui")
 
 wa(0x4001C200, 324, "battery_icon_draw",
    "Draws the battery icon in the rectangle at 0x42E6455E (x, y, w, h): black background, a 13 x 24 outline and the 5 x 2 terminal, a fill of 2 * level (SYS+0x778) pixels, and when SYS+0x779 is set a white charging mark (a bar and a 4-row triangle).", DRAW + """
-void func_4002ec4c(u32 a, u32 b, u32 c, u32 d);
+void rect_outline_draw(u32 a, u32 b, u32 c, u32 d);
 
 void battery_icon_draw(void)
 {
     u32 x = H16(0x42E64520u + 0x3E), y = H16(0x42E64520u + 0x40);
     u32 w = H16(0x42E64520u + 0x42), h = H16(0x42E64520u + 0x44), lv;
     draw_colour_set(0);
-    func_4002ecc4(x, y, w, h);
+    rect_fill(x, y, w, h);
     draw_colour_set(0xDDDDDD);
-    func_4002ec4c(x, (unsigned short)(y + 2), 13, 24);
-    func_4002ecc4((unsigned short)(x + 4), y, 5, 2);
+    rect_outline_draw(x, (unsigned short)(y + 2), 13, 24);
+    rect_fill((unsigned short)(x + 4), y, 5, 2);
     draw_colour_set(0x88FF);
     lv = SYS8(0x778);
-    func_4002ecc4((unsigned short)(x + 2), (unsigned short)(y + 24 - 2 * lv), 9, 2 * lv);
+    rect_fill((unsigned short)(x + 2), (unsigned short)(y + 24 - 2 * lv), 9, 2 * lv);
     if (SYS8(0x779) == 0)
         return;
     draw_colour_set(0xFFFFFF);
-    func_4002ecc4((unsigned short)(x + 5), (unsigned short)(y + 8), 3, 10);
+    rect_fill((unsigned short)(x + 5), (unsigned short)(y + 8), 3, 10);
     func_4002ecc4_span((unsigned short)(y + 0x11), (unsigned short)(x + 3), (unsigned short)(x + 9));
     func_4002ecc4_span((unsigned short)(y + 0x12), (unsigned short)(x + 4), (unsigned short)(x + 8));
     func_4002ecc4_span((unsigned short)(y + 0x13), (unsigned short)(x + 5), (unsigned short)(x + 7));
@@ -119,28 +119,28 @@ void battery_icon_draw(void)
 """, src="ui")
 
 wa(0x40023D04, 340, "window_frame_23d04_draw",
-   "Draws the window whose rectangle is at 0x42E64630 (x, y, w, h): background in colour word 0x409223B8, eight 0x555555 segments (func_4002ed90) near the top and bottom, and registers the rectangle as touch button 0x42E62716.", DRAW + """
-void func_4002ed90(u32 a, u32 b, u32 c, u32 d);
+   "Draws the window whose rectangle is at 0x42E64630 (x, y, w, h): background in colour word 0x409223B8, eight 0x555555 segments (line_draw) near the top and bottom, and registers the rectangle as touch button 0x42E62716.", DRAW + """
+void line_draw(u32 a, u32 b, u32 c, u32 d);
 void touch_button_set_rect(u32 x, u32 y, u32 wd, u32 ht, volatile unsigned char *b);
 
 void window_frame_23d04_draw(void)
 {
     u32 x = H16(0x42E64630u), y = H16(0x42E64632u), w = H16(0x42E64634u), h = H16(0x42E64636u), t, u;
     draw_colour_set(W32(0x409223B8u));
-    func_4002ecc4(x, y, w, h);
+    rect_fill(x, y, w, h);
     draw_colour_set(0x555555);
-    func_4002ed90(x + 0xB, y + 0x19, x + 0x1F, y + 0xF);
-    func_4002ed90(x + 0x34, y + 0x19, x + 0x20, y + 0xF);
-    func_4002ed90(x + 0xB, y + 0x1A, x + 0x1F, y + 0x10);
-    func_4002ed90(x + 0x34, y + 0x1A, x + 0x20, y + 0x10);
+    line_draw(x + 0xB, y + 0x19, x + 0x1F, y + 0xF);
+    line_draw(x + 0x34, y + 0x19, x + 0x20, y + 0xF);
+    line_draw(x + 0xB, y + 0x1A, x + 0x1F, y + 0x10);
+    line_draw(x + 0x34, y + 0x1A, x + 0x20, y + 0x10);
     t = h + y - 0x1B;
     u = h + y - 0x11;
-    func_4002ed90(x + 0xB, t, x + 0x1F, u);
-    func_4002ed90(x + 0x34, t, x + 0x20, u);
+    line_draw(x + 0xB, t, x + 0x1F, u);
+    line_draw(x + 0x34, t, x + 0x20, u);
     t = h + y - 0x1C;
     u = h + y - 0x12;
-    func_4002ed90(x + 0xB, t, x + 0x1F, u);
-    func_4002ed90(x + 0x34, t, x + 0x20, u);
+    line_draw(x + 0xB, t, x + 0x1F, u);
+    line_draw(x + 0x34, t, x + 0x20, u);
     touch_button_set_rect(x, y, w, h, (volatile unsigned char *)0x42E62716u);
 }
 """, src="ui")

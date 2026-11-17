@@ -128,7 +128,7 @@ void func_4003eb40(void);
 void state_block_3f984_init(void);
 void state_block_180c8_init(void);
 void state_block_68668_init(void);
-void func_40030060(u32 a, u32 k);
+void marker_value_add(u32 a, u32 k);
 void state_backup_all(void);
 
 void state_blocks_init(void)
@@ -137,12 +137,12 @@ void state_blocks_init(void)
     state_block_3f984_init();
     state_block_180c8_init();
     state_block_68668_init();
-    func_40030060(0, 7);
-    func_40030060(0, 6);
-    func_40030060(0, 3);
-    func_40030060(0, 4);
-    func_40030060(0, 5);
-    func_40030060(0, 2);
+    marker_value_add(0, 7);
+    marker_value_add(0, 6);
+    marker_value_add(0, 3);
+    marker_value_add(0, 4);
+    marker_value_add(0, 5);
+    marker_value_add(0, 2);
     state_backup_all();
 }
 """)

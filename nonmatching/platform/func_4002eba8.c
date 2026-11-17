@@ -7,9 +7,9 @@
 
 #include "hw/fpga.h"
 
-void func_4002ecc4(u32 a, u32 b, u32 c, u32 d);
+void rect_fill(u32 a, u32 b, u32 c, u32 d);
 
 void func_4002ecc4_span(u32 a, u32 b, u32 c)
 {
-    func_4002ecc4(b, a, (c - b + 1) & 0xFFFF, 1);
+    rect_fill(b, a, (c - b + 1) & 0xFFFF, 1);
 }

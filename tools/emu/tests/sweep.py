@@ -891,3 +891,109 @@ def t_chain(r):
 
 
 TESTS[0x40037AB8] = t_chain
+
+
+# ================================================================ batch 33: drawing primitives, buttons, markers
+FB_T = SYS + 0x100000     # drawing target used by these tests
+CBLK = 0x42E6865C
+
+
+def colour(r, alpha=None):
+    a = alpha if alpha is not None else r.choice([0, 0, 1, 0x80, 0xFF])
+    return writes([(CBLK, bytes([a]) + bytes(r.getrandbits(8) for _ in range(11)))])
+
+
+def t_vline(r):
+    x, y0 = r.randrange(0, 1022), r.randrange(0, 8)
+    y1 = r.choice([y0, y0 + r.randrange(1, 6), y0 - 1, y0 - 3, 0xFFFE0000 + y0])
+    return Case([x, y0, y1 & 0xFFFFFFFF], compose(writes([(0x40095498, i32(FB_T))]), colour(r)), ret=V,
+                stubs=(rec("pixel", EB70, 2),))
+
+
+def t_rect(r):
+    x, y = r.randrange(0, 1000), r.randrange(0, 8)
+    w, h = r.choice([0, 1, 2, 5, 20, 0xFFFFFFFF]), r.choice([0, 1, 2, 4, 0xFFFFFFFE])
+    return Case([x, y, w, h], compose(writes([(0x40095498, i32(FB_T))]), colour(r)), ret=V,
+                stubs=(rec("blend", 0x4002EA88, 2), rec("fill", 0x400356F4, 3)))
+
+
+TESTS[0x4002EBC8] = t_vline
+TESTS[0x4002ECC4] = t_rect
+TESTS[0x4002EC4C] = lambda r: Case([xy(r), xy(r), xy(r), xy(r)], ret=V, stubs=(rec("rect", ECC4, 4),))
+
+
+def t_line(r):
+    x0, y0 = r.randrange(0, 900), r.randrange(0, 500)
+    x1 = r.choice([x0, x0 + r.randrange(1, 30), x0 - r.randrange(1, 30)])
+    y1 = r.choice([y0, y0 + r.randrange(1, 300), y0 - r.randrange(1, 300)])
+    return Case([x0, y0, x1, y1], ret=V, stubs=(rec("vline", 0x4002EBC8, 3),))
+
+
+TESTS[0x4002ED90] = t_line
+
+
+def t_d6f8(r):
+    st = [(r.getrandbits(24) << 8) | r.choice([0, 1, 2, 3]) for _ in range(3)] + [r.getrandbits(32)]
+    st[0] = r.getrandbits(32)
+    return Case([xy(r), xy(r), rnd(r), rnd(r)], rand_block(r, CBLK, 12), ret=V, stack=st,
+                stubs=(rec("colour", EA38, 1), rec_stk("txt", 0x4002D6F8, 1)))
+
+
+TESTS[0x4002D724] = t_d6f8
+
+
+def t_tint(r):
+    c = t_char(r)
+    c.setup = compose(c.setup, colour(r))
+    c.stubs = draw_stubs()
+    return c
+
+
+TESTS[0x4002E878] = t_tint
+
+
+def t_msgbox(r):
+    wd = r.choice([0, 10, 100, 400, 0xFFFF, 0xFFFFFFF0])
+    return Case([r.choice([0, 5, 30, 200, 800, 0xFFFFFFFB, 0xFFFF]), r.choice([0, 10, 24, 25, 60, 300, 0xFFFFFFFF]), rnd(r),
+                 r.choice([0, 1, 2, 3, 0xFF])], compose(rand_block(r, 0x42E68C38, 8), rand_block(r, 0x409223BC, 4)),
+                ret=V, stubs=(rec("font", 0x4002CCCC, 1), rec("half", 0x4002DC40, 1),
+                              rec("width", 0x4002D164, 1, ret=wd), rec("save", 0x400342FC, 4),
+                              rec("back", 0x400342DC, 0), rec("colour", EA38, 1), rec("rect", ECC4, 4),
+                              rec_stk("text", 0x4002D0D4, 2), rec("present", 0x400343C4, 4)))
+
+
+TESTS[0x40034134] = t_msgbox
+TBU = 0x4002F2BC
+TESTS[0x4002F968] = lambda r: Case([], writes([(0x42E3F984 + 0xC, bytes([r.choice([0, 0, 1, 0x80])]))]), ret=V,
+                                   stubs=(rec("tbu", TBU, 1),))
+for _a in (0x4002FAAC, 0x4002FB98, 0x4002FC38):
+    TESTS[_a] = lambda r: Case([], writes([(SYS + 0xF9A, s16(r.choice([0, 1, 2, 5, 12, 20])))]), ret=V,
+                               stubs=(rec("tbu", TBU, 1),))
+TESTS[0x4002FDCC] = lambda r: Case([], ret=V, stubs=(rec("tbu", TBU, 1),))
+
+
+def t_marker(r):
+    vals = [r.choice([0, 0, 1, -1, 5, -5, 100, r.getrandbits(16) - 0x8000]) for _ in range(24)]
+    v = r.choice(vals + [0, 1, -1, 5, -5, 100, r.getrandbits(32)])
+    return Case([r.choice([0, 1, 2, 0xFF]), v & 0xFFFFFFFF],
+                writes([(SYS + 0x800, bytes([r.getrandbits(8), r.choice([0, 0xFF, r.getrandbits(8)])])),
+                        (SYS + 0x880, b"".join(s16(x) for x in vals))]), ret=V)
+
+
+TESTS[0x40030060] = t_marker
+
+
+def t_minmax(r):
+    buf = SYS + 0x180000
+    e = r.choice([0, 1, 2, 10, 40, 100])
+    s0 = r.choice([0, 0, 1, e, e + 2])
+    data = bytes(r.getrandbits(8) for _ in range(0x100))
+    return Case([r.choice([0, 1, 2, 3])], writes([(SYS + 0x7B4, i32(buf) + i32(buf + 0x10) + i32(buf) + i32(buf)),
+                                               (SYS + 0x2B0, i32(s0) + i32(e)),
+                                               (SYS + 0x3E, bytes([r.choice([0, 1])])),
+                                               (SYS + 0x102, bytes([r.choice([0, 1])])),
+                                               (SYS + 0xB60, bytes(r.getrandbits(8) for _ in range(0x38))),
+                                               (buf, data)]), ret=V)
+
+
+TESTS[0x40032A58] = t_minmax

@@ -334,6 +334,19 @@ MUTANTS = [
     (0x40032D3C, '        else if (d >= 2)', '        else if (d >= 1)'),
     (0x40037944, '    else if (c < -v)', '    else if (c < v)'),
     (0x40037B48, '    } while (H32(4) >= v);', '    } while (H32(4) > v);'),
+    # batch 33: drawing primitives, buttons, markers
+    (0x4002EBC8, '    int end = y1 + 1;', '    int end = y1;'),
+    (0x4002ECC4, '            o += 0x7FC;', '            o += 0x7FE;'),
+    (0x4002EC4C, '    rect_fill(x, (unsigned short)(h + y + 0xFFFF), w, 1);', '    rect_fill(x, (unsigned short)(h + y), w, 1);'),
+    (0x4002ED90, '            if (y >= prev)\n                vline_draw((unsigned short)x, (unsigned short)prev, (unsigned short)y);\n            else\n                vline_draw((unsigned short)x, (unsigned short)y, (unsigned short)prev);\n            x++;', '            vline_draw((unsigned short)x, (unsigned short)prev, (unsigned short)y);\n            x++;'),
+    (0x4002D724, '        y = (unsigned short)y;\n', ''),
+    (0x4002E878, '            cg = v * g0 / 255;', '            cg = v * g0 / 256;'),
+    (0x40034134, '    if (align == 0 || align == 2) {', '    if (align == 0) {'),
+    (0x4002F968, '    TBU(0x64C);\n', ''),
+    (0x4002FB98, '    for (i = 0; i < SYS16(0xF9A); i++)', '    for (i = 1; i < SYS16(0xF9A); i++)'),
+    (0x40030060, '        SYS8(0x801)++;', '        SYS8(0x800)++;'),
+    (0x40032A58, '    SYS32(orng) = mx - mn;', '    SYS32(orng) = mn - mx;'),
+    (0x40032A58, 'mx = 0, mn = 0xFFFFFF;', 'mx = 0, mn = 0xFFFF;'),
 ]
 
 

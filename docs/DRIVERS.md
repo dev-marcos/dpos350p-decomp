@@ -1061,6 +1061,47 @@ Spec: `tools/platform_spec/za_widgets_fonts.py`, 19 functions. Tests: `tools/emu
   - `trace_update_chain` runs both of them, then the redraw steps that the flags
     0x42E1810C..0x42E1810F select.
 
+## Drawing primitives, message box, button groups (batch 33)
+
+Spec: `tools/platform_spec/zb_draw_prims.py`, 14 functions. Tests: `tools/emu/tests/sweep.py`.
+
+- **Primitives.** The colour block is at 0x42E6865C (+0 alpha, +1..+3 R G B, +4 RGB565, +8
+  whole word).
+  - `vline_draw(x, y0, y1)` draws y0..y1 inclusive;
+  - `rect_fill(x, y, w, h)`;
+  - `rect_outline_draw`: the firmware falls through into `rect_fill` for its last side;
+  - `line_draw` uses vertical segments with a slope × 10000. When x1 = x0 the slope is 0, as the
+    `sdiv` instruction gives.
+  - When alpha is non-zero, `vline_draw` and `rect_fill` blend every pixel (`pixel_put` and
+    `pixel_blend`). Otherwise they store the RGB565 value directly, with stride 1022.
+- **Glyphs and text:**
+  - `font_char_tint_draw` is `font_char_draw` with each glyph byte used as an intensity
+    (anti-aliased text). It rewrites the colour block for every pixel and restores the colour
+    word at the end;
+  - `text_d6f8_shadow_draw` is the shadow wrapper of the text routine 0x4002D6F8.
+- **Message box.** 0x40034134 was declared in `fpga.h` as "draws an image (OPEN)". It is
+  `message_box_draw(x, y, text, align)`:
+  - width = text width (0x4002D164) + 50, height 50;
+  - align 0 centres the box above the point, align 2 puts it to the upper left;
+  - it saves the area under the box first (`fb_rect_copy_to_e4e84`), keeps the rectangle in
+    0x42E68C38 for the later restore (`rect_42e68c38_draw`), and draws the text with a shadow.
+
+  So the "images" that the save routines of batch 31 show are messages. Their text pointers are
+  words in the table at 0x42C2FE74. That this table holds the strings of the current language is
+  DERIVED.
+- **Button groups.** Five functions call `touch_button_update` for fixed groups of the button
+  array at 0x42E61FF8. Three of the groups are as long as the list page size SYS+0xF9A.
+- **Data:**
+  - `marker_value_add(mode, v)` keeps a set of 24 s16 values at SYS+0x880, with counters at
+    SYS+0x800 and SYS+0x801;
+  - `channel_minmax_stats(ch)` computes the max, min, mean and range of the middle half of the
+    samples of channel ch.
+- Still in assembly:
+  - 0x4002D164 (text width): for an invalid UTF-8 lead byte it uses a length register that
+    was never set;
+  - 0x400300E8, the counterpart of `marker_value_add`: when the value is absent it uses an
+    index register that was never set.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).
