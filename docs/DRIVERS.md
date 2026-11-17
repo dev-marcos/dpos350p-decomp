@@ -894,6 +894,44 @@ new suite (see CONTRIBUTING.md).
     return an odd value, and stores the result at 0x42E68B25;
   - three reload chains call fixed lists of screen refreshes and clear SYS+0xF90, +0xF9E, +0xFA4.
 
+## Colour, buffer copy, the list at SYS+0xFA0, clamps and labels (batch 29)
+
+Spec: `tools/platform_spec/x_lists_colour.py`, 23 functions. Tests: `tools/emu/tests/sweep.py`.
+
+- **Drawing colour**: `draw_colour_set(0xAARRGGBB)` fills the block 0x42E6865C.
+  - +0 = A, +1 = R, +2 = G, +3 = B, +4 = RGB565, +8 = the whole word.
+  - `pixel_put` (batch 28) blends through 0x4002EA88 when byte +0 is non-zero, so the high byte
+    works as alpha (DERIVED).
+- **Buffer copy**: `fb_rect_copy_from_e4e84(x0, y0, x1, y1)` copies a rectangle of 16-bit
+  pixels, stride 1022, from 0x420E4E84 to 0x41FB8FE8. It then cleans the data cache.
+- **The list at SYS+0xFA0** (s16 count at +0xFA0, u16 entries from +0xFA4). The list holds
+  entries of some kind; which ones is OPEN.
+  - Three insert functions shift the entries up and put the new one at +0xFA6. They take the
+    shift length from SYS+0x754, +0x756 or +0x758 (the last one minus 1).
+  - Three identical functions count the non-zero bytes at SYS+0x5DC6 into SYS+0x88BE.
+  - Three identical functions clamp the indices +0xFA4 and +0xF9E.
+  - `list_current_advance(i)` moves the current entry SYS+0x3DA52E on when it is entry i.
+  - `array_3da548_decimate(n)` keeps every n-th u16 of the array SYS+0x3DA548.
+- **Clamps**:
+  - SYS+0x810/+0x814 stay in 12..(SYS+0xA) − 15;
+  - SYS+0x808/+0x80C stay in 12..(SYS+8) − 12;
+  - the words +0xAC64/+0xAC68 of the block 0x42E180C8 stay in 2..(its +4) − 2.
+
+  The SYS+4..+0xA rectangle of batch 28 suggests that these are cursor positions inside the
+  plot area (DERIVED).
+- **Labels**: `level_label_db` and `level_label_dbmv` format a value passed in d0 (0x40038C00)
+  and write the unit text "dB" or "dBmV" after it.
+- **File checks**: two functions build a path into 0x4054D728 (0x40034B78 or 0x40035BC4), then
+  try `f_open` in read mode. They return 1 when that works and close the file again.
+- **Frame update**: `ui_frame_chain` (0x400346C0) runs the per-frame chain:
+  - outputs, plot rectangle, acquisition dispatch and re-arm, traces, zoom views, and further
+    screen updates;
+  - most of them do nothing while touch byte +0x17 is set;
+  - the draw function of window 5 calls it.
+- **Window 40**: `ui_window_40_draw` runs the screen chain of the block 0x42E68668. The steps
+  0x40060FE8, 0x40060DC8 and 0x40061F10 are skipped when both +0 and +4 are set.
+- `fpga_cmd1c_write`: selector 0x1C with the word SYS+0x28C, like 0x1B with SYS+0x288.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

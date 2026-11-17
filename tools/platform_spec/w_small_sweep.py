@@ -115,52 +115,52 @@ void func_4002ecc4_span(u32 a, u32 b, u32 c)
 }
 """, src="display")
 w(0x4002C5C4, 48, "sys_rect_fill", "Colour 0 (0x4002EA38), then 0x4002ECC4 with the four u16 at SYS+4, +6, +8, +0xA.", """
-void func_4002ea38(u32 c);
+void draw_colour_set(u32 c);
 void func_4002ecc4(u32 a, u32 b, u32 c, u32 d);
 
 void sys_rect_fill(void)
 {
-    func_4002ea38(0);
+    draw_colour_set(0);
     func_4002ecc4(SYS16(4), SYS16(6), SYS16(8), SYS16(0xA));
 }
 """, src="display")
 w(0x40034284, 48, "rect_42e68c38_draw",
   "u16 x, y, w, h at 0x42E68C38: 0x4003436C(x, y, (u16)(x + w + 1), (u16)(y + h + 1)).", """
-void func_4003436c(u32 a, u32 b, u32 c, u32 d);
+void fb_rect_copy_from_e4e84(u32 a, u32 b, u32 c, u32 d);
 
 void rect_42e68c38_draw(void)
 {
     volatile unsigned short *h = (volatile unsigned short *)0x42E68C38u;
     u32 x = h[0], y = h[1];
-    func_4003436c(x, y, (h[2] + x + 1) & 0xFFFF, (h[3] + y + 1) & 0xFFFF);
+    fb_rect_copy_from_e4e84(x, y, (h[2] + x + 1) & 0xFFFF, (h[3] + y + 1) & 0xFFFF);
 }
 """, src="display")
 w(0x40031710, 48, "colour_toggle_42e68d1a",
   "Toggles byte 0x42E68D1A and sets the colour 0x10262626 (was set) or 0x10303030 (was clear) through 0x4002EA38.", """
-void func_4002ea38(u32 c);
+void draw_colour_set(u32 c);
 
 void colour_toggle_42e68d1a(void)
 {
     volatile unsigned char *p = (volatile unsigned char *)0x42E68D1Au;
     if (*p) {
         *p = 0;
-        func_4002ea38(0x10262626u);
+        draw_colour_set(0x10262626u);
     } else {
         *p = 1;
-        func_4002ea38(0x10303030u);
+        draw_colour_set(0x10303030u);
     }
 }
 """, src="display")
 w(0x4001C348, 52, "ui_window_05_draw",
   "Draw function of window 5: touch_button_set_rect(rectangle of window record 5 = u16 at 0x42E64520+0x4C..+0x52, button record 0x42E620EA), then 0x400346C0.", """
 void touch_button_set_rect(u32 x, u32 y, u32 wd, u32 ht, volatile unsigned char *b);
-void func_400346c0(void);
+void ui_frame_chain(void);
 
 void ui_window_05_draw(void)
 {
     volatile unsigned short *wn = (volatile unsigned short *)0x42E64520u;
     touch_button_set_rect(wn[0x26], wn[0x27], wn[0x28], wn[0x29], (volatile unsigned char *)0x42E620EAu);
-    func_400346c0();
+    ui_frame_chain();
 }
 """)
 w(0x4002DC4C, 40, "draw_state_defaults",
@@ -181,7 +181,7 @@ void draw_state_defaults(void)
 w(0x400344E0, 44, "display_start",
   "draw_state_defaults, colour 0x00FFFFFF, word_42e68c74_set(0x42E64A98), lcd_start, fb_clear_all.", """
 void draw_state_defaults(void);
-void func_4002ea38(u32 c);
+void draw_colour_set(u32 c);
 void word_42e68c74_set(u32 a);
 void lcd_start(void);
 void fb_clear_all(void);
@@ -189,7 +189,7 @@ void fb_clear_all(void);
 void display_start(void)
 {
     draw_state_defaults();
-    func_4002ea38(0x00FFFFFFu);
+    draw_colour_set(0x00FFFFFFu);
     word_42e68c74_set(0x42E64A98u);
     lcd_start();
     fb_clear_all();
@@ -435,7 +435,7 @@ void func_40036bdc(void);
 void func_4003709c(void);
 void func_40036864(void);
 void func_40036de4(void);
-void func_40036d88(u32 a);
+void list_fa4_insert_758(u32 a);
 void func_40036c54(void);
 void func_40036d10(void);
 
@@ -446,7 +446,7 @@ void reload_chain_400373e0(void)
     func_4003709c();
     func_40036864();
     func_40036de4();
-    func_40036d88(*(volatile unsigned short *)0x40545E04u);
+    list_fa4_insert_758(*(volatile unsigned short *)0x40545E04u);
     func_40036c54();
     func_40036d10();
 }
@@ -456,14 +456,14 @@ w(0x400378E0, 56, "reload_chain_400378e0",
 void func_40036b00(void);
 void func_40036bdc(void);
 void func_400377f8(void);
-void func_4003771c(void);
+void list_cursor_clamp_4003771c(void);
 
 void reload_chain_400378e0(void)
 {
     func_40036b00();
     func_40036bdc();
     func_400377f8();
-    func_4003771c();
+    list_cursor_clamp_4003771c();
     SYS8(0xF90) = 0;
     SYS16(0xFA4) = 0;
     SYS16(0xF9E) = 0;
@@ -473,7 +473,7 @@ w(0x40035744, 60, "reload_chain_40035744",
   "0x400358B8, 0x400363CC, SYS+0xF90 = 0, u16 SYS+0xFA4 = 0, u16 SYS+0xF9E = 0, then 0x400362F4, 0x4003656C, 0x400365F4.", """
 void func_400358b8(void);
 void func_400363cc(void);
-void func_400362f4(void);
+void list_cursor_clamp_400362f4(void);
 void func_4003656c(void);
 void func_400365f4(void);
 
@@ -484,7 +484,7 @@ void reload_chain_40035744(void)
     SYS8(0xF90) = 0;
     SYS16(0xFA4) = 0;
     SYS16(0xF9E) = 0;
-    func_400362f4();
+    list_cursor_clamp_400362f4();
     func_4003656c();
     func_400365f4();
 }

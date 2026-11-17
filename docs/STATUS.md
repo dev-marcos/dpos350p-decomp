@@ -1,6 +1,6 @@
 # Project status and resume point
 
-Snapshot from 2026-11-16, after Phase 5 batch 28. All addresses apply to build
+Snapshot from 2026-11-16, after Phase 5 batch 29. All addresses apply to build
 2025-06-19 only. Work is paused here; this page is the place to start from next time.
 
 ## 1. Where things stand
@@ -8,12 +8,12 @@ Snapshot from 2026-11-16, after Phase 5 batch 28. All addresses apply to build
 | Item | State |
 |---|---|
 | `make check` | MATCH, SHA-256 `6635ddd6…cefd58c` |
-| Functions with equivalent C | 926 of 1354 (68.39%) |
-| Code bytes covered by C | 95,142 of 337,504 (28.19%) |
+| Functions with equivalent C | 949 of 1354 (70.09%) |
+| Code bytes covered by C | 97,002 of 337,504 (28.74%) |
 | MATCHING C | 0 by construction: Arm Compiler 5 is not licensed here (docs/COMPILER.md) |
-| Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library); full suite after batch 28, all 926 EQUIVALENT (unchanged builds keep their cached result, see CONTRIBUTING.md) |
-| Mutation self-test | 237/237 mutants detected (`make selftest`) |
-| TEST image | `make testiso`: 569 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
+| Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library); full suite after batch 29, all 949 EQUIVALENT (unchanged builds keep their cached result, see CONTRIBUTING.md) |
+| Mutation self-test | 249/249 mutants detected (`make selftest`) |
+| TEST image | `make testiso`: 583 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
 | Browser emulator | repo `dev-marcos/dpos350p-emu`, submodule `tools/sim` at `5ed2f7e`, runs fully in the browser (docs/SIM.md) |
 
 The two numbers in the table differ because the finished work is mostly small and medium
@@ -49,6 +49,7 @@ functions. The large ones (UI, the table builders, the calibration steps) are st
 | 26 | sectioned settings image (encode/decode, records I and J), UI text table with four language columns, `str_copy`, numeric entry pad, trace-span veneers | 26 | DRIVERS.md |
 | 27 | touch buttons (record update, rectangles, 36 group updaters, three release handlers), window touch handling, entry-pad modes and sign, sine table, layer clear, small gates | 59 | DRIVERS.md |
 | 28 | small leftovers: setters, touch and SYS+0x652 gates, one-byte FPGA commands, pixel and rectangle wrappers, display start, window 5 draw, reload chains (tests in the new `sweep.py` suite) | 45 | DRIVERS.md |
+| 29 | drawing colour, buffer rectangle copy, the list at SYS+0xFA0 (insert, count, clamps), cursor clamps, dB/dBmV labels, file-exists checks, per-frame UI chain, window 40 draw, FPGA 0x1C | 23 | DRIVERS.md |
 
 The exact list, with addresses and case counts, is in PROGRESS.md (`make progress`).
 

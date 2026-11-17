@@ -7,14 +7,14 @@
 
 #include "hw/fpga.h"
 
-void func_4002ea38(u32 c);
+void draw_colour_set(u32 c);
 void func_4002ee78(u32 x, u32 y, u32 s);
 
 void draw_text_shadowed(u32 x, u32 y, u32 s, u32 dx, u32 dy, u32 col)
 {
     u32 saved = *(volatile u32 *)0x42E68664u;
-    func_4002ea38((col & 0xFF) << 24);
+    draw_colour_set((col & 0xFF) << 24);
     func_4002ee78((x + dx) & 0xFFFF, (y + (dy & 0xFF)) & 0xFFFF, s);
-    func_4002ea38(saved);
+    draw_colour_set(saved);
     func_4002ee78(x, y, s);
 }

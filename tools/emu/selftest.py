@@ -282,6 +282,19 @@ MUTANTS = [
     (0x4002D6D4, 'e & 0xFF, 1)', 'e, 1)'),
     (0x40024E14, 'if (SYS8(0x652) == 0)', 'if (SYS8(0x652) != 1)'),
     (0x40034284, '(h[3] + y + 1)', '(h[3] + x + 1)'),
+    # batch 29: colour, buffer copy, list at SYS+0xFA0, clamps, labels, file checks
+    (0x4002EA38, '((c >> 19) << 11)', '((c >> 18) << 11)'),
+    (0x4003436C, 'for (y = y0; y < y1; y++)', 'for (y = y0; y <= y1; y++)'),
+    (0x40036D88, '(int)SYS16(0x758) - 1; k >= 1', '(int)SYS16(0x758) - 0; k >= 1'),
+    (0x400353A8, 'if (*p++)', 'if (*p++ > 1)'),
+    (0x40035248, 'if (m < v)\n            SS16(0xF9E) = m;', 'if (m <= v)\n            SS16(0xF9E) = m + 1;'),
+    (0x40037418, 'if (i < SS16(0xFA0) - 1)', 'if (i <= SS16(0xFA0) - 1)'),
+    (0x400374EC, 's += n;', 's += n - 1;'),
+    (0x400340D4, 'if (v < 12) {\n        SYS32(0x814) = 12;', 'if (v < 11) {\n        SYS32(0x814) = 12;'),
+    (0x40037A60, 'if (lim <= x)', 'if (lim < x - 1)'),
+    (0x40038DEC, 'c & 0xFF, v);', 'c & 0xFF, -v);'),
+    (0x400353F4, 'if (f_open(fil, (const char *)0x4054D728u, 1) == 0) {', 'if (f_open(fil, (const char *)0x4054D728u, 1) != 1) {'),
+    (0x40062EE8, 'if (CB8(0) == 0 || CB8(4) == 0) {', 'if (CB8(0) == 0 && CB8(4) == 0) {'),
 ]
 
 

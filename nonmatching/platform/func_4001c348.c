@@ -8,11 +8,11 @@
 #include "hw/fpga.h"
 
 void touch_button_set_rect(u32 x, u32 y, u32 wd, u32 ht, volatile unsigned char *b);
-void func_400346c0(void);
+void ui_frame_chain(void);
 
 void ui_window_05_draw(void)
 {
     volatile unsigned short *wn = (volatile unsigned short *)0x42E64520u;
     touch_button_set_rect(wn[0x26], wn[0x27], wn[0x28], wn[0x29], (volatile unsigned char *)0x42E620EAu);
-    func_400346c0();
+    ui_frame_chain();
 }

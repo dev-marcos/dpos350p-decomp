@@ -7,11 +7,11 @@
 
 #include "hw/fpga.h"
 
-void func_4002ea38(u32 c);
+void draw_colour_set(u32 c);
 void func_4002ecc4(u32 a, u32 b, u32 c, u32 d);
 
 void sys_rect_fill(void)
 {
-    func_4002ea38(0);
+    draw_colour_set(0);
     func_4002ecc4(SYS16(4), SYS16(6), SYS16(8), SYS16(0xA));
 }

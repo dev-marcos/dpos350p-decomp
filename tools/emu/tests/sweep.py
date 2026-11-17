@@ -194,3 +194,181 @@ TESTS[0x400378E0] = lambda r: Case([], rand_block(r, SYS + 0xF88, 0x28), ret=V, 
     ("6b00", 0x40036B00), ("6bdc", 0x40036BDC), ("77f8", 0x400377F8), ("771c", 0x4003771C))))
 TESTS[0x40035744] = lambda r: Case([], rand_block(r, SYS + 0xF88, 0x28), ret=V, stubs=tuple(rec(n, a, 0) for n, a in (
     ("58b8", 0x400358B8), ("63cc", 0x400363CC), ("62f4", 0x400362F4), ("656c", 0x4003656C), ("65f4", 0x400365F4))))
+
+
+# ================================================================ batch 29
+def s16(v):
+    return (v & 0xFFFF).to_bytes(2, "little")
+
+
+def i32(v):
+    return (v & 0xFFFFFFFF).to_bytes(4, "little")
+
+
+def writes(items):
+    """[(address, bytes)] written in order."""
+    return lambda m: [m.write(a, b) for a, b in items]
+
+
+TESTS[0x4002EA38] = lambda r: Case([rnd(r)], rand_block(r, 0x42E6865C, 16), ret=V)
+
+
+def t_rect_copy(r):
+    x0 = r.randrange(0, 1000)
+    x1 = r.choice([x0, x0 + r.randrange(1, 40), max(0, x0 - 3)])
+    y0 = r.randrange(0, 600)
+    y1 = r.choice([y0, y0 + r.randrange(1, 6), max(0, y0 - 2)])
+    rows = []
+    xa, xb = max(0, min(x0, x1) - 1), max(x0, x1) + 1
+    for y in range(max(0, min(y0, y1) - 1), max(y0, y1) + 2):
+        rows.append((0x420E4E84 + 2 * (xa + 1022 * y), bytes(r.getrandbits(8) for _ in range(2 * (xb - xa)))))
+    return Case([x0, y0, x1, y1], writes(rows), ret=V, stubs=(rec("dc", 0x4003E6F4, 4),))
+
+
+TESTS[0x4003436C] = t_rect_copy
+
+SMALLN = [0, 0, 1, 2, 3, 7, 15, 20]
+
+
+def t_insert(cnt):
+    def t(r):
+        n = r.choice(SMALLN)
+        c = r.choice([-1, 0, 1, 5, 100, r.getrandbits(16)])
+        blk = bytes(r.getrandbits(8) for _ in range(0x40))
+        return Case([rnd(r)], writes([(SYS + 0xFA0, blk), (SYS + cnt, s16(n)), (SYS + 0xFA0, s16(c))]), ret=V)
+    return t
+
+
+for _a, _c in ((0x400349B4, 0x754), (0x40035A00, 0x756), (0x40036D88, 0x758)):
+    TESTS[_a] = t_insert(_c)
+
+
+def t_count(r):
+    n = r.choice([-1, -0x8000, 0, 1, 2, 17, 40])
+    data = bytes(r.choice([0, 0, 1, r.getrandbits(8)]) for _ in range(48))
+    return Case([], writes([(SYS + 0x88BC, bytes(r.getrandbits(8) for _ in range(4))), (SYS + 0x5DC6, data),
+                            (SYS + 0xFA0, s16(n))]), ret=V)
+
+
+for _a in (0x400353A8, 0x40036454, 0x40037880):
+    TESTS[_a] = t_count
+
+CV = [-0x8000, -3, -1, 0, 1, 2, 5, 30, 31, 100, 0x7FFF]
+
+
+def t_clamp(r):
+    vals = [r.choice(CV + [r.getrandbits(16)]) for _ in range(5)]
+    return Case([], writes([(SYS + 0xF9E + 2 * i, s16(v)) for i, v in enumerate(vals)]), ret=V)
+
+
+for _a in (0x40035248, 0x400362F4, 0x4003771C):
+    TESTS[_a] = t_clamp
+
+
+def t_advance(r):
+    i = r.choice([0, 1, 2, 5, 9, -1, r.getrandbits(32)]) if r.random() < 0.9 else r.randrange(0, 12)
+    ii = i if i < 0x80000000 else i - (1 << 32)
+    blk = bytearray(r.getrandbits(8) for _ in range(0x40))
+    cur = r.getrandbits(16)
+    items = [(SYS + 0xFA0, bytes(blk))]
+    if -1 <= ii < 12:
+        cnt = r.choice([ii, ii + 1, ii + 2, ii + 5, 0])
+        items.append((SYS + 0xFA0, s16(cnt)))
+        if r.random() < 0.7:
+            items.append((SYS + 0xFA6 + 2 * ii, s16(cur)))
+        stray = []
+    else:
+        ii = 0
+        i = 0
+    items.append((SYS + 0x3DA52C, bytes(r.getrandbits(8) for _ in range(4))))
+    items.append((SYS + 0x3DA52E, s16(cur)))
+    return Case([i & 0xFFFFFFFF], writes(items), ret=V)
+
+
+TESTS[0x40037418] = t_advance
+
+
+def t_decimate(r):
+    n = r.choice([-1, 0, 1, 2, 3, 5, 0x80000000])
+    w = r.choice([0, 1, 7, 40, 100, -5])
+    data = bytes(r.getrandbits(8) for _ in range(220))
+    return Case([n & 0xFFFFFFFF], writes([(SYS + 0x3DA53C, i32(w)), (SYS + 0x3DA548, data)]), ret=V)
+
+
+TESTS[0x400374EC] = t_decimate
+WV = [-5, 0, 11, 12, 13, 500, 588, 1000, 0x7FFFFFFF, -0x80000000]
+HV = [0, 10, 24, 27, 600, 1022, 0xFFFF]
+
+
+def t_cursor(a0, h):
+    def t(r):
+        v0, v1 = r.choice(WV + [r.getrandbits(32)]), r.choice(WV + [r.getrandbits(32)])
+        hv = r.choice(HV + [r.getrandbits(16)])
+        return Case([], writes([(SYS + a0, i32(v0)), (SYS + a0 + 4, i32(v1)), (SYS + h, s16(hv))]), ret=V)
+    return t
+
+
+TESTS[0x400340D4] = t_cursor(0x810, 0xA)
+TESTS[0x4003407C] = t_cursor(0x808, 8)
+
+
+def t_ac64(r):
+    b = 0x42E180C8
+    v0, v1 = r.choice([-1, 0, 1, 2, 3, 500, 1000, r.getrandbits(32)]), r.choice([-1, 0, 1, 2, 3, 500, r.getrandbits(32)])
+    lim = r.choice([0, 1, 2, 3, 4, 300, 1022, r.getrandbits(16)])
+    return Case([], writes([(b + 4, s16(lim)), (b + 0xAC64, i32(v0)), (b + 0xAC68, i32(v1))]), ret=V)
+
+
+TESTS[0x40037A60] = t_ac64
+
+
+def rec_d0(name, addr, nargs):
+    def fn(m, a):
+        m.calls.append((name + "/d0", m.reg(A.UC_ARM_REG_D0)))
+    return Stub(name, addr, fn, nargs)
+
+
+def t_label(r):
+    c = Case([rnd(r), rnd(r), rnd(r)], rand_block(r, 0x42E68BE0, 8), ret=V,
+             stubs=(rec_d0("c00", 0x40038C00, 3), rec("ce7c", 0x4002CE7C, 3)))
+    c.dregs = {0: r.getrandbits(64)}
+    return c
+
+
+TESTS[0x40038DAC] = t_label
+TESTS[0x40038DEC] = t_label
+
+
+def t_exists(build):
+    def t(r):
+        rc = r.choice([0, 0, 1, 4, 5])
+
+        def op(m, a):
+            m.fil = a[0]
+            m.calls.append(("open", a[1], a[2] & 0xFF))
+            return rc
+
+        def cl(m, a):
+            m.calls.append(("close", a[0] == m.fil))
+            return 0
+        return Case([rnd(r)], ret=R, stubs=(rec("path", build, 1), Stub("f_open", 0x40059B8C, op, 3),
+                                            Stub("f_close", 0x4005A694, cl, 1)))
+    return t
+
+
+TESTS[0x400353F4] = t_exists(0x40034B78)
+TESTS[0x400364A0] = t_exists(0x40035BC4)
+TESTS[0x400346C0] = lambda r: Case([], ret=V, stubs=tuple(rec("%08x" % a, a, 0) for a in (
+    0x4003E708, 0x4002CC6C, 0x400419CC, 0x4003B7B8, 0x4003C970, 0x40041F5C, 0x40042520, 0x40024E14, 0x4003117C,
+    0x40030F8C, 0x40031794, 0x40028350)))
+
+
+def t_win40(r):
+    blk = bytes(r.choice([0, 0, 1, r.getrandbits(8)]) for _ in range(8))
+    return Case([], writes([(0x42E68668, blk)]), ret=V, stubs=tuple(rec("%08x" % a, a, 0) for a in (
+        0x400612FC, 0x40060FE8, 0x40060DC8, 0x40061F10, 0x400617AC, 0x400623F4, 0x40062448, 0x40062B1C, 0x40062A18,
+        0x40062C98, 0x40061194, 0x4006068C)))
+
+
+TESTS[0x40062EE8] = t_win40
+TESTS[0x40063714] = t_fpga({0x274: FLAG, 0x275: FLAG, 0x28C: (4, None)})

@@ -7,11 +7,11 @@
 
 #include "hw/fpga.h"
 
-void func_4003436c(u32 a, u32 b, u32 c, u32 d);
+void fb_rect_copy_from_e4e84(u32 a, u32 b, u32 c, u32 d);
 
 void rect_42e68c38_draw(void)
 {
     volatile unsigned short *h = (volatile unsigned short *)0x42E68C38u;
     u32 x = h[0], y = h[1];
-    func_4003436c(x, y, (h[2] + x + 1) & 0xFFFF, (h[3] + y + 1) & 0xFFFF);
+    fb_rect_copy_from_e4e84(x, y, (h[2] + x + 1) & 0xFFFF, (h[3] + y + 1) & 0xFFFF);
 }

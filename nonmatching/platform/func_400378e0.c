@@ -10,14 +10,14 @@
 void func_40036b00(void);
 void func_40036bdc(void);
 void func_400377f8(void);
-void func_4003771c(void);
+void list_cursor_clamp_4003771c(void);
 
 void reload_chain_400378e0(void)
 {
     func_40036b00();
     func_40036bdc();
     func_400377f8();
-    func_4003771c();
+    list_cursor_clamp_4003771c();
     SYS8(0xF90) = 0;
     SYS16(0xFA4) = 0;
     SYS16(0xF9E) = 0;

@@ -12,7 +12,7 @@ void func_40036bdc(void);
 void func_4003709c(void);
 void func_40036864(void);
 void func_40036de4(void);
-void func_40036d88(u32 a);
+void list_fa4_insert_758(u32 a);
 void func_40036c54(void);
 void func_40036d10(void);
 
@@ -23,7 +23,7 @@ void reload_chain_400373e0(void)
     func_4003709c();
     func_40036864();
     func_40036de4();
-    func_40036d88(*(volatile unsigned short *)0x40545E04u);
+    list_fa4_insert_758(*(volatile unsigned short *)0x40545E04u);
     func_40036c54();
     func_40036d10();
 }

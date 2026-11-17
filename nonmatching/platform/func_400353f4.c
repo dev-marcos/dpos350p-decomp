@@ -1,0 +1,24 @@
+/*
+ * file_exists_40034b78 -- stock 0x400353F4 (64 bytes, ARM)
+ * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
+ * 0x40034B78(a) (builds the path 0x4054D728), then 1 when f_open(read) of it succeeds (the file is closed again), else 0.
+ */
+#include "hw/platform.h"
+
+#include "hw/fpga.h"
+
+int f_open(void *fp, const char *path, unsigned char mode);
+int f_close(void *fp);
+void func_40034b78(u32 a);
+
+u32 file_exists_40034b78(u32 a)
+{
+    unsigned char fil[0x250];
+    u32 r = 0;
+    func_40034b78(a);
+    if (f_open(fil, (const char *)0x4054D728u, 1) == 0) {
+        r = 1;
+        f_close(fil);
+    }
+    return r;
+}
