@@ -1288,6 +1288,44 @@ The C keeps the stock order of the double operations. The build uses `-ffp-contr
 - The disassembly helper used for the specs now decodes the `vldr` literals. That gave the
   constants 6.916, 80, 238, 270, 45 and 1000, which batch 34 could not read.
 
+## Channel, list, system, slot, trigger and numpad buttons (batch 39)
+
+Spec: `tools/platform_spec/zh_settings_buttons.py`, 8 functions. Tests: `tools/emu/tests/sweep.py`.
+
+All eight are touch handlers of the same shape: refresh the button group, then act on the first
+button whose state is 2 (released), clearing it and the touch byte. The window and setting meanings
+come from the names of the windows they open and the SYS bytes they write. They are DERIVED, not
+HW-CONFIRMED.
+
+- **Channels.** `channel1_settings_buttons` and `channel2_settings_buttons` share one layout:
+  10 buttons, the channel-2 ones 0x64 further, and the SYS bytes 0xC4 further (0x3E.. and 0x102..).
+  The enable byte is forced on while SYS+0x652 is set. Every change ends with `outputs_apply` and
+  `ui_windows_invalidate_1_5`.
+- **List A and list B windows.** `list_a_window_buttons` moves the current entry (SYS+0xFA4) by one
+  and recomputes its page (SYS+0xF9E = entry / page size, hardware `sdiv`). `list_b_window_buttons`
+  handles:
+  - the entry buttons 0x840 + 10i, with a u8 index (a page size above 255 never ends the loop, in
+    the stock code too);
+  - mark mode SYS+0xF90 and the marks SYS+0x5DC6 + entry;
+  - the page buttons.
+
+  The next button offset is built by adding to or ORing into a running register:
+  0x8D6, 0x8EA, 0x8F4, 0x8FE, 0x908.
+- **System window.** `system_settings_buttons` opens sub-windows, enters USB mode, and sets the
+  auto-off word SYS+0x658 to 0, 15, 30, 45 or 60. The unit is OPEN. The values look like minutes.
+- **Settings slots.** `settings_slot_buttons` stores the slot number 1..5 in SYS+0x7C0. Then, by the
+  window mode byte 0x42E64587 (1 save, 2 load, 3 save block F then load), it saves or loads, and
+  shows message 0xAAA0 for 500 ms.
+- **Trigger options.** `trigger_option_buttons` sets SYS+0x27A (0..2), +0x27B, +0x27C (0..1) and
+  +0x284 (0..3). Each change invalidates from window 3.
+- **Measurement numpad.** `measure_numpad_buttons` opens the numpad for one field of the
+  measurement block 0x42E68668: two doubles at +0x140 and +0x148, or four s64 at +0x120..+0x138
+  (mode +0x18C = 1..4). It sets the numpad target, callback 0x400617AC and flag.
+- **Test harness.** The call-mismatch message of `tools/emu/emu.py` now starts at the first
+  differing call, instead of always showing the first three. Where `ui_window_invalidate_from`
+  follows other callees, r1 is the previous callee's leftover, so the two list tests record only
+  its first argument (the convention of batch 35).
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

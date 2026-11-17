@@ -214,5 +214,7 @@ def outcome_equal(a, b, ret_bits):
         diffs.append(f"mmio #{k}: stock={fmt(ma[k] if k < len(ma) else None)} c={fmt(mb[k] if k < len(mb) else None)}"
                      f" (lengths {len(ma)}/{len(mb)})")
     if a["calls"] != b["calls"]:
-        diffs.append(f"calls: stock={a['calls'][:3]} c={b['calls'][:3]}")
+        ca, cb = a["calls"], b["calls"]
+        k = next((i for i in range(min(len(ca), len(cb))) if ca[i] != cb[i]), min(len(ca), len(cb)))
+        diffs.append(f"calls #{k}: stock={ca[k:k + 3]} c={cb[k:k + 3]} (lengths {len(ca)}/{len(cb)})")
     return diffs

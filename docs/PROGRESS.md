@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1078 | 79.62% | 122314 | 36.24% |
+| EQUIVALENT | 1086 | 80.21% | 126310 | 37.42% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 276 | 20.38% | 215190 | 63.76% |
+| ASM | 268 | 19.79% | 211194 | 62.58% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1078 (80.51%) | 337104 | 122314 (36.28%) |
+| main code | 1339 | 1086 (81.11%) | 337104 | 126310 (37.47%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -600,15 +600,22 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40052100` | main_menu_buttons | 384 | EQUIVALENT | 200 | `nonmatching/platform/func_40052100.c` |
 | `0x400524B4` | buttons_ac_open_windows | 288 | EQUIVALENT | 200 | `nonmatching/platform/func_400524b4.c` |
 | `0x400525D4` | touch_00f2_then_400545f8 | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_400525d4.c` |
+| `0x400525EC` | system_settings_buttons | 468 | EQUIVALENT | 200 | `nonmatching/platform/func_400525ec.c` |
 | `0x40052F08` | file_lists_open_buttons | 172 | EQUIVALENT | 200 | `nonmatching/platform/func_40052f08.c` |
+| `0x40052FC4` | channel1_settings_buttons | 488 | EQUIVALENT | 200 | `nonmatching/platform/func_40052fc4.c` |
+| `0x400531B0` | channel2_settings_buttons | 496 | EQUIVALENT | 200 | `nonmatching/platform/func_400531b0.c` |
 | `0x400537C4` | output_select_buttons | 380 | EQUIVALENT | 200 | `nonmatching/platform/func_400537c4.c` |
+| `0x40053940` | trigger_option_buttons | 560 | EQUIVALENT | 200 | `nonmatching/platform/func_40053940.c` |
 | `0x40054540` | button_71e_drag_handler | 168 | EQUIVALENT | 200 | `nonmatching/platform/func_40054540.c` |
 | `0x40054EB8` | list_a_delete_button_handler | 80 | EQUIVALENT | 200 | `nonmatching/platform/func_40054eb8.c` |
 | `0x40054F08` | touch_btn_0804_release | 68 | EQUIVALENT | 200 | `nonmatching/platform/func_40054f08.c` |
+| `0x40054F50` | list_a_window_buttons | 448 | EQUIVALENT | 200 | `nonmatching/platform/func_40054f50.c` |
+| `0x40055114` | list_b_window_buttons | 560 | EQUIVALENT | 200 | `nonmatching/platform/func_40055114.c` |
 | `0x40055344` | list_b_delete_button_handler | 76 | EQUIVALENT | 200 | `nonmatching/platform/func_40055344.c` |
 | `0x400555E8` | list_c_delete_button_handler | 72 | EQUIVALENT | 200 | `nonmatching/platform/func_400555e8.c` |
 | `0x40055634` | buttons_9f8_handler | 228 | EQUIVALENT | 200 | `nonmatching/platform/func_40055634.c` |
 | `0x40055720` | buttons_106_handler | 120 | EQUIVALENT | 200 | `nonmatching/platform/func_40055720.c` |
+| `0x40055798` | settings_slot_buttons | 476 | EQUIVALENT | 200 | `nonmatching/platform/func_40055798.c` |
 | `0x40055978` | system_calibration_button_handler | 348 | EQUIVALENT | 200 | `nonmatching/platform/func_40055978.c` |
 | `0x40055AD4` | language_select_buttons | 196 | EQUIVALENT | 200 | `nonmatching/platform/func_40055ad4.c` |
 | `0x40055B98` | touch_btn_01ec_release | 60 | EQUIVALENT | 200 | `nonmatching/platform/func_40055b98.c` |
@@ -619,6 +626,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40056214` | cursor_drag_buttons_b42 | 220 | EQUIVALENT | 200 | `nonmatching/platform/func_40056214.c` |
 | `0x400562F4` | calibration_b4c_button_handler | 268 | EQUIVALENT | 200 | `nonmatching/platform/func_400562f4.c` |
 | `0x40056404` | buttons_b56_handler | 292 | EQUIVALENT | 200 | `nonmatching/platform/func_40056404.c` |
+| `0x40056530` | measure_numpad_buttons | 500 | EQUIVALENT | 200 | `nonmatching/platform/func_40056530.c` |
 | `0x40056724` | marker_drag_buttons_bd8 | 220 | EQUIVALENT | 200 | `nonmatching/platform/func_40056724.c` |
 | `0x40056804` | buttons_be2_handler | 368 | EQUIVALENT | 200 | `nonmatching/platform/func_40056804.c` |
 | `0x40056974` | calibration_button_handler | 208 | EQUIVALENT | 200 | `nonmatching/platform/func_40056974.c` |

@@ -968,18 +968,18 @@ address,size,name,type,evidence_level,source
 0x40052280,564,func_40052280,function_arm,DERIVED,analyze.py:rea
 0x400524B4,288,buttons_ac_open_windows,function_arm,DERIVED,this-project:phase5 (ui)
 0x400525D4,24,touch_00f2_then_400545f8,function_arm,DERIVED,this-project:phase5 (ui)
-0x400525EC,468,func_400525ec,function_arm,DERIVED,analyze.py:rea
+0x400525EC,468,system_settings_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x400527C0,552,func_400527c0,function_arm,DERIVED,analyze.py:rea
 0x400529E8,8,pool_400529e8,literal_pool,DERIVED,analyze.py
 0x400529F0,1304,func_400529f0,function_arm,DERIVED,analyze.py:rea
 0x40052F08,172,file_lists_open_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x40052FB4,16,pool_40052fb4,literal_pool,DERIVED,analyze.py
-0x40052FC4,488,func_40052fc4,function_arm,DERIVED,analyze.py:rea
+0x40052FC4,488,channel1_settings_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x400531AC,4,pool_400531ac,literal_pool,DERIVED,analyze.py
-0x400531B0,496,func_400531b0,function_arm,DERIVED,analyze.py:rea
+0x400531B0,496,channel2_settings_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x400533A0,1060,func_400533a0,function_arm,DERIVED,analyze.py:rea
 0x400537C4,380,output_select_buttons,function_arm,DERIVED,this-project:phase5 (ui)
-0x40053940,560,func_40053940,function_arm,DERIVED,analyze.py:rea
+0x40053940,560,trigger_option_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x40053B70,8,pool_40053b70,literal_pool,DERIVED,analyze.py
 0x40053B78,2504,func_40053b78,function_arm,DERIVED,analyze.py:rea
 0x40054540,168,button_71e_drag_handler,function_arm,DERIVED,this-project:phase5 (ui)
@@ -990,9 +990,9 @@ address,size,name,type,evidence_level,source
 0x40054EB8,80,list_a_delete_button_handler,function_arm,DERIVED,this-project:phase5 (ui)
 0x40054F08,68,touch_btn_0804_release,function_arm,DERIVED,this-project:phase5 (ui)
 0x40054F4C,4,pool_40054f4c,literal_pool,DERIVED,analyze.py
-0x40054F50,448,func_40054f50,function_arm,DERIVED,analyze.py:rea
+0x40054F50,448,list_a_window_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x40055110,4,pool_40055110,literal_pool,DERIVED,analyze.py
-0x40055114,560,func_40055114,function_arm,DERIVED,analyze.py:rea
+0x40055114,560,list_b_window_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x40055344,76,list_b_delete_button_handler,function_arm,DERIVED,this-project:phase5 (ui)
 0x40055390,16,pool_40055390,literal_pool,DERIVED,analyze.py
 0x400553A0,584,func_400553a0,function_arm,DERIVED,analyze.py:rea
@@ -1001,7 +1001,7 @@ address,size,name,type,evidence_level,source
 0x40055634,228,buttons_9f8_handler,function_arm,DERIVED,this-project:phase5 (ui)
 0x40055718,8,pool_40055718,literal_pool,DERIVED,analyze.py
 0x40055720,120,buttons_106_handler,function_arm,DERIVED,this-project:phase5 (ui)
-0x40055798,476,func_40055798,function_arm,DERIVED,analyze.py:rea
+0x40055798,476,settings_slot_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x40055974,4,pool_40055974,literal_pool,DERIVED,analyze.py
 0x40055978,348,system_calibration_button_handler,function_arm,DERIVED,this-project:phase5 (ui)
 0x40055AD4,196,language_select_buttons,function_arm,DERIVED,this-project:phase5 (ui)
@@ -1018,7 +1018,7 @@ address,size,name,type,evidence_level,source
 0x40056400,4,pool_40056400,literal_pool,DERIVED,analyze.py
 0x40056404,292,buttons_b56_handler,function_arm,DERIVED,this-project:phase5 (ui)
 0x40056528,8,pool_40056528,literal_pool,DERIVED,analyze.py
-0x40056530,500,func_40056530,function_arm,DERIVED,analyze.py:rea
+0x40056530,500,measure_numpad_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x40056724,220,marker_drag_buttons_bd8,function_arm,DERIVED,this-project:phase5 (trace)
 0x40056800,4,pool_40056800,literal_pool,DERIVED,analyze.py
 0x40056804,368,buttons_be2_handler,function_arm,DERIVED,this-project:phase5 (ui)

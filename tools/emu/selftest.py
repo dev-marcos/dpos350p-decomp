@@ -408,6 +408,17 @@ MUTANTS = [
     (0x40041D38, '        int v = (int)(float)(log10((double)*s++) * 45.0);', '        int v = (int)(log10((double)*s++) * 45.0 + 0.5);'),
     (0x40032B5C, '                *o1 = t * 2u;', '                *o1 = t;'),
     (0x40032B5C, '            if (diff >= (u32)(SYS16(8) * SYS32(0x558)) / 3u) {', '            if (diff >= (u32)(SYS16(8) * SYS32(0x558)) / 2u) {'),
+    # batch 39: settings, list and trigger buttons
+    (0x40052FC4, '        SYS8(s + 8) = 1;', '        SYS8(s + 8) = 2;'),
+    (0x400531B0, '        if (SYS8(0x652))', '        if (SYS8(0x653))'),
+    (0x40054F50, '            d = 1;', '            d = 2;'),
+    (0x40054F50, '        SYS8(0x5DC6 + (short)SYS16(0xFA4)) = 1;', '        SYS8(0x5DC7 + (short)SYS16(0xFA4)) = 1;'),
+    (0x40055114, '            nv = PS16(0x14) - P16(0xA);', '            nv = PS16(0x14) + P16(0xA);'),
+    (0x40055114, '                if (tot >= c + 1) {', '                if (tot > c + 1) {'),
+    (0x400525EC, '                SYS32(0x658) = 15 * i;', '                SYS32(0x658) = 16 * i;'),
+    (0x40055798, '    SYS8(0x7C0) = i + 1;', '    SYS8(0x7C0) = i;'),
+    (0x40053940, '                v = 3;', '                v = 2;'),
+    (0x40056530, '            tgt = 0x42E68668u + 0x130, fl = 1, cb = CB, mode = 3;', '            tgt = 0x42E68668u + 0x130, fl = 1, cb = CB, mode = 4;'),
 ]
 
 

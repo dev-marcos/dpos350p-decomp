@@ -1530,3 +1530,49 @@ def t_freq(r):
 
 
 TESTS[0x40032B5C] = t_freq
+
+
+# ================================================================ batch 39: settings, list and trigger buttons
+INV = 0x4003CD44
+CH_CALLS = [(0x4003E708, 0), (0x4003D6E4, 0)]
+CH_BTN = [0, 0xA, 0x14, 0x1E, 0x28, 0x32, 0x3C, 0x46, 0x50, 0x5A]
+TESTS[0x40052FC4] = t_btn([0x35E + o for o in CH_BTN], [(0x4002F614, 0)] + CH_CALLS, vals=(0, 1, 2, 3, 3, 3, 3),
+                          extra=lambda r: compose(rand_block(r, SYS + 0x3E, 0x10),
+                                                  writes([(SYS + 0x652, bytes([r.choice([0, 0, 1, 0x80])]))])))
+TESTS[0x400531B0] = t_btn([0x3C2 + o for o in CH_BTN], [(0x4002F684, 0)] + CH_CALLS, vals=(0, 1, 2, 3, 3, 3, 3),
+                          extra=lambda r: compose(rand_block(r, SYS + 0x102, 0x10),
+                                                  writes([(SYS + 0x652, bytes([r.choice([0, 0, 1, 0x80])]))])))
+
+
+def list_blk(r, base):
+    return writes([(SYS + 0xF90, bytes([r.choice([0, 0, 1, 7])]) + bytes(r.getrandbits(8) for _ in range(9))),
+                   (SYS + 0xF9A, s16(r.choice([0, 1, 4, 6, 6, 0xFFFF]))),
+                   (SYS + 0xF9E, s16(r.choice([0, 1, 3, 30, 0xFFFF]))),
+                   (SYS + 0xFA0, s16(r.choice([0, 1, 5, 12, 40, 0xFFFF]))),
+                   (SYS + 0xFA4, s16(r.choice([0, 1, 5, 7, 11, 40, 0xFFFF, 0x8000, 0x7FFF]))),
+                   (SYS + base, bytes(r.choice([0, 0, 1, 9]) for _ in range(64)))])
+
+
+TESTS[0x40054F50] = t_btn([0x818, 0x822, 0x82C, 0x836, 0x80E], [
+    (0x4002FB50, 0), (INV, 1), (WCLOSE, 1), (WOPEN, 1), (0x40035578, 0), (0x40035320, 0), (0x400353A8, 0),
+    (0x40035248, 0), (0x40035624, 0)], vals=(0, 1, 2, 3, 3, 3), extra=lambda r: list_blk(r, 0x5DC6 - 20))
+TESTS[0x40055114] = t_btn([0x840 + 10 * i for i in range(7)] + [0x8D6, 0x8E0, 0x8EA, 0x8F4, 0x8FE, 0x908], [
+    (0x4002FB98, 0), (INV, 1), (WOPEN, 1), (0x4003CF0C, 0), (0x400366A0, 0), (0x40034454, 0), (0x4003D6AC, 0),
+    (0x400363CC, 0), (0x40036354, 0), (0x40036454, 0), (0x400362F4, 0), (0x400365F4, 0)],
+    vals=(0, 1, 2, 3, 3, 3, 3, 3), extra=lambda r: compose(list_blk(r, 0x5DC6 - 20), writes([(SYS + 0xF9A, s16(r.choice([0, 1, 4, 6, 6, 0xFF])))]),
+                                                           writes([(SYS + 0x84D6 - 4, bytes(r.choice([0, 0, 3])
+                                                                                           for _ in range(48)))])))
+TESTS[0x400525EC] = t_btn([0xFC, 0x17E, 0x192, 0x1A6, 0x1B0, 0x1BA, 0x1C4, 0x1CE, 0x1D8, 0x1E2, 0x1F6], [
+    (0x4002F410, 0), (WOPEN, 1), (0x4003CF0C, 0), (0x40069018, 0), (0x4004A1D0, 0), (0x40043A80, 0)],
+    vals=(0, 1, 2, 3, 3, 3, 3, 3, 3), extra=lambda r: rand_block(r, SYS + 0x658, 4))
+TESTS[0x40055798] = t_btn([0x124, 0x12E, 0x138, 0x142, 0x14C], [
+    (0x4002FD3C, 0), (0x4004435C, 0), (0x400443D4, 0), (0x40043EEC, 0), (0x40034134, 4), (0x40042CF0, 1),
+    (0x40034284, 0), (WCLOSE, 1), (0x4003E708, 0), (0x4004D18C, 0), (0x4003CDC0, 0)], vals=(0, 1, 2, 3, 3),
+    extra=lambda r: compose(win_rect(r, 0x76), msg_texts(r, 0xAAA0), rand_block(r, SYS + 0x7C0, 1),
+                            writes([(0x42E64587, bytes([r.choice([0, 1, 2, 3, 4])]))])))
+TESTS[0x40053940] = t_btn([0x5B6 + 10 * i for i in range(11)], [(0x4002F8E0, 0), (INV, 2), (WCLOSE, 1)],
+                          vals=(0, 1, 2, 3, 3, 3, 3, 3, 3, 3), extra=lambda r: rand_block(r, SYS + 0x27A, 0x10))
+TESTS[0x40056530] = t_btn([0xB92, 0xB9C, 0xBA6, 0xBB0, 0xBBA, 0xBC4, 0xBCE], [
+    (0x4002FF48, 0), (0x4005F9F0, 2), (0x4005FA34, 2)], vals=(0, 1, 2, 3, 3, 3, 3),
+    extra=lambda r: compose(rand_block(r, 0x42E68A88, 0x58), rand_block(r, 0x42E68668, 8),
+                            rand_block(r, 0x42E68668 + 0x18C, 4)))
