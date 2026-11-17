@@ -1,0 +1,16 @@
+/*
+ * fpga_probe_and_copy_7fc -- stock 0x4004F59C (36 bytes, ARM)
+ * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
+ * perform_fpga_identification_probe, then byte 0x42E68AE0+0x11 = SYS+0x7FC.
+ */
+#include "hw/platform.h"
+
+#include "hw/fpga.h"
+
+void perform_fpga_identification_probe(void);
+
+void fpga_probe_and_copy_7fc(void)
+{
+    perform_fpga_identification_probe();
+    *(volatile unsigned char *)0x42E68AF1u = SYS8(0x7FC);
+}

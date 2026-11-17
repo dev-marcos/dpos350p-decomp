@@ -178,7 +178,7 @@ void ui_reveal_slide_down(volatile unsigned short *r);
 void ui_reveal_bottom_up(volatile unsigned short *r);
 """
 for wid, (wa, da, kind) in WINDOWS.items():
-    dn = f"func_{da:08x}"
+    dn = {0x4001C348: "ui_window_05_draw"}.get(da, f"func_{da:08x}")
     name = f"ui_window_{wid:02d}_redraw"
     if kind == "v":
         p(wa, 24, name, f"Redraws window {wid}: draw target = back buffer, then the window's draw function 0x{da:08X}.", f"""

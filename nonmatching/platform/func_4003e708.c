@@ -9,7 +9,7 @@
 
 void acquisition_apply(void);
 void frontend_apply_all(void);
-void func_40063328(void);
+void fpga_config_push(void);
 
 void outputs_apply(void)
 {
@@ -17,5 +17,5 @@ void outputs_apply(void)
         return;
     acquisition_apply();
     frontend_apply_all();
-    func_40063328();
+    fpga_config_push();
 }

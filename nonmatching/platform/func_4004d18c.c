@@ -10,7 +10,7 @@
 void gen_update(void)
 {
     register u32 r0 asm("r0"), r1 asm("r1"), r2 asm("r2"), r3 asm("r3");
-    func_4004eeec();
+    fpga_cmd63_write();
     asm volatile("" : "=r"(r0), "=r"(r1), "=r"(r2), "=r"(r3));   /* gen_limits gets whatever r0..r3 hold, as in the stock code */
     gen_limits(r0, r1, r2, r3);
     gen_send_params();

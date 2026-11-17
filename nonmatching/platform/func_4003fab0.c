@@ -9,5 +9,5 @@
 
 void veneer_400636bc(void)
 {
-    func_400636bc();
+    fpga_cmd1b_write();
 }

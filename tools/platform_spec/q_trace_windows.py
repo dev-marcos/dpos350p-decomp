@@ -14,7 +14,7 @@ def t(addr, size, name, desc, body, src="trace"):
 t(0x4003C520, 48, "runtime_rearm_setup", "Re-arm after a settings change: 0x4003BEA8, 0x4003B7B8, 0x40024E14, 0x4003C008, fb_present, write_sys_info_0x6f0_to_fpga, acquisition_prepare, then pulse_fpga_selector_0x08_0_1. (name: Hack)", """
 void runtime_state_commit_force(void);
 void acquisition_rearm(void);
-void func_40024e14(void);
+void func_40023ea4_or_40024c60(void);
 void acquisition_geometry_setup(void);
 void fb_present(void);
 void write_sys_info_0x6f0_to_fpga(void);
@@ -24,7 +24,7 @@ void runtime_rearm_setup(void)
 {
     runtime_state_commit_force();
     acquisition_rearm();
-    func_40024e14();
+    func_40023ea4_or_40024c60();
     acquisition_geometry_setup();
     fb_present();
     write_sys_info_0x6f0_to_fpga();

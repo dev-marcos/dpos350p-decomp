@@ -1,0 +1,27 @@
+/*
+ * fpga_config_push -- stock 0x40063328 (44 bytes, ARM)
+ * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
+ * fpga_cmd61_write, fpga_cmd0c_write, fpga_cmd1a_write, fpga_cmd15_write, fpga_cmd16_write, 0x400634F0, then trigger_offsets_update.
+ */
+#include "hw/platform.h"
+
+#include "hw/fpga.h"
+
+void fpga_cmd61_write(void);
+void fpga_cmd0c_write(void);
+void fpga_cmd1a_write(void);
+void fpga_cmd15_write(void);
+void fpga_cmd16_write(void);
+void func_400634f0(void);
+void trigger_offsets_update(void);
+
+void fpga_config_push(void)
+{
+    fpga_cmd61_write();
+    fpga_cmd0c_write();
+    fpga_cmd1a_write();
+    fpga_cmd15_write();
+    fpga_cmd16_write();
+    func_400634f0();
+    trigger_offsets_update();
+}

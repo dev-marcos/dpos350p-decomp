@@ -13,5 +13,5 @@ void timebase_apply(void)
     func_4003f160();
     func_40063f04();
     func_40063cd0();
-    func_40063cb0();
+    func_40063c34_all8();
 }

@@ -38,7 +38,7 @@ void battery_empty_check(void)
     if (SYS8(0x778) == 0) {
         unsigned char *p = (unsigned char *)(0x42C2FE74u + 0xDD00);
         timer_stop(0);
-        func_400342cc();
+        draw_target_default();
         func_40034134(cx + (signed char)p[0x194], cy + (signed char)p[0x195], *(u32 *)p, 0);
         delay_ms(3000);
         power_off();

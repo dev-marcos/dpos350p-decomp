@@ -40,7 +40,7 @@ void lcd_start(void)
 s(0x4003E708, 48, "outputs_apply", "Unless the byte 0x42E68BC7 is set: 0x4003A654, frontend_apply_all, 0x40063328.", """
 void acquisition_apply(void);
 void frontend_apply_all(void);
-void func_40063328(void);
+void fpga_config_push(void);
 
 void outputs_apply(void)
 {
@@ -48,7 +48,7 @@ void outputs_apply(void)
         return;
     acquisition_apply();
     frontend_apply_all();
-    func_40063328();
+    fpga_config_push();
 }
 """)
 s(0x4003ED28, 88, "state_block_3f984_init", "Defaults of the block at 0x42E3F984 (+1 = 0, +4 = pointer to +8, +8 = 0, +0xC = 0, +0x2EFA = 1, +0x2EFC/+0x2F00 = 1000, +0x2F04 = 0, +0x2F08 = 500, +0x2F60 = 0) and the byte 0x42E68BC6 = 1.", """

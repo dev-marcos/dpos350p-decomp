@@ -105,7 +105,7 @@ void battery_coeffs_default(void);           /* 0x4004A2A0 */
 #define g_batt_offset  (*(volatile float *)0x42E68C9Cu)
 u32  lradc_data_read(void);                  /* 0x40068E74 LRADC read */
 void timer_stop(int n);                      /* 0x40042C40 */
-void func_400342cc(void);                    /* screen helper before the shutdown image (OPEN) */
+void draw_target_default(void);              /* 0x400342CC: drawing target = 0x41FB8FE8 */
 void charge_status_read(void);               /* 0x4004A278 */
 void auto_off_check(void);                   /* 0x4004A1F4 */
 void battery_level_update(void);             /* 0x4004A2D0 */
@@ -149,7 +149,7 @@ void gen_decimate(int n);                                           /* 0x4004D35
 void gen_decimate2(int n);                                          /* 0x4004D5CC */
 void gen_limits(u32 r0, u32 r1, u32 lo, u32 hi);                    /* 0x4004CF34 */
 void gen_send_params(void);                                         /* 0x4004D1B4 */
-void func_4004eeec(void);
+void fpga_cmd63_write(void);
 void func_4004d880(void);
 void func_4004ed18(void);
 void gen_table_repeat_default(void);                                /* 0x4004D094 */
@@ -170,8 +170,8 @@ void func_4003f2f4(void);                    /* time-base set-up (split by the a
 void func_4003f160(void);
 void func_40063f04(void);
 void func_40063cd0(void);
-void func_40063cb0(void);
-void func_400636bc(void);
+void func_40063c34_all8(void);
+void fpga_cmd1b_write(void);
 void func_40063714(void);
 void func_40063798(void);
 void fpga_trigger_pos_write(u32 v);          /* 0x4003F988 */

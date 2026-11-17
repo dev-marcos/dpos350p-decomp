@@ -12,7 +12,7 @@ from pathlib import Path
 
 from tools import nmbuild
 from tools.emu.run_tests import run_one
-from tools.emu.tests import fatfs, fatfs_fs, rtlib, drivers, usb, platform, fpga
+from tools.emu.tests import fatfs, fatfs_fs, rtlib, drivers, usb, platform, fpga, sweep
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -271,6 +271,17 @@ MUTANTS = [
     (0x4005D220, 'return -SINT[n % 20001];', 'return -SINT[n % 20000];'),
     (0x4005D27C, 'a = (double)i * 0.000314159265359;', 'a = (double)(i + 1) * 0.000314159265359;'),
     (0x40060D68, 'CB32(0xF4) = old & 0xFF;', 'CB32(0xF4) = old;'),
+    # batch 28: small leftovers (setters, gates, FPGA commands, drawing wrappers)
+    (0x4002EB70, 'y * 1022u', 'y * 1023u'),
+    (0x4002EBA8, '(c - b + 1) & 0xFFFF', '(c - b) & 0xFFFF'),
+    (0x400301A8, 'if (mode == 1)', 'if (mode != 0)'),
+    (0x400301A8, 'for (n = 24; n; n--)', 'for (n = 23; n; n--)'),
+    (0x4006366C, 'SYS8(0x275) && SYS8(0x274) && SYS8(0x27A)', 'SYS8(0x275) && SYS8(0x27A)'),
+    (0x400636BC, '(SYS32(0x288) >> 8) & 0xFF', '(SYS32(0x288) >> 16) & 0xFF'),
+    (0x40064DC0, 'r = func_40064cf0() & a & 1;', 'r = func_40064cf0() & 1;'),
+    (0x4002D6D4, 'e & 0xFF, 1)', 'e, 1)'),
+    (0x40024E14, 'if (SYS8(0x652) == 0)', 'if (SYS8(0x652) != 1)'),
+    (0x40034284, '(h[3] + y + 1)', '(h[3] + x + 1)'),
 ]
 
 
@@ -285,8 +296,8 @@ def main():
             mut = Path(tmp) / src.name
             mut.write_text(text.replace(old, new, 1))
             nmbuild.build(mut, syms)
-            suite = next(s for s in (fatfs.TESTS, fatfs_fs.TESTS, rtlib.TESTS, drivers.TESTS, usb.TESTS, platform.TESTS, fpga.TESTS) if orig in s)
-            _, fails, _ = run_one(orig, suite[orig], 40 if suite is fatfs_fs.TESTS else (80 if suite in (drivers.TESTS, usb.TESTS, platform.TESTS, fpga.TESTS) else 400), 7)
+            suite = next(s for s in (fatfs.TESTS, fatfs_fs.TESTS, rtlib.TESTS, drivers.TESTS, usb.TESTS, platform.TESTS, fpga.TESTS, sweep.TESTS) if orig in s)
+            _, fails, _ = run_one(orig, suite[orig], 40 if suite is fatfs_fs.TESTS else (80 if suite in (drivers.TESTS, usb.TESTS, platform.TESTS, fpga.TESTS, sweep.TESTS) else 400), 7)
             ok = bool(fails)
             caught += ok
             print(f"{'caught ' if ok else 'MISSED '} 0x{orig:08x}: {old!r} -> {new!r}")

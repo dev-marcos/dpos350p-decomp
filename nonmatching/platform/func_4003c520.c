@@ -9,7 +9,7 @@
 
 void runtime_state_commit_force(void);
 void acquisition_rearm(void);
-void func_40024e14(void);
+void func_40023ea4_or_40024c60(void);
 void acquisition_geometry_setup(void);
 void fb_present(void);
 void write_sys_info_0x6f0_to_fpga(void);
@@ -19,7 +19,7 @@ void runtime_rearm_setup(void)
 {
     runtime_state_commit_force();
     acquisition_rearm();
-    func_40024e14();
+    func_40023ea4_or_40024c60();
     acquisition_geometry_setup();
     fb_present();
     write_sys_info_0x6f0_to_fpga();

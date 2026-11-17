@@ -90,6 +90,11 @@ function compiled in place (`tools/testiso.py`). **Emulator only, never write it
     (`emu.py`, `fatdisk.py`, `run_tests.py`, `tests/__init__.py`, `tests/fatfs.py`), `app.bin`,
     the case count and the seed.
   - Editing a suite file such as `tests/fpga.py` reruns every test in that suite.
+  - New tests go in `tests/sweep.py` (from batch 28 on), so that the older suites stay cached.
+    That file copies the helpers it needs instead of importing them from `fpga.py`, because a
+    suite's key covers only its own file.
+  - A plain `Stub` records only r0..r3. For a callee with stack arguments, record them as well
+    (`rec_stk` in `tests/sweep.py`), or a wrong fifth argument goes unnoticed.
   - `--no-cache` runs everything.
 - `tools/testiso.py` processes the C files in parallel and keeps two caches:
   - `build/test/process_cache.json` holds the outcome per function: the chosen build bytes, or

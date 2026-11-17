@@ -854,6 +854,46 @@ Spec: `tools/platform_spec/v_touch_buttons.py`, 59 functions. 36 of them are gen
   - `index_map_if_above` maps only when SYS+0x554 < d;
   - `disk_format_and_reload` formats, mounts and runs three refresh calls.
 
+## Small leftovers: setters, gates, one-byte FPGA commands, drawing wrappers (batch 28)
+
+Spec: `tools/platform_spec/w_small_sweep.py`, 45 functions. Tests: `tools/emu/tests/sweep.py`, a
+new suite (see CONTRIBUTING.md).
+
+- **Setters**: word 0x42E68C74, u16 0x42E68BE2 and byte 0x42E68BE0 each have a one-store setter.
+  `draw_target_default` sets the drawing target pointer 0x40095498 to 0x41FB8FE8.
+- **Drawing** (names DERIVED from what the code writes):
+  - `pixel_put(x, y)` stores the u16 colour 0x42E68660 at target + 2 × (x + 1022 × y), or calls
+    the blended path 0x4002EA88 when byte 0x42E6865C is set. The stride 1022 matches the layer
+    size from batch 27.
+  - `sys_rect_fill` sets colour 0 and draws the rectangle from the u16 at SYS+4..+0xA;
+    `rect_42e68c38_draw` draws the rectangle described at 0x42E68C38.
+  - `colour_toggle_42e68d1a` flips the byte and picks colour 0x10262626 or 0x10303030.
+  - `display_start`: draw defaults, colour 0x00FFFFFF, word 0x42E68C74 = 0x42E64A98, `lcd_start`,
+    `fb_clear_all`.
+  - `ui_window_05_draw` (0x4001C348, the draw function of window 5) puts the button record
+    0x42E620EA on the rectangle of window record 5, then calls 0x400346C0.
+- **Gates**: four functions run a screen routine only while touch byte 0x42E68BB0+0x17 is clear.
+  Two more choose between screen routines by SYS+0x652. What +0x17 and +0x652 mean is OPEN.
+- **One-byte FPGA commands**: each writes a selector and then one or two data bytes from SYS:
+  - 0x61 ← SYS+0x3B; 0x16 ← SYS+0x27B; 0x63 ← byte 0x42E428E4;
+  - 0x15 ← 1 or 2 from SYS+0x27C; 0x0C ← the u16 SYS+0x276, high byte first;
+  - 0x1A ← 1 only when SYS+0x275, +0x274 and +0x27A are set;
+  - 0x1B ← bits 8..15 and 0..7 of SYS+0x288 when +0x275 and +0x274 are set, else two zeros;
+  - 0x17 ← the low byte of SYS+0x280 under the same condition, else `fpga_cmd61_pulse` (0x61
+    with SYS+0x3B = 1, 0x17 ← 0, then 0x61 with SYS+0x3B = 0);
+  - 0x18 is read back: SYS+0x279 = bit 0 of the answer.
+
+  `fpga_config_push` sends 0x61, 0x0C, 0x1A, 0x15, 0x16, then 0x400634F0 and
+  `trigger_offsets_update`. The selector names are the numbers; what each register does is OPEN.
+- **Others**:
+  - `value_in_table_405456e8(mode, v)` says whether v (negated for mode 1) is one of the 24 s16
+    at 0x405456E8;
+  - `sys_3c_enter` and `sys_3c_leave` save and restore SYS+0x3C through +0x3D, together with
+    the byte SYS+0x3DA52C;
+  - `check_pair_save` runs `settings_a_save` only when both checks 0x40064C28 and 0x40064CF0
+    return an odd value, and stores the result at 0x42E68B25;
+  - three reload chains call fixed lists of screen refreshes and clear SYS+0xF90, +0xF9E, +0xFA4.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).
