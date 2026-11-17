@@ -8,10 +8,10 @@
 #include "hw/fpga.h"
 
 void fb_target_back(void);
-void func_40037ab8(void);
+void trace_update_chain(void);
 
 void ui_window_36_redraw(void)
 {
     fb_target_back();
-    func_40037ab8();
+    trace_update_chain();
 }

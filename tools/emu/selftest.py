@@ -321,6 +321,19 @@ MUTANTS = [
     (0x400360F0, 'if (disk_free_bytes() < SYS32(0x774) * 2u) {', 'if (disk_free_bytes() <= SYS32(0x774) * 2u) {'),
     (0x40036EA4, 'c |= p[3] & 0xFF;', 'c |= p[3];'),
     (0x400367EC, '    else if (SYS16(8) - 12 < b)', '    else if (SYS16(8) - 11 < b)'),
+    # batch 32: widgets, fonts, trace cursors
+    (0x40019B8C, '    half_42e68be2_set((unsigned char)h);', '    half_42e68be2_set(h);'),
+    (0x40019CF8, '        c = 400;', '        c = 399;'),
+    (0x4001C200, '(unsigned short)(y + 24 - 2 * lv), 9, 2 * lv);', '(unsigned short)(y + 24 - 2 * lv), 9, lv);'),
+    (0x4002DCAC, '                if (mx < v)', '                if (mx <= v && v != 7)'),
+    (0x4002CDC4, '(code & 0xFF) - 0x4141)', '(code & 0xFF) - 0x4140)'),
+    (0x4002D0D4, '(unsigned short)(y + 1 + j), s);', '(unsigned short)(y + j), s);'),
+    (0x4002E6D8, '    for (r = 0; r < H16(FONT + 4) - 1; r++) {', '    for (r = 0; r < H16(FONT + 4); r++) {'),
+    (0x4002E7B0, "    case '.': return 10;", "    case ',': return 10;"),
+    (0x4002EA88, '    g = (unsigned char)(g ? g * 4 + 3 : 0);', '    g = (unsigned char)(g * 4 + 3);'),
+    (0x40032D3C, '        else if (d >= 2)', '        else if (d >= 1)'),
+    (0x40037944, '    else if (c < -v)', '    else if (c < v)'),
+    (0x40037B48, '    } while (H32(4) >= v);', '    } while (H32(4) > v);'),
 ]
 
 

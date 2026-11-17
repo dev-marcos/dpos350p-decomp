@@ -94,12 +94,12 @@ void sys_rect_redraw_unless_t17(void)
 # ---------------------------------------------------------------- drawing wrappers
 w(0x4002EB70, 56, "pixel_put",
   "Pixel (x, y): when byte 0x42E6865C is set, 0x4002EA88(x, y) (the blended path); else the u16 at 0x42E68660 is stored at target + 2 * (x + 1022 * y), target = *(u32 *)0x40095498.", """
-void func_4002ea88(u32 x, u32 y);
+void pixel_blend(u32 x, u32 y);
 
 void pixel_put(u32 x, u32 y)
 {
     if (*(volatile unsigned char *)0x42E6865Cu) {
-        func_4002ea88(x, y);
+        pixel_blend(x, y);
         return;
     }
     *(volatile unsigned short *)(*(volatile u32 *)0x40095498u + (x + y * 1022u) * 2u) =
@@ -166,14 +166,14 @@ void ui_window_05_draw(void)
 w(0x4002DC4C, 40, "draw_state_defaults",
   "table_scatter_42cf64b4, 0x4002CCD8, byte_42e68be0_set(0), half_42e68be2_set(1).", """
 void table_scatter_42cf64b4(void);
-void func_4002ccd8(void);
+void fonts_init(void);
 void byte_42e68be0_set(u32 a);
 void half_42e68be2_set(u32 a);
 
 void draw_state_defaults(void)
 {
     table_scatter_42cf64b4();
-    func_4002ccd8();
+    fonts_init();
     byte_42e68be0_set(0);
     half_42e68be2_set(1);
 }
@@ -385,12 +385,12 @@ void func_4002d2d4_d0(u32 a, u32 b, u32 c)
 }
 """, src="display")
 w(0x40034058, 36, "func_40032e0c_both", "0x40032D3C, then 0x40032E0C(0) and 0x40032E0C(1).", """
-void func_40032d3c(void);
+void key_repeat_update(void);
 void func_40032e0c(u32 a);
 
 void func_40032e0c_both(void)
 {
-    func_40032d3c();
+    key_repeat_update();
     func_40032e0c(0);
     func_40032e0c(1);
 }

@@ -177,8 +177,10 @@ void fb_target_offscreen(void);
 void ui_reveal_slide_down(volatile unsigned short *r);
 void ui_reveal_bottom_up(volatile unsigned short *r);
 """
+import csv as _csv
+_WIN_NAMES = {int(_r["address"], 16): _r["name"] for _r in _csv.DictReader(open("symbols/manual.csv"))}
 for wid, (wa, da, kind) in WINDOWS.items():
-    dn = {0x4001C348: "ui_window_05_draw", 0x40062EE8: "ui_window_40_draw"}.get(da, f"func_{da:08x}")
+    dn = _WIN_NAMES.get(da, f"func_{da:08x}")   # draw functions rewritten later keep their new names
     name = f"ui_window_{wid:02d}_redraw"
     if kind == "v":
         p(wa, 24, name, f"Redraws window {wid}: draw target = back buffer, then the window's draw function 0x{da:08X}.", f"""

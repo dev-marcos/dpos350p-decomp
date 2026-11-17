@@ -1020,6 +1020,47 @@ Spec: `tools/platform_spec/z_list_files.py`, 22 functions. Tests: `tools/emu/tes
   - 0x40036DE4, when no record has key 0;
   - 0x40037020, when key v is absent.
 
+## Widgets, fonts, pixel blending, trace cursors (batch 32)
+
+Spec: `tools/platform_spec/za_widgets_fonts.py`, 19 functions. Tests: `tools/emu/tests/sweep.py`.
+
+- **Widgets:**
+  - `colour_table_3dd530_init` fills the 22 colour words at SYS+0x3DD530;
+  - `switch_on_off_draw(x, y, on)` draws an ON/OFF switch. The strings are at 0x40019DB0 and
+    0x40019DB4. The function also saves and restores the font word 0x42E68C74 and the half
+    0x42E68BE2;
+  - `slider_draw(x, y, v)` draws a 410-pixel bar, filled to v × 410 / 100, and a knob;
+  - `battery_icon_draw` uses the level SYS+0x778 (2 pixels per step) and the charging flag
+    SYS+0x779. That these bytes are the battery level and the charging state is DERIVED from
+    the drawing;
+  - also a window frame (0x40023D04), a small icon (0x40019C7C), and a full-screen image copied
+    bottom-up from 0x42468A58 (0x40025D08).
+- **Fonts:**
+  - nine font descriptors of 0x4C0 bytes start at 0x42E64A98;
+  - in a descriptor:
+    - byte +0 is the kind (1 or 8);
+    - +0x4BC points to the glyph data in the graphics blob;
+    - `font_metrics_build` fills +2 (count), +4 (height), +6, +8, the glyph start table at +0xA
+      and the width table at +0x260;
+  - `font_char_draw` draws one glyph of the current font;
+  - `char_to_digit_glyph` maps `0`..`9 . + -` to 0..12;
+  - `glyph_14x14_draw` draws a 14 × 14 glyph of a two-byte code from the font at 0x40000040
+    (code hi × 94 + lo − 0x4141). That this is GB2312 is DERIVED from the formula;
+  - `text_shadow_draw` draws a string over an n × m block of offset copies in colour α << 24.
+- **Pixels:**
+  - `pixel_blend` is the blending path of `pixel_put`. For each channel it computes
+    (A × pixel + (255 − A) × colour) / 255 in 8 bits;
+  - `fb_rect_copy_to_e4e84` is the reverse of `fb_rect_copy_from_e4e84`.
+- **Keys and trace cursors:**
+  - `key_repeat_update` updates two repeat counters (SYS+0x86E, +0x870). A counter goes up when
+    the previous press was less than SYS+0x87C ticks ago, and down otherwise;
+  - `trace_cursor_limits` clamps the cursor and width values in 0x42E180C8 + 0x4C..0x5C, then
+    passes them through `gen_limits`;
+  - `trace_defaults_37b48` resets a group of SYS flags. It also fills a table at 0x42E554B0 of
+    the values from 1,000,000 to 50,000,000 in steps of 200,000 (246 entries);
+  - `trace_update_chain` runs both of them, then the redraw steps that the flags
+    0x42E1810C..0x42E1810F select.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

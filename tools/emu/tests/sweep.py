@@ -736,3 +736,158 @@ def t_c_delete(r):
 
 
 TESTS[0x40037460] = t_c_delete
+
+
+# ================================================================ batch 32: widgets, fonts, trace cursors
+EA38, ECC4, EBA8, CE7C, EB70 = 0x4002EA38, 0x4002ECC4, 0x4002EBA8, 0x4002CE7C, 0x4002EB70
+
+
+def draw_stubs(*extra):
+    return (rec("colour", EA38, 1), rec("rect", ECC4, 4), rec("span", EBA8, 3), rec("text", CE7C, 3),
+            rec("pixel", EB70, 2)) + extra
+
+
+def xy(r):
+    return r.choice([0, 5, 100, 1000, 0xFFFF, r.getrandbits(16), r.getrandbits(32)])
+
+
+TESTS[0x40019AF4] = lambda r: Case([], rand_block(r, SYS + 0x3DD530, 0x60), ret=V)
+TESTS[0x40019B8C] = lambda r: Case([xy(r), xy(r), r.choice([0, 1, 0x100, rnd(r)])],
+                                   compose(rand_block(r, SYS + 0x3DD568, 0x10), rand_block(r, 0x42E68C70, 8),
+                                           rand_block(r, 0x42E68BE0, 8)), ret=V,
+                                   stubs=draw_stubs(rec("half", 0x4002DC40, 1), rec("font", 0x4002CCCC, 1)))
+TESTS[0x40019C7C] = lambda r: Case([xy(r), xy(r)], rand_block(r, 0x409223EC, 4), ret=V, stubs=draw_stubs())
+TESTS[0x40019CF8] = lambda r: Case([xy(r), xy(r), r.choice([0, 1, 2, 3, 24, 25, 97, 98, 100, 255, r.getrandbits(8)])],
+                                   rand_block(r, SYS + 0x3DD578, 12), ret=V, stubs=draw_stubs())
+
+
+def t_battery(r):
+    return Case([], compose(rand_block(r, 0x42E6455E, 8),
+                            writes([(SYS + 0x778, bytes([r.choice([0, 1, 5, 12, r.getrandbits(8)]),
+                                                         r.choice([0, 0, 1, r.getrandbits(8)])]))])),
+                ret=V, stubs=draw_stubs(rec("frame", 0x4002EC4C, 4)))
+
+
+TESTS[0x4001C200] = t_battery
+TESTS[0x40023D04] = lambda r: Case([], compose(rand_block(r, 0x42E64630, 8), rand_block(r, 0x409223B8, 4)), ret=V,
+                                   stubs=draw_stubs(rec("seg", 0x4002ED90, 4), rec_stk("btn", 0x4002F160, 1)))
+TESTS[0x40025D08] = lambda r: Case([], compose(rand_block(r, 0x42E6465A, 8), rand_block(r, 0x40095498, 4)), ret=V,
+                                   stubs=(rec_stk("btn", 0x4002F160, 1), rec("copy", 0x40035728, 3)))
+TESTS[0x4002CCD8] = lambda r: Case([], rand_block(r, 0x42E64A98, 0x2700), ret=V, stubs=(rec("fmb", 0x4002DCAC, 1),))
+
+FD = 0x42E66258        # a font descriptor
+GD = SYS + 0x200000    # glyph data used by the tests
+
+
+def t_metrics(r):
+    a = r.choice([0, 1, 2, 5, 40, 150, r.randrange(0, 160)])
+    data = bytes([a >> 8, a & 0xFF, r.getrandbits(8), r.getrandbits(8)]) + \
+        bytes(r.choice([0, 0, 1, r.getrandbits(8)]) for _ in range(0x100))
+    return Case([FD], writes([(FD, bytes(r.getrandbits(8) for _ in range(0x4BC))), (FD + 0x4BC, i32(GD)),
+                              (GD, data)]), ret=V)
+
+
+TESTS[0x4002DCAC] = t_metrics
+
+
+def t_glyph(r):
+    code = r.choice([(r.randrange(0xA1, 0xF8) << 8) | r.randrange(0xA1, 0xFF), 0x4141, 0x4142,
+                     (r.randrange(0xB0, 0xD8) << 8) | r.randrange(0xA1, 0xFF)])
+    return Case([xy(r), xy(r), code], ret=V, stubs=draw_stubs())
+
+
+TESTS[0x4002CDC4] = t_glyph
+
+
+def t_shadow(r):
+    m = (r.getrandbits(24) << 8) | r.choice([0, 1, 2, 3])
+    a = r.getrandbits(32)
+    return Case([xy(r), xy(r), rnd(r), r.choice([0, 1, 2, 3])], rand_block(r, 0x42E6865C, 12), ret=V,
+                stubs=draw_stubs(), stack=[m, a])
+
+
+TESTS[0x4002D0D4] = t_shadow
+
+
+def t_char(r):
+    ch = r.choice([0, 1, 5, 19, 0x10000 | r.randrange(20)])
+    hdr = bytes(r.getrandbits(8) for _ in range(0x4C0))
+    items = [(FD, hdr), (FD + 2, s16(r.choice([0, 1, 7, 30]))), (FD + 4, s16(r.choice([0, 1, 2, 3, 6]))),
+             (FD + 0xA, b"".join(s16(r.randrange(0, 100)) for _ in range(20))),
+             (FD + 0x262, b"".join(s16(r.choice([0, 1, 3, 8])) for _ in range(20))),
+             (FD + 0x4BC, i32(GD)), (GD, bytes(r.choice([0, 0, 1, 0xFF]) for _ in range(0x200))),
+             (0x42E68C74, i32(FD))]
+    return Case([xy(r), xy(r), ch], writes(items), ret=V, stubs=draw_stubs())
+
+
+TESTS[0x4002E6D8] = t_char
+TESTS[0x4002E7B0] = lambda r: Case([r.choice([r.randrange(0x20, 0x40), r.randrange(0x20, 0x40), rnd(r),
+                                              0x100 + 0x30])], ret=R)
+
+
+def t_blend(r):
+    x, y = r.randrange(0, 1022), r.randrange(0, 8)
+    fb = SYS + 0x100000
+    return Case([x, y], compose(writes([(0x40095498, i32(fb)), (fb + 2 * (x + 1022 * y), s16(r.getrandbits(16)))]),
+                                rand_block(r, 0x42E6865C, 12)), ret=V)
+
+
+TESTS[0x4002EA88] = t_blend
+
+
+def t_rect_copy_to(r):
+    x0 = r.randrange(0, 1000)
+    x1 = r.choice([x0, x0 + r.randrange(1, 40), max(0, x0 - 3)])
+    y0 = r.randrange(0, 600)
+    y1 = r.choice([y0, y0 + r.randrange(1, 6), max(0, y0 - 2)])
+    rows = []
+    xa, xb = max(0, min(x0, x1) - 1), max(x0, x1) + 1
+    for y in range(max(0, min(y0, y1) - 1), max(y0, y1) + 2):
+        for base in (0x41FB8FE8, 0x420E4E84):
+            rows.append((base + 2 * (xa + 1022 * y), bytes(r.getrandbits(8) for _ in range(2 * (xb - xa)))))
+    return Case([x0, y0, x1, y1], writes(rows), ret=V, stubs=(rec("dc", 0x4003E6F4, 4),))
+
+
+TESTS[0x400342FC] = t_rect_copy_to
+
+
+def t_repeat(r):
+    tick = r.getrandbits(32)
+    lim = r.choice([0, 1, 100, 1000, 0xFFFFFFFF])
+    st = [(tick - r.choice([0, 1, 99, 100, 101, 999, 1000, 5000])) & 0xFFFFFFFF for _ in range(2)]
+    return Case([], writes([(SYS + 0x86E, s16(r.choice([0, 1, 2, 3, 0xFFFF, r.getrandbits(16)])) +
+                             s16(r.choice([0, 1, 2, 3, 0xFFFF, r.getrandbits(16)])) +
+                             bytes([r.choice([0, 1, 0x80]), r.choice([0, 1, 0x80]), 0, 0])),
+                            (SYS + 0x874, i32(st[0]) + i32(st[1]) + i32(lim)), (0x42E68CD8, i32(tick))]), ret=V)
+
+
+TESTS[0x40032D3C] = t_repeat
+LV = [-0x80000000, -600, -11, -1, 0, 9, 10, 11, 300, 500, 501, 0x7FFFFFFF]
+
+
+def t_cursor_limits(r):
+    g = b"".join(i32(r.choice([3, 4, 0, 5]) if i == 0 else r.choice(LV)) for i in range(6))
+    q = b"".join(i32(r.choice(LV)) for _ in range(8))
+    return Case([], compose(t17(r), writes([(0x42E180C8 + 0x48, g), (0x42E42884, q)])), ret=V,
+                stubs=(rec("gen", 0x4004CF34, 4),))
+
+
+TESTS[0x40037944] = t_cursor_limits
+TESTS[0x40037B48] = lambda r: Case([], compose(rand_block(r, SYS, 0x700), rand_block(r, 0x42E554B0, 0x400),
+                                               rand_block(r, 0x42E3F984 + 0x2EF0, 0x20),
+                                               rand_block(r, TOUCH_BLK + 0x10, 8), t17(r)), ret=V)
+
+
+def t_chain(r):
+    b = bytes(r.choice([0, 1, 2]) for _ in range(4))
+    nv = r.choice([0, 1, 2])
+
+    def chg(m, a):
+        m.calls.append(("9254",))
+        m.w8(0x42E180C8 + 0x47, nv)
+    return Case([], writes([(0x42E180C8 + 0x44, b)]), ret=V, stubs=tuple(rec("%08x" % a, a, 0) for a in (
+        0x40037944, 0x40037B48, 0x4003A300, 0x40038374, 0x4003963C, 0x40039918, 0x400381E8, 0x40037C28)) +
+        (Stub("9254", 0x40039254, chg, 0), rec("inv", 0x4003CD44, 2)))
+
+
+TESTS[0x40037AB8] = t_chain

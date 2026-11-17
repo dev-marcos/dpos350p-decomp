@@ -1,0 +1,40 @@
+/*
+ * window_frame_23d04_draw -- stock 0x40023D04 (340 bytes, ARM)
+ * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
+ * Draws the window whose rectangle is at 0x42E64630 (x, y, w, h): background in colour word 0x409223B8, eight 0x555555 segments (func_4002ed90) near the top and bottom, and registers the rectangle as touch button 0x42E62716.
+ */
+#include "hw/platform.h"
+
+#include "hw/fpga.h"
+
+void draw_colour_set(u32 c);
+void func_4002ecc4(u32 a, u32 b, u32 c, u32 d);
+void func_4002ecc4_span(u32 a, u32 b, u32 c);
+void func_4002ce7c(u32 x, u32 y, const char *s);
+void pixel_put(u32 x, u32 y);
+#define W32(a) (*(volatile u32 *)(a))
+#define H16(a) (*(volatile unsigned short *)(a))
+
+void func_4002ed90(u32 a, u32 b, u32 c, u32 d);
+void touch_button_set_rect(u32 x, u32 y, u32 wd, u32 ht, volatile unsigned char *b);
+
+void window_frame_23d04_draw(void)
+{
+    u32 x = H16(0x42E64630u), y = H16(0x42E64632u), w = H16(0x42E64634u), h = H16(0x42E64636u), t, u;
+    draw_colour_set(W32(0x409223B8u));
+    func_4002ecc4(x, y, w, h);
+    draw_colour_set(0x555555);
+    func_4002ed90(x + 0xB, y + 0x19, x + 0x1F, y + 0xF);
+    func_4002ed90(x + 0x34, y + 0x19, x + 0x20, y + 0xF);
+    func_4002ed90(x + 0xB, y + 0x1A, x + 0x1F, y + 0x10);
+    func_4002ed90(x + 0x34, y + 0x1A, x + 0x20, y + 0x10);
+    t = h + y - 0x1B;
+    u = h + y - 0x11;
+    func_4002ed90(x + 0xB, t, x + 0x1F, u);
+    func_4002ed90(x + 0x34, t, x + 0x20, u);
+    t = h + y - 0x1C;
+    u = h + y - 0x12;
+    func_4002ed90(x + 0xB, t, x + 0x1F, u);
+    func_4002ed90(x + 0x34, t, x + 0x20, u);
+    touch_button_set_rect(x, y, w, h, (volatile unsigned char *)0x42E62716u);
+}

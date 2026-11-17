@@ -7,12 +7,12 @@
 
 #include "hw/fpga.h"
 
-void func_4002ea88(u32 x, u32 y);
+void pixel_blend(u32 x, u32 y);
 
 void pixel_put(u32 x, u32 y)
 {
     if (*(volatile unsigned char *)0x42E6865Cu) {
-        func_4002ea88(x, y);
+        pixel_blend(x, y);
         return;
     }
     *(volatile unsigned short *)(*(volatile u32 *)0x40095498u + (x + y * 1022u) * 2u) =

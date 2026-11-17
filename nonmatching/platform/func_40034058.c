@@ -7,12 +7,12 @@
 
 #include "hw/fpga.h"
 
-void func_40032d3c(void);
+void key_repeat_update(void);
 void func_40032e0c(u32 a);
 
 void func_40032e0c_both(void)
 {
-    func_40032d3c();
+    key_repeat_update();
     func_40032e0c(0);
     func_40032e0c(1);
 }

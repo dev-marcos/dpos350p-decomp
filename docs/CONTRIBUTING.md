@@ -98,8 +98,13 @@ function compiled in place (`tools/testiso.py`). **Emulator only, never write it
   - The opposite also matters: do not record the address of a buffer on the caller's stack (a
     `FIL`, for example). It depends on the frame layout, so an `-Os` build that is correct fails
     against it. `quiet` in `tests/sweep.py` gives a stub the registers without recording them.
+  - `p_ui_windows.py` now takes the draw-function names from `symbols/manual.csv`, so renaming a
+    window's draw function needs no edit there.
   - A spec that calls a function renamed in a later batch must use the new name. `ren_generic`
     does not change names built by a template such as `func_%(fail)08x`; fix those by hand.
+  - In a `compose(...)` setup, later writes win. A random block written after `t17(r)` that
+    covers touch byte +0x17 undoes the gate choice, and the function then almost always returns
+    early. Put `t17(r)` last.
   - Spec files run in `gen_platform.py`'s own namespace. Do not define module-level names that
     it uses (`HDR`, `SPEC`, `OUT`, `f`).
   - `--no-cache` runs everything.

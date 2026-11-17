@@ -8,10 +8,10 @@
 #include "hw/fpga.h"
 
 void fb_target_back(void);
-void func_4001c200(void);
+void battery_icon_draw(void);
 
 void ui_window_04_redraw(void)
 {
     fb_target_back();
-    func_4001c200();
+    battery_icon_draw();
 }

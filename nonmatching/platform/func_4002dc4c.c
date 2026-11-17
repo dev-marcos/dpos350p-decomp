@@ -8,14 +8,14 @@
 #include "hw/fpga.h"
 
 void table_scatter_42cf64b4(void);
-void func_4002ccd8(void);
+void fonts_init(void);
 void byte_42e68be0_set(u32 a);
 void half_42e68be2_set(u32 a);
 
 void draw_state_defaults(void)
 {
     table_scatter_42cf64b4();
-    func_4002ccd8();
+    fonts_init();
     byte_42e68be0_set(0);
     half_42e68be2_set(1);
 }
