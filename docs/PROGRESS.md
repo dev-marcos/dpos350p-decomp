@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1023 | 75.55% | 110474 | 32.73% |
+| EQUIVALENT | 1035 | 76.44% | 112790 | 33.42% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 331 | 24.45% | 227030 | 67.27% |
+| ASM | 319 | 23.56% | 224714 | 66.58% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1023 (76.40%) | 337104 | 110474 (32.77%) |
+| main code | 1339 | 1035 (77.30%) | 337104 | 112790 (33.46%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -210,6 +210,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40037AB8` | trace_update_chain | 144 | EQUIVALENT | 200 | `nonmatching/platform/func_40037ab8.c` |
 | `0x40037B48` | trace_defaults_37b48 | 224 | EQUIVALENT | 200 | `nonmatching/platform/func_40037b48.c` |
 | `0x40037C28` | func_40037c3c_unless_t17 | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_40037c28.c` |
+| `0x400381E8` | trace_cursor_values | 388 | EQUIVALENT | 200 | `nonmatching/platform/func_400381e8.c` |
 | `0x40038DAC` | level_label_db | 64 | EQUIVALENT | 200 | `nonmatching/platform/func_40038dac.c` |
 | `0x40038DEC` | level_label_dbmv | 64 | EQUIVALENT | 200 | `nonmatching/platform/func_40038dec.c` |
 | `0x4003A5D8` | __aeabi_l2d | 84 | EQUIVALENT | 400 | `nonmatching/libc/func_4003a5d8.c` |
@@ -380,9 +381,13 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40041918` | full_acquisition_veneer | 4 | EQUIVALENT | 200 | `nonmatching/platform/func_40041918.c` |
 | `0x4004191C` | runtime_sweep_path | 176 | EQUIVALENT | 200 | `nonmatching/platform/func_4004191c.c` |
 | `0x400419CC` | acquisition_dispatcher | 92 | EQUIVALENT | 200 | `nonmatching/platform/func_400419cc.c` |
+| `0x40041A4C` | fft_input_prepare | 340 | EQUIVALENT | 200 | `nonmatching/platform/func_40041a4c.c` |
+| `0x40041E34` | fft_traces_draw | 288 | EQUIVALENT | 200 | `nonmatching/platform/func_40041e34.c` |
 | `0x40041F5C` | zoom_views_update | 96 | EQUIVALENT | 200 | `nonmatching/platform/func_40041f5c.c` |
 | `0x40041FF8` | zoom_entry_select | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_40041ff8.c` |
+| `0x40042280` | view_bounds_update | 208 | EQUIVALENT | 200 | `nonmatching/platform/func_40042280.c` |
 | `0x40042350` | zoom_mode_check | 104 | EQUIVALENT | 200 | `nonmatching/platform/func_40042350.c` |
+| `0x400423B8` | zoom_index_fit | 164 | EQUIVALENT | 200 | `nonmatching/platform/func_400423b8.c` |
 | `0x4004245C` | zoom_index_add | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_4004245c.c` |
 | `0x40042470` | zoom_index_sub | 72 | EQUIVALENT | 200 | `nonmatching/platform/func_40042470.c` |
 | `0x400424B8` | zoom_index_set | 12 | EQUIVALENT | 200 | `nonmatching/platform/func_400424b8.c` |
@@ -395,6 +400,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x400428AC` | periph0_freq | 60 | EQUIVALENT | 300 | `nonmatching/drivers/func_400428ac.c` |
 | `0x40042914` | ccu_gate_on | 100 | EQUIVALENT | 300 | `nonmatching/drivers/func_40042914.c` |
 | `0x40042978` | ccu_gate_off | 108 | EQUIVALENT | 300 | `nonmatching/drivers/func_40042978.c` |
+| `0x400429E4` | mmu_map_sections | 124 | EQUIVALENT | 200 | `nonmatching/platform/func_400429e4.c` |
 | `0x40042B50` | readl_d | 8 | EQUIVALENT | 300 | `nonmatching/drivers/func_40042b50.c` |
 | `0x40042B58` | writel_d | 8 | EQUIVALENT | 300 | `nonmatching/drivers/func_40042b58.c` |
 | `0x40042B60` | timer_setup | 188 | EQUIVALENT | 300 | `nonmatching/drivers/func_40042b60.c` |
@@ -578,10 +584,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4004D5CC` | gen_decimate2 | 76 | EQUIVALENT | 200 | `nonmatching/platform/func_4004d5cc.c` |
 | `0x4004D618` | gen_normalize2 | 272 | EQUIVALENT | 200 | `nonmatching/platform/func_4004d618.c` |
 | `0x4004D730` | gen_resample2 | 280 | EQUIVALENT | 200 | `nonmatching/platform/func_4004d730.c` |
+| `0x4004EC98` | fpga_sel42_43_fill | 128 | EQUIVALENT | 200 | `nonmatching/platform/func_4004ec98.c` |
 | `0x4004EEEC` | fpga_cmd63_write | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4004eeec.c` |
 | `0x4004F59C` | fpga_probe_and_copy_7fc | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4004f59c.c` |
 | `0x4004F5C0` | security_check_and_copy | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4004f5c0.c` |
+| `0x4004FAB0` | calibration_result_flags | 132 | EQUIVALENT | 200 | `nonmatching/platform/func_4004fab0.c` |
 | `0x40051C04` | disk_format_and_reload | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_40051c04.c` |
+| `0x40051C28` | disk_check_file | 200 | EQUIVALENT | 200 | `nonmatching/platform/func_40051c28.c` |
+| `0x40051CF0` | factory_steps_run | 140 | EQUIVALENT | 200 | `nonmatching/platform/func_40051cf0.c` |
+| `0x40051E24` | screenshot_button_poll | 100 | EQUIVALENT | 200 | `nonmatching/platform/func_40051e24.c` |
+| `0x40052098` | window_touch_poll | 104 | EQUIVALENT | 200 | `nonmatching/platform/func_40052098.c` |
 | `0x400525D4` | touch_00f2_then_400545f8 | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_400525d4.c` |
 | `0x40054F08` | touch_btn_0804_release | 68 | EQUIVALENT | 200 | `nonmatching/platform/func_40054f08.c` |
 | `0x40055B98` | touch_btn_01ec_release | 60 | EQUIVALENT | 200 | `nonmatching/platform/func_40055b98.c` |

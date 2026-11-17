@@ -158,7 +158,7 @@ void sys_word_pair_578_set(u32 lo, u32 hi)
 r(0x40041F5C, 96, "zoom_views_update", "Unless the byte 0x42E68BC7 is set, and only when SYS+0x2AA, SYS+0x28 and SYS+0x652 are all 0: 0x40041BA0, 0x40041D38, 0x40041E34.", """
 void func_40041ba0(void);
 void func_40041d38(void);
-void func_40041e34(void);
+void fft_traces_draw(void);
 
 void zoom_views_update(void)
 {
@@ -168,7 +168,7 @@ void zoom_views_update(void)
         return;
     func_40041ba0();
     func_40041d38();
-    func_40041e34();
+    fft_traces_draw();
 }
 """, src="timebase")
 r(0x40041FF8, 36, "zoom_entry_select", "Copies the 64-bit entry SYS+0xBD0 + 8 x SYS+0x598 to SYS+0x5A0.", """
@@ -205,16 +205,16 @@ u32 zoom_mode_check(void)
 }
 """, src="timebase")
 r(0x4004245C, 20, "zoom_index_add", "SYS+0x598 += d, then 0x400423B8.", """
-void func_400423b8(void);
+void zoom_index_fit(void);
 
 void zoom_index_add(u32 d)
 {
     SYS8(0x598) = SYS8(0x598) + d;
-    func_400423b8();
+    zoom_index_fit();
 }
 """, src="timebase")
 r(0x40042470, 72, "zoom_index_sub", "When SYS+0x614 < SYS16+0x2AC x SYS+0x554 and d < SYS+0x598: SYS+0x598 -= d. Then 0x400423B8.", """
-void func_400423b8(void);
+void zoom_index_fit(void);
 
 void zoom_index_sub(u32 d)
 {
@@ -224,16 +224,16 @@ void zoom_index_sub(u32 d)
         if (d < b)
             SYS8(0x598) = b - d;
     }
-    func_400423b8();
+    zoom_index_fit();
 }
 """, src="timebase")
 r(0x400424B8, 12, "zoom_index_set", "SYS+0x598 = v, then 0x400423B8.", """
-void func_400423b8(void);
+void zoom_index_fit(void);
 
 void zoom_index_set(u32 v)
 {
     SYS8(0x598) = v;
-    func_400423b8();
+    zoom_index_fit();
 }
 """, src="timebase")
 r(0x400424D4, 76, "zoom_reset", "timebase_index_set(SYS+0x5B0), zoom_index_set(SYS+0x5B0 - 1), sys_word_pair_570_set(SYS64+0x5E0), copies SYS+0x570/574 to +0x578/57C, then sys_word_pair_578_set(0, 0) (so +0x578/57C end as 0).", """

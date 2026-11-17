@@ -347,6 +347,19 @@ MUTANTS = [
     (0x40030060, '        SYS8(0x801)++;', '        SYS8(0x800)++;'),
     (0x40032A58, '    SYS32(orng) = mx - mn;', '    SYS32(orng) = mn - mx;'),
     (0x40032A58, 'mx = 0, mn = 0xFFFFFF;', 'mx = 0, mn = 0xFFFF;'),
+    # batch 34: view, zoom, MMU, FFT, boot steps
+    (0x40042280, '    if (b < 1) {\n        hi = 0;', '    if (b < 1) {\n        hi = 1;'),
+    (0x400423B8, '    if (hi > k)\n        hi = k;', '    if (hi < k)\n        hi = k;'),
+    (0x400429E4, '        *p++ = 0xC12 | (s << 20) | cb;', '        *p++ = 0xC02 | (s << 20) | cb;'),
+    (0x4004EC98, '    for (i = 0x82; i; i--) {', '    for (i = 0x81; i; i--) {'),
+    (0x4004FAB0, '    } else if (r == -2) {\n        a = 1;', '    } else if (r == -3) {\n        a = 1;'),
+    (0x40041A4C, '    off = (SYS32(0x454) - st * n) >> 1;', '    off = (SYS32(0x454) - st * n) >> 2;'),
+    (0x40041E34, '    for (i = 0; i < SYS16(8) - 1u; i++, p++) {', '    for (i = 0; i < SYS16(8); i++, p++) {'),
+    (0x40051C28, '    f_open(fil, path, 0xB);', '    f_open(fil, path, 0xA);'),
+    (0x40051CF0, '        FS32(0) = 0x5A5555A5u;\n', ''),
+    (0x40051E24, '    for (i = WS8(1); i >= 0; i--) {\n        if (WS8(2 + i) == 1) {', '    for (i = WS8(1); i > 0; i--) {\n        if (WS8(2 + i) == 1) {'),
+    (0x40052098, '        if (*(volatile unsigned char *)(0x42E64520u + id * 14 + 2) == 0)', '        if (*(volatile unsigned char *)(0x42E64520u + id * 14 + 3) == 0)'),
+    (0x400381E8, '    TD(0xACA0) = TD(0x20) - b1;', '    TD(0xACA0) = TD(0x28) - b1;'),
 ]
 
 

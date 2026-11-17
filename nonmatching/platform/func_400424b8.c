@@ -7,10 +7,10 @@
 
 #include "hw/fpga.h"
 
-void func_400423b8(void);
+void zoom_index_fit(void);
 
 void zoom_index_set(u32 v)
 {
     SYS8(0x598) = v;
-    func_400423b8();
+    zoom_index_fit();
 }

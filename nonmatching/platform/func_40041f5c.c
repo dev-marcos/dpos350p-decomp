@@ -9,7 +9,7 @@
 
 void func_40041ba0(void);
 void func_40041d38(void);
-void func_40041e34(void);
+void fft_traces_draw(void);
 
 void zoom_views_update(void)
 {
@@ -19,5 +19,5 @@ void zoom_views_update(void)
         return;
     func_40041ba0();
     func_40041d38();
-    func_40041e34();
+    fft_traces_draw();
 }

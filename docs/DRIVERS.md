@@ -1102,6 +1102,48 @@ Spec: `tools/platform_spec/zb_draw_prims.py`, 14 functions. Tests: `tools/emu/te
   - 0x400300E8, the counterpart of `marker_value_add`: when the value is absent it uses an
     index register that was never set.
 
+## View and zoom, MMU, FFT, boot steps, window polling (batch 34)
+
+Spec: `tools/platform_spec/zc_view_fft_boot.py`, 12 functions. Tests: `tools/emu/tests/sweep.py`.
+
+- **View and zoom:**
+  - `view_bounds_update` turns the offset words SYS+0x620 and SYS+0x624 (plus u16 SYS+0xC) into
+    the visible start and end, clamped to the width SYS+8. The sums are 64-bit, so offsets near
+    the int limits do not wrap;
+  - `zoom_index_fit` steps the zoom index byte SYS+0x598 up while
+    u64 SYS+0x590 / u64 SYS+0x5A0 / word SYS+0x5D4 is at least u16 SYS+0x2AC, then clamps it to
+    SYS+0x2A8 .. SYS+0x2A7. Each step invalidates window 3.
+- **MMU.** `mmu_map_sections(tbl, va, pa, size, attr)` writes first-level section descriptors of
+  1 MB: 0xC12 (AP = 3, section) | pa section | C/B from attr bits 0..1. STATIC-CONFIRMED from the
+  code. Which regions the boot maps with it is not yet listed.
+- **FPGA.** `fpga_sel42_43_fill(n)`: selector 0x42 = 1, 130 pairs (1, 0) to selector 0x43,
+  selector 0x42 = 0, then n pairs. What the FPGA does with it is OPEN.
+- **FFT:**
+  - `fft_input_prepare` takes n = SYS+0x7F8 points from the middle of the capture buffer
+    0x42AC7CF4 (channel 2 at +0x62250), shifted right by SYS+0x264, as floats into 0x42E49EB4 and
+    0x42E4DEB4, followed by n zeros (zero padding);
+  - `fft_traces_draw` draws the s16 results at 0x42E5B014 and 0x42E5C014 as vertical segments,
+    in 0xFF8800 (channel 1) and 0x88FF (channel 2).
+- **Boot steps:**
+  - `disk_check_file`: formats and reloads the disk, writes a 30-byte string into
+    `sd_nand_check_file.bin`, reads it back, deletes it and sets byte 0x42E68AF0 to 1 when the
+    two match;
+  - `calibration_result_flags` maps the result of `system_calibration` (1, 0, -1, -2) to the
+    bytes 0x42E68B01..0x42E68B03;
+  - `factory_steps_run`: unless the state word 0x42E68AE0 is 0x5A5555A5, runs each of the three
+    factory steps whose done-word is not set yet, saving after each, then reloads the settings.
+    The marker values are STATIC-CONFIRMED; reading them as "factory flow complete" is DERIVED.
+- **Windows:**
+  - `screenshot_button_poll` saves a screenshot when touch button 0x42E62040 is released in an
+    open window of type 1;
+  - `window_touch_poll` calls the touch handler 0x40051E88 for the windows of the stack from the
+    top down. It stops at the first window whose record byte +2 at 0x42E64520 is 0 (DERIVED: a
+    modal window).
+- **Cursor values.** `trace_cursor_values` converts the two cursor positions into doubles at
+  0x42E22B38..0x42E22B78. The horizontal values are 10^(base + pos / width × scale), so the axis
+  is logarithmic (DERIVED: the frequency axis of the Bode plot). The vertical values come from
+  the per-x tables 0x42E1FD88 and 0x42E20DE8.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

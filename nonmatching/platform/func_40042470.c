@@ -7,7 +7,7 @@
 
 #include "hw/fpga.h"
 
-void func_400423b8(void);
+void zoom_index_fit(void);
 
 void zoom_index_sub(u32 d)
 {
@@ -17,5 +17,5 @@ void zoom_index_sub(u32 d)
         if (d < b)
             SYS8(0x598) = b - d;
     }
-    func_400423b8();
+    zoom_index_fit();
 }

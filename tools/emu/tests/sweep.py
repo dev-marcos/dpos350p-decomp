@@ -997,3 +997,182 @@ def t_minmax(r):
 
 
 TESTS[0x40032A58] = t_minmax
+
+
+# ================================================================ batch 34: view, zoom, MMU, FFT, boot steps
+I64 = lambda v: (v & 0xFFFFFFFFFFFFFFFF).to_bytes(8, "little")
+OFFV = [-0x80000000, -2000, -5, -1, 0, 1, 2, 500, 1021, 1022, 1023, 5000, 0x7FFFFFFF]
+
+
+def t_view(r):
+    return Case([], writes([(SYS + 0x620, i32(r.choice(OFFV)) + i32(r.choice(OFFV))),
+                            (SYS + 0xC, s16(r.choice([0, 1, 10, 0xFFFF]))),
+                            (SYS + 8, s16(r.choice([0, 1, 2, 600, 1022, 0xFFFF]))),
+                            (SYS + 0x10, bytes(r.getrandbits(8) for _ in range(0x10)))]), ret=V)
+
+
+TESTS[0x40042280] = t_view
+
+
+def t_zoom(r):
+    seq = [r.choice([0, 1, 50, 1000, 10 ** 6, 10 ** 9, 1 << 40, (1 << 64) - 1]) for _ in range(r.randrange(0, 6))]
+    den = r.choice([1, 2, 10, 1000, 1 << 33])
+    per = r.choice([1, 3, 100])
+
+    def sel(m, a):
+        m.calls.append(("sel",))
+        m.write(SYS + 0x590, I64(m.seq.pop(0) if m.seq else 0))
+
+    def setup(m):
+        m.seq = list(seq)
+    return Case([], compose(writes([(SYS + 0x588, bytes([r.choice([0, 1, 5, 20, 0xFF])])),
+                                    (SYS + 0x590, I64(r.getrandbits(64)) + bytes([r.choice([0, 1, 4, 30, 0xFF])]) +
+                                     bytes(7) + I64(den)),
+                                    (SYS + 0x5D4, i32(per)), (SYS + 0x2AC, s16(r.choice([1, 2, 100, 0xFFFF]))),
+                                    (SYS + 0x2A7, bytes([r.choice([0, 3, 10, 0xFF]), r.choice([0, 1, 4, 12])]))]),
+                            setup), ret=V,
+                stubs=(Stub("sel", 0x40041FF8, sel, 0), rec("inv", 0x4003CD44, 2)))
+
+
+TESTS[0x400423B8] = t_zoom
+
+
+def t_mmu(r):
+    tbl = SYS + 0x200000
+    va = r.choice([0, 0x40000000, 0x01C00000, r.getrandbits(32)]) & 0x0FF00000
+    pa = r.choice([0, 0x40000000, r.getrandbits(32), r.getrandbits(40)])
+    size = r.choice([0, 0xFFFFF, 0x100000, 0x300000, 0x1000000, 0x1FFFFFF, (1 << 32) + 0x200000])
+    size = size if size < (1 << 32) else (r.choice([0, 1]) << 32) | 0x200000
+    return Case([tbl, 0, va & 0xFFFFFFFF, va >> 32], writes([(tbl + (va >> 20) * 4 - 8,
+                                                               bytes(r.getrandbits(8) for _ in range(0x100)))]),
+                ret=V, stack=[pa & 0xFFFFFFFF, pa >> 32, size & 0xFFFFFFFF, size >> 32, r.getrandbits(32)])
+
+
+TESTS[0x400429E4] = t_mmu
+TESTS[0x4004EC98] = lambda r: Case([r.choice([0, 1, 2, 7, 100])], ret=V,
+                                   stubs=(rec("sel", 0x4004927C, 1), rec("wr", 0x40049214, 1)))
+
+
+def t_calres(r):
+    rc = r.choice([1, 0, -1, -2, -3, 2, 5]) & 0xFFFFFFFF
+    nb = bytes(r.getrandbits(8) for _ in range(3))
+
+    def cal(m, a):
+        m.calls.append(("cal",))
+        m.write(0x42E68B01, nb)
+        return rc
+    return Case([], rand_block(r, 0x42E68AE0, 0x30), ret=V, stubs=(Stub("cal", 0x4004C6B4, cal, 0),))
+
+
+TESTS[0x4004FAB0] = t_calres
+
+
+def t_fft_in(r):
+    n = r.choice([0, 1, 2, 7, 32])
+    total = r.choice([0, 1, n, 2 * n + 1, 5 * n + 3, 100])
+    return Case([], compose(writes([(SYS + 0x7F8, i32(n)), (SYS + 0x454, i32(total)),
+                                    (SYS + 0x264, i32(r.choice([0, 1, 4, 15, 31, 32, 40, 0x101]))),
+                                    (SYS + 0x3E, bytes([r.choice([0, 1])])), (SYS + 0x42, bytes([r.choice([0, 1, 1])])),
+                                    (SYS + 0x102, bytes([r.choice([0, 1])])),
+                                    (SYS + 0x106, bytes([r.choice([0, 1, 1])]))]),
+                            rand_block(r, 0x42AC7CF4, 0x200), rand_block(r, 0x42AC7CF4 + 0x62250, 0x200),
+                            rand_block(r, 0x42E49EB4, 0x120), rand_block(r, 0x42E4DEB4, 0x120)), ret=V)
+
+
+TESTS[0x40041A4C] = t_fft_in
+
+
+def t_fft_draw(r):
+    return Case([], compose(writes([(SYS + 4, s16(xy(r) & 0xFFFF) + s16(r.randrange(0, 300)) +
+                                     s16(r.choice([1, 2, 5, 30])) + s16(r.randrange(0, 600))),
+                                    (SYS + 0x3E, bytes([r.choice([0, 1])])), (SYS + 0x42, bytes([r.choice([0, 1, 1])])),
+                                    (SYS + 0x102, bytes([r.choice([0, 1])])),
+                                    (SYS + 0x106, bytes([r.choice([0, 1, 1])]))]),
+                            rand_block(r, 0x42E5B014, 0x40), rand_block(r, 0x42E5C014, 0x40)), ret=V,
+                stubs=(rec("colour", EA38, 1), rec("vline", 0x4002EBC8, 3)))
+
+
+TESTS[0x40041E34] = t_fft_draw
+
+
+def t_diskchk(r):
+    rdata = bytes(r.getrandbits(8) for _ in range(0x1E))
+    same = r.random() < 0.5
+
+    def wr(m, a):
+        m.calls.append(("write", a[0] == m.fil, bytes(m.read(a[1], a[2])), a[2], a[3]))
+        m.wdata = bytes(m.read(a[1], a[2]))
+        return 0
+
+    def rd(m, a):
+        m.write(a[1], m.wdata if same else rdata)
+        m.calls.append(("read", a[0] == m.fil, a[2], a[3]))
+        return 0
+
+    def op(m, a):
+        m.fil = a[0]
+        m.calls.append(("open", a[1], a[2] & 0xFF))
+        return 0
+
+    def cl(m, a):
+        m.calls.append(("close", a[0] == m.fil))
+        return 0
+
+    def ls(m, a):
+        m.calls.append(("lseek", a[0] == m.fil, a[2], a[3]))
+        return 0
+    return Case([], rand_block(r, 0x42E68AE0, 0x20), ret=V,
+                stubs=(rec("fmt", 0x40051C04, 0), quiet("f_open", F_OPEN, op, 3), quiet("f_close", F_CLOSE, cl, 1),
+                       quiet("f_lseek", F_LSEEK, ls, 4), quiet("f_write", F_WRITE, wr, 4),
+                       quiet("f_read", F_READ, rd, 4), rec("unlink", F_UNLINK, 1)))
+
+
+TESTS[0x40051C28] = t_diskchk
+FWORDS = [(0, 0x5A5555A5), (4, 0xA5AA555A), (8, 0x5A5AA5AA), (0xC, 0xA5A5AA55)]
+
+
+def t_factory(r):
+    blk = b"".join(i32(v if r.random() < 0.5 else r.getrandbits(32)) for _, v in FWORDS)
+    return Case([], writes([(0x42E68AE0, blk)]), ret=V, stubs=tuple(rec("%08x" % a, a, 0) for a in (
+        0x40050FE0, 0x40051578, 0x400519E4, 0x40043E00, 0x400447C8, 0x40044794, 0x4003EEB0, 0x4003E708, 0x4004D18C)))
+
+
+TESTS[0x40051CF0] = t_factory
+
+
+def win_stack(r):
+    n = r.choice([0, 1, 2, 5])
+    return writes([(0x42E68BC8, bytes([r.getrandbits(8), n]) + bytes(r.choice([0, 1, 1, 2, 30]) for _ in range(8)))])
+
+
+def t_shot(r):
+    st = [r.choice([0, 1, 2, 2]) for _ in range(10)]
+
+    def tbu(m, a):
+        m.calls.append(("tbu", a[0]))
+        m.w8(0x42E62040, m.st.pop(0) if m.st else 0)
+
+    def setup(m):
+        m.st = list(st)
+    return Case([], compose(win_stack(r), rand_block(r, 0x42E61FF8, 0x60), setup), ret=V,
+                stubs=(Stub("tbu", 0x4002F2BC, tbu, 1), rec("shot", 0x4003506C, 0)))
+
+
+TESTS[0x40051E24] = t_shot
+TESTS[0x40052098] = lambda r: Case([], compose(win_stack(r), rand_block(r, 0x42E64520, 0x1C0),
+                                               rand_block(r, TOUCH_BLK + 8, 8), t17(r)), ret=V,
+                                   stubs=(rec("shot", 0x40051E24, 0), rec("touch", 0x40051E88, 1)))
+
+
+def t_curvals(r):
+    w, h = r.choice([1, 2, 100, 1022, 0xFFFF]), r.choice([1, 2, 600, 0xFFFF])
+    c1, c2 = r.randrange(0, 40), r.randrange(0, 40)
+    f64 = lambda v: __import__("struct").pack("<d", v)
+    return Case([], compose(rand_block(r, 0x42E180C8 + 0x8D20, 0x60), rand_block(r, 0x42E180C8 + 0x9CC0, 0x60),
+                            writes([(0x42E180C8 + 4, s16(w) + s16(h)),
+                                    (0x42E180C8 + 0x10, b"".join(f64(r.uniform(-10, 10)) for _ in range(4))),
+                                    (0x42E180C8 + 0x8D08, f64(r.uniform(-3, 3)) + bytes(8) + f64(r.uniform(-2, 2))),
+                                    (0x42E180C8 + 0xAC64, i32(c1) + i32(c2))]), t17(r)), ret=V)
+
+
+TESTS[0x400381E8] = t_curvals
