@@ -13,7 +13,7 @@ void func_40060fe8(void);
 void func_40060dc8(void);
 void func_40061f10(void);
 void func_400617ac(void);
-void func_400623f4(void);
+void levels_update_chain(void);
 void func_40062448(void);
 void func_40062b1c(void);
 void func_40062a18(void);
@@ -31,7 +31,7 @@ void ui_window_40_draw(void)
         func_40061f10();
     }
     func_400617ac();
-    func_400623f4();
+    levels_update_chain();
     func_40062448();
     func_40062b1c();
     func_40062a18();

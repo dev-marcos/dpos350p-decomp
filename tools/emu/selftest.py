@@ -380,6 +380,19 @@ MUTANTS = [
     (0x40061580, '    if (n < (u32)(n << 1)) {', '    if (n > 1) {'),
     (0x40063798, '        if ((int)r < 0)', '        if ((int)r <= 0)'),
     (0x40062E14, '    MD(0x148) = MD(0x10) + d * 0.5;', '    MD(0x148) = MD(0x10) + d * 0.25;'),
+    # batch 36: more button handlers, levels, FPGA params
+    (0x40056214, '        CUR(4) = DG32(8) - DG32(0x30);', '        CUR(4) = DG32(8) + DG32(0x30);'),
+    (0x40056724, '            DG64(8) = MK(0x60);', '            DG64(8) = (u32)MK(0x60);'),
+    (0x400562F4, '    if (TT8(0xAD19) == 0 || TT8(0xAD1A) == 0)', '    if (TT8(0xAD19) == 0)'),
+    (0x40056404, '        SYS32(0x5F0) = 100000000;', '        SYS32(0x5F0) = 10000000;'),
+    (0x400524B4, '    ui_window_invalidate_from(3, v);', '    ui_window_invalidate_from(3, 0);'),
+    (0x40055F2C, '        TT8(0x47) = v;\n', ''),
+    (0x40055978, '    case 0: t = 0x680, p = 0x814; break;', '    case 0: t = 0x680, p = 0x815; break;'),
+    (0x40056804, '            MK32(0xF4) = i;', '            MK32(0xF4) = i + 1;'),
+    (0x40056080, '            numpad_open_mode1(0x201, 0xE9);', '            numpad_open_mode1(0x200, 0xE9);'),
+    (0x400623F4, '        func_40061a70();\n', ''),
+    (0x400634F0, '    fpga_param_updater(0x10, 2, w, (u32)(int)(short)SYS16(0x27E));', '    fpga_param_updater(0x10, 2, w, SYS16(0x27E));'),
+    (0x40064C28, '    return c & b & a & 1;', '    return c & a & 1;'),
 ]
 
 

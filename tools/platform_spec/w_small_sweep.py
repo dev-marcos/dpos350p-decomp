@@ -290,7 +290,7 @@ void fpga_cmd0c_write(void);
 void fpga_cmd1a_write(void);
 void fpga_cmd15_write(void);
 void fpga_cmd16_write(void);
-void func_400634f0(void);
+void fpga_params_0e_13_write(void);
 void trigger_offsets_update(void);
 
 void fpga_config_push(void)
@@ -300,7 +300,7 @@ void fpga_config_push(void)
     fpga_cmd1a_write();
     fpga_cmd15_write();
     fpga_cmd16_write();
-    func_400634f0();
+    fpga_params_0e_13_write();
     trigger_offsets_update();
 }
 """, src="acquisition")
@@ -327,7 +327,7 @@ void security_check_and_copy(void)
 w(0x40064DC0, 52, "check_pair_save",
   "0x40063A50; r = 0x40064C28() & 0x40064CF0() & 1; settings_a_save when r; 0x4003EB40; byte 0x42E68AE0+0x45 = r.", """
 void func_40063a50(void);
-u32 func_40064c28(void);
+u32 gen_selftest_64c28(void);
 u32 func_40064cf0(void);
 void settings_a_save(void);
 void func_4003eb40(void);
@@ -336,7 +336,7 @@ void check_pair_save(void)
 {
     u32 a, r;
     func_40063a50();
-    a = func_40064c28();
+    a = gen_selftest_64c28();
     r = func_40064cf0() & a & 1;
     if (r)
         settings_a_save();

@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1054 | 77.84% | 115466 | 34.21% |
+| EQUIVALENT | 1066 | 78.73% | 118706 | 35.17% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 300 | 22.16% | 222038 | 65.79% |
+| ASM | 288 | 21.27% | 218798 | 64.83% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1054 (78.72%) | 337104 | 115466 (34.25%) |
+| main code | 1339 | 1066 (79.61%) | 337104 | 118706 (35.21%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -595,6 +595,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40051CF0` | factory_steps_run | 140 | EQUIVALENT | 200 | `nonmatching/platform/func_40051cf0.c` |
 | `0x40051E24` | screenshot_button_poll | 100 | EQUIVALENT | 200 | `nonmatching/platform/func_40051e24.c` |
 | `0x40052098` | window_touch_poll | 104 | EQUIVALENT | 200 | `nonmatching/platform/func_40052098.c` |
+| `0x400524B4` | buttons_ac_open_windows | 288 | EQUIVALENT | 200 | `nonmatching/platform/func_400524b4.c` |
 | `0x400525D4` | touch_00f2_then_400545f8 | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_400525d4.c` |
 | `0x40052F08` | file_lists_open_buttons | 172 | EQUIVALENT | 200 | `nonmatching/platform/func_40052f08.c` |
 | `0x40054540` | button_71e_drag_handler | 168 | EQUIVALENT | 200 | `nonmatching/platform/func_40054540.c` |
@@ -604,10 +605,18 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x400555E8` | list_c_delete_button_handler | 72 | EQUIVALENT | 200 | `nonmatching/platform/func_400555e8.c` |
 | `0x40055634` | buttons_9f8_handler | 228 | EQUIVALENT | 200 | `nonmatching/platform/func_40055634.c` |
 | `0x40055720` | buttons_106_handler | 120 | EQUIVALENT | 200 | `nonmatching/platform/func_40055720.c` |
+| `0x40055978` | system_calibration_button_handler | 348 | EQUIVALENT | 200 | `nonmatching/platform/func_40055978.c` |
 | `0x40055AD4` | language_select_buttons | 196 | EQUIVALENT | 200 | `nonmatching/platform/func_40055ad4.c` |
 | `0x40055B98` | touch_btn_01ec_release | 60 | EQUIVALENT | 200 | `nonmatching/platform/func_40055b98.c` |
 | `0x40055BD4` | format_button_handler | 164 | EQUIVALENT | 200 | `nonmatching/platform/func_40055bd4.c` |
 | `0x40055C78` | touch_btn_019c_release | 76 | EQUIVALENT | 200 | `nonmatching/platform/func_40055c78.c` |
+| `0x40055F2C` | buttons_ac0_handler | 340 | EQUIVALENT | 200 | `nonmatching/platform/func_40055f2c.c` |
+| `0x40056080` | numpad_buttons_b06 | 396 | EQUIVALENT | 200 | `nonmatching/platform/func_40056080.c` |
+| `0x40056214` | cursor_drag_buttons_b42 | 220 | EQUIVALENT | 200 | `nonmatching/platform/func_40056214.c` |
+| `0x400562F4` | calibration_b4c_button_handler | 268 | EQUIVALENT | 200 | `nonmatching/platform/func_400562f4.c` |
+| `0x40056404` | buttons_b56_handler | 292 | EQUIVALENT | 200 | `nonmatching/platform/func_40056404.c` |
+| `0x40056724` | marker_drag_buttons_bd8 | 220 | EQUIVALENT | 200 | `nonmatching/platform/func_40056724.c` |
+| `0x40056804` | buttons_be2_handler | 368 | EQUIVALENT | 200 | `nonmatching/platform/func_40056804.c` |
 | `0x40056974` | calibration_button_handler | 208 | EQUIVALENT | 200 | `nonmatching/platform/func_40056974.c` |
 | `0x40056A70` | ld_word | 16 | EQUIVALENT | 300 | `nonmatching/fatfs/func_40056a70.c` |
 | `0x40056A80` | ld_dword | 32 | EQUIVALENT | 300 | `nonmatching/fatfs/func_40056a80.c` |
@@ -724,6 +733,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40061580` | fft_input_prepare_b | 132 | EQUIVALENT | 200 | `nonmatching/platform/func_40061580.c` |
 | `0x400621EC` | level_stats_5f010 | 144 | EQUIVALENT | 200 | `nonmatching/platform/func_400621ec.c` |
 | `0x40062284` | level_stats_60008 | 164 | EQUIVALENT | 200 | `nonmatching/platform/func_40062284.c` |
+| `0x400623F4` | levels_update_chain | 76 | EQUIVALENT | 200 | `nonmatching/platform/func_400623f4.c` |
 | `0x40062E00` | func_40062e14_unless_locked | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_40062e00.c` |
 | `0x40062E14` | measure_setup_62e14 | 200 | EQUIVALENT | 200 | `nonmatching/platform/func_40062e14.c` |
 | `0x40062EE8` | ui_window_40_draw | 92 | EQUIVALENT | 200 | `nonmatching/platform/func_40062ee8.c` |
@@ -744,6 +754,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40063430` | fpga_cmd15_write | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_40063430.c` |
 | `0x40063460` | fpga_cmd16_write | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_40063460.c` |
 | `0x40063484` | cursor_27e_clamp | 108 | EQUIVALENT | 200 | `nonmatching/platform/func_40063484.c` |
+| `0x400634F0` | fpga_params_0e_13_write | 224 | EQUIVALENT | 200 | `nonmatching/platform/func_400634f0.c` |
 | `0x400635D0` | fpga_cmd61_write | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_400635d0.c` |
 | `0x400635F4` | fpga_cmd61_pulse | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_400635f4.c` |
 | `0x40063628` | fpga_cmd17_write | 68 | EQUIVALENT | 200 | `nonmatching/platform/func_40063628.c` |
@@ -755,6 +766,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40063BC0` | fpga_counters_init | 116 | EQUIVALENT | 200 | `nonmatching/platform/func_40063bc0.c` |
 | `0x40063C34` | fpga_counter_step | 124 | EQUIVALENT | 200 | `nonmatching/platform/func_40063c34.c` |
 | `0x40063CB0` | func_40063c34_all8 | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_40063cb0.c` |
+| `0x40064C28` | gen_selftest_64c28 | 200 | EQUIVALENT | 200 | `nonmatching/platform/func_40064c28.c` |
 | `0x40064DC0` | check_pair_save | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40064dc0.c` |
 | `0x4006582C` | csi_readl | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_4006582c.c` |
 | `0x40065834` | csi_writel | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_40065834.c` |

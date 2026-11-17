@@ -1187,6 +1187,46 @@ Spec: `tools/platform_spec/zd_buttons_levels.py`, 19 functions. Tests: `tools/em
   loop after the watchdog reset; 0x40061608 takes a double in d0 (the harness has no FP
   arguments yet).
 
+## More button handlers, level chain, FPGA parameters, generator self-test (batch 36)
+
+Spec: `tools/platform_spec/ze_buttons_more.py`, 12 functions. Tests: `tools/emu/tests/sweep.py`.
+
+- **Drags.**
+  - `cursor_drag_buttons_b42` moves the two cursor words 0x42E22D2C / +4 in drag modes 0xE / 0xF.
+    These are the cursor positions read by `trace_cursor_values` (batch 34);
+  - `marker_drag_buttons_bd8` moves the words +0x5C / +0x60 of block 0x42E68668 in modes
+    0x10 / 0x11.
+
+  Both keep the 64-bit start in the drag block 0x42E68998 on press (state 1). They set
+  start - word +0x30 while byte +1 of the button is 1.
+- **Calibration buttons.**
+  - `system_calibration_button_handler` runs `system_calibration` and shows one of four messages
+    for the results -2, -1, 0 and 1;
+  - `calibration_b4c_button_handler` runs 0x40039EB8 and picks its message from the bytes
+    0x42E22DE1 / 0x42E22DE2.
+- **Window and file buttons.**
+  - `buttons_ac_open_windows` opens windows 0xD..0x12. Its last button toggles SYS+0x671 and
+    passes the new value as r1 to `ui_window_invalidate_from`;
+  - `buttons_b56_handler` and `buttons_ac0_handler` restore SYS_INFO and reopen windows 1 and 5.
+    They also save a screenshot and toggle several flags;
+  - `buttons_be2_handler` sets word +0xF4 of block 0x42E68668 to 0..3 and toggles its bytes +1
+    and +2. Byte +1 is the gate of `level_stats_60008`.
+- **Numpad fields.** `numpad_buttons_b06` opens the numpad for one of five fields. It sets the
+  target in the block 0x42E68A88: a pointer to word 0x42E18114 + 4k, the field number in
+  0x42E18110, and two cleared words. The four target words are rewritten even when no button
+  fired.
+- **Level chain.** `levels_update_chain` runs the level functions of batch 35 unless touch byte
+  +0x17 is set.
+- **FPGA parameters.** `fpga_params_0e_13_write` writes parameters 0x0E..0x13 for the channel
+  selected by SYS+0x27C. Parameter 0x10 is the trace position SYS+0x27E, and the stock reads it
+  as an unaligned word. It then calls `smec_commit(0xB8)` and `fpga_cmd17_write`.
+- **Generator self-test.** `gen_selftest_64c28` sets four generator values in turn:
+  0x2D32355 / 1800, 0x2D32355 / 1800, 0x1797D51 / 1300 and 0xBC84B1 / 1300. It checks each one
+  with 0x4006453C and returns bit 0 of the AND of the four results. What the units of the values
+  are is OPEN.
+- Like batch 35, `ui_window_close` (and `ui_window_invalidate_from` after it in
+  `system_calibration_button_handler`) gets the r1/r2 left by the previous call.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

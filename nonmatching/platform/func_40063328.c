@@ -12,7 +12,7 @@ void fpga_cmd0c_write(void);
 void fpga_cmd1a_write(void);
 void fpga_cmd15_write(void);
 void fpga_cmd16_write(void);
-void func_400634f0(void);
+void fpga_params_0e_13_write(void);
 void trigger_offsets_update(void);
 
 void fpga_config_push(void)
@@ -22,6 +22,6 @@ void fpga_config_push(void)
     fpga_cmd1a_write();
     fpga_cmd15_write();
     fpga_cmd16_write();
-    func_400634f0();
+    fpga_params_0e_13_write();
     trigger_offsets_update();
 }

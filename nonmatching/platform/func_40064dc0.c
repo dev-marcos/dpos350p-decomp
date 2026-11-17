@@ -8,7 +8,7 @@
 #include "hw/fpga.h"
 
 void func_40063a50(void);
-u32 func_40064c28(void);
+u32 gen_selftest_64c28(void);
 u32 func_40064cf0(void);
 void settings_a_save(void);
 void func_4003eb40(void);
@@ -17,7 +17,7 @@ void check_pair_save(void)
 {
     u32 a, r;
     func_40063a50();
-    a = func_40064c28();
+    a = gen_selftest_64c28();
     r = func_40064cf0() & a & 1;
     if (r)
         settings_a_save();

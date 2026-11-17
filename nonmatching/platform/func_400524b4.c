@@ -1,0 +1,36 @@
+/*
+ * buttons_ac_open_windows -- stock 0x400524B4 (288 bytes, ARM)
+ * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
+ * Buttons 0xAC, 0xB6, 0xC0, 0xCA, 0xD4, 0xDE open windows 0xD..0x12; button 0xE8 toggles byte SYS+0x671 and invalidates from window 3 (r1 = the new value).
+ */
+#include "hw/platform.h"
+
+#include "hw/fpga.h"
+
+#define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
+void ui_window_close(u32 id);
+void ui_window_open(u32 id);
+
+void touch_group_00AC(void);
+void ui_window_invalidate_from(u32 id, u32 r1);
+
+void buttons_ac_open_windows(void)
+{
+    u32 i, v;
+    touch_group_00AC();
+    for (i = 0; i < 6; i++) {
+        if (TB(0xAC + 10 * i) == 2) {
+            TB(0xAC + 10 * i) = 0;
+            TB(0) = 0;
+            ui_window_open(0xD + i);
+            return;
+        }
+    }
+    if (TB(0xE8) != 2)
+        return;
+    TB(0xE8) = 0;
+    TB(0) = 0;
+    v = SYS8(0x671) == 0;
+    SYS8(0x671) = v;
+    ui_window_invalidate_from(3, v);
+}
