@@ -1363,6 +1363,37 @@ Spec: `tools/platform_spec/zi_lists_selftests.py`, 7 functions. Tests: `tools/em
   the group. `slider40` picks x right at the slider limits. Both make the stock edge cases
   frequent enough for the 80-case mutant runs.
 
+## Self-tests, touch-target test, window touch dispatch, generator FPGA writer (batch 41)
+
+Spec: `tools/platform_spec/zj_selftests_dispatch.py`, 5 functions. Tests: `tools/emu/tests/sweep.py`.
+
+- **Self-tests.** `gen_selftest_50bac` and `gen_selftest_50ddc` join the self-tests of batch 40.
+  Both store their pass flags in the result block 0x42E68AE0.
+  - `gen_selftest_50bac` measures, per channel, the spread (max - min) of the capture bytes at
+    0x42DF76D4, summed over 30 acquisitions. It does this with the output setting SYS+0x46 /
+    SYS+0x10A at 0 and at 1. A channel passes when the spread with setting 1 is below 0.9 times
+    the spread with setting 0.
+  - `gen_selftest_50ddc` compares 5 * (result / 1000) with 4 * 1000.
+
+  What each test checks physically is DERIVED from the settings it writes. It is not
+  HW-CONFIRMED.
+- **Touch test.** `touch_targets_test` draws five 80 x 80 squares: the four corners and the
+  centre of the 1024 x 600 screen. It polls the GT911 until every square has been touched, and
+  repaints each square as it is touched. The tests feed touches right at the edges of the squares
+  and always end with the five centres, so the loop terminates.
+- **Window touch dispatch.** `window_buttons_dispatch(id)` is the switch that routes a touch to
+  the window's button handler. Ids 1..42 map to the handlers rewritten in batches 35-40, with no
+  handler for id 4. Every id is then passed to `ui_window_touch_handle`. This table links the
+  window ids to their handlers.
+- **Generator FPGA writer.** `gen_fpga_settings_write` sends the generator block 0x42E3F984 to the
+  FPGA:
+  - the sample clock: min(limit, rate * points), multiplied by 10 below 2500, with a x10 flag;
+    it goes to the MS5351 clock 1;
+  - two 16-bit words, the point count - 2 and a mode flag;
+  - every sample as index (selector 0x3F) + value (0x40), with a strobe on selector 0x3E.
+
+  It is skipped while byte 0x42E68BC7 is set.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

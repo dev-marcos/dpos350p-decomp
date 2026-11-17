@@ -15,6 +15,6 @@ void gen_update(void)
     gen_limits(r0, r1, r2, r3);
     gen_send_params();
     func_4004d880();
-    func_4004ed18();
+    gen_fpga_settings_write();
     gen_table_repeat_default();
 }

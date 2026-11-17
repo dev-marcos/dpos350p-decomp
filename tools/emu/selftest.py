@@ -433,6 +433,18 @@ MUTANTS = [
     (0x400504B8, '        a = (u32)(q2 + 0x18F) < 0x31Fu;', '        a = (u32)(q2 + 0x18F) <= 0x31Fu;'),
     (0x40050688, '            a &= q1 < -1499;', '            a &= q1 <= -1499;'),
     (0x40050688, '        st_step((u32)amp, 0x18, 6, i ? off : 0, 0);', '        st_step((u32)amp, 0x18, 6, off, 0);'),
+    # batch 41: self-tests, touch test, dispatch, generator FPGA
+    (0x40050BAC, '        for (j = 0x14; j < end; j++) {', '        for (j = 0x15; j < end; j++) {'),
+    (0x40050BAC, '    p1 = b < (int)((float)a * 0.9f);', '    p1 = b <= (int)((float)a * 0.9f);'),
+    (0x40050BAC, '    end = (int)SYS16(0x640) - 0x28;', '    end = (int)SYS16(0x640) - 0x27;'),
+    (0x40050DDC, '    a = (long long)q2 * 5 < (long long)amp * 4;', '    a = (long long)q2 * 5 <= (long long)amp * 4;'),
+    (0x40050DDC, '    SYS8(0x10A) = 2;', '    SYS8(0x10A) = 1;'),
+    (0x400519E4, '            else if (IN(x, 0x1D9) && IN(TS16(6), 0x105))', '            else if (IN(x, 0x1D9) && IN(TS16(6), 0x106))'),
+    (0x400519E4, '#define IN(v, lo) ((u32)((v) - (lo)) < 0x4Fu)', '#define IN(v, lo) ((u32)((v) - (lo)) < 0x50u)'),
+    (0x40051E88, '    case 30:\n        touch_btn_01ec_release();', '    case 30:\n        touch_btn_019c_release();'),
+    (0x4004ED18, '        if (c < 2500)\n            c = 2500;', '        if (c < 2400)\n            c = 2500;'),
+    (0x4004ED18, '    if (c > f)', '    if (c >= f + 1 && f)'),
+    (0x4004ED18, '    fpga_data_byte_write(((GB16(0x2EF6) - 2) >> 8) & 0xFF);', '    fpga_data_byte_write(((GB16(0x2EF6) - 1) >> 8) & 0xFF);'),
 ]
 
 

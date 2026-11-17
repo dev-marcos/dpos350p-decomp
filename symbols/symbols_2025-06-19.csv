@@ -927,7 +927,7 @@ address,size,name,type,evidence_level,source
 0x4004D880,5096,func_4004d880,function_arm,DERIVED,analyze.py:rea
 0x4004EC68,48,pool_4004ec68,literal_pool,DERIVED,analyze.py
 0x4004EC98,128,fpga_sel42_43_fill,function_arm,DERIVED,this-project:phase5 (acquisition)
-0x4004ED18,468,func_4004ed18,function_arm,DERIVED,analyze.py:rea
+0x4004ED18,468,gen_fpga_settings_write,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4004EEEC,36,fpga_cmd63_write,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4004EF10,468,func_4004ef10,function_arm,DERIVED,analyze.py:rea
 0x4004F0E4,80,pool_4004f0e4,literal_pool,DERIVED,analyze.py
@@ -947,22 +947,22 @@ address,size,name,type,evidence_level,source
 0x40050688,520,gen_selftest_50688,function_arm,DERIVED,this-project:phase5 (init)
 0x40050890,8,pool_40050890,literal_pool,DERIVED,analyze.py
 0x40050898,788,func_40050898,function_arm,DERIVED,analyze.py:rea
-0x40050BAC,552,func_40050bac,function_arm,DERIVED,analyze.py:rea
+0x40050BAC,552,gen_selftest_50bac,function_arm,DERIVED,this-project:phase5 (init)
 0x40050DD4,8,pool_40050dd4,literal_pool,DERIVED,analyze.py
-0x40050DDC,504,func_40050ddc,function_arm,DERIVED,analyze.py:rea
+0x40050DDC,504,gen_selftest_50ddc,function_arm,DERIVED,this-project:phase5 (init)
 0x40050FD4,12,pool_40050fd4,literal_pool,DERIVED,analyze.py
 0x40050FE0,1416,func_40050fe0,function_arm,DERIVED,analyze.py:rea
 0x40051568,16,pool_40051568,literal_pool,DERIVED,analyze.py
 0x40051578,1128,func_40051578,function_arm,DERIVED,analyze.py:rea
 0x400519E0,4,pool_400519e0,literal_pool,DERIVED,analyze.py
-0x400519E4,540,func_400519e4,function_arm,DERIVED,analyze.py:rea
+0x400519E4,540,touch_targets_test,function_arm,DERIVED,this-project:phase5 (init)
 0x40051C00,4,pool_40051c00,literal_pool,DERIVED,analyze.py
 0x40051C04,36,disk_format_and_reload,function_arm,DERIVED,this-project:phase5 (ui)
 0x40051C28,200,disk_check_file,function_arm,DERIVED,this-project:phase5 (init)
 0x40051CF0,140,factory_steps_run,function_arm,DERIVED,this-project:phase5 (init)
 0x40051D7C,168,pool_40051d7c,literal_pool,DERIVED,analyze.py
 0x40051E24,100,screenshot_button_poll,function_arm,DERIVED,this-project:phase5 (ui)
-0x40051E88,528,func_40051e88,function_arm,DERIVED,analyze.py:rea
+0x40051E88,528,window_buttons_dispatch,function_arm,DERIVED,this-project:phase5 (ui)
 0x40052098,104,window_touch_poll,function_arm,DERIVED,this-project:phase5 (ui)
 0x40052100,384,main_menu_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x40052280,564,buttons_05c_handler,function_arm,DERIVED,this-project:phase5 (ui)

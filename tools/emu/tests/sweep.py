@@ -1658,3 +1658,106 @@ def t_st40(qs):
 
 TESTS[0x400504B8] = t_st40([-401, -400, -399, -398, 0, 398, 399, 400, 401])
 TESTS[0x40050688] = t_st40([-1501, -1500, -1499, -1498, 1498, 1499, 1500, 1501])
+
+
+# ================================================================ batch 41: self-tests, touch test, dispatch, generator FPGA
+def out41(m, a):            # the output settings each step applies
+    m.calls.append(("out", m.read(SYS + 0x3E, 0x10), m.read(SYS + 0x102, 0x10), m.read(SYS + 0x54E, 2),
+                    m.read(SYS + 0x588, 1), m.read(0x42E3F984 + 0x2EFA, 14), m.read(0x42E68BB0 + 0x16, 1)))
+
+
+def t_spread(r):
+    import random
+    seed = r.getrandbits(32)
+    spans = [r.choice([0, 1, 10, 50, 89, 90, 91, 100, 200, 255]) for _ in range(4)]
+    end = r.choice([0, 0x27, 0x3B, 0x3C, 0x3D, 0x3E, 0x50, 0x100, 0x228])
+
+    def acq(m, a):
+        m.calls.append(("acq",))
+        ph = (0 if m.read(SYS + 0x3E, 1)[0] else 2) + (m.read(SYS + 0x46, 1)[0] if m.read(SYS + 0x3E, 1)[0]
+                                                         else m.read(SYS + 0x10A, 1)[0]) % 2
+        sp = spans[ph]
+        lo = m.rng.randint(0, 255 - sp)
+        n = min(max(end - 0x28, 0), 0x200)
+        m.write(0x42DF76D4, bytes(lo + m.rng.randint(0, sp) for _ in range(n)))
+
+    def setup(m):
+        m.rng = random.Random(seed)
+    return Case([], compose(writes([(SYS + 0x640, s16(end))]), rand_block(r, 0x42E68AE0 + 0x38, 0x10), setup),
+                ret=V, stubs=(Stub("acq", 0x400419CC, acq, 0), rec("eb40", 0x4003EB40, 0),
+                              Stub("out", 0x4003E708, out41, 0)))
+
+
+TESTS[0x40050BAC] = t_spread
+
+
+def t_st41(qs, offs):
+    def t(r):
+        import struct
+        vals = [struct.pack("<q", r.choice(qs) * 1000 + r.choice([0, 1, 999, -1, -999]))
+                if r.random() < 0.9 else struct.pack("<q", r.getrandbits(64) - (1 << 63)) for _ in range(8)]
+
+        def acq(m, a):
+            m.calls.append(("acq",))
+            for o in offs:
+                if m.vals:
+                    m.write(SYS + o, m.vals.pop(0))
+
+        def setup(m):
+            m.vals = list(vals)
+        return Case([], compose(rand_block(r, 0x42E68AE0 + 0x38, 0x10), setup), ret=V,
+                    stubs=(Stub("acq", 0x400419CC, acq, 0), rec("eb40", 0x4003EB40, 0), Stub("out", 0x4003E708, out41, 0),
+                           rec("gen", 0x4004D18C, 0)))
+    return t
+
+
+TESTS[0x40050DDC] = t_st41([-801, -800, -1, 0, 1, 798, 799, 800, 801], (0x910, 0x970))
+
+
+def t_touch41(r):
+    centres = [(0x14, 0x14), (0x39C, 0x14), (0x14, 0x1F4), (0x39C, 0x1F4), (0x1D8, 0x104)]
+    seq = []
+    for _ in range(r.choice([0, 3, 10, 30])):
+        cx, cy = r.choice(centres)
+        seq.append((r.choice([0, 1, 2, 2, 2, 3]), cx + r.choice([0, 1, 2, 40, 79, 80, 81, -1]),
+                    cy + r.choice([0, 1, 2, 40, 79, 80, 81, -1]) if r.random() < 0.8 else r.getrandbits(16)))
+    r.shuffle(centres)
+    seq += [(2, cx + 40, cy + 40) for cx, cy in centres]
+
+    def poll(m, a):
+        m.calls.append(("poll",))
+        st, x, y = m.seq.pop(0) if m.seq else (2, 0x14 + 40, 0x14 + 40)
+        m.w8(0x42E68BBC, st)
+        m.write(0x42E68BB4, s16(x & 0xFFFF) + s16(y & 0xFFFF))
+
+    def setup(m):
+        m.seq = list(seq)
+    return Case([], compose(rand_block(r, 0x42E68BB0, 0x10), rand_block(r, 0x42E68B20, 8), setup), ret=V,
+                stubs=(Stub("poll", 0x400498E4, poll, 0),) + tuple(rec("%08x" % a, a, n) for a, n in (
+                    (0x40049A38, 0), (0x400342DC, 0), (0x40034454, 0), (0x4002EA38, 1), (0x4002CCCC, 1),
+                    (0x4002DC40, 1), (0x4002ECC4, 4), (0x4003442C, 0))))
+
+
+TESTS[0x400519E4] = t_touch41
+DISP41 = [0x40052100, 0x40052280, 0x400524B4, 0x400525D4, 0x400525EC, 0x40055720, 0x40055798, 0x40055AD4,
+          0x400527C0, 0x400529F0, 0x40052F08, 0x40052FC4, 0x400531B0, 0x400533A0, 0x400537C4, 0x40053940,
+          0x40053B78, 0x40054540, 0x40054C84, 0x40054EB8, 0x40054F08, 0x40054F50, 0x40055114, 0x40055344,
+          0x400553A0, 0x400555E8, 0x40055634, 0x40055978, 0x40055B98, 0x40055BD4, 0x40055C78, 0x40055CC4,
+          0x40055F2C, 0x40056080, 0x40056214, 0x400562F4, 0x40056404, 0x40056530, 0x40056724, 0x40056804, 0x40056974]
+TESTS[0x40051E88] = lambda r: Case([r.choice(list(range(0, 45)) + [0xFF, 0x10001, 0xFFFFFFFF, r.getrandbits(32)])],
+                                   ret=V, stubs=(rec("wtouch", 0x4002F228, 1),) +
+                                   tuple(rec("%08x" % a, a, 0) for a in DISP41))
+
+
+def t_genfpga(r):
+    G = 0x42E3F984
+    return Case([], compose(rand_block(r, G + 0xFB6, 0x60), rand_block(r, G + 0x2EF0, 0x80), writes([
+        (0x42E68BB0 + 0x17, bytes([r.choice([0, 0, 0, 0, 1, 0x80])])),
+        (G + 0x2EF6, s16(r.choice([0, 1, 2, 3, 5, 0x10, 0x2F, 0x101]))),
+        (G + 0x2EFA, bytes([r.choice([0, 1, 0x80])])),
+        (G + 0x2EFC, i32(r.choice([0, 1, 100, 249, 250, 500, 2499, 2500, 0x80000000, r.getrandbits(32)]))),
+        (G + 0x2F5C, i32(r.choice([0, 1, 249, 250, 251, 2499, 2500, 2501, 0xFFFFFFFF, r.getrandbits(32)])))])),
+        ret=V, stubs=(rec("sel", SEL, 1), rec("wr", WR, 1), rec("clk", 0x4005F38C, 1), rec("fill", 0x4004EC98, 1)))
+
+
+TESTS[0x4004ED18] = t_genfpga

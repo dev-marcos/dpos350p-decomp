@@ -8,7 +8,7 @@
 #include "hw/fpga.h"
 
 void screenshot_button_poll(void);
-void func_40051e88(u32 id);
+void window_buttons_dispatch(u32 id);
 #define WS8(o) (*(volatile unsigned char *)(0x42E68BC8u + (o)))
 
 void window_touch_poll(void)
@@ -19,7 +19,7 @@ void window_touch_poll(void)
     screenshot_button_poll();
     for (i = WS8(1); i >= 0; i--) {
         u32 id = WS8(2 + i);
-        func_40051e88(id);
+        window_buttons_dispatch(id);
         if (*(volatile unsigned char *)(0x42E64520u + id * 14 + 2) == 0)
             break;
     }

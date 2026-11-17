@@ -9,7 +9,7 @@
 
 void func_40050fe0(void);
 void func_40051578(void);
-void func_400519e4(void);
+void touch_targets_test(void);
 void settings_e_save(void);
 void func_400447c8(void);
 void settings_load_all(void);
@@ -33,7 +33,7 @@ void factory_steps_run(void)
         settings_e_save();
     }
     if (FS32(0xC) != 0xA5A5AA55u) {
-        func_400519e4();
+        touch_targets_test();
         FS32(0xC) = 0xA5A5AA55u;
         FS32(0) = 0x5A5555A5u;
         settings_e_save();

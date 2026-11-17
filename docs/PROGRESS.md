@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1093 | 80.72% | 130170 | 38.57% |
+| EQUIVALENT | 1098 | 81.09% | 132762 | 39.34% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 261 | 19.28% | 207334 | 61.43% |
+| ASM | 256 | 18.91% | 204742 | 60.66% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1093 (81.63%) | 337104 | 130170 (38.61%) |
+| main code | 1339 | 1098 (82.00%) | 337104 | 132762 (39.38%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -588,16 +588,21 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4004D618` | gen_normalize2 | 272 | EQUIVALENT | 200 | `nonmatching/platform/func_4004d618.c` |
 | `0x4004D730` | gen_resample2 | 280 | EQUIVALENT | 200 | `nonmatching/platform/func_4004d730.c` |
 | `0x4004EC98` | fpga_sel42_43_fill | 128 | EQUIVALENT | 200 | `nonmatching/platform/func_4004ec98.c` |
+| `0x4004ED18` | gen_fpga_settings_write | 468 | EQUIVALENT | 200 | `nonmatching/platform/func_4004ed18.c` |
 | `0x4004EEEC` | fpga_cmd63_write | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4004eeec.c` |
 | `0x4004F59C` | fpga_probe_and_copy_7fc | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4004f59c.c` |
 | `0x4004F5C0` | security_check_and_copy | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4004f5c0.c` |
 | `0x4004FAB0` | calibration_result_flags | 132 | EQUIVALENT | 200 | `nonmatching/platform/func_4004fab0.c` |
 | `0x400504B8` | gen_selftest_504b8 | 460 | EQUIVALENT | 200 | `nonmatching/platform/func_400504b8.c` |
 | `0x40050688` | gen_selftest_50688 | 520 | EQUIVALENT | 200 | `nonmatching/platform/func_40050688.c` |
+| `0x40050BAC` | gen_selftest_50bac | 552 | EQUIVALENT | 200 | `nonmatching/platform/func_40050bac.c` |
+| `0x40050DDC` | gen_selftest_50ddc | 504 | EQUIVALENT | 200 | `nonmatching/platform/func_40050ddc.c` |
+| `0x400519E4` | touch_targets_test | 540 | EQUIVALENT | 200 | `nonmatching/platform/func_400519e4.c` |
 | `0x40051C04` | disk_format_and_reload | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_40051c04.c` |
 | `0x40051C28` | disk_check_file | 200 | EQUIVALENT | 200 | `nonmatching/platform/func_40051c28.c` |
 | `0x40051CF0` | factory_steps_run | 140 | EQUIVALENT | 200 | `nonmatching/platform/func_40051cf0.c` |
 | `0x40051E24` | screenshot_button_poll | 100 | EQUIVALENT | 200 | `nonmatching/platform/func_40051e24.c` |
+| `0x40051E88` | window_buttons_dispatch | 528 | EQUIVALENT | 200 | `nonmatching/platform/func_40051e88.c` |
 | `0x40052098` | window_touch_poll | 104 | EQUIVALENT | 200 | `nonmatching/platform/func_40052098.c` |
 | `0x40052100` | main_menu_buttons | 384 | EQUIVALENT | 200 | `nonmatching/platform/func_40052100.c` |
 | `0x40052280` | buttons_05c_handler | 564 | EQUIVALENT | 200 | `nonmatching/platform/func_40052280.c` |

@@ -247,7 +247,7 @@ wc(0x40051CF0, 140, "factory_steps_run",
    "Unless the saved state word 0x42E68AE0 is 0x5A5555A5 (factory flow complete): runs each factory step whose done-word is not yet set (0x40050FE0 / +4 = 0xA5AA555A, 0x40051578 / +8 = 0x5A5AA5AA, 0x400519E4 / +0xC = 0xA5A5AA55, the last also setting the state word), saving after each (settings_e_save); then 0x400447C8, settings_load_all, state_blocks_init, outputs_apply and gen_update.", """
 void func_40050fe0(void);
 void func_40051578(void);
-void func_400519e4(void);
+void touch_targets_test(void);
 void settings_e_save(void);
 void func_400447c8(void);
 void settings_load_all(void);
@@ -271,7 +271,7 @@ void factory_steps_run(void)
         settings_e_save();
     }
     if (FS32(0xC) != 0xA5A5AA55u) {
-        func_400519e4();
+        touch_targets_test();
         FS32(0xC) = 0xA5A5AA55u;
         FS32(0) = 0x5A5555A5u;
         settings_e_save();
@@ -309,7 +309,7 @@ void screenshot_button_poll(void)
 wc(0x40052098, 104, "window_touch_poll",
    "Unless touch byte +0x17 is set: screenshot_button_poll, then the touch handler 0x40051E88 of each window of the stack from the top down, stopping after the first one whose byte +2 in its 14-byte record at 0x42E64520 is 0; finally touch byte +0xC = 0.", """
 void screenshot_button_poll(void);
-void func_40051e88(u32 id);
+void window_buttons_dispatch(u32 id);
 #define WS8(o) (*(volatile unsigned char *)(0x42E68BC8u + (o)))
 
 void window_touch_poll(void)
@@ -320,7 +320,7 @@ void window_touch_poll(void)
     screenshot_button_poll();
     for (i = WS8(1); i >= 0; i--) {
         u32 id = WS8(2 + i);
-        func_40051e88(id);
+        window_buttons_dispatch(id);
         if (*(volatile unsigned char *)(0x42E64520u + id * 14 + 2) == 0)
             break;
     }

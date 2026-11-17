@@ -1,0 +1,47 @@
+/*
+ * gen_selftest_50ddc -- stock 0x40050DDC (504 bytes, ARM)
+ * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
+ * Self-test (DERIVED): both channels on with SYS+0x46 = SYS+0x10A = 2, byte 0x42E68BC6 = 0; one generator setting (block 0x42E3F984: byte +0x2EFA = 0, words +0x2EFC = 0x2160EC0, +0x2F00 = 1000, +0x2F04 = 0; SYS+0x588 = 0xE, SYS+0x41 = SYS+0x105 = 6), applied, two acquisitions. Pass when 5 * (s64 SYS+0x910 / 1000) and 5 * (SYS+0x970 / 1000) are below 4 * 1000 (64-bit compare): bytes 0x42E68B23 / 0x42E68B24, their AND in 0x42E68B22.
+ */
+#include "hw/platform.h"
+
+#include "hw/fpga.h"
+
+void func_4003eb40(void);
+void outputs_apply(void);
+void gen_update(void);
+void acquisition_dispatcher(void);
+#define GB8(o) (*(volatile unsigned char *)(0x42E3F984u + (o)))
+#define GB32(o) (*(volatile u32 *)(0x42E3F984u + (o)))
+#define RS8(o) (*(volatile unsigned char *)(0x42E68AE0u + (o)))
+#define S64(o) (*(volatile long long *)(0x40544E68u + (o)))
+
+void gen_selftest_50ddc(void)
+{
+    int amp = 1000, q1, q2;
+    u32 a, b;
+    func_4003eb40();
+    SYS8(0x3E) = 1;
+    SYS8(0x102) = 1;
+    SYS8(0x46) = 2;
+    SYS8(0x10A) = 2;
+    *(volatile unsigned char *)(0x42E68BB0u + 0x16) = 0;
+    GB8(0x2EFA) = 0;
+    GB32(0x2EFC) = 0x2160EC0;
+    GB32(0x2F00) = (u32)amp;
+    GB32(0x2F04) = 0;
+    SYS8(0x588) = 0xE;
+    SYS8(0x41) = 6;
+    SYS8(0x105) = 6;
+    outputs_apply();
+    gen_update();
+    acquisition_dispatcher();
+    acquisition_dispatcher();
+    q1 = (int)(S64(0x970) / 1000);
+    q2 = (int)(S64(0x910) / 1000);
+    a = (long long)q2 * 5 < (long long)amp * 4;
+    b = (long long)q1 * 5 < (long long)amp * 4;
+    RS8(0x43) = a;
+    RS8(0x44) = b;
+    RS8(0x42) = b & a;
+}
