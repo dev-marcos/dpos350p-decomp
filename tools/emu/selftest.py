@@ -401,6 +401,13 @@ MUTANTS = [
     (0x4005FE94, '        if (NP8(0x17) < 10)', '        if (NP8(0x17) <= 10)'),
     (0x40061680, '                c = span / 2;', '                c = span / 2 + 1;'),
     (0x40063A50, '    p[7] = 0x343A3C40u;', '    p[7] = 0x343A3C41u;'),
+    # batch 38: floating-point level functions
+    (0x4006053C, '    p1 = pow(10.0, MD(0x88) / 20.0) * 1000.0;', '    p1 = pow(10.0, MD(0x88) / 10.0) * 1000.0;'),
+    (0x40061DB0, '            q = -4095;', '            q = -4096;'),
+    (0x40062B1C, '            a = (u32)((double)d * k1) + 0x11;', '            a = (u32)((double)d * k1) + 0x10;'),
+    (0x40041D38, '        int v = (int)(float)(log10((double)*s++) * 45.0);', '        int v = (int)(log10((double)*s++) * 45.0 + 0.5);'),
+    (0x40032B5C, '                *o1 = t * 2u;', '                *o1 = t;'),
+    (0x40032B5C, '            if (diff >= (u32)(SYS16(8) * SYS32(0x558)) / 3u) {', '            if (diff >= (u32)(SYS16(8) * SYS32(0x558)) / 2u) {'),
 ]
 
 

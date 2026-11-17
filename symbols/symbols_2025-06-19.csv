@@ -263,7 +263,7 @@ address,size,name,type,evidence_level,source
 0x40032B50,8,pool_40032b50,literal_pool,DERIVED,analyze.py
 0x40032B58,3,code_40032b58,data,OPEN,analyze.py
 0x40032B5B,1,pad_40032b5b,padding,STATIC-CONFIRMED,analyze.py:zero
-0x40032B5C,480,func_40032b5c,function_arm,DERIVED,analyze.py:rea
+0x40032B5C,480,channel_freq_measure,function_arm,DERIVED,this-project:phase5 (trace)
 0x40032D3C,192,key_repeat_update,function_arm,DERIVED,this-project:phase5 (ui)
 0x40032DFC,16,pool_40032dfc,literal_pool,DERIVED,analyze.py
 0x40032E0C,4684,func_40032e0c,function_arm,DERIVED,analyze.py:rea
@@ -671,7 +671,7 @@ address,size,name,type,evidence_level,source
 0x40041A28,36,pool_40041a28,literal_pool,DERIVED,analyze.py
 0x40041A4C,340,fft_input_prepare,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40041BA0,408,func_40041ba0,function_arm,DERIVED,analyze.py:rea
-0x40041D38,252,func_40041d38,function_arm,DERIVED,analyze.py:rea
+0x40041D38,252,fft_db_traces_scale,function_arm,DERIVED,this-project:phase5 (trace)
 0x40041E34,288,fft_traces_draw,function_arm,DERIVED,this-project:phase5 (display)
 0x40041F54,8,pool_40041f54,literal_pool,DERIVED,analyze.py
 0x40041F5C,96,zoom_views_update,function_arm,DERIVED,this-project:phase5 (timebase)
@@ -1182,7 +1182,7 @@ address,size,name,type,evidence_level,source
 0x4005FF88,1376,func_4005ff88,function_arm,DERIVED,analyze.py:rea
 0x400604E8,8,code_400604e8,data,OPEN,analyze.py
 0x400604F0,76,pool_400604f0,literal_pool,DERIVED,analyze.py
-0x4006053C,328,func_4006053c,function_arm,DERIVED,analyze.py:rea
+0x4006053C,328,marker_values_compute,function_arm,DERIVED,this-project:phase5 (trace)
 0x40060684,8,pool_40060684,literal_pool,DERIVED,analyze.py
 0x4006068C,20,func_400606a0_unless_locked,function_arm,DERIVED,this-project:phase5 (init)
 0x400606A0,1264,func_400606a0,function_arm,DERIVED,analyze.py:prologue
@@ -1212,7 +1212,7 @@ address,size,name,type,evidence_level,source
 0x40061A4C,36,pool_40061a4c,literal_pool,DERIVED,analyze.py
 0x40061A70,820,func_40061a70,function_arm,DERIVED,analyze.py:rea
 0x40061DA4,12,pool_40061da4,literal_pool,DERIVED,analyze.py
-0x40061DB0,300,func_40061db0,function_arm,DERIVED,analyze.py:rea
+0x40061DB0,300,fft_levels_db,function_arm,DERIVED,this-project:phase5 (trace)
 0x40061EDC,52,pool_40061edc,literal_pool,DERIVED,analyze.py
 0x40061F10,724,func_40061f10,function_arm,DERIVED,analyze.py:rea
 0x400621E4,8,pool_400621e4,literal_pool,DERIVED,analyze.py
@@ -1229,7 +1229,7 @@ address,size,name,type,evidence_level,source
 0x40062A10,8,pool_40062a10,literal_pool,DERIVED,analyze.py
 0x40062A18,240,func_40062a18,function_arm,DERIVED,analyze.py:rea
 0x40062B08,20,pool_40062b08,literal_pool,DERIVED,analyze.py
-0x40062B1C,364,func_40062b1c,function_arm,DERIVED,analyze.py:rea
+0x40062B1C,364,levels_shade_draw,function_arm,DERIVED,this-project:phase5 (display)
 0x40062C88,16,pool_40062c88,literal_pool,DERIVED,analyze.py
 0x40062C98,352,func_40062c98,function_arm,DERIVED,analyze.py:rea
 0x40062DF8,8,pool_40062df8,literal_pool,DERIVED,analyze.py

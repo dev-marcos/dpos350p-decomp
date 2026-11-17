@@ -1257,6 +1257,37 @@ Spec: `tools/platform_spec/zf_buttons_tables.py`, 7 functions. Tests: `tools/emu
   calculations with calls into the math library (log10, pow, l2d). They are left for a batch of
   their own.
 
+## Floating-point level functions, FFT dB scale, frequency counter (batch 38)
+
+Spec: `tools/platform_spec/zg_fp_levels.py`, 5 functions. Tests: `tools/emu/tests/sweep.py`.
+
+The C keeps the stock order of the double operations. The build uses `-ffp-contract=off`, so a
+`vmla` / `vmls` becomes a separate multiply and add with the same rounding. The math routines
+(log10, pow, the 64-bit conversions) are the firmware's own and run inside the tests.
+
+- **Markers.** `marker_values_compute` turns the two marker positions into:
+  - s64 x values lo + pos / n * span, and their distance;
+  - levels top - y / scale * step, and their distance;
+  - linear values 1000 * 10^(level / 20), and their distance.
+
+  The dB-to-linear step is DERIVED: the code computes 10^(level / 20), but the unit is not
+  named anywhere.
+- **FFT dB.** `fft_levels_db` converts the FFT magnitudes to screen levels:
+  20 * log10(m * 6.916 / g * f / 1000 * 80 / g), shifted and scaled by the block 0x42E68668, then
+  clamped to -4095..4095. `fft_db_traces_scale` is the simpler version for the two FFT traces:
+  45 * log10(x), clamped to half the height.
+- **Shaded levels.** `levels_shade_draw` draws the level graph. The colour comes from the
+  271-entry table 0x42E56C30 and is dimmed above the mean level.
+- **Frequency counter.** `channel_freq_measure(ch)` counts the crossings of a threshold by the
+  channel samples over the middle half of the capture. With at least two crossings it stores:
+  - the samples per period (float);
+  - a 64-bit period: 2 * span * SYS+0x590 / SYS+0x1C * SYS+0x55C / SYS+0x554 / periods;
+  - 10^12 / period.
+
+  Otherwise it stores 1000.0f, 10^12 and 0. "Frequency counter" is DERIVED from the computation.
+- The disassembly helper used for the specs now decodes the `vldr` literals. That gave the
+  constants 6.916, 80, 238, 270, 45 and 1000, which batch 34 could not read.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

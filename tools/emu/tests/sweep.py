@@ -1443,3 +1443,90 @@ def t_win64(r):
 
 TESTS[0x40061680] = t_win64
 TESTS[0x40063A50] = lambda r: Case([], rand_block(r, SYS + 0x680, 0x48), ret=V)
+
+
+# ================================================================ batch 38: floating-point level functions
+import struct as _st
+F64 = lambda v: _st.pack("<d", v)
+F32 = lambda v: _st.pack("<f", v)
+
+
+def t_mkval(r):
+    n = r.choice([1, 2, 100, 1022, -5])
+    return Case([], compose(rand_block(r, 0x42E5F010, 0x100), writes([
+        (0x42E68668 + 0x5C, i32(r.randrange(0, 100)) + i32(r.randrange(0, 100))),
+        (0x42E68668 + 0xB8, i32(n)), (0x42E68668 + 0xCC, i32(r.choice([1, 30, 600, -3]))),
+        (0x42E68668 + 0x120, I64(r.choice([0, 1000, -(10 ** 9), r.getrandbits(40)]))),
+        (0x42E68668 + 0x138, I64(r.choice([0, 1, 10 ** 6, 10 ** 12, -500]))),
+        (0x42E68668 + 0x140, F64(r.uniform(-40, 40)) + F64(r.uniform(-100, 100)))])), ret=V)
+
+
+TESTS[0x4006053C] = t_mkval
+
+
+def t_fftdb(r):
+    n = r.choice([0, 1, 3, 16, -1])
+    mags = b"".join(F32(r.choice([0.0, -1.0, r.uniform(0, 10), r.uniform(0, 1e6), r.uniform(1e-3, 1)]))
+                    for _ in range(16))
+    return Case([], compose(t17(r), writes([
+        (0x42D364B4, mags), (0x42E68668 + 0xF8, i32(n)), (0x42E68CB0, i32(SYS + 0x200000)),
+        (SYS + 0x20, s16(r.choice([0, 1, 10, 1000, 4096]))),
+        (SYS + 0x50, I64(r.choice([0, 1, 10 ** 6, 10 ** 9, r.getrandbits(64)]))),
+        (0x42E68668 + 0xCC, i32(r.choice([1, 30, 600, -3]))), (0x42E68668 + 0xD0, i32(r.choice([0, 1, 5, -7]))),
+        (0x42E68668 + 0x140, F64(r.choice([10.0, -10.0, r.uniform(0.5, 40)])) + F64(r.uniform(-100, 100)))]),
+        rand_block(r, SYS + 0x200000, 0x40)), ret=V)
+
+
+TESTS[0x40061DB0] = t_fftdb
+
+
+def t_shade(r):
+    top = r.choice([0, 1, 5, 20, 60])
+    return Case([], compose(t17(r), rand_block(r, 0x42E56C30, 271 * 4), writes([
+        (0x42E5F010, b"".join(s16(r.choice([0, 1, 5, 10, 30, 0xFFFF, 0x7FFF])) for _ in range(16))),
+        (0x42E68668 + 0xB0, i32(r.choice([0, 100, 0xFFFF])) + i32(r.choice([0, 50, 0x10000])) +
+         i32(r.choice([0, 1, 5, 16, -1]))),
+        (0x42E68668 + 0xC0, i32(top)),
+        (0x42E68668 + 0x160, i32(r.choice([0, 3, top // 2, top, top + 5, -2]))),
+        (0x42E68668 + 0x168, i32(r.choice([0, -3, 2, top - 1, top])))])), ret=V,
+        stubs=(rec("colour", 0x4002EA38, 1), rec("px", 0x4002EB70, 2)))
+
+
+TESTS[0x40062B1C] = t_shade
+
+
+
+def t_fftsc(r):
+    n = r.choice([0, 1, 3, 16])
+    vals = lambda: b"".join(F32(r.choice([0.0, -1.0, 1.0, r.uniform(0, 2), r.uniform(1, 1e6), float("inf")]))
+                            for _ in range(16))
+    return Case([], compose(rand_block(r, 0x42E5B010, 0x40), rand_block(r, 0x42E5C010, 0x40), writes([
+        (0x42E4BEB4, vals()), (0x42E4FEB4, vals()), (SYS + 0x7F8, i32(n)),
+        (SYS + 0xA, s16(r.choice([0, 1, 100, 600, 0xFFFF]))),
+        (SYS + 0x3E, bytes([r.choice([0, 1, 1])])), (SYS + 0x42, bytes([r.choice([0, 1, 1])])),
+        (SYS + 0x102, bytes([r.choice([0, 1, 1])])), (SYS + 0x106, bytes([r.choice([0, 1, 1])]))])), ret=V)
+
+
+TESTS[0x40041D38] = t_fftsc
+
+
+def t_freq(r):
+    ch = r.choice([0, 0, 1, 1, 2])
+    buf = SYS + 0x200000
+    thr = r.choice([0, 100, 500, 1000, 0xFFFF])
+    per = r.choice([2, 5, 13, 40])
+    samp = b"".join(s16(r.choice([thr, 0, 0xFFFF]) if r.random() < 0.1 else
+                        ((1000 if (i // per) % 2 else 0) + r.randrange(0, 3))) for i in range(0x180))
+    lo = r.choice([0, 10, 0x100])
+    hi = lo + r.choice([0, 1, 50, 0x200])
+    return Case([ch], compose(rand_block(r, SYS + 0xB68, 0x48), writes([
+        (buf, samp), (SYS + 0x7B4 + 4 * ch, i32(buf)),
+        (SYS + 0xB6C, i32(thr)), (SYS + 0xB94, i32(thr)),
+        (SYS + 0x2B0, i32(lo) + i32(hi)),
+        (SYS + 0x3E, bytes([r.choice([0, 1, 1])])), (SYS + 0x102, bytes([r.choice([0, 1, 1])])),
+        (SYS + 8, s16(r.choice([0, 1, 10, 100]))), (SYS + 0x1C, s16(r.choice([1, 3, 1000]))),
+        (SYS + 0x554, i32(r.choice([1, 7, 1000])) + i32(r.choice([0, 1, 5])) + i32(r.choice([1, 2, 1000]))),
+        (SYS + 0x590, I64(r.choice([10 ** 9, 10 ** 12, r.getrandbits(40) + 10 ** 9])))])), ret=V)
+
+
+TESTS[0x40032B5C] = t_freq

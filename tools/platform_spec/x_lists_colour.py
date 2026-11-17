@@ -266,7 +266,7 @@ void func_40061f10(void);
 void func_400617ac(void);
 void levels_update_chain(void);
 void func_40062448(void);
-void func_40062b1c(void);
+void levels_shade_draw(void);
 void func_40062a18(void);
 void func_40062c98(void);
 void func_40061194(void);
@@ -284,7 +284,7 @@ void ui_window_40_draw(void)
     func_400617ac();
     levels_update_chain();
     func_40062448();
-    func_40062b1c();
+    levels_shade_draw();
     func_40062a18();
     func_40062c98();
     func_40061194();

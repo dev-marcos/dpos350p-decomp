@@ -7,9 +7,9 @@
 
 #include "hw/fpga.h"
 
-void func_40061db0(void);
+void fft_levels_db(void);
 void func_40061a70(void);
-void func_4006053c(void);
+void marker_values_compute(void);
 void level_stats_5f010(void);
 void level_stats_60008(void);
 void level_stats_61000(void);
@@ -19,10 +19,10 @@ void levels_update_chain(void)
     if (*(volatile unsigned char *)(0x42E68BB0u + 0x17))
         return;
     if (*(volatile unsigned char *)(0x42E68668u + 4)) {
-        func_40061db0();
+        fft_levels_db();
         func_40061a70();
     }
-    func_4006053c();
+    marker_values_compute();
     level_stats_5f010();
     level_stats_60008();
     level_stats_61000();

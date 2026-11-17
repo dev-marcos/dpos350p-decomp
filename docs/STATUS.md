@@ -1,6 +1,6 @@
 # Project status and resume point
 
-Snapshot from 2026-11-17, after Phase 5 batch 37. All addresses apply to build
+Snapshot from 2026-11-17, after Phase 5 batch 38. All addresses apply to build
 2025-06-19 only. Work is paused here; this page is the place to start from next time.
 
 ## 1. Where things stand
@@ -8,11 +8,11 @@ Snapshot from 2026-11-17, after Phase 5 batch 37. All addresses apply to build
 | Item | State |
 |---|---|
 | `make check` | MATCH, SHA-256 `6635ddd6…cefd58c` |
-| Functions with equivalent C | 1073 of 1354 (79.25%) |
-| Code bytes covered by C | 120,590 of 337,504 (35.73%) |
+| Functions with equivalent C | 1078 of 1354 (79.62%) |
+| Code bytes covered by C | 122,314 of 337,504 (36.24%) |
 | MATCHING C | 0 by construction: Arm Compiler 5 is not licensed here (docs/COMPILER.md) |
-| Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library); full suite after batch 37, all 1073 EQUIVALENT (unchanged builds keep their cached result, see CONTRIBUTING.md) |
-| Mutation self-test | 347/347 mutants detected (`make selftest`) |
+| Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library); full suite after batch 38, all 1078 EQUIVALENT (unchanged builds keep their cached result, see CONTRIBUTING.md) |
+| Mutation self-test | 353/353 mutants detected (`make selftest`) |
 | TEST image | `make testiso`: 647 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
 | Browser emulator | repo `dev-marcos/dpos350p-emu`, submodule `tools/sim` at `5ed2f7e`, runs fully in the browser (docs/SIM.md) |
 
@@ -58,6 +58,7 @@ functions. The large ones (UI, the table builders, the calibration steps) are st
 | 35 | touch-button handlers (delete, file lists, language, format, calibration, drag), cursor clamp, FPGA counters, level statistics, second FFT input, FPGA position, measurement setup | 19 | DRIVERS.md |
 | 36 | cursor and marker drags, calibration buttons, window and file buttons, numpad fields, level update chain, FPGA parameters 0x0E..0x13, generator self-test | 12 | DRIVERS.md |
 | 37 | output and main-menu buttons, numpad keys, third level statistics, second generator self-test, 64-bit window recalculation, table SYS+0x684 | 7 | DRIVERS.md |
+| 38 | marker values (dB and linear), FFT levels in dB, FFT trace scale, shaded level drawing, frequency counter | 5 | DRIVERS.md |
 
 The exact list, with addresses and case counts, is in PROGRESS.md (`make progress`).
 

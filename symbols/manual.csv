@@ -1120,3 +1120,8 @@ address,name,type,evidence_level,source,note
 0x4005FE94,numpad_key,function,DERIVED,this-project:phase5 (ui),
 0x40061680,window_64_recalc,function,DERIVED,this-project:phase5 (trace),
 0x40063A50,table_684_init,function,DERIVED,this-project:phase5 (acquisition),
+0x4006053C,marker_values_compute,function,DERIVED,this-project:phase5 (trace),
+0x40061DB0,fft_levels_db,function,DERIVED,this-project:phase5 (trace),
+0x40062B1C,levels_shade_draw,function,DERIVED,this-project:phase5 (display),
+0x40041D38,fft_db_traces_scale,function,DERIVED,this-project:phase5 (trace),
+0x40032B5C,channel_freq_measure,function,DERIVED,this-project:phase5 (trace),

@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1073 | 79.25% | 120590 | 35.73% |
+| EQUIVALENT | 1078 | 79.62% | 122314 | 36.24% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 281 | 20.75% | 216914 | 64.27% |
+| ASM | 276 | 20.38% | 215190 | 63.76% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1073 (80.13%) | 337104 | 120590 (35.77%) |
+| main code | 1339 | 1078 (80.51%) | 337104 | 122314 (36.28%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -121,6 +121,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x400301A8` | value_in_table_405456e8 | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_400301a8.c` |
 | `0x40031710` | colour_toggle_42e68d1a | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_40031710.c` |
 | `0x40032A58` | channel_minmax_stats | 228 | EQUIVALENT | 200 | `nonmatching/platform/func_40032a58.c` |
+| `0x40032B5C` | channel_freq_measure | 480 | EQUIVALENT | 200 | `nonmatching/platform/func_40032b5c.c` |
 | `0x40032D3C` | key_repeat_update | 192 | EQUIVALENT | 200 | `nonmatching/platform/func_40032d3c.c` |
 | `0x40034058` | func_40032e0c_both | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_40034058.c` |
 | `0x4003407C` | cursor_808_clamp | 88 | EQUIVALENT | 200 | `nonmatching/platform/func_4003407c.c` |
@@ -383,6 +384,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4004191C` | runtime_sweep_path | 176 | EQUIVALENT | 200 | `nonmatching/platform/func_4004191c.c` |
 | `0x400419CC` | acquisition_dispatcher | 92 | EQUIVALENT | 200 | `nonmatching/platform/func_400419cc.c` |
 | `0x40041A4C` | fft_input_prepare | 340 | EQUIVALENT | 200 | `nonmatching/platform/func_40041a4c.c` |
+| `0x40041D38` | fft_db_traces_scale | 252 | EQUIVALENT | 200 | `nonmatching/platform/func_40041d38.c` |
 | `0x40041E34` | fft_traces_draw | 288 | EQUIVALENT | 200 | `nonmatching/platform/func_40041e34.c` |
 | `0x40041F5C` | zoom_views_update | 96 | EQUIVALENT | 200 | `nonmatching/platform/func_40041f5c.c` |
 | `0x40041FF8` | zoom_entry_select | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_40041ff8.c` |
@@ -731,14 +733,17 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4005FBB4` | numpad_backspace | 80 | EQUIVALENT | 200 | `nonmatching/platform/func_4005fbb4.c` |
 | `0x4005FC04` | numpad_sign_apply | 128 | EQUIVALENT | 200 | `nonmatching/platform/func_4005fc04.c` |
 | `0x4005FE94` | numpad_key | 228 | EQUIVALENT | 200 | `nonmatching/platform/func_4005fe94.c` |
+| `0x4006053C` | marker_values_compute | 328 | EQUIVALENT | 200 | `nonmatching/platform/func_4006053c.c` |
 | `0x4006068C` | func_400606a0_unless_locked | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_4006068c.c` |
 | `0x40060D68` | calib_run_4_channels | 84 | EQUIVALENT | 200 | `nonmatching/platform/func_40060d68.c` |
 | `0x40061580` | fft_input_prepare_b | 132 | EQUIVALENT | 200 | `nonmatching/platform/func_40061580.c` |
 | `0x40061680` | window_64_recalc | 292 | EQUIVALENT | 200 | `nonmatching/platform/func_40061680.c` |
+| `0x40061DB0` | fft_levels_db | 300 | EQUIVALENT | 200 | `nonmatching/platform/func_40061db0.c` |
 | `0x400621EC` | level_stats_5f010 | 144 | EQUIVALENT | 200 | `nonmatching/platform/func_400621ec.c` |
 | `0x40062284` | level_stats_60008 | 164 | EQUIVALENT | 200 | `nonmatching/platform/func_40062284.c` |
 | `0x4006233C` | level_stats_61000 | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4006233c.c` |
 | `0x400623F4` | levels_update_chain | 76 | EQUIVALENT | 200 | `nonmatching/platform/func_400623f4.c` |
+| `0x40062B1C` | levels_shade_draw | 364 | EQUIVALENT | 200 | `nonmatching/platform/func_40062b1c.c` |
 | `0x40062E00` | func_40062e14_unless_locked | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_40062e00.c` |
 | `0x40062E14` | measure_setup_62e14 | 200 | EQUIVALENT | 200 | `nonmatching/platform/func_40062e14.c` |
 | `0x40062EE8` | ui_window_40_draw | 92 | EQUIVALENT | 200 | `nonmatching/platform/func_40062ee8.c` |

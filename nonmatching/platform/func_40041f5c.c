@@ -8,7 +8,7 @@
 #include "hw/fpga.h"
 
 void func_40041ba0(void);
-void func_40041d38(void);
+void fft_db_traces_scale(void);
 void fft_traces_draw(void);
 
 void zoom_views_update(void)
@@ -18,6 +18,6 @@ void zoom_views_update(void)
     if (SYS8(0x2AA) || SYS8(0x28) || SYS8(0x652))
         return;
     func_40041ba0();
-    func_40041d38();
+    fft_db_traces_scale();
     fft_traces_draw();
 }
