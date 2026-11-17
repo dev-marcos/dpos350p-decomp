@@ -367,7 +367,7 @@ w(0x40060D68, 96, "calib_run_4_channels",
 #define CB8(o)  (*(volatile unsigned char *)(0x42E68668u + (o)))
 #define CB32(o) (*(volatile u32 *)(0x42E68668u + (o)))
 void func_400612fc(void);
-void func_40060fe8(void);
+void auto_level_search(void);
 void func_40060dc8(void);
 void func_40060ba4(void);
 void settings_c_save(void);
@@ -381,7 +381,7 @@ void calib_run_4_channels(void)
     for (i = 0; i < 4; i++) {
         CB32(0xF4) = i;
         func_400612fc();
-        func_40060fe8();
+        auto_level_search();
         func_40060dc8();
         func_40060ba4();
     }

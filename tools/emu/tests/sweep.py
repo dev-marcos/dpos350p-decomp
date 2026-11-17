@@ -1890,3 +1890,95 @@ def t_mclamp(r):
 
 
 TESTS[0x400617AC] = t_mclamp
+
+
+# ================================================================ batch 43: trace segment scaling, level columns
+def t_tscale(r):
+    tr = r.choice([0, 1, 2, 3])
+    start = r.choice([0, 1, 5, 40])
+    ln = r.choice([0, 1, 7, 30, 0xFFFFFFFF, 0xFFFFFFFE])
+    sel = r.choice([0, 1, 1, 2])
+    m01 = r.choice([0, 1])
+    k = r.choice([1, 1, 2, 16, 0xFFFFFFFF])
+    w = lambda v: i32(v)
+    return Case([tr, start, ln], compose(
+        rand_block(r, 0x42AC7CF4 + sel * 0x62250, 0x80),
+        writes([(SYS + 0x1C0, w(k)), (SYS + 0xA, s16(r.choice([0, 1, 5, 6, 480, 600, 0xFFFF]))),
+                (SYS + 0x2AA, bytes([r.choice([0, 0, 1, 3])])),
+                (SYS + 0xE4, w(r.choice([0, 1, 1024, 2000, -1024, r.getrandbits(32)]))),
+                (SYS + 0x1A4, w(r.choice([0, 1, 1024, 3000, -500, r.getrandbits(32)]))),
+                (SYS + 0xE8, w(r.choice([0, 1, 100, 0x8000, -100]))), (SYS + 0x1A8, w(r.choice([0, 1, 300, -7]))),
+                (SYS + 0x60, w(r.choice([0, 1, 200, 0x800, -3]))), (SYS + 0x120, w(r.choice([0, 1, 250, 0x900, -9])))])),
+        ret=V, stubs=(rec("m02", 0x4003BF58, 1, sel), rec("m01", 0x4003BF78, 1, m01)))
+
+
+TESTS[0x4005F778] = t_tscale
+
+
+def colour_stub(m, a):
+    m.calls.append(("colour", a[0]))
+    m.write(0x42E68660, s16(a[0] & 0xFFFF))
+
+
+def t_colsb(r):
+    M = 0x42E68668
+    n = r.choice([0, 1, 3, 5])
+    h = r.choice([0, 1, 4, 12, 20])
+    m174 = r.choice([0, 1, 3, h - 1, h + 2]) & 0xFFFFFFFF
+    if (h - m174) & 0xFFFFFFFF == 0:
+        m174 = (m174 + 1) & 0xFFFFFFFF
+    scr = SYS + 0x200000
+    return Case([], compose(
+        rand_block(r, 0x42E583A0, 0x400),
+        writes([(0x42E68BC7, bytes([r.choice([0, 0, 0, 1])])), (M + 2, bytes([r.choice([0, 1, 1, 1])])),
+                (M + 0xEC, i32(n)), (M + 0xF0, i32(h)), (M + 0x174, i32(m174)),
+                (M + 0xE8, i32(r.choice([0, 1, 3]))), (M + 0xE4, i32(r.choice([0, 2, 9]))), (0x40095498, i32(scr)),
+                (0x42E61000, b"".join(s16(r.choice([0, 1, 3, h, h + 1, max(h - 2, 0)])) for _ in range(6)))])),
+        ret=V, stubs=(Stub("colour", 0x4002EA38, colour_stub, 1), rec("copy", 0x40035728, 3)))
+
+
+TESTS[0x40061194] = t_colsb
+
+
+def t_cols(r):
+    M = 0x42E68668
+    n = r.choice([0, 1, 3, 5])
+    h = r.choice([1, 2, 4, 12, 20])
+    scr = SYS + 0x200000
+    return Case([], compose(
+        rand_block(r, 0x42E56C30, 0x400), rand_block(r, 0x42B8C194, 0x100),
+        writes([(0x42E68BC7, bytes([r.choice([0, 0, 0, 1])])), (M + 1, bytes([r.choice([0, 1, 1, 1])])),
+                (M + 0xDC, i32(n)), (M + 0xE0, i32(h)), (M + 0x184, i32(r.choice([0, 1, 3, h, -1]))),
+                (M + 0xD8, i32(r.choice([0, 1, 3]))), (M + 0xD4, i32(r.choice([0, 2, 9]))), (0x40095498, i32(scr)),
+                (0x42E60008, b"".join(s16(r.choice([0, 1, 3, h, h + 1, max(h - 2, 0), 0xFFFE])) for _ in range(6)))])),
+        ret=V, stubs=(Stub("colour", 0x4002EA38, colour_stub, 1), rec("copy", 0x40035728, 3)))
+
+
+TESTS[0x40062C98] = t_cols
+
+
+def t_autolvl(r):
+    import random
+    seed = r.getrandbits(32)
+    h = r.choice([0, 1, 10, 100, 480, 0xFFFF])
+
+    def acq(m, a):
+        m.calls.append(("acq", m.read(SYS + 0x41, 1)))
+        hi, lo = int(h * 0.9), int(h * 0.2)
+        m.w32(SYS + 0xB30, m.rng.choice([0, lo - 1, lo, lo + 1, hi - 1, hi, hi + 1, 0xFFFFFFFF]) & 0xFFFFFFFF)
+
+    def setup(m):
+        m.rng = random.Random(seed)
+    M = 0x42E68668
+    return Case([], compose(rand_block(r, SYS + 0x910, 8), writes([
+        (0x42E68BC7, bytes([r.choice([0, 0, 0, 1])])), (SYS + 0xA, s16(h)),
+        (SYS + 0x41, bytes([r.choice([0, 1, 3, 6, 7, 8, 0xFF])])),
+        (M + 1, bytes([r.choice([0, 1])])), (M + 2, bytes([r.choice([0, 1])])),
+        (M + 0xDC, i32(r.choice([0, 1, 4]))), (M + 0xE0, i32(r.choice([0, 1, 5, 9]))),
+        (M + 0xEC, i32(r.choice([0, 1, 3]))), (M + 0xF0, i32(r.choice([0, 2, 6]))),
+        (M + 0x184, i32(r.choice([0, 1, 2, 7, -1])))]), setup), ret=V,
+        stubs=(Stub("acq", 0x400419CC, acq, 0), Stub("out", 0x4003E708, out42, 0), rec("fftb", 0x40061580, 0),
+               rec("copy", 0x40035728, 3)))
+
+
+TESTS[0x40060FE8] = t_autolvl

@@ -460,6 +460,18 @@ MUTANTS = [
     (0x400617AC, '            M64(o) = 1000000000LL;', '            M64(o) = 999999999LL;'),
     (0x400617AC, '    else if (d < -60.0)', '    else if (d < -59.0)'),
     (0x400617AC, '#define LIM 0x1.0400000000001p+8', '#define LIM 259.5'),
+    # batch 43: trace segment scaling, level columns, level search
+    (0x4005F778, '        mul = 0x555;', '        mul = 0x556;'),
+    (0x4005F778, '                y = mn;', '                y = mn + 1;'),
+    (0x4005F778, '        mx = t + (int)(v / 3) - 5;', '        mx = t + (int)(v / 3) - 4;'),
+    (0x4005F778, '            int a = (int)((off + (u32)(t >> 10)) * mul);', '            int a = (int)((off + (u32)(t >> 11)) * mul);'),
+    (0x40061194, '        double k = 510.0 / (double)(u32)(h - MB32(0x174));', '        double k = 511.0 / (double)(u32)(h - MB32(0x174));'),
+    (0x40061194, '                BUF[MB32(0xEC) * (u32)y + (u32)col] = COLOUR16;', '                BUF[MB32(0xEC) * (u32)y + (u32)col + 1] = COLOUR16;'),
+    (0x40062C98, '                        p -= w;', '                        p -= w + 1;'),
+    (0x40062C98, '        int top = TOP16(col), y = (int)h0, i = 0;', '        int top = TOP16(col), y = (int)h0, i = 1;'),
+    (0x40060FE8, '            if ((int)l >= 7)', '            if ((int)l >= 6)'),
+    (0x40060FE8, '    lo = (u32)((double)h * 0.2);', '    lo = (u32)((double)h * 0.25);'),
+    (0x40060FE8, '    } while ((int)(MB32(oh) - MB32(0x184)) >= i);', '    } while ((int)(MB32(oh) - MB32(0x184)) > i);'),
 ]
 
 

@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1102 | 81.39% | 135178 | 40.05% |
+| EQUIVALENT | 1106 | 81.68% | 136634 | 40.48% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 252 | 18.61% | 202326 | 59.95% |
+| ASM | 248 | 18.32% | 200870 | 59.52% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1102 (82.30%) | 337104 | 135178 (40.10%) |
+| main code | 1339 | 1106 (82.60%) | 337104 | 136634 (40.53%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -738,6 +738,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4005F644` | ms5351_write_ms_int | 164 | EQUIVALENT | 300 | `nonmatching/drivers/func_4005f644.c` |
 | `0x4005F6E8` | __aeabi_d2ulz | 70 | EQUIVALENT | 400 | `nonmatching/libc/func_4005f6e8.c` |
 | `0x4005F730` | __aeabi_ul2d | 70 | EQUIVALENT | 400 | `nonmatching/libc/func_4005f730.c` |
+| `0x4005F778` | trace_scale_segment | 352 | EQUIVALENT | 200 | `nonmatching/platform/func_4005f778.c` |
 | `0x4005F8D8` | trace_span_full | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_4005f8d8.c` |
 | `0x4005F8E8` | trace_span_window | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_4005f8e8.c` |
 | `0x4005F90C` | trace_span_full_veneer | 4 | EQUIVALENT | 200 | `nonmatching/platform/func_4005f90c.c` |
@@ -759,6 +760,8 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4006053C` | marker_values_compute | 328 | EQUIVALENT | 200 | `nonmatching/platform/func_4006053c.c` |
 | `0x4006068C` | func_400606a0_unless_locked | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_4006068c.c` |
 | `0x40060D68` | calib_run_4_channels | 84 | EQUIVALENT | 200 | `nonmatching/platform/func_40060d68.c` |
+| `0x40060FE8` | auto_level_search | 420 | EQUIVALENT | 200 | `nonmatching/platform/func_40060fe8.c` |
+| `0x40061194` | level_columns_draw_b | 332 | EQUIVALENT | 200 | `nonmatching/platform/func_40061194.c` |
 | `0x40061580` | fft_input_prepare_b | 132 | EQUIVALENT | 200 | `nonmatching/platform/func_40061580.c` |
 | `0x40061680` | window_64_recalc | 292 | EQUIVALENT | 200 | `nonmatching/platform/func_40061680.c` |
 | `0x400617AC` | measure_values_clamp | 672 | EQUIVALENT | 200 | `nonmatching/platform/func_400617ac.c` |
@@ -768,6 +771,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4006233C` | level_stats_61000 | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4006233c.c` |
 | `0x400623F4` | levels_update_chain | 76 | EQUIVALENT | 200 | `nonmatching/platform/func_400623f4.c` |
 | `0x40062B1C` | levels_shade_draw | 364 | EQUIVALENT | 200 | `nonmatching/platform/func_40062b1c.c` |
+| `0x40062C98` | level_columns_draw | 352 | EQUIVALENT | 200 | `nonmatching/platform/func_40062c98.c` |
 | `0x40062E00` | func_40062e14_unless_locked | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_40062e00.c` |
 | `0x40062E14` | measure_setup_62e14 | 200 | EQUIVALENT | 200 | `nonmatching/platform/func_40062e14.c` |
 | `0x40062EE8` | ui_window_40_draw | 92 | EQUIVALENT | 200 | `nonmatching/platform/func_40062ee8.c` |

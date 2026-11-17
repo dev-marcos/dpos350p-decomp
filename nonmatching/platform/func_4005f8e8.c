@@ -7,9 +7,9 @@
 
 #include "hw/fpga.h"
 
-void func_4005f778(u32 tr, u32 start, u32 len);
+void trace_scale_segment(u32 tr, u32 start, u32 len);
 
 void trace_span_window(u32 tr)
 {
-    func_4005f778(tr, SYS32(0x6FC), SYS16(0x6F6));
+    trace_scale_segment(tr, SYS32(0x6FC), SYS16(0x6F6));
 }

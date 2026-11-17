@@ -1426,6 +1426,32 @@ Spec: `tools/platform_spec/zk_selftests_numpad.py`, 4 functions. Tests: `tools/e
 - **Disassembly helper.** The disassembly helper used for the specs now also decodes the
   conditional `vldr` literals (vldrge, vldrmi).
 
+## Trace segment scaling, level-column graphs, channel 1 level search (batch 43)
+
+Spec: `tools/platform_spec/zl_trace_scale_columns.py`, 4 functions. Tests: `tools/emu/tests/sweep.py`.
+
+- **Trace scaling.** `trace_scale_segment(tr, start, len)` is the core of `trace_span_full` /
+  `trace_span_window`. It turns raw u16 samples into screen rows with fixed-point arithmetic:
+  y = base + ((off + ((x - off - pos) * gain >> 10)) * mul >> 12), clamped to min..max.
+  - The gain, position and offset come from channel set 0 or 1 (SYS+0xE4.. or SYS+0x1A4..).
+  - mul / base / range select the full screen, or one part of the split screen (SYS+0x2AA): the
+    upper two thirds (mul 0xAAB) or the lower third (mul 0x555).
+  - The division by 3 appears as the usual `smull` by 0x55555556 and `* 0xAAAB >> 17`.
+- **Level-column graphs.** `level_columns_draw` and `level_columns_draw_b` paint the columns of
+  the two level graphs with a colour ramp (tables 0x42E56C30 and 0x42E583A0), then copy the
+  buffer to the screen (stride 1022 pixels).
+
+  In `level_columns_draw` the start pixel of each column does not move with the step. Each step
+  repaints the same M+0x184 pixels from the bottom row, so only the last colour is left. The C
+  keeps this; whether it is a firmware bug is OPEN.
+- **Level search.** `auto_level_search` puts channel 1 into a fixed state, then steps the level
+  byte SYS+0x41 down (to 0) or up (to 7) until the measured word SYS+0xB30 is between 0.2 and 0.9
+  times the screen height. After that it prepares the FFT input and scrolls the two
+  level-column buffers up by M+0x184 rows.
+- **Skipped.** 0x40060BA4 and 0x40060DC8 stay unrewritten. For a mode word M+0xF4 above 3 they
+  use registers that were never set (r0..r2 and fp from the caller, and stack slots), like the
+  functions skipped earlier for the same reason.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

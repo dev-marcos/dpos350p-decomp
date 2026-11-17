@@ -1156,7 +1156,7 @@ address,size,name,type,evidence_level,source
 0x4005F72E,2,pad_4005f72e,padding,STATIC-CONFIRMED,analyze.py:zero
 0x4005F730,70,__aeabi_ul2d,function_thumb,DERIVED,this-project:phase2
 0x4005F776,2,pad_4005f776,padding,STATIC-CONFIRMED,analyze.py:zero
-0x4005F778,352,func_4005f778,function_arm,DERIVED,analyze.py:prologue
+0x4005F778,352,trace_scale_segment,function_arm,DERIVED,this-project:phase5 (trace)
 0x4005F8D8,16,trace_span_full,function_arm,DERIVED,this-project:phase5 (trace)
 0x4005F8E8,20,trace_span_window,function_arm,DERIVED,this-project:phase5 (trace)
 0x4005F8FC,16,pool_4005f8fc,literal_pool,DERIVED,analyze.py
@@ -1196,9 +1196,9 @@ address,size,name,type,evidence_level,source
 0x40060DC4,3,code_40060dc4,data,OPEN,analyze.py
 0x40060DC7,1,pad_40060dc7,padding,STATIC-CONFIRMED,analyze.py:zero
 0x40060DC8,544,func_40060dc8,function_arm,DERIVED,analyze.py:rea
-0x40060FE8,420,func_40060fe8,function_arm,DERIVED,analyze.py:rea
+0x40060FE8,420,auto_level_search,function_arm,DERIVED,this-project:phase5 (trace)
 0x4006118C,8,pool_4006118c,literal_pool,DERIVED,analyze.py
-0x40061194,332,func_40061194,function_arm,DERIVED,analyze.py:rea
+0x40061194,332,level_columns_draw_b,function_arm,DERIVED,this-project:phase5 (trace)
 0x400612E0,28,pool_400612e0,literal_pool,DERIVED,analyze.py
 0x400612FC,632,func_400612fc,function_arm,DERIVED,analyze.py:rea
 0x40061574,12,pool_40061574,literal_pool,DERIVED,analyze.py
@@ -1231,7 +1231,7 @@ address,size,name,type,evidence_level,source
 0x40062B08,20,pool_40062b08,literal_pool,DERIVED,analyze.py
 0x40062B1C,364,levels_shade_draw,function_arm,DERIVED,this-project:phase5 (display)
 0x40062C88,16,pool_40062c88,literal_pool,DERIVED,analyze.py
-0x40062C98,352,func_40062c98,function_arm,DERIVED,analyze.py:rea
+0x40062C98,352,level_columns_draw,function_arm,DERIVED,this-project:phase5 (trace)
 0x40062DF8,8,pool_40062df8,literal_pool,DERIVED,analyze.py
 0x40062E00,20,func_40062e14_unless_locked,function_arm,DERIVED,this-project:phase5 (init)
 0x40062E14,200,measure_setup_62e14,function_arm,DERIVED,this-project:phase5 (acquisition)

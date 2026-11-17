@@ -248,19 +248,19 @@ void numpad_close(u32 r0, u32 r1, u32 r2)
 
 # ---------------------------------------------------------------- veneers into 0x4005F778
 v(0x4005F8D8, 16, "trace_span_full", "0x4005F778(tr, 0, SYS+0x2C0).", """
-void func_4005f778(u32 tr, u32 start, u32 len);
+void trace_scale_segment(u32 tr, u32 start, u32 len);
 
 void trace_span_full(u32 tr)
 {
-    func_4005f778(tr, 0, SYS32(0x2C0));
+    trace_scale_segment(tr, 0, SYS32(0x2C0));
 }
 """, src="trace")
 v(0x4005F8E8, 20, "trace_span_window", "0x4005F778(tr, SYS+0x6FC, SYS+0x6F6 (16 bit)).", """
-void func_4005f778(u32 tr, u32 start, u32 len);
+void trace_scale_segment(u32 tr, u32 start, u32 len);
 
 void trace_span_window(u32 tr)
 {
-    func_4005f778(tr, SYS32(0x6FC), SYS16(0x6F6));
+    trace_scale_segment(tr, SYS32(0x6FC), SYS16(0x6F6));
 }
 """, src="trace")
 v(0x4005F90C, 4, "trace_span_full_veneer", "Branch to trace_span_full.", """

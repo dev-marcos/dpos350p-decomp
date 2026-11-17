@@ -1149,3 +1149,7 @@ address,name,type,evidence_level,source,note
 0x4004F5E4,selftest_4f5e4,function,DERIVED,this-project:phase5 (init),
 0x4005FC84,numpad_value_parse,function,DERIVED,this-project:phase5 (ui),
 0x400617AC,measure_values_clamp,function,DERIVED,this-project:phase5 (ui),
+0x4005F778,trace_scale_segment,function,DERIVED,this-project:phase5 (trace),
+0x40061194,level_columns_draw_b,function,DERIVED,this-project:phase5 (trace),
+0x40062C98,level_columns_draw,function,DERIVED,this-project:phase5 (trace),
+0x40060FE8,auto_level_search,function,DERIVED,this-project:phase5 (trace),
