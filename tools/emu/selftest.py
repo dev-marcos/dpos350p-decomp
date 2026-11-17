@@ -419,6 +419,20 @@ MUTANTS = [
     (0x40055798, '    SYS8(0x7C0) = i + 1;', '    SYS8(0x7C0) = i;'),
     (0x40053940, '                v = 3;', '                v = 2;'),
     (0x40056530, '            tgt = 0x42E68668u + 0x130, fl = 1, cb = CB, mode = 3;', '            tgt = 0x42E68668u + 0x130, fl = 1, cb = CB, mode = 4;'),
+    # batch 40: list A / C windows, settings buttons, self-tests
+    (0x40054C84, '                if (tot >= c + 1) {', '                if (tot >= c) {'),
+    (0x40054C84, '            nv = P16(0xA) + PS16(0x14);', '            nv = P16(0xA) + PS16(0x14) + 1;'),
+    (0x400553A0, '                        LC_REC = *(volatile unsigned short *)(0x40544E68u + 0xFA6 + 2 * c);', '                        LC_REC = *(volatile unsigned short *)(0x40544E68u + 0xFA6 + c);'),
+    (0x400553A0, '            if (v) {', '            if (!v) {'),
+    (0x400527C0, '        n = (int)((u32)(x - lo) * 100u);', '        n = (int)((u32)(x - lo) * 101u);'),
+    (0x400527C0, '        else if (hi < x)', '        else if (hi < x - 1)'),
+    (0x400527C0, '        ui_window_open(0x27);', '        ui_window_open(0x29);'),
+    (0x40052280, '            if ((int)SYS8(0x41) < top)', '            if ((int)SYS8(0x41) <= top)'),
+    (0x40052280, '        SYS32(0x120) = 0xFA;', '        SYS32(0x120) = 0xFB;'),
+    (0x40055CC4, '                k = i - 9;', '                k = i - 8;'),
+    (0x400504B8, '        a = (u32)(q2 + 0x18F) < 0x31Fu;', '        a = (u32)(q2 + 0x18F) <= 0x31Fu;'),
+    (0x40050688, '            a &= q1 < -1499;', '            a &= q1 <= -1499;'),
+    (0x40050688, '        st_step((u32)amp, 0x18, 6, i ? off : 0, 0);', '        st_step((u32)amp, 0x18, 6, off, 0);'),
 ]
 
 

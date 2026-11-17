@@ -1326,6 +1326,43 @@ HW-CONFIRMED.
   follows other callees, r1 is the previous callee's leftover, so the two list tests record only
   its first argument (the convention of batch 35).
 
+## List A / C windows, settings buttons, numpad keys, generator self-tests (batch 40)
+
+Spec: `tools/platform_spec/zi_lists_selftests.py`, 7 functions. Tests: `tools/emu/tests/sweep.py`.
+
+- **List windows.** `list_a_thumbs_buttons` and `list_c_window_buttons` follow the layout of
+  `list_b_window_buttons` (batch 39), so the spec builds all of them from one template
+  (`list_window`):
+  - entry buttons, the back button, mark mode, mark page, delete, page - and page +;
+  - entries select page * size + i; in mark mode they toggle the mark, otherwise they open the entry.
+
+  The windows differ in what an entry opens. List A loads the entry and opens window 0x16. List C
+  copies the entry's record number (halfword SYS+0xFA6 + 2 * entry) to 0x4091F396, selects that
+  record and loads the generator samples.
+- **Button groups 0x20A and 0x5C.** `buttons_20a_handler` has:
+  - a slider: SYS+0x654 = 100 * (x - lo) / (hi - lo), with the touch x clamped to the slider
+    limits;
+  - toggles of SYS+0x652, +0x653, +0x655;
+  - buttons that back up the settings and open the window sets 0x22..0x24 and 0x26..0x28.
+
+  `buttons_05c_handler` toggles SYS+0x3C, resets the word pair 0x570 / 0x578, and steps the byte
+  SYS+0x41 (or +0x105) within 0..SYS+0x1BA - 1. "Brightness" for SYS+0x654 would be a guess; the
+  names stay neutral.
+- **Numpad keys.** `numpad_key_buttons` maps the 16 buttons 0xA20..0xAB6 to the key codes
+  3..0xC, 1, 2, 0xD..0x10 of `numpad_key` (batch 37).
+- **Self-tests.** `gen_selftest_504b8` and `gen_selftest_50688` put the generator (block
+  0x42E3F984) into one or two settings: amplitude 1000, or +/-2500. For each setting they:
+  - apply it, then run two acquisitions;
+  - compare the s64 results SYS+0x8F8 and SYS+0x958, divided by 1000 (`__aeabi_ldivmod`), with a
+    window: within +/-399, or at least 1500 / below -1499;
+  - store the pass flags in bytes 0x42E68B07..0x42E68B10.
+
+  The tests stub the acquisition and feed values right at the thresholds. They also record the
+  settings each step applies, because the second step overwrites them.
+- **Test harness.** Two new helpers in `sweep.py`. `one_btn` releases a single random button of
+  the group. `slider40` picks x right at the slider limits. Both make the stock edge cases
+  frequent enough for the 80-case mutant runs.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

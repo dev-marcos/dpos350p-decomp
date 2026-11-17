@@ -1576,3 +1576,85 @@ TESTS[0x40056530] = t_btn([0xB92, 0xB9C, 0xBA6, 0xBB0, 0xBBA, 0xBC4, 0xBCE], [
     (0x4002FF48, 0), (0x4005F9F0, 2), (0x4005FA34, 2)], vals=(0, 1, 2, 3, 3, 3, 3),
     extra=lambda r: compose(rand_block(r, 0x42E68A88, 0x58), rand_block(r, 0x42E68668, 8),
                             rand_block(r, 0x42E68668 + 0x18C, 4)))
+
+
+# ================================================================ batch 40: list A / C windows, settings buttons, self-tests
+def list_extra(r):
+    return compose(rand_block(r, SYS + 0xF00, 0x100), list_blk(r, 0x5DC6 - 20),
+                   writes([(SYS + 0xF9A, s16(r.choice([0, 1, 4, 6, 6, 0xFF]))),
+                           (SYS + 0x84D6 - 4, bytes(r.choice([0, 0, 3]) for _ in range(48)))]))
+
+
+VB = (0, 1, 2, 3, 3, 3, 3, 3, 3, 3)
+TESTS[0x40054C84] = t_btn([0x728 + 10 * i for i in range(7)] + [0x7BE + 10 * i for i in range(6)], [
+    (0x4002FAAC, 0), (INV, 1), (WOPEN, 1), (0x4003CF0C, 0), (0x40035624, 0), (0x40034454, 0), (0x4003D6AC, 0),
+    (0x40035320, 0), (0x400352A8, 0), (0x400353A8, 0), (0x40035248, 0), (0x40035578, 0)], vals=VB, extra=list_extra)
+TESTS[0x400553A0] = t_btn([0x91C + 10 * i for i in range(7)] + [0x9B2 + 10 * i for i in range(6)], [
+    (0x4002FC38, 0), (INV, 1), (WOPEN, 1), (0x4003CF0C, 0), (0x40034454, 0), (0x4003D6AC, 0), (0x40036C54, 0),
+    (0x40036EA4, 1), (0x4004D12C, 0), (0x4004D18C, 0), (0x400377F8, 0), (0x4003777C, 0), (0x40037880, 0),
+    (0x4003771C, 0)], vals=VB, extra=lambda r: compose(list_extra(r), rand_block(r, SYS + 0x3DA52C, 4)))
+def one_btn(r, offs):
+    """every button idle or pressed, then (most cases) one random button released"""
+    w = [(BT35 + o, bytes([r.choice([0, 1, 3])])) for o in offs]
+    if r.random() < 0.9:
+        w.append((BT35 + r.choice(offs), bytes([2])))
+    return writes(w)
+
+
+def slider40(r):
+    lo = r.choice([0, 1, 50, 300, 0xFFFF, r.getrandbits(16)])
+    hi = (lo + r.choice([-1, 0, 1, 2, 7, 50, 100, 101, 1000, r.getrandbits(16)])) & 0xFFFF
+    sl, sh = lo - (lo >> 15 << 16), hi - (hi >> 15 << 16)
+    x = r.choice([sl - 1, sl, sl + 1, sh - 1, sh, sh + 1, 0, 0x7FFF, -0x8000, r.getrandbits(16)])
+    return writes([(BT35 + 0x20B, bytes([r.choice([0, 0, 1, 1, 0x80])])), (BT35 + 0x20C, s16(lo)),
+                   (BT35 + 0x210, s16(hi)), (0x42E68BB0, s16(x & 0xFFFF))])
+
+
+TESTS[0x400527C0] = t_btn([0x214, 0x21E, 0x228, 0x17E, 0x232, 0x23C, 0x246], [
+    (0x4002F490, 0), (WCLOSE, 1), (WOPEN, 1), (0x400367A4, 0), (0x4003F024, 0), (0x4003F034, 0), (0x4003EB40, 0),
+    (0x4003ED28, 0), (0x4003CF0C, 0), (0x40034454, 0)], vals=VB,
+    extra=lambda r: compose(rand_block(r, SYS + 0x650, 8), rand_block(r, SYS + 0x54E, 1),
+                            one_btn(r, [0x214, 0x21E, 0x228, 0x17E, 0x232, 0x23C, 0x246]), slider40(r)))
+TOP40 = [0]
+TESTS[0x40052280] = t_btn([0x5C, 0x66, 0x70, 0x7A, 0x84, 0x8E, 0x98, 0xA2], [
+    (0x4002F378, 0), (0x4003F0E0, 0), (0x4004C7C4, 0), (0x4003BE98, 2), (0x400424C4, 2), (0x4004A510, 0),
+    (INV, 1), (0x4006382C, 0), (WOPEN, 1)], vals=VB,
+    extra=lambda r: compose(TOP40.__setitem__(0, r.choice([-1, 0, 1, 4, 0xFE])) or rand_block(r, SYS + 0x3C, 8),
+                            one_btn(r, [0x5C, 0x66, 0x70, 0x7A, 0x84, 0x8E, 0x98, 0xA2]),
+                            rand_block(r, SYS + 0x100, 8),
+                            rand_block(r, SYS + 0x660, 8), rand_block(r, SYS + 0x27E, 2), writes([
+        (SYS + 0x2AA, bytes([r.choice([0, 1, 7])])), (SYS + 0x1BA, bytes([TOP40[0] + 1 & 0xFF])),
+        (SYS + 0x41, bytes([TOP40[0] & 0xFF if r.random() < 0.5 else r.choice([0, 1, TOP40[0] - 1 & 0xFF, TOP40[0] + 1 & 0xFF, 0xFF])])),
+        (SYS + 0x105, bytes([r.choice([0, 1, TOP40[0] - 1 & 0xFF, TOP40[0] & 0xFF, 0xFF])])),
+        (SYS + 0x664, bytes([r.choice([0, 0, 0, 1, 9])])), (SYS + 0x665, bytes([r.choice([0, 1])]))])))
+TESTS[0x40055CC4] = t_btn([0xA20 + 10 * i for i in range(16)], [(0x4002FDCC, 0), (0x4005FE94, 1), (INV, 1)],
+                          vals=(0, 1, 2) + (3,) * 12)
+
+
+def t_st40(qs):
+    def t(r):
+        import struct
+        vals = [struct.pack("<q", r.choice(qs) * 1000 + r.choice([0, 1, 999, -1, -999]))
+                if r.random() < 0.9 else struct.pack("<q", r.getrandbits(64) - (1 << 63)) for _ in range(16)]
+
+        def acq(m, a):
+            m.calls.append(("acq",))
+            if m.vals:
+                m.write(SYS + 0x8F8, m.vals.pop(0))
+            if m.vals:
+                m.write(SYS + 0x958, m.vals.pop(0))
+
+        def out(m, a):          # the settings each step applies
+            m.calls.append(("out", m.read(SYS + 0x3E, 6), m.read(SYS + 0x41, 1), m.r32(SYS + 0x60),
+                            m.r32(SYS + 0x120), m.read(SYS + 0x588, 1), m.read(0x42E3F984 + 0x2EFA, 14)))
+
+        def setup(m):
+            m.vals = list(vals)
+        return Case([], compose(rand_block(r, SYS + 0x8, 8), rand_block(r, 0x42E68AE0 + 0x20, 0x18), setup), ret=V,
+                    stubs=(Stub("acq", 0x400419CC, acq, 0), rec("eb40", 0x4003EB40, 0), Stub("out", 0x4003E708, out, 0),
+                           rec("gen", 0x4004D18C, 0), rec("delay", 0x40042CF0, 1)))
+    return t
+
+
+TESTS[0x400504B8] = t_st40([-401, -400, -399, -398, 0, 398, 399, 400, 401])
+TESTS[0x40050688] = t_st40([-1501, -1500, -1499, -1498, 1498, 1499, 1500, 1501])

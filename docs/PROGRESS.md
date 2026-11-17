@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1086 | 80.21% | 126310 | 37.42% |
+| EQUIVALENT | 1093 | 80.72% | 130170 | 38.57% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 268 | 19.79% | 211194 | 62.58% |
+| ASM | 261 | 19.28% | 207334 | 61.43% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1086 (81.11%) | 337104 | 126310 (37.47%) |
+| main code | 1339 | 1093 (81.63%) | 337104 | 130170 (38.61%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -592,26 +592,32 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4004F59C` | fpga_probe_and_copy_7fc | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4004f59c.c` |
 | `0x4004F5C0` | security_check_and_copy | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4004f5c0.c` |
 | `0x4004FAB0` | calibration_result_flags | 132 | EQUIVALENT | 200 | `nonmatching/platform/func_4004fab0.c` |
+| `0x400504B8` | gen_selftest_504b8 | 460 | EQUIVALENT | 200 | `nonmatching/platform/func_400504b8.c` |
+| `0x40050688` | gen_selftest_50688 | 520 | EQUIVALENT | 200 | `nonmatching/platform/func_40050688.c` |
 | `0x40051C04` | disk_format_and_reload | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_40051c04.c` |
 | `0x40051C28` | disk_check_file | 200 | EQUIVALENT | 200 | `nonmatching/platform/func_40051c28.c` |
 | `0x40051CF0` | factory_steps_run | 140 | EQUIVALENT | 200 | `nonmatching/platform/func_40051cf0.c` |
 | `0x40051E24` | screenshot_button_poll | 100 | EQUIVALENT | 200 | `nonmatching/platform/func_40051e24.c` |
 | `0x40052098` | window_touch_poll | 104 | EQUIVALENT | 200 | `nonmatching/platform/func_40052098.c` |
 | `0x40052100` | main_menu_buttons | 384 | EQUIVALENT | 200 | `nonmatching/platform/func_40052100.c` |
+| `0x40052280` | buttons_05c_handler | 564 | EQUIVALENT | 200 | `nonmatching/platform/func_40052280.c` |
 | `0x400524B4` | buttons_ac_open_windows | 288 | EQUIVALENT | 200 | `nonmatching/platform/func_400524b4.c` |
 | `0x400525D4` | touch_00f2_then_400545f8 | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_400525d4.c` |
 | `0x400525EC` | system_settings_buttons | 468 | EQUIVALENT | 200 | `nonmatching/platform/func_400525ec.c` |
+| `0x400527C0` | buttons_20a_handler | 552 | EQUIVALENT | 200 | `nonmatching/platform/func_400527c0.c` |
 | `0x40052F08` | file_lists_open_buttons | 172 | EQUIVALENT | 200 | `nonmatching/platform/func_40052f08.c` |
 | `0x40052FC4` | channel1_settings_buttons | 488 | EQUIVALENT | 200 | `nonmatching/platform/func_40052fc4.c` |
 | `0x400531B0` | channel2_settings_buttons | 496 | EQUIVALENT | 200 | `nonmatching/platform/func_400531b0.c` |
 | `0x400537C4` | output_select_buttons | 380 | EQUIVALENT | 200 | `nonmatching/platform/func_400537c4.c` |
 | `0x40053940` | trigger_option_buttons | 560 | EQUIVALENT | 200 | `nonmatching/platform/func_40053940.c` |
 | `0x40054540` | button_71e_drag_handler | 168 | EQUIVALENT | 200 | `nonmatching/platform/func_40054540.c` |
+| `0x40054C84` | list_a_thumbs_buttons | 564 | EQUIVALENT | 200 | `nonmatching/platform/func_40054c84.c` |
 | `0x40054EB8` | list_a_delete_button_handler | 80 | EQUIVALENT | 200 | `nonmatching/platform/func_40054eb8.c` |
 | `0x40054F08` | touch_btn_0804_release | 68 | EQUIVALENT | 200 | `nonmatching/platform/func_40054f08.c` |
 | `0x40054F50` | list_a_window_buttons | 448 | EQUIVALENT | 200 | `nonmatching/platform/func_40054f50.c` |
 | `0x40055114` | list_b_window_buttons | 560 | EQUIVALENT | 200 | `nonmatching/platform/func_40055114.c` |
 | `0x40055344` | list_b_delete_button_handler | 76 | EQUIVALENT | 200 | `nonmatching/platform/func_40055344.c` |
+| `0x400553A0` | list_c_window_buttons | 584 | EQUIVALENT | 200 | `nonmatching/platform/func_400553a0.c` |
 | `0x400555E8` | list_c_delete_button_handler | 72 | EQUIVALENT | 200 | `nonmatching/platform/func_400555e8.c` |
 | `0x40055634` | buttons_9f8_handler | 228 | EQUIVALENT | 200 | `nonmatching/platform/func_40055634.c` |
 | `0x40055720` | buttons_106_handler | 120 | EQUIVALENT | 200 | `nonmatching/platform/func_40055720.c` |
@@ -621,6 +627,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40055B98` | touch_btn_01ec_release | 60 | EQUIVALENT | 200 | `nonmatching/platform/func_40055b98.c` |
 | `0x40055BD4` | format_button_handler | 164 | EQUIVALENT | 200 | `nonmatching/platform/func_40055bd4.c` |
 | `0x40055C78` | touch_btn_019c_release | 76 | EQUIVALENT | 200 | `nonmatching/platform/func_40055c78.c` |
+| `0x40055CC4` | numpad_key_buttons | 616 | EQUIVALENT | 200 | `nonmatching/platform/func_40055cc4.c` |
 | `0x40055F2C` | buttons_ac0_handler | 340 | EQUIVALENT | 200 | `nonmatching/platform/func_40055f2c.c` |
 | `0x40056080` | numpad_buttons_b06 | 396 | EQUIVALENT | 200 | `nonmatching/platform/func_40056080.c` |
 | `0x40056214` | cursor_drag_buttons_b42 | 220 | EQUIVALENT | 200 | `nonmatching/platform/func_40056214.c` |

@@ -1,6 +1,6 @@
 # Project status and resume point
 
-Snapshot from 2026-11-17, after Phase 5 batch 39. All addresses apply to build
+Snapshot from 2026-11-17, after Phase 5 batch 40. All addresses apply to build
 2025-06-19 only. Work is paused here; this page is the place to start from next time.
 
 ## 1. Where things stand
@@ -8,12 +8,12 @@ Snapshot from 2026-11-17, after Phase 5 batch 39. All addresses apply to build
 | Item | State |
 |---|---|
 | `make check` | MATCH, SHA-256 `6635ddd6…cefd58c` |
-| Functions with equivalent C | 1086 of 1354 (80.21%) |
-| Code bytes covered by C | 126,310 of 337,504 (37.42%) |
+| Functions with equivalent C | 1093 of 1354 (80.72%) |
+| Code bytes covered by C | 130,170 of 337,504 (38.57%) |
 | MATCHING C | 0 by construction: Arm Compiler 5 is not licensed here (docs/COMPILER.md) |
-| Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library); full suite after batch 39, all 1086 EQUIVALENT (unchanged builds keep their cached result, see CONTRIBUTING.md) |
-| Mutation self-test | 363/363 mutants detected (`make selftest`) |
-| TEST image | `make testiso`: 652 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
+| Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library); full suite after batch 40, all 1093 EQUIVALENT (unchanged builds keep their cached result, see CONTRIBUTING.md) |
+| Mutation self-test | 376/376 mutants detected (`make selftest`) |
+| TEST image | `make testiso`: 656 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
 | Browser emulator | repo `dev-marcos/dpos350p-emu`, submodule `tools/sim` at `5ed2f7e`, runs fully in the browser (docs/SIM.md) |
 
 The two numbers in the table differ because the finished work is mostly small and medium
@@ -60,6 +60,7 @@ functions. The large ones (UI, the table builders, the calibration steps) are st
 | 37 | output and main-menu buttons, numpad keys, third level statistics, second generator self-test, 64-bit window recalculation, table SYS+0x684 | 7 | DRIVERS.md |
 | 38 | marker values (dB and linear), FFT levels in dB, FFT trace scale, shaded level drawing, frequency counter | 5 | DRIVERS.md |
 | 39 | channel settings, list A/B windows, system window, settings slots, trigger options, measurement numpad fields | 8 | DRIVERS.md |
+| 40 | list A thumbnail and list C windows, button groups 0x20A / 0x5C, numpad key buttons, two generator self-tests | 7 | DRIVERS.md |
 
 The exact list, with addresses and case counts, is in PROGRESS.md (`make progress`).
 
