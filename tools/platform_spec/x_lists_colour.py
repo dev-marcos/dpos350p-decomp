@@ -263,7 +263,7 @@ void func_400612fc(void);
 void func_40060fe8(void);
 void func_40060dc8(void);
 void func_40061f10(void);
-void func_400617ac(void);
+void measure_values_clamp(void);
 void levels_update_chain(void);
 void func_40062448(void);
 void levels_shade_draw(void);
@@ -281,7 +281,7 @@ void ui_window_40_draw(void)
         func_40060dc8();
         func_40061f10();
     }
-    func_400617ac();
+    measure_values_clamp();
     levels_update_chain();
     func_40062448();
     levels_shade_draw();

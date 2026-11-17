@@ -1394,6 +1394,38 @@ Spec: `tools/platform_spec/zj_selftests_dispatch.py`, 5 functions. Tests: `tools
 
   It is skipped while byte 0x42E68BC7 is set.
 
+## Output-level and capture-lane self-tests, numpad parser, measurement limits (batch 42)
+
+Spec: `tools/platform_spec/zk_selftests_numpad.py`, 4 functions. Tests: `tools/emu/tests/sweep.py`.
+
+- **Self-tests.** Their purpose is DERIVED from the settings they write; neither is HW-CONFIRMED.
+  - `gen_selftest_4f89c` sets four output configurations. Each is centred on SYS+0xE with
+    offsets +/- 2 * SYS+0x20 and has the channels on or off. It checks the measured words SYS+0xB34
+    and SYS+0xB50 against e * 1.3 and e * 0.7 (doubles).
+  - `selftest_4f5e4` steps the FPGA 0x2A value (SYS+0x44) 900 times from 3000 with a 7.777...
+    step, and records one byte of each of the eight capture lanes per step. A lane passes when
+    every bit is seen both set and clear, and every pair of neighbouring bits is seen different.
+    That looks like a test of the eight data lines between the ADC and the FPGA.
+- **Numpad text parser.** `numpad_value_parse(unit)` turns the numpad text into a double. The text
+  is an optional '-', digits, then a '.' that switches to decimals. Then:
+  - the result is scaled by the numpad mode and the unit key: x1, x1000, x1e6 or x10, or the old
+    value is kept;
+  - it is stored to the target pointers as a double, as an s64 clamped to -0x7FFFFFFF..0x7FFFFFFF,
+    and as the low word;
+  - the callback runs.
+
+  The lower limit is -0x7FFFFFFF, not INT32_MIN. The literal `#96, #6` is 0x80000001, which was
+  first misread here as 0x80000000.
+
+  `numpad_key` (batch 37) now passes its key to this function, as the stock code does in r0.
+- **Measurement limits.** `measure_values_clamp` is the numpad callback of the measurement window:
+  - the four s64 values go to 0..1e9, before and after `window_64_recalc`;
+  - the two doubles go to -60..260 and 1..260.
+
+  The upper limit is tested against 260 plus one ulp, so a value of exactly 260 is left as it is.
+- **Disassembly helper.** The disassembly helper used for the specs now also decodes the
+  conditional `vldr` literals (vldrge, vldrmi).
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

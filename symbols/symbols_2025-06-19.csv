@@ -935,9 +935,9 @@ address,size,name,type,evidence_level,source
 0x4004F590,12,pool_4004f590,literal_pool,DERIVED,analyze.py
 0x4004F59C,36,fpga_probe_and_copy_7fc,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4004F5C0,36,security_check_and_copy,function_arm,DERIVED,this-project:phase5 (acquisition)
-0x4004F5E4,692,func_4004f5e4,function_arm,DERIVED,analyze.py:rea
+0x4004F5E4,692,selftest_4f5e4,function_arm,DERIVED,this-project:phase5 (init)
 0x4004F898,4,pool_4004f898,literal_pool,DERIVED,analyze.py
-0x4004F89C,532,func_4004f89c,function_arm,DERIVED,analyze.py:rea
+0x4004F89C,532,gen_selftest_4f89c,function_arm,DERIVED,this-project:phase5 (init)
 0x4004FAB0,132,calibration_result_flags,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4004FB34,16,pool_4004fb34,literal_pool,DERIVED,analyze.py
 0x4004FB44,2396,func_4004fb44,function_arm,DERIVED,analyze.py:rea
@@ -1175,7 +1175,7 @@ address,size,name,type,evidence_level,source
 0x4005FB94,32,numpad_append_char,function_arm,DERIVED,this-project:phase5 (ui)
 0x4005FBB4,80,numpad_backspace,function_arm,DERIVED,this-project:phase5 (ui)
 0x4005FC04,128,numpad_sign_apply,function_arm,DERIVED,this-project:phase5 (ui)
-0x4005FC84,520,func_4005fc84,function_arm,DERIVED,analyze.py:rea
+0x4005FC84,520,numpad_value_parse,function_arm,DERIVED,this-project:phase5 (ui)
 0x4005FE8C,8,pool_4005fe8c,literal_pool,DERIVED,analyze.py
 0x4005FE94,228,numpad_key,function_arm,DERIVED,this-project:phase5 (ui)
 0x4005FF78,16,pool_4005ff78,literal_pool,DERIVED,analyze.py
@@ -1208,7 +1208,7 @@ address,size,name,type,evidence_level,source
 0x40061678,8,pool_40061678,literal_pool,DERIVED,analyze.py
 0x40061680,292,window_64_recalc,function_arm,DERIVED,this-project:phase5 (trace)
 0x400617A4,8,pool_400617a4,literal_pool,DERIVED,analyze.py
-0x400617AC,672,func_400617ac,function_arm,DERIVED,analyze.py:rea
+0x400617AC,672,measure_values_clamp,function_arm,DERIVED,this-project:phase5 (ui)
 0x40061A4C,36,pool_40061a4c,literal_pool,DERIVED,analyze.py
 0x40061A70,820,func_40061a70,function_arm,DERIVED,analyze.py:rea
 0x40061DA4,12,pool_40061da4,literal_pool,DERIVED,analyze.py

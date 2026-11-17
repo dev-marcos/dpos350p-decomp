@@ -1145,3 +1145,7 @@ address,name,type,evidence_level,source,note
 0x400519E4,touch_targets_test,function,DERIVED,this-project:phase5 (init),
 0x40051E88,window_buttons_dispatch,function,DERIVED,this-project:phase5 (ui),
 0x4004ED18,gen_fpga_settings_write,function,DERIVED,this-project:phase5 (acquisition),
+0x4004F89C,gen_selftest_4f89c,function,DERIVED,this-project:phase5 (init),
+0x4004F5E4,selftest_4f5e4,function,DERIVED,this-project:phase5 (init),
+0x4005FC84,numpad_value_parse,function,DERIVED,this-project:phase5 (ui),
+0x400617AC,measure_values_clamp,function,DERIVED,this-project:phase5 (ui),

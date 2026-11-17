@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1098 | 81.09% | 132762 | 39.34% |
+| EQUIVALENT | 1102 | 81.39% | 135178 | 40.05% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 256 | 18.91% | 204742 | 60.66% |
+| ASM | 252 | 18.61% | 202326 | 59.95% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1098 (82.00%) | 337104 | 132762 (39.38%) |
+| main code | 1339 | 1102 (82.30%) | 337104 | 135178 (40.10%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -592,6 +592,8 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4004EEEC` | fpga_cmd63_write | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4004eeec.c` |
 | `0x4004F59C` | fpga_probe_and_copy_7fc | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4004f59c.c` |
 | `0x4004F5C0` | security_check_and_copy | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4004f5c0.c` |
+| `0x4004F5E4` | selftest_4f5e4 | 692 | EQUIVALENT | 200 | `nonmatching/platform/func_4004f5e4.c` |
+| `0x4004F89C` | gen_selftest_4f89c | 532 | EQUIVALENT | 200 | `nonmatching/platform/func_4004f89c.c` |
 | `0x4004FAB0` | calibration_result_flags | 132 | EQUIVALENT | 200 | `nonmatching/platform/func_4004fab0.c` |
 | `0x400504B8` | gen_selftest_504b8 | 460 | EQUIVALENT | 200 | `nonmatching/platform/func_400504b8.c` |
 | `0x40050688` | gen_selftest_50688 | 520 | EQUIVALENT | 200 | `nonmatching/platform/func_40050688.c` |
@@ -752,12 +754,14 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4005FB94` | numpad_append_char | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_4005fb94.c` |
 | `0x4005FBB4` | numpad_backspace | 80 | EQUIVALENT | 200 | `nonmatching/platform/func_4005fbb4.c` |
 | `0x4005FC04` | numpad_sign_apply | 128 | EQUIVALENT | 200 | `nonmatching/platform/func_4005fc04.c` |
+| `0x4005FC84` | numpad_value_parse | 520 | EQUIVALENT | 200 | `nonmatching/platform/func_4005fc84.c` |
 | `0x4005FE94` | numpad_key | 228 | EQUIVALENT | 200 | `nonmatching/platform/func_4005fe94.c` |
 | `0x4006053C` | marker_values_compute | 328 | EQUIVALENT | 200 | `nonmatching/platform/func_4006053c.c` |
 | `0x4006068C` | func_400606a0_unless_locked | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_4006068c.c` |
 | `0x40060D68` | calib_run_4_channels | 84 | EQUIVALENT | 200 | `nonmatching/platform/func_40060d68.c` |
 | `0x40061580` | fft_input_prepare_b | 132 | EQUIVALENT | 200 | `nonmatching/platform/func_40061580.c` |
 | `0x40061680` | window_64_recalc | 292 | EQUIVALENT | 200 | `nonmatching/platform/func_40061680.c` |
+| `0x400617AC` | measure_values_clamp | 672 | EQUIVALENT | 200 | `nonmatching/platform/func_400617ac.c` |
 | `0x40061DB0` | fft_levels_db | 300 | EQUIVALENT | 200 | `nonmatching/platform/func_40061db0.c` |
 | `0x400621EC` | level_stats_5f010 | 144 | EQUIVALENT | 200 | `nonmatching/platform/func_400621ec.c` |
 | `0x40062284` | level_stats_60008 | 164 | EQUIVALENT | 200 | `nonmatching/platform/func_40062284.c` |

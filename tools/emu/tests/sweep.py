@@ -1431,7 +1431,7 @@ TESTS[0x4005FE94] = lambda r: Case([r.choice(list(range(0, 18)) + [0xFFFFFFFF, 0
     rand_block(r, 0x42E68A88, 0x20), writes([(0x42E68A89, bytes([r.choice([0, 1, 2, 3, 4, 5])])),
                                              (0x42E68A9F, bytes([r.choice([0, 9, 10, 0xFF]), r.choice([0, 0, 1]),
                                                                  r.choice([0, 1, 7])]))])), ret=V,
-    stubs=(rec("sign", 0x4005FC04, 0), rec("back", 0x4005FBB4, 0), rec("app", 0x4005FB94, 1), rec("fc84", 0x4005FC84, 0),
+    stubs=(rec("sign", 0x4005FC04, 0), rec("back", 0x4005FBB4, 0), rec("app", 0x4005FB94, 1), rec("fc84", 0x4005FC84, 1),
            rec("close", 0x4005FB44, 0)))
 
 
@@ -1761,3 +1761,132 @@ def t_genfpga(r):
 
 
 TESTS[0x4004ED18] = t_genfpga
+
+
+# ================================================================ batch 42: self-tests, numpad parser, measurement limits
+def out42(m, a):            # output settings and offsets each step applies
+    m.calls.append(("out", m.read(SYS + 0x3A, 0x10), m.read(SYS + 0x102, 0x10), m.read(SYS + 0x588, 1),
+                    m.r32(SYS + 0x60), m.r32(SYS + 0x120), m.read(SYS + 0x660, 1), m.read(0x42E68BB0 + 0x16, 1)))
+
+
+def t_st4f89c(r):
+    import random
+    seed = r.getrandbits(32)
+    # per phase (acquisition pair): word that must be above e * 1.3, word that must be below e * 0.7
+    need = [(0xB34, 0xB50), (0xB50, 0xB34), (0xB34, None), (None, 0xB50)]
+    slots = [(ph, o, kind) for ph, (hi, lo) in enumerate(need) for o, kind in ((hi, "hi"), (lo, "lo")) if o]
+    edge = r.choice(slots + [None]) if r.random() < 0.7 else "rand"
+
+    def acq(m, a):
+        m.calls.append(("acq",))
+        m.nacq = getattr(m, "nacq", 0) + 1
+        ph = min((m.nacq - 1) // 2, 3)
+        e = m.read(SYS + 0xE, 2)
+        e = e[0] | e[1] << 8
+        for o in (0xB34, 0xB50):
+            kind = next((k for p_, oo, k in slots if p_ == ph and oo == o), None)
+            if edge == "rand":
+                c = m.rng.choice([0, int(e * 1.3), int(e * 1.3) + 1, int(e * 0.7), int(e * 0.7) - 1, e,
+                                  0xFFFFFFFF, m.rng.getrandbits(32)])
+            elif kind is None:
+                c = m.rng.choice([0, e, int(e * 1.3) + 1, 0xFFFFFFFF])
+            elif edge == (ph, o, kind):
+                c = int(e * 1.3) if kind == "hi" else int(e * 0.7)
+            else:
+                c = int(e * 1.3) + 1 if kind == "hi" else max(int(e * 0.7) - 1, 0)
+            m.w32(SYS + o, c & 0xFFFFFFFF)
+
+    def setup(m):
+        m.rng = random.Random(seed)
+    return Case([], compose(writes([(SYS + 0xE, s16(r.choice([0, 1, 7, 100, 100, 100, 1000, 3000, 0xFFFF]))),
+                                    (SYS + 0x20, s16(r.choice([0, 1, 50, 0x8000, r.getrandbits(16)])))]),
+                            rand_block(r, 0x42E68AE0 + 0x10, 8), setup), ret=V,
+                stubs=(Stub("acq", 0x400419CC, acq, 0), rec("eb40", 0x4003EB40, 0), Stub("out", 0x4003E708, out42, 0)))
+
+
+TESTS[0x4004F89C] = t_st4f89c
+
+
+def t_lanes(r):
+    import random
+    seed = r.getrandbits(32)
+    modes = [r.choice(["rand", "rand", "const", "two", "walk", "noedge", "first", "first", "last"]) for _ in range(8)]
+
+    def cap(m, a):
+        m.calls.append(("cap",))
+        m.ncap = getattr(m, "ncap", 0) + 1
+        for k in range(8):
+            md = modes[k]
+            if md in ("first", "last"):
+                v = 0xAA if m.ncap - 1 == (10 if md == "first" else 889) else 0x55
+            elif md == "rand":
+                v = m.rng.getrandbits(8)
+            elif md == "const":
+                v = 0x5A
+            elif md == "two":
+                v = m.rng.choice([0x00, 0xFF])
+            elif md == "walk":
+                v = 1 << m.rng.randrange(8)
+            else:
+                v = m.rng.choice([0x00, 0x0F, 0xF0, 0xFF, 0x03, 0xFC])
+            m.w8(0x42DF76D4 + k * 0x2134, v)
+
+    def sel2a(m, a):
+        m.calls.append(("2a", m.read(SYS + 0x44, 2)))
+
+    def setup(m):
+        m.rng = random.Random(seed)
+    return Case([], compose(rand_block(r, 0x42E68AE0 + 0x10, 0x18), setup), ret=V,
+                stubs=(Stub("cap", 0x400406DC, cap, 0), Stub("2a", 0x4004AA94, sel2a, 0), rec("eb40", 0x4003EB40, 0),
+                       Stub("out", 0x4003E708, out42, 0), rec("geom", 0x400405E0, 0), rec("delay", 0x40042CF0, 1),
+                       rec("prep", 0x4003FA10, 0), rec("trig", 0x4003FAB8, 0)))
+
+
+TESTS[0x4004F5E4] = t_lanes
+
+
+def t_npparse(r):
+    import struct
+    txt = ""
+    if r.random() < 0.3:
+        txt += "-"
+    if r.random() < 0.3:                      # long numbers: beyond the int32 range
+        txt += "".join(r.choice("0123456789") for _ in range(r.choice([9, 10, 11, 14])))
+    for _ in range(r.choice([0, 1, 3, 9, 19, 22])):
+        txt += r.choice("0123456789" * 3 + ".x:/")
+    b = txt.encode()[:23] + bytes([r.choice([0, 0, 0x20, 0x80])])
+    out = SYS + 0x200000
+    return Case([r.choice([0xE, 0xE, 0xF, 0xF, 0x10, 0x10, 0, 0x11])], compose(
+        rand_block(r, 0x42E68A88, 0x58), rand_block(r, out, 0x20),
+        writes([(0x42E68A89, bytes([r.choice([0, 1, 2, 3, 4, 5, 6, 7])])), (0x42E68A8B, b + bytes(24 - len(b))),
+                (0x42E68AA8, struct.pack("<d", r.choice([0.0, -1.5, 1e300, r.uniform(-1e9, 1e9)]))),
+                (0x42E68AB0, i32(out) + i32(out + 8) + i32(out + 0x10)),
+                (0x42E68AD4, bytes([r.choice([0, 1])])), (0x42E68AD8, i32(0x400617AC))])), ret=V,
+        stubs=(rec("cb", 0x400617AC, 0),))
+
+
+TESTS[0x4005FC84] = t_npparse
+
+
+def t_mclamp(r):
+    import struct
+    big = [0, 1, -1, 999999999, 1000000000, 1000000001, 1 << 40, -(1 << 40), (1 << 63) - 1, -(1 << 63)]
+
+    def pick():
+        return r.choice(big) if r.random() < 0.8 else r.getrandbits(64) - (1 << 63)
+    after = [pick() for _ in range(4)]
+
+    def recalc(m, a):
+        m.calls.append(("recalc", m.read(0x42E68668 + 0x120, 0x20)))
+        for i, v in enumerate(after):
+            if v % 3 == 0:
+                m.write(0x42E68668 + 0x120 + 8 * i, struct.pack("<q", v))
+    dbl = [260.0, 260.00000000000006, 260.0000000000001, 259.99, -60.0, -60.000000001, 1.0, 0.999999, 0.0,
+           float("nan"), float("inf"), -float("inf"), 100.0, -59.5, 0.5]
+    return Case([], compose(writes([(0x42E68668 + 0x120, b"".join(struct.pack("<q", pick()) for _ in range(4))),
+                                    (0x42E68668 + 0x140, struct.pack("<d", r.choice(dbl)) + struct.pack("<d", r.choice(dbl))),
+                                    (0x42E68BC7, bytes([r.choice([0, 0, 0, 1])]))])), ret=V,
+                stubs=(Stub("recalc", 0x40061680, recalc, 0),))
+
+
+TESTS[0x400617AC] = t_mclamp

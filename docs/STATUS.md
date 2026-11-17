@@ -1,6 +1,6 @@
 # Project status and resume point
 
-Snapshot from 2026-11-17, after Phase 5 batch 41. All addresses apply to build
+Snapshot from 2026-11-17, after Phase 5 batch 42. All addresses apply to build
 2025-06-19 only. Work is paused here; this page is the place to start from next time.
 
 ## 1. Where things stand
@@ -8,12 +8,12 @@ Snapshot from 2026-11-17, after Phase 5 batch 41. All addresses apply to build
 | Item | State |
 |---|---|
 | `make check` | MATCH, SHA-256 `6635ddd6…cefd58c` |
-| Functions with equivalent C | 1098 of 1354 (81.09%) |
-| Code bytes covered by C | 132,762 of 337,504 (39.34%) |
+| Functions with equivalent C | 1102 of 1354 (81.39%) |
+| Code bytes covered by C | 135,178 of 337,504 (40.05%) |
 | MATCHING C | 0 by construction: Arm Compiler 5 is not licensed here (docs/COMPILER.md) |
-| Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library); full suite after batch 41, all 1098 EQUIVALENT (unchanged builds keep their cached result, see CONTRIBUTING.md) |
-| Mutation self-test | 387/387 mutants detected (`make selftest`) |
-| TEST image | `make testiso`: 661 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
+| Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library); full suite after batch 42, all 1102 EQUIVALENT (unchanged builds keep their cached result, see CONTRIBUTING.md) |
+| Mutation self-test | 401/401 mutants detected (`make selftest`) |
+| TEST image | `make testiso`: 663 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
 | Browser emulator | repo `dev-marcos/dpos350p-emu`, submodule `tools/sim` at `5ed2f7e`, runs fully in the browser (docs/SIM.md) |
 
 The two numbers in the table differ because the finished work is mostly small and medium
@@ -62,6 +62,7 @@ functions. The large ones (UI, the table builders, the calibration steps) are st
 | 39 | channel settings, list A/B windows, system window, settings slots, trigger options, measurement numpad fields | 8 | DRIVERS.md |
 | 40 | list A thumbnail and list C windows, button groups 0x20A / 0x5C, numpad key buttons, two generator self-tests | 7 | DRIVERS.md |
 | 41 | two generator self-tests, touch-target test screen, window touch dispatch, generator settings to the FPGA | 5 | DRIVERS.md |
+| 42 | output-level and capture-lane self-tests, numpad text parser, measurement value limits | 4 | DRIVERS.md |
 
 The exact list, with addresses and case counts, is in PROGRESS.md (`make progress`).
 

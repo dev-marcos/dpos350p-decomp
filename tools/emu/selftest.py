@@ -445,6 +445,21 @@ MUTANTS = [
     (0x4004ED18, '        if (c < 2500)\n            c = 2500;', '        if (c < 2400)\n            c = 2500;'),
     (0x4004ED18, '    if (c > f)', '    if (c >= f + 1 && f)'),
     (0x4004ED18, '    fpga_data_byte_write(((GB16(0x2EF6) - 2) >> 8) & 0xFF);', '    fpga_data_byte_write(((GB16(0x2EF6) - 1) >> 8) & 0xFF);'),
+    # batch 42: self-tests, numpad parser, measurement limits
+    (0x4004F89C, '    p1 = (double)e * 1.3 < (double)SYS32(0xB34) && (double)SYS32(0xB50) < (double)e * 0.7;', '    p1 = (double)e * 1.3 <= (double)SYS32(0xB34) && (double)SYS32(0xB50) < (double)e * 0.7;'),
+    (0x4004F89C, '    SYS32(0x120) = e + 2 * h;\n    apply2();\n\n    e = SYS16(0xE);\n    p2', '    SYS32(0x120) = e + h;\n    apply2();\n\n    e = SYS16(0xE);\n    p2'),
+    (0x4004F89C, '    p4 = (double)SYS32(0xB50) < (double)e * 0.7;', '    p4 = (double)SYS32(0xB34) < (double)e * 0.7;'),
+    (0x4004F5E4, '        SYS16(0x44) = (int)(3000.0f + (float)s * 7.7777777f);', '        SYS16(0x44) = (int)(3000.0f + (float)s * 7.78f);'),
+    (0x4004F5E4, '            for (b = 0; b <= 6; b++) {', '            for (b = 0; b < 6; b++) {'),
+    (0x4004F5E4, '            for (i = 0; i < 880; i++) {\n                if', '            for (i = 1; i < 880; i++) {\n                if'),
+    (0x4004F5E4, '            LANE8(k * 1000 + s) = *(volatile unsigned char *)(0x42DF76D4u + k * 0x2134);', '            LANE8(k * 1000 + s) = *(volatile unsigned char *)(0x42DF76D4u + k * 0x2130);'),
+    (0x4005FC84, '            f = 10;', '            f = 100;'),
+    (0x4005FC84, '    else if (m == 4 && unit == 0xF)', '    else if (m == 5 && unit == 0xF)'),
+    (0x4005FC84, '            q = -0x7FFFFFFFLL;', '            q = -0x80000000LL;'),
+    (0x4005FC84, '        if (ch - 0x30 >= 10)', '        if (ch - 0x30 > 10)'),
+    (0x400617AC, '            M64(o) = 1000000000LL;', '            M64(o) = 999999999LL;'),
+    (0x400617AC, '    else if (d < -60.0)', '    else if (d < -59.0)'),
+    (0x400617AC, '#define LIM 0x1.0400000000001p+8', '#define LIM 259.5'),
 ]
 
 
