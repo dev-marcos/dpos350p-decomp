@@ -1114,24 +1114,24 @@ address,size,name,type,evidence_level,source
 0x4005C630,52,func_4005c630,function_arm,DERIVED,analyze.py:prologue
 0x4005C664,20,func_4005c664,function_arm,DERIVED,analyze.py:tailcall
 0x4005C678,324,simple_integer_index_mapping_nearest_neighbour,function_arm,DERIVED,this-project:phase5 (trace)
-0x4005C7BC,348,workspace_copy_and_resampling,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2419
+0x4005C7BC,348,workspace_copy_and_resampling,function_arm,DERIVED,this-project:phase5 (trace)
 0x4005C918,60,index_map_if_above,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4005C954,8,pool_4005c954,literal_pool,DERIVED,analyze.py
 0x4005C95C,1352,func_4005c95c,function_arm,DERIVED,analyze.py:rea
-0x4005CEA4,212,func_4005cea4,function_arm,DERIVED,analyze.py:rea
-0x4005CF78,208,func_4005cf78,function_arm,DERIVED,analyze.py:rea
-0x4005D048,472,floating_point_interpolation_resampling,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2296
+0x4005CEA4,212,spline_eval,function_arm,DERIVED,this-project:phase5 (trace)
+0x4005CF78,208,spline_resample,function_arm,DERIVED,this-project:phase5 (trace)
+0x4005D048,472,floating_point_interpolation_resampling,function_arm,DERIVED,this-project:phase5 (trace)
 0x4005D220,92,sine_table_lookup,function_arm,DERIVED,this-project:phase5 (display)
 0x4005D27C,96,sine_table_build,function_arm,DERIVED,this-project:phase5 (display)
 0x4005D2DC,8,pool_4005d2dc,literal_pool,DERIVED,analyze.py
-0x4005D2E4,372,fixed_point_weighted_or_filtered_resampling,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2297
+0x4005D2E4,372,fixed_point_weighted_or_filtered_resampling,function_arm,DERIVED,this-project:phase5 (trace)
 0x4005D458,76,pool_4005d458,literal_pool,DERIVED,analyze.py
 0x4005D4A4,1580,pow,function_thumb,DERIVED,this-project:phase2
 0x4005DAD0,202,log10,function_thumb,DERIVED,this-project:phase5 (emulation vs math.log10)
 0x4005DB9A,2,pad_4005db9a,padding,STATIC-CONFIRMED,analyze.py:zero
 0x4005DB9C,568,func_4005db9c,function_arm,DERIVED,analyze.py:rea
-0x4005DDD4,392,func_4005ddd4,function_arm,DERIVED,analyze.py:prologue
-0x4005DF5C,332,func_4005df5c,function_arm,DERIVED,analyze.py:prologue
+0x4005DDD4,392,trace_intensity_draw,function_arm,DERIVED,this-project:phase5 (trace)
+0x4005DF5C,332,trace_intensity_draw_window,function_arm,DERIVED,this-project:phase5 (trace)
 0x4005E0A8,4,func_4005e0a8,function_thumb,DERIVED,analyze.py:prologue
 0x4005E0AC,88,func_4005e0ac,function_arm,DERIVED,analyze.py:gap-code
 0x4005E104,8,func_4005e104,function_arm,DERIVED,analyze.py:gap-code

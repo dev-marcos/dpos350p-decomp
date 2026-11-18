@@ -2065,6 +2065,63 @@ quantities (trigger level, edge, window) are DERIVED from how the code uses them
   falls into a second switch on a stack word it never wrote, and stores leftover register
   values. C cannot reproduce that, so the function stays assembly.
 
+## Zoom resampling, cubic spline and the intensity view (batch 55)
+
+Spec: `tools/platform_spec/zx_resample_persist.py`, 7 functions. Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The method names
+(nearest, spline, sinc) are DERIVED from the arithmetic.
+
+- **`workspace_copy_and_resampling`** (0x4005C7BC, from `channel_post_process`) zooms one channel
+  while the current factor k = SYS+0x554 is below the target n:
+  - the len samples centred on half are copied to the workspace 0x41A13AE8. CH2 gets an extra
+    tail of 15 / 7 / 4 / 2 / 1 samples for time-base index SYS+0x588 = 12..16;
+  - the method comes from byte SYS+0x51C (CH1) / +0x51D (CH2):
+
+    | Byte | Method | Function |
+    |---|---|---|
+    | 0 | nearest neighbour | `simple_integer_index_mapping_nearest_neighbour` (batch 49) |
+    | 1 | cubic spline | `floating_point_interpolation_resampling` |
+    | other | windowed sinc | `fixed_point_weighted_or_filtered_resampling` |
+
+  - the result is copied back. For CH2 it is shifted by the tail.
+- **Common to both resamplers.** They take (ws, half, len, m, s64 shift):
+  - c = (len × k / m) × 12 / 10 input samples starting c/2 before half;
+  - cnt = m × c / k outputs, written to 0x416431E8;
+  - then len outputs, centred and moved back by shift, are copied to ws from half − len/2.
+- **`floating_point_interpolation_resampling`** (0x4005D048):
+  - the inputs become floats (v − 128 L) / (128 L) at 0x42DBCD54, with L = SYS+0x1C0;
+  - knots x = j go to 0x42DA94D4, and the positions j × k / m go to 0x42DD05D4;
+  - `spline_resample` writes 0x42DE3E54, and the outputs go back to u16 (y + 1) × 128 L,
+    with negative values set to 0.
+- **`spline_resample`** (0x4005CF78) builds the spline with 0x4005C95C, which is still assembly
+  (flags 0, end slopes 0.0, coefficients b / c / d at 0x42D6EB54 / 0x42D823D4 / 0x42D95C54).
+  It then evaluates `spline_eval` for each position.
+- **`spline_eval`** (0x4005CEA4):
+  - it keeps the last segment index and bisects only when x leaves that segment;
+  - it returns a + dx (b + dx (c + dx d)).
+
+  A NaN knot makes the bisection loop forever (stock behaviour).
+- **`fixed_point_weighted_or_filtered_resampling`** (0x4005D2E4):
+  - output o is the sum of x[j] × w(p − 10000 j), with p = o × (10000 / (m / k));
+  - w(0) = 10000 and w(t) = `sine_table_lookup(t)` / t. The table at 0x42D564B4 is filled at run
+    time, so this is a sinc kernel in fixed point (DERIVED);
+  - the sum is divided by 10000, and negative results are set to 0.
+- **Intensity (persistence) view.** The hit counts are u16, column-major, at
+  0x400954A4 + tr × 0x12BE70. Pixels go to the frame buffer *(0x40095498), 1022 pixels per row,
+  from (u16 SYS+4 + 1, u16 SYS+6).
+  - Palette: 0x42E45864 (byte SYS+0x653 = 0) or 0x42E47B8C. The offset is 6000 bytes in the
+    single-trace mode (byte SYS+0x652), otherwise 3000 × `mode_not_0_or_2(tr)`.
+  - `trace_intensity_draw` (0x4005DDD4):
+    - it draws a non-zero count v as colour 2 + sqrt(S) × S × 22 / 1000 + ((v / D) × 100 + 1) / 110,
+      with S = byte SYS+0x654 and D = SYS+0x7B0;
+    - in the per-trace mode with SYS+0x653 set it also divides SYS+0x7B0 by 3 and stores it. The
+      intensity therefore decays every frame (DERIVED).
+  - `trace_intensity_draw_window` (0x4005DF5C, with its piece 0x4005E0AC) draws the columns
+    SYS+0x700 .. +u16 SYS+0x6F8 as colour 16 + (v / D) × 1000 / 1333, and then calls
+    `fb_present_rect`. It does this only when SYS+0x6FC >= SYS+0x708.
+- **Next.** The spline coefficient builder 0x4005C95C (1352 bytes) is the missing piece of the
+  spline path.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

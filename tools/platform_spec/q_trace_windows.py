@@ -82,7 +82,7 @@ void trace_zoom_segments(u32 tr);
 void trace_view_bounds(u32 tr);
 void trace_c5cc_full(u32 tr);
 void func_4005e12c(u32 tr);
-void func_4005ddd4(u32 tr);
+void trace_intensity_draw(u32 tr);
 
 void trace_process_full(u32 tr)
 {
@@ -98,7 +98,7 @@ void trace_process_full(u32 tr)
     trace_view_bounds(tr);
     trace_c5cc_full(tr);
     func_4005e12c(tr);
-    func_4005ddd4(tr);
+    trace_intensity_draw(tr);
 }
 """)
 t(0x4003C85C, 116, "channel_traces_process_full", "trace_process_full for channel ch (0 or 1) when it is on, then for its second trace (ch + 2) when SYS+0x2AA is set.", """
@@ -150,7 +150,7 @@ void trace_shift_samples(u32 tr);
 void trace_zoom_segments(u32 tr);
 void trace_view_bounds(u32 tr);
 void func_4005edc0(u32 tr);
-void func_4005ddd4(u32 tr);
+void trace_intensity_draw(u32 tr);
 
 void traces_process_single(void)
 {
@@ -163,7 +163,7 @@ void traces_process_single(void)
     trace_zoom_segments(1);
     trace_view_bounds(0);
     func_4005edc0(0);
-    func_4005ddd4(0);
+    trace_intensity_draw(0);
 }
 """)
 t(0x4003C970, 76, "traces_update", "Unless the byte 0x42E68BC7 is set, and unless SYS+0x27A is 1 with SYS+0x3C and SYS+0x38 both 0: channels_process_full, or traces_process_single when SYS+0x652 is set.", """
@@ -188,7 +188,7 @@ void scaled_pair_update(u32 tr);
 void trace_view_bounds(u32 tr);
 void trace_c5cc_window(u32 tr);
 void func_4005e838(u32 tr);
-void func_4005df5c(u32 tr);
+void trace_intensity_draw_window(u32 tr);
 
 void trace_process_window(u32 tr)
 {
@@ -197,7 +197,7 @@ void trace_process_window(u32 tr)
     trace_view_bounds(tr);
     trace_c5cc_window(tr);
     func_4005e838(tr);
-    func_4005df5c(tr);
+    trace_intensity_draw_window(tr);
 }
 """)
 t(0x4003C9F4, 52, "per_channel_processing", "trace_process_window for CH1 and CH2 when they are on. (name: Hack)", """

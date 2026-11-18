@@ -1,6 +1,6 @@
 # Project status and resume point
 
-Snapshot from 2026-11-18, after Phase 5 batch 54. All addresses apply to build
+Snapshot from 2026-11-18, after Phase 5 batch 55. All addresses apply to build
 2025-06-19 only. Work is paused here; this page is the place to start from next time.
 
 ## 1. Where things stand
@@ -8,12 +8,12 @@ Snapshot from 2026-11-18, after Phase 5 batch 54. All addresses apply to build
 | Item | State |
 |---|---|
 | `make check` | MATCH, SHA-256 `6635ddd6…cefd58c` |
-| Functions with equivalent C | 1171 of 1354 (86.48%) |
-| Code bytes covered by C | 185,506 of 337,504 (54.96%) |
+| Functions with equivalent C | 1178 of 1354 (87.00%) |
+| Code bytes covered by C | 187,842 of 337,504 (55.66%) |
 | MATCHING C | 0 by construction: Arm Compiler 5 is not licensed here (docs/COMPILER.md) |
-| Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library); full suite after batch 54, all 1171 EQUIVALENT (unchanged builds keep their cached result, see CONTRIBUTING.md) |
-| Mutation self-test | 694/694 mutants detected (`make selftest`, full run after batch 54). Before that, from batch 27 to batch 43, a mutant made stale by a rename stopped the full run at mutant 168, so those batches checked only their own mutants. The self-test now lists stale mutants and stops before building anything |
-| TEST image | `make testiso`: 712 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
+| Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library); full suite after batch 55, all 1178 EQUIVALENT (unchanged builds keep their cached result, see CONTRIBUTING.md) |
+| Mutation self-test | 727/727 mutants detected (`make selftest`, full run after batch 55). Before that, from batch 27 to batch 43, a mutant made stale by a rename stopped the full run at mutant 168, so those batches checked only their own mutants. The self-test now lists stale mutants and stops before building anything |
+| TEST image | `make testiso`: 717 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
 | Browser emulator | repo `dev-marcos/dpos350p-emu`, submodule `tools/sim` at `5ed2f7e`, runs fully in the browser (docs/SIM.md) |
 
 The two numbers in the table differ because the finished work is mostly small and medium
@@ -75,6 +75,7 @@ functions. The large ones (UI, the table builders, the calibration steps) are st
 | 52 | acquisition defaults reset, power-on defaults (from a store trace), FPGA parameter sync, generator output calibration, generator self-test | 5 | DRIVERS.md |
 | 53 | trace horizontal path: visible bounds, sample shift on a position change, per-segment zoom, gather into the display buffer | 4 | DRIVERS.md |
 | 54 | radix-2 FFT, Hann window for the FFT view, amplitude normalization, two trigger-crossing searches; sample-rate table of 0x4003F2F4 documented (not converted) | 5 | DRIVERS.md |
+| 55 | zoom resampling (dispatch, cubic spline, windowed sinc), spline evaluation and resample, trace intensity (persistence) view | 7 | DRIVERS.md |
 
 The exact list, with addresses and case counts, is in PROGRESS.md (`make progress`).
 

@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1171 | 86.48% | 185506 | 54.96% |
+| EQUIVALENT | 1178 | 87.00% | 187842 | 55.66% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 183 | 13.52% | 151998 | 45.04% |
+| ASM | 176 | 13.00% | 149662 | 44.34% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1171 (87.45%) | 337104 | 185506 (55.03%) |
+| main code | 1339 | 1178 (87.98%) | 337104 | 187842 (55.72%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -785,11 +785,18 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4005C38C` | __memcpy_dst_unaligned | 100 | EQUIVALENT | 400 | `nonmatching/libc/func_4005c38c.c` |
 | `0x4005C3F0` | bmp_save | 508 | EQUIVALENT | 200 | `nonmatching/platform/func_4005c3f0.c` |
 | `0x4005C678` | simple_integer_index_mapping_nearest_neighbour | 324 | EQUIVALENT | 200 | `nonmatching/platform/func_4005c678.c` |
+| `0x4005C7BC` | workspace_copy_and_resampling | 348 | EQUIVALENT | 200 | `nonmatching/platform/func_4005c7bc.c` |
 | `0x4005C918` | index_map_if_above | 60 | EQUIVALENT | 200 | `nonmatching/platform/func_4005c918.c` |
+| `0x4005CEA4` | spline_eval | 212 | EQUIVALENT | 200 | `nonmatching/platform/func_4005cea4.c` |
+| `0x4005CF78` | spline_resample | 208 | EQUIVALENT | 200 | `nonmatching/platform/func_4005cf78.c` |
+| `0x4005D048` | floating_point_interpolation_resampling | 472 | EQUIVALENT | 200 | `nonmatching/platform/func_4005d048.c` |
 | `0x4005D220` | sine_table_lookup | 92 | EQUIVALENT | 200 | `nonmatching/platform/func_4005d220.c` |
 | `0x4005D27C` | sine_table_build | 96 | EQUIVALENT | 200 | `nonmatching/platform/func_4005d27c.c` |
+| `0x4005D2E4` | fixed_point_weighted_or_filtered_resampling | 372 | EQUIVALENT | 200 | `nonmatching/platform/func_4005d2e4.c` |
 | `0x4005D4A4` | pow | 1580 | EQUIVALENT | 400 | `nonmatching/libm/func_4005d4a4.c` |
 | `0x4005DAD0` | log10 | 202 | EQUIVALENT | 400 | `nonmatching/libm/func_4005dad0.c` |
+| `0x4005DDD4` | trace_intensity_draw | 392 | EQUIVALENT | 200 | `nonmatching/platform/func_4005ddd4.c` |
+| `0x4005DF5C` | trace_intensity_draw_window | 332 | EQUIVALENT | 200 | `nonmatching/platform/func_4005df5c.c` |
 | `0x4005E10C` | layer_clear | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_4005e10c.c` |
 | `0x4005F014` | ms5351_i2c_start | 76 | EQUIVALENT | 300 | `nonmatching/drivers/func_4005f014.c` |
 | `0x4005F060` | ms5351_i2c_stop | 92 | EQUIVALENT | 300 | `nonmatching/drivers/func_4005f060.c` |

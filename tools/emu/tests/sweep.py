@@ -3744,3 +3744,221 @@ def t_hann54(r):
 
 
 TESTS[0x40041BA0] = t_hann54
+
+
+# ================================================================ batch 55: zoom resampling, spline, intensity view
+XK55, A55, B55, C55, D55, IDX55, XIN55, YOUT55 = (0x42DA94D4, 0x42DBCD54, 0x42D6EB54, 0x42D823D4, 0x42D95C54,
+                                                  0x42DD05D4, 0x42DD05D4 + 0x1000, 0x42DE3E54)
+WS55, OUT55 = 0x41A13AE8, 0x416431E8
+
+
+def _fl55(vals):
+    return b"".join(_st50.pack("<f", v) for v in vals)
+
+
+def _fb55(x):
+    return _st50.unpack("<I", _st50.pack("<f", x))[0]
+
+
+def _knots55(r, n):
+    xs, x = [], r.uniform(-50, 50)
+    for _ in range(n):
+        xs.append(x)
+        x += r.choice([1.0, 0.5, 2.0, r.uniform(0.01, 5), 0.0 if r.random() < 0.05 else 1.0])
+    return xs
+
+
+def t_seval55(r):
+    n = r.choice([1, 2, 3, 5, 10, 20])
+    xs = _knots55(r, n + 1)
+    coef = [[r.uniform(-10, 10) for _ in range(n + 1)] for _ in range(4)]
+    lo, hi = xs[0], xs[-1]
+    pick = r.randrange(6)
+    if pick == 0:
+        x = r.uniform(lo, hi) if hi == hi and lo == lo else 0.0
+    elif pick == 1:
+        x = xs[r.randrange(n + 1)]
+    elif pick == 2:
+        x = lo - r.uniform(0, 10) if lo == lo else -1.0
+    elif pick == 3:
+        x = hi + r.uniform(0, 10) if hi == hi else 1.0
+    elif pick == 4:
+        x = float("nan")
+    else:
+        x = r.uniform(-60, 120)
+    idx = r.choice([0, 1, n - 2, n - 1, n, -1, r.randrange(0, n + 1), 0x7FFFFFFF]) & 0xFFFFFFFF
+
+    def setup(m):
+        m.write(XK55, _fl55(xs))
+        for base, cf in zip((A55, B55, C55, D55), coef):
+            m.write(base, _fl55(cf))
+        m.w32(IDX55, idx)
+    c = Case([r.getrandbits(32), n, XK55, A55], setup=setup, ret="s", stack=[B55, C55, D55, IDX55])
+    c.dregs = {0: _fb55(x)}
+    return c
+
+
+TESTS[0x4005CEA4] = t_seval55
+
+
+def t_sres55(r):
+    n = r.choice([2, 3, 4, 6, 10])
+    xs = [float(i) * r.choice([1.0, 0.5, 2.0]) for i in range(n)]
+    ys = [r.uniform(-1, 1) for _ in range(n)]
+    mm = r.choice([0, 1, 5, 17])
+    xin = [r.uniform(xs[0] - 1, xs[-1] + 1) for _ in range(mm)]
+    if mm and r.random() < 0.5:
+        xin.sort()
+
+    def setup(m):
+        m.max_insns = 20_000_000
+        m.write(XK55, _fl55(xs))
+        m.write(A55, _fl55(ys))
+        m.write(XIN55, _fl55(xin))
+    return Case([n, XK55, A55, mm], setup=setup, ret=V, stack=[XIN55, YOUT55])
+
+
+TESTS[0x4005CF78] = t_sres55
+
+
+def _zoom55(r):
+    k = r.choice([1, 1, 2, 3, 4])
+    mm = r.choice([k + 1, 2 * k, 3 * k + 1, 5 * k, 10, k])
+    ln = r.choice([0, 1, 2, 10, 31, 60])
+    lv = r.choice([1, 2, 3])
+    half = r.randrange(200, 400)
+    shift = r.choice([0, 0, 1, -1, 5, -7])
+    data = [128 * lv + r.randrange(-120, 121) for _ in range(900)]
+    if r.random() < 0.3:
+        per = r.choice([1, 2, 3])
+        data = [0xFFFF if (i // per) % 2 else 0 for i in range(900)]
+    return k, mm, ln, lv, half, shift, data
+
+
+def t_fres55(r):
+    k, mm, ln, lv, half, shift, data = _zoom55(r)
+
+    def setup(m):
+        m.max_insns = 50_000_000
+        m.w32(SYS + 0x554, k)
+        m.w32(SYS + 0x1C0, lv)
+        m.write(WS55, _u16s54(data))
+    return Case([WS55, half, ln, mm], setup=setup, ret=V, stack=[shift & 0xFFFFFFFF, 0xFFFFFFFF if shift < 0 else 0])
+
+
+TESTS[0x4005D048] = t_fres55
+
+
+SINT55 = b"".join((int(1e8 * _m54.sin(_m54.pi * i / 10000)) & 0xFFFFFFFF).to_bytes(4, "little") for i in range(20001))
+
+
+def t_xres55(r):
+    k, mm, ln, lv, half, shift, data = _zoom55(r)
+    if r.random() < 0.1:
+        mm = max(1, k - 1)
+
+    def setup(m):
+        m.max_insns = 50_000_000
+        m.w32(SYS + 0x554, k)
+        m.write(WS55, _u16s54(data))
+        m.write(0x42D564B4, SINT55)
+    return Case([WS55, half, ln, mm], setup=setup, ret=V,
+                stack=[shift & 0xFFFFFFFF, 0xFFFFFFFF if shift < 0 else 0])
+
+
+TESTS[0x4005D2E4] = t_xres55
+
+
+def t_wcopy55(r):
+    ch = r.choice([0, 1, 1, 2])
+    half = r.randrange(60, 300)
+    ln = r.choice([0, 1, 2, 7, 40, 100])
+    n = r.choice([1, 2, 5, 100])
+    k = r.choice([0, 1, n - 1, n, n + 1])
+    modes = [r.choice([0, 1, 2, 3]) for _ in range(2)]
+    tb = r.choice([11, 12, 13, 14, 15, 16, 17, 0])
+    data = bytes(r.getrandbits(8) for _ in range(1200))
+    ws = bytes(r.getrandbits(8) for _ in range(1200))
+
+    def setup(m):
+        m.w32(SYS + 0x554, k & 0xFFFFFFFF)
+        m.w8(SYS + 0x51C, modes[0])
+        m.w8(SYS + 0x51D, modes[1])
+        m.w8(SYS + 0x588, tb)
+        m.write(REG54, data)
+        m.write(WS55, ws)
+    return Case([ch, REG54, half, ln], setup=setup, ret=V, stack=[n],
+                stubs=(rec_stk("near", 0x4005C678, 2), rec_stk("spl", 0x4005D048, 2), rec_stk("sinc", 0x4005D2E4, 2)))
+
+
+TESTS[0x4005C7BC] = t_wcopy55
+
+
+FB55 = 0x41FB8FE8
+
+
+def _hits55(r, n):
+    out = []
+    for _ in range(n):
+        out.append(0 if r.random() < 0.4 else r.choice([1, 2, 100, 0xFFFF, r.getrandbits(16)]))
+    return _u16s54(out)
+
+
+def t_pers55(r):
+    tr = r.choice([0, 1, 2, 3])
+    x0, y0 = r.randrange(0, 60), r.randrange(0, 60)
+    cols, rows = r.choice([0, 1, 3, 12]), r.choice([0, 1, 4, 10])
+    f652, f653 = r.choice([0, 0, 1]), r.choice([0, 1])
+    k = r.choice([0, 1, 4, 9, 50, 255])
+    w7b0 = r.choice([1, 2, 3, 7, 100, 1000])
+    m02 = r.choice([0, 1, 2])
+    hits = _hits55(r, cols * rows)
+    pal = bytes(r.getrandbits(8) for _ in range(0x3000))
+
+    def setup(m):
+        m.write(SYS + 4, b"".join(v.to_bytes(2, "little") for v in (x0, y0, cols, rows)))
+        m.w8(SYS + 0x652, f652)
+        m.w8(SYS + 0x653, f653)
+        m.w8(SYS + 0x654, k)
+        m.w32(SYS + 0x7B0, w7b0)
+        m.w32(0x40095498, FB55)
+        m.write(0x400954A4 + tr * 0x12BE70, hits)
+        m.write(0x42E45864, pal)
+        m.write(0x42E47B8C, pal[::-1])
+    return Case([tr], setup=setup, ret=V, stubs=(rec("m02", 0x4003BF58, 1, m02), rec("dcache", 0x400632F8, 0)))
+
+
+TESTS[0x4005DDD4] = t_pers55
+
+
+def t_persw55(r):
+    tr = r.choice([0, 1, 2, 3])
+    x0, y0 = r.randrange(0, 60), r.randrange(0, 60)
+    rows = r.choice([0, 1, 4, 10])
+    c0 = r.choice([0, 1, 5])
+    cnt = r.choice([0, 1, 4, 9])
+    f652, f653 = r.choice([0, 0, 1]), r.choice([0, 1])
+    w7b0 = r.choice([1, 2, 3, 7, 100])
+    m02 = r.choice([0, 1, 2])
+    a, b = r.choice([(5, 5), (6, 5), (4, 5), (0, 1), (0xFFFFFFFF, 0)])
+    hits = _hits55(r, (c0 + cnt + 1) * max(rows, 1))
+    pal = bytes(r.getrandbits(8) for _ in range(0x3000))
+    w8 = r.getrandbits(16)
+
+    def setup(m):
+        m.write(SYS + 4, b"".join(v.to_bytes(2, "little") for v in (x0, y0, w8, rows)))
+        m.write(SYS + 0x6F8, cnt.to_bytes(2, "little"))
+        m.w32(SYS + 0x6FC, a)
+        m.w32(SYS + 0x708, b)
+        m.w32(SYS + 0x700, c0)
+        m.w8(SYS + 0x652, f652)
+        m.w8(SYS + 0x653, f653)
+        m.w32(SYS + 0x7B0, w7b0)
+        m.w32(0x40095498, FB55)
+        m.write(0x400954A4 + tr * 0x12BE70, hits)
+        m.write(0x42E45864, pal)
+        m.write(0x42E47B8C, pal[::-1])
+    return Case([tr], setup=setup, ret=V, stubs=(rec("m02", 0x4003BF58, 1, m02), rec("present", 0x400343C4, 4)))
+
+
+TESTS[0x4005DF5C] = t_persw55
