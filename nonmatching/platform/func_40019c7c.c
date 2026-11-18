@@ -10,7 +10,7 @@
 void draw_colour_set(u32 c);
 void rect_fill(u32 a, u32 b, u32 c, u32 d);
 void func_4002ecc4_span(u32 a, u32 b, u32 c);
-void func_4002ce7c(u32 x, u32 y, const char *s);
+void text_draw(u32 x, u32 y, const char *s);
 void pixel_put(u32 x, u32 y);
 #define W32(a) (*(volatile u32 *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))

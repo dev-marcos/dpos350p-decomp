@@ -9,7 +9,7 @@
 
 void word_42e68c74_set(u32 a);
 void half_42e68be2_set(u32 a);
-int func_4002d164(const char *s);
+int text_width(const char *s);
 void fb_rect_copy_to_e4e84(u32 x0, u32 y0, u32 x1, u32 y1);
 void fb_target_back(void);
 void draw_colour_set(u32 c);
@@ -24,7 +24,7 @@ void message_box_draw(int x, int y, u32 text, int align)
     int w;
     word_42e68c74_set(0x42E658D8u);
     half_42e68be2_set(2);
-    w = (unsigned short)(func_4002d164(s) + 0x32);
+    w = (unsigned short)(text_width(s) + 0x32);
     if (align == 0) {
         y -= 0x19;
         x -= w / 2;

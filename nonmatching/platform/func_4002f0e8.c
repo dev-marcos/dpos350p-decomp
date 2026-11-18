@@ -8,13 +8,13 @@
 #include "hw/fpga.h"
 
 void draw_colour_set(u32 c);
-void func_4002ee78(u32 x, u32 y, u32 s);
+void glyph_alpha_draw(u32 x, u32 y, u32 s);
 
 void draw_text_shadowed(u32 x, u32 y, u32 s, u32 dx, u32 dy, u32 col)
 {
     u32 saved = *(volatile u32 *)0x42E68664u;
     draw_colour_set((col & 0xFF) << 24);
-    func_4002ee78((x + dx) & 0xFFFF, (y + (dy & 0xFF)) & 0xFFFF, s);
+    glyph_alpha_draw((x + dx) & 0xFFFF, (y + (dy & 0xFF)) & 0xFFFF, s);
     draw_colour_set(saved);
-    func_4002ee78(x, y, s);
+    glyph_alpha_draw(x, y, s);
 }

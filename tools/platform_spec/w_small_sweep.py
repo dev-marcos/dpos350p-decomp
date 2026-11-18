@@ -369,19 +369,19 @@ void func_40063c34_all8(void)
 for a, flag in ((0x4002D6D4, 1), (0x4002D6F8, 0)):
     w(a, 36, "func_4002d82c_flag%d" % flag,
       "0x4002D82C(a, b, c, d, the low byte of the fifth (stack) argument, %d)." % flag, """
-void func_4002d82c(u32 a, u32 b, u32 c, u32 d, u32 e, u32 g);
+void number_draw(u32 a, u32 b, u32 c, u32 d, u32 e, u32 g);
 
 void func_4002d82c_flag%d(u32 a, u32 b, u32 c, u32 d, u32 e)
 {
-    func_4002d82c(a, b, c, d, e & 0xFF, %d);
+    number_draw(a, b, c, d, e & 0xFF, %d);
 }
 """ % (flag, flag), src="display")
 w(0x4002D71C, 8, "func_4002d2d4_d0", "0x4002D2D4(a, b, c, 0).", """
-void func_4002d2d4(u32 a, u32 b, u32 c, u32 d);
+void number_text_width(u32 a, u32 b, u32 c, u32 d);
 
 void func_4002d2d4_d0(u32 a, u32 b, u32 c)
 {
-    func_4002d2d4(a, b, c, 0);
+    number_text_width(a, b, c, 0);
 }
 """, src="display")
 w(0x40034058, 36, "func_40032e0c_both", "0x40032D3C, then 0x40032E0C(0) and 0x40032E0C(1).", """

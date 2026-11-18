@@ -1982,3 +1982,131 @@ def t_autolvl(r):
 
 
 TESTS[0x40060FE8] = t_autolvl
+
+
+# ================================================================ batch 44: text and numbers
+STR44 = SYS + 0x210000
+MAPPED44 = [0x20, 0x21, 0x25, 0x28, 0x2A, 0x2F, 0x3A, 0x3D, 0x3F, 0x5F, 0xC4, 0xD1, 0xDF, 0xE0, 0xE9, 0xF1, 0xFC,
+            0x101, 0x113, 0x14D, 0x1CE, 0x1DC, 0x261, 0x401, 0x410, 0x416, 0x42F, 0x430, 0x44F, 0x451, 0x1E9E,
+            0xFF08, 0xFF09]
+
+
+def str44(r):
+    toks = []
+    for _ in range(r.choice([0, 1, 2, 4, 7])):
+        k = r.choice("aaaddpuu2233xq")
+        if k == "a":
+            toks.append(bytes([r.choice(b"AZaz09Mq.+-# ~!%")]))
+        elif k == "d":
+            toks.append(bytes([r.randrange(0x30, 0x3A)]))
+        elif k == "p":
+            toks.append(bytes([r.choice(b".+-")]))
+        elif k == "u":
+            toks.append(chr(r.choice(MAPPED44)).encode())
+        elif k == "2":
+            toks.append(chr(r.choice([0xC4, 0xE9, 0x416, 0x44F, 0x7FF, 0x100, r.randrange(0x80, 0x800)])).encode())
+        elif k == "3":
+            toks.append(chr(r.choice([0x1E9E, 0xFF08, 0x20AC, 0x4E2D, r.randrange(0x800, 0xD800)])).encode())
+        elif k == "x":
+            toks.append(chr(r.choice([0x1F600, 0x10401, r.randrange(0x10000, 0x110000)])).encode())
+        else:
+            toks.append(bytes([r.choice([0x80, 0xBF, 0xF8, 0xFF, 0xC3, 0xE2])]))
+    b = b"".join(toks)
+    if b and (b[0] & 0xC0) == 0x80 or b[:1] in (b"\xf8", b"\xff"):
+        b = b"A" + b
+    return b + bytes(64)
+
+
+def font44(r, t):
+    return [(FD, bytes([t]) + bytes(r.getrandbits(8) for _ in range(0x0F))),
+            (FD + 8, s16(r.choice([0, 1, 9, 14]))),
+            (FD + 0x262, b"".join(s16(r.choice([0, 1, 5, 8, 12, 0xFFFF])) for _ in range(140))),
+            (0x42E68C74, i32(FD)), (0x42E68BE2, s16(r.choice([0, 1, 2, 0xFFFF]))),
+            (0x42E68BE0, bytes([r.choice([0, 0, 1, 0x80])]))]
+
+
+def t_twidth(r):
+    t = r.choice([1, 1, 1, 8, 8, 0, 3])
+    return Case([STR44], writes(font44(r, t) + [(STR44, str44(r))]), ret=R)
+
+
+TESTS[0x4002D164] = t_twidth
+
+
+def t_tdraw(r):
+    t = r.choice([1, 1, 1, 8, 8, 0, 3])
+    return Case([xy(r), xy(r), STR44], compose(rand_block(r, 0x42CF64B4, 0x1000),
+                                              writes(font44(r, t) + [(STR44, str44(r))])), ret=V,
+                stubs=(rec("chr", 0x4002E6D8, 3), rec("tint", 0x4002E878, 3), rec("g14", 0x4002CDC4, 3)))
+
+
+TESTS[0x4002CE7C] = t_tdraw
+
+
+def val44(r):
+    v = r.choice([0, 1, 9, 10, 99, 100, 12345, 987654321, 10 ** 15 - 1, 10 ** 15, 10 ** 16 + 7, 10 ** 18 * 9,
+                  2 ** 63 - 1, r.getrandbits(20), r.getrandbits(40), r.getrandbits(63)])
+    if r.random() < 0.4:
+        v = -v
+    if r.random() < 0.05:
+        v = -2 ** 63
+    return v & 0xFFFFFFFFFFFFFFFF
+
+
+def str_stub(name, addr, ret=None, si=0):
+    """Records the string argument si by content (the buffer is on the caller's frame) and the
+    arguments before it."""
+    def fn(m, a):
+        a = regs(m, si + 1)
+        b = m.read(a[si], 40)
+        m.calls.append((name, b[:b.index(0) if 0 in b else 40]) + tuple(a[:si]))
+        return ret
+    return Stub(name, addr, fn, 0)
+
+
+def t_numw(r):
+    v = val44(r)
+    return Case([v & 0xFFFFFFFF, v >> 32, r.choice([0, 0, 1, 2, 3, 6, 15]),
+                 r.choice([0, 0, 1, 1, 0xFFFFFFFF, 2, 0x101])], ret=R,
+                stubs=(str_stub("tw", 0x4002D164, r.getrandbits(32)),))
+
+
+TESTS[0x4002D2D4] = t_numw
+
+
+def t_numd(r):
+    v = val44(r)
+    dec = (r.getrandbits(24) << 8) | r.choice([0, 0, 1, 2, 3, 6, 15])
+    mode = (r.getrandbits(24) << 8) | r.choice([0, 0, 1, 1, 0xFF, 2, 0x81])
+    return Case([xy(r), xy(r), v & 0xFFFFFFFF, v >> 32], ret=V, stubs=(str_stub("td", 0x4002CE7C, None, 2),),
+                stack=[dec, mode])
+
+
+TESTS[0x4002D82C] = t_numd
+
+
+def t_gidx(r):
+    c = r.choice(MAPPED44 + [0x30, 0x39, 0x3A, 0x40, 0x41, 0x5A, 0x5B, 0x60, 0x61, 0x7A, 0x7B, r.randrange(0x20, 0x80), r.randrange(0x20, 0x80), r.randrange(0x400, 0x460),
+                             r.randrange(0xC0, 0x200), r.getrandbits(16), r.getrandbits(32)])
+    if r.random() < 0.1:
+        c |= r.choice([0x10000, 0x80000000, 0xFFFF0000])
+    return Case([c], ret=R)
+
+
+TESTS[0x4002DD70] = t_gidx
+
+
+def t_galpha(r):
+    fb = SYS + 0x100000
+    w, h = r.choice([0, 1, 3, 6]), r.choice([0, 1, 2, 4])
+    x, y = r.choice([0, 3, 17, 1000]), r.choice([0, 1, 5])
+    g = bytes([w >> 8, w, h >> 8, h]) + bytes(r.choice([0, 1, 2, 3, 4, 100, 200, 0xF5, 0xF6, 0xFF]) for _ in range(w * h))
+    px = [(fb + 2 * (x + (y + j) * 1022), b"".join(s16(r.choice([0, 0xFFFF, 0x0821, r.getrandbits(16)]))
+                                                    for _ in range(w))) for j in range(h)]
+    col = bytes([r.choice([0, 0, 0xFF, 1, r.getrandbits(8)])]) + bytes(r.getrandbits(8) for _ in range(3)) + \
+        s16(r.getrandbits(16))
+    return Case([x, y, GD], writes([(GD, g), (0x40095498, i32(fb)), (0x42E6865C, col),
+                                    (0x42E68BE6, s16(r.choice([0, 3, 50, 0xFFFF])))] + px), ret=V)
+
+
+TESTS[0x4002EE78] = t_galpha

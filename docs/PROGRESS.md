@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1106 | 81.68% | 136634 | 40.48% |
+| EQUIVALENT | 1112 | 82.13% | 142702 | 42.28% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 248 | 18.32% | 200870 | 59.52% |
+| ASM | 242 | 17.87% | 194802 | 57.72% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1106 (82.60%) | 337104 | 136634 (40.53%) |
+| main code | 1339 | 1112 (83.05%) | 337104 | 142702 (42.33%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -50,15 +50,20 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4002CCCC` | word_42e68c74_set | 12 | EQUIVALENT | 200 | `nonmatching/platform/func_4002cccc.c` |
 | `0x4002CCD8` | fonts_init | 236 | EQUIVALENT | 200 | `nonmatching/platform/func_4002ccd8.c` |
 | `0x4002CDC4` | glyph_14x14_draw | 184 | EQUIVALENT | 200 | `nonmatching/platform/func_4002cdc4.c` |
+| `0x4002CE7C` | text_draw | 600 | EQUIVALENT | 200 | `nonmatching/platform/func_4002ce7c.c` |
 | `0x4002D0D4` | text_shadow_draw | 144 | EQUIVALENT | 200 | `nonmatching/platform/func_4002d0d4.c` |
+| `0x4002D164` | text_width | 368 | EQUIVALENT | 200 | `nonmatching/platform/func_4002d164.c` |
+| `0x4002D2D4` | number_text_width | 1024 | EQUIVALENT | 200 | `nonmatching/platform/func_4002d2d4.c` |
 | `0x4002D6D4` | func_4002d82c_flag1 | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4002d6d4.c` |
 | `0x4002D6F8` | func_4002d82c_flag0 | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4002d6f8.c` |
 | `0x4002D71C` | func_4002d2d4_d0 | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_4002d71c.c` |
 | `0x4002D724` | text_d6f8_shadow_draw | 188 | EQUIVALENT | 200 | `nonmatching/platform/func_4002d724.c` |
+| `0x4002D82C` | number_draw | 1044 | EQUIVALENT | 200 | `nonmatching/platform/func_4002d82c.c` |
 | `0x4002DC40` | half_42e68be2_set | 12 | EQUIVALENT | 200 | `nonmatching/platform/func_4002dc40.c` |
 | `0x4002DC4C` | draw_state_defaults | 40 | EQUIVALENT | 200 | `nonmatching/platform/func_4002dc4c.c` |
 | `0x4002DC74` | byte_42e68be0_set | 12 | EQUIVALENT | 200 | `nonmatching/platform/func_4002dc74.c` |
 | `0x4002DCAC` | font_metrics_build | 196 | EQUIVALENT | 200 | `nonmatching/platform/func_4002dcac.c` |
+| `0x4002DD70` | font_glyph_index | 2408 | EQUIVALENT | 200 | `nonmatching/platform/func_4002dd70.c` |
 | `0x4002E6D8` | font_char_draw | 216 | EQUIVALENT | 200 | `nonmatching/platform/func_4002e6d8.c` |
 | `0x4002E7B0` | char_to_digit_glyph | 200 | EQUIVALENT | 200 | `nonmatching/platform/func_4002e7b0.c` |
 | `0x4002E878` | font_char_tint_draw | 436 | EQUIVALENT | 200 | `nonmatching/platform/func_4002e878.c` |
@@ -70,6 +75,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4002EC4C` | rect_outline_draw | 120 | EQUIVALENT | 200 | `nonmatching/platform/func_4002ec4c.c` |
 | `0x4002ECC4` | rect_fill | 204 | EQUIVALENT | 200 | `nonmatching/platform/func_4002ecc4.c` |
 | `0x4002ED90` | line_draw | 216 | EQUIVALENT | 200 | `nonmatching/platform/func_4002ed90.c` |
+| `0x4002EE78` | glyph_alpha_draw | 624 | EQUIVALENT | 200 | `nonmatching/platform/func_4002ee78.c` |
 | `0x4002F0E8` | draw_text_shadowed | 104 | EQUIVALENT | 200 | `nonmatching/platform/func_4002f0e8.c` |
 | `0x4002F160` | touch_button_set_rect | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_4002f160.c` |
 | `0x4002F180` | touch_button_disable | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_4002f180.c` |

@@ -8,10 +8,10 @@
 #include "hw/fpga.h"
 
 void func_40038c00(u32 x, u32 y, u32 c, double v);
-void func_4002ce7c(u32 x, u32 y, const char *s);
+void text_draw(u32 x, u32 y, const char *s);
 
 void level_label_db(u32 x, u32 y, u32 c, double v)
 {
     func_40038c00(x, y, c & 0xFF, v);
-    func_4002ce7c((*(volatile unsigned short *)0x42E68BE4u + x + 4) & 0xFFFF, y, (const char *)0x40038E3Cu);
+    text_draw((*(volatile unsigned short *)0x42E68BE4u + x + 4) & 0xFFFF, y, (const char *)0x40038E3Cu);
 }

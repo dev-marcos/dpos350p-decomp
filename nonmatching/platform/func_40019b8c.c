@@ -10,7 +10,7 @@
 void draw_colour_set(u32 c);
 void rect_fill(u32 a, u32 b, u32 c, u32 d);
 void func_4002ecc4_span(u32 a, u32 b, u32 c);
-void func_4002ce7c(u32 x, u32 y, const char *s);
+void text_draw(u32 x, u32 y, const char *s);
 void pixel_put(u32 x, u32 y);
 #define W32(a) (*(volatile u32 *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
@@ -31,12 +31,12 @@ void switch_on_off_draw(u32 x, u32 y, u32 on)
         draw_colour_set(t[1]);
         rect_fill((unsigned short)(x + 0x1E), (unsigned short)(y + 2), 0x1E, 0x1C);
         draw_colour_set(t[3]);
-        func_4002ce7c((unsigned short)(x + 7), (unsigned short)(y + 10), (const char *)0x40019DB0u);
+        text_draw((unsigned short)(x + 7), (unsigned short)(y + 10), (const char *)0x40019DB0u);
     } else {
         draw_colour_set(t[2]);
         rect_fill(x, (unsigned short)(y + 2), 0x1E, 0x1C);
         draw_colour_set(t[3]);
-        func_4002ce7c((unsigned short)(x + 0x23), (unsigned short)(y + 10), (const char *)0x40019DB4u);
+        text_draw((unsigned short)(x + 0x23), (unsigned short)(y + 10), (const char *)0x40019DB4u);
     }
     word_42e68c74_set(font);
     half_42e68be2_set((unsigned char)h);

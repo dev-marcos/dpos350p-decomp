@@ -7,9 +7,9 @@
 
 #include "hw/fpga.h"
 
-void func_4002d82c(u32 a, u32 b, u32 c, u32 d, u32 e, u32 g);
+void number_draw(u32 a, u32 b, u32 c, u32 d, u32 e, u32 g);
 
 void func_4002d82c_flag1(u32 a, u32 b, u32 c, u32 d, u32 e)
 {
-    func_4002d82c(a, b, c, d, e & 0xFF, 1);
+    number_draw(a, b, c, d, e & 0xFF, 1);
 }

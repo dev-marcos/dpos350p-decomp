@@ -185,7 +185,7 @@ wb(0x40034134, 336, "message_box_draw",
    "Draws a message box with the text s near (x, y): width = text width (0x4002D164) + 50, height 50; align 0 centres it above the point (y - 25), 2 puts it to the upper left (x - w, y - 50), both clamped at 0; 1 and others leave (x, y). Saves the area to 0x420E4E84 first, stores the box in 0x42E68C38, draws a black box with a 0x282828 inside and the text (colour word 0x409223BC, shadow 1 x 2), then presents the rectangle.", """
 void word_42e68c74_set(u32 a);
 void half_42e68be2_set(u32 a);
-int func_4002d164(const char *s);
+int text_width(const char *s);
 void fb_rect_copy_to_e4e84(u32 x0, u32 y0, u32 x1, u32 y1);
 void fb_target_back(void);
 void draw_colour_set(u32 c);
@@ -200,7 +200,7 @@ void message_box_draw(int x, int y, u32 text, int align)
     int w;
     word_42e68c74_set(0x42E658D8u);
     half_42e68be2_set(2);
-    w = (unsigned short)(func_4002d164(s) + 0x32);
+    w = (unsigned short)(text_width(s) + 0x32);
     if (align == 0) {
         y -= 0x19;
         x -= w / 2;

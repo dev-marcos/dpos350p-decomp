@@ -198,12 +198,12 @@ for a, s, txt in ((0x40038DAC, 0x40038E3C, "dB"), (0x40038DEC, 0x4008FFC0, "dBmV
     w(a, 64, "level_label_%s" % txt.lower(),
       "0x40038C00(x, y, (u8)c, d0), then 0x4002CE7C((u16)(u16 0x42E68BE4 + x + 4), y, the text '%s' at 0x%08X)." % (txt, s), """
 void func_40038c00(u32 x, u32 y, u32 c, double v);
-void func_4002ce7c(u32 x, u32 y, const char *s);
+void text_draw(u32 x, u32 y, const char *s);
 
 void level_label_%s(u32 x, u32 y, u32 c, double v)
 {
     func_40038c00(x, y, c & 0xFF, v);
-    func_4002ce7c((*(volatile unsigned short *)0x42E68BE4u + x + 4) & 0xFFFF, y, (const char *)0x%08Xu);
+    text_draw((*(volatile unsigned short *)0x42E68BE4u + x + 4) & 0xFFFF, y, (const char *)0x%08Xu);
 }
 """ % (txt.lower(), s))
 for a, b in ((0x400353F4, 0x40034B78), (0x400364A0, 0x40035BC4)):

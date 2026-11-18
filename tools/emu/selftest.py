@@ -206,7 +206,7 @@ MUTANTS = [
     (0x4003DD5C, "(0x42E68A88u + 2))", "(0x42E68A88u + 3))"),
     (0x4003D8A4, "ui_reveal_bottom_up((volatile", "ui_reveal_slide_down((volatile"),
     # batch 22: trace chain, window stack helpers
-    (0x4003C550, "if (SYS8(0x2AA))\n            func_4005e10c(3);", "if (SYS8(0x2AA))\n            func_4005e10c(2);"),
+    (0x4003C550, "if (SYS8(0x2AA))\n            layer_clear(3);", "if (SYS8(0x2AA))\n            layer_clear(2);"),
     (0x4003C7A0, "if (SYS32(0x6FC) < SYS32(0x708))", "if (SYS32(0x6FC) <= SYS32(0x708))"),
     (0x4003C7E4, "if (k == 1 && SYS8(0x2AA) == 0)", "if (k == 0 && SYS8(0x2AA) == 0)"),
     (0x4003C8D4, "if (p[0x664] == 0)", "if (p[0x664] != 0)"),
@@ -259,7 +259,7 @@ MUTANTS = [
     (0x400458FC, 'TB(e + 0x19B) = b;', 'TB(e + 0x19B) = a;'),
     (0x4005FBB4, "else if (c == '.')", "else if (c == ',')"),
     (0x4005FB4C, '*(volatile u32 *)0x42E68AB4u = 0x42E68AC8u;', '*(volatile u32 *)0x42E68AB4u = 0x42E68AC0u;'),
-    (0x4005F8E8, 'func_4005f778(tr, SYS32(0x6FC), SYS16(0x6F6));', 'func_4005f778(tr, SYS32(0x6F8), SYS16(0x6F6));'),
+    (0x4005F8E8, 'trace_scale_segment(tr, SYS32(0x6FC), SYS16(0x6F6));', 'trace_scale_segment(tr, SYS32(0x6F8), SYS16(0x6F6));'),
     # batch 27: touch buttons, window touch handling, loose helpers
     (0x4002F2BC, 'if (!(x < (int)*(volatile unsigned short *)(b + 6)))', 'if (!(x <= (int)*(volatile unsigned short *)(b + 6)))'),
     (0x4002F2BC, 'if (TCH8(0xC) == 2)\n        b[0] = 2;', 'if (TCH8(0xC) == 3)\n        b[0] = 2;'),
@@ -278,7 +278,7 @@ MUTANTS = [
     (0x400301A8, 'for (n = 24; n; n--)', 'for (n = 23; n; n--)'),
     (0x4006366C, 'SYS8(0x275) && SYS8(0x274) && SYS8(0x27A)', 'SYS8(0x275) && SYS8(0x27A)'),
     (0x400636BC, '(SYS32(0x288) >> 8) & 0xFF', '(SYS32(0x288) >> 16) & 0xFF'),
-    (0x40064DC0, 'r = func_40064cf0() & a & 1;', 'r = func_40064cf0() & 1;'),
+    (0x40064DC0, 'r = gen_selftest_64cf0() & a & 1;', 'r = gen_selftest_64cf0() & 1;'),
     (0x4002D6D4, 'e & 0xFF, 1)', 'e, 1)'),
     (0x40024E14, 'if (SYS8(0x652) == 0)', 'if (SYS8(0x652) != 1)'),
     (0x40034284, '(h[3] + y + 1)', '(h[3] + x + 1)'),
@@ -472,10 +472,35 @@ MUTANTS = [
     (0x40060FE8, '            if ((int)l >= 7)', '            if ((int)l >= 6)'),
     (0x40060FE8, '    lo = (u32)((double)h * 0.2);', '    lo = (u32)((double)h * 0.25);'),
     (0x40060FE8, '    } while ((int)(MB32(oh) - MB32(0x184)) >= i);', '    } while ((int)(MB32(oh) - MB32(0x184)) > i);'),
+    # batch 44: text and numbers
+    (0x4002DD70, '        return (unsigned short)(c - 0x61u + 26);', '        return (unsigned short)(c - 0x61u + 27);'),
+    (0x4002DD70, '    if (c - 0x30u <= 9)', '    if (c - 0x30u <= 8)'),
+    (0x4002D164, '            w += sp + 14;', '            w += sp + 13;'),
+    (0x4002D164, '        return (((u32)c << 6) & 0x7C0) | ((unsigned char)s[1] & 0x3F);', '        return (((u32)c << 6) & 0x7C0) | ((unsigned char)s[1] & 0x1F);'),
+    (0x4002D164, '    return w - sp;', '    return w;'),
+    (0x4002CE7C, '                x = SPACING + (H16(FONT + 8) + x);\n            }\n        } else if (t == 8) {', '                x = SPACING + (H16(FONT + 6) + x);\n            }\n        } else if (t == 8) {'),
+    (0x4002CE7C, '    H16(0x42E68BE4u) = (unsigned short)(x - x0 + 1);', '    H16(0x42E68BE4u) = (unsigned short)(x - x0);'),
+    (0x4002CE7C, '        *n = 3;', '        *n = 2;'),
+    (0x4002D2D4, '    n = dec < top ? top : dec;', '    n = dec <= top ? top - 1 : dec;'),
+    (0x4002D2D4, "        buf[p++] = neg ? '-' : '+';", "        buf[p++] = neg ? '-' : ' ';"),
+    (0x4002D82C, '    d[15] = (int)(v / 1000000000000000LL);', '    d[15] = (int)(v / 100000000000000LL);'),
+    (0x4002D82C, "    if (dec)\n        buf[p++] = '.';", "    if (dec > 1)\n        buf[p++] = '.';"),
+    (0x4002EE78, '                if (a >= 0xF6) {', '                if (a >= 0xF5) {'),
+    (0x4002EE78, '                if (a < 3)', '                if (a < 2)'),
+    (0x4002EE78, '                            pg = pg * 4 + 3;', '                            pg = pg * 4 + 2;'),
+    (0x4002EE78, '        idx += 1022;', '        idx += 1024;'),
 ]
 
 
 def main():
+    # A rename in a later batch can change the text a mutant expects. Check them all first, so a
+    # stale mutant stops the run with a list instead of an assertion half-way through.
+    stale = [(o, old) for o, old, _ in MUTANTS
+             if old not in next(ROOT.glob(f"nonmatching/**/func_{o:08x}.c")).read_text()]
+    for o, old in stale:
+        print(f"STALE   0x{o:08x}: {old!r} is no longer in the source")
+    if stale:
+        sys.exit(2)
     syms = nmbuild.original_symbols()
     caught = 0
     with tempfile.TemporaryDirectory(dir=ROOT / "build") as tmp:
