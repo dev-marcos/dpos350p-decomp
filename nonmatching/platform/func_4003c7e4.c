@@ -10,9 +10,9 @@
 u32 mode_not_0_or_1(u32 tr);
 void trace_span_full_veneer(u32 tr);
 void scaled_pair_update(u32 tr);
-void func_4003c158(u32 tr);
-void func_4003c314(u32 tr);
-void func_4003bb6c(u32 tr);
+void trace_shift_samples(u32 tr);
+void trace_zoom_segments(u32 tr);
+void trace_view_bounds(u32 tr);
 void trace_c5cc_full(u32 tr);
 void func_4005e12c(u32 tr);
 void func_4005ddd4(u32 tr);
@@ -26,9 +26,9 @@ void trace_process_full(u32 tr)
         return;
     trace_span_full_veneer(tr);
     scaled_pair_update(tr);
-    func_4003c158(tr);
-    func_4003c314(tr);
-    func_4003bb6c(tr);
+    trace_shift_samples(tr);
+    trace_zoom_segments(tr);
+    trace_view_bounds(tr);
     trace_c5cc_full(tr);
     func_4005e12c(tr);
     func_4005ddd4(tr);

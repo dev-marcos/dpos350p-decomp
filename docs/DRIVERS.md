@@ -610,8 +610,8 @@ Spec: `tools/platform_spec/q_trace_windows.py`, 18 functions.
   - traces 0 and 1 are CH1 and CH2, gated by SYS+0x3E / SYS+0x102;
   - traces 2 and 3 are the second trace of each channel, present when SYS+0x2AA is set.
 - **The chain itself.** These functions only fix the order and the gates. The work is done by
-  callees that are still assembly (0x4005E10C, 0x4003C0AC, 0x4003C158, 0x4003C314, 0x4003BB6C,
-  0x4003C5CC, 0x4005E12C, 0x4005DDD4, …).
+  callees (0x4005E10C, 0x4003C0AC, 0x4005E12C, 0x4005DDD4, …; 0x4003C158, 0x4003C314,
+  0x4003BB6C and 0x4003C5CC are C since batch 53).
   - `traces_update`:
     - does nothing while the byte 0x42E68BC7 is set;
     - does nothing when SYS+0x27A = 1 with SYS+0x3C and SYS+0x38 both 0;
@@ -1905,6 +1905,64 @@ The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT).
 - **Harness note.** Straight-line functions that only write constants can now be turned into C
   from an emulator trace (`build/trace52.py`, not committed: it hooks the memory writes). The
   result is still verified by the normal EQUIVALENT test, with random memory before the call.
+
+## Trace horizontal position, zoom and gather (batch 53)
+
+Spec: `tools/platform_spec/zv_trace_pos.py`, 4 functions. Tests: `tools/emu/tests/sweep.py`.
+These are four of the trace-chain callees listed in batch 22. The code facts are
+STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The meaning of each field
+(for example "horizontal position") is DERIVED from how the code uses it.
+
+- **Two parameter sets.** `mode_not_0_or_1(tr)` selects the set. The first set is used when it
+  returns 0, the second one otherwise:
+
+  | Meaning (DERIVED) | First set | Second set |
+  |---|---|---|
+  | position reference, s64 | SYS+0x570 | SYS+0x578 |
+  | divisor, s64 | SYS+0x590 | SYS+0x5A0 |
+  | samples per column (z) | SYS+0x5F8 | SYS+0x610 |
+  | samples limit for the zoom | SYS+0x5FC | SYS+0x614 |
+  | scale | SYS+0x600 | SYS+0x618 |
+  | step | SYS+0x604 | SYS+0x61C |
+  | view offsets (left, right) | SYS+0x608 / +0x60C | SYS+0x620 / +0x624 |
+
+  The current position is the s64 at SYS+0x5E0. The segment count is u16 SYS+0x5F4. Segment
+  k uses the start SYS+0x2C4[k], the base SYS+0x38C[k] and the length SYS+0x454[k]. The trace
+  buffers are u16 arrays at 0x411AF3E8 + tr × 0x927C0, and the display buffers are at
+  0x413F92E8 + tr × 0x927C0.
+- **`trace_view_bounds`** (0x4003BB6C) gives the visible column range. For the other modes it
+  calls `view_bounds_update` (0x40042280). With the first set:
+  - lo = offset 0x608 + u16 SYS+0xC, clamped to 0..width (width = u16 SYS+8);
+  - hi = offset 0x60C + u16 SYS+0xC − 1, clamped to 0..width − 1;
+  - hi is raised to lo;
+  - when the record SYS+0x5D4 is shorter than SYS+0x5F8, the range is also cut to the centred
+    part, width × 0x5D4 / 0x5F8 wide.
+
+  The results go to u16 SYS+0x10 (lo), +0x12 (hi) and +0x14 (hi − lo).
+- **`trace_shift_samples`** (0x4003C158) handles a change of horizontal position:
+  - q = (position − reference) × scale / divisor / step, in signed 64-bit;
+  - the two view offsets go down by q;
+  - every segment's samples shift by q × z, inside the segment. A positive shift copies
+    forward, a negative one copies backward.
+- **`trace_zoom_segments`** (0x4003C314) runs when the zoom factor SYS+0x554 is below the
+  samples limit:
+  - rem = ((reference − position) × z / divisor) mod step;
+  - each view offset becomes rem + offset × limit / zoom;
+  - each segment goes through `index_map_if_above` (batch 27) with its base, its u16 length,
+    the limit and rem.
+
+  It also calls `mode_not_0_or_2` and ignores the result. That is stock behaviour.
+- **`trace_segments_gather`** (0x4003C5CC) fills the display buffer for columns start ..
+  start + n:
+  - each column and segment gets 2z + 1 values;
+  - the source index is k × SYS+0x2B0 + z × column + j + (base − start − z × width / 2);
+  - the index is clamped to 0..0x493E0, except when z equals SYS+0x5D4: then there is no offset
+    and no clamp.
+
+  The stock code keeps the per-segment offsets in a stack array of 101 entries.
+- **Use for new features.** These four functions, together with the batch 22 chain, are the
+  whole path from the capture buffer to the screen columns. A new horizontal mode (for example
+  a different zoom) can reuse the parameter sets above.
 
 ## Not yet rewritten (next batches)
 

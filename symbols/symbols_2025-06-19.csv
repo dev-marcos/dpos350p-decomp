@@ -436,7 +436,7 @@ address,size,name,type,evidence_level,source
 0x4003B7FC,56,pool_4003b7fc,literal_pool,DERIVED,analyze.py
 0x4003B834,776,func_4003b834,function_arm,DERIVED,analyze.py:rea
 0x4003BB3C,48,pool_4003bb3c,literal_pool,DERIVED,analyze.py
-0x4003BB6C,372,func_4003bb6c,function_arm,DERIVED,analyze.py:rea
+0x4003BB6C,372,trace_view_bounds,function_arm,DERIVED,this-project:phase5 (trace)
 0x4003BCE0,16,pool_4003bce0,literal_pool,DERIVED,analyze.py
 0x4003BCF0,188,timebase_index_clamp,function_arm,DERIVED,this-project:phase5 (timebase)
 0x4003BDAC,4,pool_4003bdac,literal_pool,DERIVED,analyze.py
@@ -455,13 +455,13 @@ address,size,name,type,evidence_level,source
 0x4003BF98,112,runtime_counter_progress_advance,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003C008,164,acquisition_geometry_setup,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003C0AC,172,scaled_pair_update,function_arm,DERIVED,this-project:phase5 (acquisition)
-0x4003C158,432,func_4003c158,function_arm,DERIVED,analyze.py:rea
+0x4003C158,432,trace_shift_samples,function_arm,DERIVED,this-project:phase5 (trace)
 0x4003C308,12,pool_4003c308,literal_pool,DERIVED,analyze.py
-0x4003C314,524,func_4003c314,function_arm,DERIVED,analyze.py:rea
+0x4003C314,524,trace_zoom_segments,function_arm,DERIVED,this-project:phase5 (trace)
 0x4003C520,48,runtime_rearm_setup,function_arm,DERIVED,this-project:phase5 (trace; name: Hack)
 0x4003C550,112,traces_e10c_enabled,function_arm,DERIVED,this-project:phase5 (trace)
 0x4003C5C0,12,pool_4003c5c0,literal_pool,DERIVED,analyze.py
-0x4003C5CC,452,func_4003c5cc,function_arm,DERIVED,analyze.py:prologue
+0x4003C5CC,452,trace_segments_gather,function_arm,DERIVED,this-project:phase5 (trace)
 0x4003C790,16,trace_c5cc_full,function_arm,DERIVED,this-project:phase5 (trace)
 0x4003C7A0,68,trace_c5cc_window,function_arm,DERIVED,this-project:phase5 (trace)
 0x4003C7E4,120,trace_process_full,function_arm,DERIVED,this-project:phase5 (trace)

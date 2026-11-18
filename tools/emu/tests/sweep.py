@@ -3323,3 +3323,176 @@ def t_genst52(r):
 
 
 TESTS[0x40050898] = t_genst52
+
+
+# ================================================================ batch 53: trace horizontal position / zoom
+TB53 = 0x411AF3E8
+
+
+def _tdiv53(a, b):
+    q = abs(a) // abs(b)
+    return q if (a >= 0) == (b >= 0) else -q
+
+
+def _s64_53(v):
+    v &= 0xFFFFFFFFFFFFFFFF
+    return v - (1 << 64) if v >> 63 else v
+
+
+def t_vb53(r):
+    m01 = r.choice([0, 0, 0, 1, 2])
+    w8 = r.choice([0, 1, 2, 3, 10, 950, 0xFFFF, r.getrandbits(16)])
+    c = r.choice([0, 1, 5, 0x7FFF, 0xFFFF, r.getrandbits(16)])
+    def sv():
+        return r.choice([0, 1, -1, 5, -5, w8, w8 - 1, w8 + 1, -c, -c + 1, -c - 1, 0x7FFFFFFF, -0x80000000,
+                         r.randrange(-2000, 2000), r.getrandbits(32) - 2 ** 31]) & 0xFFFFFFFF
+    v608, v60c = sv(), sv()
+    if r.random() < 0.3:
+        v60c = -c & 0xFFFFFFFF
+    elif r.random() < 0.3:
+        v60c = (w8 - 1 - c + r.choice([0, 0, 1, -1])) & 0xFFFFFFFF
+    a = r.choice([0, 1, 2, 10, 1000, 0x80000000, 0xFFFFFFFF, r.getrandbits(32)])
+    b = r.choice([0, 1, a, a, a + 1, a - 1, a // 2, a // 3, r.getrandbits(32)]) & 0xFFFFFFFF
+    junk = bytes(r.getrandbits(8) for _ in range(0x20))
+
+    def setup(m):
+        m.write(SYS, junk)
+        m.write(SYS + 8, w8.to_bytes(2, "little"))
+        m.write(SYS + 0xC, c.to_bytes(2, "little"))
+        m.w32(SYS + 0x608, v608)
+        m.w32(SYS + 0x60C, v60c)
+        m.w32(SYS + 0x5F8, a)
+        m.w32(SYS + 0x5D4, b)
+    return Case([r.choice([0, 1, 2, 3, 0x101])], setup=setup, ret=V,
+                stubs=(rec("m01", 0x4003BF78, 1, m01), rec("vbu", 0x40042280, 0)))
+
+
+TESTS[0x4003BB6C] = t_vb53
+
+
+def t_shift53(r):
+    m01 = r.choice([0, 0, 1, 2])
+    tr = r.choice([0, 1, 2, 3])
+    while True:
+        div = r.choice([1, 2, 7, -3, 1000, -1000, r.randrange(1, 5000)])
+        step = r.choice([1, 2, 5, 3])
+        mult = r.choice([1, 1, 3, 1000])
+        base = r.choice([0, r.getrandbits(40), -r.getrandbits(40), r.getrandbits(63)])
+        qt = r.randrange(-25, 26)
+        diff = (qt * div * step) // mult + r.randrange(0, abs(div))
+        d = base + diff
+        q = _tdiv53(_s64_53((diff & 0xFFFFFFFFFFFFFFFF) * mult), div)
+        q = _tdiv53(q, step)
+        if abs(q) <= 40:
+            break
+    spq = r.choice([0, 1, 1, 2, 3])
+    sv = q * spq
+    segs = r.choice([0, 1, 2, 3, 4])
+    st = [r.randrange(0, 2000) for _ in range(segs)]
+    ln = [max(0, r.choice([0, 1, abs(sv), abs(sv) + 1, abs(sv) - 1, abs(sv) + r.randrange(1, 60)])) for _ in range(segs)]
+    pre = [r.getrandbits(32) for _ in range(6)]
+    data = bytes(r.getrandbits(8) for _ in range(2 * 2200))
+    P = SYS + 0x5F4
+
+    def setup(m):
+        m.write(SYS + 0x5E0, (d & 0xFFFFFFFFFFFFFFFF).to_bytes(8, "little"))
+        m.write(SYS + (0x570 if m01 == 0 else 0x578), (base & 0xFFFFFFFFFFFFFFFF).to_bytes(8, "little"))
+        m.write(SYS + (0x590 if m01 == 0 else 0x5A0), (div & 0xFFFFFFFFFFFFFFFF).to_bytes(8, "little"))
+        if m01 == 0:
+            m.w32(P + 0xC, mult)
+            m.w32(P + 0x10, step)
+            m.w32(P + 4, spq)
+        else:
+            m.w32(P + 0x24, mult)
+            m.w32(P + 0x28, step)
+            m.w32(P + 0x1C, spq)
+        for i, o in enumerate((0x14, 0x18, 0x2C, 0x30)):
+            m.w32(P + o, pre[i])
+        m.write(P, segs.to_bytes(2, "little"))
+        for k in range(segs):
+            m.w32(SYS + 0x2C4 + 4 * k, st[k])
+            m.w32(SYS + 0x454 + 4 * k, ln[k])
+        m.write(TB53 + tr * 0x927C0, data)
+    return Case([tr], setup=setup, ret=V, stubs=(rec("m01", 0x4003BF78, 1, m01),))
+
+
+TESTS[0x4003C158] = t_shift53
+
+
+def t_zoom53(r):
+    m01 = r.choice([0, 0, 1, 2])
+    tr = r.choice([0, 1, 2, 3, 0x102])
+    wn = r.choice([1, 2, 10, 1000, 0x80000000, r.getrandbits(32)])
+    k = r.choice([1, 2, wn - 1, wn, wn + 1, max(1, wn // 3), r.getrandbits(32) | 1]) & 0xFFFFFFFF or 1
+    def s64():
+        return r.choice([0, 1, -1, r.getrandbits(40), -r.getrandbits(40), r.getrandbits(64) - 2 ** 63]) & 0xFFFFFFFFFFFFFFFF
+    d, base = s64(), s64()
+    div = r.choice([1, 3, -7, 1000, r.getrandbits(32) | 1, -(r.getrandbits(48) | 1)]) & 0xFFFFFFFFFFFFFFFF
+    per = r.choice([0, 1, -1, 3, -50, r.getrandbits(32)]) & 0xFFFFFFFF
+    step = r.choice([1, 2, 7, 1000, 0x80000001, r.getrandbits(32) | 1])
+    offs = [r.choice([0, 1, -1, 500, -500, r.getrandbits(32)]) & 0xFFFFFFFF for _ in range(4)]
+    segs = r.choice([0, 1, 2, 5])
+    arr = [r.getrandbits(32) for _ in range(2 * segs)]
+    P = SYS + 0x5F4
+
+    def setup(m):
+        m.w32(SYS + 0x554, k)
+        m.write(SYS + 0x5E0, d.to_bytes(8, "little"))
+        m.write(SYS + (0x570 if m01 == 0 else 0x578), base.to_bytes(8, "little"))
+        m.write(SYS + (0x590 if m01 == 0 else 0x5A0), div.to_bytes(8, "little"))
+        if m01 == 0:
+            m.w32(P + 8, wn)
+            m.w32(P + 4, per)
+            m.w32(P + 0x10, step)
+        else:
+            m.w32(P + 0x20, wn)
+            m.w32(P + 0x1C, per)
+            m.w32(P + 0x28, step)
+        for i, o in enumerate((0x14, 0x18, 0x2C, 0x30)):
+            m.w32(P + o, offs[i])
+        m.write(P, segs.to_bytes(2, "little"))
+        for i in range(segs):
+            m.w32(SYS + 0x38C + 4 * i, arr[2 * i])
+            m.w32(SYS + 0x454 + 4 * i, arr[2 * i + 1])
+    return Case([tr], setup=setup, ret=V,
+                stubs=(rec("m01", 0x4003BF78, 1, m01), rec("m02", 0x4003BF58, 1, r.getrandbits(32)),
+                       rec_stk("map", 0x4005C918, 2)))
+
+
+TESTS[0x4003C314] = t_zoom53
+
+
+def t_gather53(r):
+    m01 = r.choice([0, 0, 1, 2])
+    tr = r.choice([0, 1, 2, 3])
+    z = r.choice([0, 1, 1, 2, 3])
+    w8 = r.choice([0, 1, 3, 10, 20])
+    segs = r.choice([0, 1, 2, 4])
+    rec_ = r.choice([0, 1, 7, 40])
+    rl = r.choice([z, z, z + 1, r.getrandbits(32)])
+    half = (z * w8) // 2
+    a2c4 = [r.randrange(0, 0x40000) for _ in range(segs)]
+    a38c = [(a2c4[k] + half + r.choice([0, 1, -1, 30, -30, -400, r.randrange(-100, 100), 0x493E0, 0x60000]))
+            & 0xFFFFFFFF for k in range(segs)]
+    start = r.choice([0, 1, 3, 10])
+    n = r.choice([0, 1, 4, 9, 0xFFFFFFFF, 0xFFFFFFFE])
+    src = bytes(r.getrandbits(8) for _ in range(1200))
+    hi = bytes(r.getrandbits(8) for _ in range(16))
+    P = SYS + 0x5F4
+
+    def setup(m):
+        m.write(P, segs.to_bytes(2, "little"))
+        m.w32(SYS + 0x2B0, rec_)
+        m.w32(SYS + 0x5D4, rl)
+        m.w32(P + (4 if m01 == 0 else 0x1C), z)
+        m.w32(P + (0x1C if m01 == 0 else 4), r.getrandbits(4))
+        m.write(SYS + 8, w8.to_bytes(2, "little"))
+        for k in range(segs):
+            m.w32(SYS + 0x2C4 + 4 * k, a2c4[k])
+            m.w32(SYS + 0x38C + 4 * k, a38c[k])
+        m.write(TB53 + tr * 0x927C0, src)
+        m.write(TB53 + tr * 0x927C0 + 2 * 0x493E0 - 8, hi)
+    return Case([tr, start, n], setup=setup, ret=V, stubs=(rec("m01", 0x4003BF78, 1, m01),))
+
+
+TESTS[0x4003C5CC] = t_gather53

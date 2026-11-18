@@ -7,9 +7,9 @@
 
 #include "hw/fpga.h"
 
-void func_4003c5cc(u32 tr, u32 start, u32 n);
+void trace_segments_gather(u32 tr, u32 start, u32 n);
 
 void trace_c5cc_full(u32 tr)
 {
-    func_4003c5cc(tr, 0, SYS16(8));
+    trace_segments_gather(tr, 0, SYS16(8));
 }

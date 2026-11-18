@@ -1209,3 +1209,7 @@ address,name,type,evidence_level,source,note
 0x4003F160,fpga_params_6e4_sync,function,DERIVED,this-project:phase5 (acquisition),
 0x4004EF10,gen_output_calibrate,function,DERIVED,this-project:phase5 (acquisition),
 0x40050898,gen_selftest_50898,function,DERIVED,this-project:phase5 (acquisition),
+0x4003BB6C,trace_view_bounds,function,DERIVED,this-project:phase5 (trace),
+0x4003C158,trace_shift_samples,function,DERIVED,this-project:phase5 (trace),
+0x4003C314,trace_zoom_segments,function,DERIVED,this-project:phase5 (trace),
+0x4003C5CC,trace_segments_gather,function,DERIVED,this-project:phase5 (trace),

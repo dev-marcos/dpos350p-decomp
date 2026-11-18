@@ -56,30 +56,30 @@ void traces_e10c_enabled(void)
 }
 """)
 t(0x4003C790, 16, "trace_c5cc_full", "0x4003C5CC(tr, 0, SYS16+8): the whole record.", """
-void func_4003c5cc(u32 tr, u32 start, u32 n);
+void trace_segments_gather(u32 tr, u32 start, u32 n);
 
 void trace_c5cc_full(u32 tr)
 {
-    func_4003c5cc(tr, 0, SYS16(8));
+    trace_segments_gather(tr, 0, SYS16(8));
 }
 """)
 t(0x4003C7A0, 68, "trace_c5cc_window", "When SYS+0x6FC >= SYS+0x708: 0x4003C5CC(tr, (u16)SYS+0x700, SYS16+0x6F8).", """
-void func_4003c5cc(u32 tr, u32 start, u32 n);
+void trace_segments_gather(u32 tr, u32 start, u32 n);
 
 void trace_c5cc_window(u32 tr)
 {
     if (SYS32(0x6FC) < SYS32(0x708))
         return;
-    func_4003c5cc(tr, SYS32(0x700) & 0xFFFF, SYS16(0x6F8));
+    trace_segments_gather(tr, SYS32(0x700) & 0xFFFF, SYS16(0x6F8));
 }
 """)
 t(0x4003C7E4, 120, "trace_process_full", "Full processing of trace tr, run only when SYS+0x101 is set and, for a 0x4003BF78(tr) result of 1, SYS+0x2AA is set too: 0x4005F90C, 0x4003C0AC, 0x4003C158, 0x4003C314, 0x4003BB6C, trace_c5cc_full, 0x4005E12C, 0x4005DDD4.", """
 u32 mode_not_0_or_1(u32 tr);
 void trace_span_full_veneer(u32 tr);
 void scaled_pair_update(u32 tr);
-void func_4003c158(u32 tr);
-void func_4003c314(u32 tr);
-void func_4003bb6c(u32 tr);
+void trace_shift_samples(u32 tr);
+void trace_zoom_segments(u32 tr);
+void trace_view_bounds(u32 tr);
 void trace_c5cc_full(u32 tr);
 void func_4005e12c(u32 tr);
 void func_4005ddd4(u32 tr);
@@ -93,9 +93,9 @@ void trace_process_full(u32 tr)
         return;
     trace_span_full_veneer(tr);
     scaled_pair_update(tr);
-    func_4003c158(tr);
-    func_4003c314(tr);
-    func_4003bb6c(tr);
+    trace_shift_samples(tr);
+    trace_zoom_segments(tr);
+    trace_view_bounds(tr);
     trace_c5cc_full(tr);
     func_4005e12c(tr);
     func_4005ddd4(tr);
@@ -146,9 +146,9 @@ void channels_process_full(void)
 t(0x4003C910, 96, "traces_process_single", "Processing used when SYS+0x652 is set: 0x4005F90C(0/1), 0x4003C0AC(0), 0x4003C158(0/1), 0x4003C314(0/1), 0x4003BB6C(0), 0x4005EDC0(0), 0x4005DDD4(0).", """
 void trace_span_full_veneer(u32 tr);
 void scaled_pair_update(u32 tr);
-void func_4003c158(u32 tr);
-void func_4003c314(u32 tr);
-void func_4003bb6c(u32 tr);
+void trace_shift_samples(u32 tr);
+void trace_zoom_segments(u32 tr);
+void trace_view_bounds(u32 tr);
 void func_4005edc0(u32 tr);
 void func_4005ddd4(u32 tr);
 
@@ -157,11 +157,11 @@ void traces_process_single(void)
     trace_span_full_veneer(0);
     trace_span_full_veneer(1);
     scaled_pair_update(0);
-    func_4003c158(0);
-    func_4003c158(1);
-    func_4003c314(0);
-    func_4003c314(1);
-    func_4003bb6c(0);
+    trace_shift_samples(0);
+    trace_shift_samples(1);
+    trace_zoom_segments(0);
+    trace_zoom_segments(1);
+    trace_view_bounds(0);
     func_4005edc0(0);
     func_4005ddd4(0);
 }
@@ -185,7 +185,7 @@ void traces_update(void)
 t(0x4003C9BC, 56, "trace_process_window", "Processing of trace tr over the capture window: 0x4005F910, 0x4003C0AC, 0x4003BB6C, trace_c5cc_window, 0x4005E838, 0x4005DF5C.", """
 void trace_span_window_veneer(u32 tr);
 void scaled_pair_update(u32 tr);
-void func_4003bb6c(u32 tr);
+void trace_view_bounds(u32 tr);
 void trace_c5cc_window(u32 tr);
 void func_4005e838(u32 tr);
 void func_4005df5c(u32 tr);
@@ -194,7 +194,7 @@ void trace_process_window(u32 tr)
 {
     trace_span_window_veneer(tr);
     scaled_pair_update(tr);
-    func_4003bb6c(tr);
+    trace_view_bounds(tr);
     trace_c5cc_window(tr);
     func_4005e838(tr);
     func_4005df5c(tr);

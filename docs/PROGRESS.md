@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1162 | 85.82% | 181042 | 53.64% |
+| EQUIVALENT | 1166 | 86.12% | 182822 | 54.17% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 192 | 14.18% | 156462 | 46.36% |
+| ASM | 188 | 13.88% | 154682 | 45.83% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1162 (86.78%) | 337104 | 181042 (53.71%) |
+| main code | 1339 | 1166 (87.08%) | 337104 | 182822 (54.23%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -267,6 +267,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4003A8BC` | timebase_period_load | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4003a8bc.c` |
 | `0x4003A908` | sample_divisor_setup | 92 | EQUIVALENT | 200 | `nonmatching/platform/func_4003a908.c` |
 | `0x4003B7B8` | acquisition_rearm | 68 | EQUIVALENT | 200 | `nonmatching/platform/func_4003b7b8.c` |
+| `0x4003BB6C` | trace_view_bounds | 372 | EQUIVALENT | 200 | `nonmatching/platform/func_4003bb6c.c` |
 | `0x4003BCF0` | timebase_index_clamp | 188 | EQUIVALENT | 200 | `nonmatching/platform/func_4003bcf0.c` |
 | `0x4003BDB0` | timebase_index_step | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_4003bdb0.c` |
 | `0x4003BDE8` | timebase_index_step_down | 100 | EQUIVALENT | 200 | `nonmatching/platform/func_4003bde8.c` |
@@ -280,8 +281,11 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4003BF98` | runtime_counter_progress_advance | 112 | EQUIVALENT | 200 | `nonmatching/platform/func_4003bf98.c` |
 | `0x4003C008` | acquisition_geometry_setup | 164 | EQUIVALENT | 200 | `nonmatching/platform/func_4003c008.c` |
 | `0x4003C0AC` | scaled_pair_update | 172 | EQUIVALENT | 200 | `nonmatching/platform/func_4003c0ac.c` |
+| `0x4003C158` | trace_shift_samples | 432 | EQUIVALENT | 200 | `nonmatching/platform/func_4003c158.c` |
+| `0x4003C314` | trace_zoom_segments | 524 | EQUIVALENT | 200 | `nonmatching/platform/func_4003c314.c` |
 | `0x4003C520` | runtime_rearm_setup | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_4003c520.c` |
 | `0x4003C550` | traces_e10c_enabled | 112 | EQUIVALENT | 200 | `nonmatching/platform/func_4003c550.c` |
+| `0x4003C5CC` | trace_segments_gather | 452 | EQUIVALENT | 200 | `nonmatching/platform/func_4003c5cc.c` |
 | `0x4003C790` | trace_c5cc_full | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_4003c790.c` |
 | `0x4003C7A0` | trace_c5cc_window | 68 | EQUIVALENT | 200 | `nonmatching/platform/func_4003c7a0.c` |
 | `0x4003C7E4` | trace_process_full | 120 | EQUIVALENT | 200 | `nonmatching/platform/func_4003c7e4.c` |

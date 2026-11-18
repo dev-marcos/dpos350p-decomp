@@ -9,7 +9,7 @@
 
 void trace_span_window_veneer(u32 tr);
 void scaled_pair_update(u32 tr);
-void func_4003bb6c(u32 tr);
+void trace_view_bounds(u32 tr);
 void trace_c5cc_window(u32 tr);
 void func_4005e838(u32 tr);
 void func_4005df5c(u32 tr);
@@ -18,7 +18,7 @@ void trace_process_window(u32 tr)
 {
     trace_span_window_veneer(tr);
     scaled_pair_update(tr);
-    func_4003bb6c(tr);
+    trace_view_bounds(tr);
     trace_c5cc_window(tr);
     func_4005e838(tr);
     func_4005df5c(tr);
