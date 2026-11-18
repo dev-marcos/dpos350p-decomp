@@ -22,9 +22,9 @@ int f_unlink(const char *path);
 
 # name, path helper, entry remover, index path, index fail handler, length field, cursor clamp
 LISTS = {
-    "a": dict(path=0x40034B78, remove=0x40034A0C, idx=0x4008DB60, fail=0x400347A0, cnt=0x754,
+    "a": dict(path=0x40034B78, pathfn="screenshot_path_make", remove=0x40034A0C, idx=0x4008DB60, fail=0x400347A0, cnt=0x754,
               clamp="list_cursor_clamp_40035248", exists="file_exists_40034b78"),
-    "b": dict(path=0x40035BC4, remove=0x40035A58, idx=0x4008E2D0, fail=0x400357EC, cnt=0x756,
+    "b": dict(path=0x40035BC4, pathfn="waveform_path_make", remove=0x40035A58, idx=0x4008E2D0, fail=0x400357EC, cnt=0x756,
               clamp="list_cursor_clamp_400362f4", exists="file_exists_40035bc4"),
 }
 
@@ -116,7 +116,7 @@ void list_%(l)s_index_save(void)
     d.update(save="list_%s_index_save" % l, load="list_%s_index_load" % l)
     w(prune_a, 140, "list_%s_prune_missing" % l,
       "From the last entry down: builds its path (0x%(path)08X) and, when f_open of it fails, removes the entry (0x%(remove)08X); then saves and reloads the index and clamps the cursor." % d, FHDR + """
-void func_%(path)08x(u32 v);
+void %(pathfn)s(u32 v);
 void list_%(l)s_entry_remove(u32 v);
 void %(save)s(void);
 void %(load)s(void);
@@ -128,7 +128,7 @@ void list_%(l)s_prune_missing(void)
     int i;
     for (i = SS16(0xFA0) - 1; i >= 0; i--) {
         u32 v = SYS16(0xFA6 + 2 * i);
-        func_%(path)08x(v);
+        %(pathfn)s(v);
         if (f_open(fil, PATHBUF, 1) == 0)
             f_close(fil);
         else
@@ -167,7 +167,7 @@ void list_%(l)s_page_validate(void)
     d["clear"] = clear_n
     w(del_a, 148, "list_%s_delete_marked" % l,
       "From the last entry down: each entry whose mark SYS+0x5DC6+i is set is removed (0x%(remove)08X) and its file deleted (path 0x%(path)08X, f_unlink); then the marks are cleared, the index saved and reloaded, and SYS+0xF90 = 0." % d, FHDR + """
-void func_%(path)08x(u32 v);
+void %(pathfn)s(u32 v);
 void list_%(l)s_entry_remove(u32 v);
 void %(clear)s(void);
 void %(save)s(void);
@@ -180,7 +180,7 @@ void list_%(l)s_delete_marked(void)
         if (SYS8(0x5DC6 + i)) {
             u32 v = SYS16(0xFA6 + 2 * i);
             list_%(l)s_entry_remove(v);
-            func_%(path)08x(v);
+            %(pathfn)s(v);
             f_unlink(PATHBUF);
         }
     }

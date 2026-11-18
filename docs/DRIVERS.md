@@ -1659,6 +1659,54 @@ What the values mean on the real probe is DERIVED and was not measured on the de
     uninitialised; here they start at 0. Kinds outside 1..12 read the caller's registers and are
     not tested.
 
+## Saved files: names, previews, saved trace, record list (batch 48)
+
+Spec: `tools/platform_spec/zq_files.py`, 7 functions. Tests: `tools/emu/tests/sweep.py` and, for
+the whole-screen preview, the new suite `tools/emu/tests/heavy.py` (6 cases, about 2 s each).
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). What a buffer is
+used for is DERIVED from the callers; the files themselves were not opened from a device.
+
+- **File names** (`screenshot_path_make(n)` 0x40034B78, `waveform_path_make(n)` 0x40035BC4).
+  - They write the path of entry n to the path buffer SYS+0x88C0 (0x4054D728): `/Screenshots/<n>.bmp`
+    or `/Waveform/<n>.wav`, with n in decimal and no leading zeros.
+  - The directory strings are at 0x4008F82C and 0x4008FFB4.
+  - From n = 65536 on, only the '/' is written and the name is left unterminated (stock behaviour).
+  - The list code (`file_exists_*`, `list_*_prune_missing`, `list_*_page_thumbs`, the save
+    functions) calls these before `f_open`.
+- **Previews (thumbnails).** Both build an RGB565 picture at SYS+0x109684 (0x4064E4EC): u16 width,
+  u16 height, then the pixels from SYS+0x109688. The save code writes that block into the file,
+  and the file list shows it again (`list_*_page_thumbs` copies width x height halfwords from it).
+  - `screenshot_thumb_make` (0x40034E94) copies the scanned-out framebuffer 0x41FB8FE8 (1022 x 600)
+    to 0x42210D20. It then box-filters the copy with 6 x 5 samples every 5.035 x 4.348 pixels,
+    which gives a 203 x 138 preview.
+  - `waveform_thumb_make` (0x40035EE0) reads the trace area (SYS+4 .. SYS+0xA) of the framebuffer
+    directly, with 5 x 4 samples every 4.685 x 3.645 pixels. Both ends of the area are included.
+  - Coordinates are in 1/1000 pixel. Each channel is (sum x 1e6) / step x / step y, clamped to
+    31 / 63 / 31. The stock code does the divisions with reciprocal multiplications, and the C keeps
+    them.
+- **Saved trace** (`saved_wave_trace_build` 0x40036864).
+  - State at SYS+0x3DA530: buffer index byte, first and end column, and their difference.
+  - The saved sample buffers are 0x927C0 bytes each, from 0x411AF3E8.
+  - Each column is the mean of W32(SYS+0x5F8) samples, divided by W32(SYS+0x1C0) and turned
+    upside down against the trace height. The result goes to the u16 column array at
+    SYS+0x3DA548.
+- **Record list** at SYS+0xD744.
+  - Layout: u16 SYS+0x758 slots of W32(SYS+0x3DA544) u16 cells, each cell holding one byte.
+  - The id of a slot is the low bytes of cells 0 and 1; a free slot has id 0.
+  - `record_append` (0x40036DE4) writes into the first free slot: the id from u16 SYS+0xF9C,
+    then the length word SYS+0x3DA53C, then that many cells copied from SYS+0x3DA548.
+  - `record_clear` (0x40037020) finds a slot by its id and calls `copy_u16(slot, 0, size)`, which
+    copies from address 0 over the slot. It was probably meant as a fill; the stock code does it
+    this way.
+  - OPEN: if no slot matches, both functions use a register the caller left behind (r2 or r3)
+    as the index. The C takes it as an extra argument, so the behaviour is the same at the ABI
+    level. What the callers have in that register was not traced.
+- **For a new app.**
+  - To save a picture the way the stock code does: call `screenshot_thumb_make`, then
+    `screenshot_path_make(n)`, and write the file. `func_4005c3f0` (not yet rewritten) writes the
+    .bmp.
+  - The preview block at SYS+0x109684 is the format the file browser shows.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

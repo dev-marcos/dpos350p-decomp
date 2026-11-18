@@ -91,6 +91,9 @@ function compiled in place (`tools/testiso.py`). **Emulator only, never write it
     the case count and the seed.
   - Editing a suite file such as `tests/fpga.py` reruns every test in that suite.
   - New tests go in `tests/sweep.py` (from batch 28 on), so that the older suites stay cached.
+    A function that takes seconds per run in the emulator (a whole-screen loop) goes in
+    `tests/heavy.py` instead, which runs 6 cases (4 in the self-test). A test can raise the
+    instruction budget in its setup (`m.max_insns = ...`).
     That file copies the helpers it needs instead of importing them from `fpga.py`, because a
     suite's key covers only its own file.
   - A plain `Stub` records only r0..r3. For a callee with stack arguments, record them as well

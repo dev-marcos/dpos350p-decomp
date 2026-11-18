@@ -18,14 +18,14 @@ int f_mkdir(const char *path);
 int f_chmod(const char *path, unsigned char attr, unsigned char mask);
 void fill_u16(unsigned short *d, unsigned short v, u32 n);
 
-void func_40035bc4(u32 v);
+void waveform_path_make(u32 v);
 void settings_h_decode(void);
 void settings_image_decode(void);
 
 void list_b_current_load(void)
 {
     unsigned char fil[0x250];
-    func_40035bc4(SYS16(0xFA6 + 2 * SS16(0xFA4)));
+    waveform_path_make(SYS16(0xFA6 + 2 * SS16(0xFA4)));
     if (f_open(fil, PATHBUF, 1) != 0)
         return;
     if (SYS8(0x665))

@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1134 | 83.75% | 163750 | 48.52% |
+| EQUIVALENT | 1141 | 84.27% | 166894 | 49.45% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 220 | 16.25% | 173754 | 51.48% |
+| ASM | 213 | 15.73% | 170610 | 50.55% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1134 (84.69%) | 337104 | 163750 (48.58%) |
+| main code | 1339 | 1141 (85.21%) | 337104 | 166894 (49.51%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -173,6 +173,8 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x400349B4` | list_fa4_insert_754 | 88 | EQUIVALENT | 200 | `nonmatching/platform/func_400349b4.c` |
 | `0x40034A0C` | list_a_entry_remove | 168 | EQUIVALENT | 200 | `nonmatching/platform/func_40034a0c.c` |
 | `0x40034AB4` | list_a_next_free | 196 | EQUIVALENT | 200 | `nonmatching/platform/func_40034ab4.c` |
+| `0x40034B78` | screenshot_path_make | 796 | EQUIVALENT | 200 | `nonmatching/platform/func_40034b78.c` |
+| `0x40034E94` | screenshot_thumb_make | 472 | EQUIVALENT | 6 | `nonmatching/platform/func_40034e94.c` |
 | `0x4003506C` | list_a_save_new | 136 | EQUIVALENT | 200 | `nonmatching/platform/func_4003506c.c` |
 | `0x400350F4` | list_a_delete_marked | 148 | EQUIVALENT | 200 | `nonmatching/platform/func_400350f4.c` |
 | `0x40035188` | list_a_thumb_load | 192 | EQUIVALENT | 200 | `nonmatching/platform/func_40035188.c` |
@@ -199,6 +201,8 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40035A00` | list_fa4_insert_756 | 88 | EQUIVALENT | 200 | `nonmatching/platform/func_40035a00.c` |
 | `0x40035A58` | list_b_entry_remove | 168 | EQUIVALENT | 200 | `nonmatching/platform/func_40035a58.c` |
 | `0x40035B00` | list_b_next_free | 196 | EQUIVALENT | 200 | `nonmatching/platform/func_40035b00.c` |
+| `0x40035BC4` | waveform_path_make | 796 | EQUIVALENT | 200 | `nonmatching/platform/func_40035bc4.c` |
+| `0x40035EE0` | waveform_thumb_make | 528 | EQUIVALENT | 200 | `nonmatching/platform/func_40035ee0.c` |
 | `0x400360F0` | list_b_save_new | 220 | EQUIVALENT | 200 | `nonmatching/platform/func_400360f0.c` |
 | `0x400361CC` | list_b_delete_marked | 148 | EQUIVALENT | 200 | `nonmatching/platform/func_400361cc.c` |
 | `0x40036260` | list_b_file_load | 148 | EQUIVALENT | 200 | `nonmatching/platform/func_40036260.c` |
@@ -214,14 +218,17 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x400367A4` | sys_3c_enter | 44 | EQUIVALENT | 200 | `nonmatching/platform/func_400367a4.c` |
 | `0x400367D0` | sys_3c_leave | 28 | EQUIVALENT | 200 | `nonmatching/platform/func_400367d0.c` |
 | `0x400367EC` | cursor_3da534_clamp | 120 | EQUIVALENT | 200 | `nonmatching/platform/func_400367ec.c` |
+| `0x40036864` | saved_wave_trace_build | 244 | EQUIVALENT | 200 | `nonmatching/platform/func_40036864.c` |
 | `0x40036958` | list_c_index_create | 424 | EQUIVALENT | 200 | `nonmatching/platform/func_40036958.c` |
 | `0x40036B00` | list_c_index_load | 220 | EQUIVALENT | 200 | `nonmatching/platform/func_40036b00.c` |
 | `0x40036BDC` | list_c_data_load | 120 | EQUIVALENT | 200 | `nonmatching/platform/func_40036bdc.c` |
 | `0x40036C54` | list_c_index_save | 188 | EQUIVALENT | 200 | `nonmatching/platform/func_40036c54.c` |
 | `0x40036D10` | list_c_data_save | 120 | EQUIVALENT | 200 | `nonmatching/platform/func_40036d10.c` |
 | `0x40036D88` | list_fa4_insert_758 | 92 | EQUIVALENT | 200 | `nonmatching/platform/func_40036d88.c` |
+| `0x40036DE4` | record_append | 192 | EQUIVALENT | 200 | `nonmatching/platform/func_40036de4.c` |
 | `0x40036EA4` | list_c_record_select | 208 | EQUIVALENT | 200 | `nonmatching/platform/func_40036ea4.c` |
 | `0x40036F74` | list_c_entry_remove | 168 | EQUIVALENT | 200 | `nonmatching/platform/func_40036f74.c` |
+| `0x40037020` | record_clear | 116 | EQUIVALENT | 200 | `nonmatching/platform/func_40037020.c` |
 | `0x4003709C` | list_c_next_free | 196 | EQUIVALENT | 200 | `nonmatching/platform/func_4003709c.c` |
 | `0x400373E0` | reload_chain_400373e0 | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_400373e0.c` |
 | `0x40037418` | list_current_advance | 72 | EQUIVALENT | 200 | `nonmatching/platform/func_40037418.c` |

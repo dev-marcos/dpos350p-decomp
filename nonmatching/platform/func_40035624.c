@@ -18,12 +18,12 @@ int f_mkdir(const char *path);
 int f_chmod(const char *path, unsigned char attr, unsigned char mask);
 void fill_u16(unsigned short *d, unsigned short v, u32 n);
 
-void func_40034b78(u32 v);
+void screenshot_path_make(u32 v);
 
 void list_a_current_load(void)
 {
     unsigned char fil[0x250];
-    func_40034b78(SYS16(0xFA6 + 2 * SS16(0xFA4)));
+    screenshot_path_make(SYS16(0xFA6 + 2 * SS16(0xFA4)));
     if (f_open(fil, PATHBUF, 1) != 0)
         return;
     f_lseek(fil, 0xDEA8);

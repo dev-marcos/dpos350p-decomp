@@ -12,7 +12,7 @@ from pathlib import Path
 
 from tools import nmbuild
 from tools.emu.run_tests import run_one
-from tools.emu.tests import fatfs, fatfs_fs, rtlib, drivers, usb, platform, fpga, sweep
+from tools.emu.tests import fatfs, fatfs_fs, rtlib, drivers, usb, platform, fpga, sweep, heavy
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -568,6 +568,29 @@ MUTANTS = [
     (0x4003117C, '    int lo = (int)H16(SYS + 6) + 8,', '    int lo = (int)H16(SYS + 6) + 7,'),
     (0x4003117C, '    if (B8(SYS + 0x28) && B8(SYS + 0x3C) == 0)', '    if (B8(SYS + 0x28) && B8(SYS + 0x3C) != 0)'),
     (0x4003117C, '    ny = (int)(bottom - y0 + 1) / 4;', '    ny = (int)(bottom - y0) / 4;'),
+    # batch 48: saved files
+    (0x40034B78, '        else if (n < 65536)', '        else if (n < 65535)'),
+    (0x40034B78, "            B8(p + i) = (unsigned char)('0' + n % 10);", "            B8(p + i) = (unsigned char)('1' + n % 10);"),
+    (0x40034B78, '    B8(p + 5 + nd) = 0;', '    B8(p + 4 + nd) = 0;'),
+    (0x40035BC4, "    B8(SYS + 0x88C9) = '/';", "    B8(SYS + 0x88C9) = '-';"),
+    (0x40035BC4, '    path_number(SYS + 0x88C9, n, ".wav");', '    path_number(SYS + 0x88C9, n, ".way");'),
+    (0x40034E94, '        } while (x < 1022001);', '        } while (x < 1017001);'),
+    (0x40034E94, '    if (g > 0x3F)\n        g = 0x3F;', '    if (g > 0x3E)\n        g = 0x3E;'),
+    (0x40034E94, '            dst[k++] = pack(scale(r, 0xD041E4DAu, 0xF129AF75u, 12), scale(g, 0xD041E4DAu, 0xF129AF75u, 12),', '            dst[k++] = pack(scale(r, 0xD041E4DAu, 0xF129AF75u, 12), scale(g, 0xD041E4DAu, 0xF129AF75u, 11),'),
+    (0x40035EE0, '                x += 4685;', '                x += 4686;'),
+    (0x40035EE0, '                for (i = 0; i < 4; i++) {', '                for (i = 0; i < 3; i++) {'),
+    (0x40035EE0, '        y += 3645;', '        y += 3646;'),
+    (0x40035EE0, '        H16(TW) = 0;', '        H16(TW + 2) = 0;'),
+    (0x40036864, '            sum += p[i];', '            sum += p[i] & 0x7FFF;'),
+    (0x40036864, '    for (; x < (int)W32(ST + 8); x++) {', '    for (; x <= (int)W32(ST + 8); x++) {'),
+    (0x40036864, '((u32)x - (H16(SYS + 8) >> 1))', '((u32)x - (H16(SYS + 8) >> 2))'),
+    (0x40036864, '    W32(ST + 0xC) = W32(ST + 8) - W32(ST + 4);', '    W32(ST + 0xC) = W32(ST + 8) - W32(ST + 4) + 1;'),
+    (0x40036DE4, '        if (rec_id(p) == 0) {', '        if (rec_id(p) != 0) {'),
+    (0x40036DE4, '    H16(d + 6) = B8(SYS + 0x3DA53Cu);', '    H16(d + 6) = B8(SYS + 0x3DA53Du);'),
+    (0x40036DE4, '    copy_u16((unsigned short *)(d + 8), (const unsigned short *)(SYS + 0x3DA548u), W32(SYS + 0x3DA53Cu));', '    copy_u16((unsigned short *)(d + 6), (const unsigned short *)(SYS + 0x3DA548u), W32(SYS + 0x3DA53Cu));'),
+    (0x40037020, '    for (; i < lim; i += (int)n, p += 2 * n)', '    for (; i < lim; i += (int)n, p += n)'),
+    (0x40037020, '    u32 p = RECS, idx = r3_in, n = RSIZE;', '    u32 p = RECS, idx = 0, n = RSIZE;'),
+    (0x40037020, '    return (H16(p) << 8 & 0xFF00) | B8(p + 2);', '    return (H16(p) << 8 & 0xFF00) | B8(p + 3);'),
 ]
 
 
@@ -590,8 +613,8 @@ def main():
             mut = Path(tmp) / src.name
             mut.write_text(text.replace(old, new, 1))
             nmbuild.build(mut, syms)
-            suite = next(s for s in (fatfs.TESTS, fatfs_fs.TESTS, rtlib.TESTS, drivers.TESTS, usb.TESTS, platform.TESTS, fpga.TESTS, sweep.TESTS) if orig in s)
-            _, fails, _ = run_one(orig, suite[orig], 40 if suite is fatfs_fs.TESTS else (80 if suite in (drivers.TESTS, usb.TESTS, platform.TESTS, fpga.TESTS, sweep.TESTS) else 400), 7)
+            suite = next(s for s in (fatfs.TESTS, fatfs_fs.TESTS, rtlib.TESTS, drivers.TESTS, usb.TESTS, platform.TESTS, fpga.TESTS, sweep.TESTS, heavy.TESTS) if orig in s)
+            _, fails, _ = run_one(orig, suite[orig], 4 if suite is heavy.TESTS else 40 if suite is fatfs_fs.TESTS else (80 if suite in (drivers.TESTS, usb.TESTS, platform.TESTS, fpga.TESTS, sweep.TESTS) else 400), 7)
             ok = bool(fails)
             caught += ok
             print(f"{'caught ' if ok else 'MISSED '} 0x{orig:08x}: {old!r} -> {new!r}")

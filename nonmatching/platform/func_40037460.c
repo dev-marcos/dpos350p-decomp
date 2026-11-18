@@ -1,7 +1,7 @@
 /*
  * list_c_delete_marked -- stock 0x40037460 (140 bytes, ARM)
  * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
- * From the last entry down: for each marked entry (SYS+0x5DC6+i), list_current_advance(i), list_c_entry_remove and func_40037020 of its value. Then list_a_marks_clear, the index and data saved and reloaded, SYS+0xF90 = 0.
+ * From the last entry down: for each marked entry (SYS+0x5DC6+i), list_current_advance(i), list_c_entry_remove and record_clear of its value. Then list_a_marks_clear, the index and data saved and reloaded, SYS+0xF90 = 0.
  */
 #include "hw/platform.h"
 
@@ -20,7 +20,7 @@ void fill_u16(unsigned short *d, unsigned short v, u32 n);
 
 void list_current_advance(int i);
 void list_c_entry_remove(u32 v);
-void func_40037020(u32 v);
+void record_clear(u32 v);
 void list_a_marks_clear(void);
 void list_c_index_save(void);
 void list_c_data_save(void);
@@ -35,7 +35,7 @@ void list_c_delete_marked(void)
             u32 v = SYS16(0xFA6 + 2 * i);
             list_current_advance((unsigned short)i);
             list_c_entry_remove(v);
-            func_40037020(v);
+            record_clear(v);
         }
     }
     list_a_marks_clear();

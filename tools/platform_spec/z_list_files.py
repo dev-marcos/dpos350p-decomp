@@ -21,9 +21,9 @@ void fill_u16(unsigned short *d, unsigned short v, u32 n);
 """
 
 ZL = {
-    "a": dict(cnt=0x754, rm=0x40034A0C, nf=0x40034AB4, path=0x40034B78, idx=0x4008DB60, dir=0x4008F82C,
+    "a": dict(cnt=0x754, rm=0x40034A0C, nf=0x40034AB4, path=0x40034B78, pathfn="screenshot_path_make", idx=0x4008DB60, dir=0x4008F82C,
               mk=0x400347A0),
-    "b": dict(cnt=0x756, rm=0x40035A58, nf=0x40035B00, path=0x40035BC4, idx=0x4008E2D0, dir=0x4008FFB4,
+    "b": dict(cnt=0x756, rm=0x40035A58, nf=0x40035B00, path=0x40035BC4, pathfn="waveform_path_make", idx=0x4008E2D0, dir=0x4008FFB4,
               mk=0x400357EC),
     "c": dict(cnt=0x758, rm=0x40036F74, nf=0x4003709C),
 }
@@ -211,7 +211,7 @@ for l, a, load in (("a", 0x40035578, "list_a_thumb_load"), ("b", 0x400365F4, "li
     d = dict(ZL[l], l=l, load=load)
     wz(a, 172, "list_%s_page_thumbs" % l,
        "For up to 3 x 5 entries of the current page (stopping at the first zero one): builds the path (0x%(path)08X), loads the file (%(load)s) and copies u16 SYS+0x109684 * u16 SYS+0x109686 halfwords from SYS+0x109684 to slot n (SYS+0x12ED5C + n * 0x256D8)." % d, ZHDR + """
-void func_%(path)08x(u32 v);
+void %(pathfn)s(u32 v);
 void %(load)s(void);
 
 void list_%(l)s_page_thumbs(void)
@@ -222,7 +222,7 @@ void list_%(l)s_page_thumbs(void)
             u32 v = SYS16(0xFA6 + 2 * k);
             if (v == 0)
                 return;
-            func_%(path)08x(v);
+            %(pathfn)s(v);
             %(load)s();
             k++;
             copy_u16((unsigned short *)(0x40544E68u + 0x12ED5Cu + (u32)(unsigned short)n * 0x256D8u),
@@ -235,12 +235,12 @@ void list_%(l)s_page_thumbs(void)
 
 wz(0x40035624, 116, "list_a_current_load",
    "Builds the path of the selected entry (SYS+0xFA4) and reads 0x12B6A0 bytes from offset 0xDEA8 of that file to 0x42468A58.", ZHDR + """
-void func_40034b78(u32 v);
+void screenshot_path_make(u32 v);
 
 void list_a_current_load(void)
 {
     unsigned char fil[0x250];
-    func_40034b78(SYS16(0xFA6 + 2 * SS16(0xFA4)));
+    screenshot_path_make(SYS16(0xFA6 + 2 * SS16(0xFA4)));
     if (f_open(fil, PATHBUF, 1) != 0)
         return;
     f_lseek(fil, 0xDEA8);
@@ -251,14 +251,14 @@ void list_a_current_load(void)
 
 wz(0x400366A0, 200, "list_b_current_load",
    "Builds the path of the selected entry (SYS+0xFA4); when the file opens: state_restore_all when SYS+0x665 is set, state_backup_all, the 0x1C-byte header into SYS+0x360404 (settings_h_decode), then word SYS+0x774 bytes from offset 0 into the same block (settings_image_decode); finally SYS+0x665 = SYS+0x3C = 1.", ZHDR + """
-void func_40035bc4(u32 v);
+void waveform_path_make(u32 v);
 void settings_h_decode(void);
 void settings_image_decode(void);
 
 void list_b_current_load(void)
 {
     unsigned char fil[0x250];
-    func_40035bc4(SYS16(0xFA6 + 2 * SS16(0xFA4)));
+    waveform_path_make(SYS16(0xFA6 + 2 * SS16(0xFA4)));
     if (f_open(fil, PATHBUF, 1) != 0)
         return;
     if (SYS8(0x665))
@@ -278,11 +278,11 @@ void list_b_current_load(void)
 
 # ---------------------------------------------------------------- saving a new item
 wz(0x4003506C, 136, "list_a_save_new",
-   "Saves a screenshot: func_40034e94, shows a message box (text pointer word at 0x42C3C994) at the screen centre plus its offsets, reloads the index, takes the next free number, builds its path and writes the file (func_4005c3f0); when that returns non-zero the number is inserted and the index saved. Ends with rect_42e68c38_draw.", ZHDR + """
-void func_40034e94(void);
+   "Saves a screenshot: screenshot_thumb_make, shows a message box (text pointer word at 0x42C3C994) at the screen centre plus its offsets, reloads the index, takes the next free number, builds its path and writes the file (func_4005c3f0); when that returns non-zero the number is inserted and the index saved. Ends with rect_42e68c38_draw.", ZHDR + """
+void screenshot_thumb_make(void);
 void list_a_index_load(void);
 void list_a_next_free(void);
-void func_40034b78(u32 v);
+void screenshot_path_make(u32 v);
 int func_4005c3f0(const char *path);
 void list_fa4_insert_754(u32 v);
 void list_a_index_save(void);
@@ -293,11 +293,11 @@ void list_a_save_new(void)
     const signed char *t = (const signed char *)(0x42C2FE74u + 0xCB14u);
     int x = SYS16(4) + (SYS16(8) >> 1);
     int y = SYS16(6) + (SYS16(0xA) >> 1);
-    func_40034e94();
+    screenshot_thumb_make();
     message_box_draw(x + t[0], y + t[1], *(const u32 *)(t + 0xC), 0);
     list_a_index_load();
     list_a_next_free();
-    func_40034b78(SYS16(0xF9C));
+    screenshot_path_make(SYS16(0xF9C));
     if (func_4005c3f0(PATHBUF)) {
         list_fa4_insert_754(SYS16(0xF9C));
         list_a_index_save();
@@ -307,12 +307,12 @@ void list_a_save_new(void)
 """)
 
 wz(0x400360F0, 220, "list_b_save_new",
-   "Saves a waveform: when disk_free_bytes is below twice word SYS+0x774, shows the message box of the text word 0x42C3D820 at the screen centre (offsets at 0x42C3D828) and waits 1 s; otherwise reloads the index, takes the next free number, func_40035ee0, shows the message box of the text word 0x42C3C7F4, builds the path, encodes the settings image and writes it (file_write_360404); on success the number is inserted and the index saved. Ends with rect_42e68c38_draw.", ZHDR + """
+   "Saves a waveform: when disk_free_bytes is below twice word SYS+0x774, shows the message box of the text word 0x42C3D820 at the screen centre (offsets at 0x42C3D828) and waits 1 s; otherwise reloads the index, takes the next free number, waveform_thumb_make, shows the message box of the text word 0x42C3C7F4, builds the path, encodes the settings image and writes it (file_write_360404); on success the number is inserted and the index saved. Ends with rect_42e68c38_draw.", ZHDR + """
 u32 disk_free_bytes(void);
 void list_b_index_load(void);
 void list_b_next_free(void);
-void func_40035ee0(void);
-void func_40035bc4(u32 v);
+void waveform_thumb_make(void);
+void waveform_path_make(u32 v);
 void settings_image_encode(void);
 u32 file_write_360404(const char *path);
 void list_fa4_insert_756(u32 v);
@@ -331,9 +331,9 @@ void list_b_save_new(void)
     } else {
         list_b_index_load();
         list_b_next_free();
-        func_40035ee0();
+        waveform_thumb_make();
         message_box_draw(x + (signed char)p[0x194], y + (signed char)p[0x195], *(const u32 *)p, 0);
-        func_40035bc4(SYS16(0xF9C));
+        waveform_path_make(SYS16(0xF9C));
         settings_image_encode();
         if (file_write_360404(PATHBUF)) {
             list_fa4_insert_756(SYS16(0xF9C));
@@ -392,10 +392,10 @@ void cursor_3da534_clamp(int flag)
 """)
 
 wz(0x40037460, 140, "list_c_delete_marked",
-   "From the last entry down: for each marked entry (SYS+0x5DC6+i), list_current_advance(i), list_c_entry_remove and func_40037020 of its value. Then list_a_marks_clear, the index and data saved and reloaded, SYS+0xF90 = 0.", ZHDR + """
+   "From the last entry down: for each marked entry (SYS+0x5DC6+i), list_current_advance(i), list_c_entry_remove and record_clear of its value. Then list_a_marks_clear, the index and data saved and reloaded, SYS+0xF90 = 0.", ZHDR + """
 void list_current_advance(int i);
 void list_c_entry_remove(u32 v);
-void func_40037020(u32 v);
+void record_clear(u32 v);
 void list_a_marks_clear(void);
 void list_c_index_save(void);
 void list_c_data_save(void);
@@ -410,7 +410,7 @@ void list_c_delete_marked(void)
             u32 v = SYS16(0xFA6 + 2 * i);
             list_current_advance((unsigned short)i);
             list_c_entry_remove(v);
-            func_40037020(v);
+            record_clear(v);
         }
     }
     list_a_marks_clear();

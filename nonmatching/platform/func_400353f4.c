@@ -9,13 +9,13 @@
 
 int f_open(void *fp, const char *path, unsigned char mode);
 int f_close(void *fp);
-void func_40034b78(u32 a);
+void screenshot_path_make(u32 a);
 
 u32 file_exists_40034b78(u32 a)
 {
     unsigned char fil[0x250];
     u32 r = 0;
-    func_40034b78(a);
+    screenshot_path_make(a);
     if (f_open(fil, (const char *)0x4054D728u, 1) == 0) {
         r = 1;
         f_close(fil);

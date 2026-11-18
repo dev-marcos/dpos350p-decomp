@@ -434,8 +434,8 @@ w(0x400373E0, 56, "reload_chain_400373e0",
 void list_c_index_load(void);
 void list_c_data_load(void);
 void list_c_next_free(void);
-void func_40036864(void);
-void func_40036de4(void);
+void saved_wave_trace_build(void);
+void record_append(void);
 void list_fa4_insert_758(u32 a);
 void list_c_index_save(void);
 void list_c_data_save(void);
@@ -445,8 +445,8 @@ void reload_chain_400373e0(void)
     list_c_index_load();
     list_c_data_load();
     list_c_next_free();
-    func_40036864();
-    func_40036de4();
+    saved_wave_trace_build();
+    record_append();
     list_fa4_insert_758(*(volatile unsigned short *)0x40545E04u);
     list_c_index_save();
     list_c_data_save();

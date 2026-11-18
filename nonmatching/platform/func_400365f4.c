@@ -18,7 +18,7 @@ int f_mkdir(const char *path);
 int f_chmod(const char *path, unsigned char attr, unsigned char mask);
 void fill_u16(unsigned short *d, unsigned short v, u32 n);
 
-void func_40035bc4(u32 v);
+void waveform_path_make(u32 v);
 void list_b_file_load(void);
 
 void list_b_page_thumbs(void)
@@ -29,7 +29,7 @@ void list_b_page_thumbs(void)
             u32 v = SYS16(0xFA6 + 2 * k);
             if (v == 0)
                 return;
-            func_40035bc4(v);
+            waveform_path_make(v);
             list_b_file_load();
             k++;
             copy_u16((unsigned short *)(0x40544E68u + 0x12ED5Cu + (u32)(unsigned short)n * 0x256D8u),

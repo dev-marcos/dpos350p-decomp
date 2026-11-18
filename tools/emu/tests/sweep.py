@@ -2586,3 +2586,118 @@ def t_mcur47(r):
 
 
 TESTS[0x4003117C] = t_mcur47
+
+
+# ================================================================ batch 48: saved files
+def t_path48(r):
+    n = r.choice([-9, -1, 0, 5, 9, 10, 42, 99, 100, 512, 999, 1000, 4321, 9999, 10000, 54321, 65535, 65536,
+                  r.randrange(0, 70000), r.randrange(0, 70000), r.getrandbits(32)])
+    junk = bytes(r.getrandbits(8) for _ in range(32))
+
+    def setup(m):
+        m.write(SYS + 0x88C0, junk)
+    return Case([n & 0xFFFFFFFF], setup=setup, ret=0)
+
+
+TESTS[0x40034B78] = t_path48
+TESTS[0x40035BC4] = t_path48
+
+FB48 = 0x41FB8FE8
+
+
+def t_wthumb48(r):
+    x0, w = r.randrange(0, 1000), r.choice([0, 1, 4, 5, r.randrange(0, 40)])
+    y0, h = r.randrange(0, 580), r.choice([0, 1, 3, 4, r.randrange(0, 30)])
+    if r.random() < 0.1:
+        w, h = r.randrange(0, 6), r.randrange(100, 300)
+    elif r.random() < 0.3:
+        x0, w, h = r.randrange(0, 100), r.randrange(200, 1000), r.randrange(0, 8)
+    hdr = r.getrandbits(32)
+    pix = bytes(r.getrandbits(8) for _ in range(2044 * (h + 6)))
+
+    def setup(m):
+        m.max_insns = 20_000_000
+        m.write(SYS + 4, b"".join(v.to_bytes(2, "little") for v in (x0, y0, w, h)))
+        m.w32(SYS + 0x109684, hdr)
+        m.write(FB48 + 2044 * y0, pix)
+    return Case([], setup=setup, ret=0)
+
+
+TESTS[0x40035EE0] = t_wthumb48
+
+
+def t_strace48(r):
+    idx = r.randrange(0, 4)
+    n = r.randrange(1, 9)
+    w = r.randrange(0, 400)
+    start = r.randrange(w // 2, w // 2 + 300)
+    end = start + r.choice([-2, 0, 1, r.randrange(0, 40)])
+    base38c = r.randrange(0, 3000)
+    div = r.choice([1, 1, 2, 3, 16, r.randrange(1, 40)])
+    a = 0x411AF3E8 + 0x927C0 * idx + 2 * (base38c + n * (start - w // 2))
+    data = bytes(r.getrandbits(8) for _ in range(2 * n * (max(end - start, 0) + 2)))
+    hA = r.getrandbits(16)
+
+    def setup(m):
+        m.w8(SYS + 0x3DA530, idx)
+        m.w32(SYS + 0x3DA534, start)
+        m.w32(SYS + 0x3DA538, end & 0xFFFFFFFF)
+        m.w32(SYS + 0x5F8, n)
+        m.w32(SYS + 0x38C, base38c)
+        m.write(SYS + 8, w.to_bytes(2, "little"))
+        m.write(SYS + 0xA, hA.to_bytes(2, "little"))
+        m.w32(SYS + 0x1C0, div)
+        m.write(a, data)
+    return Case([], setup=setup, ret=0)
+
+
+TESTS[0x40036864] = t_strace48
+
+
+def recs48(r):
+    cnt, rs = r.randrange(0, 7), r.randrange(1, 9)
+    cells = []
+    for _ in range(cnt):
+        rec = [r.getrandbits(16) for _ in range(rs)]
+        if r.random() < 0.3:
+            rec[0] &= 0xFF00
+            if rs > 1:
+                rec[1] &= 0xFF00
+        cells += rec
+    return cnt, rs, cells
+
+
+def t_rapp48(r):
+    cnt, rs, cells = recs48(r)
+    ln = r.randrange(0, 12)
+    idv = r.getrandbits(16)
+    ln |= r.getrandbits(1) << 8
+
+    def setup(m):
+        m.write(SYS + 0x758, cnt.to_bytes(2, "little"))
+        m.w32(SYS + 0x3DA544, rs)
+        m.w32(SYS + 0x3DA53C, ln)
+        m.write(SYS + 0xF9C, idv.to_bytes(2, "little"))
+        m.write(SYS + 0xD744, b"".join(c.to_bytes(2, "little") for c in cells))
+    return Case([r.getrandbits(32), r.getrandbits(32), r.randrange(0, 60)], setup=setup, ret=0,
+                stubs=(rec("copy", 0x40035728, 3),))
+
+
+TESTS[0x40036DE4] = t_rapp48
+
+
+def t_rclr48(r):
+    cnt, rs, cells = recs48(r)
+    ids = [((cells[i] & 0xFF) << 8) | (cells[i + 1] & 0xFF if i + 1 < len(cells) else 0) for i in range(0, len(cells), rs)]
+    tail = bytes(r.getrandbits(8) for _ in range(8))
+    key = r.choice(ids + [0, r.getrandbits(16)]) if ids and r.random() < 0.7 else r.getrandbits(r.choice([8, 16, 32]))
+
+    def setup(m):
+        m.write(SYS + 0x758, cnt.to_bytes(2, "little"))
+        m.w32(SYS + 0x3DA544, rs)
+        m.write(SYS + 0xD744, b"".join(c.to_bytes(2, "little") for c in cells) + tail)
+    return Case([key, r.getrandbits(32), r.getrandbits(32), r.randrange(0, 60)], setup=setup, ret=0,
+                stubs=(rec("copy", 0x40035728, 3),))
+
+
+TESTS[0x40037020] = t_rclr48

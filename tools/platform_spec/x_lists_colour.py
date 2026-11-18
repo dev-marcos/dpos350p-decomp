@@ -206,25 +206,26 @@ void level_label_%s(u32 x, u32 y, u32 c, double v)
     text_draw((*(volatile unsigned short *)0x42E68BE4u + x + 4) & 0xFFFF, y, (const char *)0x%08Xu);
 }
 """ % (txt.lower(), s))
+PATHFN = {0x40034B78: "screenshot_path_make", 0x40035BC4: "waveform_path_make"}
 for a, b in ((0x400353F4, 0x40034B78), (0x400364A0, 0x40035BC4)):
     w(a, 64, "file_exists_%08x" % b,
       "0x%08X(a) (builds the path 0x4054D728), then 1 when f_open(read) of it succeeds (the file is closed again), else 0." % b, """
 int f_open(void *fp, const char *path, unsigned char mode);
 int f_close(void *fp);
-void func_%08x(u32 a);
+void %s(u32 a);
 
 u32 file_exists_%08x(u32 a)
 {
     unsigned char fil[0x250];
     u32 r = 0;
-    func_%08x(a);
+    %s(a);
     if (f_open(fil, (const char *)0x4054D728u, 1) == 0) {
         r = 1;
         f_close(fil);
     }
     return r;
 }
-""" % (b, b, b))
+""" % (PATHFN[b], b, PATHFN[b]))
 
 # ---------------------------------------------------------------- frame update, window 40
 w(0x400346C0, 64, "ui_frame_chain",

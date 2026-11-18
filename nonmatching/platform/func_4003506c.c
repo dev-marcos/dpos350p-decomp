@@ -1,7 +1,7 @@
 /*
  * list_a_save_new -- stock 0x4003506C (136 bytes, ARM)
  * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
- * Saves a screenshot: func_40034e94, shows a message box (text pointer word at 0x42C3C994) at the screen centre plus its offsets, reloads the index, takes the next free number, builds its path and writes the file (func_4005c3f0); when that returns non-zero the number is inserted and the index saved. Ends with rect_42e68c38_draw.
+ * Saves a screenshot: screenshot_thumb_make, shows a message box (text pointer word at 0x42C3C994) at the screen centre plus its offsets, reloads the index, takes the next free number, builds its path and writes the file (func_4005c3f0); when that returns non-zero the number is inserted and the index saved. Ends with rect_42e68c38_draw.
  */
 #include "hw/platform.h"
 
@@ -18,10 +18,10 @@ int f_mkdir(const char *path);
 int f_chmod(const char *path, unsigned char attr, unsigned char mask);
 void fill_u16(unsigned short *d, unsigned short v, u32 n);
 
-void func_40034e94(void);
+void screenshot_thumb_make(void);
 void list_a_index_load(void);
 void list_a_next_free(void);
-void func_40034b78(u32 v);
+void screenshot_path_make(u32 v);
 int func_4005c3f0(const char *path);
 void list_fa4_insert_754(u32 v);
 void list_a_index_save(void);
@@ -32,11 +32,11 @@ void list_a_save_new(void)
     const signed char *t = (const signed char *)(0x42C2FE74u + 0xCB14u);
     int x = SYS16(4) + (SYS16(8) >> 1);
     int y = SYS16(6) + (SYS16(0xA) >> 1);
-    func_40034e94();
+    screenshot_thumb_make();
     message_box_draw(x + t[0], y + t[1], *(const u32 *)(t + 0xC), 0);
     list_a_index_load();
     list_a_next_free();
-    func_40034b78(SYS16(0xF9C));
+    screenshot_path_make(SYS16(0xF9C));
     if (func_4005c3f0(PATHBUF)) {
         list_fa4_insert_754(SYS16(0xF9C));
         list_a_index_save();

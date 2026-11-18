@@ -16,7 +16,7 @@ int f_write(void *fp, const void *buff, u32 btw, u32 *bw);
 int f_lseek(void *fp, unsigned long long ofs);
 int f_unlink(const char *path);
 
-void func_40035bc4(u32 v);
+void waveform_path_make(u32 v);
 void list_b_entry_remove(u32 v);
 void list_b_marks_clear(void);
 void list_b_index_save(void);
@@ -29,7 +29,7 @@ void list_b_delete_marked(void)
         if (SYS8(0x5DC6 + i)) {
             u32 v = SYS16(0xFA6 + 2 * i);
             list_b_entry_remove(v);
-            func_40035bc4(v);
+            waveform_path_make(v);
             f_unlink(PATHBUF);
         }
     }
