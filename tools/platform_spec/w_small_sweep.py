@@ -41,7 +41,7 @@ void draw_target_default(void)
 # ---------------------------------------------------------------- gates
 for a, t in ((0x40023E90, 0x40023EA4), (0x40024C4C, 0x40024C60), (0x40028350, 0x40028364),
              (0x40037C28, 0x40037C3C)):
-    callee = {0x40024C60: "trace_markers_draw", 0x40028364: "time_cursors_draw"}.get(t, "func_%08x" % t)
+    callee = {0x40024C60: "trace_markers_draw", 0x40028364: "time_cursors_draw", 0x40037C3C: "bode_cursors_draw"}.get(t, "func_%08x" % t)
     w(a, 20, "func_%08x_unless_t17" % t, "Unless touch byte 0x42E68BB0+0x17 is set, branches to 0x%08X." % t, TOUCH + """
 void %s(void);
 

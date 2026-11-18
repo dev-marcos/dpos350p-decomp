@@ -1,0 +1,37 @@
+/*
+ * level_value_draw -- stock 0x40038C00 (428 bytes, ARM)
+ * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
+ * Draws a level without unit: v = (long long)(d * 1000) clamped to -999000..999000, as v / 10 with 2 decimals when |v| <= 9999, v / 100 with 1 decimal up to 99999, else v / 1000 (sign flag as in phase_deg_draw). Used by level_label_db and level_label_dbmv, which add the unit.
+ */
+#include "hw/platform.h"
+
+#include "hw/fpga.h"
+
+void func_4002d82c_flag1(u32 x, u32 y, u32 lo, u32 hi, u32 dec);
+void func_4002d82c_flag0(u32 x, u32 y, u32 lo, u32 hi, u32 dec);
+void text_draw(u32 x, u32 y, const char *s);
+#define TW (*(volatile unsigned short *)0x42E68BE4u)
+
+static void num(u32 x, u32 y, u32 sg, long long v, u32 dec)
+{
+    if (sg)
+        func_4002d82c_flag1(x, y, (u32)v, (u32)((unsigned long long)v >> 32), dec);
+    else
+        func_4002d82c_flag0(x, y, (u32)v, (u32)((unsigned long long)v >> 32), dec);
+}
+
+void level_value_draw(u32 x, u32 y, u32 sg, double d)
+{
+    long long v = (long long)(d * 1000.0);
+    sg = (unsigned char)sg;
+    if (v < -999000)
+        v = -999000;
+    else if (v > 999000)
+        v = 999000;
+    if ((unsigned long long)(v + 9999) < 19999)
+        num(x, y, sg, v / 10, 2);
+    else if ((unsigned long long)(v + 99999) < 199999)
+        num(x, y, sg, v / 100, 1);
+    else if ((unsigned long long)(v + 999999) < 1999999)
+        num(x, y, sg, v / 1000, 0);
+}

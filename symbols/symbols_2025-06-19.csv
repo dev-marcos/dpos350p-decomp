@@ -380,27 +380,27 @@ address,size,name,type,evidence_level,source
 0x40037AB8,144,trace_update_chain,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40037B48,224,trace_defaults_37b48,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40037C28,20,func_40037c3c_unless_t17,function_arm,DERIVED,this-project:phase5 (ui)
-0x40037C3C,1436,func_40037c3c,function_arm,DERIVED,analyze.py:prologue
+0x40037C3C,1436,bode_cursors_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x400381D8,14,code_400381d8,data,OPEN,analyze.py
 0x400381E6,2,pad_400381e6,padding,STATIC-CONFIRMED,analyze.py:zero
 0x400381E8,388,trace_cursor_values,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003836C,7,code_4003836c,data,OPEN,analyze.py
 0x40038373,1,pad_40038373,padding,STATIC-CONFIRMED,analyze.py:zero
-0x40038374,1032,func_40038374,function_arm,DERIVED,analyze.py:rea
+0x40038374,1032,bode_grid_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003877C,12,pool_4003877c,literal_pool,DERIVED,analyze.py
-0x40038788,464,func_40038788,function_arm,DERIVED,analyze.py:rea
+0x40038788,464,phase_deg_draw,function_arm,DERIVED,this-project:phase5 (display)
 0x40038958,28,pool_40038958,literal_pool,DERIVED,analyze.py
-0x40038974,636,func_40038974,function_arm,DERIVED,analyze.py:rea
+0x40038974,636,voltage_uv_draw,function_arm,DERIVED,this-project:phase5 (display)
 0x40038BF0,8,code_40038bf0,data,OPEN,analyze.py
 0x40038BF8,8,pool_40038bf8,literal_pool,DERIVED,analyze.py
-0x40038C00,428,func_40038c00,function_arm,DERIVED,analyze.py:rea
+0x40038C00,428,level_value_draw,function_arm,DERIVED,this-project:phase5 (display)
 0x40038DAC,64,level_label_db,function_arm,DERIVED,this-project:phase5 (ui)
 0x40038DEC,64,level_label_dbmv,function_arm,DERIVED,this-project:phase5 (ui)
 0x40038E2C,8,code_40038e2c,data,OPEN,analyze.py
 0x40038E34,8,pool_40038e34,literal_pool,DERIVED,analyze.py
 0x40038E3C,2,code_40038e3c,data,OPEN,analyze.py
 0x40038E3E,2,pad_40038e3e,padding,STATIC-CONFIRMED,analyze.py:zero
-0x40038E40,1016,func_40038e40,function_arm,DERIVED,analyze.py:rea
+0x40038E40,1016,frequency_draw,function_arm,DERIVED,this-project:phase5 (display)
 0x40039238,8,code_40039238,data,OPEN,analyze.py
 0x40039240,8,pool_40039240,literal_pool,DERIVED,analyze.py
 0x40039248,4,code_40039248,data,OPEN,analyze.py

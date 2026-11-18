@@ -9,10 +9,10 @@
 
 #define TCH8(o)  (*(volatile unsigned char *)(0x42E68BB0u + (o)))   /* touch block */
 
-void func_40037c3c(void);
+void bode_cursors_draw(void);
 
 void func_40037c3c_unless_t17(void)
 {
     if (TCH8(0x17) == 0)
-        func_40037c3c();
+        bode_cursors_draw();
 }

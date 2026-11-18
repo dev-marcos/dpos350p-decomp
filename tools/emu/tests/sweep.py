@@ -2778,3 +2778,153 @@ def t_num49(r):
 
 
 TESTS[0x40037160] = t_num49
+
+
+# ================================================================ batch 50: value + unit drawers, Bode plot
+import struct as _st50
+
+TW50 = 0x42E68BE4
+
+
+def dbl50(x):
+    return _st50.unpack("<Q", _st50.pack("<d", x))[0]
+
+
+def numd50(name, addr):
+    """number_draw wrapper: records r0..r3 and the stack word (decimals), and changes the
+    last drawn width so that a caller reading it at the wrong time is caught."""
+    def fn(m, a):
+        sp = m.reg(A.UC_ARM_REG_SP)
+        m.calls.append((name + "/dec", m.r32(sp)))
+        m.write(TW50, ((a[0] * 7 + a[2] * 13 + 5) & 0xFFFF).to_bytes(2, "little"))
+    return Stub(name, addr, fn, 4)
+
+
+def text50(name="text", addr=0x4002CE7C):
+    def fn(m, a):
+        a = regs(m, 3)
+        b = m.read(a[2], 16)
+        m.calls.append((name, b[:b.index(0) if 0 in b else 16], a[0], a[1]))
+        m.write(TW50, ((a[0] * 3 + 11) & 0xFFFF).to_bytes(2, "little"))
+    return Stub(name, addr, fn, 0)
+
+
+def val50(r, scale):
+    b = r.choice([0, 1, 9, 10, 99, 100, 999, 1000, 9999, 10000, 99999, 100000, 179999, 180000, 180001,
+                  999999, 1000000, 9999999, 10000000, 99999999, 100000000, 999000, 999001, 2 ** 40])
+    v = b + r.choice([0, 0, -1, 1, r.random(), -r.random(), r.uniform(-3, 3)])
+    if r.random() < 0.3:
+        v = r.uniform(-2e8, 2e8) * r.choice([1, 1e-3, 1e-6])
+    if r.random() < 0.5:
+        v = -v
+    if r.random() < 0.02:
+        v = r.choice([float("nan"), float("inf"), -float("inf")])
+    return v / scale
+
+
+def t_vdraw50(scale):
+    def t(r):
+        tw = r.getrandbits(16)
+        c = Case([r.getrandbits(32), r.getrandbits(32), r.choice([0, 1, 0x100, 0x101, r.getrandbits(32)])],
+                 setup=lambda m: m.write(TW50, tw.to_bytes(2, "little")), ret=V,
+                 stubs=(numd50("n1", 0x4002D6D4), numd50("n0", 0x4002D6F8), text50()))
+        c.dregs = {0: dbl50(val50(r, scale))}
+        return c
+    return t
+
+
+TESTS[0x40038788] = t_vdraw50(1000.0)
+TESTS[0x40038974] = t_vdraw50(1.0)
+TESTS[0x40038C00] = t_vdraw50(1000.0)
+
+
+def t_freq50(r):
+    b = r.choice([0, 5, 999, 1000, 1004, 1005, 1049, 1050, 9999, 10000, 10049, 10050, 99999, 100000, 999999,
+                  1000000, 9999999, 10000000, 99999999, 100000000, 999999999, 1000000000, 9999999999,
+                  10000000000, 10 ** 12])
+    v = b + r.choice([0, 0, -1, 1, r.random(), r.randrange(0, 1000)])
+    if r.random() < 0.3:
+        v = 10 ** r.uniform(0, 10.2)
+    if r.random() < 0.25:                   # kept digit exactly 5 (the stock rounding step)
+        d = r.choice([10, 100, 1000, 10000, 100000, 1000000, 10000000])
+        v = (r.randrange(10, 100) * 10 + 5) * d + r.randrange(d)
+    if r.random() < 0.05:
+        v = -v
+    if r.random() < 0.02:
+        v = r.choice([float("nan"), float("inf")])
+    tw = r.getrandbits(16)
+    w1, w2 = r.getrandbits(16), r.getrandbits(16)
+    c = Case([r.getrandbits(32), r.getrandbits(32), r.choice([0, 0, 1, 1, 0x100, 0x101, r.getrandbits(32)])],
+             setup=lambda m: m.write(TW50, tw.to_bytes(2, "little")), ret=R,
+             stubs=(numd50("n0", 0x4002D6F8), text50(), rec("nw", 0x4002D71C, 3, w1),
+                    str_stub("tw", 0x4002D164, w2)))
+    c.dregs = {0: dbl50(v)}
+    return c
+
+
+TESTS[0x40038E40] = t_freq50
+
+
+def bode_stubs50(fw):
+    return (rec("half", 0x4002DC40, 1), rec("word", 0x4002CCCC, 1), rec("colour", 0x4002EA38, 1),
+            rec("fill", 0x4002ECC4, 4), rec("outline", 0x4002EC4C, 4), rec_stk("button", 0x4002F160, 1),
+            rec("vline", 0x4002EBC8, 3), rec("span", 0x4002EBA8, 3), Stub("db", 0x40038DAC, lambda m, a: (m.calls.append(("db/d0", m.reg(A.UC_ARM_REG_D0))),
+                                                m.write(TW50, ((a[0] * 5 + 1) & 0xFFFF).to_bytes(2, "little")))[1], 3),
+            rec_d0("deg", 0x40038788, 3), text50(),
+            Stub("freq", 0x40038E40, lambda m, a: (m.calls.append(("freq/d0", m.reg(A.UC_ARM_REG_D0))),
+                                                   fw[0] if a[2] & 0xFF else 0)[1], 3))
+
+
+def bode_block50(r):
+    hs = {0: r.randrange(0, 120), 2: r.randrange(0, 120), 4: r.choice([0, 1, 2, r.randrange(100, 960)]),
+          6: r.choice([0, 1, 2, 3, 4, 5, r.randrange(40, 420)]), 8: r.randrange(0, 300),
+          0xA: r.choice([0, 1, 3, 4, r.randrange(0, 7)]), 0xC: r.randrange(0, 70),
+          0xE: r.choice([0, 1, 2, 4, 5, r.randrange(0, 12)])}
+    if r.random() < 0.05:
+        hs = {k: r.getrandbits(16) for k in hs}
+        hs[0xA], hs[0xE] = r.randrange(0, 5), r.randrange(0, 6)
+    ds = {o: r.uniform(-200, 200) for o in (0x10, 0x18, 0x20, 0x28)}
+    ds[0x8D08] = r.uniform(-1, 4)
+    ds[0x8D10] = ds[0x8D08] + r.uniform(0, 6)
+    return hs, ds
+
+
+def t_bgrid50(r):
+    hs, ds = bode_block50(r)
+    t17 = r.choice([0, 0, 0, 0, 0, 1])
+    fw = [r.getrandbits(r.choice([6, 8, 32]))]
+
+    def setup(m):
+        m.max_insns = 20_000_000
+        for o, v in hs.items():
+            m.write(0x42E180C8 + o, (v & 0xFFFF).to_bytes(2, "little"))
+        for o, v in ds.items():
+            m.write(0x42E180C8 + o, _st50.pack("<d", v))
+        m.write(TOUCH_BLK + 0x17, bytes([t17]))
+    return Case([], setup=setup, ret=V, stubs=bode_stubs50(fw))
+
+
+TESTS[0x40038374] = t_bgrid50
+
+
+def t_bcur50(r):
+    hs, ds = bode_block50(r)
+    on = r.choice([1, 1, 1, 1, 0, 0xFF])
+    c1, c2 = r.choice([0, 2, r.randrange(0, 900), r.getrandbits(32)]), r.choice([0, 3, r.randrange(0, 900), r.getrandbits(32)])
+    vals = [r.uniform(-1e6, 1e9) for _ in range(9)]
+    fw = [r.getrandbits(r.choice([6, 8, 32]))]
+    tw = r.getrandbits(16)
+
+    def setup(m):
+        for o, v in hs.items():
+            m.write(0x42E180C8 + o, (v & 0xFFFF).to_bytes(2, "little"))
+        m.write(0x42E180C8 + 0xAC60, bytes([on]))
+        m.w32(0x42E180C8 + 0xAC64, c1)
+        m.w32(0x42E180C8 + 0xAC68, c2)
+        for i, v in enumerate(vals):
+            m.write(0x42E180C8 + 0xAC70 + 8 * i, _st50.pack("<d", v))
+        m.write(TW50, tw.to_bytes(2, "little"))
+    return Case([], setup=setup, ret=V, stubs=bode_stubs50(fw))
+
+
+TESTS[0x40037C3C] = t_bcur50

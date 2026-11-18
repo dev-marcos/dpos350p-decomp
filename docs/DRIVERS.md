@@ -1139,10 +1139,12 @@ Spec: `tools/platform_spec/zc_view_fft_boot.py`, 12 functions. Tests: `tools/emu
   - `window_touch_poll` calls the touch handler 0x40051E88 for the windows of the stack from the
     top down. It stops at the first window whose record byte +2 at 0x42E64520 is 0 (DERIVED: a
     modal window).
-- **Cursor values.** `trace_cursor_values` converts the two cursor positions into doubles at
-  0x42E22B38..0x42E22B78. The horizontal values are 10^(base + pos / width × scale), so the axis
-  is logarithmic (DERIVED: the frequency axis of the Bode plot). The vertical values come from
-  the per-x tables 0x42E1FD88 and 0x42E20DE8.
+- **Cursor values.** `trace_cursor_values` converts the two cursor positions (words
+  0x42E22D2C/30) into doubles at 0x42E22D38..0x42E22D78 (block 0x42E180C8 + 0xAC70..0xACB0;
+  addresses corrected in batch 50). The horizontal values are 10^(base + pos / width × scale), so
+  the axis is logarithmic (the frequency axis of the Bode plot, STATIC-CONFIRMED by
+  `bode_grid_draw`, batch 50). The vertical values come from the per-x tables 0x42E20DE8 (gain)
+  and 0x42E21D88 (phase).
 
 ## Button handlers, FPGA counters, level statistics (batch 35)
 
@@ -1744,6 +1746,54 @@ is read from the code; no file written by the device was opened.
   code as the path helpers of batch 48.
 - **Not tested** (the stock code divides by these values): k = 0 in the zoom, and a record length
   of 0 in the preview.
+
+## Value + unit drawers, Bode plot grid and cursors (batch 50)
+
+Spec: `tools/platform_spec/zs_bode.py`, 6 functions. Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). Reading the block
+0x42E180C8 as the Bode plot is DERIVED from the labels ("deg", Hz, the log10 minor lines); the
+screen was not seen on the device.
+
+- **Value + unit drawers.** All take (x, y, sg, double d). The number goes through
+  `number_draw` (flag 1 when the low byte of sg is set, else flag 0; DERIVED: the sign is shown),
+  and the unit is drawn at x + the last drawn width (u16 0x42E68BE4) + 4.
+
+  | Function | Input | Shown as |
+  |---|---|---|
+  | `phase_deg_draw` (0x40038788) | degrees, clamped to ±180 | 2 decimals below 10, 1 below 100, then 0; unit "deg" |
+  | `voltage_uv_draw` (0x40038974) | microvolts | "uV" below 1000, "mV" (no decimals) below 10^6, "V" with 2 / 1 decimals below 10^7 / 10^8; nothing above |
+  | `level_value_draw` (0x40038C00) | any, clamped to ±999 | 2 / 1 / 0 decimals as above, no unit (`level_label_db` / `level_label_dbmv` add "dB" / "dBmV") |
+  | `frequency_draw` (0x40038E40) | Hz | "Hz", "KHz", "MHz" (2 / 1 / 0 decimals), "GHz" (2 decimals) below 10^10; nothing above |
+
+  - The values are cut to an integer number of thousandths first (degrees, levels) or of units
+    (voltage, frequency), truncating toward zero.
+  - `frequency_draw` with the low byte of its third argument set draws nothing and returns the
+    width the text would take (number width + unit width + 4); this is how the callers centre or
+    right-align labels.
+  - Its rounding is odd: after dividing, it adds 1 when the last *kept* digit is 5 or more
+    (1050 Hz shows as 1.06 KHz). Stock behaviour, kept.
+- **Bode plot block** (0x42E180C8). u16 +0 x, +2 y, +4 width, +6 height, +8 decade width, +0xA
+  number of decades, +0xC row height, +0xE number of rows. Doubles: +0x10 / +0x18 gain top /
+  bottom (dB), +0x20 / +0x28 phase top / bottom (degrees), +0x8D08 / +0x8D10 log10 of the start /
+  end frequency. Byte +0xAC60 = cursors on, words +0xAC64 / +0xAC68 = cursor x positions.
+- **`bode_grid_draw`** (0x40038374), skipped while touch byte +0x17 is set:
+  - clears the area, draws a double 0x444444 outline, points touch button 0x42E62B3A at the plot;
+  - a 3-pixel line at each decade, minor lines at x + decade width × log10(k) for k = 2..9, and
+    the row lines;
+  - gain labels on the left (x = 2), phase labels on the right (x = 943), one per row line, the
+    first and last moved 7 pixels inwards;
+  - 4 frequency labels 10^(start + i × (end − start) / decades) under the plot. The first is left
+    aligned, the last right aligned, the others centred on their decade line. Only 4 labels are
+    drawn whatever the number of decades.
+- **`bode_cursors_draw`** (0x40037C3C), when the cursors are on:
+  - two dashed 0xBBBBBB vertical lines and a tag "C1" / "C2" with a small triangle on each;
+  - three text rows under the plot, 17 pixels apart: "C1 = ", "C2 = " and "DC = " (the
+    difference), each with the frequency (0xBBBBBB), the gain in dB (0xFF8800) and the phase
+    (0x0088FF). The values are the doubles computed by `trace_cursor_values`. The C1 and C2 rows
+    use the signed number format, the difference row does not.
+- **For new apps:** a frequency-response app can reuse the block layout, `bode_grid_draw` and
+  the cursor panel as they are, and `frequency_draw` / `voltage_uv_draw` are ready-made unit
+  formatters (DERIVED: no app was written yet).
 
 ## Not yet rewritten (next batches)
 

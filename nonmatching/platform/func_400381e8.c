@@ -1,7 +1,7 @@
 /*
  * trace_cursor_values -- stock 0x400381E8 (388 bytes, ARM)
  * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
- * Unless touch byte +0x17 is set: converts the two cursor positions (words 0x42E22B2C/30) to values. Horizontally: 10^(base + pos / width * scale) for both, their difference; vertically, from the per-x tables at 0x42E1FD88 / 0x42E20DE8, the two levels in each of two scales and their differences. Results are doubles at 0x42E22B38..0x42E22B78.
+ * Unless touch byte +0x17 is set: converts the two cursor positions (words 0x42E22D2C/30) to values. Horizontally: 10^(base + pos / width * scale) for both, their difference; vertically, from the per-x tables at 0x42E20DE8 (gain) / 0x42E21D88 (phase), the two levels in each of two scales and their differences. Results are doubles at 0x42E22D38..0x42E22D78 (block 0x42E180C8 + 0xAC70..0xACB0).
  */
 #include "hw/platform.h"
 

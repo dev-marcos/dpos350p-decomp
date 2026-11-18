@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1145 | 84.56% | 168826 | 50.02% |
+| EQUIVALENT | 1151 | 85.01% | 173838 | 51.51% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 209 | 15.44% | 168678 | 49.98% |
+| ASM | 203 | 14.99% | 163666 | 48.49% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1145 (85.51%) | 337104 | 168826 (50.08%) |
+| main code | 1339 | 1151 (85.96%) | 337104 | 173838 (51.57%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -246,9 +246,15 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40037AB8` | trace_update_chain | 144 | EQUIVALENT | 200 | `nonmatching/platform/func_40037ab8.c` |
 | `0x40037B48` | trace_defaults_37b48 | 224 | EQUIVALENT | 200 | `nonmatching/platform/func_40037b48.c` |
 | `0x40037C28` | func_40037c3c_unless_t17 | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_40037c28.c` |
+| `0x40037C3C` | bode_cursors_draw | 1436 | EQUIVALENT | 200 | `nonmatching/platform/func_40037c3c.c` |
 | `0x400381E8` | trace_cursor_values | 388 | EQUIVALENT | 200 | `nonmatching/platform/func_400381e8.c` |
+| `0x40038374` | bode_grid_draw | 1032 | EQUIVALENT | 200 | `nonmatching/platform/func_40038374.c` |
+| `0x40038788` | phase_deg_draw | 464 | EQUIVALENT | 200 | `nonmatching/platform/func_40038788.c` |
+| `0x40038974` | voltage_uv_draw | 636 | EQUIVALENT | 200 | `nonmatching/platform/func_40038974.c` |
+| `0x40038C00` | level_value_draw | 428 | EQUIVALENT | 200 | `nonmatching/platform/func_40038c00.c` |
 | `0x40038DAC` | level_label_db | 64 | EQUIVALENT | 200 | `nonmatching/platform/func_40038dac.c` |
 | `0x40038DEC` | level_label_dbmv | 64 | EQUIVALENT | 200 | `nonmatching/platform/func_40038dec.c` |
+| `0x40038E40` | frequency_draw | 1016 | EQUIVALENT | 200 | `nonmatching/platform/func_40038e40.c` |
 | `0x4003A5D8` | __aeabi_l2d | 84 | EQUIVALENT | 400 | `nonmatching/libc/func_4003a5d8.c` |
 | `0x4003A62C` | acquisition_reconfigure | 40 | EQUIVALENT | 200 | `nonmatching/platform/func_4003a62c.c` |
 | `0x4003A654` | acquisition_apply | 44 | EQUIVALENT | 200 | `nonmatching/platform/func_4003a654.c` |
