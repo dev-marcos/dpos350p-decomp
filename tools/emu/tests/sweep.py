@@ -3496,3 +3496,251 @@ def t_gather53(r):
 
 
 TESTS[0x4003C5CC] = t_gather53
+
+
+# ================================================================ batch 54: FFT, Hann window, trigger crossings, normalization
+import math as _m54
+REG54 = 0x42C62AF4
+
+
+def _u16s54(vals):
+    return b"".join((max(0, min(0xFFFF, int(v)))).to_bytes(2, "little") for v in vals)
+
+
+def _wave54(r, n, centre, amp):
+    kind = r.randrange(4)
+    per = r.choice([3, 5, 8, 13, 40, 200])
+    ph = r.random() * 6.3
+    out = []
+    for i in range(n):
+        if kind == 0:
+            v = centre + amp * _m54.sin(ph + 6.283 * i / per)
+        elif kind == 1:
+            v = centre + (amp if (i // max(1, per // 2)) % 2 else -amp)
+        elif kind == 2:
+            v = centre + r.randrange(-amp - 1, amp + 2)
+        else:
+            v = r.choice([centre, centre - 1, centre + 1, centre + amp, centre - amp])
+        out.append(v)
+    return out
+
+
+def t_norm54(r):
+    ch = r.choice([0, 1])
+    n = r.choice([0, 5, 20, 21, 22, 40, 100, 300])
+    mid = r.choice([0, 100, 2000, 30000, 0x8000])
+    amp = r.choice([0, 1, 10, 300, 2000])
+    data = _wave54(r, n + 4, mid + r.choice([0, 0, 50, -50]), amp)
+    top = (mid + r.choice([0, 1, amp, 2 * amp, 3 * amp, 3 * amp + 3, 5000, -10])) & 0xFFFFFFFF
+    bot = (mid - r.choice([0, 1, amp, 2 * amp, 3 * amp, 3 * amp + 3, 5000, -10])) & 0xFFFFFFFF
+    w524 = r.choice([1, 2, 100, 0x8D7F250, 0xFFFFFFFF])
+    b1b1 = r.choice([0, 1, 4, 255])
+    lim = (0x8D7F250 // w524) * b1b1
+    d = r.choice([0, lim, lim - 1, lim + 1, r.getrandbits(64), 0xFFFFFFFFFFFFFFFF]) & 0xFFFFFFFFFFFFFFFF
+    junk = bytes(r.getrandbits(8) for _ in range(0x60))
+
+    def setup(m):
+        m.write(SYS + 0xB60, junk)
+        m.w32(SYS + 0x7B4 + 4 * ch, REG54)
+        m.w32(SYS + 0x7BC, n)
+        m.w32(SYS + 0x524, w524)
+        m.w8(SYS + 0x1B1, b1b1)
+        if ch == 0:
+            m.w32(SYS + 0xB60, top)
+            m.w32(SYS + 0xB64, bot)
+            m.w32(SYS + 0xB6C, mid)
+            m.write(SYS + 0xB78, d.to_bytes(8, "little"))
+        else:
+            m.w32(SYS + 0xB88, top)
+            m.w32(SYS + 0xB8C, bot)
+            m.w32(SYS + 0xB94, mid)
+            m.write(SYS + 0xBA0, d.to_bytes(8, "little"))
+        m.write(REG54, _u16s54(data))
+    return Case([ch], setup=setup, ret=V)
+
+
+TESTS[0x4003FE14] = t_norm54
+
+
+def t_mavg54(r):
+    ch = r.choice([0, 1])
+    flags = [1, 1, 1] if r.random() < 0.85 else [r.choice([0, 1]) for _ in range(3)]
+    h = r.choice([0, 1, 1, 2])
+    w558 = r.choice([0, 1, 2, 5, 20])
+    w62c = r.choice([0, 1, 3, 30])
+    b1b1 = r.choice([0, 1, 2, 4])
+    sv = w558 * h * 3
+    tv = b1b1 * w62c * h
+    n = 2 * sv + 2 * tv + 1
+    w1c0 = r.choice([1, 2, 3])
+    h27e = r.choice([0, 1, 100, 1000, 0x7FFF, 0xFFFF, r.getrandbits(16)])
+    lvl = w1c0 * (h27e - 0x10000 if h27e >= 0x8000 else h27e)
+    centre = max(0, min(0xFFFF, lvl + r.choice([0, 0, 20, -20])))
+    data = _wave54(r, n + 2, centre, r.choice([0, 1, 30, 300]))
+    start = r.choice([0, 1000, 0xFFFFFFF0, r.getrandbits(32)])
+    w2a0 = (start + tv + sv) & 0xFFFFFFFF
+    lim = r.choice([0, 1, 3, 10, 1000, 0xFFFFFFFF])
+
+    def setup(m):
+        m.w8(SYS + 0x27C, ch)
+        m.w8(SYS + 0x274, flags[0])
+        m.w8(SYS + 0x275, flags[1])
+        m.w8(SYS + 0x279, flags[2])
+        m.write(SYS + 0x282, h.to_bytes(2, "little"))
+        m.write(SYS + 0x27E, h27e.to_bytes(2, "little"))
+        m.w32(SYS + 0x558, w558)
+        m.w32(SYS + 0x62C, w62c)
+        m.w8(SYS + 0x1B1, b1b1)
+        m.w32(SYS + 0x1C0, w1c0)
+        m.w32(SYS + 0x2A0, w2a0)
+        m.w32(SYS + 0x298, lim)
+        m.w32(SYS + 0x7B4 + 4 * ch, (REG54 - 2 * start) & 0xFFFFFFFF)
+        m.write(REG54, _u16s54(data))
+    edge = r.choice([0, 1])
+
+    def setup2(m):
+        setup(m)
+        m.w8(SYS + 0x27B, edge)
+    return Case([], setup=setup2, ret=V)
+
+
+TESTS[0x40040114] = t_mavg54
+
+
+def t_twin54(r):
+    ch = r.choice([0, 1])
+    trig = r.choice([ch, ch, ch, 1 - ch])
+    f275 = r.choice([1, 1, 1, 1, 0])
+    div = r.choice([1, 2, 7, 3, 1000, r.getrandbits(40) | 1])
+    q = r.choice([0, 5, 100000, r.getrandbits(31)])
+    if q * div >= 2 ** 62:
+        div = 1
+    num = q * div + r.randrange(0, div)
+    w7bc = r.choice([0, 1, 100, 1001, r.getrandbits(32)])
+    w554 = r.choice([1, 2, 3, 7, 60])
+    w55c = r.choice([0, 1, 5, 20, 40])
+    w = (w55c * 6) // w554
+    c = (q + (w7bc >> 1)) & 0xFFFFFFFF
+    w1c0 = r.choice([1, 2])
+    h27e = r.choice([4, 500, 2000, r.randrange(4, 1 << 15)])
+    lvl = w1c0 * h27e
+    edge = r.choice([0, 1])
+    L = 2 * w + 8
+    ci = w + 3                                # data index of sample k = c
+    up, dn = (1, -1) if edge == 0 else (-1, 1)
+    hi_c, lo_c = lvl + 5 * up, lvl - 5 * up   # "after" and "before" levels of a crossing
+    sc = r.randrange(6) if w >= 2 else 0
+
+    def put(k, eq=False):                      # crossing at sample k (data index)
+        data[k - 1] = lvl if eq else lvl - up
+        data[k + 1] = lvl if (not eq and r.random() < 0.4) else lvl + up
+
+    if sc == 0:
+        data = _wave54(r, L, max(0, min(0xFFFF, lvl + r.choice([0, 0, 15, -15]))), r.choice([0, 1, 40, 400]))
+    else:
+        data = [lo_c] * L
+        if sc == 1:                            # at the centre, maybe through a sample equal to the level
+            put(ci, r.random() < 0.5)
+            data[ci + 2:] = [hi_c] * (L - ci - 2)
+        elif sc == 2:                          # left only, right side flat
+            dl = r.randrange(1, w)
+            put(ci - dl, r.random() < 0.5)
+            data[ci - dl + 1:] = [hi_c] * (L - ci + dl - 1)
+        elif sc == 3:                          # next to the window edges
+            put(4)
+            data[5:] = [hi_c] * (L - 5)
+            if r.random() < 0.5:
+                data = [lo_c] * L
+                put(L - 5)
+        else:                                  # one each side, equal or nearly equal distances
+            dl = r.randrange(1, w)
+            dr = dl + (0 if sc == 4 else r.choice([-1, 1]))
+            dr = max(1, min(w - 1, dr))
+            data = [hi_c] * L
+            for k in range(ci - dl - 2, ci + dr + 2):
+                data[k] = lo_c if ci - dl < k <= ci + dr else hi_c
+            data[ci - dl - 1], data[ci - dl + 1] = lvl - up, lvl + up
+            data[ci + dr - 1], data[ci + dr + 1] = lvl - up, lvl + up
+            data[ci - dl] = lvl
+    base = (REG54 - 2 * ((c - w - 3) & 0xFFFFFFFF)) & 0xFFFFFFFF
+
+    def setup(m):
+        m.w8(SYS + 0x275, f275)
+        m.w8(SYS + 0x27C, trig)
+        m.w8(SYS + 0x27B, edge)
+        m.write(SYS + 0x570, (num & 0xFFFFFFFFFFFFFFFF).to_bytes(8, "little"))
+        m.write(SYS + 0x590, (div & 0xFFFFFFFFFFFFFFFF).to_bytes(8, "little"))
+        m.w32(SYS + 0x7BC, w7bc)
+        m.w32(SYS + 0x554, w554)
+        m.w32(SYS + 0x55C, w55c)
+        m.w32(SYS + 0x1C0, w1c0)
+        m.write(SYS + 0x27E, h27e.to_bytes(2, "little"))
+        m.w32(SYS + 0x7B4 + 4 * ch, base)
+        m.write(REG54, _u16s54(data))
+    return Case([ch], setup=setup, ret=V)
+
+
+TESTS[0x400403AC] = t_twin54
+
+
+def _f32b54(x):
+    return _st50.pack("<f", x)
+
+
+def t_fft54(r):
+    n = r.choice([2, 4, 8, 16, 32, 64])
+    kind = r.randrange(4)
+    vals = []
+    for i in range(2 * n):
+        if kind == 0:
+            vals.append(r.uniform(-1000, 1000))
+        elif kind == 1:
+            vals.append(_m54.sin(i * 0.7) if i % 2 == 0 else 0.0)
+        elif kind == 2:
+            vals.append(r.choice([0.0, 1.0, -1.0, 1e30, -1e-30, 3.5]))
+        else:
+            vals.append(float(r.randrange(-5, 6)))
+    data = b"".join(_f32b54(v) for v in vals)
+    f54e = r.choice([0, 0, 1])
+    f5 = r.choice([0, 1])
+    stop = r.choice([0, 0, 1])
+
+    def ev(m, a):
+        m.calls.append(("event",))
+        if stop:
+            m.w8(0x42E68BB0 + 0x15, 1)
+
+    def setup(m):
+        m.max_insns = 20_000_000
+        m.write(REG54, data)
+        m.w8(SYS + 0x54E, f54e)
+        m.w8(0x42E68668 + 5, f5)
+        m.w8(0x42E68668 + 4, 0x5A)
+        m.w8(0x42E68BB0 + 0x15, 0)
+    return Case([n, REG54], setup=setup, ret=V,
+                stubs=(rec("dcache", 0x400632F8, 0), Stub("event", 0x40049B08, ev, 0)))
+
+
+TESTS[0x400665A8] = t_fft54
+
+
+def t_hann54(r):
+    on = [r.choice([0, 1, 1]) for _ in range(4)]
+    n = r.choice([0, 1, 2, 3, 8, 16, 33])
+    a = b"".join(_f32b54(r.choice([r.uniform(-100, 100), 0.0, 1.0, 1e20])) for _ in range(n))
+    b = b"".join(_f32b54(r.uniform(-5, 5)) for _ in range(n))
+
+    def setup(m):
+        m.max_insns = 20_000_000
+        m.w8(SYS + 0x3E, on[0])
+        m.w8(SYS + 0x42, on[1])
+        m.w8(SYS + 0x102, on[2])
+        m.w8(SYS + 0x106, on[3])
+        m.w32(SYS + 0x7F8, n)
+        m.write(0x42E49EB4, a)
+        m.write(0x42E4DEB4, b)
+    return Case([], setup=setup, ret=V,
+                stubs=(rec("fft", 0x400665A8, 2), rec("cmag", 0x40066538, 3)))
+
+
+TESTS[0x40041BA0] = t_hann54

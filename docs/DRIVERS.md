@@ -1964,6 +1964,107 @@ STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The meaning of each f
   whole path from the capture buffer to the screen columns. A new horizontal mode (for example
   a different zoom) can reuse the parameter sets above.
 
+## FFT, Hann window, trigger crossings and amplitude normalization (batch 54)
+
+Spec: `tools/platform_spec/zw_fft_trigger.py`, 5 functions. Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The names of the
+quantities (trigger level, edge, window) are DERIVED from how the code uses them.
+
+- **`fft_radix2`** (0x400665A8, also called from 0x40060DC8) is an in-place radix-2
+  decimation-in-time FFT over n complex floats `{re, im}`:
+  - first the bit-reversal swaps, then `dcache_clean_inv_all`;
+  - then log2(n) stages. Each stage starts the twiddle at u = 1 and multiplies it by
+    w = cos(pi / half) - i sin(pi / half) with `cmul` after each butterfly group;
+  - between stages, when byte SYS+0x54E is set and byte 0x42E68668+5 is clear, it calls
+    `runtime_event_service`. If that sets byte 0x42E68BB0+0x15, the FFT stops early and clears
+    byte 0x42E68668+4. This keeps the touch screen responsive during long transforms.
+
+  n must be a power of two, at least 2. For n < 2 or other sizes the stock loops never end, so
+  the tests use only powers of two.
+- **`fft_hann_spectrum`** (0x40041BA0, called by `zoom_views_update`) feeds the FFT view. It runs
+  for each channel that is on (CH1: bytes SYS+0x3E and +0x42; CH2: +0x102 and +0x106), with
+  n = SYS+0x7F8:
+
+  | | input floats | complex buffer | magnitudes |
+  |---|---|---|---|
+  | CH1 | 0x42E49EB4 | 0x42E2DB08 | 0x42E4BEB4 |
+  | CH2 | 0x42E4DEB4 | 0x42E31B08 | 0x42E4FEB4 |
+
+  - x[i] = in[i] x (0.5 - 0.5 cos(2 pi i / (n - 1))), a Hann window, in double precision, stored
+    as a float with a zero imaginary part;
+  - then `fft_radix2(n, x)` and `cvec_magnitude(x, out, n / 2)`.
+
+  The FFT is called even when n is 0, and then never returns.
+- **`final_per_channel_normalization`** (0x4003FE14) evens out the amplitude of trace ch
+  (SYS+0x7B4[ch]):
+  - it runs only when the u64 SYS+0xB78 (CH2: +0xBA0) is at least
+    (0x8D7F250 / SYS+0x524) x byte SYS+0x1B1;
+  - the trace from index 10 to SYS+0x7BC - 10 is cut into half-periods at each crossing of the
+    middle level m (SYS+0xB6C; CH2 +0xB94);
+  - a half-period with mean >= m whose peak is more than (top - m) / 3 above m is stretched so
+    that the peak lands on top (SYS+0xB60; CH2 +0xB88): v = m + (v - m)(top - m) / (peak - m);
+  - a half-period below m is handled the same way with the bottom reference SYS+0xB64 (CH2
+    +0xB8C);
+  - the last sample of each half-period is left as it is (stock).
+- **Trigger crossings.** The level is SYS+0x1C0 x (s16) SYS+0x27E, the trigger channel is
+  byte SYS+0x27C, and byte SYS+0x27B selects the falling edge.
+  - `moving_average_and_crossing_alignment_search` (0x40040114) runs when bytes SYS+0x274,
+    +0x275 and +0x279 are all set:
+    - with h = u16 SYS+0x282, s = SYS+0x558 x h x 3 and t = byte SYS+0x1B1 x SYS+0x62C x h, it
+      copies n = 2s + 2t + 1 samples from index SYS+0x2A0 - t - s to 0x416431E8;
+    - it smooths them with an s-point moving average;
+    - from the middle it searches left and right for the first sample k with
+      `d[k] < level <= d[k+1]` (falling: `d[k] > level >= d[k+1]`);
+    - the distances are limited to SYS+0x298. u16 SYS+0x29C gets the nearer one (negative on the
+      left; the right one on a tie), or 0 when there is none.
+  - `trigger_window_crossing` (0x400403AC, two calls in `full_acquisition_entry`) works directly
+    on trace ch, but only when ch is the trigger channel and byte SYS+0x275 is set:
+    - centre c = s64 SYS+0x570 / s64 SYS+0x590 + SYS+0x7BC / 2;
+    - window c +- 6 x SYS+0x55C / SYS+0x554;
+    - a crossing at k compares k - 1 with k + 1. Rising: before < level <= after, or
+      before = level < after. Falling is the mirror;
+    - u16 SYS+0x29E = the offset of the nearer crossing from c (the right one on a tie). When
+      only the right one is found, the left distance counts as the window edge. When none is
+      found nothing is stored.
+- **Not converted: the sample-rate table of 0x4003F2F4** (with its tail 0x4003F704). It is read
+  from the disassembly (STATIC-CONFIRMED) but left as assembly:
+  - key = ((u64 0x405453A0) x (SYS+0x524 / byte SYS+0x1B1)), times 100 / u16 SYS+0x1C unless byte
+    SYS+0x588 is 11, then halved;
+  - a 64-bit switch (helper 0x400657FC, 24 entries) sets the FPGA parameters of batch 52:
+    byte +0x6E4 = 64 - a, byte +0x6E5 = 64 - b, bytes +0x6E6 / +0x6E7 and word +0x6E8:
+
+  | key | +0x6E4 | +0x6E5 | +0x6E6 | +0x6E7 | +0x6E8 |
+  |---:|---:|---:|---:|---:|---:|
+  | 50,000 | 54 | 63 | 32 | 4 | 49999 |
+  | 125,000 | 54 | 63 | 32 | 4 | 19999 |
+  | 250,000 | 54 | 63 | 32 | 4 | 9999 |
+  | 500,000 | 54 | 63 | 32 | 4 | 4999 |
+  | 1,250,000 | 54 | 63 | 32 | 4 | 1999 |
+  | 2,500,000 | 54 | 63 | 32 | 4 | 999 |
+  | 5,000,000 | 54 | 63 | 32 | 4 | 499 |
+  | 12,500,000 | 54 | 63 | 32 | 4 | 199 |
+  | 25,000,000 | 54 | 63 | 32 | 4 | 99 |
+  | 50,000,000 | 54 | 63 | 32 | 4 | 49 |
+  | 125,000,000 | 54 | 63 | 32 | 4 | 19 |
+  | 250,000,000 | 54 | 63 | 32 | 4 | 9 |
+  | 500,000,000 | 54 | 63 | 32 | 4 | 4 |
+  | 1,250,000,000 | 54 | 63 | 32 | 4 | 1 |
+  | 2,500,000,000 | 54 | 63 | 32 | 4 | 0 |
+  | 5,000,000,000 | 54 | 63 | 32 | 2 | 0 |
+  | 12,500,000,000 | 56 | 63 | 32 | 1 | 0 |
+  | 25,000,000,000 | 60 | 63 | 48 | 1 | 0 |
+  | 40,000,000,000 | 54 | 60 | 56 | 1 | 0 |
+  | 50,000,000,000 | 62 | 63 | 56 | 1 | 0 |
+  | 125,000,000,000 | 60 | 59 | 62 | 1 | 0 |
+  | 250,000,000,000 | 62 | 59 | 63 | 1 | 0 |
+  | 400,000,000,000 | 63 | 60 | 63 | 1 | 0 |
+  | 500,000,000,000 | 63 | 59 | 63 | 1 | 0 |
+
+  For keys up to 2,500,000,000 the word +0x6E8 is 2,500,000,000 / key - 1, which looks like a
+  decimation divider (DERIVED; what the bytes do is OPEN). For any other key the stock code
+  falls into a second switch on a stack word it never wrote, and stores leftover register
+  values. C cannot reproduce that, so the function stays assembly.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

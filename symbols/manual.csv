@@ -1213,3 +1213,8 @@ address,name,type,evidence_level,source,note
 0x4003C158,trace_shift_samples,function,DERIVED,this-project:phase5 (trace),
 0x4003C314,trace_zoom_segments,function,DERIVED,this-project:phase5 (trace),
 0x4003C5CC,trace_segments_gather,function,DERIVED,this-project:phase5 (trace),
+0x4003FE14,final_per_channel_normalization,function,DERIVED,this-project:phase5 (acquisition),
+0x40040114,moving_average_and_crossing_alignment_search,function,DERIVED,this-project:phase5 (acquisition),
+0x400403AC,trigger_window_crossing,function,DERIVED,this-project:phase5 (acquisition),
+0x400665A8,fft_radix2,function,DERIVED,this-project:phase5 (acquisition),
+0x40041BA0,fft_hann_spectrum,function,DERIVED,this-project:phase5 (acquisition),

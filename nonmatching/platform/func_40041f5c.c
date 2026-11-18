@@ -7,7 +7,7 @@
 
 #include "hw/fpga.h"
 
-void func_40041ba0(void);
+void fft_hann_spectrum(void);
 void fft_db_traces_scale(void);
 void fft_traces_draw(void);
 
@@ -17,7 +17,7 @@ void zoom_views_update(void)
         return;
     if (SYS8(0x2AA) || SYS8(0x28) || SYS8(0x652))
         return;
-    func_40041ba0();
+    fft_hann_spectrum();
     fft_db_traces_scale();
     fft_traces_draw();
 }

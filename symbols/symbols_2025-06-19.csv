@@ -625,7 +625,7 @@ address,size,name,type,evidence_level,source
 0x4003FB90,304,consumer_translator_of_the_16_bit,function_arm,DERIVED,this-project:phase5 (acquisition; name: Hack FPGA.md)
 0x4003FCC0,80,acq_wait_done,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003FD10,260,amplitude_statistical_normalization,function_arm,DERIVED,this-project:phase5 (acquisition; name: Hack FPGA.md)
-0x4003FE14,464,final_per_channel_normalization,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2421
+0x4003FE14,464,final_per_channel_normalization,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003FFE4,32,trace_buffer_pointers_setup,function_arm,DERIVED,this-project:phase5 (trace)
 0x40040004,44,func_40040004,function_arm,DERIVED,analyze.py:pointer
 0x40040030,12,timebase_apply_2b4,function_arm,DERIVED,this-project:phase5 (acquisition)
@@ -634,9 +634,9 @@ address,size,name,type,evidence_level,source
 0x40040068,4,pool_40040068,literal_pool,DERIVED,analyze.py
 0x4004006C,164,channel_post_process,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40040110,4,pool_40040110,literal_pool,DERIVED,analyze.py
-0x40040114,656,moving_average_and_crossing_alignment_search,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2415
+0x40040114,656,moving_average_and_crossing_alignment_search,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x400403A4,8,pool_400403a4,literal_pool,DERIVED,analyze.py
-0x400403AC,564,func_400403ac,function_arm,DERIVED,analyze.py:rea
+0x400403AC,564,trigger_window_crossing,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x400405E0,88,stream_geometry_fpga_selector_0x22_configuration,function_arm,DERIVED,this-project:phase5 (acquisition; name: Hack)
 0x40040638,108,capture_block,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x400406A4,36,capture_with_length,function_arm,DERIVED,this-project:phase5 (acquisition)
@@ -670,7 +670,7 @@ address,size,name,type,evidence_level,source
 0x400419CC,92,acquisition_dispatcher,function_arm,DERIVED,this-project:phase5 (acquisition; name: Hack)
 0x40041A28,36,pool_40041a28,literal_pool,DERIVED,analyze.py
 0x40041A4C,340,fft_input_prepare,function_arm,DERIVED,this-project:phase5 (acquisition)
-0x40041BA0,408,func_40041ba0,function_arm,DERIVED,analyze.py:rea
+0x40041BA0,408,fft_hann_spectrum,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40041D38,252,fft_db_traces_scale,function_arm,DERIVED,this-project:phase5 (trace)
 0x40041E34,288,fft_traces_draw,function_arm,DERIVED,this-project:phase5 (display)
 0x40041F54,8,pool_40041f54,literal_pool,DERIVED,analyze.py
@@ -1335,7 +1335,7 @@ address,size,name,type,evidence_level,source
 0x40066534,4,sin,function_thumb,OPEN,this-project:phase2
 0x40066538,76,cvec_magnitude,function_arm,DERIVED,this-project:phase5 (dsp)
 0x40066584,36,cmul,function_arm,DERIVED,this-project:phase5 (dsp)
-0x400665A8,592,func_400665a8,function_arm,DERIVED,analyze.py:rea
+0x400665A8,592,fft_radix2,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x400667F8,20,pool_400667f8,literal_pool,DERIVED,analyze.py
 0x4006680C,8,func_4006680c,function_arm,DERIVED,analyze.py:gap-code
 0x40066814,28,func_40066814,function_arm,DERIVED,analyze.py:rea
