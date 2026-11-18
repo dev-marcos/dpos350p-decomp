@@ -10,7 +10,7 @@ def wj(addr, size, name, desc, body, src="init"):
 wj(0x40050BAC, 552, "gen_selftest_50bac",
    "Self-test (DERIVED): range SYS+0x588 = 0x10, levels SYS+0x41 = SYS+0x105 = 0xB, SYS+0x54F = 1. For four output settings (channel 1 on with SYS+0x46 = 0 then 1; channel 2 on with SYS+0x10A = 0 then 1) it applies the outputs, runs one acquisition, then 30 acquisitions summing the spread (max - min, as a byte) of the capture bytes 0x42DF76D4[0x14 .. SYS+0x640 - 0x28). Pass when the sum with the setting = 1 is below 0.9f times the sum with 0, per channel: bytes 0x42E68B20 / 0x42E68B21, their AND in 0x42E68B1F.",
    """
-void func_4003eb40(void);
+void acq_defaults_reset(void);
 void outputs_apply(void);
 void acquisition_dispatcher(void);
 #define RS8(o) (*(volatile unsigned char *)(0x42E68AE0u + (o)))
@@ -40,7 +40,7 @@ void gen_selftest_50bac(void)
 {
     int end, a, b, c, d;
     u32 p1, p2;
-    func_4003eb40();
+    acq_defaults_reset();
     SYS8(0x54F) = 1;
     SYS8(0x588) = 0x10;
     SYS8(0x41) = 0xB;
@@ -74,7 +74,7 @@ void gen_selftest_50bac(void)
 wj(0x40050DDC, 504, "gen_selftest_50ddc",
    "Self-test (DERIVED): both channels on with SYS+0x46 = SYS+0x10A = 2, byte 0x42E68BC6 = 0; one generator setting (block 0x42E3F984: byte +0x2EFA = 0, words +0x2EFC = 0x2160EC0, +0x2F00 = 1000, +0x2F04 = 0; SYS+0x588 = 0xE, SYS+0x41 = SYS+0x105 = 6), applied, two acquisitions. Pass when 5 * (s64 SYS+0x910 / 1000) and 5 * (SYS+0x970 / 1000) are below 4 * 1000 (64-bit compare): bytes 0x42E68B23 / 0x42E68B24, their AND in 0x42E68B22.",
    """
-void func_4003eb40(void);
+void acq_defaults_reset(void);
 void outputs_apply(void);
 void gen_update(void);
 void acquisition_dispatcher(void);
@@ -87,7 +87,7 @@ void gen_selftest_50ddc(void)
 {
     int amp = 1000, q1, q2;
     u32 a, b;
-    func_4003eb40();
+    acq_defaults_reset();
     SYS8(0x3E) = 1;
     SYS8(0x102) = 1;
     SYS8(0x46) = 2;

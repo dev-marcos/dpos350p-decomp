@@ -331,7 +331,7 @@ void table_684_init(void);
 u32 gen_selftest_64c28(void);
 u32 gen_selftest_64cf0(void);
 void settings_a_save(void);
-void func_4003eb40(void);
+void acq_defaults_reset(void);
 
 void check_pair_save(void)
 {
@@ -341,7 +341,7 @@ void check_pair_save(void)
     r = gen_selftest_64cf0() & a & 1;
     if (r)
         settings_a_save();
-    func_4003eb40();
+    acq_defaults_reset();
     *(volatile unsigned char *)0x42E68B25u = r;
 }
 """, src="init")

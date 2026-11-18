@@ -7,7 +7,7 @@
 
 #include "hw/fpga.h"
 
-void func_4003eb40(void);
+void acq_defaults_reset(void);
 void outputs_apply(void);
 void gen_update(void);
 void delay_ms(u32 ms);
@@ -40,7 +40,7 @@ static void st_step(u32 a, u32 b, u32 c, u32 d, int wait)
 void gen_selftest_504b8(void)
 {
     u32 a, b;
-    func_4003eb40();
+    acq_defaults_reset();
     SYS8(0x3E) = 1;
     SYS8(0x102) = 1;
     SYS8(0x3F) = 1;

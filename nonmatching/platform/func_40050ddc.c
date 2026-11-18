@@ -7,7 +7,7 @@
 
 #include "hw/fpga.h"
 
-void func_4003eb40(void);
+void acq_defaults_reset(void);
 void outputs_apply(void);
 void gen_update(void);
 void acquisition_dispatcher(void);
@@ -20,7 +20,7 @@ void gen_selftest_50ddc(void)
 {
     int amp = 1000, q1, q2;
     u32 a, b;
-    func_4003eb40();
+    acq_defaults_reset();
     SYS8(0x3E) = 1;
     SYS8(0x102) = 1;
     SYS8(0x46) = 2;

@@ -172,7 +172,7 @@ void touch_group_020A(void);
 void sys_3c_enter(void);
 void sys_info_backup(void);
 void gen_state_backup(void);
-void func_4003eb40(void);
+void acq_defaults_reset(void);
 void state_block_3f984_init(void);
 void ui_windows_reset(void);
 void fb_clear_current(void);
@@ -225,7 +225,7 @@ void buttons_20a_handler(void)
         TB(0) = 0;
         sys_info_backup();
         gen_state_backup();
-        func_4003eb40();
+        acq_defaults_reset();
         state_block_3f984_init();
         ui_windows_reset();
         fb_clear_current();
@@ -236,7 +236,7 @@ void buttons_20a_handler(void)
         TB(0x246) = 0;
         TB(0) = 0;
         sys_info_backup();
-        func_4003eb40();
+        acq_defaults_reset();
         ui_windows_reset();
         fb_clear_current();
         ui_window_open(0x26);
@@ -366,7 +366,7 @@ void numpad_key_buttons(void)
 }
 """)
 
-SELFTEST = '''void func_4003eb40(void);
+SELFTEST = '''void acq_defaults_reset(void);
 void outputs_apply(void);
 void gen_update(void);
 void delay_ms(u32 ms);
@@ -403,7 +403,7 @@ wi(0x400504B8, 464, "gen_selftest_504b8",
 void gen_selftest_504b8(void)
 {
     u32 a, b;
-    func_4003eb40();
+    acq_defaults_reset();
     SYS8(0x3E) = 1;
     SYS8(0x102) = 1;
     SYS8(0x3F) = 1;
@@ -429,7 +429,7 @@ wi(0x40050688, 520, "gen_selftest_50688",
 void gen_selftest_50688(void)
 {
     u32 a = 1, b = 1, i, off;
-    func_4003eb40();
+    acq_defaults_reset();
     off = SYS16(0xA);
     SYS8(0x3E) = 1;
     SYS8(0x102) = 1;

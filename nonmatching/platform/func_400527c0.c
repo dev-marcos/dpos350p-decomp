@@ -17,7 +17,7 @@ void touch_group_020A(void);
 void sys_3c_enter(void);
 void sys_info_backup(void);
 void gen_state_backup(void);
-void func_4003eb40(void);
+void acq_defaults_reset(void);
 void state_block_3f984_init(void);
 void ui_windows_reset(void);
 void fb_clear_current(void);
@@ -70,7 +70,7 @@ void buttons_20a_handler(void)
         TB(0) = 0;
         sys_info_backup();
         gen_state_backup();
-        func_4003eb40();
+        acq_defaults_reset();
         state_block_3f984_init();
         ui_windows_reset();
         fb_clear_current();
@@ -81,7 +81,7 @@ void buttons_20a_handler(void)
         TB(0x246) = 0;
         TB(0) = 0;
         sys_info_backup();
-        func_4003eb40();
+        acq_defaults_reset();
         ui_windows_reset();
         fb_clear_current();
         ui_window_open(0x26);

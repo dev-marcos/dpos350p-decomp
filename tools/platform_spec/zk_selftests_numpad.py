@@ -10,7 +10,7 @@ def wk(addr, size, name, desc, body, src="init"):
 wk(0x4004F89C, 640, "gen_selftest_4f89c",
    "Self-test (DERIVED): range SYS+0x588 = 0x18, levels SYS+0x41 = SYS+0x105 = 6, SYS+0x660 = 5, byte 0x42E68BC6 = 0. Four output settings, each around the centre e = SYS+0xE with the step h = SYS+0x20 (offsets SYS+0x60 / SYS+0x120 = e +/- 2h in turn, channels SYS+0x3E / SYS+0x102 on and off), each applied and followed by two acquisitions. Checks of the measured words SYS+0xB34 and SYS+0xB50 against e * 1.3 and e * 0.7 (doubles); byte 0x42E68AF3 = 1 when all pass.",
    """
-void func_4003eb40(void);
+void acq_defaults_reset(void);
 void outputs_apply(void);
 void acquisition_dispatcher(void);
 
@@ -24,7 +24,7 @@ static void apply2(void)
 void gen_selftest_4f89c(void)
 {
     u32 e, h, v, p1, p2, p3, p4;
-    func_4003eb40();
+    acq_defaults_reset();
     e = SYS16(0xE);
     SYS8(0x588) = 0x18;
     SYS8(0x41) = 6;
@@ -75,7 +75,7 @@ void gen_selftest_4f89c(void)
 wk(0x4004F5E4, 668, "selftest_4f5e4",
    "Self-test of the eight capture byte lanes (DERIVED): channel 1 only (SYS+0x3E = 1, SYS+0x102 = 0, SYS+0x3A = 1), range 0x18, level 6; s64 SYS+0x30 = 10, SYS+0x640 = 10, SYS+0x644 = 1, stream geometry sent. Then 900 steps of the FPGA 0x2A value SYS+0x44 = (int)(3000.0f + i * 7.7777777f): each sends it, prepares and runs one capture and copies byte 0x42DF76D4 + k * 0x2134 of the eight lanes k to 0x42E51EB4 + k * 1000 + i. A lane passes (byte 0x42E68AF9 + k = 1) when, over its bytes 10..889, every bit is seen both set and clear and every pair of neighbouring bits is seen different; byte 0x42E68AF8 = 1 when all eight pass.",
    """
-void func_4003eb40(void);
+void acq_defaults_reset(void);
 void outputs_apply(void);
 void stream_geometry_fpga_selector_0x22_configuration(void);
 void fpga_write_sel_0x2a(void);
@@ -95,7 +95,7 @@ void selftest_4f5e4(void)
         set[k] = clr[k] = edge[k] = 0;
         RS8(0x19 + k) = 0;
     }
-    func_4003eb40();
+    acq_defaults_reset();
     SYS8(0x588) = 0x18;
     SYS8(0x3E) = 1;
     SYS8(0x102) = 0;

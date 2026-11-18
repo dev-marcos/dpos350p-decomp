@@ -7,7 +7,7 @@
 
 #include "hw/fpga.h"
 
-void func_4003eb40(void);
+void acq_defaults_reset(void);
 void outputs_apply(void);
 void acquisition_dispatcher(void);
 #define RS8(o) (*(volatile unsigned char *)(0x42E68AE0u + (o)))
@@ -37,7 +37,7 @@ void gen_selftest_50bac(void)
 {
     int end, a, b, c, d;
     u32 p1, p2;
-    func_4003eb40();
+    acq_defaults_reset();
     SYS8(0x54F) = 1;
     SYS8(0x588) = 0x10;
     SYS8(0x41) = 0xB;

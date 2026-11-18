@@ -7,7 +7,7 @@
 
 #include "hw/fpga.h"
 
-void func_4003eb40(void);
+void acq_defaults_reset(void);
 void outputs_apply(void);
 void stream_geometry_fpga_selector_0x22_configuration(void);
 void fpga_write_sel_0x2a(void);
@@ -27,7 +27,7 @@ void selftest_4f5e4(void)
         set[k] = clr[k] = edge[k] = 0;
         RS8(0x19 + k) = 0;
     }
-    func_4003eb40();
+    acq_defaults_reset();
     SYS8(0x588) = 0x18;
     SYS8(0x3E) = 1;
     SYS8(0x102) = 0;

@@ -560,8 +560,8 @@ address,size,name,type,evidence_level,source
 0x4003E6F8,12,__aeabi_uidivmod,function_thumb,DERIVED,this-project:phase2
 0x4003E704,4,__aeabi_ldiv0,function_arm,DERIVED,this-project:phase5 (bx lr; target of the uldivmod divide-by-zero path)
 0x4003E708,48,outputs_apply,function_arm,DERIVED,this-project:phase5 (init)
-0x4003E738,1032,func_4003e738,function_arm,DERIVED,analyze.py:rea
-0x4003EB40,488,func_4003eb40,function_arm,DERIVED,analyze.py:rea
+0x4003E738,1032,system_defaults_init,function_arm,DERIVED,this-project:phase5 (init)
+0x4003EB40,488,acq_defaults_reset,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003ED28,88,state_block_3f984_init,function_arm,DERIVED,this-project:phase5 (init)
 0x4003ED80,116,state_block_180c8_init,function_arm,DERIVED,this-project:phase5 (init)
 0x4003EDF4,188,state_block_68668_init,function_arm,DERIVED,this-project:phase5 (init)
@@ -580,7 +580,7 @@ address,size,name,type,evidence_level,source
 0x4003F0C0,32,state_backup_all,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003F0E0,32,state_restore_all,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003F100,96,pool_4003f100,literal_pool,DERIVED,analyze.py
-0x4003F160,404,func_4003f160,function_arm,DERIVED,analyze.py:rea
+0x4003F160,404,fpga_params_6e4_sync,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003F2F4,432,func_4003f2f4,function_arm,DERIVED,analyze.py:rea
 0x4003F4A4,28,func_4003f4a4,function_arm,DERIVED,analyze.py:gap-code
 0x4003F4C0,28,func_4003f4c0,function_arm,DERIVED,analyze.py:gap-code
@@ -929,7 +929,7 @@ address,size,name,type,evidence_level,source
 0x4004EC98,128,fpga_sel42_43_fill,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4004ED18,468,gen_fpga_settings_write,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4004EEEC,36,fpga_cmd63_write,function_arm,DERIVED,this-project:phase5 (acquisition)
-0x4004EF10,468,func_4004ef10,function_arm,DERIVED,analyze.py:rea
+0x4004EF10,468,gen_output_calibrate,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4004F0E4,80,pool_4004f0e4,literal_pool,DERIVED,analyze.py
 0x4004F134,1116,sd_update_check,function_arm,DERIVED,this-project:phase5 (storage)
 0x4004F590,12,pool_4004f590,literal_pool,DERIVED,analyze.py
@@ -946,7 +946,7 @@ address,size,name,type,evidence_level,source
 0x40050684,4,pool_40050684,literal_pool,DERIVED,analyze.py
 0x40050688,520,gen_selftest_50688,function_arm,DERIVED,this-project:phase5 (init)
 0x40050890,8,pool_40050890,literal_pool,DERIVED,analyze.py
-0x40050898,788,func_40050898,function_arm,DERIVED,analyze.py:rea
+0x40050898,788,gen_selftest_50898,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40050BAC,552,gen_selftest_50bac,function_arm,DERIVED,this-project:phase5 (init)
 0x40050DD4,8,pool_40050dd4,literal_pool,DERIVED,analyze.py
 0x40050DDC,504,gen_selftest_50ddc,function_arm,DERIVED,this-project:phase5 (init)

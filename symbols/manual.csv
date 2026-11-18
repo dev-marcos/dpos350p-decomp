@@ -1204,3 +1204,8 @@ address,name,type,evidence_level,source,note
 0x4003A044,bode_point_measure,function,DERIVED,this-project:phase5 (ui),
 0x4003A300,bode_sweep_run,function,DERIVED,this-project:phase5 (ui),
 0x40039EB8,bode_calibrate,function,DERIVED,this-project:phase5 (ui),
+0x4003EB40,acq_defaults_reset,function,DERIVED,this-project:phase5 (acquisition),
+0x4003E738,system_defaults_init,function,DERIVED,this-project:phase5 (init),
+0x4003F160,fpga_params_6e4_sync,function,DERIVED,this-project:phase5 (acquisition),
+0x4004EF10,gen_output_calibrate,function,DERIVED,this-project:phase5 (acquisition),
+0x40050898,gen_selftest_50898,function,DERIVED,this-project:phase5 (acquisition),

@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1157 | 85.45% | 177862 | 52.70% |
+| EQUIVALENT | 1162 | 85.82% | 181042 | 53.64% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 197 | 14.55% | 159642 | 47.30% |
+| ASM | 192 | 14.18% | 156462 | 46.36% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1157 (86.41%) | 337104 | 177862 (52.76%) |
+| main code | 1339 | 1162 (86.78%) | 337104 | 181042 (53.71%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -366,6 +366,8 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4003E6F8` | __aeabi_uidivmod | 12 | EQUIVALENT | 400 | `nonmatching/libc/func_4003e6f8.c` |
 | `0x4003E704` | __aeabi_ldiv0 | 4 | EQUIVALENT | 400 | `nonmatching/libc/func_4003e704.c` |
 | `0x4003E708` | outputs_apply | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_4003e708.c` |
+| `0x4003E738` | system_defaults_init | 1032 | EQUIVALENT | 200 | `nonmatching/platform/func_4003e738.c` |
+| `0x4003EB40` | acq_defaults_reset | 488 | EQUIVALENT | 200 | `nonmatching/platform/func_4003eb40.c` |
 | `0x4003ED28` | state_block_3f984_init | 88 | EQUIVALENT | 200 | `nonmatching/platform/func_4003ed28.c` |
 | `0x4003ED80` | state_block_180c8_init | 116 | EQUIVALENT | 200 | `nonmatching/platform/func_4003ed80.c` |
 | `0x4003EDF4` | state_block_68668_init | 188 | EQUIVALENT | 200 | `nonmatching/platform/func_4003edf4.c` |
@@ -382,6 +384,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4003F0A8` | state_d_restore | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_4003f0a8.c` |
 | `0x4003F0C0` | state_backup_all | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_4003f0c0.c` |
 | `0x4003F0E0` | state_restore_all | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_4003f0e0.c` |
+| `0x4003F160` | fpga_params_6e4_sync | 404 | EQUIVALENT | 200 | `nonmatching/platform/func_4003f160.c` |
 | `0x4003F894` | timebase_apply | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4003f894.c` |
 | `0x4003F8B8` | runtime_ready_read | 40 | EQUIVALENT | 200 | `nonmatching/platform/func_4003f8b8.c` |
 | `0x4003F8E0` | pulse_fpga_selector_0x08_0_1 | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_4003f8e0.c` |
@@ -638,6 +641,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4004EC98` | fpga_sel42_43_fill | 128 | EQUIVALENT | 200 | `nonmatching/platform/func_4004ec98.c` |
 | `0x4004ED18` | gen_fpga_settings_write | 468 | EQUIVALENT | 200 | `nonmatching/platform/func_4004ed18.c` |
 | `0x4004EEEC` | fpga_cmd63_write | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4004eeec.c` |
+| `0x4004EF10` | gen_output_calibrate | 468 | EQUIVALENT | 200 | `nonmatching/platform/func_4004ef10.c` |
 | `0x4004F134` | sd_update_check | 1116 | EQUIVALENT | 200 | `nonmatching/platform/func_4004f134.c` |
 | `0x4004F59C` | fpga_probe_and_copy_7fc | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4004f59c.c` |
 | `0x4004F5C0` | security_check_and_copy | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4004f5c0.c` |
@@ -646,6 +650,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4004FAB0` | calibration_result_flags | 132 | EQUIVALENT | 200 | `nonmatching/platform/func_4004fab0.c` |
 | `0x400504B8` | gen_selftest_504b8 | 460 | EQUIVALENT | 200 | `nonmatching/platform/func_400504b8.c` |
 | `0x40050688` | gen_selftest_50688 | 520 | EQUIVALENT | 200 | `nonmatching/platform/func_40050688.c` |
+| `0x40050898` | gen_selftest_50898 | 788 | EQUIVALENT | 200 | `nonmatching/platform/func_40050898.c` |
 | `0x40050BAC` | gen_selftest_50bac | 552 | EQUIVALENT | 200 | `nonmatching/platform/func_40050bac.c` |
 | `0x40050DDC` | gen_selftest_50ddc | 504 | EQUIVALENT | 200 | `nonmatching/platform/func_40050ddc.c` |
 | `0x400519E4` | touch_targets_test | 540 | EQUIVALENT | 200 | `nonmatching/platform/func_400519e4.c` |

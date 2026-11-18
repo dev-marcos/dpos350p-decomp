@@ -3214,3 +3214,112 @@ def t_calib51(r):
 
 
 TESTS[0x40039EB8] = t_calib51
+
+
+# ================================================================ batch 52: defaults, FPGA param sync, generator calibration
+def t_acqdef52(r):
+    junk = bytes(r.getrandbits(8) for _ in range(0x900))
+    tail = bytes(r.getrandbits(8) for _ in range(0x20))
+    w8 = r.choice([0, 1, 2, 3, 5, 950, 0x7FFF, 0xFFFF, r.getrandbits(16)])
+    wa = r.choice([0, 1, 3, 4, 503, 0xFFFF, r.getrandbits(16)])
+
+    def setup(m):
+        m.write(SYS, junk)
+        m.write(SYS + 0x3DA520, tail)
+        m.write(SYS + 8, w8.to_bytes(2, "little"))
+        m.write(SYS + 0xA, wa.to_bytes(2, "little"))
+    return Case([], setup=setup, ret=V, stubs=(rec("commit", 0x4003BEA8, 0),))
+
+
+TESTS[0x4003EB40] = t_acqdef52
+
+
+def t_sysdef52(r):
+    blocks = [(SYS, 0x1000), (SYS + 0x3D0000, 0x10000), (0x42E3F984 + 0xF00, 0x2100), (0x42E180C8, 0x40),
+              (0x42E68998, 0x100), (0x42E68668, 0x200)]
+    data = [bytes(r.getrandbits(8) for _ in range(n)) for _, n in blocks]
+
+    def setup(m):
+        for (a, _), d in zip(blocks, data):
+            m.write(a, d)
+    return Case([], setup=setup, ret=V)
+
+
+TESTS[0x4003E738] = t_sysdef52
+
+
+def t_fpgasync52(r):
+    cur = bytes(r.getrandbits(8) for _ in range(8))
+    old = bytearray(cur)
+    for i in range(8):
+        if r.random() < 0.4:
+            old[i] = r.getrandbits(8)
+    if r.random() < 0.2:
+        old = bytearray(cur)
+
+    def setup(m):
+        m.write(SYS + 0x6E4, cur)
+        m.write(SYS + 0xBB0, bytes(old))
+    return Case([], setup=setup, ret=V,
+                stubs=(rec("upd", 0x40049EC4, 4), rec("smec", 0x40049F1C, 1), rec("sel", SEL, 1), rec("wr", WR, 1),
+                       rec("delay", 0x40042CF0, 1)))
+
+
+TESTS[0x4003F160] = t_fpgasync52
+
+
+def t_gencal52(r):
+    vals = [r.choice([0, 1000, 999, -1000, r.randrange(-2 ** 40, 2 ** 40), r.getrandbits(64) - 2 ** 63,
+                      r.randrange(0, 5000000) * 1000 + r.randrange(1000)]) for _ in range(3)]
+
+    def acq(m, a):
+        i = m.seq52
+        rng_b = m.read(SYS + 0x41, 1)[0]
+        m.write(SYS + 0x8F8, ((vals[i % 3] + 1000 * rng_b) & 0xFFFFFFFFFFFFFFFF).to_bytes(8, "little"))
+        m.seq52 = i + 1
+
+    def setup(m):
+        m.seq52 = 0
+    return Case([], setup=setup, ret=V,
+                stubs=(rec("backup", 0x4003F0C0, 0), rec("ginit", 0x4003ED28, 0), rec("cmd63", 0x4004EEEC, 0),
+                       rec("fill", 0x400356F4, 3), rec("outputs", 0x4003E708, 0), rec("gfpga", 0x4004ED18, 0),
+                       rec("delay", 0x40042CF0, 1), Stub("acq", 0x400419CC, acq, 0), rec("gsave", 0x4004472C, 0),
+                       rec("restore", 0x4003F0E0, 0), rec("gupd", 0x4004D18C, 0)))
+
+
+TESTS[0x4004EF10] = t_gencal52
+
+
+def t_genst52(r):
+    step = r.choice([1, 1, 2, 4, 0x7FFFFFFF, 300])
+    lim = r.choice([0, 1, 10, 50, 100, 1000, r.getrandbits(16)])
+    caps = []
+    for i in range(10):                       # 5 steps x 2 channels, independent
+        a = r.randrange(0, 1500)
+        sp = r.choice([0, 10 * lim, 10 * lim, 10 * lim + 1, 10 * lim - 1, r.randrange(0, 20000)])
+        caps.append((a, max(0, sp)))
+
+    def acq(m, a_):
+        i = m.seq52
+        rr = __import__("random").Random(i * 7919 + lim)
+        st = 0x2E68 + 5 * step
+        en = st + 0x924 - 10 * step - 1
+        for ch, base in ((0, 0x42AC7CF4), (1, 0x42AC7CF4 + 0x62250)):
+            lo, spread = caps[(i % 5) + 5 * ch]
+            vals = [lo + 1 + rr.randrange(max(1, spread - 1)) for _ in range(0x2E68 + 0x940)]
+            if 0 <= st < en < len(vals):         # extremes on the window edges
+                vals[st], vals[en] = (lo, lo + spread) if ch == 0 else (lo + spread, lo)
+            m.write(base, b"".join((v & 0xFFFF).to_bytes(2, "little") for v in vals))
+        m.seq52 = i + 1
+
+    def setup(m):
+        m.max_insns = 20_000_000
+        m.seq52 = 0
+        m.w32(SYS + 0x558, step)
+        m.w32(SYS + 0x1C0, lim)
+    return Case([], setup=setup, ret=V,
+                stubs=(rec("defaults", 0x4003EB40, 0), rec("outputs", 0x4003E708, 0), rec("gupd", 0x4004D18C, 0),
+                       Stub("acq", 0x400419CC, acq, 0)))
+
+
+TESTS[0x40050898] = t_genst52

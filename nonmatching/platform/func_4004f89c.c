@@ -7,7 +7,7 @@
 
 #include "hw/fpga.h"
 
-void func_4003eb40(void);
+void acq_defaults_reset(void);
 void outputs_apply(void);
 void acquisition_dispatcher(void);
 
@@ -21,7 +21,7 @@ static void apply2(void)
 void gen_selftest_4f89c(void)
 {
     u32 e, h, v, p1, p2, p3, p4;
-    func_4003eb40();
+    acq_defaults_reset();
     e = SYS16(0xE);
     SYS8(0x588) = 0x18;
     SYS8(0x41) = 6;

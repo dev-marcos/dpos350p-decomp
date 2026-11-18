@@ -1854,6 +1854,58 @@ gain = B / A; nothing was measured on the device.
   end and step values in the block. `bode_point_measure` is a general "set the generator to f and
   read both amplitudes with auto-range" routine (DERIVED: no app was written yet).
 
+## Defaults, FPGA parameter sync, generator calibration, self-test (batch 52)
+
+Spec: `tools/platform_spec/zu_defaults.py`, 5 functions. Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT).
+
+- **`acq_defaults_reset`** (0x4003EB40, 17 callers) puts the acquisition state back to its
+  defaults and then calls `runtime_state_commit_force`:
+  - time-base index SYS+0x588 = 0x17, +0x598 = 0x16, the 64-bit words +0x570 / +0x578 = 0;
+  - range bytes +0x41 / +0x105 = 6, coupling bytes +0x46 / +0x10A = 0;
+  - the trigger level copies +0x27E, +0x60, +0x120 = u16 +0xE;
+  - cursor words +0x808 = width / 5, +0x80C = 4 × width / 5, +0x810 = height / 4,
+    +0x814 = 3 × height / 4 (width / height = u16 SYS+8 / +0xA);
+  - the saved-trace state at SYS+0x3DA52C (batch 48) to 0, width / 3 and 2 × width / 3;
+  - touch byte +0x16 = 1.
+- **`system_defaults_init`** (0x4003E738) is the power-on defaults list: 135 constant stores
+  and no reads. The C was generated from an emulator trace of the stock code (the store
+  addresses and values, in order) and is checked like every other function. Values worth
+  knowing:
+  - screen 950 × 503 (u16 SYS+8 / +0xA), trigger level 251 (u16 +0xE), sample shift 6
+    (word +0x1BC), marker word SYS+0x77C = 0xA55A5AA5;
+  - generator limits in 0x42E3F984 + 0x2F10..+0x2F5C (for example 50,000,000 at +0x2F14);
+  - the Bode plot block 0x42E180C8: x 70, y 48, 867 × 480, decade 289 pixels, 3 decades,
+    rows of 80 pixels, 6 rows.
+- **`fpga_params_6e4_sync`** (0x4003F160) sends the parameters SYS+0x6E4..+0x6E8 that differ from
+  their cached copies at SYS+0xBB0..+0xBB4, updating each copy first:
+
+  | Parameter | Path to the FPGA |
+  |---|---|
+  | bytes +0x6E4 / +0x6E5 / +0x6E6 | `fpga_param_updater(0x21 / 0x22 / 0x23, 1, word, byte)`, `smec_commit(0xC1 / 0xC2 / 0xC3)`, selector 4 / 5 / 6 + the byte |
+  | byte +0x6E7 | selector 2 + the byte |
+  | word +0x6E8 | selector 0xD + four bytes, high first |
+
+  After any change it pulses selector 7 (1, then 0) and waits 2 ms. The word passed to
+  `fpga_param_updater` is an unaligned 32-bit read at the copy (stock behaviour). What the five
+  parameters control is OPEN.
+- **`gen_output_calibrate`** (0x4004EF10) calibrates the generator output:
+  - it measures the mean input (s64 SYS+0x8F8 / 1000) for three DAC settings (G+0x2F38 / +0x2F3C
+    = 0x206C / 0x22C4, 0x206C / 0x1068, 1000 / 0xE42; G = 0x42E3F984), giving a, b, c;
+  - k0 = (4700 (b − c) + 550 (b − a)) / 34,310,000, k1 = (a − b) / 4700,
+    k2 = a − 8300 k0 − 8900 k1;
+  - the three floats go to G+0x2F64..+0x2F6C (record G) and to the backup copy, then the record
+    is saved and the state restored.
+
+  The constants look like resistor values of the output stage, but that is OPEN.
+- **`gen_selftest_50898`** (0x40050898) joins the self-tests of batches 40 and 41. It applies
+  five generator / capture settings (25 Hz .. 10 kHz) and checks per channel that the
+  peak-to-peak of the capture window is at most 10 × word SYS+0x1C0. The flags go to bytes
+  0x42E68AE0 + 0x35 (A), + 0x36 (B) and + 0x34 (both).
+- **Harness note.** Straight-line functions that only write constants can now be turned into C
+  from an emulator trace (`build/trace52.py`, not committed: it hooks the memory writes). The
+  result is still verified by the normal EQUIVALENT test, with random memory before the call.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

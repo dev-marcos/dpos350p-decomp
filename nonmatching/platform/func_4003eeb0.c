@@ -7,7 +7,7 @@
 
 #include "hw/fpga.h"
 
-void func_4003eb40(void);
+void acq_defaults_reset(void);
 void state_block_3f984_init(void);
 void state_block_180c8_init(void);
 void state_block_68668_init(void);
@@ -16,7 +16,7 @@ void state_backup_all(void);
 
 void state_blocks_init(void)
 {
-    func_4003eb40();
+    acq_defaults_reset();
     state_block_3f984_init();
     state_block_180c8_init();
     state_block_68668_init();
