@@ -100,7 +100,7 @@ void marker_drag_buttons_bd8(void)
 we(0x400562F4, 268, "calibration_b4c_button_handler",
    "Button 0xB4C released: message 0x9C00 at the centre of window rectangle 0x20C, runs 0x40039EB8, then message 0xD680 when byte 0x42E22DE1 or 0x42E22DE2 is 0, else message 0x9C00 + 0x1A0; waits 1 s and closes window 0x25.", TBE + MSGE + """
 void touch_button_update_0B4C(void);
-void func_40039eb8(void);
+void bode_calibrate(void);
 #define TT8(o) (*(volatile unsigned char *)(0x42E180C8u + (o)))
 
 void calibration_b4c_button_handler(void)
@@ -114,7 +114,7 @@ void calibration_b4c_button_handler(void)
     TB(0xB4C) = 0;
     TB(0) = 0;
     MSG(cx, cy, 0x9C00);
-    func_40039eb8();
+    bode_calibrate();
     if (TT8(0xAD19) == 0 || TT8(0xAD1A) == 0)
         MSG(cx, cy, 0xD680);
     else

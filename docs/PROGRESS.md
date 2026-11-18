@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1151 | 85.01% | 173838 | 51.51% |
+| EQUIVALENT | 1157 | 85.45% | 177862 | 52.70% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 203 | 14.99% | 163666 | 48.49% |
+| ASM | 197 | 14.55% | 159642 | 47.30% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1151 (85.96%) | 337104 | 173838 (51.57%) |
+| main code | 1339 | 1157 (86.41%) | 337104 | 177862 (52.76%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -255,6 +255,12 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40038DAC` | level_label_db | 64 | EQUIVALENT | 200 | `nonmatching/platform/func_40038dac.c` |
 | `0x40038DEC` | level_label_dbmv | 64 | EQUIVALENT | 200 | `nonmatching/platform/func_40038dec.c` |
 | `0x40038E40` | frequency_draw | 1016 | EQUIVALENT | 200 | `nonmatching/platform/func_40038e40.c` |
+| `0x40039254` | bode_curves_draw | 968 | EQUIVALENT | 200 | `nonmatching/platform/func_40039254.c` |
+| `0x4003963C` | bode_autoscale | 672 | EQUIVALENT | 200 | `nonmatching/platform/func_4003963c.c` |
+| `0x40039C08` | bode_phase_measure | 676 | EQUIVALENT | 200 | `nonmatching/platform/func_40039c08.c` |
+| `0x40039EB8` | bode_calibrate | 380 | EQUIVALENT | 200 | `nonmatching/platform/func_40039eb8.c` |
+| `0x4003A044` | bode_point_measure | 652 | EQUIVALENT | 200 | `nonmatching/platform/func_4003a044.c` |
+| `0x4003A300` | bode_sweep_run | 676 | EQUIVALENT | 200 | `nonmatching/platform/func_4003a300.c` |
 | `0x4003A5D8` | __aeabi_l2d | 84 | EQUIVALENT | 400 | `nonmatching/libc/func_4003a5d8.c` |
 | `0x4003A62C` | acquisition_reconfigure | 40 | EQUIVALENT | 200 | `nonmatching/platform/func_4003a62c.c` |
 | `0x4003A654` | acquisition_apply | 44 | EQUIVALENT | 200 | `nonmatching/platform/func_4003a654.c` |

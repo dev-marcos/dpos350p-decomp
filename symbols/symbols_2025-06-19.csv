@@ -407,21 +407,21 @@ address,size,name,type,evidence_level,source
 0x4003924C,4,pool_4003924c,literal_pool,DERIVED,analyze.py
 0x40039250,3,code_40039250,data,OPEN,analyze.py
 0x40039253,1,pad_40039253,padding,STATIC-CONFIRMED,analyze.py:zero
-0x40039254,968,func_40039254,function_arm,DERIVED,analyze.py:rea
+0x40039254,968,bode_curves_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003961C,8,pool_4003961c,literal_pool,DERIVED,analyze.py
 0x40039624,8,code_40039624,data,OPEN,analyze.py
 0x4003962C,16,pool_4003962c,literal_pool,DERIVED,analyze.py
-0x4003963C,672,func_4003963c,function_arm,DERIVED,analyze.py:rea
+0x4003963C,672,bode_autoscale,function_arm,DERIVED,this-project:phase5 (ui)
 0x400398DC,60,pool_400398dc,literal_pool,DERIVED,analyze.py
 0x40039918,744,func_40039918,function_arm,DERIVED,analyze.py:rea
 0x40039C00,8,pool_40039c00,literal_pool,DERIVED,analyze.py
-0x40039C08,676,func_40039c08,function_arm,DERIVED,analyze.py:rea
+0x40039C08,676,bode_phase_measure,function_arm,DERIVED,this-project:phase5 (ui)
 0x40039EAC,12,pool_40039eac,literal_pool,DERIVED,analyze.py
-0x40039EB8,380,func_40039eb8,function_arm,DERIVED,analyze.py:rea
+0x40039EB8,380,bode_calibrate,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003A034,16,pool_4003a034,literal_pool,DERIVED,analyze.py
-0x4003A044,652,func_4003a044,function_arm,DERIVED,analyze.py:rea
+0x4003A044,652,bode_point_measure,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003A2D0,48,pool_4003a2d0,literal_pool,DERIVED,analyze.py
-0x4003A300,676,func_4003a300,function_arm,DERIVED,analyze.py:rea
+0x4003A300,676,bode_sweep_run,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003A5A4,52,pool_4003a5a4,literal_pool,DERIVED,analyze.py
 0x4003A5D8,84,__aeabi_l2d,function_thumb,DERIVED,this-project:phase2
 0x4003A62C,40,acquisition_reconfigure,function_arm,DERIVED,this-project:phase5 (acquisition)

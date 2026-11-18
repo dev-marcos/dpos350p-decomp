@@ -2928,3 +2928,289 @@ def t_bcur50(r):
 
 
 TESTS[0x40037C3C] = t_bcur50
+
+
+# ================================================================ batch 51: Bode sweep, point measure, phase, curves
+import math as _m51
+
+BB51 = 0x42E180C8
+DREC51 = 0x42E554B0
+LIM51 = _st50.unpack("<d", _st50.pack("<Q", 0x40B3880000000001))[0]
+
+
+def w16s51(m, a, vals):
+    m.write(a, b"".join((v & 0xFFFF).to_bytes(2, "little") for v in vals))
+
+
+def wd51(m, a, vals):
+    m.write(a, b"".join(_st50.pack("<d", v) for v in vals))
+
+
+def t_curves51(r):
+    hs = {0: r.randrange(0, 120), 2: r.randrange(0, 120), 4: r.choice([0, 1, 4, 5, 6, r.randrange(7, 900)]),
+          6: r.choice([0, 1, 39, 40, 41, r.randrange(40, 420)])}
+    ga = [r.randrange(0, 450) for _ in range(905)]
+    ph = [r.randrange(0, 450) for _ in range(905)]
+    if r.random() < 0.2:
+        ga = [r.getrandbits(16) for _ in range(905)]
+    flags = (r.choice([0, 1, 0x80]), r.choice([0, 1, 0x80]))
+    t17 = r.choice([0, 0, 0, 0, 1])
+    ents = {e: (r.getrandbits(8), r.getrandbits(8)) for e in (129, 130, 131)}
+    cols = (r.getrandbits(32), r.getrandbits(32))
+    tw = r.getrandbits(16)
+
+    def setup(m):
+        for o, v in hs.items():
+            w16s51(m, BB51 + o, [v])
+        w16s51(m, BB51 + 0x8D20, ga)
+        w16s51(m, BB51 + 0x9CC0, ph)
+        m.write(BB51 + 0xAD19, bytes(flags))
+        m.write(TOUCH_BLK + 0x17, bytes([t17]))
+        for e, (dx, dy) in ents.items():
+            a = 0x42C2FE74 + e * 0x1A0
+            m.w32(a, SYS + 0x200000 + 0x20 * e)
+            m.write(SYS + 0x200000 + 0x20 * e, b"msg%d\0" % e)
+            m.write(a + 0x194, bytes([dx, dy]))
+        m.w32(SYS + 0x3DD550, cols[0])
+        m.w32(SYS + 0x3DD554, cols[1])
+        m.write(TW50, tw.to_bytes(2, "little"))
+    return Case([], setup=setup, ret=V,
+                stubs=(rec("half", 0x4002DC40, 1), rec("word", 0x4002CCCC, 1), rec("colour", 0x4002EA38, 1),
+                       rec("fill", 0x4002ECC4, 4), rec("vline", 0x4002EBC8, 3), rec("span", 0x4002EBA8, 3),
+                       text50(), str_stub("tw", 0x4002D164, r.getrandbits(r.choice([4, 8, 10, 32])))))
+
+
+TESTS[0x40039254] = t_curves51
+
+
+def t_autoscale51(r):
+    n = r.choice([0, 1, 2, 3, 10, 50, r.randrange(1, 301)])
+    h = r.choice([0, 1, 2, 3, 10, r.randrange(20, 420)])
+    kind = r.random()
+    if kind < 0.1:
+        g = [r.uniform(-3, 3) * 1e-4 for _ in range(n)]
+    elif kind < 0.2:
+        g = [r.choice([-1e9, 1e9, 0.0, float("inf")]) for _ in range(n)]
+    else:
+        base = r.uniform(-60, 10)
+        g = [base + r.uniform(-30, 30) * r.choice([1, 0.1, 0.01]) for _ in range(n)]
+    pk = r.random()
+    if pk < 0.15:
+        ph = [r.randrange(-2, 3) for _ in range(n)]
+    else:
+        ph = [r.randrange(-180, 181) for _ in range(n)]
+    if n >= 2 and h >= 20 and r.random() < 0.4:   # scales just above the clamps (26 px/dB, 3 px/deg)
+        hh = int(h * 0.8)
+        sp = hh / r.uniform(26.0, 26.99)
+        g = [r.uniform(-10.0, -10.0 + sp) for _ in range(n)]
+        g[0], g[1] = -10.0, -10.0 + sp
+        spd = max(5, int(hh / 3.5))
+        ph = [r.randrange(0, spd + 1) for _ in range(n)]
+        ph[0], ph[1] = 0, spd
+    t17 = r.choice([0, 0, 0, 0, 1])
+    junk = r.getrandbits(64)
+
+    def setup(m):
+        m.max_insns = 10_000_000
+        w16s51(m, BB51 + 6, [h])
+        m.w32(BB51 + 0x5C, n)
+        wd51(m, BB51 + 0x3EE8, g)
+        w16s51(m, BB51 + 0x7D68, ph)
+        m.write(BB51 + 0x10, junk.to_bytes(8, "little") * 4)
+        m.write(TOUCH_BLK + 0x17, bytes([t17]))
+    return Case([], setup=setup, ret=V)
+
+
+TESTS[0x4003963C] = t_autoscale51
+
+
+def t_phase51(r):
+    step = r.choice([1, 1, 2, 3])
+    length = r.choice([50 * step, 50 * step + 1, 100 * step - 1, 100 * step, 100 * step + 1, 100 * step + 9, r.randrange(200, 3000), -1])
+    sh = r.choice([0, 0, 1, 2, 3])
+    period = r.choice([16, 20, 33, 64, 100, 250, r.randrange(9, 400)])
+    shift = r.uniform(-1, 1) * period
+    amp = r.choice([100, 1000, 2000])
+    mid = r.choice([0, 500, 2048])
+    level = r.choice([mid, mid + 1, mid - 5, r.randrange(0, 4096)])
+    noise = r.choice([0, 0, 3, 50])
+    square = r.random() < 0.3
+    mode = r.choice(["sin", "sin", "stair", "glitch"])
+    gl = r.choice([7, 8, 9, 10])
+
+    def wave(i, ph):
+        x = _m51.sin(2 * _m51.pi * (i - ph) / period)
+        if square:
+            x = 1 if x >= 0 else -1
+        if mode != "sin":
+            t = int(i - ph) % period
+            if mode == "stair":              # one sample exactly at the level before the high part
+                v = level if t == 0 else (mid + amp if t < period // 2 else mid - amp)
+            else:                            # a dip after the edge, rising again gl samples later
+                v = mid + amp if (t < period // 2 and not (3 <= t < gl)) else mid - amp
+            return max(0, min(0xFFFF, v)) << sh
+        v = int(mid + amp * x + r.uniform(-noise, noise))
+        return max(0, min(0xFFFF, v)) << sh
+    if length == -1:                          # about two periods: one interval per input
+        length = 100 * step + int(period * r.uniform(1.3, 2.4))
+    n = length + 4 * step
+    a = [wave(i, 0) for i in range(n)]
+    b = [wave(i, shift) for i in range(n)]
+    if r.random() < 0.05:
+        a = [r.getrandbits(16) for _ in range(n)]
+    if r.random() < 0.3:                      # level equal to a sample value
+        level = (b[r.randrange(len(b))] if r.random() < 0.5 else a[r.randrange(len(a))]) >> sh
+    off = r.choice([0.0, 0.0, r.uniform(-90, 90), 179.5, -400.0, -180.5, 180.5, 181.0, -179.5])
+    idx = r.choice([0, 1, 5, 299, r.getrandbits(32)])
+
+    def setup(m):
+        m.max_insns = 20_000_000
+        m.w32(SYS + 0x558, step)
+        m.w32(SYS + 0x2B0, length)
+        m.w32(SYS + 0x1BC, sh)
+        w16s51(m, SYS + 0xE, [level])
+        w16s51(m, 0x42AC7CF4, a)
+        w16s51(m, 0x42AC7CF4 + 0x62250, b)
+        wd51(m, BB51 + 0xAD10, [off])
+    return Case([idx], setup=setup, ret=V)
+
+
+TESTS[0x40039C08] = t_phase51
+
+
+def t_point51(r):
+    f = r.choice([1, 100, 999, 1000, 4999999, 5000000, 5000001, r.randrange(1, 60000000), 0x80000000 + r.randrange(100)])
+    hs = r.randrange(0, 4096)
+    tab = sorted(r.getrandbits(r.choice([20, 30, 40])) for _ in range(20))
+    n1e = r.randrange(0, 0x10000)
+    nd = r.choice([0, 1, 5, 245, r.randrange(0, 300)])
+    freqs = sorted(r.randrange(1, 60000000) for _ in range(nd + 1))
+    if r.random() < 0.3 and nd:
+        freqs[r.randrange(nd + 1)] = f
+    d0 = r.choice([0, 1, f, f - 1, f + 1, 0xFFFFFFFF, r.getrandbits(32)]) & 0xFFFFFFFF
+    ratios = [r.uniform(0.1, 3) for _ in range(nd + 3)]
+    phs = [r.uniform(-90, 90) for _ in range(nd + 3)]
+    seq_a = [r.choice([0, hs, hs * 3 // 10, hs * 8 // 10, hs * 8 // 10 + 1, r.randrange(0, 5000)]) for _ in range(40)]
+    seq_b = [r.choice([0, hs, hs * 3 // 10, hs * 8 // 10, r.randrange(0, 5000)]) for _ in range(40)]
+    g41, g105 = r.choice([0, 1, 5, 10, 11, 12, 200]), r.choice([0, 1, 5, 10, 11, 255])
+    nosvc = r.choice([0, 0, 1])
+    abort_at = r.choice([None, None, None, 0, 3])
+    amp = (r.getrandbits(64), r.getrandbits(64))
+
+    def dispatch(m, a):
+        i = m.seq51
+        m.w32(SYS + 0xB30, seq_a[i % 40])
+        m.w32(SYS + 0xB4C, seq_b[(i * 7) % 40])
+        m.write(SYS + 0x910, ((amp[0] + i * 977) & 0xFFFFFFFFFFFFFFFF).to_bytes(8, "little"))
+        m.write(SYS + 0x970, ((amp[1] + i * 131) & 0xFFFFFFFFFFFFFFFF).to_bytes(8, "little"))
+        m.seq51 = i + 1
+
+    def service(m, a):
+        if abort_at is not None and m.seq51 >= abort_at:
+            m.write(TOUCH_BLK + 0x15, b"\x01")
+
+    def setup(m):
+        m.max_insns = 5_000_000
+        m.seq51 = 0
+        w16s51(m, SYS + 0xA, [hs])
+        w16s51(m, SYS + 0x1E, [n1e])
+        m.write(SYS + 0xC40, b"".join(t.to_bytes(8, "little") for t in tab))
+        m.w32(DREC51, d0)
+        m.w32(DREC51 + 0xC, nd)
+        for i, v in enumerate(freqs):
+            m.w32(DREC51 + 0x10 + 4 * i, v)
+        wd51(m, DREC51 + 0x4C0 - 8, ratios)
+        wd51(m, DREC51 + 0xE20 - 8, phs)
+        m.write(SYS + 0x41, bytes([g41]))
+        m.write(SYS + 0x105, bytes([g105]))
+        m.write(BB51 + 0xAD18, bytes([nosvc]))
+        m.write(TOUCH_BLK + 0x15, b"\x00")
+        wd51(m, BB51 + 0xACF8, [1.5, 2.5])
+    return Case([f], setup=setup, ret=V,
+                stubs=(rec("gen", 0x4004D18C, 0), rec("delay", 0x40042CF0, 1), Stub("svc", 0x40049B08, service, 0),
+                       rec("outputs", 0x4003E708, 0), Stub("acq", 0x400419CC, dispatch, 0)))
+
+
+TESTS[0x4003A044] = t_point51
+
+
+def amp_seq51(r):
+    return [r.choice([0.0, 1.0, 4999.0, 5000.0, LIM51, 5001.0, r.uniform(0, 20000), r.uniform(4000, 6000)])
+            for _ in range(64)]
+
+
+def t_sweep51(r):
+    n = r.choice([0, 1, 2, 9, 10, 11, 99, 100, r.randrange(0, 160)])
+    f0 = r.choice([1, 10, 100, r.randrange(1, 100000)])
+    f1 = r.choice([f0, f0 * 10, r.randrange(1, 60000000)])
+    sa, sb = amp_seq51(r), amp_seq51(r)
+    if r.random() < 0.4:
+        sa = [r.uniform(5000, 9000) for _ in range(64)]
+        sb = [r.uniform(5000, 9000) for _ in range(64)]
+    abort_at = r.choice([None, None, None, 0, 1, r.randrange(0, 50)])
+    t17 = r.choice([0, 0, 0, 0, 1])
+    w4c, w50 = r.getrandbits(32), r.getrandbits(32)
+
+    def point(m, a):
+        i = m.seq51
+        wd51(m, BB51 + 0xACF8, [sa[i % 64], sb[(i * 5) % 64]])
+        m.seq51 = i + 1
+
+    def service(m, a):
+        if abort_at is not None and m.seq51 > abort_at:
+            m.write(TOUCH_BLK + 0x15, b"\x01")
+
+    def setup(m):
+        m.max_insns = 40_000_000
+        m.seq51 = 0
+        m.w32(BB51 + 0x4C, w4c)
+        m.w32(BB51 + 0x50, w50)
+        m.w32(BB51 + 0x54, f0)
+        m.w32(BB51 + 0x58, f1)
+        m.w32(BB51 + 0x5C, n)
+        m.write(TOUCH_BLK + 0x15, b"\x00")
+        m.write(TOUCH_BLK + 0x17, bytes([t17]))
+        m.write(BB51 + 0xAD18, b"\x01")
+    return Case([], setup=setup, ret=V,
+                stubs=(rec("word", 0x4002CCCC, 1), rec("half", 0x4002DC40, 1), rec("dtd", 0x400342CC, 0),
+                       rec("fbb", 0x400342DC, 0), rec("dcache", 0x4003E6F4, 0), rec("colour", 0x4002EA38, 1),
+                       rec("fill", 0x4002ECC4, 4), str_stub("text", 0x4002CE7C, None, 2),
+                       Stub("point", 0x4003A044, point, 1), rec("phase", 0x40039C08, 1),
+                       Stub("svc", 0x40049B08, service, 0)))
+
+
+TESTS[0x4003A300] = t_sweep51
+
+
+def t_calib51(r):
+    nd = r.choice([0, 1, 2, 10, r.randrange(0, 120)])
+    freqs = [r.getrandbits(32) for _ in range(nd + 1)]
+    sa, sb = amp_seq51(r), amp_seq51(r)
+    if r.random() < 0.4:
+        sa = [r.uniform(5000, 9000) for _ in range(64)]
+        sb = [r.uniform(5000, 9000) for _ in range(64)]
+    phs = [r.randrange(-200, 200) for _ in range(nd + 1)]
+    junk = bytes(r.getrandbits(8) for _ in range(0x10))
+
+    def point(m, a):
+        i = m.seq51
+        wd51(m, BB51 + 0xACF8, [sa[i % 64], sb[(i * 5) % 64]])
+        m.seq51 = i + 1
+
+    def phase(m, a):
+        w16s51(m, BB51 + 0x7D68 + 2 * a[0], [phs[a[0] % len(phs)]])
+
+    def setup(m):
+        m.max_insns = 20_000_000
+        m.seq51 = 0
+        m.w32(DREC51 + 0xC, nd)
+        for i, v in enumerate(freqs):
+            m.w32(DREC51 + 0x10 + 4 * i, v)
+        m.write(DREC51 + 0x4C0, junk)
+        m.write(DREC51 + 0xE20, junk)
+    return Case([], setup=setup, ret=V,
+                stubs=(rec("defaults", 0x40037B48, 0), Stub("point", 0x4003A044, point, 1),
+                       Stub("phase", 0x40039C08, phase, 1), rec("save", 0x40043D54, 0)))
+
+
+TESTS[0x40039EB8] = t_calib51

@@ -18,7 +18,7 @@ void delay_ms(u32 ms);
 #define MSG(cx, cy, b) message_box_draw((int)(cx) + TX8((b) + 0x194), (int)(cy) + TX8((b) + 0x195), TX32(b), 0)
 
 void touch_button_update_0B4C(void);
-void func_40039eb8(void);
+void bode_calibrate(void);
 #define TT8(o) (*(volatile unsigned char *)(0x42E180C8u + (o)))
 
 void calibration_b4c_button_handler(void)
@@ -32,7 +32,7 @@ void calibration_b4c_button_handler(void)
     TB(0xB4C) = 0;
     TB(0) = 0;
     MSG(cx, cy, 0x9C00);
-    func_40039eb8();
+    bode_calibrate();
     if (TT8(0xAD19) == 0 || TT8(0xAD1A) == 0)
         MSG(cx, cy, 0xD680);
     else

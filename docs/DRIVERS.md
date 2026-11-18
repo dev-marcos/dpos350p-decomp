@@ -1795,6 +1795,65 @@ screen was not seen on the device.
   the cursor panel as they are, and `frequency_draw` / `voltage_uv_draw` are ready-made unit
   formatters (DERIVED: no app was written yet).
 
+## Bode plot measurement: sweep, point, phase, calibration, scale, curves (batch 51)
+
+Spec: `tools/platform_spec/zt_bode_sweep.py`, 6 functions. Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). That input A is the
+reference (the generator output looped back) and input B the device under test is DERIVED from
+gain = B / A; nothing was measured on the device.
+
+- **Block 0x42E180C8, more fields** (see batch 50 for the plot geometry):
+
+  | Offset | Content |
+  |---|---|
+  | +0x47 | sweep running (cleared when the touch byte +0x15 stops it) |
+  | +0x4C / +0x50 | generator amplitude / offset words for the sweep (copied to 0x42E3F984+0x2F00 / +0x2F04) |
+  | +0x54 / +0x58 / +0x5C | start / end frequency in Hz, number of steps n (n + 1 points) |
+  | +0x60 | linear step (end − start) / n |
+  | +0x68[i] | gain ratio B / A of point i (doubles) |
+  | +0x3EE8[i] | gain in dB, 20 log10 of the ratio (doubles) |
+  | +0x7D68[i] | phase in degrees (s16) |
+  | +0x8D08 / +0x8D10 / +0x8D18 | log10 of start, end, span |
+  | +0x8D20[i] / +0x9CC0[i] | pixel rows of the gain / phase curve (u16) |
+  | +0xACF8 / +0xAD00 | amplitude of input A / B at the current point (doubles); B is divided by the calibration ratio |
+  | +0xAD08 / +0xAD10 | calibration ratio and phase offset used for the current point |
+  | +0xAD18 | set during calibration: no event service between points |
+  | +0xAD19 / +0xAD1A | input A / B reached an amplitude of 5000 at least once in the sweep |
+
+- **`bode_sweep_run`** (0x4003A300): for i = 0..n measures at f = 10^(log10 start + i × span / n)
+  (log spacing), shows "NN%" at (903, 510), and stores ratio, dB and phase. If one of the inputs
+  never reached 5000, all points are reset to ratio 1, 0 dB, phase 0. At 100% the text is not
+  rewritten (the previous "NN%" stays), stock behaviour.
+- **`bode_point_measure(f)`** (0x4003A044):
+  - sets the generator frequency, picks the input coupling (bytes SYS+0x46 / +0x10A = 2 below
+    5 MHz, else 1; reading 2 as AC is OPEN) and the time base SYS+0x588 so that the record covers
+    a few periods;
+  - looks up the calibration entry in record D (0x42E554B0) for f;
+  - then repeats acquisitions, stepping the range bytes SYS+0x41 (A) / +0x105 (B) while the
+    amplitude words SYS+0xB30 / +0xB4C are above 0.8 or below 0.3 of the full scale (u16 SYS+0xA).
+    When a range fits, or cannot move any more, the 64-bit amplitude (SYS+0x910 / +0x970) is
+    taken.
+- **`bode_phase_measure(i)`** (0x40039C08): rising crossings of the trigger level (u16 SYS+0xE) in
+  the two capture buffers (0x42AC7CF4 and +0x62250), at least 8 samples apart. The phase is
+  360 × (mean A→B delay) / (mean period of both inputs) minus the calibration offset, wrapped into
+  −180..180 degrees. The outer 50 steps at both ends of the record are skipped.
+- **`bode_calibrate`** (0x40039EB8): measures every frequency of record D's list (filled by
+  `trace_defaults_37b48`: 1 to 50 MHz in 200 kHz steps) with the calibration neutral. The
+  measured ratio and phase become the new calibration, saved with `settings_d_save` only when both
+  inputs had signal.
+- **`bode_autoscale`** (0x4003963C) fits gain and phase into 0.8 of the plot height. The gain
+  scale is at most 25 pixels per dB (when it would reach 26) and the phase scale at most 3
+  pixels per degree, with a spread of at least 5 degrees. Rows are kept in 3..height, and the
+  axis ranges at +0x10..+0x28 are set to match.
+- **`bode_curves_draw`** (0x40039254) draws both curves as vertical segments between neighbouring
+  points, a legend box ("dB", "deg") and, when an input had no signal, a centred message: UI text
+  129 (no signal on either input), 130 (only B had signal) or 131 (only A had signal). Reading the
+  three texts as "no signal" messages is DERIVED; their content was not checked.
+- **For new apps:** a frequency-response app can call `bode_sweep_run`, `bode_autoscale`,
+  `bode_grid_draw`, `bode_curves_draw` and `bode_cursors_draw` in this order with its own start,
+  end and step values in the block. `bode_point_measure` is a general "set the generator to f and
+  read both amplitudes with auto-range" routine (DERIVED: no app was written yet).
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).
