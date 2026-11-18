@@ -226,13 +226,13 @@ address,size,name,type,evidence_level,source
 0x40030060,136,marker_value_add,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x400300E8,192,func_400300e8,function_arm,DERIVED,analyze.py:prologue
 0x400301A8,56,value_in_table_405456e8,function_arm,DERIVED,this-project:phase5 (ui)
-0x400301E0,2328,func_400301e0,function_arm,DERIVED,analyze.py:rea
-0x40030AF8,1116,func_40030af8,function_arm,DERIVED,analyze.py:rea
+0x400301E0,2328,value_si_scale,function_arm,DERIVED,this-project:phase5 (display)
+0x40030AF8,1116,measure_item_draw,function_arm,DERIVED,this-project:phase5 (display)
 0x40030F54,16,code_40030f54,data,OPEN,analyze.py
 0x40030F64,4,pool_40030f64,literal_pool,DERIVED,analyze.py
 0x40030F68,32,code_40030f68,data,OPEN,analyze.py
 0x40030F88,4,pool_40030f88,literal_pool,DERIVED,analyze.py
-0x40030F8C,400,func_40030f8c,function_arm,DERIVED,analyze.py:rea
+0x40030F8C,400,measure_panel_draw,function_arm,DERIVED,this-project:phase5 (display)
 0x4003111C,16,code_4003111c,data,OPEN,analyze.py
 0x4003112C,8,pool_4003112c,literal_pool,DERIVED,analyze.py
 0x40031134,8,code_40031134,data,OPEN,analyze.py
@@ -243,7 +243,7 @@ address,size,name,type,evidence_level,source
 0x40031160,4,pool_40031160,literal_pool,DERIVED,analyze.py
 0x40031164,12,code_40031164,data,OPEN,analyze.py
 0x40031170,12,pool_40031170,literal_pool,DERIVED,analyze.py
-0x4003117C,1424,func_4003117c,function_arm,DERIVED,analyze.py:rea
+0x4003117C,1424,manual_cursors_draw,function_arm,DERIVED,this-project:phase5 (trace)
 0x4003170C,4,pool_4003170c,literal_pool,DERIVED,analyze.py
 0x40031710,48,colour_toggle_42e68d1a,function_arm,DERIVED,this-project:phase5 (display)
 0x40031740,4,pool_40031740,literal_pool,DERIVED,analyze.py
@@ -266,7 +266,7 @@ address,size,name,type,evidence_level,source
 0x40032B5C,480,channel_freq_measure,function_arm,DERIVED,this-project:phase5 (trace)
 0x40032D3C,192,key_repeat_update,function_arm,DERIVED,this-project:phase5 (ui)
 0x40032DFC,16,pool_40032dfc,literal_pool,DERIVED,analyze.py
-0x40032E0C,4684,func_40032e0c,function_arm,DERIVED,analyze.py:rea
+0x40032E0C,4684,measure_channel,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40034058,36,func_40032e0c_both,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003407C,88,cursor_808_clamp,function_arm,DERIVED,this-project:phase5 (ui)
 0x400340D4,84,cursor_810_clamp,function_arm,DERIVED,this-project:phase5 (ui)

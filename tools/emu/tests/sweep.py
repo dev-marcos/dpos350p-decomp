@@ -2401,3 +2401,188 @@ def t_cur46(r):
 
 
 TESTS[0x40028364] = t_cur46
+
+
+# ================================================================ batch 47: measure_channel
+BUF47 = SYS + 0x260000
+import math as _m47
+
+
+def wave47(r, n, banks):
+    kind = r.choice("sssqqqttrrnc")
+    per = r.choice([4, 7, 16, 33, 64, 100, 250]) * banks
+    lo = r.choice([0, 100, 1000, 20000])
+    amp = r.choice([0, 1, 50, 500, 500, 4000, 4000, 30000, 30000])
+    duty = r.choice([0.1, 0.5, 0.5, 0.8])
+    ph = r.randrange(per)
+    out = []
+    for i in range(n):
+        x = ((i + ph) % per) / per
+        if kind == "s":
+            v = lo + (amp if x < duty else 0)
+        elif kind == "q":
+            v = lo + amp * (0.5 + 0.5 * _m47.sin(2 * _m47.pi * x))
+        elif kind == "t":
+            v = lo + amp * (2 * x if x < 0.5 else 2 - 2 * x)
+        elif kind == "n":
+            v = lo + r.randrange(amp + 1)
+        elif kind == "c":
+            v = lo
+        else:
+            v = lo + (amp if x < duty else 0) + r.randrange(amp // 8 + 1)
+        out.append(int(v) & 0xFFFF)
+    return out
+
+
+def t_meas47(r):
+    g = r.getrandbits
+    ch = r.choice([0, 0, 0, 1, 1, 1]) if r.random() < 0.95 else r.choice([0x100, 0x101])
+    n = r.choice([20, 21, 23, 30, 64, 100, 300, 300, 512, 512, 700, 700, 700])
+    banks = r.choice([1, 1, 1, 2, 2, 3, 4]) if r.random() < 0.97 else r.choice([0, 0xFFFFFFFF])
+    samples = wave47(r, n + 16, max(banks if banks < 100 else 1, 1))
+    data = b"".join(v.to_bytes(2, "little") for v in samples)
+    sh = r.choice([0, 0, 1, 3])
+    words = {
+        0x3E: (1, r.choice([1, 1, 1, 0])), 0x102: (1, r.choice([1, 1, 1, 0])),
+        0x7B4: (4, BUF47), 0x7B8: (4, BUF47), 0x7BC: (4, n | (g(16) << 16 if r.random() < 0.2 else 0)),
+        0x558: (4, banks), 0x1BC: (4, sh), 0x1C0: (4, (1 << sh) if r.random() < 0.8 else r.choice([1, 2, 4, 16])),
+        0x60: (4, r.choice([0, 0, 100, 2048, 0xFFFFFF00, g(32)])),
+        0x120: (4, r.choice([0, 0, 100, 2048, 0xFFFFFF00, g(32)])),
+        0x50: (8, r.choice([1, 3, 1000, 123456, g(20), (1 << 64) - 5])),
+        0x110: (8, r.choice([1, 3, 1000, 123456, g(20), (1 << 64) - 5])),
+        0x20: (2, r.choice([1, 25, 50, 100, 1000])), 0x27E: (2, r.choice([0, 50, 600, 2000, 0x8000, g(16)])),
+        0x27C: (1, r.choice([0, 1, 2, 2, 2])), 0x590: (8, r.choice([1, 1000, 10 ** 6, 10 ** 6 + 1, 5 * 10 ** 8, 2 * 10 ** 12])),
+        0x1C: (2, r.choice([1, 10, 100, 1000, 0])),
+        0x86A: (2, r.choice([0, 1, 4, 9, 0xFFFF])), 0x86C: (2, r.choice([0, 1, 4, 9])),
+        0x86E: (2, r.choice([1, 1, 2, 5, 10])), 0x870: (2, r.choice([1, 2, 5, 10])),
+        0xB28 + 0x18: (4, r.choice([0, 5, 50, 1000, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF])),
+        0xB44 + 0x18: (4, r.choice([0, 5, 50, 1000, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF])),
+    }
+    sums = bytes(g(8) if r.random() < 0.3 else 0 for _ in range(0xC0))
+
+    def setup(m):
+        m.write(BUF47, data)
+        m.write(SYS + 0xA68, sums)
+        for o, (sz, v) in words.items():
+            m.write(SYS + o, (v & ((1 << (8 * sz)) - 1)).to_bytes(sz, "little"))
+    return Case([ch], setup=setup, ret=0)
+
+
+TESTS[0x40032E0C] = t_meas47
+
+
+# ================================================================ batch 47b: measurement display
+OUT47 = SYS + 0x270000
+
+
+def mag47(r):
+    e = r.randrange(0, 19)
+    base = 10 ** e
+    v = r.choice([base, base - 1, base + 1, r.randrange(base, base * 10), r.getrandbits(r.choice([8, 20, 40, 63])),
+                  base // 2, base // 2 + 1, 0, 5, 50, 51, 501])
+    if e >= 4 and r.random() < 0.3:
+        d = 10 ** (e - 3)
+        v = r.randrange(base, base * 10) // d * d + d // 2 + r.choice([0, 1])
+    if r.random() < 0.4:
+        v = -v
+    if r.random() < 0.02:
+        v = -2 ** 63
+    return v & 0xFFFFFFFFFFFFFFFF
+
+
+def t_sisc47(r):
+    v = mag47(r)
+    kind = r.choice(list(range(0, 14)) + [r.getrandbits(32)])
+    if r.random() < 0.5:
+        e = r.randrange(4, 14)
+        d = 10 ** (e - 3)
+        v = r.randrange(10 ** e, 10 ** (e + 1)) // d * d + d // 2 + r.choice([0, 1])
+        kind = r.choice([1, 3, 6, 7, 8, 9, 10, 7, 8, 9, 10])
+        if r.random() < 0.3:
+            v = -v
+        v &= 0xFFFFFFFFFFFFFFFF
+    d0, p0 = r.getrandbits(32), r.getrandbits(32)
+
+    def setup(m):
+        m.w32(OUT47 + 8, d0)
+        m.w32(OUT47 + 12, p0)
+    return Case([kind, r.getrandbits(32), v & 0xFFFFFFFF, v >> 32], setup=setup, ret=0,
+                stack=[OUT47, OUT47 + 8, OUT47 + 12])
+
+
+TESTS[0x400301E0] = t_sisc47
+
+
+def text_be4(r, name, addr):
+    seq = [r.getrandbits(16) for _ in range(8)]
+
+    def fn(m, a):
+        a = regs(m, 3)
+        b = m.read(a[2], 8)
+        m.calls.append((name, a[0], a[1], b[:b.index(0) if 0 in b else 8]))
+        m.write(0x42E68BE4, seq[m.nt % 8].to_bytes(2, "little"))
+        m.nt += 1
+    return Stub(name, addr, fn, 0)
+
+
+def t_mitem47(r):
+    vals = b"".join(mag47(r).to_bytes(8, "little") for _ in range(24))
+    be4 = r.getrandbits(16)
+
+    def setup(m):
+        m.nt = 0
+        m.write(SYS + 0x9A8, vals)
+        m.write(0x42E68BE4, be4.to_bytes(2, "little"))
+    return Case([r.getrandbits(r.choice([10, 16, 32])), r.getrandbits(r.choice([10, 16, 32])),
+                 r.choice([0, 0, 1, 1, 2, 0x100]), r.choice(list(range(1, 13)) + [7, 7, 8])], setup=setup, ret=0,
+                stubs=(rec("half", 0x4002DC40, 1), rec("colour", 0x4002EA38, 1), rec("font", 0x4002CCCC, 1),
+                       text_be4(r, "text", 0x4002CE7C), rec_stk("num", 0x4002D6F8, 1)))
+
+
+TESTS[0x40030AF8] = t_mitem47
+
+
+def t_mpanel47(r):
+    n = r.choice([0, 1, 2, 5, 6, 7, 11, 12, 18, 23, 24])
+    items = [r.choice([1, -1]) * r.randrange(1, 13) for _ in range(n)] + [0] * (24 - n)
+    if r.random() < 0.1:
+        items[r.randrange(24)] = r.choice([0x7FFF, -0x8000, 0])
+    data = b"".join((v & 0xFFFF).to_bytes(2, "little") for v in items) + bytes([r.getrandbits(8), r.getrandbits(8)])
+    t17 = r.choice([0, 0, 0, 0, 1])
+    s29 = r.choice([0, 0, 0, 0, 1])
+
+    def setup(m):
+        m.write(SYS + 0x880, data)
+        m.w8(0x42E68BB0 + 0x17, t17)
+        m.w8(SYS + 0x29, s29)
+    return Case([], setup=setup, ret=0,
+                stubs=(rec("colour", 0x4002EA38, 1), rec("rect", 0x4002ECC4, 4), rec("span", 0x4002EBA8, 3),
+                       rec("item", 0x40030AF8, 4)))
+
+
+TESTS[0x40030F8C] = t_mpanel47
+
+
+# ================================================================ batch 47c: manual cursors
+def t_mcur47(r):
+    g = r.getrandbits
+    st = geom46(r)
+    f = {0x652: r.choice([0, 0, 0, 0, 1]), 0x28: r.choice([0, 0, 1]), 0x3C: r.choice([0, 1, 1]),
+         0x802: r.choice([0, 1, 1]), 0x803: r.choice([0, 1, 1]), 0x2AA: r.choice([0, 0, 1])}
+    w = {o: r.choice([0, 3, 100, 400, g(10), g(32), 0xFFFFFFF0]) for o in (0x808, 0x80C, 0x810, 0x814)}
+    t17 = r.choice([0, 0, 0, 0, 1])
+
+    def setup(m):
+        st(m)
+        for o, v in f.items():
+            m.w8(SYS + o, v)
+        for o, v in w.items():
+            m.w32(SYS + o, v)
+        m.w8(0x42E68BB0 + 0x17, t17)
+    return Case([], setup=setup, ret=0,
+                stubs=(rec("colour", 0x4002EA38, 1), rec("rect", 0x4002ECC4, 4), rec("font", 0x4002CCCC, 1),
+                       rec("half", 0x4002DC40, 1), str_stub("text", 0x4002CE7C, si=2), rec("span", 0x4002EBA8, 3),
+                       rec("vline", 0x4002EBC8, 3)))
+
+
+TESTS[0x4003117C] = t_mcur47

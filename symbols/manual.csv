@@ -1176,3 +1176,8 @@ address,name,type,evidence_level,source,note
 0x40029BC0,ui_usb_connect_screen,function,DERIVED,this-project:phase5 (ui),
 0x400292E4,ui_language_menu_draw,function,DERIVED,this-project:phase5 (ui),
 0x40028364,time_cursors_draw,function,DERIVED,this-project:phase5 (trace),
+0x40032E0C,measure_channel,function,DERIVED,this-project:phase5 (acquisition),
+0x400301E0,value_si_scale,function,DERIVED,this-project:phase5 (display),
+0x40030AF8,measure_item_draw,function,DERIVED,this-project:phase5 (display),
+0x40030F8C,measure_panel_draw,function,DERIVED,this-project:phase5 (display),
+0x4003117C,manual_cursors_draw,function,DERIVED,this-project:phase5 (trace),

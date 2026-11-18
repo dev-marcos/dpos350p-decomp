@@ -235,8 +235,8 @@ void traces_update(void);
 void zoom_views_update(void);
 void func_40042520(void);
 void func_40023ea4_or_40024c60(void);
-void func_4003117c(void);
-void func_40030f8c(void);
+void manual_cursors_draw(void);
+void measure_panel_draw(void);
 void func_40031794(void);
 void func_40028364_unless_t17(void);
 
@@ -250,8 +250,8 @@ void ui_frame_chain(void)
     zoom_views_update();
     func_40042520();
     func_40023ea4_or_40024c60();
-    func_4003117c();
-    func_40030f8c();
+    manual_cursors_draw();
+    measure_panel_draw();
     func_40031794();
     func_40028364_unless_t17();
 }

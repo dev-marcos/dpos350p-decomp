@@ -1593,6 +1593,72 @@ These are complete screens, so they show how a screen is put together.
 - **Generated gates.** `func_40024c60_unless_t17` and `func_40028364_unless_t17`
   (`w_small_sweep.py`) now call the new names.
 
+## Automatic measurements, SI scaling, measurement panel, manual cursors (batch 47)
+
+Specs: `tools/platform_spec/zp_measure.py`, 5 functions. Tests: `tools/emu/tests/sweep.py`.
+All facts here are STATIC-CONFIRMED from the code and checked in the emulator (EQUIVALENT).
+What the values mean on the real probe is DERIVED and was not measured on the device.
+
+- **`measure_channel(ch)`** (0x40032E0C) computes the 12 measurements of channel 0 or 1 from
+  the capture buffer (word SYS+0x7B4 + 4*ch, sample count u16 SYS+0x7BC).
+  - Channel 0 / channel 1:
+
+    | Data | Channel 0 | Channel 1 |
+    |---|---|---|
+    | enable byte | SYS+0x3E | SYS+0x102 |
+    | offset (s32) / scale (s64) | SYS+0x60 / SYS+0x50 | SYS+0x120 / SYS+0x110 |
+    | raw block (u32: max, min, range, mid, glitches, -, hysteresis) | SYS+0xB28 | SYS+0xB44 |
+    | results, 12 x s64 | SYS+0x8E8 | SYS+0x948 |
+    | sums for the average, 12 x s64 | SYS+0xA68 | SYS+0xAC8 |
+    | averages, 12 x s64 (what the screen shows) | SYS+0x9A8 | SYS+0xA08 |
+    | counter / limit (u16) / "average ready" byte | SYS+0x86A / SYS+0x86E / SYS+0x872 | SYS+0x86C / SYS+0x870 / SYS+0x873 |
+
+  - Result index (measurement number - 1) and unit:
+
+    | # | Label | Meaning | Unit |
+    |---|---|---|---|
+    | 1 | MAX | highest level | uV |
+    | 2 | MIN | lowest level | uV |
+    | 3 | AVG | mean | uV |
+    | 4 | RMS | root mean square | uV |
+    | 5 | VP | peak (MAX or MIN, whichever is larger in size) | uV |
+    | 6 | VPP | MAX - MIN | uV |
+    | 7 | F | frequency = 1e15 / period | mHz |
+    | 8 | T | period | ps |
+    | 9 | T+ | high time | ps |
+    | 10 | T- | low time | ps |
+    | 11 | Dt+ | duty cycle, high | 1/10000 (100.00 %) |
+    | 12 | Dt- | 10000 - Dt+ | 1/10000 |
+
+  - The samples are split into W32(SYS+0x558) interleaved banks. Edges are found against the
+    trigger level S16(SYS+0x27E) when SYS+0x27C is this channel, else against the middle level;
+    a jump larger than the hysteresis word (raw block +0x18) counts as a glitch. A bank with at
+    most one edge each way is "invalid" and uses all its samples for RMS and mean.
+  - The time base is Q64 SYS+0x590 divided by u16 SYS+0x1C, the level scale divides by u16
+    SYS+0x20. Each call adds the results to the sums; when the counter reaches the limit the
+    averages are written, the sums cleared and the "ready" byte set.
+- **`value_si_scale(kind, -, v, &out, &dec, &prefix)`** (0x400301E0) chooses the divisor,
+  decimals and prefix index (0..4 = u, m, -, k for volts; mHz, Hz, kHz, MHz, GHz; ps, ns, us,
+  ms, s). Kinds 1..6 truncate, kinds 7..10 round half up. Trailing zero decimals are dropped.
+- **`measure_item_draw(x, y, ch, kind)`** (0x40030AF8) draws one readout: grey label, a sign for
+  MAX / MIN / AVG / VP, the number in font 0x42E66718 and the unit. Colour 0xFFFF00 for channel 0,
+  0x00FFFF for channel 1. The stock unit strings are "KHz", "pS", "nS", "uS", "mS", "S".
+- **`measure_panel_draw()`** (0x40030F8C): the list of chosen measurements is 24 s16 at
+  SYS+0x880 (0 ends the list, a negative item means channel 1). Six per row, rows going up from
+  y = 0x206, boxes in 0x44333333 (alpha 0x44).
+- **`manual_cursors_draw()`** (0x4003117C): the H1/H2 time cursors (enable SYS+0x802,
+  x positions SYS+0x808 / SYS+0x80C) and the V1/V2 level cursors (enable SYS+0x803,
+  y positions SYS+0x810 / SYS+0x814), dotted grey lines with markers.
+- **For a new app.** To add a measurement readout: enable the channel, put the item number in
+  the list at SYS+0x880 and let the stock loop call `measure_channel`; the average at
+  SYS+0x9A8 / SYS+0xA08 + 8*(n-1) is the value to show.
+- **OPEN:**
+  - 0x400300E8 (remove an item from the measurement list) shifts the list starting from an
+    uninitialised register when the item is not found; not rewritten.
+  - `measure_item_draw`: for |v| >= 1e14 the stock code leaves the decimals and prefix
+    uninitialised; here they start at 0. Kinds outside 1..12 read the caller's registers and are
+    not tested.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

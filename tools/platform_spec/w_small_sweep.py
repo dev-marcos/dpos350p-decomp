@@ -387,13 +387,13 @@ void func_4002d2d4_d0(u32 a, u32 b, u32 c)
 """, src="display")
 w(0x40034058, 36, "func_40032e0c_both", "0x40032D3C, then 0x40032E0C(0) and 0x40032E0C(1).", """
 void key_repeat_update(void);
-void func_40032e0c(u32 a);
+void measure_channel(u32 a);
 
 void func_40032e0c_both(void)
 {
     key_repeat_update();
-    func_40032e0c(0);
-    func_40032e0c(1);
+    measure_channel(0);
+    measure_channel(1);
 }
 """)
 w(0x400301A8, 56, "value_in_table_405456e8",

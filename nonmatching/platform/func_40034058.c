@@ -8,11 +8,11 @@
 #include "hw/fpga.h"
 
 void key_repeat_update(void);
-void func_40032e0c(u32 a);
+void measure_channel(u32 a);
 
 void func_40032e0c_both(void)
 {
     key_repeat_update();
-    func_40032e0c(0);
-    func_40032e0c(1);
+    measure_channel(0);
+    measure_channel(1);
 }

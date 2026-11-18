@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1129 | 83.38% | 153798 | 45.57% |
+| EQUIVALENT | 1134 | 83.75% | 163750 | 48.52% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 225 | 16.62% | 183706 | 54.43% |
+| ASM | 220 | 16.25% | 173754 | 51.48% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1129 (84.32%) | 337104 | 153798 (45.62%) |
+| main code | 1339 | 1134 (84.69%) | 337104 | 163750 (48.58%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -139,10 +139,15 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40030008` | touch_button_update_0C28 | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_40030008.c` |
 | `0x40030060` | marker_value_add | 136 | EQUIVALENT | 200 | `nonmatching/platform/func_40030060.c` |
 | `0x400301A8` | value_in_table_405456e8 | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_400301a8.c` |
+| `0x400301E0` | value_si_scale | 2328 | EQUIVALENT | 200 | `nonmatching/platform/func_400301e0.c` |
+| `0x40030AF8` | measure_item_draw | 1116 | EQUIVALENT | 200 | `nonmatching/platform/func_40030af8.c` |
+| `0x40030F8C` | measure_panel_draw | 400 | EQUIVALENT | 200 | `nonmatching/platform/func_40030f8c.c` |
+| `0x4003117C` | manual_cursors_draw | 1424 | EQUIVALENT | 200 | `nonmatching/platform/func_4003117c.c` |
 | `0x40031710` | colour_toggle_42e68d1a | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_40031710.c` |
 | `0x40032A58` | channel_minmax_stats | 228 | EQUIVALENT | 200 | `nonmatching/platform/func_40032a58.c` |
 | `0x40032B5C` | channel_freq_measure | 480 | EQUIVALENT | 200 | `nonmatching/platform/func_40032b5c.c` |
 | `0x40032D3C` | key_repeat_update | 192 | EQUIVALENT | 200 | `nonmatching/platform/func_40032d3c.c` |
+| `0x40032E0C` | measure_channel | 4684 | EQUIVALENT | 200 | `nonmatching/platform/func_40032e0c.c` |
 | `0x40034058` | func_40032e0c_both | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_40034058.c` |
 | `0x4003407C` | cursor_808_clamp | 88 | EQUIVALENT | 200 | `nonmatching/platform/func_4003407c.c` |
 | `0x400340D4` | cursor_810_clamp | 84 | EQUIVALENT | 200 | `nonmatching/platform/func_400340d4.c` |
