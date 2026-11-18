@@ -2110,3 +2110,175 @@ def t_galpha(r):
 
 
 TESTS[0x4002EE78] = t_galpha
+
+
+# ================================================================ batch 45: SD update check, flash read / RMW
+SPIBUF45 = SYS + 0x220000
+SRC45 = SYS + 0x230000
+SECTOR45 = 0x42E5E010
+IMAGE45 = 0x41E7B9C8
+
+
+def t_pread(r):
+    dev = r.choice([0, 1, 2, r.getrandbits(32)])
+    addr = r.choice([0, 0xA8000, r.getrandbits(24), r.getrandbits(32)])
+    n = r.choice([0, 1, 4, 16, 64])
+    four = r.choice([0, 0, 1, r.getrandbits(32)])
+    mode = r.choice([0, 0, 1, 1, 2, 0xFFFFFFFF, 0x80000000, 0x7FFFFFFF])
+    data = bytes(r.getrandbits(8) for _ in range(n))
+    res = r.choice([0, 0, 0, 0xFFFFFFFF, 1, 0x80000000])
+
+    def wtr(m, a):
+        a = regs(m, 4)
+        nrx = m.r32(m.reg(A.UC_ARM_REG_SP))
+        m.calls.append(("wtr", a[0], m.read(a[1], a[2] & 0xFF) if a[2] < 16 else a[2], a[2], a[3], nrx))
+        m.write(a[3], data[:nrx])
+        return res
+
+    def setup(m):
+        m.w32(0x42E68CD4, four)
+        m.w32(0x42E68CC4, mode)
+    return Case([dev, addr, SPIBUF45, n], setup=setup, ret=R,
+                stubs=(rec("sel", 0x4004302C, 1), rec("desel", 0x40043088, 1), Stub("wtr", 0x40043360, wtr, 0)))
+
+
+TESTS[0x40043620] = t_pread
+
+
+def t_prmw(r):
+    dev = r.choice([0, 1, r.getrandbits(32)])
+    off = r.choice([0, 0, 1, 0xFFF, 0x800, r.getrandbits(12)])
+    addr = (r.getrandbits(r.choice([8, 12, 20])) << 12) | off
+    n = r.choice([0, 1, 2, 0x10, 0x1000 - off, 0x1001 - off, 0x1000, 0x1001, 0x2000, r.randrange(1, 0x3000)])
+    src = bytes(r.getrandbits(8) for _ in range(n))
+    blocks = []
+    for _ in range(5):
+        k = r.choice("ffffxr")
+        b = bytearray(b"\xff" * 0x1000)
+        if k == "x":
+            for _ in range(r.choice([1, 1, 3])):
+                b[r.randrange(0x1000)] = r.getrandbits(8)
+        elif k == "r":
+            b = bytearray(r.getrandbits(8) for _ in range(0x1000))
+        blocks.append(bytes(b))
+
+    def pread(m, a):
+        m.calls.append(("pread",) + tuple(a))
+        m.write(a[2], blocks[m.nread % len(blocks)])
+        m.nread += 1
+        return 0
+
+    def setup(m):
+        m.nread = 0
+        m.write(SRC45, src)
+        m.write(SECTOR45, bytes(r2 & 0xFF for r2 in range(0x1000)))
+    return Case([dev, addr, SRC45, n], setup=setup, ret=0,
+                stubs=(Stub("pread", 0x40043620, pread, 4), rec("erase", 0x40043564, 2),
+                       rec("wpaged", 0x4004380C, 4)))
+
+
+TESTS[0x40043874] = t_prmw
+
+
+def chk45(data):
+    """The nine big-endian checksums sd_update_check expects after data."""
+    s = [0] * 9
+    for i, c in enumerate(data):
+        s[0] += c
+        for k in range(8):
+            if c & (0x80 >> k):
+                s[1 + k] += i
+    return b"".join((v & 0xFFFFFFFF).to_bytes(4, "big") for v in s)
+
+
+def name45(r):
+    return r.choice([b"fw.iso", b"fw.iso", b"DPOS350P.iso", b"DPOS350P.iso", b"a.iso", b"a.iso", b"x.ISO", b".iso", b"a.b.iso", b"a.isox", b"ab.is",
+                     b"readme.txt", b"noext", b"iso", b"q.iso", b"x" * 250 + b".iso", b"x" * 300 + b".iso"])[:255]
+
+
+def t_sdup(r):
+    ents = []
+    for _ in range(r.choice([0, 1, 1, 2, 3, 5])):
+        nm = name45(r)
+        size = r.choice([0, 999, 0x1024, 0x1025, r.randrange(0x1025, 0x1400)]) | (r.choice([0, 0, 1]) << 32)
+        ents.append((nm, size, r.choice([0, 0, 0, 0, 1])))
+    if r.random() < 0.6:
+        ents.insert(r.randrange(len(ents) + 1), (r.choice([b"fw.iso", b"DPOS350P.iso"]),
+                                                 r.choice([0x1024, r.randrange(0x1025, 0x1400)]), 0))
+    if r.random() < 0.7:
+        ents.append((b"", 0, 0))
+    hdr = bytearray(r.getrandbits(8) for _ in range(0x1000))
+    hdr[:8] = b"DPOS350P"
+    if r.random() < 0.2:
+        hdr[r.randrange(9)] ^= 1 << r.randrange(8)
+    sizes = [e[1] & 0xFFFFFFFF for e in ents if e[1] & 0xFFFFFFFF >= 0x1024]
+    n = (r.choice(sizes) if sizes else 0x1100) - 0x1000
+    body = bytes(r.choice([0, 0xFF, r.getrandbits(8)]) for _ in range(n - 36))
+    tail = bytearray(chk45(body))
+    if r.random() < 0.3:
+        tail[r.randrange(36)] ^= 1 << r.randrange(8)
+    payload = body + bytes(tail)
+    open_ret = r.choice([0, 0, 0, 4])
+    dir_ret = r.choice([0, 0, 5])
+
+    def opendir(m, a):
+        a = regs(m, 2)
+        m.calls.append(("opendir", m.read(a[1], 3)))
+        return dir_ret
+
+    def readdir(m, a):
+        a = regs(m, 2)
+        m.calls.append(("readdir",))
+        if m.closed:
+            return 9
+        if not m.ents:
+            return 1
+        nm, size, ret = m.ents.pop(0)
+        m.write(a[1], size.to_bytes(8, "little"))
+        m.write(a[1] + 0x1A, nm + b"\0")
+        return ret
+
+    def closedir(m, a):
+        m.closed = True
+        m.calls.append(("closedir",))
+
+    def path(m, p):
+        b = m.read(p, 256)
+        return b[:b.index(0)] if 0 in b else b
+
+    def fopen(m, a):
+        a = regs(m, 3)
+        m.calls.append(("open", path(m, a[1]), a[2] & 0xFF))
+        return open_ret
+
+    def fread(m, a):
+        a = regs(m, 4)
+        m.calls.append(("read", a[1], a[2], a[3]))
+        d = (bytes(hdr), payload)[min(m.nread, 1)]
+        m.nread += 1
+        m.write(a[1], d[:a[2]])
+        return 0
+
+    def lseek(m, a):
+        a = regs(m, 4)
+        m.calls.append(("lseek", a[2], a[3]))
+        return 0
+
+    def unlink(m, a):
+        a = regs(m, 1)
+        m.calls.append(("unlink", path(m, a[0])))
+        return 0
+
+    def setup(m):
+        m.ents = list(ents)
+        m.closed = False
+        m.nread = 0
+    return Case([], setup=setup, ret=0,
+                stubs=(Stub("opendir", 0x4005AA2C, opendir, 0), Stub("readdir", 0x4005AB48, readdir, 0),
+                       Stub("closedir", 0x4005AB20, closedir, 0), Stub("open", 0x40059B8C, fopen, 0),
+                       Stub("read", 0x40059F7C, fread, 0), Stub("lseek", 0x4005A6CC, lseek, 0),
+                       rec("close", 0x4005A694, 0), Stub("unlink", 0x4005AD8C, unlink, 0),
+                       rec("memclr", 0x40068E5C, 2), rec("rmw", 0x40043874, 4), rec("reset", 0x40067574, 0)))
+
+
+TESTS[0x4004F134] = t_sdup

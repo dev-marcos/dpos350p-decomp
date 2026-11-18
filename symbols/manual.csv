@@ -1159,3 +1159,6 @@ address,name,type,evidence_level,source,note
 0x4002D2D4,number_text_width,function,DERIVED,this-project:phase5 (display),
 0x4002D82C,number_draw,function,DERIVED,this-project:phase5 (display),
 0x4002EE78,glyph_alpha_draw,function,DERIVED,this-project:phase5 (display),
+0x40043620,persistence_read,function,DERIVED,this-project:phase5 (spi),
+0x40043874,persistence_write_read_modify_write,function,DERIVED,this-project:phase5 (spi),
+0x4004F134,sd_update_check,function,DERIVED,this-project:phase5 (storage),

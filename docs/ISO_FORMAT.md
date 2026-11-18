@@ -68,6 +68,10 @@ The footer is 9 × uint32 big-endian over `iso[0x1000 : len-36]`, with indices r
 Everything is taken mod 2³². This is reproduced exactly by `dposiso.py`; the algorithm is
 documented upstream in `third_party/FNIRSI-DPOS350P-Hack/docs/checksum.md`.
 
+The firmware checks the same footer and the `DPOS350P` header when it finds a `*.iso` in the SD
+root at start-up (`sd_update_check`, 0x4004F134, see `DRIVERS.md` batch 45). An invalid file
+is deleted; a valid one starts an update.
+
 ## Build pipeline (Phase 1)
 
 ```

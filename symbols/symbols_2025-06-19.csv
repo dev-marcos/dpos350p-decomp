@@ -744,12 +744,12 @@ address,size,name,type,evidence_level,source
 0x400434F4,32,spi_flash_wait_ready,function_arm,DERIVED,this-project:phase5 (spi)
 0x40043514,80,spi_flash_write_enable,function_arm,DERIVED,this-project:phase5 (spi)
 0x40043564,188,spi_flash_sector_erase,function_arm,DERIVED,this-project:phase5 (spi)
-0x40043620,256,persistence_read,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:636
+0x40043620,256,persistence_read,function_arm,DERIVED,this-project:phase5 (spi)
 0x40043720,12,pool_40043720,literal_pool,DERIVED,analyze.py
 0x4004372C,200,spi_flash_page_program,function_arm,DERIVED,this-project:phase5 (spi)
 0x400437F4,24,pool_400437f4,literal_pool,DERIVED,analyze.py
 0x4004380C,104,spi_flash_write_paged,function_arm,DERIVED,this-project:phase5 (spi)
-0x40043874,260,persistence_write_read_modify_write,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:637
+0x40043874,260,persistence_write_read_modify_write,function_arm,DERIVED,this-project:phase5 (spi)
 0x40043978,40,pool_40043978,literal_pool,DERIVED,analyze.py
 0x400439A0,56,settings_a_fields,function_arm,DERIVED,this-project:phase5 (settings)
 0x400439D8,52,settings_a_save,function_arm,DERIVED,this-project:phase5 (settings)
@@ -931,7 +931,7 @@ address,size,name,type,evidence_level,source
 0x4004EEEC,36,fpga_cmd63_write,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4004EF10,468,func_4004ef10,function_arm,DERIVED,analyze.py:rea
 0x4004F0E4,80,pool_4004f0e4,literal_pool,DERIVED,analyze.py
-0x4004F134,1116,func_4004f134,function_arm,DERIVED,analyze.py:rea
+0x4004F134,1116,sd_update_check,function_arm,DERIVED,this-project:phase5 (storage)
 0x4004F590,12,pool_4004f590,literal_pool,DERIVED,analyze.py
 0x4004F59C,36,fpga_probe_and_copy_7fc,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4004F5C0,36,security_check_and_copy,function_arm,DERIVED,this-project:phase5 (acquisition)

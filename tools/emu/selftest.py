@@ -489,6 +489,24 @@ MUTANTS = [
     (0x4002EE78, '                if (a < 3)', '                if (a < 2)'),
     (0x4002EE78, '                            pg = pg * 4 + 3;', '                            pg = pg * 4 + 2;'),
     (0x4002EE78, '        idx += 1022;', '        idx += 1024;'),
+    # batch 45: SD update check, flash read and RMW
+    (0x40043620, '        cmd[0] = mode == 1 ? 0x3B : 0x03;', '        cmd[0] = mode == 2 ? 0x3B : 0x03;'),
+    (0x40043620, '        cmd[0] = mode == 1 ? 0x3C : 0x13;', '        cmd[0] = mode == 1 ? 0x3C : 0x12;'),
+    (0x40043620, '    if (mode > 0)\n        cmd[n++] = 0;', '    if (mode > 1)\n        cmd[n++] = 0;'),
+    (0x40043620, '    if (READ_MODE > 0)\n        READ_MODE = 0;', '    if (READ_MODE > 1)\n        READ_MODE = 0;'),
+    (0x40043620, '        cmd[1] = addr >> 24;', '        cmd[1] = addr >> 16;'),
+    (0x40043874, '            if (SECTOR_BUF[off + i] != 0xFF)', '            if (SECTOR_BUF[off + i] != 0xFE)'),
+    (0x40043874, '        chunk = (unsigned short)len;', '        chunk = (unsigned char)len;'),
+    (0x40043874, '        chunk = len < 0x1001 ? (unsigned short)len : 0x1000;', '        chunk = len < 0x1001 ? (unsigned short)len : 0xFFF;'),
+    (0x40043874, '            spi_flash_write_paged(dev, addr, (u32)buf, (unsigned short)chunk);', '            spi_flash_write_paged(dev, sector << 12, (u32)buf, (unsigned short)chunk);'),
+    (0x4004F134, '        if (l == 0)\n            continue;', '        if (l == 1)\n            continue;'),
+    (0x4004F134, '            info.fname[l + 4] == 0) {', '            1) {'),
+    (0x4004F134, '    if (size < 1000) {', '    if (size < 999) {'),
+    (0x4004F134, '    m = n - 36;', '    m = n - 37;'),
+    (0x4004F134, '            if (c & (0x80u >> k))\n                sum[1 + k] += i;', '            if (c & (0x80u >> k))\n                sum[1 + k] += c;'),
+    (0x4004F134, '        want[k] = be32(e + 4 * k);', '        want[k] = be32(e + 4 * (k ^ 1));'),
+    (0x4004F134, '    persistence_write_read_modify_write(0, 0xA8000,', '    persistence_write_read_modify_write(0, 0xA9000,'),
+    (0x4004F134, '    if (dir_open)\n        f_closedir(dir);', '    if (!dir_open)\n        f_closedir(dir);'),
 ]
 
 

@@ -1500,6 +1500,52 @@ put text and numbers on the screen is in C.
   skipped, and anything else blends the colour bytes 0x42E6865D..F into the screen pixel. The
   coverage is first scaled by 255 - byte 0x42E6865C and lowered by u16 0x42E68BE6.
 
+## SD-card update check, flash read and read-modify-write (batch 45)
+
+Spec: `tools/platform_spec/zn_sd_update.py`, 3 functions. Tests: `tools/emu/tests/sweep.py`.
+
+| Function | Signature (DERIVED names) | What it does |
+|---|---|---|
+| `sd_update_check` 0x4004F134 | `void (void)` | looks for an update `.iso` in the SD root; called once by `main` (0x40034700) |
+| `persistence_read` 0x40043620 | `int (u32 dev, u32 addr, u8 *buf, u32 len)` | SPI flash read; 0 or -1 |
+| `persistence_write_read_modify_write` 0x40043874 | `void (u32 dev, u32 addr, const u8 *buf, u32 len)` | SPI flash write that keeps the rest of each 4 KB sector |
+
+- **What `sd_update_check` does** (STATIC-CONFIRMED from the code):
+  1. `f_opendir("0:")`, then `f_readdir` until an error or an empty name. A name matches when
+     the text after its **first** '.' is exactly `iso` in lower case and at least one character
+     comes before the dot (`fw.iso` and `DPOS350P_TEST.iso` match; `x.ISO`, `a.b.iso` and `.iso`
+     do not). On a match the directory is closed and the file is opened for reading. The scan
+     then goes on, but `f_readdir` on the closed directory fails, so it stops.
+  2. The size (low 32 bits only) must be at least 1000 bytes, and the first 4 KB, read into
+     0x41E7B9C8, must start with `DPOS350P` (string at 0x40093EF0).
+  3. The rest of the file (from offset 0x1000) is read into 0x41E7B9C8 over the header. Its last
+     36 bytes are checked against the footer described in `ISO_FORMAT.md`: 9 big-endian sums.
+  4. All nine match: the 4 KB buffer 0x42E59B10 is cleared, written to SPI flash 0xA8000
+     (`persistence_write_read_modify_write(0, 0xA8000, buf, 0x1000)`), and
+     `wdt_system_reset` restarts the device. The file is kept.
+  5. Any check fails (too small, wrong header, wrong footer): the file is **deleted**
+     (`f_unlink`).
+- **Footer confirmed on the stock file.** `build/isochk45.py` runs the same check on
+  `build/DPOS350P.iso`: the header is `DPOS350P` and all nine sums match. The format that
+  `tools/dposiso.py` packs is therefore the one the firmware accepts (STATIC-CONFIRMED).
+- **Safety note.** A `*.iso` in the SD root is acted on at every start: a valid one starts an
+  update and an invalid one is deleted. `DPOS350P_TEST.iso` has a valid footer and a matching
+  name, so copying it to the SD root would install it. It must never be put on the card.
+- **OPEN.** Who reads the flash sector at 0xA8000 after the reset, and how the update is
+  installed. 0xA8000 occurs only as this one immediate in the application, so it is probably
+  read by the boot code, which is not part of this image. Without that code the full update
+  path cannot be reproduced.
+- **`persistence_read`**: command 0x03 + 3 address bytes, or 0x13 + 4 address bytes when the
+  word 0x42E68CD4 (4-byte addressing) is set. When the word 0x42E68CC4 is 1, the command is 0x3B
+  / 0x3C (dual-output fast read); when it is positive, a dummy byte follows the address. After
+  the read the word is set back to 0, so the mode lasts for one read only.
+- **`persistence_write_read_modify_write`**: per 4 KB sector, it reads the sector into
+  0x42E5E010.
+  - When every target byte is 0xFF, it programs the new bytes directly.
+  - Otherwise it erases the sector, merges the new bytes into the copy and programs the whole
+    sector.
+  - The first chunk runs to the end of the sector; later chunks are up to 0x1000 bytes.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).
