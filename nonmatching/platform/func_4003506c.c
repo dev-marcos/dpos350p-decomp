@@ -1,7 +1,7 @@
 /*
  * list_a_save_new -- stock 0x4003506C (136 bytes, ARM)
  * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
- * Saves a screenshot: screenshot_thumb_make, shows a message box (text pointer word at 0x42C3C994) at the screen centre plus its offsets, reloads the index, takes the next free number, builds its path and writes the file (func_4005c3f0); when that returns non-zero the number is inserted and the index saved. Ends with rect_42e68c38_draw.
+ * Saves a screenshot: screenshot_thumb_make, shows a message box (text pointer word at 0x42C3C994) at the screen centre plus its offsets, reloads the index, takes the next free number, builds its path and writes the file (bmp_save); when that returns non-zero the number is inserted and the index saved. Ends with rect_42e68c38_draw.
  */
 #include "hw/platform.h"
 
@@ -22,7 +22,7 @@ void screenshot_thumb_make(void);
 void list_a_index_load(void);
 void list_a_next_free(void);
 void screenshot_path_make(u32 v);
-int func_4005c3f0(const char *path);
+int bmp_save(const char *path);
 void list_fa4_insert_754(u32 v);
 void list_a_index_save(void);
 void rect_42e68c38_draw(void);
@@ -37,7 +37,7 @@ void list_a_save_new(void)
     list_a_index_load();
     list_a_next_free();
     screenshot_path_make(SYS16(0xF9C));
-    if (func_4005c3f0(PATHBUF)) {
+    if (bmp_save(PATHBUF)) {
         list_fa4_insert_754(SYS16(0xF9C));
         list_a_index_save();
     }

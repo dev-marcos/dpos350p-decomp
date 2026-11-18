@@ -1,0 +1,36 @@
+/*
+ * number_text_88c0 -- stock 0x40037160 (640 bytes, ARM)
+ * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
+ * Writes n in decimal (no leading zeros) and a terminating 0 to SYS+0x88C0. n < 10 is one character even when negative (the stock code adds '0'); from 65536 on nothing is written.
+ */
+#include "hw/platform.h"
+
+#include "hw/fpga.h"
+
+#define SYS 0x40544E68u
+#define B8(a) (*(volatile unsigned char *)(a))
+
+void number_text_88c0(int n)
+{
+    int nd, i;
+    if (n < 10) {
+        B8(SYS + 0x88C0) = (unsigned char)(n + '0');
+        B8(SYS + 0x88C1) = 0;
+        return;
+    }
+    if (n < 100)
+        nd = 2;
+    else if (n < 1000)
+        nd = 3;
+    else if (n < 10000)
+        nd = 4;
+    else if (n < 65536)
+        nd = 5;
+    else
+        return;
+    B8(SYS + 0x88C0 + nd) = 0;
+    for (i = nd - 1; i >= 0; i--) {
+        B8(SYS + 0x88C0 + i) = (unsigned char)('0' + n % 10);
+        n /= 10;
+    }
+}

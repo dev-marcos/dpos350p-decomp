@@ -1707,6 +1707,44 @@ used for is DERIVED from the callers; the files themselves were not opened from 
     .bmp.
   - The preview block at SYS+0x109684 is the format the file browser shows.
 
+## Screenshot .bmp, trace zoom, list C preview, number text (batch 49)
+
+Spec: `tools/platform_spec/zr_bmp.py`, 4 functions. Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The .bmp layout
+is read from the code; no file written by the device was opened.
+
+- **`bmp_save(path)`** (0x4005C3F0) builds the whole file in the buffer 0x41D3E3A8 and writes it
+  with one `f_write` of 0x13D620 (1,300,000) bytes, passing a null byte-count pointer. It returns 1
+  on success.
+
+  | Offset | Content |
+  |---|---|
+  | 0x00 | 'BM', file size 0x13D620, pixel data offset 0xDEA8 |
+  | 0x0E | BITMAPINFOHEADER: 40, width 1022, height 600, 1 plane, 16 bits, compression 3 (BI_BITFIELDS), image size field 0xBB800 (not the real size, 1022 x 600 x 2 = 0x12B6A0) |
+  | 0x36 | masks R 0xF800, G 0x07E0, B 0x001F, then a zero word |
+  | 0x46 | **preview**: u16 width, u16 height, then the RGB565 pixels (the block made by `screenshot_thumb_make`) |
+  | 0xDEA8 | the 600 rows of the screen copy at 0x42210D20, bottom row first (rows of 2044 bytes) |
+
+  - This explains `list_*_page_thumbs` (batch 30), which reads the preview back from the file.
+  - It also explains the loader that reads 0x12B6A0 bytes from offset 0xDEA8.
+  - A normal BMP viewer skips the gap before 0xDEA8, so the files open on a PC (DERIVED).
+- **`simple_integer_index_mapping_nearest_neighbour(src, center, w, m, shift)`** (0x4005C678).
+  The name comes from an earlier project, but the code does linear interpolation, not nearest
+  neighbour. It is the horizontal zoom of a trace:
+  - n = w x 1.2 x k / m source samples around src[center] (k = W32(SYS+0x554)) are stretched to
+    m x n / k samples in the buffer 0x416431E8, in 8-bit fixed point;
+  - w of those samples, centred and moved back by `shift`, are copied back over src;
+  - nothing happens when k >= m.
+- **`list_c_record_preview(a)`** (0x4003754C) turns the selected list C record into a preview
+  curve:
+  - the record is decimated to at most 193 points, centred in the zoom buffer, then stretched;
+  - the minimum is subtracted and the values are scaled to 8 + 122 x v / range;
+  - the result goes to the preview block at SYS+0x109684 (count, then values).
+- **`number_text_88c0(n)`** (0x40037160) writes n in decimal to SYS+0x88C0, using the same digit
+  code as the path helpers of batch 48.
+- **Not tested** (the stock code divides by these values): k = 0 in the zoom, and a record length
+  of 0 in the preview.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1141 | 84.27% | 166894 | 49.45% |
+| EQUIVALENT | 1145 | 84.56% | 168826 | 50.02% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 213 | 15.73% | 170610 | 50.55% |
+| ASM | 209 | 15.44% | 168678 | 49.98% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1141 (85.21%) | 337104 | 166894 (49.51%) |
+| main code | 1339 | 1145 (85.51%) | 337104 | 168826 (50.08%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -230,10 +230,12 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40036F74` | list_c_entry_remove | 168 | EQUIVALENT | 200 | `nonmatching/platform/func_40036f74.c` |
 | `0x40037020` | record_clear | 116 | EQUIVALENT | 200 | `nonmatching/platform/func_40037020.c` |
 | `0x4003709C` | list_c_next_free | 196 | EQUIVALENT | 200 | `nonmatching/platform/func_4003709c.c` |
+| `0x40037160` | number_text_88c0 | 640 | EQUIVALENT | 200 | `nonmatching/platform/func_40037160.c` |
 | `0x400373E0` | reload_chain_400373e0 | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_400373e0.c` |
 | `0x40037418` | list_current_advance | 72 | EQUIVALENT | 200 | `nonmatching/platform/func_40037418.c` |
 | `0x40037460` | list_c_delete_marked | 140 | EQUIVALENT | 200 | `nonmatching/platform/func_40037460.c` |
 | `0x400374EC` | array_3da548_decimate | 76 | EQUIVALENT | 200 | `nonmatching/platform/func_400374ec.c` |
+| `0x4003754C` | list_c_record_preview | 460 | EQUIVALENT | 200 | `nonmatching/platform/func_4003754c.c` |
 | `0x4003771C` | list_cursor_clamp_4003771c | 96 | EQUIVALENT | 200 | `nonmatching/platform/func_4003771c.c` |
 | `0x4003777C` | list_c_page_mark | 120 | EQUIVALENT | 200 | `nonmatching/platform/func_4003777c.c` |
 | `0x400377F8` | list_c_marks_clear | 136 | EQUIVALENT | 200 | `nonmatching/platform/func_400377f8.c` |
@@ -756,6 +758,8 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4005C31C` | __aeabi_memcpy | 36 | EQUIVALENT | 400 | `nonmatching/libc/func_4005c31c.c` |
 | `0x4005C340` | __aeabi_memcpy4 | 76 | EQUIVALENT | 400 | `nonmatching/libc/func_4005c340.c` |
 | `0x4005C38C` | __memcpy_dst_unaligned | 100 | EQUIVALENT | 400 | `nonmatching/libc/func_4005c38c.c` |
+| `0x4005C3F0` | bmp_save | 508 | EQUIVALENT | 200 | `nonmatching/platform/func_4005c3f0.c` |
+| `0x4005C678` | simple_integer_index_mapping_nearest_neighbour | 324 | EQUIVALENT | 200 | `nonmatching/platform/func_4005c678.c` |
 | `0x4005C918` | index_map_if_above | 60 | EQUIVALENT | 200 | `nonmatching/platform/func_4005c918.c` |
 | `0x4005D220` | sine_table_lookup | 92 | EQUIVALENT | 200 | `nonmatching/platform/func_4005d220.c` |
 | `0x4005D27C` | sine_table_build | 96 | EQUIVALENT | 200 | `nonmatching/platform/func_4005d27c.c` |

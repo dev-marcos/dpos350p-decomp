@@ -591,6 +591,26 @@ MUTANTS = [
     (0x40037020, '    for (; i < lim; i += (int)n, p += 2 * n)', '    for (; i < lim; i += (int)n, p += n)'),
     (0x40037020, '    u32 p = RECS, idx = r3_in, n = RSIZE;', '    u32 p = RECS, idx = 0, n = RSIZE;'),
     (0x40037020, '    return (H16(p) << 8 & 0xFF00) | B8(p + 2);', '    return (H16(p) << 8 & 0xFF00) | B8(p + 3);'),
+    # batch 49: .bmp file, trace zoom, list C preview
+    (0x4005C3F0, "    'B', 'M', 0x20, 0xD6, 0x13, 0, 0, 0, 0, 0, 0xA8, 0xDE, 0, 0,", "    'B', 'M', 0x20, 0xD6, 0x13, 0, 0, 0, 0, 0, 0xA8, 0xDF, 0, 0,"),
+    (0x4005C3F0, '    memcpy((void *)(BMP + 0x4A), (const void *)(SYS + 0x109688), 2 * (h * w) + 10);', '    memcpy((void *)(BMP + 0x4A), (const void *)(SYS + 0x109688), 2 * (h * w) + 8);'),
+    (0x4005C3F0, '        memcpy((void *)(BMP + 0xDEA8 + 0x7FC * i), (const void *)(0x4233BBC4u - 0x7FC * i), 0x7FC);', '        memcpy((void *)(BMP + 0xDEA8 + 0x7FC * i), (const void *)(0x42210D20u + 0x7FC * i), 0x7FC);'),
+    (0x4005C3F0, '            ok = 1;', '            ok = 2;'),
+    (0x4005C3F0, '    BMP[0x49] = (unsigned char)(h >> 8);', '    BMP[0x49] = (unsigned char)(w >> 8);'),
+    (0x4005C678, '    if (k >= m)', '    if (k > m)'),
+    (0x4005C678, '    n = (int)((double)w * 1.2 * (double)k / (double)m);', '    n = (int)((double)w * 1.25 * (double)k / (double)m);'),
+    (0x4005C678, '                acc += k << 8;', '                acc += k << 7;'),
+    (0x4005C678, '            prev = pos;', '            prev = pos - 1;'),
+    (0x4005C678, '    q = (unsigned short *)(src + (center - ((int)w >> 1)));', '    q = (unsigned short *)(src + (center - ((int)w >> 2)));'),
+    (0x4005C678, '            diff = cur - last;', '            diff = last - cur;'),
+    (0x4003754C, '    f = (u32)(((unsigned long long)len * 0xA9C84A48u) >> 32 >> 7) + 1;', '    f = (u32)(((unsigned long long)len * 0xA9C84A48u) >> 32 >> 7) + 2;'),
+    (0x4003754C, '    sc = 122.0 / (double)(mx - mn);', '    sc = 121.0 / (double)(mx - mn);'),
+    (0x4003754C, '            if (v <= mn)', '            if (v < mn - 1)'),
+    (0x4003754C, '    H16(SYS + 0x109684) = (unsigned short)LEN;', '    H16(SYS + 0x109684) = (unsigned short)(LEN - 1);'),
+    (0x4003754C, '    copy_u16((unsigned short *)(ZMID - 2 * ((int)n / 2)), (const unsigned short *)CELLS, n);', '    copy_u16((unsigned short *)(ZMID - 2 * ((int)n / 2)), (const unsigned short *)(CELLS + 2), n);'),
+    (0x40037160, '    else if (n < 10000)', '    else if (n < 9999)'),
+    (0x40037160, '    B8(SYS + 0x88C0 + nd) = 0;', '    B8(SYS + 0x88C0 + nd) = 1;'),
+    (0x40037160, '        B8(SYS + 0x88C1) = 0;', '        B8(SYS + 0x88C2) = 0;'),
 ]
 
 

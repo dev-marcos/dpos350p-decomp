@@ -2701,3 +2701,80 @@ def t_rclr48(r):
 
 
 TESTS[0x40037020] = t_rclr48
+
+
+# ================================================================ batch 49: .bmp file, trace zoom, list C preview
+def t_bmp49(r):
+    w, h = r.randrange(0, 210), r.randrange(0, 140)
+    if r.random() < 0.3:
+        w, h = r.randrange(0, 1100), r.randrange(0, 700)
+    wrc = r.choice([0, 0, 1, 7])
+    fs = fs_setup(r, 1)
+    path = r.getrandbits(32)
+
+    def setup(m):
+        fs(m)
+        m.wrc = wrc
+        m.write(SYS + 0x109684, w.to_bytes(2, "little") + h.to_bytes(2, "little"))
+    return Case([path], setup=setup, ret=R,
+                stubs=fs_stubs() + (rec("memcpy", 0x40035724, 3), rec("dtd", 0x400342CC, 0), rec("fbb", 0x400342DC, 0)))
+
+
+TESTS[0x4005C3F0] = t_bmp49
+
+SRC49 = SYS + 0x200000
+
+
+def t_zoom49(r):
+    k = r.choice([1, 2, 10, r.randrange(1, 3000)])
+    m_ = r.choice([k, k - 1, k + 1, k * 2, k * 10, k + r.randrange(1, 5000), r.randrange(1, 6000)]) & 0xFFFFFFFF
+    w = r.choice([1, 2, 3, 193, r.randrange(1, 400)])
+    center = r.randrange(2000, 16000)
+    shift = r.choice([0, 0, 1, -1, r.randrange(-60, 60)])
+    data = bytes(r.getrandbits(8) for _ in range(40000))
+    if r.random() < 0.2:
+        data = b"".join(v.to_bytes(2, "little") for v in [r.choice([0, 0xFFFF, 0x8000, 100])] * 20000)
+
+    def setup(m):
+        m.w32(SYS + 0x554, k)
+        m.write(SRC49, data)
+    return Case([SRC49, center, w, m_], setup=setup, ret=0, stack=[shift & 0xFFFFFFFF, r.getrandbits(32)],
+                stubs=(rec("copy", 0x40035728, 3),))
+
+
+TESTS[0x4005C678] = t_zoom49
+
+
+def t_lcprev49(r):
+    ln = r.choice([1, 2, 3, 192, 193, 194, 386, r.randrange(1, 2500)])
+    k = r.choice([1, 10, 500, r.randrange(1, 4000)])
+    cells = [r.choice([r.getrandbits(16), r.getrandbits(8), 1000 + r.randrange(50)]) for _ in range(ln)]
+    if r.random() < 0.1:
+        cells = [r.getrandbits(16)] * ln
+    zb = bytes(r.getrandbits(8) for _ in range(0x9C40 + 0x400))
+    a0 = r.getrandbits(32)
+
+    def setup(m):
+        m.max_insns = 20_000_000
+        m.w32(SYS + 0x3DA53C, ln)
+        m.w32(SYS + 0x554, k)
+        m.write(SYS + 0x3DA548, b"".join(c.to_bytes(2, "little") for c in cells))
+        m.write(0x416431E8 - 0x200, zb)
+    return Case([a0], setup=setup, ret=0,
+                stubs=(rec("select", 0x40036EA4, 1), rec("decimate", 0x400374EC, 1)))
+
+
+TESTS[0x4003754C] = t_lcprev49
+
+
+def t_num49(r):
+    n = r.choice([-9, -1, 0, 5, 9, 10, 42, 99, 100, 512, 999, 1000, 4321, 9999, 10000, 54321, 65535, 65536,
+                  r.randrange(0, 70000), r.randrange(0, 70000), r.getrandbits(32)])
+    junk = bytes(r.getrandbits(8) for _ in range(16))
+
+    def setup(m):
+        m.write(SYS + 0x88C0, junk)
+    return Case([n & 0xFFFFFFFF], setup=setup, ret=0)
+
+
+TESTS[0x40037160] = t_num49

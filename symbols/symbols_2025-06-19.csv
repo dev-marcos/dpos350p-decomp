@@ -359,13 +359,13 @@ address,size,name,type,evidence_level,source
 0x40037020,116,record_clear,function_arm,DERIVED,this-project:phase5 (storage)
 0x40037094,8,pool_40037094,literal_pool,DERIVED,analyze.py
 0x4003709C,196,list_c_next_free,function_arm,DERIVED,this-project:phase5 (ui)
-0x40037160,640,func_40037160,function_arm,DERIVED,analyze.py:rea
+0x40037160,640,number_text_88c0,function_arm,DERIVED,this-project:phase5 (string)
 0x400373E0,56,reload_chain_400373e0,function_arm,DERIVED,this-project:phase5 (ui)
 0x40037418,72,list_current_advance,function_arm,DERIVED,this-project:phase5 (ui)
 0x40037460,140,list_c_delete_marked,function_arm,DERIVED,this-project:phase5 (ui)
 0x400374EC,76,array_3da548_decimate,function_arm,DERIVED,this-project:phase5 (ui)
 0x40037538,20,pool_40037538,literal_pool,DERIVED,analyze.py
-0x4003754C,460,func_4003754c,function_arm,DERIVED,analyze.py:rea
+0x4003754C,460,list_c_record_preview,function_arm,DERIVED,this-project:phase5 (ui)
 0x40037718,4,pool_40037718,literal_pool,DERIVED,analyze.py
 0x4003771C,96,list_cursor_clamp_4003771c,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003777C,120,list_c_page_mark,function_arm,DERIVED,this-project:phase5 (ui)
@@ -1108,12 +1108,12 @@ address,size,name,type,evidence_level,source
 0x4005C31C,36,__aeabi_memcpy,function_arm,DERIVED,this-project:phase5 (entry: byte loop to align src; continues into 0x4005C340/0x4005C38C)
 0x4005C340,76,__aeabi_memcpy4,function_arm,DERIVED,this-project:phase5 (aligned LDM/STM path)
 0x4005C38C,100,__memcpy_dst_unaligned,function_arm,OPEN,this-project:phase5 (memcpy path for aligned src and unaligned dst; name OPEN)
-0x4005C3F0,508,func_4005c3f0,function_arm,DERIVED,analyze.py:rea
+0x4005C3F0,508,bmp_save,function_arm,DERIVED,this-project:phase5 (storage)
 0x4005C5EC,24,pool_4005c5ec,literal_pool,DERIVED,analyze.py
 0x4005C604,44,__aeabi_memset_entry,function_arm,DERIVED,this-project:phase5 (memset(dst
 0x4005C630,52,func_4005c630,function_arm,DERIVED,analyze.py:prologue
 0x4005C664,20,func_4005c664,function_arm,DERIVED,analyze.py:tailcall
-0x4005C678,324,simple_integer_index_mapping_nearest_neighbour,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2295
+0x4005C678,324,simple_integer_index_mapping_nearest_neighbour,function_arm,DERIVED,this-project:phase5 (trace)
 0x4005C7BC,348,workspace_copy_and_resampling,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2419
 0x4005C918,60,index_map_if_above,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4005C954,8,pool_4005c954,literal_pool,DERIVED,analyze.py
