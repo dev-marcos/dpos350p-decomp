@@ -2282,3 +2282,122 @@ def t_sdup(r):
 
 
 TESTS[0x4004F134] = t_sdup
+
+
+# ================================================================ batch 46: dialogs, colour buttons, XY grid, markers
+STR46 = SYS + 0x250000
+TXT46 = 0x42C2FE74
+BTN46 = 0x42E61FF8
+BOFF46 = [0x156, 0x160, 0x16A, 0x174, 0x19C, 0x7FA, 0x188, 0x1EC, 0x200, 0x912, 0x9EE, 0x9F8, 0xA02, 0xA0C, 0xA16, 0xB4C, 0xC28]
+
+
+def ui46(r):
+    """Random window rectangles, colour tables, UI text entries 90..130, button bytes."""
+    rects = bytes(r.getrandbits(8) for _ in range(0x120))
+    cols = bytes(r.getrandbits(8) for _ in range(0x40))
+    ents = []
+    for k in [11, 67] + list(range(90, 131)):
+        txt = bytes(r.choice(b"abcXYZ !?.") for _ in range(r.randrange(0, 12)))
+        ents.append((k, txt, r.getrandbits(8), r.getrandbits(8)))
+    btn = {o: r.choice([0, 0, 1, 1, 2, 0xFF]) for o in BOFF46}
+    v88 = r.getrandbits(16)
+    lang = r.choice([0, 1, 2, 3, 4, 5])
+    be4 = r.getrandbits(16)
+
+    def setup(m):
+        m.write(0x42E64520 + 0x150, rects)
+        m.write(SYS + 0x3DD530, cols)
+        for k, txt, dx, dy in ents:
+            e = TXT46 + 0x1A0 * k
+            sp = STR46 + 0x20 * k
+            m.write(sp, txt + b"\0")
+            m.w32(e, sp)
+            m.write(e + 0x194, bytes([dx, dy]))
+        for o, v in btn.items():
+            m.write(BTN46 + o + 1, bytes([v]))
+        m.write(SYS + 0x88BE, v88.to_bytes(2, "little"))
+        m.write(0x42E68BE4, be4.to_bytes(2, "little"))
+        m.write(SYS + 0x7AC, bytes([lang]))
+    return setup
+
+
+def tsd46(r):
+    seq = [r.getrandbits(16) for _ in range(8)]
+
+    def fn(m, a):
+        a = regs(m, 4)
+        b = m.read(a[2], 40)
+        m.calls.append(("tsd", a[0], a[1], b[:b.index(0) if 0 in b else 40], a[3]))
+        m.write(0x42E68BE4, seq[m.ntsd % 8].to_bytes(2, "little"))
+        m.ntsd += 1
+    return Stub("tsd", 0x4002D0D4, fn, 0)
+
+
+def ui_stubs46(r):
+    return (rec("colour", 0x4002EA38, 1), rec("rect", 0x4002ECC4, 4), rec("half", 0x4002DC40, 1),
+            rec("font", 0x4002CCCC, 1), str_stub("tw", 0x4002D164, r.getrandbits(r.choice([4, 8, 16, 32]))),
+            tsd46(r), rec_stk("touch", 0x4002F160, 1), rec_stk("d6f8", 0x4002D724, 4),
+            rec_stk("dts", 0x4002F0E8, 2), rec("fbclr", 0x40034454, 0))
+
+
+def t_dlg46(r):
+    st = ui46(r)
+
+    def setup(m):
+        m.ntsd = 0
+        st(m)
+    return Case([], setup=setup, ret=0, stubs=ui_stubs46(r))
+
+
+for a in (0x40024E38, 0x40029BC0, 0x400292E4, 0x400262F8, 0x400271B0, 0x4002903C, 0x4002C32C, 0x4002967C, 0x40029920, 0x40029EC0, 0x40028084):
+    TESTS[a] = t_dlg46
+
+
+def geom46(r):
+    g = r.getrandbits
+    f = {4: (2, [0, 10, 100, 500, g(16)]), 6: (2, [0, 5, 50, g(16)]), 8: (2, [0, 400, 800, 1000, g(16)]),
+         0xA: (2, [0, 1, 7, 400, 504, g(16)]), 0x20: (2, [1, 2, 25, 50, 63, 200]), 0x655: (1, [0, 1, 0x80]),
+         0x60: (4, [0, 5, 100, 0xFFFFFFF0, g(32)]), 0x120: (4, [0, 3, 100, 250, 0xFFFFFF00, g(32)])}
+    return sys_fields(r, f)
+
+
+def t_xy46(r):
+    return Case([], setup=geom46(r), ret=0,
+                stubs=(rec("colour", 0x4002EA38, 1), rec("span", 0x4002EBA8, 3), rec("vline", 0x4002EBC8, 3)))
+
+
+TESTS[0x4002C5F8] = t_xy46
+
+
+def t_mark46(r):
+    return Case([], setup=geom46(r), ret=0,
+                stubs=(rec("colour", 0x4002EA38, 1), rec("rect", 0x4002ECC4, 4), rec("font", 0x4002CCCC, 1),
+                       str_stub("text", 0x4002CE7C, si=2), rec("span", 0x4002EBA8, 3),
+                       rec("vline", 0x4002EBC8, 3)))
+
+
+TESTS[0x40024C60] = t_mark46
+
+
+def t_cur46(r):
+    g = r.getrandbits
+    st = geom46(r)
+    en = r.choice([0, 1, 1, 1, 0x80])
+    ch = r.choice([0, 1, 2])
+    c1 = r.choice([0, 10, 300, g(10), g(32)])
+    c2 = r.choice([0, 70, 400, c1 + 60, c1 + 61, g(10), g(32)])
+
+    def setup(m):
+        st(m)
+        m.write(SYS + 0x3DA52C, bytes([en]))
+        m.write(SYS + 0x3DA530, bytes([ch]))
+        m.w32(SYS + 0x3DA534, c1)
+        m.w32(SYS + 0x3DA538, c2)
+    return Case([], setup=setup, ret=0,
+                stubs=(rec("colour", 0x4002EA38, 1), rec("rect", 0x4002ECC4, 4), rec("font", 0x4002CCCC, 1),
+                       rec("half", 0x4002DC40, 1), str_stub("text", 0x4002CE7C, si=2),
+                       str_stub("tw", 0x4002D164, g(r.choice([4, 8, 32]))), rec("span", 0x4002EBA8, 3),
+                       rec("vline", 0x4002EBC8, 3)))
+
+
+TESTS[0x40028364] = t_cur46

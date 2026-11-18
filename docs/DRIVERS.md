@@ -1546,6 +1546,53 @@ Spec: `tools/platform_spec/zn_sd_update.py`, 3 functions. Tests: `tools/emu/test
     sector.
   - The first chunk runs to the end of the sector; later chunks are up to 0x1000 bytes.
 
+## Dialogs, menus, XY grid, markers and time cursors (batch 46)
+
+Spec: `tools/platform_spec/zo_dialogs.py`, 14 functions. Tests: `tools/emu/tests/sweep.py`.
+These are complete screens, so they show how a screen is put together.
+
+- **How a screen is built** (STATIC-CONFIRMED from the code):
+  1. The box comes from the window rectangle table 0x42E64520 (u16 x, y, w, h per window).
+  2. Set the font (`word_42e68c74_set(0x42E658D8)`), the character spacing
+     (`half_42e68be2_set`) and the colour (`draw_colour_set`, colours from a table such as
+     SYS+0x3DD54C or SYS+0x3DD550).
+  3. Draw with `rect_fill`, then texts with `text_shadow_draw(x, y, s, 1, 2, 0)`. A text comes
+     from the UI table, whose x/y bytes +0x194/+0x195 nudge it for the current language.
+  4. Add a touch area with `touch_button_set_rect(x, y, w, h, 0x42E61FF8 + slot)`. When the
+     slot byte +1 is set, the button is drawn again in the "pressed" colour.
+- **UI texts.** `build/uitext46.py` runs the stock filler 0x40045974 in the emulator and lists
+  every entry with its Chinese and English text (output in `build/uitext46.txt`, not committed).
+  Entries used here:
+  - 11 'USB connect' and 67 'Return';
+  - 91 'Notice !', 92..93 'Please unplug all signal' / 'proble and USB first !', 95 'Confirm';
+  - 102..103 'Restore to factory' / 'settings ?';
+  - 106 'Warning !', 107..108 'All saved data will' / 'be clear !';
+  - 118 'Delete selected', 120 'items';
+  - 126..127 'Please connect all channels' / 'to the signal generator !'.
+
+| Function | Window | What it draws |
+|---|---|---|
+| `ui_delete_confirm_164` / `_180` / `_12c` | +0x164 / +0x180 / +0x12C | 'Delete selected <n> items ?' (n = u16 SYS+0x88BE) and 'Confirm' |
+| `ui_unplug_notice_19c` / `_252` | +0x19C / +0x252 | 'Notice !' unplug probes and USB, 'Confirm' |
+| `ui_factory_reset_confirm` | +0x1AA | 'Notice !' restore factory settings ?, 'Confirm' |
+| `ui_clear_data_warning` | +0x1AA | 'Warning !' all saved data will be cleared, 'Confirm' |
+| `ui_connect_generator_notice` | +0x20C | 'Notice !' connect all channels to the generator, 'Confirm' |
+| `ui_usb_connect_screen` | +0x1C6 | 'USB connect' screen with 'Return' and a fixed picture |
+| `ui_language_menu_draw` | +0x84 | four rows: Chinese, English, Russian, Portuguese; selected row = SYS+0x7AC (1..4) |
+| `ui_colour_buttons_draw` | +0x18E | four 64 x 150 buttons, each with an image in its own colour |
+
+- **Trace pieces:**
+  - `xy_grid_draw`: the XY-mode square (side u16 SYS+0xA, centred in the trace area);
+    grid lines every u16 SYS+0x20 pixels when SYS+0x655 is set, 40 ticks 12.6 pixels apart
+    on the centre lines, and the border.
+  - `trace_markers_draw`: the channel markers '2' (left edge, height from word SYS+0x120,
+    clamped to the area) and '1' (top edge, x from word SYS+0x60).
+  - `time_cursors_draw`: the time cursors C1 / C2. The state is at SYS+0x3DA52C: enable byte
+    +0, channel byte +4, positions +8 and +0xC. It draws dotted lines, the 'C1' / 'C2' markers
+    and a 'T-CH1' / 'T-CH2' label between them.
+- **Generated gates.** `func_40024c60_unless_t17` and `func_40028364_unless_t17`
+  (`w_small_sweep.py`) now call the new names.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

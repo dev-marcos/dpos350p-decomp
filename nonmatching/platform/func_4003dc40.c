@@ -18,7 +18,7 @@ void fb_target_offscreen(void);
 void ui_reveal_slide_down(volatile unsigned short *r);
 void ui_reveal_bottom_up(volatile unsigned short *r);
 
-void func_400292e4(void);
+void ui_language_menu_draw(void);
 
 void ui_window_09_redraw(u32 anim)
 {
@@ -26,7 +26,7 @@ void ui_window_09_redraw(u32 anim)
         fb_target_offscreen();
     else
         fb_target_back();
-    func_400292e4();
+    ui_language_menu_draw();
     if (anim) {
         fb_target_back();
         ui_reveal_slide_down((volatile unsigned short *)WIN(9));

@@ -18,7 +18,7 @@ void fb_target_offscreen(void);
 void ui_reveal_slide_down(volatile unsigned short *r);
 void ui_reveal_bottom_up(volatile unsigned short *r);
 
-void func_40029ec0(void);
+void ui_connect_generator_notice(void);
 
 void ui_window_37_redraw(u32 anim)
 {
@@ -26,7 +26,7 @@ void ui_window_37_redraw(u32 anim)
         fb_target_offscreen();
     else
         fb_target_back();
-    func_40029ec0();
+    ui_connect_generator_notice();
     if (anim) {
         fb_target_back();
         ui_reveal_slide_down((volatile unsigned short *)WIN(37));

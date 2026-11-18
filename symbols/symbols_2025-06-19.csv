@@ -70,12 +70,12 @@ address,size,name,type,evidence_level,source
 0x40024C3C,4,code_40024c3c,data,OPEN,analyze.py
 0x40024C40,12,pool_40024c40,literal_pool,DERIVED,analyze.py
 0x40024C4C,20,func_40024c60_unless_t17,function_arm,DERIVED,this-project:phase5 (ui)
-0x40024C60,436,func_40024c60,function_arm,DERIVED,analyze.py:prologue
+0x40024C60,436,trace_markers_draw,function_arm,DERIVED,this-project:phase5 (trace)
 0x40024E14,20,func_40023ea4_or_40024c60,function_arm,DERIVED,this-project:phase5 (ui)
 0x40024E28,12,pool_40024e28,literal_pool,DERIVED,analyze.py
 0x40024E34,1,code_40024e34,data,OPEN,analyze.py
 0x40024E35,3,pad_40024e35,padding,STATIC-CONFIRMED,analyze.py:zero
-0x40024E38,656,func_40024e38,function_arm,DERIVED,analyze.py:rea
+0x40024E38,656,ui_delete_confirm_12c,function_arm,DERIVED,this-project:phase5 (ui)
 0x400250C8,8,code_400250c8,data,OPEN,analyze.py
 0x400250D0,12,pool_400250d0,literal_pool,DERIVED,analyze.py
 0x400250DC,3104,func_400250dc,function_arm,DERIVED,analyze.py:rea
@@ -84,21 +84,21 @@ address,size,name,type,evidence_level,source
 0x40025D88,44,pool_40025d88,literal_pool,DERIVED,analyze.py
 0x40025DB4,1324,func_40025db4,function_arm,DERIVED,analyze.py:prologue
 0x400262E0,24,pool_400262e0,literal_pool,DERIVED,analyze.py
-0x400262F8,664,func_400262f8,function_arm,DERIVED,analyze.py:rea
+0x400262F8,664,ui_delete_confirm_164,function_arm,DERIVED,this-project:phase5 (ui)
 0x40026590,4,code_40026590,data,OPEN,analyze.py
 0x40026594,40,pool_40026594,literal_pool,DERIVED,analyze.py
 0x400265BC,3052,func_400265bc,function_arm,DERIVED,analyze.py:rea
 0x400271A8,8,pool_400271a8,literal_pool,DERIVED,analyze.py
-0x400271B0,664,func_400271b0,function_arm,DERIVED,analyze.py:rea
+0x400271B0,664,ui_delete_confirm_180,function_arm,DERIVED,this-project:phase5 (ui)
 0x40027448,36,pool_40027448,literal_pool,DERIVED,analyze.py
 0x4002746C,4,code_4002746c,data,OPEN,analyze.py
 0x40027470,40,pool_40027470,literal_pool,DERIVED,analyze.py
 0x40027498,3044,func_40027498,function_arm,DERIVED,analyze.py:rea
 0x4002807C,8,pool_4002807c,literal_pool,DERIVED,analyze.py
-0x40028084,664,func_40028084,function_arm,DERIVED,analyze.py:prologue
+0x40028084,664,ui_colour_buttons_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002831C,52,pool_4002831c,literal_pool,DERIVED,analyze.py
 0x40028350,20,func_40028364_unless_t17,function_arm,DERIVED,this-project:phase5 (ui)
-0x40028364,968,func_40028364,function_arm,DERIVED,analyze.py:prologue
+0x40028364,968,time_cursors_draw,function_arm,DERIVED,this-project:phase5 (trace)
 0x4002872C,8,pool_4002872c,literal_pool,DERIVED,analyze.py
 0x40028734,9,code_40028734,data,OPEN,analyze.py
 0x4002873D,3,pad_4002873d,padding,STATIC-CONFIRMED,analyze.py:zero
@@ -106,16 +106,16 @@ address,size,name,type,evidence_level,source
 0x40028AA0,20,pool_40028aa0,literal_pool,DERIVED,analyze.py
 0x40028AB4,1376,func_40028ab4,function_arm,DERIVED,analyze.py:rea
 0x40029014,40,pool_40029014,literal_pool,DERIVED,analyze.py
-0x4002903C,660,func_4002903c,function_arm,DERIVED,analyze.py:rea
+0x4002903C,660,ui_unplug_notice_19c,function_arm,DERIVED,this-project:phase5 (ui)
 0x400292D0,20,pool_400292d0,literal_pool,DERIVED,analyze.py
-0x400292E4,900,func_400292e4,function_arm,DERIVED,analyze.py:rea
+0x400292E4,900,ui_language_menu_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x40029668,20,pool_40029668,literal_pool,DERIVED,analyze.py
-0x4002967C,668,func_4002967c,function_arm,DERIVED,analyze.py:rea
+0x4002967C,668,ui_factory_reset_confirm,function_arm,DERIVED,this-project:phase5 (ui)
 0x40029918,8,pool_40029918,literal_pool,DERIVED,analyze.py
-0x40029920,672,func_40029920,function_arm,DERIVED,analyze.py:rea
-0x40029BC0,760,func_40029bc0,function_arm,DERIVED,analyze.py:rea
+0x40029920,672,ui_clear_data_warning,function_arm,DERIVED,this-project:phase5 (ui)
+0x40029BC0,760,ui_usb_connect_screen,function_arm,DERIVED,this-project:phase5 (ui)
 0x40029EB8,8,pool_40029eb8,literal_pool,DERIVED,analyze.py
-0x40029EC0,672,func_40029ec0,function_arm,DERIVED,analyze.py:rea
+0x40029EC0,672,ui_connect_generator_notice,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002A160,4,code_4002a160,data,OPEN,analyze.py
 0x4002A164,32,pool_4002a164,literal_pool,DERIVED,analyze.py
 0x4002A184,1608,func_4002a184,function_arm,DERIVED,analyze.py:prologue
@@ -129,10 +129,10 @@ address,size,name,type,evidence_level,source
 0x4002BC40,1744,func_4002bc40,function_arm,DERIVED,analyze.py:rea
 0x4002C310,4,code_4002c310,data,OPEN,analyze.py
 0x4002C314,24,pool_4002c314,literal_pool,DERIVED,analyze.py
-0x4002C32C,664,func_4002c32c,function_arm,DERIVED,analyze.py:rea
+0x4002C32C,664,ui_unplug_notice_252,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002C5C4,48,sys_rect_fill,function_arm,DERIVED,this-project:phase5 (display)
 0x4002C5F4,4,pool_4002c5f4,literal_pool,DERIVED,analyze.py
-0x4002C5F8,416,func_4002c5f8,function_arm,DERIVED,analyze.py:prologue
+0x4002C5F8,416,xy_grid_draw,function_arm,DERIVED,this-project:phase5 (trace)
 0x4002C798,20,pool_4002c798,literal_pool,DERIVED,analyze.py
 0x4002C7AC,1188,func_4002c7ac,function_arm,DERIVED,analyze.py:prologue
 0x4002CC50,4,pool_4002cc50,literal_pool,DERIVED,analyze.py

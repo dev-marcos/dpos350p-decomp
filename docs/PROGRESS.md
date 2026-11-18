@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1115 | 82.35% | 144334 | 42.77% |
+| EQUIVALENT | 1129 | 83.38% | 153798 | 45.57% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 239 | 17.65% | 193170 | 57.23% |
+| ASM | 225 | 16.62% | 183706 | 54.43% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1115 (83.27%) | 337104 | 144334 (42.82%) |
+| main code | 1339 | 1129 (84.32%) | 337104 | 153798 (45.62%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -41,10 +41,24 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40023D04` | window_frame_23d04_draw | 340 | EQUIVALENT | 200 | `nonmatching/platform/func_40023d04.c` |
 | `0x40023E90` | func_40023ea4_unless_t17 | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_40023e90.c` |
 | `0x40024C4C` | func_40024c60_unless_t17 | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_40024c4c.c` |
+| `0x40024C60` | trace_markers_draw | 436 | EQUIVALENT | 200 | `nonmatching/platform/func_40024c60.c` |
 | `0x40024E14` | func_40023ea4_or_40024c60 | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_40024e14.c` |
+| `0x40024E38` | ui_delete_confirm_12c | 656 | EQUIVALENT | 200 | `nonmatching/platform/func_40024e38.c` |
 | `0x40025D08` | image_42468a58_show | 128 | EQUIVALENT | 200 | `nonmatching/platform/func_40025d08.c` |
+| `0x400262F8` | ui_delete_confirm_164 | 664 | EQUIVALENT | 200 | `nonmatching/platform/func_400262f8.c` |
+| `0x400271B0` | ui_delete_confirm_180 | 664 | EQUIVALENT | 200 | `nonmatching/platform/func_400271b0.c` |
+| `0x40028084` | ui_colour_buttons_draw | 664 | EQUIVALENT | 200 | `nonmatching/platform/func_40028084.c` |
 | `0x40028350` | func_40028364_unless_t17 | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_40028350.c` |
+| `0x40028364` | time_cursors_draw | 968 | EQUIVALENT | 200 | `nonmatching/platform/func_40028364.c` |
+| `0x4002903C` | ui_unplug_notice_19c | 660 | EQUIVALENT | 200 | `nonmatching/platform/func_4002903c.c` |
+| `0x400292E4` | ui_language_menu_draw | 900 | EQUIVALENT | 200 | `nonmatching/platform/func_400292e4.c` |
+| `0x4002967C` | ui_factory_reset_confirm | 668 | EQUIVALENT | 200 | `nonmatching/platform/func_4002967c.c` |
+| `0x40029920` | ui_clear_data_warning | 672 | EQUIVALENT | 200 | `nonmatching/platform/func_40029920.c` |
+| `0x40029BC0` | ui_usb_connect_screen | 760 | EQUIVALENT | 200 | `nonmatching/platform/func_40029bc0.c` |
+| `0x40029EC0` | ui_connect_generator_notice | 672 | EQUIVALENT | 200 | `nonmatching/platform/func_40029ec0.c` |
+| `0x4002C32C` | ui_unplug_notice_252 | 664 | EQUIVALENT | 200 | `nonmatching/platform/func_4002c32c.c` |
 | `0x4002C5C4` | sys_rect_fill | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_4002c5c4.c` |
+| `0x4002C5F8` | xy_grid_draw | 416 | EQUIVALENT | 200 | `nonmatching/platform/func_4002c5f8.c` |
 | `0x4002CC54` | func_4002c7ac_or_4002c5f8 | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_4002cc54.c` |
 | `0x4002CC6C` | sys_rect_redraw_unless_t17 | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_4002cc6c.c` |
 | `0x4002CCCC` | word_42e68c74_set | 12 | EQUIVALENT | 200 | `nonmatching/platform/func_4002cccc.c` |

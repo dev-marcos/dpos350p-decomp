@@ -8,10 +8,10 @@
 #include "hw/fpga.h"
 
 void fb_target_back(void);
-void func_40028084(void);
+void ui_colour_buttons_draw(void);
 
 void ui_window_28_redraw(void)
 {
     fb_target_back();
-    func_40028084();
+    ui_colour_buttons_draw();
 }

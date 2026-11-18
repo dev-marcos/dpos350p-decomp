@@ -8,12 +8,12 @@
 #include "hw/fpga.h"
 
 void func_4002c7ac(void);
-void func_4002c5f8(void);
+void xy_grid_draw(void);
 
 void func_4002c7ac_or_4002c5f8(void)
 {
     if (SYS8(0x652) == 0)
         func_4002c7ac();
     else
-        func_4002c5f8();
+        xy_grid_draw();
 }

@@ -41,15 +41,16 @@ void draw_target_default(void)
 # ---------------------------------------------------------------- gates
 for a, t in ((0x40023E90, 0x40023EA4), (0x40024C4C, 0x40024C60), (0x40028350, 0x40028364),
              (0x40037C28, 0x40037C3C)):
+    callee = {0x40024C60: "trace_markers_draw", 0x40028364: "time_cursors_draw"}.get(t, "func_%08x" % t)
     w(a, 20, "func_%08x_unless_t17" % t, "Unless touch byte 0x42E68BB0+0x17 is set, branches to 0x%08X." % t, TOUCH + """
-void func_%08x(void);
+void %s(void);
 
 void func_%08x_unless_t17(void)
 {
     if (TCH8(0x17) == 0)
-        func_%08x();
+        %s();
 }
-""" % (t, t, t))
+""" % (callee, t, callee))
 w(0x40024E14, 20, "func_40023ea4_or_40024c60",
   "SYS+0x652 == 0: the gate of 0x40023EA4, else the gate of 0x40024C60.", """
 void func_40023ea4_unless_t17(void);
@@ -65,14 +66,14 @@ void func_40023ea4_or_40024c60(void)
 """)
 w(0x4002CC54, 20, "func_4002c7ac_or_4002c5f8", "SYS+0x652 == 0: 0x4002C7AC, else 0x4002C5F8.", """
 void func_4002c7ac(void);
-void func_4002c5f8(void);
+void xy_grid_draw(void);
 
 void func_4002c7ac_or_4002c5f8(void)
 {
     if (SYS8(0x652) == 0)
         func_4002c7ac();
     else
-        func_4002c5f8();
+        xy_grid_draw();
 }
 """)
 w(0x4002CC6C, 48, "sys_rect_redraw_unless_t17",
