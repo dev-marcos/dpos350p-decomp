@@ -2522,6 +2522,45 @@ The two settings bars show each button's grey label at (+ 0xF, + 5) and its valu
 These tables give the meaning of the Bode and level-view settings words that `slot_fields`
 (batch 61) saves.
 
+## FFT settings menu, plot grid and right-hand menu column (batch 65)
+
+Spec: `tools/platform_spec/zzi_fft_grid.py`, 3 functions. Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The names are
+DERIVED. The menu meanings come from the English labels of the text table (`build/uitext46.txt`).
+
+- **`fft_settings_menu_draw`** (0x4002BC40) draws the FFT settings menu (layout + 0x244 .. + 0x24A).
+  It has four rows.
+  - 'FFT length' (text entry 137) has four option buttons with the texts '4K', '8K', '16K' and
+    '32K'. The word 0x42E6875C is the selected index (0 .. 3). The selected option is filled with
+    theme colour + 0x10 and has black text. The touch records are 0x42E61FF8 + 0xBE2 + 0xA x i.
+  - 'Waterfall_display' (entry 138) and '3D display' (entry 139) each have an ON/OFF switch. The
+    switch states are the bytes 0x42E68669 and 0x42E6866A. The records are + 0xC0A and + 0xC14.
+  - 'Calibration' (entry 68) has the arrow icon and record + 0xC1E.
+- **`plot_grid_draw`** (0x4002C7AC) draws the grid of the main plot. The plot box is x0 = u16
+  SYS+4, y0 = SYS+6, width SYS+8 and height SYS+0xA.
+  - When the grid byte SYS+0x655 is set, it draws in colour 0x303030:
+    - vertical lines every u16 SYS+0x1C;
+    - horizontal lines every u16 SYS+0x20;
+    - 40 ticks, 5 pixels wide, across the vertical centre line, every 12.6 pixels;
+    - 50 ticks from centre - 1 to centre + 3 on the horizontal centre line, every 19 pixels.
+  - It always draws the frame in colour 0x505050.
+  - When the split-screen byte SYS+0x2AA is set, the plot is cut into two parts.
+    - The upper part is h/3 + 1 high, with a line step of SYS+0x20 / 3 and ticks every 4.2.
+    - The lower part starts at y0 + h/3 + 1 and is 2h/3 + 1 high, with a line step of
+      2 x SYS+0x20 / 3 and ticks every 8.4.
+    - The tick steps are the floats 0x40866667 and 0x41066667. These are one bit above the nearest
+      floats to 4.2 and 8.4, so the C writes them as hex floats.
+    - The upper frame has no bottom line.
+- **`side_menu_column_draw`** (0x4001A708) draws the right-hand menu column (layout + 0x22 /
+  + 0x24, 0x40 wide). It has eight buttons at y + 0, 0x4B, 0x96, 0xE1, 0x127, 0x175, 0x1BF and
+  0x20A.
+  - Each button has an icon image and the touch record 0x42E61FF8 + 0x5C + 0xA x i.
+  - A record byte + 1 equal to 1 shades the button with theme SYS+0x3DD54C.
+  - The first icon is red when SYS+0x3C is set and green when not.
+  - The fifth icon depends on SYS+0x664: image 0x400869CC in blue when set, 0x400866D4 in orange
+    when not.
+  - Which view each button opens is OPEN. The column only draws; the touch handling is elsewhere.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

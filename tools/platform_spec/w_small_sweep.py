@@ -65,13 +65,13 @@ void func_40023ea4_or_40024c60(void)
 }
 """)
 w(0x4002CC54, 20, "func_4002c7ac_or_4002c5f8", "SYS+0x652 == 0: 0x4002C7AC, else 0x4002C5F8.", """
-void func_4002c7ac(void);
+void plot_grid_draw(void);
 void xy_grid_draw(void);
 
 void func_4002c7ac_or_4002c5f8(void)
 {
     if (SYS8(0x652) == 0)
-        func_4002c7ac();
+        plot_grid_draw();
     else
         xy_grid_draw();
 }

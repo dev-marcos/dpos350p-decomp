@@ -4821,3 +4821,80 @@ def t_lvparam64(r):
 
 
 TESTS[0x4002B43C] = t_lvparam64
+
+
+# ================================================================ batch 65: FFT settings menu, plot grid, right-hand menu column
+def t_fftmenu65(r):
+    box = [r.choice([0, 3, 30, 200, r.getrandbits(16)]) for _ in range(4)]
+    th = {o: r.getrandbits(32) for o in (0, 4, 8, 0xC, 0x10, 0x14)}
+    recs = [0xBE2 + 0xA * i for i in range(4)] + [0xC0A, 0xC14, 0xC1E]
+    press = [r.choice([0, 0, 0, 1, r.getrandbits(8)]) for _ in recs]
+    ev = {n: (r.getrandbits(32), r.getrandbits(8), r.getrandbits(8)) for n in (137, 138, 139, 68)}
+    sel = r.choice([0, 1, 2, 3, 3, 4, 0x100, 0xFFFFFFFF, r.getrandbits(32)])
+    sw = [r.choice([0, 1, r.getrandbits(8)]) for _ in range(2)]
+    tw = r.choice([0, 7, 0x4B, 0x4C, 0x100, r.getrandbits(16), r.getrandbits(32)])
+
+    def setup(m):
+        for i, v in enumerate(box):
+            m.write(0x42E64520 + 0x244 + 2 * i, v.to_bytes(2, "little"))
+        for o, v in th.items():
+            m.w32(SYS + 0x3DD550 + o, v)
+        for rc, v in zip(recs, press):
+            m.w8(0x42E61FF8 + rc + 1, v)
+        for n, (pt, dx, dy) in ev.items():
+            e = 0x42C2FE74 + 0x1A0 * n
+            m.w32(e, pt)
+            m.w8(e + 0x194, dx)
+            m.w8(e + 0x195, dy)
+        m.w32(0x42E68668 + 0xF4, sel)
+        m.w8(0x42E68669, sw[0])
+        m.w8(0x42E6866A, sw[1])
+    return Case([], setup=setup, ret=V, stubs=_draw62() + (str_stub("d164", 0x4002D164, tw & 0xFFFFFFFF),
+                                                          str_stub("ce7c", 0x4002CE7C, None, 2),
+                                                          rec("9b8c", 0x40019B8C, 3)))
+
+
+TESTS[0x4002BC40] = t_fftmenu65
+
+
+def t_grid65(r):
+    vals = {4: r.choice([0, 1, 20, 300, 65500, r.getrandbits(16)]),
+            8: r.choice([0, 1, 2, 3, 700, 1000, r.randrange(0, 1001)]),
+            6: r.choice([0, 1, 30, 65530, r.getrandbits(16)]),
+            0xA: r.choice([0, 1, 2, 3, 5, 6, 7, 400, 480, r.randrange(0, 1001)]),
+            0x1C: r.choice([8, 50, 70, 1000, r.randrange(4, 200)]),
+            0x20: r.choice([3, 4, 5, 6, 50, 1000, r.randrange(3, 200)])}
+    split = r.choice([0, 0, 1, r.getrandbits(8)])
+    grid = r.choice([0, 1, 1, r.getrandbits(8)])
+
+    def setup(m):
+        for o, v in vals.items():
+            m.write(SYS + o, v.to_bytes(2, "little"))
+        m.w8(SYS + 0x2AA, split)
+        m.w8(SYS + 0x655, grid)
+    return Case([], setup=setup, ret=V, stubs=(rec("ea38", 0x4002EA38, 1), rec("ebc8", 0x4002EBC8, 3),
+                                               rec("eba8", 0x4002EBA8, 3)))
+
+
+TESTS[0x4002C7AC] = t_grid65
+
+
+def t_sidecol65(r):
+    lay = [r.choice([0, 3, 700, r.getrandbits(16)]) for _ in range(2)]
+    th = {o: r.getrandbits(32) for o in (0, 4, 0x10)}
+    press = [r.choice([0, 0, 1, 1, 2, r.getrandbits(8)]) for _ in range(8)]
+    flags = [r.choice([0, 1, r.getrandbits(8)]) for _ in range(2)]
+
+    def setup(m):
+        for i, v in enumerate(lay):
+            m.write(0x42E64520 + 0x22 + 2 * i, v.to_bytes(2, "little"))
+        for o, v in th.items():
+            m.w32(SYS + 0x3DD53C + o, v)
+        for i, v in enumerate(press):
+            m.w8(0x42E61FF8 + 0x5C + 0xA * i + 1, v)
+        m.w8(SYS + 0x3C, flags[0])
+        m.w8(SYS + 0x664, flags[1])
+    return Case([], setup=setup, ret=V, stubs=_draw62())
+
+
+TESTS[0x4001A708] = t_sidecol65

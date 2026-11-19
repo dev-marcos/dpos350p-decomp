@@ -8,10 +8,10 @@
 #include "hw/fpga.h"
 
 void fb_target_back(void);
-void func_4001a708(void);
+void side_menu_column_draw(void);
 
 void ui_window_02_redraw(void)
 {
     fb_target_back();
-    func_4001a708();
+    side_menu_column_draw();
 }

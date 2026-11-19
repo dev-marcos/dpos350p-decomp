@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1213 | 89.59% | 223230 | 66.14% |
+| EQUIVALENT | 1216 | 89.81% | 227626 | 67.44% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 141 | 10.41% | 114274 | 33.86% |
+| ASM | 138 | 10.19% | 109878 | 32.56% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1213 (90.59%) | 337104 | 223230 (66.22%) |
+| main code | 1339 | 1216 (90.81%) | 337104 | 227626 (67.52%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -36,6 +36,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40019B8C` | switch_on_off_draw | 240 | EQUIVALENT | 200 | `nonmatching/platform/func_40019b8c.c` |
 | `0x40019C7C` | icon_19c7c_draw | 124 | EQUIVALENT | 200 | `nonmatching/platform/func_40019c7c.c` |
 | `0x40019CF8` | slider_draw | 184 | EQUIVALENT | 200 | `nonmatching/platform/func_40019cf8.c` |
+| `0x4001A708` | side_menu_column_draw | 1464 | EQUIVALENT | 200 | `nonmatching/platform/func_4001a708.c` |
 | `0x4001C200` | battery_icon_draw | 324 | EQUIVALENT | 200 | `nonmatching/platform/func_4001c200.c` |
 | `0x4001C348` | ui_window_05_draw | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_4001c348.c` |
 | `0x4001E8E0` | menu_three_rows_draw | 764 | EQUIVALENT | 200 | `nonmatching/platform/func_4001e8e0.c` |
@@ -64,9 +65,11 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4002A7F4` | bode_sweep_bar_draw | 1600 | EQUIVALENT | 200 | `nonmatching/platform/func_4002a7f4.c` |
 | `0x4002AE60` | levels_toolbar_draw | 1460 | EQUIVALENT | 200 | `nonmatching/platform/func_4002ae60.c` |
 | `0x4002B43C` | levels_param_bar_draw | 2000 | EQUIVALENT | 200 | `nonmatching/platform/func_4002b43c.c` |
+| `0x4002BC40` | fft_settings_menu_draw | 1744 | EQUIVALENT | 200 | `nonmatching/platform/func_4002bc40.c` |
 | `0x4002C32C` | ui_unplug_notice_252 | 664 | EQUIVALENT | 200 | `nonmatching/platform/func_4002c32c.c` |
 | `0x4002C5C4` | sys_rect_fill | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_4002c5c4.c` |
 | `0x4002C5F8` | xy_grid_draw | 416 | EQUIVALENT | 200 | `nonmatching/platform/func_4002c5f8.c` |
+| `0x4002C7AC` | plot_grid_draw | 1188 | EQUIVALENT | 200 | `nonmatching/platform/func_4002c7ac.c` |
 | `0x4002CC54` | func_4002c7ac_or_4002c5f8 | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_4002cc54.c` |
 | `0x4002CC6C` | sys_rect_redraw_unless_t17 | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_4002cc6c.c` |
 | `0x4002CCCC` | word_42e68c74_set | 12 | EQUIVALENT | 200 | `nonmatching/platform/func_4002cccc.c` |

@@ -1036,6 +1036,27 @@ MUTANTS = [
     (0x4002B43C, '(double)S64(BLK + 0x120 + 8 * k)', '(double)(unsigned long long)S64(BLK + 0x120 + 8 * k)'),
     (0x4002B43C, '    lp_head(tx, y, 0x8D, ENT(77));', '    lp_head(tx, y, 0x8E, ENT(77));'),
     (0x4002B43C, '    e = B8(BLK + 3) ? ENT(66) : ENT(65);', '    e = B8(BLK + 2) ? ENT(66) : ENT(65);'),
+    # batch 65: FFT settings menu, plot grid, right-hand menu column
+    (0x4002BC40, 'draw_colour_set(W32(SEL + 0xF4) == (u32)i ? W32(TH + 0x10) : W32(TH + 0xC));', 'draw_colour_set(W32(SEL + 0xF4) == (u32)i ? W32(TH + 8) : W32(TH + 0xC));'),
+    (0x4002BC40, 'return i == 0 ? "4K" : i == 1 ? "8K"', 'return i == 0 ? "4K" : i == 1 ? "6K"'),
+    (0x4002BC40, 'switch_on_off_draw((x + 0x110) & 0xFFFF, r & 0xFFFF, B8(SEL + 1));', 'switch_on_off_draw((x + 0x110) & 0xFFFF, r & 0xFFFF, B8(SEL + 2));'),
+    (0x4002BC40, '    wide_button(x, r, w, 0xC14);', '    wide_button(x, r, w, 0xC0A);'),
+    (0x4002BC40, 'icon_19c7c_draw((x + 0x126) & 0xFFFF', 'icon_19c7c_draw((x + 0x122) & 0xFFFF'),
+    (0x4002BC40, '(w - 0x1E) & 0xFFFF, 0x78);', '(w - 0x1C) & 0xFFFF, 0x78);'),
+    (0x4002BC40, 'text_draw((xo + ((0x4B - tw) >> 1))', 'text_draw((xo + ((0x4B - tw) >> 2))'),
+    (0x4002BC40, 'label_row(x, r, 0x4008BFD8u, ENT(138));', 'label_row(x, r, 0x4008BFD8u, ENT(139));'),
+    (0x4002BC40, '    word_42e68c74_set(0x42E658D8u);\n    r += 0x3C;', '    r += 0x3C;'),
+    (0x4002C7AC, 'ys / 3, 0x1.0ccccep+2f', 'ys / 2, 0x1.0ccccep+2f'),
+    (0x4002C7AC, 'for (k = 0; k < 50; k++)', 'for (k = 0; k < 49; k++)'),
+    (0x4002C7AC, '(cy + 0xFFFF) & 0xFFFF, (cy + 3)', '(cy + 0xFFFF) & 0xFFFF, (cy + 2)'),
+    (0x4002C7AC, '    t = (2 * h) / 3;', '    t = (2 * h) / 3 + 1;'),
+    (0x4002C7AC, '    if (B8(SYS + 0x655))\n        grid_part(x0, x1, cx, ya', '    if (B8(SYS + 0x2AA))\n        grid_part(x0, x1, cx, ya'),
+    (0x4002C7AC, '    func_4002ecc4_span(y0, x0, x1 & 0xFFFF);\n    h = H16', '    h = H16'),
+    (0x4001A708, 'draw_colour_set(B8(SYS + 0x3C) ? 0xFF0000 : 0xFF00);', 'draw_colour_set(B8(SYS + 0x3D) ? 0xFF0000 : 0xFF00);'),
+    (0x4001A708, 'pressed(x & 0xFFFF, y + 0x128, 0x84, 0x4B);', 'pressed(x & 0xFFFF, y + 0x127, 0x84, 0x4B);'),
+    (0x4001A708, 'icon_rec(x, y + 0x1BF, y + 0x1D6, 0x400851D4u, 0x98);', 'icon_rec(x, y + 0x1BF, y + 0x1D7, 0x400851D4u, 0x98);'),
+    (0x4001A708, '    if (B8(BTN + rec + 1) == 1) {', '    if (B8(BTN + rec + 1)) {'),
+    (0x4001A708, '    draw_colour_set(W32(TB + 4));\n    draw_colour_set(0x8800FF);', '    draw_colour_set(W32(TB + 4));'),
 ]
 
 
