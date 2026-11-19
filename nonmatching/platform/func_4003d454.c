@@ -7,11 +7,11 @@
 
 #include "hw/fpga.h"
 
-void func_4003cf88(void);
+void ui_layout_init(void);
 void ui_text_init(void);
 
 void ui_cf88_then_579c(void)
 {
-    func_4003cf88();
+    ui_layout_init();
     ui_text_init();
 }

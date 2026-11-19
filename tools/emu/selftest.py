@@ -948,6 +948,27 @@ MUTANTS = [
     (0x40043B0C, '    pairs(0x18, 0x2660, 1200);', '    pairs(0x18, 0x2662, 1200);'),
     (0x40043B0C, '    serializer_process_field((volatile void *)(SPUR + 0xC), 4);', '    serializer_process_field((volatile void *)(SPUR + 0xC), 2);'),
     (0x40043B0C, '    serializer_set_cursor(0);', '    serializer_set_cursor(1);'),
+    # batch 61: ADC lanes, UI layout, settings field lists
+    (0x40063F04, '            delays(rate == R_1000 ? 0 : 1);', '            delays(rate == R_1000 ? 1 : 0);'),
+    (0x40063F04, '            banks(2, 6, 3, 7, 0, 4, 5, 1);\n        } else {', '            banks(2, 6, 3, 7, 0, 4, 1, 5);\n        } else {'),
+    (0x40063F04, '            masks(0xF0, 0x1E, 0x0F, 0xE1, 0x78, 0x3C, 0x87, 0xC3);', '            masks(0xF0, 0x1E, 0x0F, 0xC3, 0x78, 0x3C, 0x87, 0xE1);'),
+    (0x40063F04, '        else if (rate == R_118)\n            delays(7);', '        else if (rate == R_118)\n            delays(6);'),
+    (0x40063F04, '                B8(SYS + 0x67C + i) = 0x40;', '                B8(SYS + 0x67C + i) = 0x41;'),
+    (0x40063F04, '    if (B8(SYS + 0x1B0) == 1) {', '    if (B8(SYS + 0x1B0) != 2) {'),
+    (0x40063F04, '    W32(SYS + 0x6D8) = 0;', '    W32(SYS + 0x6D8) = 1;'),
+    (0x40063F04, '        B8(SYS + 0x67C + i) = B8(SYS + 0x684 + 8 * grp + i);', '        B8(SYS + 0x67C + i) = B8(SYS + 0x685 + 8 * grp + i);'),
+    (0x4003CF88, '    H16(0x42E64776u) = 0x12C;', '    H16(0x42E64776u) = 0x12D;'),
+    (0x4003CF88, '    H16(0x42E6456Cu) = H16(0x40544E6Cu);', '    H16(0x42E6456Cu) = H16(0x40544E6Eu);'),
+    (0x4003CF88, '    H16(0x42E6475Cu) = (unsigned short)W32(0x42E68728u);', '    H16(0x42E6475Cu) = (unsigned short)W32(0x42E68724u);'),
+    (0x40043F54, '    FLD(SYS + 0x27E, 2);', '    FLD(SYS + 0x27E, 1);'),
+    (0x40043F54, '    FLD(BODE + 0x60, 8);', '    FLD(BODE + 0x60, 4);'),
+    (0x400448B4, '    FLD(SYS + 0xC, 2);', '    FLD(SYS + 0xE, 2);'),
+    (0x400448B4, '    for (j = 0; j < 24; j++) {', '    for (j = 0; j < 23; j++) {'),
+    (0x400448B4, '    for (j = 0; j < (int)H16(SYS + 0x5D0); j++) {', '    for (j = 0; j < (int)B8(SYS + 0x5D0); j++) {'),
+    (0x400448B4, '        FLD(SYS + 0x38C + 4 * j, 4);', '        FLD(SYS + 0x38C + 2 * j, 4);'),
+    (0x400448B4, '    for (j = 0; j < (int)B8(SYS + 0x8E4); j++)', '    for (j = 0; j <= (int)B8(SYS + 0x8E4); j++)'),
+    (0x40044450, '    for (j = 0; j < 50; j++) {', '    for (j = 0; j < 49; j++) {'),
+    (0x40044450, '        FLD(0x42E53A0Cu + 0x140 + 0x4 * j, 4);', '        FLD(0x42E53A0Cu + 0x140 + 0x8 * j, 4);'),
 ]
 
 

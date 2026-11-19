@@ -1,0 +1,333 @@
+# The ADC lane set-up for the sample rate (lane masks, per-lane delays from table A, lane -> bank
+# map), and the initialiser of the UI layout table at 0x42E64520.
+# exec'd by gen_platform.py (do not define HDR, SPEC, OUT or f here)
+
+
+def wr(addr, size, name, desc, body, src="acquisition"):
+    f(addr, size, name, src, desc, '#include "hw/fpga.h"' + "\n\n" + body.strip("\n"))
+
+
+COM = """
+#define SYS 0x40544E68u
+#define B8(a) (*(volatile unsigned char *)(a))
+#define H16(a) (*(volatile unsigned short *)(a))
+#define W32(a) (*(volatile u32 *)(a))
+#define U64(a) (*(volatile unsigned long long *)(a))
+"""
+
+wr(0x40063F04, 1592, "adc_lanes_config_for_rate",
+   "Sets the ADC lane configuration for the sample rate U64 SYS+0x538 (mSa/s): the lane masks SYS+0x674..+0x67B, the per-lane delays SYS+0x67C..+0x683 (copied from the 8-byte group of table A SYS+0x684 "
+   "for that rate, or 0x40 for an unknown rate), the per-lane phases SYS+0x6D4..+0x6DB (0) and the lane -> bank map SYS+0x6DC..+0x6E3. With divisor SYS+0x1B0 = 1 the rates are 1000 / 950 / 475 / 237.5 MSa/s "
+   "(groups 0..3), otherwise 475 / 380 / 237.5 / 118.75 MSa/s (groups 4..7).",
+   COM + """
+#define R_1000 0xE8D4A51000ULL
+#define R_950 0xDD30699C00ULL
+#define R_475 0x6E9834CE00ULL
+#define R_237 0x374C1A6700ULL
+#define R_380 0x5879C3D800ULL
+#define R_118 0x1BA60D3380ULL
+
+static void masks(u32 m0, u32 m1, u32 m2, u32 m3, u32 m4, u32 m5, u32 m6, u32 m7)
+{
+    B8(SYS + 0x674) = (unsigned char)m0;
+    B8(SYS + 0x675) = (unsigned char)m1;
+    B8(SYS + 0x676) = (unsigned char)m2;
+    B8(SYS + 0x677) = (unsigned char)m3;
+    B8(SYS + 0x678) = (unsigned char)m4;
+    B8(SYS + 0x679) = (unsigned char)m5;
+    B8(SYS + 0x67A) = (unsigned char)m6;
+    B8(SYS + 0x67B) = (unsigned char)m7;
+}
+
+static void delays(u32 grp)
+{
+    u32 i;
+    for (i = 0; i < 8; i++)
+        B8(SYS + 0x67C + i) = B8(SYS + 0x684 + 8 * grp + i);
+}
+
+static void banks(u32 b0, u32 b1, u32 b2, u32 b3, u32 b4, u32 b5, u32 b6, u32 b7)
+{
+    W32(SYS + 0x6D4) = 0;
+    W32(SYS + 0x6D8) = 0;
+    B8(SYS + 0x6DC) = (unsigned char)b0;
+    B8(SYS + 0x6DD) = (unsigned char)b1;
+    B8(SYS + 0x6DE) = (unsigned char)b2;
+    B8(SYS + 0x6DF) = (unsigned char)b3;
+    B8(SYS + 0x6E0) = (unsigned char)b4;
+    B8(SYS + 0x6E1) = (unsigned char)b5;
+    B8(SYS + 0x6E2) = (unsigned char)b6;
+    B8(SYS + 0x6E3) = (unsigned char)b7;
+}
+
+void adc_lanes_config_for_rate(void)
+{
+    unsigned long long rate = U64(SYS + 0x538);
+    u32 i;
+    if (B8(SYS + 0x1B0) == 1) {
+        if (rate == R_1000 || rate == R_950) {
+            masks(0xF0, 0x3C, 0x0F, 0xC3, 0x78, 0x1E, 0x87, 0xE1);
+            delays(rate == R_1000 ? 0 : 1);
+            banks(2, 6, 3, 7, 0, 4, 1, 5);
+        } else if (rate == R_475) {
+            masks(0xF0, 0x1E, 0x0F, 0xC3, 0x78, 0x3C, 0x87, 0xE1);
+            delays(2);
+            banks(2, 6, 3, 7, 0, 4, 5, 1);
+        } else {
+            masks(0xF0, 0x1E, 0x0F, 0xE1, 0x78, 0x3C, 0x87, 0xC3);
+            if (rate == R_237)
+                delays(3);
+            banks(2, 6, 7, 3, 0, 4, 5, 1);
+        }
+        return;
+    }
+    if (rate == R_475) {
+        masks(0xF0, 0x3C, 0x0F, 0xC3, 0x78, 0x1E, 0x87, 0xE1);
+        delays(4);
+    } else {
+        masks(0xF0, 0x3C, 0x0F, 0xC3, 0xF0, 0x3C, 0x0F, 0xC3);
+        if (rate == R_380)
+            delays(5);
+        else if (rate == R_237)
+            delays(6);
+        else if (rate == R_118)
+            delays(7);
+        else
+            for (i = 0; i < 8; i++)
+                B8(SYS + 0x67C + i) = 0x40;
+    }
+    banks(2, 3, 0, 1, 6, 7, 4, 5);
+}
+""")
+
+wr(0x4003CF88, 1228, "ui_layout_init",
+   "Fills the UI layout table at 0x42E64520 (boxes as u16 x / y / w / h and flag bytes; the numeric keypad box +0x1D4 and the level-view box +0x21A among them) with fixed values, "
+   "plus copies of u16 SYS+4..+0xA, of the Bode box 0x42E180C8..+6 and of the level plot box 0x42E68668+0xB0 / +0xB4 / +0xB8 / +0xC0. "
+   "The statements follow the stock store order (generated from the stock run, tools/gen_store_list.py).",
+   COM + """
+void ui_layout_init(void)
+{
+    W32(0x43EFFEDCu) = 0x0;
+    W32(0x43EFFEE0u) = 0x0;
+    W32(0x43EFFEE4u) = 0x0;
+    W32(0x43EFFEE8u) = 0x0;
+    W32(0x43EFFEECu) = 0x0;
+    W32(0x43EFFEF0u) = 0x0;
+    W32(0x43EFFEF4u) = 0x0;
+    W32(0x43EFFEF8u) = 0x0;
+    W32(0x43EFFEFCu) = 0x4FFF0000;
+    H16(0x42E64552u) = 0x229;
+    H16(0x42E64556u) = 0x30;
+    H16(0x42E6455Eu) = 0x3AA;
+    H16(0x42E64546u) = 0x42;
+    H16(0x42E64554u) = 0x3BB;
+    H16(0x42E64564u) = 0x1A;
+    B8(0x42E6455Cu) = 0x1;
+    B8(0x42E64530u) = 0x1;
+    W32(0x42E64534u) = 0x0;
+    H16(0x42E64538u) = 0x3B9;
+    H16(0x42E6453Au) = 0x2D;
+    B8(0x42E6453Eu) = 0x1;
+    H16(0x42E64542u) = 0x3B9;
+    H16(0x42E64544u) = 0x0;
+    H16(0x42E64548u) = 0x258;
+    B8(0x42E6454Cu) = 0x1;
+    H16(0x42E64550u) = 0x0;
+    B8(0x42E6455Au) = 0x1;
+    H16(0x42E64560u) = 0x235;
+    H16(0x42E64562u) = 0xD;
+    B8(0x42E64568u) = 0x1;
+    H16(0x42E6456Cu) = H16(0x40544E6Cu);
+    H16(0x42E6456Eu) = H16(0x40544E6Eu);
+    H16(0x42E64570u) = H16(0x40544E70u);
+    H16(0x42E64580u) = 0x1F4;
+    H16(0x42E645AAu) = 0xF7;
+    H16(0x42E6458Eu) = 0xC0;
+    H16(0x42E64572u) = H16(0x40544E72u);
+    H16(0x42E6457Eu) = 0x181;
+    H16(0x42E645C0u) = 0xD4;
+    H16(0x42E64588u) = 0x182;
+    H16(0x42E6458Cu) = 0x14F;
+    H16(0x42E6459Cu) = 0x134;
+    H16(0x42E645A4u) = 0x182;
+    H16(0x42E64596u) = 0x2D1;
+    H16(0x42E6459Au) = 0xE5;
+    H16(0x42E646BEu) = 0x6D;
+    H16(0x42E646BCu) = 0x182;
+    H16(0x42E645A8u) = 0xFA;
+    H16(0x42E646CAu) = 0x182;
+    H16(0x42E646CEu) = 0xFA;
+    H16(0x42E646D8u) = 0x182;
+    H16(0x42E646DCu) = 0xFA;
+    H16(0x42E646C0u) = 0x12C;
+    H16(0x42E645B2u) = 0x6A;
+    H16(0x42E645CEu) = 0x13E;
+    H16(0x42E645A6u) = 0x12E;
+    H16(0x42E645C6u) = 0x1D1;
+    H16(0x42E645D4u) = 0xB6;
+    H16(0x42E645B8u) = 0x1EA;
+    B8(0x42E645D8u) = 0x0;
+    B8(0x42E6456Au) = 0x1;
+    B8(0x42E64576u) = 0x0;
+    H16(0x42E6457Au) = 0x1;
+    H16(0x42E6457Cu) = 0x31;
+    B8(0x42E64584u) = 0x0;
+    H16(0x42E6458Au) = 0x31;
+    B8(0x42E64592u) = 0x0;
+    H16(0x42E64598u) = 0x31;
+    B8(0x42E646B8u) = 0x0;
+    H16(0x42E646C2u) = 0xC8;
+    B8(0x42E645A0u) = 0x0;
+    B8(0x42E646C6u) = 0x0;
+    H16(0x42E646CCu) = 0x15F;
+    H16(0x42E646D0u) = 0xC8;
+    B8(0x42E646D4u) = 0x0;
+    H16(0x42E646DAu) = 0x15F;
+    H16(0x42E646DEu) = 0xC8;
+    B8(0x42E645AEu) = 0x0;
+    H16(0x42E645B4u) = 0x31;
+    H16(0x42E645B6u) = 0x1C2;
+    B8(0x42E645BCu) = 0x0;
+    H16(0x42E645C2u) = 0x31;
+    H16(0x42E645C4u) = 0x221;
+    B8(0x42E645CAu) = 0x0;
+    H16(0x42E645D0u) = 0x31;
+    H16(0x42E645D2u) = 0x17C;
+    H16(0x42E645DCu) = 0x1;
+    H16(0x42E645DEu) = 0x31;
+    H16(0x42E645E0u) = 0x1C2;
+    H16(0x42E645FCu) = 0x221;
+    H16(0x42E645EAu) = 0x86;
+    H16(0x42E645FEu) = 0x1DE;
+    H16(0x42E645ECu) = 0x31;
+    H16(0x42E645EEu) = 0x1C2;
+    H16(0x42E64616u) = 0x31;
+    H16(0x42E64618u) = 0x1C2;
+    H16(0x42E645F8u) = 0x10C;
+    H16(0x42E64608u) = 0xDB;
+    H16(0x42E64622u) = 0x131;
+    H16(0x42E645FAu) = 0x49;
+    H16(0x42E6460Au) = 0x1C7;
+    H16(0x42E646AEu) = 0x3B9;
+    H16(0x42E64606u) = 0x192;
+    H16(0x42E645E2u) = 0x1F6;
+    H16(0x42E645F0u) = 0x1F6;
+    H16(0x42E64614u) = 0x1F4;
+    H16(0x42E6461Au) = 0x1F6;
+    H16(0x42E64628u) = 0x1BB;
+    H16(0x42E64630u) = 0x3BB;
+    H16(0x42E64636u) = 0x258;
+    H16(0x42E64644u) = 0x258;
+    H16(0x42E64660u) = 0x258;
+    H16(0x42E6466Eu) = 0x258;
+    H16(0x42E6467Cu) = 0x258;
+    H16(0x42E64698u) = 0x258;
+    H16(0x42E646B2u) = 0x42;
+    H16(0x42E646B4u) = 0x258;
+    H16(0x42E646ECu) = 0x258;
+    H16(0x42E6460Cu) = 0x14C;
+    H16(0x42E64624u) = 0x6A;
+    H16(0x42E64626u) = 0x285;
+    H16(0x42E64634u) = 0x45;
+    H16(0x42E6464Cu) = 0x16D;
+    H16(0x42E64684u) = 0x16D;
+    H16(0x42E646A0u) = 0x16D;
+    H16(0x42E646F8u) = 0x173;
+    H16(0x42E646FAu) = 0x13A;
+    B8(0x42E645E6u) = 0x0;
+    B8(0x42E645F4u) = 0x0;
+    B8(0x42E64602u) = 0x0;
+    B8(0x42E64610u) = 0x0;
+    B8(0x42E6461Eu) = 0x0;
+    B8(0x42E6462Cu) = 0x0;
+    H16(0x42E64632u) = 0x0;
+    B8(0x42E6463Au) = 0x1;
+    H16(0x42E6463Eu) = 0x0;
+    H16(0x42E64640u) = 0x0;
+    H16(0x42E64642u) = 0x3FC;
+    B8(0x42E64648u) = 0x0;
+    H16(0x42E6464Eu) = 0xBE;
+    H16(0x42E64650u) = 0x122;
+    H16(0x42E64652u) = 0x98;
+    B8(0x42E64656u) = 0x1;
+    H16(0x42E6465Au) = 0x0;
+    H16(0x42E6465Cu) = 0x0;
+    H16(0x42E6465Eu) = 0x3FC;
+    B8(0x42E64664u) = 0x1;
+    H16(0x42E64668u) = 0x0;
+    H16(0x42E6466Au) = 0x0;
+    H16(0x42E6466Cu) = 0x3FC;
+    B8(0x42E64672u) = 0x1;
+    H16(0x42E64676u) = 0x0;
+    H16(0x42E64678u) = 0x0;
+    H16(0x42E6467Au) = 0x3FC;
+    B8(0x42E64680u) = 0x0;
+    H16(0x42E64686u) = 0xBE;
+    H16(0x42E64688u) = 0x122;
+    H16(0x42E6468Au) = 0x98;
+    B8(0x42E6468Eu) = 0x1;
+    H16(0x42E64692u) = 0x0;
+    H16(0x42E64694u) = 0x0;
+    H16(0x42E64696u) = 0x3FC;
+    B8(0x42E6469Cu) = 0x0;
+    H16(0x42E646A2u) = 0xBE;
+    H16(0x42E646A4u) = 0x122;
+    H16(0x42E646A6u) = 0x98;
+    B8(0x42E646AAu) = 0x1;
+    H16(0x42E646B0u) = 0x0;
+    B8(0x42E646E2u) = 0x1;
+    H16(0x42E646E6u) = 0x0;
+    H16(0x42E646E8u) = 0x0;
+    H16(0x42E646EAu) = 0x3FC;
+    B8(0x42E646F0u) = 0x0;
+    H16(0x42E646F4u) = 0x0;
+    H16(0x42E646F6u) = 0x0;
+    B8(0x42E646FEu) = 0x1;
+    H16(0x42E64702u) = 0x0;
+    H16(0x42E64704u) = 0x0;
+    H16(0x42E64706u) = 0x3FC;
+    H16(0x42E64708u) = 0x2D;
+    B8(0x42E6470Cu) = 0x1;
+    H16(0x42E64710u) = 0x0;
+    H16(0x42E64712u) = 0x228;
+    H16(0x42E64714u) = 0x3FC;
+    H16(0x42E64716u) = 0x39;
+    B8(0x42E6471Au) = 0x1;
+    H16(0x42E6471Eu) = H16(0x42E180C8u);
+    H16(0x42E64720u) = H16(0x42E180CAu);
+    H16(0x42E64722u) = H16(0x42E180CCu);
+    B8(0x42E6471Cu) = 0x1;
+    H16(0x42E6474Au) = 0x228;
+    H16(0x42E64724u) = H16(0x42E180CEu);
+    B8(0x42E64728u) = 0x0;
+    H16(0x42E6472Cu) = 0x8C;
+    H16(0x42E6472Eu) = 0x32;
+    H16(0x42E64730u) = 0x123;
+    H16(0x42E64732u) = 0xC8;
+    B8(0x42E64736u) = 0x1;
+    H16(0x42E6473Au) = 0x0;
+    H16(0x42E6473Cu) = 0x0;
+    H16(0x42E6473Eu) = 0x3FC;
+    H16(0x42E64740u) = 0x2D;
+    B8(0x42E64744u) = 0x1;
+    H16(0x42E64748u) = 0x0;
+    H16(0x42E6474Cu) = 0x3FC;
+    H16(0x42E6474Eu) = 0x39;
+    B8(0x42E64752u) = 0x1;
+    H16(0x42E64756u) = (unsigned short)W32(0x42E68718u);
+    H16(0x42E64758u) = (unsigned short)W32(0x42E6871Cu);
+    H16(0x42E6475Au) = (unsigned short)W32(0x42E68720u);
+    B8(0x42E64754u) = 0x1;
+    B8(0x42E64760u) = 0x0;
+    H16(0x42E6475Cu) = (unsigned short)W32(0x42E68728u);
+    H16(0x42E6476Au) = 0x140;
+    B8(0x42E6476Eu) = 0x0;
+    H16(0x42E64764u) = 0x8C;
+    H16(0x42E64766u) = 0x32;
+    H16(0x42E64768u) = 0x15F;
+    H16(0x42E64772u) = 0x1EB;
+    H16(0x42E64774u) = 0xAA;
+    H16(0x42E64776u) = 0x12C;
+    H16(0x42E64778u) = 0xC8;
+}
+""", src="ui")

@@ -13,7 +13,7 @@ void serializer_set_decode_mode(void);
 u32 serializer_get_cursor(void);
 void serializer_process_field(volatile void *p, u32 size);
 
-void func_400448b4(void);
+void settings_image_fields(void);
 void settings_i_fields(void);
 void settings_j_fields(void);
 void settings_h_fields(void);
@@ -23,7 +23,7 @@ void settings_image_encode(void)
     serializer_set_encode_mode();
     SYS32(0x75C) = 0x32;
     serializer_set_cursor(0x32);
-    func_400448b4();
+    settings_image_fields();
     SYS32(0x768) = serializer_get_cursor() - SYS32(0x75C);
     SYS32(0x760) = serializer_get_cursor();
     settings_i_fields();

@@ -58,7 +58,7 @@ void timebase_apply(void)
 {
     func_4003f2f4();
     fpga_params_6e4_sync();
-    func_40063f04();
+    adc_lanes_config_for_rate();
     smec_byte_params_sync();
     func_40063c34_all8();
 }

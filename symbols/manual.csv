@@ -1245,3 +1245,8 @@ address,name,type,evidence_level,source,note
 0x4006382C,trigger_level_auto,function,DERIVED,this-project:phase5 (acquisition),
 0x40063CD0,smec_byte_params_sync,function,DERIVED,this-project:phase5 (acquisition),
 0x40043B0C,record_c_fields,function,DERIVED,this-project:phase5 (storage),
+0x40063F04,adc_lanes_config_for_rate,function,DERIVED,this-project:phase5 (acquisition),
+0x4003CF88,ui_layout_init,function,DERIVED,this-project:phase5 (ui),
+0x40043F54,slot_fields,function,DERIVED,this-project:phase5 (storage),
+0x400448B4,settings_image_fields,function,DERIVED,this-project:phase5 (storage),
+0x40044450,calibration_process_serialized_fields,function,DERIVED,this-project:phase5 (storage),

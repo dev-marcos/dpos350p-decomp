@@ -24,23 +24,23 @@ static u32 slot_addr(void)
 
 # ---------------------------------------------------------------- user slots
 r(0x4004435C, 120, "settings_slot_save",
-  "Saves the current user slot (SYS_INFO+0x7C0 = 1..5): encode the field list 0x40043F54, then write 0x1000 bytes of the image to the flash address SYS+0x7C8 + 4 x (slot - 1). Stock quirk: for a slot outside 1..5 the address is whatever the caller left in r4; the C uses 0 and the tests keep the slot in range.", SER + """void func_40043f54(void);
+  "Saves the current user slot (SYS_INFO+0x7C0 = 1..5): encode the field list 0x40043F54, then write 0x1000 bytes of the image to the flash address SYS+0x7C8 + 4 x (slot - 1). Stock quirk: for a slot outside 1..5 the address is whatever the caller left in r4; the C uses 0 and the tests keep the slot in range.", SER + """void slot_fields(void);
 """ + SLOT + """
 void settings_slot_save(void)
 {
     serializer_set_encode_mode();
-    func_40043f54();
+    slot_fields();
     persistence_write_read_modify_write(0, slot_addr(), SER_IMAGE, 0x1000);
 }
 """)
 r(0x400443D4, 124, "settings_slot_load",
-  "Loads the current user slot: read 0x1000 bytes from SYS+0x7C8 + 4 x (slot - 1), then decode the field list 0x40043F54. Same out-of-range quirk as settings_slot_save (stock: the caller's r1).", SER + """void func_40043f54(void);
+  "Loads the current user slot: read 0x1000 bytes from SYS+0x7C8 + 4 x (slot - 1), then decode the field list 0x40043F54. Same out-of-range quirk as settings_slot_save (stock: the caller's r1).", SER + """void slot_fields(void);
 """ + SLOT + """
 void settings_slot_load(void)
 {
     persistence_read(0, slot_addr(), SER_IMAGE, 0x1000);
     serializer_set_decode_mode();
-    func_40043f54();
+    slot_fields();
 }
 """)
 

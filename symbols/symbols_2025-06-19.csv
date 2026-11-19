@@ -483,7 +483,7 @@ address,size,name,type,evidence_level,source
 0x4003CE50,188,ui_window_close,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003CF0C,76,ui_windows_reset,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003CF58,48,ui_frame_update,function_arm,DERIVED,this-project:phase5 (ui)
-0x4003CF88,1228,func_4003cf88,function_arm,DERIVED,analyze.py:rea
+0x4003CF88,1228,ui_layout_init,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003D454,24,ui_cf88_then_579c,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003D46C,296,ui_reveal_bottom_up,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003D594,280,ui_reveal_slide_down,function_arm,DERIVED,this-project:phase5 (ui)
@@ -770,10 +770,10 @@ address,size,name,type,evidence_level,source
 0x40043EC8,36,settings_f_fields,function_arm,DERIVED,this-project:phase5 (settings)
 0x40043EEC,52,settings_f_save,function_arm,DERIVED,this-project:phase5 (settings)
 0x40043F20,52,settings_f_load,function_arm,DERIVED,this-project:phase5 (settings)
-0x40043F54,1032,func_40043f54,function_arm,DERIVED,analyze.py:rea
+0x40043F54,1032,slot_fields,function_arm,DERIVED,this-project:phase5 (storage)
 0x4004435C,120,settings_slot_save,function_arm,DERIVED,this-project:phase5 (settings)
 0x400443D4,124,settings_slot_load,function_arm,DERIVED,this-project:phase5 (settings)
-0x40044450,560,calibration_process_serialized_fields,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md:626
+0x40044450,560,calibration_process_serialized_fields,function_arm,DERIVED,this-project:phase5 (storage)
 0x40044680,52,calibration_save_wrapper,function_arm,DERIVED,this-project:phase5 (settings; name: Hack)
 0x400446B4,52,calibration_load_wrapper,function_arm,DERIVED,this-project:phase5 (settings; name: Hack)
 0x400446E8,68,settings_g_fields,function_arm,DERIVED,this-project:phase5 (settings)
@@ -784,7 +784,7 @@ address,size,name,type,evidence_level,source
 0x40044808,4,pool_40044808,literal_pool,DERIVED,analyze.py
 0x4004480C,124,settings_h_fields,function_arm,DERIVED,this-project:phase5 (settings)
 0x40044888,44,pool_40044888,literal_pool,DERIVED,analyze.py
-0x400448B4,3276,func_400448b4,function_arm,DERIVED,analyze.py:rea
+0x400448B4,3276,settings_image_fields,function_arm,DERIVED,this-project:phase5 (storage)
 0x40045580,100,settings_i_fields,function_arm,DERIVED,this-project:phase5 (settings)
 0x400455E4,140,settings_j_fields,function_arm,DERIVED,this-project:phase5 (settings)
 0x40045670,24,settings_h_decode,function_arm,DERIVED,this-project:phase5 (settings)
@@ -1276,7 +1276,7 @@ address,size,name,type,evidence_level,source
 0x40063C34,124,fpga_counter_step,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40063CB0,32,func_40063c34_all8,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40063CD0,564,smec_byte_params_sync,function_arm,DERIVED,this-project:phase5 (acquisition)
-0x40063F04,1592,func_40063f04,function_arm,DERIVED,analyze.py:rea
+0x40063F04,1592,adc_lanes_config_for_rate,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4006453C,692,func_4006453c,function_arm,DERIVED,analyze.py:rea
 0x400647F0,4,pool_400647f0,literal_pool,DERIVED,analyze.py
 0x400647F4,1076,func_400647f4,function_arm,DERIVED,analyze.py:rea

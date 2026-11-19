@@ -644,7 +644,7 @@ Spec: `tools/platform_spec/r_slots_timebase.py`, 19 functions.
 
   | Record | Fields | Flash address word | Bytes |
   |---|---|---|---|
-  | slot 1..5 (SYS+0x7C0) | field list 0x40043F54 (still assembly) | SYS+0x7C8 + 4 × (slot − 1) | 0x1000 |
+  | slot 1..5 (SYS+0x7C0) | `slot_fields` (0x40043F54, batch 61) | SYS+0x7C8 + 4 × (slot − 1) | 0x1000 |
   | calibration | `calibration_process_serialized_fields` | SYS+0x7E0 | 0x5000 |
   | G | three words at 0x42E3F984 + 0x2F64..0x2F6C | SYS+0x7E8 | 0x1000 |
   | H (fields only) | SYS+0x75C, 768, 760, 76C, 764, 770, 774 | — | — |
@@ -2339,6 +2339,51 @@ purpose are DERIVED.
     +8;
   - then 200 / 400 / 650 / 1200 pairs of float value and u16 bin, from +0x2340 / +0x1D00 /
     +0x12D8 / +0x18 and +0x37F4 / +0x34D4 / +0x2FC0 / +0x2660 (the FFT spur modes 0 .. 3, see above).
+
+## ADC lanes for the sample rate, UI layout table, settings field lists (batch 61)
+
+Specs: `tools/platform_spec/zzd_adc_lanes_layout.py` and `zze_settings_fields.py`, 5 functions.
+Tests: `tools/emu/tests/sweep.py`. The code facts are STATIC-CONFIRMED and checked in the emulator
+(EQUIVALENT). The names and the meaning of the fields are DERIVED.
+
+- **`adc_lanes_config_for_rate`** (0x40063F04) sets up the 8 ADC lanes for the sample rate
+  U64 SYS+0x538 (in mSa/s, as in batch 57):
+  - the lane masks SYS+0x674 .. +0x67B, the bytes that `smec_byte_params_sync` (batch 60) sends
+    to FPGA selectors 0xA6 .. 0xAD. They are 4-of-8 bit patterns (0xF0, 0x3C, 0x0F, 0xC3, 0x78,
+    0x1E, 0x87, 0xE1), which look like the clock phases of each lane (DERIVED);
+  - the per-lane delays SYS+0x67C .. +0x683, copied from one 8-byte group of table A
+    (SYS+0x684, the 64-byte record A). An unknown rate gets 0x40 in every lane;
+  - the per-lane phases SYS+0x6D4 .. +0x6DB (cleared) and the lane → bank map SYS+0x6DC .. +0x6E3
+    (see batch 17).
+
+  | SYS+0x1B0 | Rate (MSa/s) | Table A group | Bank map |
+  |---|---|---|---|
+  | 1 | 1000 / 950 | 0 / 1 | 2 6 3 7 0 4 1 5 |
+  | 1 | 475 | 2 | 2 6 3 7 0 4 5 1 |
+  | 1 | 237.5 / other | 3 / none | 2 6 7 3 0 4 5 1 |
+  | not 1 | 475 / 380 / 237.5 / 118.75 / other | 4 / 5 / 6 / 7 / all 0x40 | 2 3 0 1 6 7 4 5 |
+
+- **`ui_layout_init`** (0x4003CF88) fills the UI layout table at 0x42E64520 with 222 stores:
+  - mostly fixed u16 boxes (x, y, w, h) and flag bytes; the keypad box +0x1D4 and the level-view
+    box +0x21A are among them;
+  - copies of u16 SYS+4 .. +0xA, of the Bode box 0x42E180C8 .. +6, and of the level plot box
+    0x42E68668 + 0xB0 / +0xB4 / +0xB8 / +0xC0.
+
+  The C keeps the stock store order. It was produced from two stock runs with different memory
+  (`tools/gen_store_list.py`): equal values are constants, the others are copies of the address read.
+- **Settings field lists**, the records of the batch 15 serializer. The call sequences were taken
+  from stock runs (`tools/gen_call_list.py`) and folded into loops:
+  - `slot_fields` (0x40043F54), a user slot: 121 fields. They are the acquisition and display
+    state of SYS, generator words at 0x42E3F984 + 0x2EFA, the level-view settings
+    (0x42E68668 + 1 .. 3, + 0x58 .., + 0xF4, the eight s64 at + 0x120, + 0x188 / + 0x18C), the
+    Bode sweep settings (0x42E180C8 + 0x44 / + 0x46 / + 0x4C .. / + 0x60) and 0x42E22D28 .. + 8;
+  - `settings_image_fields` (0x400448B4), the main settings image, from cursor 0x32. It holds the
+    SYS fields from + 4 up, u16 SYS+0x5D0 triples of words + 0x2C4 / + 0x38C / + 0x454, the block
+    from + 0x800, and B8 SYS+0x8E4 u16 values from + 0x880. Both counts are re-read on every pass,
+    so a decode that loads a count uses it at once;
+  - `calibration_process_serialized_fields` (0x40044450, Hack name): 50 rows of the 32 word
+    columns of the table 0x42E53A0C (+ 0x190 + 0xC8 x column + 4 x row), then 20 rows of four
+    word columns (+ 0x50 / + 0xF0 / + 0xA0 / + 0x140). SIM.md already notes the 32 columns.
 
 ## Not yet rewritten (next batches)
 

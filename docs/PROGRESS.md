@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1198 | 88.48% | 203922 | 60.42% |
+| EQUIVALENT | 1203 | 88.85% | 211610 | 62.70% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 156 | 11.52% | 133582 | 39.58% |
+| ASM | 151 | 11.15% | 125894 | 37.30% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1198 (89.47%) | 337104 | 203922 (60.49%) |
+| main code | 1339 | 1203 (89.84%) | 337104 | 211610 (62.77%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -308,6 +308,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4003CE50` | ui_window_close | 188 | EQUIVALENT | 200 | `nonmatching/platform/func_4003ce50.c` |
 | `0x4003CF0C` | ui_windows_reset | 76 | EQUIVALENT | 200 | `nonmatching/platform/func_4003cf0c.c` |
 | `0x4003CF58` | ui_frame_update | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_4003cf58.c` |
+| `0x4003CF88` | ui_layout_init | 1228 | EQUIVALENT | 200 | `nonmatching/platform/func_4003cf88.c` |
 | `0x4003D454` | ui_cf88_then_579c | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d454.c` |
 | `0x4003D46C` | ui_reveal_bottom_up | 296 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d46c.c` |
 | `0x4003D594` | ui_reveal_slide_down | 280 | EQUIVALENT | 200 | `nonmatching/platform/func_4003d594.c` |
@@ -526,8 +527,10 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40043EC8` | settings_f_fields | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_40043ec8.c` |
 | `0x40043EEC` | settings_f_save | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40043eec.c` |
 | `0x40043F20` | settings_f_load | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40043f20.c` |
+| `0x40043F54` | slot_fields | 1032 | EQUIVALENT | 200 | `nonmatching/platform/func_40043f54.c` |
 | `0x4004435C` | settings_slot_save | 120 | EQUIVALENT | 200 | `nonmatching/platform/func_4004435c.c` |
 | `0x400443D4` | settings_slot_load | 124 | EQUIVALENT | 200 | `nonmatching/platform/func_400443d4.c` |
+| `0x40044450` | calibration_process_serialized_fields | 560 | EQUIVALENT | 200 | `nonmatching/platform/func_40044450.c` |
 | `0x40044680` | calibration_save_wrapper | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40044680.c` |
 | `0x400446B4` | calibration_load_wrapper | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_400446b4.c` |
 | `0x400446E8` | settings_g_fields | 68 | EQUIVALENT | 200 | `nonmatching/platform/func_400446e8.c` |
@@ -535,6 +538,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40044760` | settings_g_load | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40044760.c` |
 | `0x40044794` | settings_load_all | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40044794.c` |
 | `0x4004480C` | settings_h_fields | 124 | EQUIVALENT | 200 | `nonmatching/platform/func_4004480c.c` |
+| `0x400448B4` | settings_image_fields | 3276 | EQUIVALENT | 200 | `nonmatching/platform/func_400448b4.c` |
 | `0x40045580` | settings_i_fields | 100 | EQUIVALENT | 200 | `nonmatching/platform/func_40045580.c` |
 | `0x400455E4` | settings_j_fields | 140 | EQUIVALENT | 200 | `nonmatching/platform/func_400455e4.c` |
 | `0x40045670` | settings_h_decode | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_40045670.c` |
@@ -896,6 +900,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40063C34` | fpga_counter_step | 124 | EQUIVALENT | 200 | `nonmatching/platform/func_40063c34.c` |
 | `0x40063CB0` | func_40063c34_all8 | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_40063cb0.c` |
 | `0x40063CD0` | smec_byte_params_sync | 564 | EQUIVALENT | 200 | `nonmatching/platform/func_40063cd0.c` |
+| `0x40063F04` | adc_lanes_config_for_rate | 1592 | EQUIVALENT | 200 | `nonmatching/platform/func_40063f04.c` |
 | `0x40064C28` | gen_selftest_64c28 | 200 | EQUIVALENT | 200 | `nonmatching/platform/func_40064c28.c` |
 | `0x40064CF0` | gen_selftest_64cf0 | 208 | EQUIVALENT | 200 | `nonmatching/platform/func_40064cf0.c` |
 | `0x40064DC0` | check_pair_save | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40064dc0.c` |

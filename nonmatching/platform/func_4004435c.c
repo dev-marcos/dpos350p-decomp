@@ -14,7 +14,7 @@ void serializer_process_field(volatile void *p, u32 size);
 void persistence_read(u32 dev, u32 addr, volatile void *buf, u32 len);
 void persistence_write_read_modify_write(u32 dev, u32 addr, volatile void *buf, u32 len);
 #define SER_IMAGE ((volatile void *)0x408A526Cu)   /* SYS_INFO+0x360404 */
-void func_40043f54(void);
+void slot_fields(void);
 
 static u32 slot_addr(void)
 {
@@ -25,6 +25,6 @@ static u32 slot_addr(void)
 void settings_slot_save(void)
 {
     serializer_set_encode_mode();
-    func_40043f54();
+    slot_fields();
     persistence_write_read_modify_write(0, slot_addr(), SER_IMAGE, 0x1000);
 }

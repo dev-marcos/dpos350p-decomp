@@ -4542,3 +4542,67 @@ def t_smecsync60(r):
 
 TESTS[0x40063CD0] = t_smecsync60
 TESTS[0x40043B0C] = lambda r: Case([], ret=V, stubs=(rec("cur", 0x40067128, 1), rec("fld", 0x40067450, 2)))
+
+
+# ================================================================ batch 61: ADC lanes for the rate, UI layout table
+_RATES61 = (0xE8D4A51000, 0xDD30699C00, 0x6E9834CE00, 0x374C1A6700, 0x5879C3D800, 0x1BA60D3380)
+
+
+def t_adclanes61(r):
+    rate = r.choice(list(_RATES61) * 3 + [0, 1, 0xE8D4A51001, 0xE9D4A51000, 0x6E9834CE00 ^ (1 << 40),
+                                          r.getrandbits(64)])
+    div = r.choice([1, 1, 1, 2, 2, 0, r.getrandbits(8)])
+    junk = bytes(r.getrandbits(8) for _ in range(0x90))
+
+    def setup(m):
+        m.write(SYS + 0x670, junk)
+        m.w8(SYS + 0x1B0, div)
+        m.write(SYS + 0x538, rate.to_bytes(8, "little"))
+    return Case([], setup=setup, ret=V)
+
+
+TESTS[0x40063F04] = t_adclanes61
+
+
+def t_layout61(r):
+    regs = [(0x40544E68, 0x10), (0x42E180C8, 8), (0x42E68668 + 0xB0, 0x14), (0x42E64520, 0x300)]
+    data = [bytes(r.getrandbits(8) for _ in range(n)) for _, n in regs]
+
+    def setup(m):
+        for (a, _), d in zip(regs, data):
+            m.write(a, d)
+    return Case([], setup=setup, ret=V)
+
+
+TESTS[0x4003CF88] = t_layout61
+
+
+# ================================================================ batch 61b: settings field lists
+def _ser61(r, counts=()):
+    """Serializer stubs; a 'decode' stub writes new counts when their own field comes by."""
+    newv = {a: r.choice([0, 1, 3, r.randrange(0, 60)]) for a, _ in counts}
+    size = dict(counts)
+
+    def fld(m, a):
+        m.calls.append(("fld", a[0], a[1]))
+        if a[0] in newv and r_dec:
+            m.write(a[0], newv[a[0]].to_bytes(size[a[0]], "little"))
+    r_dec = r.choice([0, 1])
+    return (Stub("fld", 0x40067450, fld, 2), rec("cur", 0x40067128, 1))
+
+
+TESTS[0x40043F54] = lambda r: Case([], ret=V, stubs=_ser61(r))
+TESTS[0x40044450] = lambda r: Case([], ret=V, stubs=_ser61(r))
+
+
+def t_imgfields61(r):
+    c1, c2 = r.choice([0, 1, 2, 50, 0x100, 0x101, r.randrange(0, 60)]), r.choice([0, 1, 7, r.randrange(0, 60)])
+    stubs = _ser61(r, ((SYS + 0x5D0, 2), (SYS + 0x8E4, 1)))
+
+    def setup(m):
+        m.write(SYS + 0x5D0, c1.to_bytes(2, "little"))
+        m.w8(SYS + 0x8E4, c2)
+    return Case([], setup=setup, ret=V, stubs=stubs)
+
+
+TESTS[0x400448B4] = t_imgfields61

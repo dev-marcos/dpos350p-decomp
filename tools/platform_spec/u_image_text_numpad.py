@@ -51,13 +51,13 @@ void settings_h_decode(void)
 }
 """)
 v(0x40045688, 36, "settings_block_448b4_decode", "Decode mode, cursor = SYS+0x75C, then the field list 0x400448B4.", SER + """
-void func_400448b4(void);
+void settings_image_fields(void);
 
 void settings_block_448b4_decode(void)
 {
     serializer_set_decode_mode();
     serializer_set_cursor(SYS32(0x75C));
-    func_400448b4();
+    settings_image_fields();
 }
 """)
 v(0x400456AC, 36, "settings_i_decode", "Decode mode, cursor = SYS+0x760, then settings_i_fields.", SER + """
@@ -96,7 +96,7 @@ void settings_image_decode(void)
 """)
 v(0x40045714, 116, "settings_image_encode",
   "Encode mode; block 0x400448B4 from cursor 0x32 (SYS+0x75C = 0x32), then records I and J, recording each section start (SYS+0x75C / 0x760 / 0x764), size (SYS+0x768 / 0x76C / 0x770) and the end (SYS+0x774); finally the header H at cursor 0.", SER + """
-void func_400448b4(void);
+void settings_image_fields(void);
 void settings_i_fields(void);
 void settings_j_fields(void);
 void settings_h_fields(void);
@@ -106,7 +106,7 @@ void settings_image_encode(void)
     serializer_set_encode_mode();
     SYS32(0x75C) = 0x32;
     serializer_set_cursor(0x32);
-    func_400448b4();
+    settings_image_fields();
     SYS32(0x768) = serializer_get_cursor() - SYS32(0x75C);
     SYS32(0x760) = serializer_get_cursor();
     settings_i_fields();

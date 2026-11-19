@@ -13,11 +13,11 @@ void serializer_set_decode_mode(void);
 u32 serializer_get_cursor(void);
 void serializer_process_field(volatile void *p, u32 size);
 
-void func_400448b4(void);
+void settings_image_fields(void);
 
 void settings_block_448b4_decode(void)
 {
     serializer_set_decode_mode();
     serializer_set_cursor(SYS32(0x75C));
-    func_400448b4();
+    settings_image_fields();
 }
