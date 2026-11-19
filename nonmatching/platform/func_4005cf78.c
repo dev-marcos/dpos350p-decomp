@@ -17,7 +17,7 @@
 #define SPL_C 0x42D823D4u
 #define SPL_D 0x42D95C54u
 
-void func_4005c95c(int n, int f0, int f1, const volatile float *xk, const volatile float *yk, volatile float *b,
+void spline_coeffs(int n, int f0, int f1, const volatile float *xk, const volatile float *yk, volatile float *b,
                    volatile float *c, volatile float *d, volatile u32 *work, float s0, float s1);
 float spline_eval(u32 unused, int n, const volatile float *xk, const volatile float *a, const volatile float *b,
                   const volatile float *c, const volatile float *d, volatile int *idx, float x);
@@ -28,7 +28,7 @@ void spline_resample(int n, const volatile float *xk, const volatile float *yk, 
     volatile u32 work = 0;
     volatile int idx = 0;
     u32 k;
-    func_4005c95c(n, 0, 0, xk, yk, (volatile float *)SPL_B, (volatile float *)SPL_C, (volatile float *)SPL_D, &work,
+    spline_coeffs(n, 0, 0, xk, yk, (volatile float *)SPL_B, (volatile float *)SPL_C, (volatile float *)SPL_D, &work,
                   0.0f, 0.0f);
     for (k = m; k; k--)
         *yout++ = spline_eval(m, n, xk, yk, (volatile float *)SPL_B, (volatile float *)SPL_C,

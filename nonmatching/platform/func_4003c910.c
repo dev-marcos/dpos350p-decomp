@@ -12,7 +12,7 @@ void scaled_pair_update(u32 tr);
 void trace_shift_samples(u32 tr);
 void trace_zoom_segments(u32 tr);
 void trace_view_bounds(u32 tr);
-void func_4005edc0(u32 tr);
+void trace_intensity_accumulate(u32 tr);
 void trace_intensity_draw(u32 tr);
 
 void traces_process_single(void)
@@ -25,6 +25,6 @@ void traces_process_single(void)
     trace_zoom_segments(0);
     trace_zoom_segments(1);
     trace_view_bounds(0);
-    func_4005edc0(0);
+    trace_intensity_accumulate(0);
     trace_intensity_draw(0);
 }

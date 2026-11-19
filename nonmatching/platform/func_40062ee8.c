@@ -10,13 +10,13 @@
 #define CB8(o)  (*(volatile unsigned char *)(0x42E68668u + (o)))
 void func_400612fc(void);
 void auto_level_search(void);
-void func_40060dc8(void);
+void fft_spur_cancel(void);
 void func_40061f10(void);
 void measure_values_clamp(void);
 void levels_update_chain(void);
 void func_40062448(void);
 void levels_shade_draw(void);
-void func_40062a18(void);
+void levels_max_panel_draw(void);
 void level_columns_draw(void);
 void level_columns_draw_b(void);
 void func_400606a0_unless_locked(void);
@@ -27,14 +27,14 @@ void ui_window_40_draw(void)
     func_400612fc();
     if (CB8(0) == 0 || CB8(4) == 0) {
         auto_level_search();
-        func_40060dc8();
+        fft_spur_cancel();
         func_40061f10();
     }
     measure_values_clamp();
     levels_update_chain();
     func_40062448();
     levels_shade_draw();
-    func_40062a18();
+    levels_max_panel_draw();
     level_columns_draw();
     level_columns_draw_b();
     func_400606a0_unless_locked();

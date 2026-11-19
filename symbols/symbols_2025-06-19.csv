@@ -1117,7 +1117,7 @@ address,size,name,type,evidence_level,source
 0x4005C7BC,348,workspace_copy_and_resampling,function_arm,DERIVED,this-project:phase5 (trace)
 0x4005C918,60,index_map_if_above,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4005C954,8,pool_4005c954,literal_pool,DERIVED,analyze.py
-0x4005C95C,1352,func_4005c95c,function_arm,DERIVED,analyze.py:rea
+0x4005C95C,1352,spline_coeffs,function_arm,DERIVED,this-project:phase5 (trace)
 0x4005CEA4,212,spline_eval,function_arm,DERIVED,this-project:phase5 (trace)
 0x4005CF78,208,spline_resample,function_arm,DERIVED,this-project:phase5 (trace)
 0x4005D048,472,floating_point_interpolation_resampling,function_arm,DERIVED,this-project:phase5 (trace)
@@ -1129,7 +1129,7 @@ address,size,name,type,evidence_level,source
 0x4005D4A4,1580,pow,function_thumb,DERIVED,this-project:phase2
 0x4005DAD0,202,log10,function_thumb,DERIVED,this-project:phase5 (emulation vs math.log10)
 0x4005DB9A,2,pad_4005db9a,padding,STATIC-CONFIRMED,analyze.py:zero
-0x4005DB9C,568,func_4005db9c,function_arm,DERIVED,analyze.py:rea
+0x4005DB9C,568,intensity_palettes_init,function_arm,DERIVED,this-project:phase5 (trace)
 0x4005DDD4,392,trace_intensity_draw,function_arm,DERIVED,this-project:phase5 (trace)
 0x4005DF5C,332,trace_intensity_draw_window,function_arm,DERIVED,this-project:phase5 (trace)
 0x4005E0A8,4,func_4005e0a8,function_thumb,DERIVED,analyze.py:prologue
@@ -1140,7 +1140,7 @@ address,size,name,type,evidence_level,source
 0x4005E810,40,pool_4005e810,literal_pool,DERIVED,analyze.py
 0x4005E838,1412,func_4005e838,function_arm,DERIVED,analyze.py:rea
 0x4005EDBC,4,pool_4005edbc,literal_pool,DERIVED,analyze.py
-0x4005EDC0,540,func_4005edc0,function_arm,DERIVED,analyze.py:rea
+0x4005EDC0,540,trace_intensity_accumulate,function_arm,DERIVED,this-project:phase5 (trace)
 0x4005EFDC,56,pool_4005efdc,literal_pool,DERIVED,analyze.py
 0x4005F014,76,ms5351_i2c_start,function_arm,DERIVED,this-project:phase5 (PE20 SCL / PE21 SDA)
 0x4005F060,92,ms5351_i2c_stop,function_arm,DERIVED,this-project:phase5
@@ -1188,14 +1188,14 @@ address,size,name,type,evidence_level,source
 0x400606A0,1264,func_400606a0,function_arm,DERIVED,analyze.py:prologue
 0x40060B90,18,code_40060b90,data,OPEN,analyze.py
 0x40060BA2,2,pad_40060ba2,padding,STATIC-CONFIRMED,analyze.py:zero
-0x40060BA4,448,func_40060ba4,function_arm,DERIVED,analyze.py:rea
+0x40060BA4,448,fft_spur_capture,function_arm,DERIVED,this-project:phase5 (trace)
 0x40060D64,3,code_40060d64,data,OPEN,analyze.py
 0x40060D67,1,pad_40060d67,padding,STATIC-CONFIRMED,analyze.py:zero
 0x40060D68,84,calib_run_4_channels,function_arm,DERIVED,this-project:phase5 (init)
 0x40060DBC,8,pool_40060dbc,literal_pool,DERIVED,analyze.py
 0x40060DC4,3,code_40060dc4,data,OPEN,analyze.py
 0x40060DC7,1,pad_40060dc7,padding,STATIC-CONFIRMED,analyze.py:zero
-0x40060DC8,544,func_40060dc8,function_arm,DERIVED,analyze.py:rea
+0x40060DC8,544,fft_spur_cancel,function_arm,DERIVED,this-project:phase5 (trace)
 0x40060FE8,420,auto_level_search,function_arm,DERIVED,this-project:phase5 (trace)
 0x4006118C,8,pool_4006118c,literal_pool,DERIVED,analyze.py
 0x40061194,332,level_columns_draw_b,function_arm,DERIVED,this-project:phase5 (trace)
@@ -1204,7 +1204,7 @@ address,size,name,type,evidence_level,source
 0x40061574,12,pool_40061574,literal_pool,DERIVED,analyze.py
 0x40061580,132,fft_input_prepare_b,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40061604,4,pool_40061604,literal_pool,DERIVED,analyze.py
-0x40061608,112,func_40061608,function_arm,DERIVED,analyze.py:rea
+0x40061608,112,peak_hold_decimate,function_arm,DERIVED,this-project:phase5 (trace)
 0x40061678,8,pool_40061678,literal_pool,DERIVED,analyze.py
 0x40061680,292,window_64_recalc,function_arm,DERIVED,this-project:phase5 (trace)
 0x400617A4,8,pool_400617a4,literal_pool,DERIVED,analyze.py
@@ -1227,7 +1227,7 @@ address,size,name,type,evidence_level,source
 0x40062440,8,pool_40062440,literal_pool,DERIVED,analyze.py
 0x40062448,1480,func_40062448,function_arm,DERIVED,analyze.py:rea
 0x40062A10,8,pool_40062a10,literal_pool,DERIVED,analyze.py
-0x40062A18,240,func_40062a18,function_arm,DERIVED,analyze.py:rea
+0x40062A18,240,levels_max_panel_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x40062B08,20,pool_40062b08,literal_pool,DERIVED,analyze.py
 0x40062B1C,364,levels_shade_draw,function_arm,DERIVED,this-project:phase5 (display)
 0x40062C88,16,pool_40062c88,literal_pool,DERIVED,analyze.py

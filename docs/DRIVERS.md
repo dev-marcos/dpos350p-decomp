@@ -2119,8 +2119,73 @@ The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). Th
   - `trace_intensity_draw_window` (0x4005DF5C, with its piece 0x4005E0AC) draws the columns
     SYS+0x700 .. +u16 SYS+0x6F8 as colour 16 + (v / D) × 1000 / 1333, and then calls
     `fb_present_rect`. It does this only when SYS+0x6FC >= SYS+0x708.
-- **Next.** The spline coefficient builder 0x4005C95C (1352 bytes) is the missing piece of the
-  spline path.
+- The spline coefficient builder 0x4005C95C is `spline_coeffs` (batch 56).
+
+## Spline coefficients, intensity palettes and hits, peak hold, FFT spurs (batch 56)
+
+Spec: `tools/platform_spec/zy_spline_spurs.py`, 7 functions. Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The names (spline,
+palette, spur, peak hold) are DERIVED from the arithmetic.
+
+- **`spline_coeffs`** (0x4005C95C), the builder that `spline_resample` calls. Arguments
+  (n, end1, end2, x, y, b, c, d, iflag, slope1 in s0, slope2 in s1):
+  - *iflag = 1 when n <= 1 (unsigned compare) and *iflag = 2 when the x are not strictly
+    increasing; nothing else is written then;
+  - n = 2 gives the straight line (c = d = 0);
+  - otherwise it is the classic tridiagonal cubic spline: h in d, the diagonal in b, the
+    right-hand side in c. The ends match the third derivative (n > 3; zero for n = 3), or use
+    the slope slope1 / slope2 when end1 / end2 = 1. `spline_resample` passes 0, 0, 0.0, 0.0;
+  - on return y[i] + b dx + c dx^2 + d dx^3 is the curve on [x[i], x[i+1]], the form that
+    `spline_eval` evaluates. The return register is not set.
+- **Intensity view, the two missing pieces:**
+  - `intensity_palettes_init` (0x4005DB9C) builds the RGB565 palettes used by
+    `trace_intensity_draw`:
+    - palette A 0x42E45864: three 1500-entry parts filled with yellow 0xFFE0, cyan 0x7FF and
+      green 0x7E0, each starting with a 64-step ramp from black;
+    - palette B 0x42E47B8C: a 192-step blue - cyan - green - yellow - red ramp over a red
+      fill, copied to +3000 and +6000 bytes;
+    - two u32 tables, 0x42E56C30 (the 271-entry levels colour table of `levels_shade_draw`,
+      written to 1021 words, past its 1000-word fill) and 0x42E583A0 (460 words).
+  - `trace_intensity_accumulate(tr)` (0x4005EDC0) adds a capture to the hit counts of trace
+    tr. It runs only when u16 SYS+0x14 is set:
+    - for u16 SYS+0x5F4 segments of W32 SYS+0x2B0 points, the points j = 10 .. points - 11
+      are read as u16 pairs at 0x411AF3E8 / +0x927C0;
+    - each point adds +5 to a 3 x 3 block of cells and +15 to its centre. The column is
+      (H16 SYS+8 - H) / 2 + (a >> s), the row ((L x H - b) >> s) - 1, with H = u16 SYS+0xA,
+      s = SYS+0x1BC, L = SYS+0x1C0;
+    - then the largest count inside the plot area, divided by 200, becomes the divisor
+      SYS+0x7B0 that `trace_intensity_draw` uses.
+
+    With fewer than 10 points per segment the stock loop runs about 2^32 times.
+- **`peak_hold_decimate(buf, n, step)`** (0x40061608, step in d0): in place, output k is the
+  maximum (at least -28671) of the s16 samples from the previous end to (u32)(k x step).
+- **`levels_max_panel_draw`** (0x40062A18) draws the "Max = " line of the level view at
+  block 0x42E68668 +0xB0 / +0xB4: the frequency (s32 +8), the level +0x10 in dBmV and the
+  voltage +0x18 x 1000. It is skipped while touch byte 0x42E68BB0+0x17 is set.
+- **FFT spurs**, for the mode word 0x42E68668+0xF4 = 0..3. The lists are at 0x42E3C000:
+
+  | Mode | Values (float) | Bin indices (u16) | Mean | Count (u16) | Room |
+  |---|---|---|---|---|---|
+  | 0 | +0x2340 | +0x37F4 | +0x14 | +6 | 200 |
+  | 1 | +0x1D00 | +0x34D4 | +0x10 | +4 | 400 |
+  | 2 | +0x12D8 | +0x2FC0 | +0xC | +2 | 650 |
+  | 3 | +0x18 | +0x2660 | +8 | +0 | 1200 |
+
+  The room column is the distance to the next list (DERIVED). The stock checks no bound, and it
+  leaves its pointers unset for a mode above 3.
+  - `fft_spur_capture` (0x40060BA4) works on the spectrum 0x42D364B4:
+    - with half = n / 2 (n = +0xF8), it stores the mean of bins 2 .. half - 1;
+    - every bin above 3 x the mean is recorded as its index and 2 x its value. The compare
+      is on (s64)(x x 10000), through the firmware's `__aeabi_f2lz`.
+  - `fft_spur_cancel` (0x40060DC8):
+    - it applies a Hann window to the n floats at 0x42D164B4, runs `fft_radix2` and
+      `cvec_magnitude` into 0x42D364B4, and sets byte +4;
+    - unless byte +0x190 is set, it subtracts each recorded spur from its bin. A bin that
+      falls below the mean is set to the mean.
+
+    With n = 0, `fft_radix2` never returns (stock).
+  - So the device can learn a reference spectrum and remove its fixed spurs from later
+    captures (DERIVED; which screen offers it is OPEN).
 
 ## Not yet rewritten (next batches)
 

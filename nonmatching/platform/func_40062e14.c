@@ -9,7 +9,7 @@
 
 void func_400612fc(void);
 void auto_level_search(void);
-void func_40060dc8(void);
+void fft_spur_cancel(void);
 void func_40061f10(void);
 #define MD(o) (*(volatile double *)(0x42E68668u + (o)))
 #define M64(o) (*(volatile long long *)(0x42E68668u + (o)))
@@ -22,7 +22,7 @@ void measure_setup_62e14(void)
     func_400612fc();
     auto_level_search();
     *(volatile unsigned char *)(0x42E68668u + 5) = 1;
-    func_40060dc8();
+    fft_spur_cancel();
     func_40061f10();
     d = (MD(0x10) - (MD(0x20) + MD(0x28)) * 0.5) / 6.0;
     MD(0x140) = d;

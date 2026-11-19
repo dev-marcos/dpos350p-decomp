@@ -3962,3 +3962,194 @@ def t_persw55(r):
 
 
 TESTS[0x4005DF5C] = t_persw55
+
+
+# ================================================================ batch 56: spline coefficients, intensity, spurs
+FLAG56 = 0x42DD05D4 + 0x2000
+BUF56 = 0x41A13AE8
+BLK56, SPT56, SPEC56, HIN56 = 0x42E68668, 0x42E3C000, 0x42D364B4, 0x42D164B4
+def _w16_56(m, a, v):
+    m.write(a, _st50.pack("<H", v & 0xFFFF))
+
+
+LISTS56 = {0: (0x2340, 0x37F4, 0x14, 6), 1: (0x1D00, 0x34D4, 0x10, 4), 2: (0x12D8, 0x2FC0, 0xC, 2),
+           3: (0x18, 0x2660, 8, 0)}
+
+
+def _f56(r):
+    return r.choice([r.uniform(-5, 5), r.uniform(-100, 100), 0.0, 1.0, -1.0, r.uniform(-1e-3, 1e-3)])
+
+
+def t_scoef56(r):
+    n = r.choice([0, 1, 2, 2, 3, 3, 4, 4, 5, 6, 8, 13, 20])
+    xs, x = [], r.uniform(-20, 20)
+    for _ in range(max(n, 1)):
+        xs.append(x)
+        x += r.choice([1.0, 0.5, 2.0, r.uniform(0.01, 4), r.uniform(0.01, 4)])
+    if n > 1 and r.random() < 0.1:
+        k = r.randrange(n - 1)
+        xs[k + 1] = xs[k] - r.choice([0.0, 1.0])
+    ys = [_f56(r) for _ in range(max(n, 1))]
+    e1, e2 = r.choice([0, 0, 1, 1, 2]), r.choice([0, 0, 1, 1, 2])
+    s0, s1 = _f56(r), _f56(r)
+    junk = [[r.uniform(-9, 9) for _ in range(max(n, 1) + 2)] for _ in range(3)]
+
+    def setup(m):
+        m.write(XK55, _fl55(xs))
+        m.write(A55, _fl55(ys))
+        for base, cf in zip((B55, C55, D55), junk):
+            m.write(base, _fl55(cf))
+        m.w32(FLAG56, 0x55)
+    c = Case([n, e1, e2, XK55], setup=setup, ret=V, stack=[A55, B55, C55, D55, FLAG56])
+    c.dregs = {0: _fb55(s0) | (_fb55(s1) << 32)}
+    return c
+
+
+TESTS[0x4005C95C] = t_scoef56
+
+TESTS[0x4005DB9C] = lambda r: Case([], ret=V)
+
+
+def t_acc56(r):
+    tr = r.choice([0, 1, 2, 3, 0x101, 0xFFFFFF02])
+    h = r.choice([60, 61, 100, 160])
+    lv = r.choice([1, 2, 4])
+    sh = r.choice([0, 0, 1, 2])
+    w8 = h + r.randrange(0, 160)
+    y0 = r.randrange(0, 12)
+    y1 = y0 + r.choice([0, 1, 2, 3, 5, 9, 20])
+    pts = r.choice([10, 20, 21, 22, 23, 30, 50])   # below 10 the stock loops ~2^32 times
+    nseg = r.choice([0, 1, 1, 2, 3])
+    on = r.choice([0, 1, 1, 1])
+    tot = nseg * max(pts, 1) + 40
+    av = [r.randrange(8, 300) for _ in range(tot)]
+    bv = [r.randrange(0, lv * h + 1) for _ in range(tot)]
+    hits = 0x400954A4 + (tr & 0xFF) * 0x12BE70
+    ncell = (y1 + 2) * h
+    cells = bytes(b for _ in range(ncell) for b in (r.choice([0, 0, r.getrandbits(8)]), r.choice([0, r.getrandbits(4)])))
+    sm = [(r.randrange(ncell, ncell + 20000), r.getrandbits(16)) for _ in range(50)]
+
+    def setup(m):
+        m.max_insns = 20_000_000
+        _w16_56(m, SYS + 0xA, h)
+        _w16_56(m, SYS + 8, w8)
+        m.w32(SYS + 0x1C0, lv)
+        _w16_56(m, SYS + 0x10, y0)
+        _w16_56(m, SYS + 0x12, y1)
+        _w16_56(m, SYS + 0x14, on)
+        _w16_56(m, SYS + 0x5F4, nseg)
+        m.w32(SYS + 0x2B0, pts)
+        m.w32(SYS + 0x1BC, sh)
+        m.w32(SYS + 0x7B0, 0x12345)
+        m.write(0x411AF3E8, b"".join(_st50.pack("<H", v) for v in av))
+        m.write(0x411AF3E8 + 0x927C0, b"".join(_st50.pack("<H", v) for v in bv))
+        m.write(hits, cells)
+        for i, v in sm:
+            _w16_56(m, hits + 2 * i, v)
+    return Case([tr], setup=setup, ret=V)
+
+
+TESTS[0x4005EDC0] = t_acc56
+
+
+def t_peak56(r):
+    n = r.choice([0, 1, 2, 5, 17, 50])
+    step = r.choice([0.0, 0.5, 1.0, 1.7, 3.0, 10.0, r.uniform(0, 8), -1.0])
+    data = [r.choice([r.randrange(-32768, 32768), r.randrange(-30000, -28000), -28671, -28672])
+            for _ in range(600)]
+
+    def setup(m):
+        m.write(BUF56, b"".join(_st50.pack("<h", v) for v in data))
+    c = Case([BUF56, n], setup=setup, ret=V)
+    c.dregs = {0: dbl50(step)}
+    return c
+
+
+TESTS[0x40061608] = t_peak56
+
+
+def t_panel56(r):
+    w = r.choice([0, 7, 40, r.getrandbits(16), r.getrandbits(32)])
+    vals = [(0x42E68BB0 + 0x17, r.choice([0, 0, 0, 1]), 1),
+            (BLK56 + 0xB0, r.choice([0, 100, r.getrandbits(32)]), 4),
+            (BLK56 + 0xB4, r.choice([0, 50, r.getrandbits(32)]), 4),
+            (BLK56 + 8, r.choice([0, 1000, -5, r.getrandbits(32)]), 4),
+            (0x42E68BE4, r.getrandbits(16), 2)]
+    d1, d2 = r.getrandbits(64), dbl50(r.choice([0.0, 1.5, -2.25, r.uniform(-1e6, 1e6)]))
+
+    def fd(m, a):
+        m.calls.append(("e40/d0", m.reg(A.UC_ARM_REG_D0)))
+        return w
+
+    def setup(m):
+        for a, v, sz in vals:
+            m.write(a, (v & ((1 << (8 * sz)) - 1)).to_bytes(sz, "little"))
+        m.write(BLK56 + 0x10, d1.to_bytes(8, "little"))
+        m.write(BLK56 + 0x18, d2.to_bytes(8, "little"))
+    return Case([], setup=setup, ret=V,
+                stubs=(rec("dc40", 0x4002DC40, 1), rec("cccc", 0x4002CCCC, 1), rec("ea38", 0x4002EA38, 1),
+                       rec("ce7c", 0x4002CE7C, 3), Stub("e40", 0x40038E40, fd, 3),
+                       rec_d0("dec", 0x40038DEC, 3), rec_d0("974", 0x40038974, 3)))
+
+
+TESTS[0x40062A18] = t_panel56
+
+
+def _spec56(r, k):
+    base = r.choice([0.0, 0.01, 1.0, r.uniform(0, 3)])
+    out = []
+    for _ in range(k):
+        v = base * r.uniform(0.5, 1.5)
+        if r.random() < 0.15:
+            v = r.choice([v * r.uniform(2.4, 2.6), v * 10, r.uniform(0, 100), -v])
+        out.append(v)
+    return out
+
+
+def t_spcap56(r):
+    sel = r.randrange(4)
+    n = r.choice([0, 1, 2, 4, 5, 6, 7, 8, 16, 64, 200, 201, 400])
+    sp = _spec56(r, n // 2 + 2)
+    pre = r.getrandbits(32)
+
+    def setup(m):
+        m.w32(BLK56 + 0xF4, sel)
+        m.w32(BLK56 + 0xF8, n)
+        m.write(SPEC56, _fl55(sp))
+        m.w32(SPT56 + LISTS56[sel][2], pre)
+    return Case([], setup=setup, ret=V)
+
+
+TESTS[0x40060BA4] = t_spcap56
+
+
+def t_spcan56(r):
+    sel = r.randrange(4)
+    n = r.choice([2, 4, 8, 16, 32, 64])   # n = 0: fft_radix2 never returns (stock)
+    inp = [r.uniform(-2, 2) for _ in range(n)]
+    if n and r.random() < 0.5:
+        f = r.randrange(1, max(2, n // 2))
+        inp = [x + 3 * _m47.sin(2 * _m47.pi * f * i / n) for i, x in enumerate(inp)]
+    cnt = r.choice([0, 1, 2, 5, 8])
+    idx = [r.randrange(max(1, n // 2)) for _ in range(cnt)]
+    vals = [r.choice([0.0, r.uniform(0, 5), r.uniform(0, 50)]) for _ in range(cnt)]
+    mean = r.choice([0.0, r.uniform(0, 2), r.uniform(0, 20)])
+    touch, skip = r.choice([0, 0, 0, 1]), r.choice([0, 0, 1])
+    lv, li, lm, lc = LISTS56[sel]
+
+    def setup(m):
+        m.max_insns = 20_000_000
+        m.w8(0x42E68BB0 + 0x17, touch)
+        m.w8(BLK56 + 0x190, skip)
+        m.w8(BLK56 + 4, 0)
+        m.w32(BLK56 + 0xF4, sel)
+        m.w32(BLK56 + 0xF8, n)
+        m.write(HIN56, _fl55(inp))
+        _w16_56(m, SPT56 + lc, cnt)
+        m.write(SPT56 + li, b"".join(_st50.pack("<H", v) for v in idx))
+        m.write(SPT56 + lv, _fl55(vals))
+        m.write(SPT56 + lm, _fl55([mean]))
+    return Case([], setup=setup, ret=V)
+
+
+TESTS[0x40060DC8] = t_spcan56

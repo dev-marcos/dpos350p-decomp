@@ -368,8 +368,8 @@ w(0x40060D68, 96, "calib_run_4_channels",
 #define CB32(o) (*(volatile u32 *)(0x42E68668u + (o)))
 void func_400612fc(void);
 void auto_level_search(void);
-void func_40060dc8(void);
-void func_40060ba4(void);
+void fft_spur_cancel(void);
+void fft_spur_capture(void);
 void settings_c_save(void);
 
 void calib_run_4_channels(void)
@@ -382,8 +382,8 @@ void calib_run_4_channels(void)
         CB32(0xF4) = i;
         func_400612fc();
         auto_level_search();
-        func_40060dc8();
-        func_40060ba4();
+        fft_spur_cancel();
+        fft_spur_capture();
     }
     CB8(0x190) = 0;
     CB32(0xF4) = old & 0xFF;
