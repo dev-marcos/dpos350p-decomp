@@ -18,7 +18,7 @@ void fb_target_offscreen(void);
 void ui_reveal_slide_down(volatile unsigned short *r);
 void ui_reveal_bottom_up(volatile unsigned short *r);
 
-void func_4005ff88(void);
+void numpad_draw(void);
 
 void ui_window_33_redraw(u32 anim)
 {
@@ -26,7 +26,7 @@ void ui_window_33_redraw(u32 anim)
         fb_target_offscreen();
     else
         fb_target_back();
-    func_4005ff88();
+    numpad_draw();
     if (anim) {
         fb_target_back();
         if (*(volatile unsigned char *)(0x42E68A88u + 2))

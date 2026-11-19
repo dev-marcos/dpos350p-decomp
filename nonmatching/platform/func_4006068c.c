@@ -7,11 +7,11 @@
 
 #include "hw/fpga.h"
 
-void func_400606a0(void);
+void levels_markers_draw(void);
 
 void func_400606a0_unless_locked(void)
 {
     if (*(volatile unsigned char *)0x42E68BC7u)
         return;
-    func_400606a0();
+    levels_markers_draw();
 }

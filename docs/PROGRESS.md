@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1189 | 87.81% | 196274 | 58.15% |
+| EQUIVALENT | 1192 | 88.04% | 200394 | 59.38% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 165 | 12.19% | 141230 | 41.85% |
+| ASM | 162 | 11.96% | 137110 | 40.62% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1189 (88.80%) | 337104 | 196274 (58.22%) |
+| main code | 1339 | 1192 (89.02%) | 337104 | 200394 (59.45%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -833,8 +833,10 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4005FC04` | numpad_sign_apply | 128 | EQUIVALENT | 200 | `nonmatching/platform/func_4005fc04.c` |
 | `0x4005FC84` | numpad_value_parse | 520 | EQUIVALENT | 200 | `nonmatching/platform/func_4005fc84.c` |
 | `0x4005FE94` | numpad_key | 228 | EQUIVALENT | 200 | `nonmatching/platform/func_4005fe94.c` |
+| `0x4005FF88` | numpad_draw | 1376 | EQUIVALENT | 200 | `nonmatching/platform/func_4005ff88.c` |
 | `0x4006053C` | marker_values_compute | 328 | EQUIVALENT | 200 | `nonmatching/platform/func_4006053c.c` |
 | `0x4006068C` | func_400606a0_unless_locked | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_4006068c.c` |
+| `0x400606A0` | levels_markers_draw | 1264 | EQUIVALENT | 200 | `nonmatching/platform/func_400606a0.c` |
 | `0x40060BA4` | fft_spur_capture | 448 | EQUIVALENT | 200 | `nonmatching/platform/func_40060ba4.c` |
 | `0x40060D68` | calib_run_4_channels | 84 | EQUIVALENT | 200 | `nonmatching/platform/func_40060d68.c` |
 | `0x40060DC8` | fft_spur_cancel | 544 | EQUIVALENT | 200 | `nonmatching/platform/func_40060dc8.c` |
@@ -851,6 +853,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40062284` | level_stats_60008 | 164 | EQUIVALENT | 200 | `nonmatching/platform/func_40062284.c` |
 | `0x4006233C` | level_stats_61000 | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_4006233c.c` |
 | `0x400623F4` | levels_update_chain | 76 | EQUIVALENT | 200 | `nonmatching/platform/func_400623f4.c` |
+| `0x40062448` | levels_graph_draw | 1480 | EQUIVALENT | 200 | `nonmatching/platform/func_40062448.c` |
 | `0x40062A18` | levels_max_panel_draw | 240 | EQUIVALENT | 200 | `nonmatching/platform/func_40062a18.c` |
 | `0x40062B1C` | levels_shade_draw | 364 | EQUIVALENT | 200 | `nonmatching/platform/func_40062b1c.c` |
 | `0x40062C98` | level_columns_draw | 352 | EQUIVALENT | 200 | `nonmatching/platform/func_40062c98.c` |

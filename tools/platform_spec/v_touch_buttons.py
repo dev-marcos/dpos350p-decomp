@@ -343,13 +343,13 @@ void sine_table_build(double a0)
 }
 """, src="display")
 w(0x4006068C, 20, "func_400606a0_unless_locked", "Unless the byte 0x42E68BC7 is set, branches to 0x400606A0.", """
-void func_400606a0(void);
+void levels_markers_draw(void);
 
 void func_400606a0_unless_locked(void)
 {
     if (*(volatile unsigned char *)0x42E68BC7u)
         return;
-    func_400606a0();
+    levels_markers_draw();
 }
 """, src="init")
 w(0x40062E00, 20, "func_40062e14_unless_locked", "Unless the byte 0x42E68BC7 is set, branches to 0x40062E14.", """

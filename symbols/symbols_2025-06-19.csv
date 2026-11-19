@@ -1179,13 +1179,13 @@ address,size,name,type,evidence_level,source
 0x4005FE8C,8,pool_4005fe8c,literal_pool,DERIVED,analyze.py
 0x4005FE94,228,numpad_key,function_arm,DERIVED,this-project:phase5 (ui)
 0x4005FF78,16,pool_4005ff78,literal_pool,DERIVED,analyze.py
-0x4005FF88,1376,func_4005ff88,function_arm,DERIVED,analyze.py:rea
+0x4005FF88,1376,numpad_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x400604E8,8,code_400604e8,data,OPEN,analyze.py
 0x400604F0,76,pool_400604f0,literal_pool,DERIVED,analyze.py
 0x4006053C,328,marker_values_compute,function_arm,DERIVED,this-project:phase5 (trace)
 0x40060684,8,pool_40060684,literal_pool,DERIVED,analyze.py
 0x4006068C,20,func_400606a0_unless_locked,function_arm,DERIVED,this-project:phase5 (init)
-0x400606A0,1264,func_400606a0,function_arm,DERIVED,analyze.py:prologue
+0x400606A0,1264,levels_markers_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x40060B90,18,code_40060b90,data,OPEN,analyze.py
 0x40060BA2,2,pad_40060ba2,padding,STATIC-CONFIRMED,analyze.py:zero
 0x40060BA4,448,fft_spur_capture,function_arm,DERIVED,this-project:phase5 (trace)
@@ -1225,7 +1225,7 @@ address,size,name,type,evidence_level,source
 0x400623EC,8,pool_400623ec,literal_pool,DERIVED,analyze.py
 0x400623F4,76,levels_update_chain,function_arm,DERIVED,this-project:phase5 (trace)
 0x40062440,8,pool_40062440,literal_pool,DERIVED,analyze.py
-0x40062448,1480,func_40062448,function_arm,DERIVED,analyze.py:rea
+0x40062448,1480,levels_graph_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x40062A10,8,pool_40062a10,literal_pool,DERIVED,analyze.py
 0x40062A18,240,levels_max_panel_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x40062B08,20,pool_40062b08,literal_pool,DERIVED,analyze.py

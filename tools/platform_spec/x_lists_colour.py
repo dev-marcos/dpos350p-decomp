@@ -266,7 +266,7 @@ void fft_spur_cancel(void);
 void func_40061f10(void);
 void measure_values_clamp(void);
 void levels_update_chain(void);
-void func_40062448(void);
+void levels_graph_draw(void);
 void levels_shade_draw(void);
 void levels_max_panel_draw(void);
 void level_columns_draw(void);
@@ -284,7 +284,7 @@ void ui_window_40_draw(void)
     }
     measure_values_clamp();
     levels_update_chain();
-    func_40062448();
+    levels_graph_draw();
     levels_shade_draw();
     levels_max_panel_draw();
     level_columns_draw();

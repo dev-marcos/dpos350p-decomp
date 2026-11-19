@@ -2238,6 +2238,44 @@ DERIVED from the arithmetic.
     them back (plus 0x8000) through 0x4191F8A8;
   - the result is copied to the start of the sample buffer.
 
+## Level-view frame and markers, numeric keypad (batch 58)
+
+Spec: `tools/platform_spec/zza_levels_ui.py`, 3 functions. Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The names and the
+meaning of the fields are DERIVED from what is drawn.
+
+- **`levels_graph_draw`** (0x40062448) draws the frame of the level (spectrum) view, from block
+  0x42E68668. It does nothing while touch byte 0x42E68BB0+0x17 is set.
+  - It clears the box at 0x42E6473A, draws two outlines (colour 0x444444) around the plot box
+    +0xB0 / +0xB4 / +0xB8 / +0xC0, and makes the plot a touch button (record 0x42E62BD0).
+  - The grid: +0xC8 - 1 vertical lines every +0xC4 pixels, and +0xD0 - 1 horizontal lines every
+    +0xCC pixels.
+  - The level labels at x = 5 (colour 0x888888): top +0x148 minus i x step +0x140, for
+    i = 0 .. +0xD0. It adds 'Ref' under the first one unless both side panels are on.
+  - The frequency labels under the plot: +0x120 + j x (+0x128 - +0x120) / +0xC8, for
+    j = 0 .. +0xC8. They are centred on the grid lines, the first is left aligned and the last is
+    right aligned. Each label is measured first (`frequency_draw` with measure 1).
+  - For each side panel on (bytes +1 and +2): a colour bar of +0xE0 / +0xF0 rows at x = 10 .. 0x28,
+    from the tables 0x42E56C30 (index 1000 .. 0) and 0x42E583A0 (index 512 .. 0), and the same
+    frequency labels under the panel (+0xD4 / +0xE4 left, +0xD8 / +0xE8 top).
+- **`levels_markers_draw`** (0x400606A0) runs while the markers flag +0x58 is set:
+  - two dashed vertical lines (colour 0x88FFFFFF) at x offsets +0x5C / +0x60 in the plot, and a flag
+    labelled C1 / C2 (colour 0xBBBBBB) on top of each one;
+  - a readout panel at the bottom left of the plot with the rows 'C1 = ', 'C2 = ', 'DC = '. Each row
+    has the frequency (s64 +0x68 / +0x70 / +0x78), the level in dBmV (+0x80 / +0x88 / +0x90) and
+    the voltage (+0x98 / +0xA0 / +0xA8). The rows are 0x11 pixels apart.
+- **`numpad_draw`** (0x4005FF88) draws the numeric keypad in the box at 0x42E646F4 (x, y, w, h as
+  u16):
+  - a dark frame with the title string 0x42E68A8B;
+  - 4 rows of 4 keys, each 0x5A x 0x3C and 0x5D x 0x3F apart. The keys are
+    `7 8 9 F / 4 5 6 F / 1 2 3 F / F 0 . F`, where F is a function key (colour 0x202020; the
+    digits are 0x303030);
+  - each key is a touch button (records 0x42E62A18 .. 0x42E62AAE). It is filled with the colour
+    W32 0x409223B4 when pressed;
+  - the mode byte 0x42E68A89 (1 .. 6) disables keys 11 / 12 / 15, picks the glyphs of keys 7, 11
+    and 15, and shows '+-' on key 12 in modes 2 .. 4. Key 3 always has the same glyph (0x40087B94,
+    likely backspace; OPEN).
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

@@ -4277,3 +4277,116 @@ def t_lwin57(r):
 
 
 TESTS[0x40061A70] = t_lwin57
+
+
+# ================================================================ batch 58: level-view frame and markers, numeric keypad
+def _wr58(m, a, v, sz):
+    m.write(a, (v & ((1 << (8 * sz)) - 1)).to_bytes(sz, "little"))
+
+
+def _wstub58(name, addr, nargs, w):
+    def fn(m, a):
+        m.calls.append((name + "/d0", m.reg(A.UC_ARM_REG_D0)))
+        return w
+    return Stub(name, addr, fn, nargs)
+
+
+def _d58(r):
+    return r.choice([0, r.getrandbits(64), dbl50(r.choice([0.0, 1.5, -2.25, 1e9, r.uniform(-1e6, 1e6)]))])
+
+
+def t_numpad58(r):
+    box = [r.choice([0, 10, 200, r.getrandbits(16)]) for _ in range(4)]
+    mode = r.choice([0, 1, 2, 3, 4, 5, 6, 7, r.getrandbits(8)])
+    press = [r.choice([0, 0, 1, r.getrandbits(8)]) for _ in range(16)]
+    hl = r.getrandbits(32)
+    w1, w2 = r.choice([0, 20, 0x5A, 0x5B, r.getrandbits(32)]), r.choice([0, 9, 0x5B, r.getrandbits(32)])
+    offs = (0xA66, 0xA70, 0xA7A, 0xA98, 0xA48, 0xA52, 0xA5C, 0xAA2, 0xA2A, 0xA34, 0xA3E, 0xAAC, 0xA84, 0xA20, 0xA8E,
+            0xAB6)
+
+    def setup(m):
+        for i, v in enumerate(box):
+            _wr58(m, 0x42E646F4 + 2 * i, v, 2)
+        m.w8(0x42E68A89, mode)
+        for o, v in zip(offs, press):
+            m.w8(0x42E61FF8 + o + 1, v)
+        m.w32(0x409223B4, hl)
+    return Case([], setup=setup, ret=V,
+                stubs=(rec("ea38", 0x4002EA38, 1), rec("ecc4", 0x4002ECC4, 4), rec("cccc", 0x4002CCCC, 1),
+                       rec("dc40", 0x4002DC40, 1), rec_stk("d0d4", 0x4002D0D4, 2), rec_stk("f160", 0x4002F160, 1),
+                       rec("f180", 0x4002F180, 1), rec("d71c", 0x4002D71C, 3, w1), rec_stk("d6f8", 0x4002D6F8, 1),
+                       rec("d164", 0x4002D164, 1, w2), rec("ce7c", 0x4002CE7C, 3), rec("ee78", 0x4002EE78, 3)))
+
+
+TESTS[0x4005FF88] = t_numpad58
+
+
+def t_markers58(r):
+    on = r.choice([0, 1, 1, 1, r.getrandbits(32)])
+    b0, b4 = r.choice([0, 100, r.getrandbits(16), r.getrandbits(32)]), r.choice([0, 30, r.getrandbits(16)])
+    c0 = r.choice([1, 2, 3, 4, 5, 9, 100, 300])
+    m1, m2 = r.choice([0, 50, r.getrandbits(16), r.getrandbits(32)]), r.choice([0, 7, r.getrandbits(16)])
+    adv = r.getrandbits(16)
+    w = r.choice([0, 7, 40, r.getrandbits(32)])
+    s64 = [r.choice([0, 1000, -5, r.getrandbits(64)]) for _ in range(3)]
+    d64 = [_d58(r) for _ in range(6)]
+
+    def setup(m):
+        m.w32(BLK56 + 0x58, on)
+        m.w32(BLK56 + 0xB0, b0)
+        m.w32(BLK56 + 0xB4, b4)
+        m.w32(BLK56 + 0xC0, c0)
+        m.w32(BLK56 + 0x5C, m1)
+        m.w32(BLK56 + 0x60, m2)
+        _wr58(m, 0x42E68BE4, adv, 2)
+        for i, v in enumerate(s64):
+            _wr58(m, BLK56 + 0x68 + 8 * i, v, 8)
+        for i, v in enumerate(d64):
+            _wr58(m, BLK56 + 0x80 + 8 * i, v, 8)
+    return Case([], setup=setup, ret=V,
+                stubs=(rec("dc40", 0x4002DC40, 1), rec("cccc", 0x4002CCCC, 1), rec("ea38", 0x4002EA38, 1),
+                       rec("ce7c", 0x4002CE7C, 3), rec("ecc4", 0x4002ECC4, 4), rec("ebc8", 0x4002EBC8, 3),
+                       _wstub58("e40", 0x40038E40, 3, w), rec_d0("dec", 0x40038DEC, 3), rec_d0("974", 0x40038974, 3)))
+
+
+TESTS[0x400606A0] = t_markers58
+
+
+def t_graph58(r):
+    touch = r.choice([0, 0, 0, 1])
+    box = [r.getrandbits(16) for _ in range(9)]
+    f1, f2 = r.choice([0, 1, r.getrandbits(8)]), r.choice([0, 1, r.getrandbits(8)])
+    v = {o: r.choice([0, 3, 50, r.getrandbits(16), r.getrandbits(32)]) for o in (0xB0, 0xB4, 0xB8, 0xC0, 0xC4, 0xCC,
+                                                                               0xD4, 0xD8, 0xE4, 0xE8)}
+    v[0xC8] = r.choice([1, 1, 2, 3, 5, 10])
+    v[0xD0] = r.choice([0, 1, 2, 3, 6])
+    v[0xE0] = r.choice([0, 1, 2, 7, 20])
+    v[0xF0] = r.choice([0, 1, 3, 9, 20])
+    s120 = r.choice([0, 1000, -5, r.getrandbits(40), r.getrandbits(64)])
+    s128 = r.choice([s120, s120 + 1, s120 + 1000000, r.getrandbits(64)])
+    d140, d148 = _d58(r), _d58(r)
+    w = r.choice([0, 7, 40, r.getrandbits(32)])
+    tabs = [r.getrandbits(32) for _ in range(1001)]
+
+    def setup(m):
+        m.w8(0x42E68BB0 + 0x17, touch)
+        for i, x in enumerate(box):
+            _wr58(m, 0x42E6473A + 2 * i, x, 2)
+        m.w8(BLK56 + 1, f1)
+        m.w8(BLK56 + 2, f2)
+        for o, x in v.items():
+            m.w32(BLK56 + o, x)
+        _wr58(m, BLK56 + 0x120, s120, 8)
+        _wr58(m, BLK56 + 0x128, s128, 8)
+        _wr58(m, BLK56 + 0x140, d140, 8)
+        _wr58(m, BLK56 + 0x148, d148, 8)
+        m.write(0x42E56C30, b"".join(_st50.pack("<I", x) for x in tabs))
+        m.write(0x42E583A0, b"".join(_st50.pack("<I", x) for x in tabs[:513]))
+    return Case([], setup=setup, ret=V,
+                stubs=(rec("dc40", 0x4002DC40, 1), rec("cccc", 0x4002CCCC, 1), rec("ea38", 0x4002EA38, 1),
+                       rec("ce7c", 0x4002CE7C, 3), rec("ecc4", 0x4002ECC4, 4), rec("ec4c", 0x4002EC4C, 4),
+                       rec_stk("f160", 0x4002F160, 1), rec("eba8", 0x4002EBA8, 3),
+                       _wstub58("e40", 0x40038E40, 3, w), rec_d0("c00", 0x40038C00, 3)))
+
+
+TESTS[0x40062448] = t_graph58

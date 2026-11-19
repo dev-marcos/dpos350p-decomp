@@ -1236,3 +1236,6 @@ address,name,type,evidence_level,source,note
 0x4005E838,trace_intensity_accumulate_window,function,DERIVED,this-project:phase5 (trace),
 0x400612FC,levels_view_layout,function,DERIVED,this-project:phase5 (ui),
 0x40061A70,levels_samples_window,function,DERIVED,this-project:phase5 (trace),
+0x40062448,levels_graph_draw,function,DERIVED,this-project:phase5 (ui),
+0x400606A0,levels_markers_draw,function,DERIVED,this-project:phase5 (ui),
+0x4005FF88,numpad_draw,function,DERIVED,this-project:phase5 (ui),
