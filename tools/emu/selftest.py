@@ -1057,6 +1057,27 @@ MUTANTS = [
     (0x4001A708, 'icon_rec(x, y + 0x1BF, y + 0x1D6, 0x400851D4u, 0x98);', 'icon_rec(x, y + 0x1BF, y + 0x1D7, 0x400851D4u, 0x98);'),
     (0x4001A708, '    if (B8(BTN + rec + 1) == 1) {', '    if (B8(BTN + rec + 1)) {'),
     (0x4001A708, '    draw_colour_set(W32(TB + 4));\n    draw_colour_set(0x8800FF);', '    draw_colour_set(W32(TB + 4));'),
+    # batch 66: display menu, high-resolution menu, main toolbar
+    (0x4001CE30, 'text_shadow_draw((x + w - 0x1C) & 0xFFFF, (r0 + 3) & 0xFFFF, "%", 1, 2, 0);', 'text_shadow_draw((x + w - 0x1C) & 0xFFFF, (r0 + 3) & 0xFFFF, "#", 1, 2, 0);'),
+    (0x4001CE30, 'text_d6f8_shadow_draw((x + w - 0x20 - nw) & 0xFFFF', 'text_d6f8_shadow_draw((x + w - 0x20 + nw) & 0xFFFF'),
+    (0x4001CE30, '    half_42e68be2_set(3);', '    half_42e68be2_set(2);'),
+    (0x4001CE30, '(r0 + 0x3C - 0x16) & 0xFFFF, w, 0x3C', '(r0 + 0x3C - 0x14) & 0xFFFF, w, 0x3C'),
+    (0x4001CE30, '(r - 5) & 0xFFFF, B8(SYS + 0x652));', '(r - 5) & 0xFFFF, B8(SYS + 0x653));'),
+    (0x4001CE30, '    wide_button(x, r, w, 0x23C);', '    wide_button(x, r, w, 0x232);'),
+    (0x4001CE30, 'label_row(x, r, 0x40089A78u, ENT(19));', 'label_row(x, r, 0x40089A78u, ENT(18));'),
+    (0x4001CE30, '    r = (r0 + 0x3C + 0x3D) & 0xFFFF;', '    r = (r0 + 0x3C + 0x3C) & 0xFFFF;'),
+    (0x4001CE30, 'text_shadow_draw((H16(0x42E68BE4u) + x + 0x41) & 0xFFFF', 'text_shadow_draw((H16(0x42E68BE2u) + x + 0x41) & 0xFFFF'),
+    (0x40021630, '    if (B8(SYS + 0x660) == i) {', '    if (B8(SYS + 0x661) == i) {'),
+    (0x40021630, '        if (i == 1 || i == 5)', '        if (i == 1 || i == 4)'),
+    (0x40021630, '        xo = x + 0x14 + 0x69 * ((i - 1) & 3);', '        xo = x + 0x14 + 0x68 * ((i - 1) & 3);'),
+    (0x40021630, 'text_draw((xo + ((0x64 - tw) >> 1)) & 0xFFFF, (r + 0xF) & 0xFFFF, s);', 'text_draw((xo + ((0x64 - tw) >> 1)) & 0xFFFF, (r + 0x10) & 0xFFFF, s);'),
+    (0x40021630, '(r + SB8(e2 + 0x195) + 6) & 0xFFFF', '(r + SB8(e2 + 0x194) + 6) & 0xFFFF'),
+    (0x40021630, '(tw + x + SB8(e + 0x194) + 0x49) & 0xFFFF', '(tw + x + SB8(e + 0x194) + 0x48) & 0xFFFF'),
+    (0x40019DB8, '    case 4: return 0xAA5588;', '    case 4: return 0xAA5589;'),
+    (0x40019DB8, '        wd = i == 8 ? 0x67 : 0x66;', '        wd = i == 7 ? 0x67 : 0x66;'),
+    (0x40019DB8, '0x40088208u + 0x170 * i, 2, 2, 0);', '0x40088208u + 0x160 * i, 2, 2, 0);'),
+    (0x40019DB8, '(y + SB8(e + 0x195) + 0x19) & 0xFFFF', '(y + SB8(e + 0x195) + 0x18) & 0xFFFF'),
+    (0x40019DB8, '    rect_fill(x, y, 0x3BA, 0x2C);', '    rect_fill(x, y, 0x3B9, 0x2C);'),
 ]
 
 

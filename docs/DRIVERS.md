@@ -2561,6 +2561,37 @@ DERIVED. The menu meanings come from the English labels of the text table (`buil
     when not.
   - Which view each button opens is OPEN. The column only draws; the touch handling is elsewhere.
 
+## Display menu, high-resolution menu and main toolbar (batch 66)
+
+Spec: `tools/platform_spec/zzj_display_menus.py`, 3 functions. Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The names are
+DERIVED. The menu meanings come from the English labels of the text table (`build/uitext46.txt`).
+
+- **`main_toolbar_draw`** (0x40019DB8) draws the bottom toolbar of the oscilloscope view (layout
+  + 0x14 / + 0x16).
+  - It has nine buttons, 0x66 x 0x2C each and 0x6A apart, with the labels 'System', 'Function',
+    'Measure', 'Browser', 'Cursor X', 'Cursor Y', 'Save wave', 'Screenshot' and 'Zoom' (text
+    entries 0 .. 8).
+  - The icons are 0x40088208 + 0x170 x i.
+  - The touch records are 0x42E61FF8 + 2 + 0xA x i. A pressed button is filled with toolbar
+    theme + 0x1C.
+- **`display_menu_draw`** (0x4001CE30) draws the display settings menu (layout + 0x92 .. + 0x98).
+  It has seven rows, labelled with text entries 16 .. 22.
+  - 'Waveform light' shows the value byte SYS+0x654 with a '%' and a slider.
+  - 'Color temperature', 'X-Y mode display' and 'Background gird' are switches for the bytes
+    SYS+0x653, SYS+0x652 and SYS+0x655. SYS+0x655 is the grid flag that `plot_grid_draw` (batch
+    65) reads, so this is now STATIC-CONFIRMED.
+  - 'Capture output', 'Frequency response analyzer' and 'Spectrum analyzer' (the last one with
+    ' (CH1)') have an arrow icon, so they open other views.
+  - The touch records are 0x42E61FF8 + 0x20A + 0xA x row.
+- **`hires_menu_draw`** (0x40021630) draws the 'High resolution mode' menu (layout + 0xE6 ..
+  + 0xEC).
+  - It has nine options for the byte SYS+0x660: 'OFF' / '8 bit' (option 0, wide), then '9 bit' ..
+    '16 bit' (strings 0x400903D8 + 8 x i) in two rows of four.
+  - The selected option is filled with theme colour + 0x10.
+  - The touch records are 0x42E61FF8 + 0x55C + 0xA x i.
+  - What the extra bits do in the acquisition path (averaging or oversampling) is OPEN.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

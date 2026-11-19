@@ -11,7 +11,7 @@ address,size,name,type,evidence_level,source
 0x40019CF8,184,slider_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x40019DB0,7,code_40019db0,data,OPEN,analyze.py
 0x40019DB7,1,pad_40019db7,padding,STATIC-CONFIRMED,analyze.py:zero
-0x40019DB8,2304,func_40019db8,function_arm,DERIVED,analyze.py:prologue
+0x40019DB8,2304,main_toolbar_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4001A6B8,80,pool_4001a6b8,literal_pool,DERIVED,analyze.py
 0x4001A708,1464,side_menu_column_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4001ACC0,144,pool_4001acc0,literal_pool,DERIVED,analyze.py
@@ -29,7 +29,7 @@ address,size,name,type,evidence_level,source
 0x4001C380,60,pool_4001c380,literal_pool,DERIVED,analyze.py
 0x4001C3BC,2628,func_4001c3bc,function_arm,DERIVED,analyze.py:rea
 0x4001CE00,48,pool_4001ce00,literal_pool,DERIVED,analyze.py
-0x4001CE30,1916,func_4001ce30,function_arm,DERIVED,analyze.py:rea
+0x4001CE30,1916,display_menu_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4001D5AC,92,pool_4001d5ac,literal_pool,DERIVED,analyze.py
 0x4001D608,4804,func_4001d608,function_arm,DERIVED,analyze.py:rea
 0x4001E8CC,4,pool_4001e8cc,literal_pool,DERIVED,analyze.py
@@ -50,7 +50,7 @@ address,size,name,type,evidence_level,source
 0x40021604,16,pool_40021604,literal_pool,DERIVED,analyze.py
 0x40021614,4,code_40021614,data,OPEN,analyze.py
 0x40021618,24,pool_40021618,literal_pool,DERIVED,analyze.py
-0x40021630,2036,func_40021630,function_arm,DERIVED,analyze.py:rea
+0x40021630,2036,hires_menu_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x40021E24,68,pool_40021e24,literal_pool,DERIVED,analyze.py
 0x40021E68,2724,func_40021e68,function_arm,DERIVED,analyze.py:rea
 0x4002290C,8,pool_4002290c,literal_pool,DERIVED,analyze.py

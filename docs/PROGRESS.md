@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1216 | 89.81% | 227626 | 67.44% |
+| EQUIVALENT | 1219 | 90.03% | 233882 | 69.30% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 138 | 10.19% | 109878 | 32.56% |
+| ASM | 135 | 9.97% | 103622 | 30.70% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1216 (90.81%) | 337104 | 227626 (67.52%) |
+| main code | 1339 | 1219 (91.04%) | 337104 | 233882 (69.38%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -36,10 +36,13 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40019B8C` | switch_on_off_draw | 240 | EQUIVALENT | 200 | `nonmatching/platform/func_40019b8c.c` |
 | `0x40019C7C` | icon_19c7c_draw | 124 | EQUIVALENT | 200 | `nonmatching/platform/func_40019c7c.c` |
 | `0x40019CF8` | slider_draw | 184 | EQUIVALENT | 200 | `nonmatching/platform/func_40019cf8.c` |
+| `0x40019DB8` | main_toolbar_draw | 2304 | EQUIVALENT | 200 | `nonmatching/platform/func_40019db8.c` |
 | `0x4001A708` | side_menu_column_draw | 1464 | EQUIVALENT | 200 | `nonmatching/platform/func_4001a708.c` |
 | `0x4001C200` | battery_icon_draw | 324 | EQUIVALENT | 200 | `nonmatching/platform/func_4001c200.c` |
 | `0x4001C348` | ui_window_05_draw | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_4001c348.c` |
+| `0x4001CE30` | display_menu_draw | 1916 | EQUIVALENT | 200 | `nonmatching/platform/func_4001ce30.c` |
 | `0x4001E8E0` | menu_three_rows_draw | 764 | EQUIVALENT | 200 | `nonmatching/platform/func_4001e8e0.c` |
+| `0x40021630` | hires_menu_draw | 2036 | EQUIVALENT | 200 | `nonmatching/platform/func_40021630.c` |
 | `0x40023D04` | window_frame_23d04_draw | 340 | EQUIVALENT | 200 | `nonmatching/platform/func_40023d04.c` |
 | `0x40023E90` | func_40023ea4_unless_t17 | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_40023e90.c` |
 | `0x40024C4C` | func_40024c60_unless_t17 | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_40024c4c.c` |

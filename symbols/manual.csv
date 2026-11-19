@@ -1263,3 +1263,6 @@ address,name,type,evidence_level,source,note
 0x4002BC40,fft_settings_menu_draw,function,DERIVED,this-project:phase5 (ui),
 0x4002C7AC,plot_grid_draw,function,DERIVED,this-project:phase5 (ui),
 0x4001A708,side_menu_column_draw,function,DERIVED,this-project:phase5 (ui),
+0x4001CE30,display_menu_draw,function,DERIVED,this-project:phase5 (ui),
+0x40021630,hires_menu_draw,function,DERIVED,this-project:phase5 (ui),
+0x40019DB8,main_toolbar_draw,function,DERIVED,this-project:phase5 (ui),

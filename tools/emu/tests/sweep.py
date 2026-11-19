@@ -4898,3 +4898,100 @@ def t_sidecol65(r):
 
 
 TESTS[0x4001A708] = t_sidecol65
+
+
+# ================================================================ batch 66: display settings menu, high-resolution mode menu
+def _d0d4_text66():
+    """text_shadow_draw stub that records the text by content when it can be read (a C string
+    literal lives at another address than the stock one)."""
+    def fn(m, a):
+        x = regs(m, 4)
+        sp = m.reg(A.UC_ARM_REG_SP)
+        try:
+            b = m.read(x[2], 24)
+            t = b[:b.index(0)] if 0 in b else b
+        except Exception:
+            t = x[2]
+        m.calls.append(("d0d4", x[0], x[1], t, x[3], m.r32(sp), m.r32(sp + 4)))
+    return Stub("d0d4", 0x4002D0D4, fn, 0)
+
+
+def _menu66(r, lay, ents, recs, th_offs):
+    box = [r.choice([0, 3, 30, 200, r.getrandbits(16)]) for _ in range(4)]
+    th = {o: r.getrandbits(32) for o in th_offs}
+    press = [r.choice([0, 0, 0, 1, r.getrandbits(8)]) for _ in recs]
+    ev = {n: (r.getrandbits(32), r.getrandbits(8), r.getrandbits(8)) for n in ents}
+
+    def setup(m):
+        for i, v in enumerate(box):
+            m.write(0x42E64520 + lay + 2 * i, v.to_bytes(2, "little"))
+        for o, v in th.items():
+            m.w32(SYS + 0x3DD550 + o, v)
+        for rc, v in zip(recs, press):
+            m.w8(0x42E61FF8 + rc + 1, v)
+        for n, (pt, dx, dy) in ev.items():
+            e = 0x42C2FE74 + 0x1A0 * n
+            m.w32(e, pt)
+            m.w8(e + 0x194, dx)
+            m.w8(e + 0x195, dy)
+    return setup
+
+
+def t_dispmenu66(r):
+    base = _menu66(r, 0x92, range(16, 23), [0x20A + 0xA * i for i in range(7)], (0, 4, 8))
+    b = [r.choice([0, 1, 50, 100, r.getrandbits(8)]) for _ in range(4)]
+    half = r.getrandbits(16)
+    nw = r.choice([0, 8, 30, r.getrandbits(16), r.getrandbits(32)])
+
+    def setup(m):
+        base(m)
+        for o, v in zip((0x652, 0x653, 0x654, 0x655), b):
+            m.w8(SYS + o, v)
+        m.write(0x42E68BE4, half.to_bytes(2, "little"))
+    return Case([], setup=setup, ret=V,
+                stubs=tuple(x for x in _draw62() if x.name != "d0d4") + (
+                    _d0d4_text66(), rec("d71c", 0x4002D71C, 3, nw & 0xFFFFFFFF), rec_stk("d724", 0x4002D724, 4),
+                    rec("9cf8", 0x40019CF8, 3), rec("9b8c", 0x40019B8C, 3)))
+
+
+TESTS[0x4001CE30] = t_dispmenu66
+
+
+def t_hires66(r):
+    base = _menu66(r, 0xE6, (36, 140), [0x55C + 0xA * i for i in range(9)], (0, 4, 8, 0xC, 0x10, 0x14))
+    sel = r.choice([0, 1, 4, 5, 8, 9, r.randrange(0, 9), r.getrandbits(8)])
+    tw = r.choice([0, 7, 0x64, 0x65, 0x19A, 0x19B, r.getrandbits(16), r.getrandbits(32)])
+
+    def setup(m):
+        base(m)
+        m.w8(SYS + 0x660, sel)
+    return Case([], setup=setup, ret=V, stubs=_draw62() + (rec("d164", 0x4002D164, 1, tw & 0xFFFFFFFF),
+                                                          rec("ce7c", 0x4002CE7C, 3)))
+
+
+TESTS[0x40021630] = t_hires66
+
+
+def t_maintb66(r):
+    lay = [r.choice([0, 3, 30, 700, r.getrandbits(16)]) for _ in range(2)]
+    th = {o: r.getrandbits(32) for o in (0, 4, 8, 0x1C)}
+    press = [r.choice([0, 0, 0, 1, r.getrandbits(8)]) for _ in range(9)]
+    ev = {n: (r.getrandbits(32), r.getrandbits(8), r.getrandbits(8)) for n in range(9)}
+    tw = r.choice([0, 7, 0x66, 0x67, 0x100, r.getrandbits(16), r.getrandbits(32)])
+
+    def setup(m):
+        for i, v in enumerate(lay):
+            m.write(0x42E64520 + 0x14 + 2 * i, v.to_bytes(2, "little"))
+        for o, v in th.items():
+            m.w32(SYS + 0x3DD530 + o, v)
+        for i, v in enumerate(press):
+            m.w8(0x42E61FF8 + 3 + 0xA * i, v)
+        for n, (pt, dx, dy) in ev.items():
+            e = 0x42C2FE74 + 0x1A0 * n
+            m.w32(e, pt)
+            m.w8(e + 0x194, dx)
+            m.w8(e + 0x195, dy)
+    return Case([], setup=setup, ret=V, stubs=_draw62() + (rec("d164", 0x4002D164, 1, tw & 0xFFFFFFFF),))
+
+
+TESTS[0x40019DB8] = t_maintb66
