@@ -757,7 +757,7 @@ address,size,name,type,evidence_level,source
 0x40043A40,64,settings_b_fields,function_arm,DERIVED,this-project:phase5 (settings)
 0x40043A80,52,settings_b_save,function_arm,DERIVED,this-project:phase5 (settings)
 0x40043AB4,88,settings_b_load,function_arm,DERIVED,this-project:phase5 (settings)
-0x40043B0C,348,func_40043b0c,function_arm,DERIVED,analyze.py:rea
+0x40043B0C,348,record_c_fields,function_arm,DERIVED,this-project:phase5 (storage)
 0x40043C68,52,settings_c_save,function_arm,DERIVED,this-project:phase5 (settings)
 0x40043C9C,12,settings_c_load,function_arm,DERIVED,this-project:phase5 (settings)
 0x40043CA8,40,settings_c_load_tail,function_arm,DERIVED,this-project:phase5 (settings)
@@ -1269,13 +1269,13 @@ address,size,name,type,evidence_level,source
 0x40063714,92,fpga_cmd1c_write,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40063770,40,fpga_cmd18_read,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40063798,148,fpga_position_290_update,function_arm,DERIVED,this-project:phase5 (acquisition)
-0x4006382C,524,func_4006382c,function_arm,DERIVED,analyze.py:rea
+0x4006382C,524,trigger_level_auto,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40063A38,24,pool_40063a38,literal_pool,DERIVED,analyze.py
 0x40063A50,368,table_684_init,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40063BC0,116,fpga_counters_init,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40063C34,124,fpga_counter_step,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40063CB0,32,func_40063c34_all8,function_arm,DERIVED,this-project:phase5 (acquisition)
-0x40063CD0,564,func_40063cd0,function_arm,DERIVED,analyze.py:rea
+0x40063CD0,564,smec_byte_params_sync,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40063F04,1592,func_40063f04,function_arm,DERIVED,analyze.py:rea
 0x4006453C,692,func_4006453c,function_arm,DERIVED,analyze.py:rea
 0x400647F0,4,pool_400647f0,literal_pool,DERIVED,analyze.py

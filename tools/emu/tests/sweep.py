@@ -4458,3 +4458,87 @@ def t_bode59(r):
 
 
 TESTS[0x40039918] = t_bode59
+
+
+# ================================================================ batch 60: auto trigger level, SMEC byte sync, record C
+def _wr60(m, a, v, sz):
+    m.write(a, (v & ((1 << (8 * sz)) - 1)).to_bytes(sz, "little"))
+
+
+def t_trigauto60(r):
+    st = r.choice([1, 2, 2, 3, 4])
+    n = r.choice([0x14, 0x15, 0x16, 0x20, 100, 300, r.randrange(0x14, 600), r.choice([0, 0x13])])
+    L = r.choice([0, 1, 2, 3, 5, 9, 10])
+    sel = r.choice([0, 1])
+    sh = r.choice([0, 0, 1, 4, 8, 32, 0x101])
+    mn = r.choice([0, 100, 1000, r.getrandbits(16)])
+    rg = r.choice([0, 1000, 4000, 30000, r.getrandbits(16)])
+    style = r.choice([0, 1, 2])
+    tot = 0x14 // 2 + st * (n // 2 + 20) + 64
+    if style == 0:
+        smp = [r.getrandbits(16) for _ in range(tot)]
+    elif style == 1:
+        smp = [(mn + rg * ((i // 7) % 3) // 2 + r.randrange(0, 50)) & 0xFFFF for i in range(tot)]
+    elif style == 2:
+        smp = [(mn + r.choice([0, rg // 4, rg // 2, rg])) & 0xFFFF for _ in range(tot)]
+    if r.random() < 0.4:               # random walk over the level range: counts differ per level
+        v, smp, stp = mn + rg // 2, [], max(1, rg // r.choice([3, 6, 12]))
+        for _ in range(tot):
+            v = min(max(v + r.randrange(-stp, stp + 1), mn - stp), mn + rg + stp)
+            smp.append(v & 0xFFFF)
+    elif r.random() < 0.5:             # samples right on the candidate levels
+        sh = 0
+        lvs = [(i * rg // (L + 1) + mn) for i in range(1, L + 1)] or [mn]
+        smp = [(r.choice(lvs) + r.choice([-1, 0, 0, 0, 1])) & 0xFFFF for _ in range(tot)]
+    sp = r.random()
+    if sp < 0.3:                       # hand-made streams where one sample more or less changes the pick
+        sh, L = 0, r.choice([2, 3, 5])
+        mn, rg = r.randrange(0, 1000), r.randrange(4 * (L + 1), 20000)
+        lo, hi = mn, mn + rg
+        if sp < 0.15:                  # one stream, one rising step at its first sample
+            st, n = 1, 0x14 + r.choice([2, 3, 4])
+            smp = [r.getrandbits(16) for _ in range(10)] + [lo] + [hi] * (tot - 11)
+            smp[10 + n - 0x14] = ((L >> 1) + 1) * rg // (L + 1) + mn   # just past the window: hits the middle level
+        else:                          # two streams: the first wobbles on level 1, the second stays high
+            st, n = 2, 0x14 + 2 * 20
+            l1 = rg // (L + 1) + mn
+            smp = [r.getrandbits(16) for _ in range(10)]
+            for j in range(tot):
+                smp += [l1 - 1 if j % 2 else l1 + 1, hi]
+    buf = 0x42000000
+
+    def setup(m):
+        m.max_insns = 150_000_000
+        m.w32(SYS + 0x558, st)
+        m.w32(SYS + 0x7BC, n)
+        m.w8(SYS + 0x27C, sel)
+        m.w32(SYS + 0x7B4 + 4 * sel, buf)
+        m.w32(SYS + 0x7B8 - 4 * sel, 0x42100000)
+        m.w32(SYS + 0x1BC, sh)
+        _wr60(m, SYS + 0x632, L, 2)
+        base = SYS + (0xB44 if sel else 0xB28)
+        m.w32(base + 4, mn)
+        m.w32(base + 8, rg)
+        m.write(buf, b"".join(_st50.pack("<H", v) for v in smp))
+        _wr60(m, SYS + 0x27E, 0x1234, 2)
+    c = Case([], setup=setup, ret=V)
+    return c
+
+
+TESTS[0x4006382C] = t_trigauto60
+
+
+def t_smecsync60(r):
+    new = [r.getrandbits(8) for _ in range(8)]
+    old = [v if r.random() < 0.5 else r.getrandbits(8) for v in new]
+    tail = [r.getrandbits(8) for _ in range(4)]
+
+    def setup(m):
+        m.write(SYS + 0x674, bytes(new))
+        m.write(SYS + 0xBB8, bytes(old) + bytes(tail))
+    return Case([], setup=setup, ret=V,
+                stubs=(rec("upd", 0x40049EC4, 4), rec("commit", 0x40049F1C, 1), rec("sel", SEL, 1), rec("wr", WR, 1)))
+
+
+TESTS[0x40063CD0] = t_smecsync60
+TESTS[0x40043B0C] = lambda r: Case([], ret=V, stubs=(rec("cur", 0x40067128, 1), rec("fld", 0x40067450, 2)))

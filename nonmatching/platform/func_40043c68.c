@@ -15,11 +15,11 @@ void persistence_read(u32 dev, u32 addr, volatile void *buf, u32 len);
 void persistence_write_read_modify_write(u32 dev, u32 addr, volatile void *buf, u32 len);
 #define SER_IMAGE ((volatile void *)0x408A526Cu)   /* SYS_INFO+0x360404 */
 
-void func_40043b0c(void);
+void record_c_fields(void);
 
 void settings_c_save(void)
 {
     serializer_set_encode_mode();
-    func_40043b0c();
+    record_c_fields();
     persistence_write_read_modify_write(0, SYS32(0x7F0), SER_IMAGE, 0x4000);
 }

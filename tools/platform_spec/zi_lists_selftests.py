@@ -256,7 +256,7 @@ void func_4004c7c4(void);
 void sys_word_pair_570_set(u32 lo, u32 hi);
 void sys_word_pair_578_set(u32 lo, u32 hi);
 void frontend_apply_all(void);
-void func_4006382c(void);
+void trigger_level_auto(void);
 
 static void level_apply(void)
 {
@@ -323,7 +323,7 @@ void buttons_05c_handler(void)
     } else if (TB(0x98) == 2) {
         TB(0x98) = 0;
         TB(0) = 0;
-        func_4006382c();
+        trigger_level_auto();
     } else if (TB(0xA2) == 2) {
         TB(0xA2) = 0;
         TB(0) = 0;

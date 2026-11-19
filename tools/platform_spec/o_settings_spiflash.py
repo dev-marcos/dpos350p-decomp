@@ -85,7 +85,7 @@ void settings_b_load(void)
 """)
 
 # ---------------------------------------------------------------- record C: list at 0x40043B0C (not rewritten)
-rec("c", "func_40043b0c", 0x40043C68, 0x40043C9C, 0x7F0, 0x4000, "field list 0x40043B0C")
+rec("c", "record_c_fields", 0x40043C68, 0x40043C9C, 0x7F0, 0x4000, "field list 0x40043B0C")
 
 # ---------------------------------------------------------------- record D: 0x42E554B0
 g(0x40043CD0, 132, "settings_d_fields",

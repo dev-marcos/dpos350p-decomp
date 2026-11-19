@@ -525,7 +525,7 @@ C: `tools/platform_spec/o_settings_spiflash.py`. Tests: `tools/emu/tests/fpga.py
   |---|---|---|---|
   | A | 64 bytes at 0x405454EC (SYS+0x684) | SYS+0x7F4 | 0x1000 |
   | B | SYS+0x7AC (1), +0x658 (4), +0 (4) | SYS+0x7E4 | 0x1000 |
-  | C | list 0x40043B0C (not rewritten) | SYS+0x7F0 | 0x4000 |
+  | C | `record_c_fields` (0x40043B0C, batch 60): the FFT spur lists at 0x42E3C000 | SYS+0x7F0 | 0x4000 |
   | D | 0x42E554B0: 4 words, then 300 × (word, double, double) | SYS+0x7EC | 0x2000 |
   | E | 4 words at 0x42E68AE0; the first is the magic 0x5A5555A5 | SYS+0x7DC | 0x1000 |
   | F | the slot byte SYS+0x7C0 | SYS+0x7C4 | 0x1000 |
@@ -2306,6 +2306,39 @@ are DERIVED.
   - it is resampled with m = +4 x SYS+0x554 / +0x5C (kept in +0x40): nearest neighbour below
     3 x SYS+0x554, else the spline. Then it is copied back;
   - every row is clamped to 3 .. +6 - 3 and flipped to +6 - row (screen rows grow downwards).
+
+## Automatic trigger level, SMEC byte sync, settings record C (batch 60)
+
+Spec: `tools/platform_spec/zzc_trigger_smec_rec.py`, 3 functions. Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The names and the
+purpose are DERIVED.
+
+- **`trigger_level_auto`** (0x4006382C) picks the trigger level u16 SYS+0x27E:
+  - the candidates are L = u16 SYS+0x632 levels, min + i x range / (L + 1) for i = 1 .. L. Min and
+    range are the words +4 / +8 of SYS+0xB28, or of SYS+0xB44 when SYS+0x27C is set. L is used up
+    to 10: the counters are 10 words on the stack, and a larger L would overwrite the frame;
+  - the samples are u16 at W32 SYS+0x7B4 (or +0x7B8) + 0x14, with SYS+0x558 streams interleaved.
+    Each stream has (u16 SYS+0x7BC - 0x14) / SYS+0x558 samples, each shifted right by SYS+0x1BC.
+    With fewer than 0x14 bytes, the u16 count wraps and the scan runs over 65,000 samples;
+  - each level counts its crossings, rising (prev < level <= cur) or falling
+    (cur <= level < prev);
+  - it takes the level with the fewest crossings, or the middle one (L / 2) when the middle count
+    x 4 is below the fewest x 5.
+- **`smec_byte_params_sync`** (0x40063CD0) handles the 8 bytes SYS+0x674 .. +0x67B. For each one
+  that differs from its copy at SYS+0xBB8 + i:
+  - it updates the copy;
+  - it sends SMEC job 0x19 + i (`fpga_param_updater`, size 1; the unused word argument is an
+    unaligned load for odd i), commits job 0xB9 + i, and writes the byte to FPGA selector 0xA6 + i.
+
+  It always ends by writing 0 and then 1 to selector 0x11. That looks like a latch strobe
+  (DERIVED). What the 8 bytes control is OPEN.
+- **`record_c_fields`** (0x40043B0C) is the field list of settings record C, the FFT spur lists at
+  0x42E3C000:
+  - the serializer cursor is set to 0;
+  - then the four u16 counts +6 / +4 / +2 / +0 and the four float means +0x14 / +0x10 / +0xC /
+    +8;
+  - then 200 / 400 / 650 / 1200 pairs of float value and u16 bin, from +0x2340 / +0x1D00 /
+    +0x12D8 / +0x18 and +0x37F4 / +0x34D4 / +0x2FC0 / +0x2660 (the FFT spur modes 0 .. 3, see above).
 
 ## Not yet rewritten (next batches)
 

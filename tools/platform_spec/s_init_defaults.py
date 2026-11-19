@@ -276,13 +276,13 @@ s(0x40043CA8, 40, "settings_c_load_tail",
   "Second half of settings_c_load (the 12-byte entry falls through into it with p = SYS_INFO, off = 0x360404, len = 0x4000): read len bytes from the flash address p+0x7F0 into p + off, then decode the field list 0x40043B0C.", """
 void persistence_read(u32 dev, u32 addr, volatile void *buf, u32 len);
 void serializer_set_decode_mode(void);
-void func_40043b0c(void);
+void record_c_fields(void);
 
 void settings_c_load_tail(volatile unsigned char *p, u32 off, u32 unused, u32 len)
 {
     (void)unused;
     persistence_read(0, *(volatile u32 *)(p + 0x7F0), p + off, len);
     serializer_set_decode_mode();
-    func_40043b0c();
+    record_c_fields();
 }
 """, src="settings")

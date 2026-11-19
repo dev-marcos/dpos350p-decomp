@@ -1242,3 +1242,6 @@ address,name,type,evidence_level,source,note
 0x4003A680,timebase_step_table_init,function,DERIVED,this-project:phase5 (timebase),
 0x4003B834,timebase_divisors_compute,function,DERIVED,this-project:phase5 (timebase),
 0x40039918,bode_curves_zoom,function,DERIVED,this-project:phase5 (trace),
+0x4006382C,trigger_level_auto,function,DERIVED,this-project:phase5 (acquisition),
+0x40063CD0,smec_byte_params_sync,function,DERIVED,this-project:phase5 (acquisition),
+0x40043B0C,record_c_fields,function,DERIVED,this-project:phase5 (storage),

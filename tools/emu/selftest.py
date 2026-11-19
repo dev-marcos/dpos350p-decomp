@@ -928,6 +928,26 @@ MUTANTS = [
     (0x40039918, '        *p = (unsigned short)(H16(BB + 6) - *p);', '        *p = (unsigned short)(H16(BB + 6) - *p - 1);'),
     (0x40039918, '    zoom_one(0x9CC0);', '    zoom_one(0x9CC2);'),
     (0x40039918, '    W32(BB + 0x40) = H16(BB + 4) * W32(SYS + 0x554) / W32(BB + 0x5C);', '    W32(BB + 0x40) = H16(BB + 4) * W32(SYS + 0x554) / (W32(BB + 0x5C) + 1);'),
+    # batch 60: auto trigger level, SMEC sync, record C
+    (0x4006382C, '                    if (cur >= lv)', '                    if (cur > lv)'),
+    (0x4006382C, '                } else if (lv < prev && lv >= cur) {', '                } else if (lv < prev && lv > cur) {'),
+    (0x4006382C, '                lv = (int)(i * W32(lvb + 8) / (L + 1) + W32(lvb + 4));', '                lv = (int)(i * W32(lvb + 8) / (L + 2) + W32(lvb + 4));'),
+    (0x4006382C, '    if ((unsigned long long)cnt[L >> 1] * 4 < (unsigned long long)mn * 5)', '    if ((unsigned long long)cnt[L >> 1] * 4 <= (unsigned long long)mn * 5)'),
+    (0x4006382C, '        if (cnt[i] < mn) {', '        if (cnt[i] <= mn) {'),
+    (0x4006382C, '    H16(SYS + 0x27E) = (unsigned short)((idx + 1) * W32(lvb + 8)', '    H16(SYS + 0x27E) = (unsigned short)((idx + 2) * W32(lvb + 8)'),
+    (0x4006382C, '    seg = (u32)(((int)n - 0x14) / (int)st) & 0xFFFF;', '    seg = (u32)(((int)n - 0x13) / (int)st) & 0xFFFF;'),
+    (0x4006382C, '        lvb = SYS + 0xB44;', '        lvb = SYS + 0xB28;'),
+    (0x4006382C, '        p = (volatile unsigned short *)(base + 0x14 + 2 * k);', '        p = (volatile unsigned short *)(base + 0x16 + 2 * k);'),
+    (0x4006382C, '            q += st;', '            q += 1;'),
+    (0x40063CD0, '            fpga_param_updater(0x19 + i, 1, W32(SYS + 0xBB8 + i), v);', '            fpga_param_updater(0x18 + i, 1, W32(SYS + 0xBB8 + i), v);'),
+    (0x40063CD0, '            smec_commit(0xB9 + i);', '            smec_commit(0xB9);'),
+    (0x40063CD0, '    fpga_data_byte_write(1);', '    fpga_data_byte_write(2);'),
+    (0x40063CD0, '        if (B8(SYS + 0xBB8 + i) != v) {', '        if (B8(SYS + 0xBB8 + i) == v) {'),
+    (0x40063CD0, '    for (i = 0; i < 8; i++) {', '    for (i = 0; i < 7; i++) {'),
+    (0x40043B0C, '    pairs(0x1D00, 0x34D4, 400);', '    pairs(0x1D00, 0x34D4, 399);'),
+    (0x40043B0C, '    pairs(0x18, 0x2660, 1200);', '    pairs(0x18, 0x2662, 1200);'),
+    (0x40043B0C, '    serializer_process_field((volatile void *)(SPUR + 0xC), 4);', '    serializer_process_field((volatile void *)(SPUR + 0xC), 2);'),
+    (0x40043B0C, '    serializer_set_cursor(0);', '    serializer_set_cursor(1);'),
 ]
 
 

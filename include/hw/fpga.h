@@ -169,7 +169,7 @@ void applied_state_invalidate(void);
 void func_4003f2f4(void);                    /* time-base set-up (split by the analyser, OPEN) */
 void fpga_params_6e4_sync(void);
 void func_40063f04(void);
-void func_40063cd0(void);
+void smec_byte_params_sync(void);
 void func_40063c34_all8(void);
 void fpga_cmd1b_write(void);
 void fpga_cmd1c_write(void);

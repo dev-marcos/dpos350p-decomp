@@ -9,12 +9,12 @@
 
 void persistence_read(u32 dev, u32 addr, volatile void *buf, u32 len);
 void serializer_set_decode_mode(void);
-void func_40043b0c(void);
+void record_c_fields(void);
 
 void settings_c_load_tail(volatile unsigned char *p, u32 off, u32 unused, u32 len)
 {
     (void)unused;
     persistence_read(0, *(volatile u32 *)(p + 0x7F0), p + off, len);
     serializer_set_decode_mode();
-    func_40043b0c();
+    record_c_fields();
 }
