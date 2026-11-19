@@ -1256,3 +1256,7 @@ address,name,type,evidence_level,source,note
 0x40028740,config_menu_draw,function,DERIVED,this-project:phase5 (ui),
 0x40028AB4,config_slot_menu_draw,function,DERIVED,this-project:phase5 (ui),
 0x4004201C,zoom_ratio_window_update,function,DERIVED,this-project:phase5 (ui),
+0x4002A184,bode_toolbar_draw,function,DERIVED,this-project:phase5 (ui),
+0x4002A7F4,bode_sweep_bar_draw,function,DERIVED,this-project:phase5 (ui),
+0x4002AE60,levels_toolbar_draw,function,DERIVED,this-project:phase5 (ui),
+0x4002B43C,levels_param_bar_draw,function,DERIVED,this-project:phase5 (ui),

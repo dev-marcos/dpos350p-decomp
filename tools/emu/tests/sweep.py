@@ -4750,3 +4750,74 @@ def t_zoomratio63(r):
 
 
 TESTS[0x4004201C] = t_zoomratio63
+
+
+# ================================================================ batch 64: Bode toolbar and sweep-settings bar
+def _bar64(lay, ents, recs, extra):
+    def t(r):
+        box = [r.choice([0, 3, 200, r.getrandbits(16)]) for _ in range(4)]
+        th = {o: r.getrandbits(32) for o in (0, 4, 8, 0x1C)}
+        press = [r.choice([0, 0, 0, 1, r.getrandbits(8)]) for _ in recs]
+        ev = {n: (r.getrandbits(32), r.getrandbits(8), r.getrandbits(8)) for n in ents}
+        bode = [r.choice([0, 1, r.getrandbits(8)]) for _ in range(3)]
+        words = [r.choice([0, 1, -1, 5000, -20000, r.getrandbits(32)]) & 0xFFFFFFFF for _ in range(5)]
+        tw = r.choice([0, 7, 0xA6, 0xA7, 0x100, r.getrandbits(16), r.getrandbits(32)])
+
+        def setup(m):
+            for i, v in enumerate(box):
+                m.write(0x42E64520 + lay + 2 * i, v.to_bytes(2, "little"))
+            for o, v in th.items():
+                m.w32(SYS + 0x3DD530 + o, v)
+            for rc, v in zip(recs, press):
+                m.w8(0x42E61FF8 + rc + 1, v)
+            for n, (pt, dx, dy) in ev.items():
+                e = 0x42C2FE74 + 0x1A0 * n
+                m.w32(e, pt)
+                m.w8(e + 0x194, dx)
+                m.w8(e + 0x195, dy)
+            for i, v in enumerate(bode):
+                m.w8(0x42E180C8 + 0x44 + i, v)
+            for i, v in enumerate(words):
+                m.w32(0x42E180C8 + 0x4C + 4 * i, v)
+        return Case([], setup=setup, ret=V, stubs=_draw62() + (rec("d164", 0x4002D164, 1, tw & 0xFFFFFFFF),) + extra)
+    return t
+
+
+TESTS[0x4002A184] = _bar64(0x1E2, (67, 68, 7, 69, 70, 71), [0xAC0 + 0xA * i for i in range(6)], ())
+TESTS[0x4002A7F4] = _bar64(0x1F0, (65, 66, 72, 73, 74, 75, 76, 77), [0xB06 + 0xA * i for i in range(6)],
+                           (rec("7944", 0x40037944, 0), rec_d0("8974", 0x40038974, 3), rec_d0("8e40", 0x40038E40, 3),
+                            rec_stk("d6f8", 0x4002D6F8, 1)))
+
+
+def t_lvbar64(r):
+    c = _bar64(0x21A, (67, 1, 7, 69), [0xB56 + 0xA * i for i in range(6)], ())(r)
+    run = r.choice([0, 1, r.getrandbits(8)])
+    old = c.setup
+
+    def setup(m):
+        old(m)
+        m.w8(0x42E68668, run)
+    c.setup = setup
+    return c
+
+
+TESTS[0x4002AE60] = t_lvbar64
+
+
+def t_lvparam64(r):
+    c = _bar64(0x228, (65, 66, 74, 75, 77, 79, 80, 81, 82), [0xB92 + 0xA * i for i in range(7)],
+               (rec_d0("8dec", 0x40038DEC, 3), rec_d0("8e40", 0x40038E40, 3)))(r)
+    mv = r.choice([0, 1, r.getrandbits(8)])
+    vals = [r.choice([0, 1, -1, 10 ** 9, -5000, r.getrandbits(64)]) for _ in range(6)]
+    old = c.setup
+
+    def setup(m):
+        old(m)
+        m.w8(0x42E68668 + 3, mv)
+        for i, v in enumerate(vals):
+            m.write(0x42E68668 + 0x120 + 8 * i, (v & ((1 << 64) - 1)).to_bytes(8, "little"))
+    c.setup = setup
+    return c
+
+
+TESTS[0x4002B43C] = t_lvparam64

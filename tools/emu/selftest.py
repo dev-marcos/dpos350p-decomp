@@ -1015,6 +1015,27 @@ MUTANTS = [
     (0x4004201C, '    hi = (long long)half * (b - c);', '    hi = (long long)half * (b - c) + 1;'),
     (0x4004201C, '        for (k = 1;', '        for (k = 2;'),
     (0x4004201C, '    lo = (long long)half * (c - b);', '    lo = (long long)half * (c - b) + 1;'),
+    # batch 64: Bode and level toolbars
+    (0x4002A184, '    draw_colour_set(B8(BODE + 0x45) ? 0xFF0000 : 0xFF00);', '    draw_colour_set(B8(BODE + 0x44) ? 0xFF0000 : 0xFF00);'),
+    (0x4002A184, '        u32 e = B8(BODE + 0x44) ? ENT(70) : ENT(71);', '        u32 e = B8(BODE + 0x44) ? ENT(71) : ENT(70);'),
+    (0x4002A184, '    tool_button(tx + 0xAA * 2, y, 0x88AA55, 0x40088C18u, ENT(7), 0xAD4);', '    tool_button(tx + 0xAA * 2, y, 0x88AA55, 0x40088C18u, ENT(8), 0xAD4);'),
+    (0x4002A184, '    draw_text_shadowed((tx + 0x47) & 0xFFFF, (y + 8) & 0xFFFF, 0x400857FCu, 2, 2, 0);\n    touch_button_set_rect(tx & 0xFFFF, y, 0xA6, 0x2C, (volatile unsigned char *)(BTN + 0xAFC));', '    draw_text_shadowed((tx + 0x49) & 0xFFFF, (y + 8) & 0xFFFF, 0x400857FCu, 2, 2, 0);\n    touch_button_set_rect(tx & 0xFFFF, y, 0xA6, 0x2C, (volatile unsigned char *)(BTN + 0xAFC));'),
+    (0x4002A184, '    text_shadow_draw((tx + ((0xA6 - tw) >> 1) + SB8(e + 0x194)) & 0xFFFF, (y + SB8(e + 0x195) + 0x19) & 0xFFFF, (const char *)W32(e), 1, 2, 0);\n    touch_button_set_rect(tx & 0xFFFF, y, 0xA6, 0x2C, (volatile unsigned char *)(BTN + rec));', '    text_shadow_draw((tx + ((0xA6 - tw) >> 1) + SB8(e + 0x194)) & 0xFFFF, (y + SB8(e + 0x195) + 0x18) & 0xFFFF, (const char *)W32(e), 1, 2, 0);\n    touch_button_set_rect(tx & 0xFFFF, y, 0xA6, 0x2C, (volatile unsigned char *)(BTN + rec));'),
+    (0x4002A7F4, '(double)(int)(1000 * W32(BODE + 0x4C + 4 * k))', '(double)(1000 * W32(BODE + 0x4C + 4 * k))'),
+    (0x4002A7F4, '(double)S32(BODE + 0x54 + 4 * k)', '(double)W32(BODE + 0x54 + 4 * k)'),
+    (0x4002A7F4, 'W32(BODE + 0x5C), (u32)(S32(BODE + 0x5C) >> 31), 0);', 'W32(BODE + 0x5C), 0, 0);'),
+    (0x4002A7F4, '    e = B8(BODE + 0x46) ? ENT(66) : ENT(65);', '    e = B8(BODE + 0x45) ? ENT(66) : ENT(65);'),
+    (0x4002A7F4, '    param_tail(tx, y, 0xB2E);', '    param_tail(tx, y, 0xB2C);'),
+    (0x4002A7F4, '    trace_cursor_limits();\n', '\n'),
+    (0x4002AE60, '    rect_fill(tx & 0xFFFF, y, 0xA7, 0x2C);\n    draw_colour_set(B8(0x42E68668u)', '    rect_fill(tx & 0xFFFF, y, 0xA6, 0x2C);\n    draw_colour_set(B8(0x42E68668u)'),
+    (0x4002AE60, '    draw_colour_set(0x88FF);', '    draw_colour_set(W32(TT + 4));'),
+    (0x4002AE60, '    tool_button(tx + 0xAA, y, 0x5588AA, 0x40089BE8u, ENT(1), 0xB60);', '    tool_button(tx + 0xAA, y, 0x5588AA, 0x40089BE8u, ENT(68), 0xB60);'),
+    (0x4002AE60, '    if (B8(BTN + 0xB89)) {', '    if (B8(BTN + 0xB88)) {'),
+    (0x4002B43C, 'D64(BLK + 0x148 - 8 * k)', 'D64(BLK + 0x140 + 8 * k)'),
+    (0x4002B43C, 'ENT(k < 2 ? 74 + k : 79 + k)', 'ENT(k < 2 ? 74 + k : 78 + k)'),
+    (0x4002B43C, '(double)S64(BLK + 0x120 + 8 * k)', '(double)(unsigned long long)S64(BLK + 0x120 + 8 * k)'),
+    (0x4002B43C, '    lp_head(tx, y, 0x8D, ENT(77));', '    lp_head(tx, y, 0x8E, ENT(77));'),
+    (0x4002B43C, '    e = B8(BLK + 3) ? ENT(66) : ENT(65);', '    e = B8(BLK + 2) ? ENT(66) : ENT(65);'),
 ]
 
 

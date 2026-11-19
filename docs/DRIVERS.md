@@ -2460,6 +2460,68 @@ DERIVED. The menu meanings come from the English labels of the text table (`buil
   Its default case reads a stack word that is never written and the caller's registers, so it
   stays as it is.
 
+## Bode and level-view toolbars and settings bars (batch 64)
+
+Spec: `tools/platform_spec/zzh_toolbars.py`, 4 functions. Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The names are
+DERIVED. The labels are the English entries of the text table (`build/uitext46.txt`).
+
+All four bars work the same way:
+- they start with a black box from the layout table;
+- then comes a row of 0x2C-high touch buttons, the first at x + 3;
+- the toolbar theme is SYS+0x3DD530: + 0 is the fill, + 4 the icon, + 8 the text and + 0x1C a
+  pressed button;
+- the touch records are at 0x42E61FF8 + offset, and the byte after each record is "pressed".
+
+The two toolbars have buttons 0xA6 wide, every 0xAA. Each has an icon at (+ 0x49, + 2) and a
+centred label. The stock code sets a per-button colour and replaces it at once with the theme
+colour; the C keeps both calls.
+
+- **`bode_toolbar_draw`** (0x4002A184) draws the frequency-response view toolbar (layout
+  + 0x1E2, records + 0xAC0 ..):
+  - 'Return', 'Calibration', 'Screenshot', 'Cursor';
+  - 'Single' or 'Loop', chosen by byte 0x42E180C8 + 0x44;
+  - a run indicator (icon 0x400857FC), red while + 0x45 is set and green otherwise.
+- **`levels_toolbar_draw`** (0x4002AE60) draws the level-view toolbar (layout + 0x21A, records
+  + 0xB56 ..):
+  - 'Return', 'Function', 'Screenshot', 'Cursor';
+  - an unlabelled icon 0x40085AF4 in 0x0088FF;
+  - the run indicator, which follows byte 0x42E68668 + 0. Its background is 0xA7 wide, but its
+    touch area is 0xA6.
+
+The two settings bars show each button's grey label at (+ 0xF, + 5) and its value in 0xCCCCCC at
+(+ 0xF, + 0x19).
+
+- **`bode_sweep_bar_draw`** (0x4002A7F4) draws the Bode sweep settings (layout + 0x1F0, six
+  buttons of 0xA6, records + 0xB06 ..). It calls `trace_cursor_limits()` first.
+
+  | Button | Value | Drawn by |
+  |---|---|---|
+  | 'Amplitude' | 1000 x word + 0x4C | `voltage_uv_draw` |
+  | 'Offset' | 1000 x word + 0x50 | `voltage_uv_draw` |
+  | 'Start frequency' | word + 0x54 | `frequency_draw` |
+  | 'Stop frequency' | word + 0x58 | `frequency_draw` |
+  | 'Frequency count' | word + 0x5C, as an integer | 0x4002D6F8 |
+  | 'Movement' | 'Fast move' / 'Slow move' by byte + 0x46 | text |
+
+- **`levels_param_bar_draw`** (0x4002B43C) draws the level-view settings (layout + 0x228, seven
+  buttons of 0x8E every 0x92, records + 0xB92 ..). The 'Movement' button is 0x8D wide.
+
+  | Button | Value | Drawn by |
+  |---|---|---|
+  | 'Reference' | double + 0x148 | `level_label_dbmv` |
+  | 'Attenuation' | double + 0x140 | `level_label_dbmv` |
+  | 'Start frequency' | s64 + 0x120 | `frequency_draw` |
+  | 'Stop frequency' | s64 + 0x128 | `frequency_draw` |
+  | 'Center freq' | s64 + 0x130 | `frequency_draw` |
+  | 'Freq width' | s64 + 0x138 | `frequency_draw` |
+  | 'Movement' | 'Fast move' / 'Slow move' by byte + 3 | text |
+
+  The values are fields of block 0x42E68668.
+
+These tables give the meaning of the Bode and level-view settings words that `slot_fields`
+(batch 61) saves.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

@@ -8,10 +8,10 @@
 #include "hw/fpga.h"
 
 void fb_target_back(void);
-void func_4002ae60(void);
+void levels_toolbar_draw(void);
 
 void ui_window_38_redraw(void)
 {
     fb_target_back();
-    func_4002ae60();
+    levels_toolbar_draw();
 }

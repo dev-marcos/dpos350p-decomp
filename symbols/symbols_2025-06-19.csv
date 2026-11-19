@@ -118,13 +118,13 @@ address,size,name,type,evidence_level,source
 0x40029EC0,672,ui_connect_generator_notice,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002A160,4,code_4002a160,data,OPEN,analyze.py
 0x4002A164,32,pool_4002a164,literal_pool,DERIVED,analyze.py
-0x4002A184,1608,func_4002a184,function_arm,DERIVED,analyze.py:prologue
+0x4002A184,1608,bode_toolbar_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002A7CC,40,pool_4002a7cc,literal_pool,DERIVED,analyze.py
-0x4002A7F4,1600,func_4002a7f4,function_arm,DERIVED,analyze.py:prologue
+0x4002A7F4,1600,bode_sweep_bar_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002AE34,44,pool_4002ae34,literal_pool,DERIVED,analyze.py
-0x4002AE60,1460,func_4002ae60,function_arm,DERIVED,analyze.py:prologue
+0x4002AE60,1460,levels_toolbar_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002B414,40,pool_4002b414,literal_pool,DERIVED,analyze.py
-0x4002B43C,2000,func_4002b43c,function_arm,DERIVED,analyze.py:prologue
+0x4002B43C,2000,levels_param_bar_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002BC0C,52,pool_4002bc0c,literal_pool,DERIVED,analyze.py
 0x4002BC40,1744,func_4002bc40,function_arm,DERIVED,analyze.py:rea
 0x4002C310,4,code_4002c310,data,OPEN,analyze.py

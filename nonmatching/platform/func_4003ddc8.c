@@ -8,10 +8,10 @@
 #include "hw/fpga.h"
 
 void fb_target_back(void);
-void func_4002a7f4(void);
+void bode_sweep_bar_draw(void);
 
 void ui_window_35_redraw(void)
 {
     fb_target_back();
-    func_4002a7f4();
+    bode_sweep_bar_draw();
 }

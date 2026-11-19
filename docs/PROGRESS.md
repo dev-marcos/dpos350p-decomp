@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1209 | 89.29% | 216562 | 64.17% |
+| EQUIVALENT | 1213 | 89.59% | 223230 | 66.14% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 145 | 10.71% | 120942 | 35.83% |
+| ASM | 141 | 10.41% | 114274 | 33.86% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1209 (90.29%) | 337104 | 216562 (64.24%) |
+| main code | 1339 | 1213 (90.59%) | 337104 | 223230 (66.22%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -60,6 +60,10 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40029920` | ui_clear_data_warning | 672 | EQUIVALENT | 200 | `nonmatching/platform/func_40029920.c` |
 | `0x40029BC0` | ui_usb_connect_screen | 760 | EQUIVALENT | 200 | `nonmatching/platform/func_40029bc0.c` |
 | `0x40029EC0` | ui_connect_generator_notice | 672 | EQUIVALENT | 200 | `nonmatching/platform/func_40029ec0.c` |
+| `0x4002A184` | bode_toolbar_draw | 1608 | EQUIVALENT | 200 | `nonmatching/platform/func_4002a184.c` |
+| `0x4002A7F4` | bode_sweep_bar_draw | 1600 | EQUIVALENT | 200 | `nonmatching/platform/func_4002a7f4.c` |
+| `0x4002AE60` | levels_toolbar_draw | 1460 | EQUIVALENT | 200 | `nonmatching/platform/func_4002ae60.c` |
+| `0x4002B43C` | levels_param_bar_draw | 2000 | EQUIVALENT | 200 | `nonmatching/platform/func_4002b43c.c` |
 | `0x4002C32C` | ui_unplug_notice_252 | 664 | EQUIVALENT | 200 | `nonmatching/platform/func_4002c32c.c` |
 | `0x4002C5C4` | sys_rect_fill | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_4002c5c4.c` |
 | `0x4002C5F8` | xy_grid_draw | 416 | EQUIVALENT | 200 | `nonmatching/platform/func_4002c5f8.c` |
