@@ -11,7 +11,7 @@ void sys_rect_redraw_unless_t17(void);
 void acquisition_rearm(void);
 void traces_update(void);
 void zoom_views_update(void);
-void func_40042520(void);
+void split_window_marker_draw(void);
 void func_40023ea4_or_40024c60(void);
 void manual_cursors_draw(void);
 void measure_panel_draw(void);
@@ -26,7 +26,7 @@ void ui_frame_chain(void)
     acquisition_rearm();
     traces_update();
     zoom_views_update();
-    func_40042520();
+    split_window_marker_draw();
     func_40023ea4_or_40024c60();
     manual_cursors_draw();
     measure_panel_draw();

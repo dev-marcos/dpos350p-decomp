@@ -8,10 +8,10 @@
 #include "hw/fpga.h"
 
 void fb_target_back(void);
-void func_40025db4(void);
+void screenshot_view_frame_draw(void);
 
 void ui_window_23_redraw(void)
 {
     fb_target_back();
-    func_40025db4();
+    screenshot_view_frame_draw();
 }

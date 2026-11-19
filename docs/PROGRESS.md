@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1203 | 88.85% | 211610 | 62.70% |
+| EQUIVALENT | 1206 | 89.07% | 214314 | 63.50% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 151 | 11.15% | 125894 | 37.30% |
+| ASM | 148 | 10.93% | 123190 | 36.50% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1203 (89.84%) | 337104 | 211610 (62.77%) |
+| main code | 1339 | 1206 (90.07%) | 337104 | 214314 (63.58%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -38,6 +38,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40019CF8` | slider_draw | 184 | EQUIVALENT | 200 | `nonmatching/platform/func_40019cf8.c` |
 | `0x4001C200` | battery_icon_draw | 324 | EQUIVALENT | 200 | `nonmatching/platform/func_4001c200.c` |
 | `0x4001C348` | ui_window_05_draw | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_4001c348.c` |
+| `0x4001E8E0` | menu_three_rows_draw | 764 | EQUIVALENT | 200 | `nonmatching/platform/func_4001e8e0.c` |
 | `0x40023D04` | window_frame_23d04_draw | 340 | EQUIVALENT | 200 | `nonmatching/platform/func_40023d04.c` |
 | `0x40023E90` | func_40023ea4_unless_t17 | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_40023e90.c` |
 | `0x40024C4C` | func_40024c60_unless_t17 | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_40024c4c.c` |
@@ -45,6 +46,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40024E14` | func_40023ea4_or_40024c60 | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_40024e14.c` |
 | `0x40024E38` | ui_delete_confirm_12c | 656 | EQUIVALENT | 200 | `nonmatching/platform/func_40024e38.c` |
 | `0x40025D08` | image_42468a58_show | 128 | EQUIVALENT | 200 | `nonmatching/platform/func_40025d08.c` |
+| `0x40025DB4` | screenshot_view_frame_draw | 1324 | EQUIVALENT | 200 | `nonmatching/platform/func_40025db4.c` |
 | `0x400262F8` | ui_delete_confirm_164 | 664 | EQUIVALENT | 200 | `nonmatching/platform/func_400262f8.c` |
 | `0x400271B0` | ui_delete_confirm_180 | 664 | EQUIVALENT | 200 | `nonmatching/platform/func_400271b0.c` |
 | `0x40028084` | ui_colour_buttons_draw | 664 | EQUIVALENT | 200 | `nonmatching/platform/func_40028084.c` |
@@ -457,6 +459,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x400424B8` | zoom_index_set | 12 | EQUIVALENT | 200 | `nonmatching/platform/func_400424b8.c` |
 | `0x400424C4` | sys_word_pair_578_set | 16 | EQUIVALENT | 200 | `nonmatching/platform/func_400424c4.c` |
 | `0x400424D4` | zoom_reset | 76 | EQUIVALENT | 200 | `nonmatching/platform/func_400424d4.c` |
+| `0x40042520` | split_window_marker_draw | 616 | EQUIVALENT | 200 | `nonmatching/platform/func_40042520.c` |
 | `0x400427A0` | readl_e | 8 | EQUIVALENT | 300 | `nonmatching/drivers/func_400427a0.c` |
 | `0x400427A8` | writel_e | 8 | EQUIVALENT | 300 | `nonmatching/drivers/func_400427a8.c` |
 | `0x400427B0` | ccu_set_cpu_pll | 124 | EQUIVALENT | 300 | `nonmatching/drivers/func_400427b0.c` |

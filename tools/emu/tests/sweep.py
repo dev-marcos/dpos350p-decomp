@@ -4606,3 +4606,87 @@ def t_imgfields61(r):
 
 
 TESTS[0x400448B4] = t_imgfields61
+
+
+# ================================================================ batch 62: split-window marker, three-row menu
+def _draw62():
+    return (rec("ea38", 0x4002EA38, 1), rec("ecc4", 0x4002ECC4, 4), rec("ebc8", 0x4002EBC8, 3),
+            rec("cccc", 0x4002CCCC, 1), rec("dc40", 0x4002DC40, 1), rec_stk("d0d4", 0x4002D0D4, 2),
+            rec_stk("f0e8", 0x4002F0E8, 2), rec_stk("f160", 0x4002F160, 1), rec("9c7c", 0x40019C7C, 2))
+
+
+def t_splitmark62(r):
+    touch = r.choice([0, 0, 0, 1, r.getrandbits(8)])
+    on = r.choice([0, 1, 1, 1, r.getrandbits(8)])
+    w = r.choice([0, 1, 2, 3, 4, 100, 700, r.getrandbits(16)])
+    half = r.choice([0, 1, 2, 3, 50, 2 * w, r.getrandbits(16)])
+    c = r.choice([0, 1, w, w - 1, w + 1, w // 2, r.randrange(0, w + 3), r.getrandbits(16)]) & 0xFFFF
+    vals = {0x24: half & 0xFFFF, 0x26: c, 8: w & 0xFFFF,
+            4: r.choice([0, 1, 5, r.getrandbits(16)]), 6: r.choice([0, 40, r.getrandbits(16)]),
+            0xA: r.choice([0, 1, 2, 3, 300, r.getrandbits(16)])}
+
+    def setup(m):
+        m.w8(0x42E68BB0 + 0x17, touch)
+        m.w8(SYS + 0x2AA, on)
+        for o, v in vals.items():
+            m.write(SYS + o, v.to_bytes(2, "little"))
+    return Case([], setup=setup, ret=V, stubs=_draw62())
+
+
+TESTS[0x40042520] = t_splitmark62
+
+
+def t_menu3_62(r):
+    box = [r.choice([0, 10, 200, r.getrandbits(16)]) for _ in range(4)]
+    th = [r.getrandbits(32) for _ in range(3)]
+    press = [r.choice([0, 0, 1, r.getrandbits(8)]) for _ in range(3)]
+    ent = [(r.getrandbits(32), r.choice([0, 5, -7, r.getrandbits(8)]) & 0xFF, r.choice([0, -3, 9, r.getrandbits(8)]) & 0xFF)
+           for _ in range(3)]
+
+    def setup(m):
+        for i, v in enumerate(box):
+            m.write(0x42E645CE + 2 * i, v.to_bytes(2, "little"))
+        for i, v in enumerate(th):
+            m.w32(SYS + 0x3DD550 + 4 * i, v)
+        for i, v in enumerate(press):
+            m.w8(0x42E61FF8 + 0x340 + 0xA * i + 1, v)
+        for i, (pt, dx, dy) in enumerate(ent):
+            e = 0x42C2FE74 + 0x1A0 * (110 + i)
+            m.w32(e, pt)
+            m.w8(e + 0x194, dx)
+            m.w8(e + 0x195, dy)
+    return Case([], setup=setup, ret=V, stubs=_draw62())
+
+
+TESTS[0x4001E8E0] = t_menu3_62
+
+
+# ================================================================ batch 62b: screenshot viewer frame
+def t_shotframe62(r):
+    box = [r.choice([0, 10, 0x21C, 0x300, r.getrandbits(16)]) for _ in range(4)]
+    idx = r.choice([0, 1, 5, -1, -2, r.randrange(-8, 40)])
+    lst = [r.getrandbits(16) for _ in range(48)]
+    press = [r.choice([0, 0, 1, r.getrandbits(8)]) for _ in range(4)]
+    tw = r.choice([0, 7, 0xFD, 0xFE, 0x100, r.getrandbits(16), r.getrandbits(32)])
+    th = r.getrandbits(32)
+    ent = {n: (r.getrandbits(32), r.getrandbits(8), r.getrandbits(8)) for n in (67, 110, 115, 116, 117)}
+
+    def setup(m):
+        for i, v in enumerate(box):
+            m.write(0x42E64520 + 0x148 + 2 * i, v.to_bytes(2, "little"))
+        for i, v in enumerate(lst):
+            m.write(SYS + 0xFA6 + 2 * (i - 8), v.to_bytes(2, "little"))
+        m.write(SYS + 0xFA4, (idx & 0xFFFF).to_bytes(2, "little"))   # entry -1 is the index itself
+        for i, v in enumerate(press):
+            m.w8(0x42E61FF8 + 0x818 + 0xA * i + 1, v)
+        m.w32(SYS + 0x3DD54C, th)
+        for n, (pt, dx, dy) in ent.items():
+            e = 0x42C2FE74 + 0x1A0 * n
+            m.w32(e, pt)
+            m.w8(e + 0x194, dx)
+            m.w8(e + 0x195, dy)
+    return Case([], setup=setup, ret=V,
+                stubs=_draw62() + (rec("eba8", 0x4002EBA8, 3), rec("4b78", 0x40034B78, 1), rec("d164", 0x4002D164, 1, tw & 0xFFFFFFFF)))
+
+
+TESTS[0x40025DB4] = t_shotframe62

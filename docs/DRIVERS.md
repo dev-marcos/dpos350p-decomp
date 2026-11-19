@@ -2385,6 +2385,41 @@ Tests: `tools/emu/tests/sweep.py`. The code facts are STATIC-CONFIRMED and check
     columns of the table 0x42E53A0C (+ 0x190 + 0xC8 x column + 4 x row), then 20 rows of four
     word columns (+ 0x50 / + 0xF0 / + 0xA0 / + 0x140). SIM.md already notes the 32 columns.
 
+## Split-window marker, three-row menu, screenshot viewer frame (batch 62)
+
+Spec: `tools/platform_spec/zzf_ui_menus.py`, 3 functions. Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The names and the
+meaning of the boxes are DERIVED.
+
+- **`split_window_marker_draw`** (0x40042520) marks the zoom window on the plot. It does nothing
+  when touch byte 0x42E68BB0+0x17 is set or SYS+0x2AA is 0.
+  - The window has width u16 SYS+0x24 and centre SYS+0x26. The plot box is SYS+4 / +6 / +8 / +0xA
+    (x, y, w, h).
+  - The left edge is clamped to [1, w-2] and the right edge to [0, w-1].
+  - The plot outside the window is dimmed with colour 0xCCFFFFFF, over a third of the plot height.
+  - Each edge is drawn as three vertical lines, 0xAAAAAA / 0x555555 / 0x222222 from the outside in.
+  - A stock quirk: the left edge is clamped against w-2, not against x+w-2.
+- **`menu_three_rows_draw`** (0x4001E8E0) draws a menu box with three rows of 0x3C. The box is in
+  the layout table at 0x42E64520 + 0xAE .. + 0xB4.
+  - The background uses theme colour SYS+0x3DD550, the text +4 and a pressed row +8.
+  - Each row has an image (0x4008A038 + 0x170 x row), the label of text-table entry 110 + row
+    with its per-language x / y offsets (bytes + 0x194 / + 0x195 of the 0x1A0-byte entry), and the
+    icon 0x40019C7C at x + 0x14A.
+  - Each row is also a touch button: records 0x42E61FF8 + 0x340 / + 0x34A / + 0x354.
+- **`screenshot_view_frame_draw`** (0x40025DB4) draws the frame of the window at layout + 0x148.
+  The body (minus 0x5A) is touch button + 0x80E.
+  - The title bar is 0x1E high, 0x202020, with a 7-line gradient under it (colours k << 29). It
+    holds image 0x4008A038 and text entry 110, the same as row 0 of the menu above.
+  - At x + 0x3ED, right-aligned, it shows the file name that `screenshot_path_make` builds from the
+    current entry of the list at SYS+0xFA4 (the text at SYS+0x88C1). This is why we read the
+    window as the screenshot viewer (DERIVED).
+  - The bottom bar is at y + 0x21C, 0x3C high, with a gradient above it. It has three separators
+    and four touch buttons, + 0x818 / + 0x822 / + 0x82C / + 0x836, which are shaded with theme
+    colour SYS+0x3DD54C while pressed.
+  - The buttons are labelled with text entries 67, 115, 116 and 117, each centred in 0xFD.
+  - A stock quirk: the separators, buttons and labels use 0x21C - y, while the bar itself uses
+    y + 0x21C. The two agree only when y is 0.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

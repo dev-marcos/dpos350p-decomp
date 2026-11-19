@@ -35,7 +35,7 @@ address,size,name,type,evidence_level,source
 0x4001E8CC,4,pool_4001e8cc,literal_pool,DERIVED,analyze.py
 0x4001E8D0,15,code_4001e8d0,data,OPEN,analyze.py
 0x4001E8DF,1,pad_4001e8df,padding,STATIC-CONFIRMED,analyze.py:zero
-0x4001E8E0,764,func_4001e8e0,function_arm,DERIVED,analyze.py:rea
+0x4001E8E0,764,menu_three_rows_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4001EBDC,7,code_4001ebdc,data,OPEN,analyze.py
 0x4001EBE3,1,pad_4001ebe3,padding,STATIC-CONFIRMED,analyze.py:zero
 0x4001EBE4,2444,func_4001ebe4,function_arm,DERIVED,analyze.py:rea
@@ -82,7 +82,7 @@ address,size,name,type,evidence_level,source
 0x40025CFC,12,pool_40025cfc,literal_pool,DERIVED,analyze.py
 0x40025D08,128,image_42468a58_show,function_arm,DERIVED,this-project:phase5 (ui)
 0x40025D88,44,pool_40025d88,literal_pool,DERIVED,analyze.py
-0x40025DB4,1324,func_40025db4,function_arm,DERIVED,analyze.py:prologue
+0x40025DB4,1324,screenshot_view_frame_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x400262E0,24,pool_400262e0,literal_pool,DERIVED,analyze.py
 0x400262F8,664,ui_delete_confirm_164,function_arm,DERIVED,this-project:phase5 (ui)
 0x40026590,4,code_40026590,data,OPEN,analyze.py
@@ -691,7 +691,7 @@ address,size,name,type,evidence_level,source
 0x400424B8,12,zoom_index_set,function_arm,DERIVED,this-project:phase5 (timebase)
 0x400424C4,16,sys_word_pair_578_set,function_arm,DERIVED,this-project:phase5 (timebase)
 0x400424D4,76,zoom_reset,function_arm,DERIVED,this-project:phase5 (timebase)
-0x40042520,616,func_40042520,function_arm,DERIVED,analyze.py:rea
+0x40042520,616,split_window_marker_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x40042788,24,pool_40042788,literal_pool,DERIVED,analyze.py
 0x400427A0,8,readl_e,function_arm,DERIVED,this-project:phase5 (ldr r0;bx lr; copy in the CCU source file)
 0x400427A8,8,writel_e,function_arm,DERIVED,this-project:phase5

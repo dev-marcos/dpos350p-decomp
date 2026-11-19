@@ -969,6 +969,32 @@ MUTANTS = [
     (0x400448B4, '    for (j = 0; j < (int)B8(SYS + 0x8E4); j++)', '    for (j = 0; j <= (int)B8(SYS + 0x8E4); j++)'),
     (0x40044450, '    for (j = 0; j < 50; j++) {', '    for (j = 0; j < 49; j++) {'),
     (0x40044450, '        FLD(0x42E53A0Cu + 0x140 + 0x4 * j, 4);', '        FLD(0x42E53A0Cu + 0x140 + 0x8 * j, 4);'),
+    # batch 62: split-window marker, three-row menu
+    (0x40042520, '    if (lo <= 0)\n        lo = 1;', '    if (lo < 0)\n        lo = 1;'),
+    (0x40042520, '    if (w - 2 < lo)\n        lo = w - 2;\n    if (w - 1 < hi)', '    if (w - 1 < lo)\n        lo = w - 2;\n    if (w - 1 < hi)'),
+    (0x40042520, '    if (hi < 0)\n        hi = 0;', '    if (hi < 0)\n        hi = 1;'),
+    (0x40042520, '    if (w - 2 < lo2)\n        lo2 = w - 2;', '    if (w + x4 - 2 < lo2)\n        lo2 = w + x4 - 2;'),
+    (0x40042520, '    if (hi2 < x4 + 2)\n        hi2 = x4 + 2;', '    if (hi2 < x4 + 1)\n        hi2 = x4 + 2;'),
+    (0x40042520, '    VL(0x555555u, hi2 - 1);', '    VL(0x555555u, hi2 + 1);'),
+    (0x40042520, '#define H3 ((H16(SYS + 0xA) * 0xAAABu) >> 17)', '#define H3 ((H16(SYS + 0xA) * 0xAAABu) >> 16)'),
+    (0x40042520, '    if (B8(0x42E68BB0u + 0x17))\n        return;', '    if (B8(0x42E68BB0u + 0x16))\n        return;'),
+    (0x4001E8E0, '        e = TXT + 0x1A0 * (110 + i);', '        e = TXT + 0x1A0 * (111 + i);'),
+    (0x4001E8E0, '        rec = (volatile unsigned char *)(0x42E61FF8u + 0x340 + 0xA * i);', '        rec = (volatile unsigned char *)(0x42E61FF8u + 0x340 + 0x8 * i);'),
+    (0x4001E8E0, '        if (rec[1]) {', '        if (rec[0]) {'),
+    (0x4001E8E0, '            draw_colour_set(W32(TH + 8));', '            draw_colour_set(W32(TH + 4));'),
+    (0x4001E8E0, '(sl + 3 + SB8(e + 0x195))', '(sl + 3 + B8(e + 0x195))'),
+    (0x4001E8E0, '        icon_19c7c_draw((x + 0x14A) & 0xFFFF, sl & 0xFFFF);', '        icon_19c7c_draw((x + 0x14A) & 0xFFFF, (sl + 1) & 0xFFFF);'),
+    (0x4001E8E0, '0x4008A038u + 0x170 * i', '0x4008A038u + 0x168 * i'),
+    # batch 62b: screenshot viewer frame
+    (0x40025DB4, '(h - 0x5A) & 0xFFFF', '(h - 0x5B) & 0xFFFF'),
+    (0x40025DB4, '        func_4002ecc4_span((y + 0x1E + k - 1) & 0xFFFF, x, (w + x) & 0xFFFF);', '        func_4002ecc4_span((y + 0x1E + k) & 0xFFFF, x, (w + x) & 0xFFFF);'),
+    (0x40025DB4, '(0x3ED + x - tw) & 0xFFFF', '(0x3EC + x - tw) & 0xFFFF'),
+    (0x40025DB4, '2 * (short)H16(SYS + 0xFA4)', '2 * H16(SYS + 0xFA4)'),
+    (0x40025DB4, '    ny = 0x21C - y;', '    ny = 0x21C + y;'),
+    (0x40025DB4, '        func_4002ecc4_span((by - k) & 0xFFFF, x, (w + x) & 0xFFFF);', '        func_4002ecc4_span((by + k) & 0xFFFF, x, (w + x) & 0xFFFF);'),
+    (0x40025DB4, '        bx = k ? x + 0xFF * k + 2 : x;', '        bx = x + 0xFF * k + 2 * k;'),
+    (0x40025DB4, '        e = ENT(k ? 114 + k : 67);', '        e = ENT(k ? 114 + k : 66);'),
+    (0x40025DB4, '        if (B8(BTN + 0x818 + 0xA * k + 1)) {', '        if (B8(BTN + 0x818 + 0xA * k)) {'),
 ]
 
 
