@@ -2420,6 +2420,46 @@ meaning of the boxes are DERIVED.
   - A stock quirk: the separators, buttons and labels use 0x21C - y, while the bar itself uses
     y + 0x21C. The two agree only when y is 0.
 
+## Configuration menus, zoom ratio and zoom window (batch 63)
+
+Spec: `tools/platform_spec/zzg_config_menus.py`, 3 functions. Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The names are
+DERIVED. The menu meanings come from the English labels of the text table (`build/uitext46.txt`).
+
+- **`config_menu_draw`** (0x40028740) draws the configuration menu (layout + 0x68 .. + 0x6E). It
+  has three rows: 'Save configuration', 'Read configuration' and 'Power-on configuration' (text
+  entries 83 .. 85). The images are at 0x4008B2E8 + 0x170 x row, and the touch buttons are
+  0x42E61FF8 + 0x106 / + 0x110 / + 0x11A.
+  - A pressed row becomes the selection, stored in layout byte + 0x67 as row + 1.
+  - The selected row is shaded with theme colour + 8.
+- **`config_slot_menu_draw`** (0x40028AB4) draws the list beside that menu (layout + 0x76): five
+  rows 'Configuration 1' .. '5' (entries 86 .. 90) with buttons + 0x124 + 0xA x row.
+  - A row is shaded while pressed.
+  - It is also shaded when the selection is 3 ('Power-on configuration') and the row is the
+    power-on slot SYS+0x7C0. This matches the slot loaded at start-up (batch 15).
+- The three-row menu of batch 62 (`menu_three_rows_draw`) is the file browser menu: 'Picture
+  browser', 'Waveform browser' and 'Capture browser' (entries 110 .. 112). The window of
+  `screenshot_view_frame_draw` has the 'Picture browser' title, and its buttons are 'Return',
+  'Delete', 'Last page' and 'Next page'.
+- **`zoom_ratio_window_update`** (0x4004201C) is called from `acquisition_rearm`. It does nothing
+  when `zoom_mode_check()` is set; otherwise it first runs `zoom_entry_select`. In the steps below
+  C = u64 SYS+0x5A0, A = s64 SYS+0x5A8, D = SYS+0x554 and step = s64 SYS+0x590.
+  - P = (10^15 / C) x u16 SYS+0x1C, and n = A / P rounded up (signed division).
+  - SYS+0x610 = min(n, 10 x SYS+0x5D4), and u16 SYS+0x54A = that x u16 SYS+0x5F4.
+  - q = n x D x P / A goes to SYS+0x614. The ratio q : D is reduced: k is the smallest value with
+    q x k divisible by D, SYS+0x618 = k and SYS+0x61C = q x k / D (both are 1 when q = D).
+  - The view position s64 SYS+0x578 is clamped so that its distance from SYS+0x570 stays within
+    (plot width / 2) x (C - step) on one side and (plot width / 2) x (step - C) on the other. The
+    plot width is u16 SYS+8.
+  - Then it sets the zoom window that `split_window_marker_draw` (batch 62) draws:
+    - centre u16 SYS+0x26 = (SYS+0x570 - SYS+0x578) / step + width / 2;
+    - width u16 SYS+0x24 = C x width / step, at least 6.
+  - The symbol table splits this function at 0x40042024, 0x400421A0 and 0x40042200. The spec
+    entry covers all the pieces.
+- **Still assembly:** 0x4003F2F4, the sample-rate table (see the note just before the batch 55 section).
+  Its default case reads a stack word that is never written and the caller's registers, so it
+  stays as it is.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

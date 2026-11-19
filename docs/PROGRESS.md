@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1206 | 89.07% | 214314 | 63.50% |
+| EQUIVALENT | 1209 | 89.29% | 216562 | 64.17% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 148 | 10.93% | 123190 | 36.50% |
+| ASM | 145 | 10.71% | 120942 | 35.83% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1206 (90.07%) | 337104 | 214314 (63.58%) |
+| main code | 1339 | 1209 (90.29%) | 337104 | 216562 (64.24%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -52,6 +52,8 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40028084` | ui_colour_buttons_draw | 664 | EQUIVALENT | 200 | `nonmatching/platform/func_40028084.c` |
 | `0x40028350` | func_40028364_unless_t17 | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_40028350.c` |
 | `0x40028364` | time_cursors_draw | 968 | EQUIVALENT | 200 | `nonmatching/platform/func_40028364.c` |
+| `0x40028740` | config_menu_draw | 864 | EQUIVALENT | 200 | `nonmatching/platform/func_40028740.c` |
+| `0x40028AB4` | config_slot_menu_draw | 1376 | EQUIVALENT | 200 | `nonmatching/platform/func_40028ab4.c` |
 | `0x4002903C` | ui_unplug_notice_19c | 660 | EQUIVALENT | 200 | `nonmatching/platform/func_4002903c.c` |
 | `0x400292E4` | ui_language_menu_draw | 900 | EQUIVALENT | 200 | `nonmatching/platform/func_400292e4.c` |
 | `0x4002967C` | ui_factory_reset_confirm | 668 | EQUIVALENT | 200 | `nonmatching/platform/func_4002967c.c` |
@@ -451,6 +453,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40041E34` | fft_traces_draw | 288 | EQUIVALENT | 200 | `nonmatching/platform/func_40041e34.c` |
 | `0x40041F5C` | zoom_views_update | 96 | EQUIVALENT | 200 | `nonmatching/platform/func_40041f5c.c` |
 | `0x40041FF8` | zoom_entry_select | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_40041ff8.c` |
+| `0x4004201C` | zoom_ratio_window_update | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_4004201c.c` |
 | `0x40042280` | view_bounds_update | 208 | EQUIVALENT | 200 | `nonmatching/platform/func_40042280.c` |
 | `0x40042350` | zoom_mode_check | 104 | EQUIVALENT | 200 | `nonmatching/platform/func_40042350.c` |
 | `0x400423B8` | zoom_index_fit | 164 | EQUIVALENT | 200 | `nonmatching/platform/func_400423b8.c` |

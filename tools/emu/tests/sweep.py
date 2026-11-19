@@ -4690,3 +4690,63 @@ def t_shotframe62(r):
 
 
 TESTS[0x40025DB4] = t_shotframe62
+
+
+# ================================================================ batch 63: configuration menus, zoom ratio and window
+def _menu63(lay, nrow, ent, btn, extra):
+    def t(r):
+        box = [r.choice([0, 1, 2, 10, 200, r.getrandbits(16)]) for _ in range(4)]
+        th = [r.getrandbits(32) for _ in range(3)]
+        press = [r.choice([0, 0, 0, 1, r.getrandbits(8)]) for _ in range(nrow)]
+        sel = r.choice([0, 1, 2, 3, 3, 4, r.getrandbits(8)])
+        slot = r.choice([0, 1, 2, 3, 4, 5, 6, r.getrandbits(8)])
+        ents = [(r.getrandbits(32), r.getrandbits(8), r.getrandbits(8)) for _ in range(nrow)]
+
+        def setup(m):
+            for i, v in enumerate(box):
+                m.write(0x42E64520 + lay + 2 * i, v.to_bytes(2, "little"))
+            for i, v in enumerate(th):
+                m.w32(SYS + 0x3DD550 + 4 * i, v)
+            for i, v in enumerate(press):
+                m.w8(0x42E61FF8 + btn + 0xA * i + 1, v)
+            m.w8(0x42E64520 + 0x67, sel)
+            m.w8(SYS + 0x7C0, slot)
+            for i, (pt, dx, dy) in enumerate(ents):
+                e = 0x42C2FE74 + 0x1A0 * (ent + i)
+                m.w32(e, pt)
+                m.w8(e + 0x194, dx)
+                m.w8(e + 0x195, dy)
+        return Case([], setup=setup, ret=V, stubs=_draw62())
+    return t
+
+
+TESTS[0x40028740] = _menu63(0x68, 3, 83, 0x106, 0)
+TESTS[0x40028AB4] = _menu63(0x76, 5, 86, 0x124, 0)
+
+
+def t_zoomratio63(r):
+    chk = r.choice([0, 0, 0, 1])
+    c = r.choice([1, 2, 5, 10, 1000, 25000, r.randrange(1, 10 ** 6), r.randrange(1, 10 ** 12)])
+    s1c = r.choice([1, 2, 10, 100, r.randrange(1, 0x10000)])
+    p = (10 ** 15 // c) * s1c
+    a = r.choice([p * r.randrange(1, 40), p * r.randrange(1, 40) + r.randrange(1, 1000), r.randrange(1, 1 << 40),
+                  -r.randrange(1, 1 << 40), r.randrange(1, 1 << 62)])
+    den = r.choice([1, 2, 3, 4, 7, 10, 12, 25, 48, r.randrange(1, 60)])
+    b = r.choice([1, 2, 7, c, r.randrange(1, 10 ** 6), -r.randrange(1, 1000)])
+    w = r.choice([0, 1, 2, 100, 700, r.getrandbits(16)])
+    vals = {0x5A0: c, 0x5A8: a, 0x590: b, 0x570: r.choice([0, 1000, r.getrandbits(40), -r.getrandbits(40)]),
+            0x578: r.choice([0, 999, r.getrandbits(40), -r.getrandbits(40), r.getrandbits(64)])}
+    lim, mul = r.choice([0, 1, 3, 100, r.getrandbits(32)]), r.getrandbits(16)
+
+    def setup(m):
+        for o, v in vals.items():
+            m.write(SYS + o, (v & ((1 << 64) - 1)).to_bytes(8, "little"))
+        m.write(SYS + 0x1C, s1c.to_bytes(2, "little"))
+        m.w32(SYS + 0x554, den)
+        m.w32(SYS + 0x5D4, lim)
+        m.write(SYS + 0x5F4, mul.to_bytes(2, "little"))
+        m.write(SYS + 8, w.to_bytes(2, "little"))
+    return Case([], setup=setup, ret=V, stubs=(rec("2350", 0x40042350, 0, chk), rec("1ff8", 0x40041FF8, 0)))
+
+
+TESTS[0x4004201C] = t_zoomratio63

@@ -1253,3 +1253,6 @@ address,name,type,evidence_level,source,note
 0x40042520,split_window_marker_draw,function,DERIVED,this-project:phase5 (ui),
 0x4001E8E0,menu_three_rows_draw,function,DERIVED,this-project:phase5 (ui),
 0x40025DB4,screenshot_view_frame_draw,function,DERIVED,this-project:phase5 (ui),
+0x40028740,config_menu_draw,function,DERIVED,this-project:phase5 (ui),
+0x40028AB4,config_slot_menu_draw,function,DERIVED,this-project:phase5 (ui),
+0x4004201C,zoom_ratio_window_update,function,DERIVED,this-project:phase5 (ui),

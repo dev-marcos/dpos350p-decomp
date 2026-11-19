@@ -217,7 +217,7 @@ void acquisition_apply(void)
 u(0x4003B7B8, 68, "acquisition_rearm",
   "Unless the byte 0x42E68BC7 is set: 0x4003B834, then 0x4004201C when SYS+0x2AA (second traces) is set.", """
 void timebase_divisors_compute(void);
-void func_4004201c(void);
+void zoom_ratio_window_update(void);
 
 void acquisition_rearm(void)
 {
@@ -225,7 +225,7 @@ void acquisition_rearm(void)
         return;
     timebase_divisors_compute();
     if (SYS8(0x2AA))
-        func_4004201c();
+        zoom_ratio_window_update();
 }
 """, src="acquisition")
 u(0x4003C0AC, 172, "scaled_pair_update",

@@ -995,6 +995,26 @@ MUTANTS = [
     (0x40025DB4, '        bx = k ? x + 0xFF * k + 2 : x;', '        bx = x + 0xFF * k + 2 * k;'),
     (0x40025DB4, '        e = ENT(k ? 114 + k : 67);', '        e = ENT(k ? 114 + k : 66);'),
     (0x40025DB4, '        if (B8(BTN + 0x818 + 0xA * k + 1)) {', '        if (B8(BTN + 0x818 + 0xA * k)) {'),
+    # batch 63: configuration menus, zoom ratio and window
+    (0x40028740, '        if (B8(BTN + 0x107 + 0xA * i) || B8(LAY + 0x67) == i + 1) {', '        if (B8(BTN + 0x107 + 0xA * i) || B8(LAY + 0x67) == i) {'),
+    (0x40028740, '            B8(LAY + 0x67) = i + 1;', '            B8(LAY + 0x67) = i;'),
+    (0x40028740, '    rect_fill(x, y, 2, h);', '    rect_fill(x, y, 3, h);'),
+    (0x40028740, '        icon_19c7c_draw((x2 + 0x122) & 0xFFFF, sl & 0xFFFF);', '        icon_19c7c_draw((x2 + 0x124) & 0xFFFF, sl & 0xFFFF);'),
+    (0x40028740, '        e = TXT + 0x1A0 * (83 + i);', '        e = TXT + 0x1A0 * (84 + i);'),
+    (0x40028AB4, '(B8(SYS + 0x7C0) == i + 1 && B8(LAY + 0x67) == 3)', '(B8(SYS + 0x7C0) == i + 1 || B8(LAY + 0x67) == 3)'),
+    (0x40028AB4, '(B8(SYS + 0x7C0) == i + 1 && B8(LAY + 0x67) == 3)', '(B8(SYS + 0x7C0) == i && B8(LAY + 0x67) == 3)'),
+    (0x40028AB4, '    w2 = w - 2;', '    w2 = w - 1;'),
+    (0x40028AB4, '    for (i = 0; i < 5; i++) {', '    for (i = 0; i < 4; i++) {'),
+    (0x40028AB4, '        e = TXT + 0x1A0 * (86 + i);', '        e = TXT + 0x1A0 * 86;'),
+    (0x4004201C, '    if (a % (long long)p != 0)\n        n++;', '    if (a % (long long)p > 0)\n        n++;'),
+    (0x4004201C, '    if (q == den) {\n        k = 1;\n        num = 1;', '    if (q == den) {\n        k = 1;\n        num = 0;'),
+    (0x4004201C, '    if ((n & 0xFFFF) < 6)\n        n = 6;', '    if ((n & 0xFFFF) < 5)\n        n = 6;'),
+    (0x4004201C, '    H16(SYS + 0x54A) = (unsigned short)(m * H16(SYS + 0x5F4));', '    H16(SYS + 0x54A) = (unsigned short)(n * H16(SYS + 0x5F4));'),
+    (0x4004201C, '    p = (1000000000000000ULL / U64(SYS + 0x5A0)) * H16(SYS + 0x1C);', '    p = (100000000000000ULL / U64(SYS + 0x5A0)) * H16(SYS + 0x1C);'),
+    (0x4004201C, '        m = W32(SYS + 0x5D4) * 10;', '        m = W32(SYS + 0x5D4) * 9;'),
+    (0x4004201C, '    hi = (long long)half * (b - c);', '    hi = (long long)half * (b - c) + 1;'),
+    (0x4004201C, '        for (k = 1;', '        for (k = 2;'),
+    (0x4004201C, '    lo = (long long)half * (c - b);', '    lo = (long long)half * (c - b) + 1;'),
 ]
 
 

@@ -8,7 +8,7 @@
 #include "hw/fpga.h"
 
 void timebase_divisors_compute(void);
-void func_4004201c(void);
+void zoom_ratio_window_update(void);
 
 void acquisition_rearm(void)
 {
@@ -16,5 +16,5 @@ void acquisition_rearm(void)
         return;
     timebase_divisors_compute();
     if (SYS8(0x2AA))
-        func_4004201c();
+        zoom_ratio_window_update();
 }

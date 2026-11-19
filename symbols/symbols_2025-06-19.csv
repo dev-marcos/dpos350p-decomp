@@ -102,9 +102,9 @@ address,size,name,type,evidence_level,source
 0x4002872C,8,pool_4002872c,literal_pool,DERIVED,analyze.py
 0x40028734,9,code_40028734,data,OPEN,analyze.py
 0x4002873D,3,pad_4002873d,padding,STATIC-CONFIRMED,analyze.py:zero
-0x40028740,864,func_40028740,function_arm,DERIVED,analyze.py:rea
+0x40028740,864,config_menu_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x40028AA0,20,pool_40028aa0,literal_pool,DERIVED,analyze.py
-0x40028AB4,1376,func_40028ab4,function_arm,DERIVED,analyze.py:rea
+0x40028AB4,1376,config_slot_menu_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x40029014,40,pool_40029014,literal_pool,DERIVED,analyze.py
 0x4002903C,660,ui_unplug_notice_19c,function_arm,DERIVED,this-project:phase5 (ui)
 0x400292D0,20,pool_400292d0,literal_pool,DERIVED,analyze.py
@@ -677,7 +677,7 @@ address,size,name,type,evidence_level,source
 0x40041F5C,96,zoom_views_update,function_arm,DERIVED,this-project:phase5 (timebase)
 0x40041FBC,60,pool_40041fbc,literal_pool,DERIVED,analyze.py
 0x40041FF8,36,zoom_entry_select,function_arm,DERIVED,this-project:phase5 (timebase)
-0x4004201C,8,func_4004201c,function_arm,DERIVED,analyze.py:prologue
+0x4004201C,8,zoom_ratio_window_update,function_arm,DERIVED,this-project:phase5 (ui)
 0x40042024,376,func_40042024,function_arm,DERIVED,analyze.py:pointer
 0x4004219C,4,func_4004219c,function_thumb,DERIVED,analyze.py:prologue
 0x400421A0,92,func_400421a0,function_arm,DERIVED,analyze.py:gap-code
