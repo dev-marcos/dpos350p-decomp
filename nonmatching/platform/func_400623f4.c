@@ -8,7 +8,7 @@
 #include "hw/fpga.h"
 
 void fft_levels_db(void);
-void func_40061a70(void);
+void levels_samples_window(void);
 void marker_values_compute(void);
 void level_stats_5f010(void);
 void level_stats_60008(void);
@@ -20,7 +20,7 @@ void levels_update_chain(void)
         return;
     if (*(volatile unsigned char *)(0x42E68668u + 4)) {
         fft_levels_db();
-        func_40061a70();
+        levels_samples_window();
     }
     marker_values_compute();
     level_stats_5f010();

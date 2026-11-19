@@ -9,7 +9,7 @@
 
 #define CB8(o)  (*(volatile unsigned char *)(0x42E68668u + (o)))
 #define CB32(o) (*(volatile u32 *)(0x42E68668u + (o)))
-void func_400612fc(void);
+void levels_view_layout(void);
 void auto_level_search(void);
 void fft_spur_cancel(void);
 void fft_spur_capture(void);
@@ -23,7 +23,7 @@ void calib_run_4_channels(void)
     CB8(5) = 1;
     for (i = 0; i < 4; i++) {
         CB32(0xF4) = i;
-        func_400612fc();
+        levels_view_layout();
         auto_level_search();
         fft_spur_cancel();
         fft_spur_capture();

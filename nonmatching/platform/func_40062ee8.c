@@ -8,7 +8,7 @@
 #include "hw/fpga.h"
 
 #define CB8(o)  (*(volatile unsigned char *)(0x42E68668u + (o)))
-void func_400612fc(void);
+void levels_view_layout(void);
 void auto_level_search(void);
 void fft_spur_cancel(void);
 void func_40061f10(void);
@@ -24,7 +24,7 @@ void func_400606a0_unless_locked(void);
 void ui_window_40_draw(void)
 {
     CB8(5) = 0;
-    func_400612fc();
+    levels_view_layout();
     if (CB8(0) == 0 || CB8(4) == 0) {
         auto_level_search();
         fft_spur_cancel();

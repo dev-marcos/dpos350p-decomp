@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1185 | 87.52% | 191646 | 56.78% |
+| EQUIVALENT | 1189 | 87.81% | 196274 | 58.15% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 169 | 12.48% | 145858 | 43.22% |
+| ASM | 165 | 12.19% | 141230 | 41.85% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1185 (88.50%) | 337104 | 191646 (56.85%) |
+| main code | 1339 | 1189 (88.80%) | 337104 | 196274 (58.22%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -800,6 +800,8 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4005DDD4` | trace_intensity_draw | 392 | EQUIVALENT | 200 | `nonmatching/platform/func_4005ddd4.c` |
 | `0x4005DF5C` | trace_intensity_draw_window | 332 | EQUIVALENT | 200 | `nonmatching/platform/func_4005df5c.c` |
 | `0x4005E10C` | layer_clear | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_4005e10c.c` |
+| `0x4005E12C` | trace_intensity_accumulate_lines | 1764 | EQUIVALENT | 200 | `nonmatching/platform/func_4005e12c.c` |
+| `0x4005E838` | trace_intensity_accumulate_window | 1412 | EQUIVALENT | 200 | `nonmatching/platform/func_4005e838.c` |
 | `0x4005EDC0` | trace_intensity_accumulate | 540 | EQUIVALENT | 200 | `nonmatching/platform/func_4005edc0.c` |
 | `0x4005F014` | ms5351_i2c_start | 76 | EQUIVALENT | 300 | `nonmatching/drivers/func_4005f014.c` |
 | `0x4005F060` | ms5351_i2c_stop | 92 | EQUIVALENT | 300 | `nonmatching/drivers/func_4005f060.c` |
@@ -838,10 +840,12 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40060DC8` | fft_spur_cancel | 544 | EQUIVALENT | 200 | `nonmatching/platform/func_40060dc8.c` |
 | `0x40060FE8` | auto_level_search | 420 | EQUIVALENT | 200 | `nonmatching/platform/func_40060fe8.c` |
 | `0x40061194` | level_columns_draw_b | 332 | EQUIVALENT | 200 | `nonmatching/platform/func_40061194.c` |
+| `0x400612FC` | levels_view_layout | 632 | EQUIVALENT | 200 | `nonmatching/platform/func_400612fc.c` |
 | `0x40061580` | fft_input_prepare_b | 132 | EQUIVALENT | 200 | `nonmatching/platform/func_40061580.c` |
 | `0x40061608` | peak_hold_decimate | 112 | EQUIVALENT | 200 | `nonmatching/platform/func_40061608.c` |
 | `0x40061680` | window_64_recalc | 292 | EQUIVALENT | 200 | `nonmatching/platform/func_40061680.c` |
 | `0x400617AC` | measure_values_clamp | 672 | EQUIVALENT | 200 | `nonmatching/platform/func_400617ac.c` |
+| `0x40061A70` | levels_samples_window | 820 | EQUIVALENT | 200 | `nonmatching/platform/func_40061a70.c` |
 | `0x40061DB0` | fft_levels_db | 300 | EQUIVALENT | 200 | `nonmatching/platform/func_40061db0.c` |
 | `0x400621EC` | level_stats_5f010 | 144 | EQUIVALENT | 200 | `nonmatching/platform/func_400621ec.c` |
 | `0x40062284` | level_stats_60008 | 164 | EQUIVALENT | 200 | `nonmatching/platform/func_40062284.c` |

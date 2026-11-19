@@ -366,7 +366,7 @@ w(0x40060D68, 96, "calib_run_4_channels",
   "Block 0x42E68668: +0x190 = 1, +5 = 1; for i = 0..3: +0xF4 = i, then 0x400612FC, 0x40060FE8, 0x40060DC8, 0x40060BA4; then +0x190 = 0, +0xF4 = its old low byte, and settings_c_save.", """
 #define CB8(o)  (*(volatile unsigned char *)(0x42E68668u + (o)))
 #define CB32(o) (*(volatile u32 *)(0x42E68668u + (o)))
-void func_400612fc(void);
+void levels_view_layout(void);
 void auto_level_search(void);
 void fft_spur_cancel(void);
 void fft_spur_capture(void);
@@ -380,7 +380,7 @@ void calib_run_4_channels(void)
     CB8(5) = 1;
     for (i = 0; i < 4; i++) {
         CB32(0xF4) = i;
-        func_400612fc();
+        levels_view_layout();
         auto_level_search();
         fft_spur_cancel();
         fft_spur_capture();

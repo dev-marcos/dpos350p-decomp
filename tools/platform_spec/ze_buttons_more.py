@@ -388,7 +388,7 @@ void numpad_buttons_b06(void)
 we(0x400623F4, 76, "levels_update_chain",
    "Unless touch byte +0x17 is set: when byte +4 of block 0x42E68668 is set runs 0x40061DB0 and 0x40061A70; then 0x4006053C, level_stats_5f010, level_stats_60008 and 0x4006233C.", """
 void fft_levels_db(void);
-void func_40061a70(void);
+void levels_samples_window(void);
 void marker_values_compute(void);
 void level_stats_5f010(void);
 void level_stats_60008(void);
@@ -400,7 +400,7 @@ void levels_update_chain(void)
         return;
     if (*(volatile unsigned char *)(0x42E68668u + 4)) {
         fft_levels_db();
-        func_40061a70();
+        levels_samples_window();
     }
     marker_values_compute();
     level_stats_5f010();

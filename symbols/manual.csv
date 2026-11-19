@@ -1232,3 +1232,7 @@ address,name,type,evidence_level,source,note
 0x40062A18,levels_max_panel_draw,function,DERIVED,this-project:phase5 (ui),
 0x40060BA4,fft_spur_capture,function,DERIVED,this-project:phase5 (trace),
 0x40060DC8,fft_spur_cancel,function,DERIVED,this-project:phase5 (trace),
+0x4005E12C,trace_intensity_accumulate_lines,function,DERIVED,this-project:phase5 (trace),
+0x4005E838,trace_intensity_accumulate_window,function,DERIVED,this-project:phase5 (trace),
+0x400612FC,levels_view_layout,function,DERIVED,this-project:phase5 (ui),
+0x40061A70,levels_samples_window,function,DERIVED,this-project:phase5 (trace),

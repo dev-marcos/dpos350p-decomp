@@ -81,7 +81,7 @@ void trace_shift_samples(u32 tr);
 void trace_zoom_segments(u32 tr);
 void trace_view_bounds(u32 tr);
 void trace_c5cc_full(u32 tr);
-void func_4005e12c(u32 tr);
+void trace_intensity_accumulate_lines(u32 tr);
 void trace_intensity_draw(u32 tr);
 
 void trace_process_full(u32 tr)
@@ -97,7 +97,7 @@ void trace_process_full(u32 tr)
     trace_zoom_segments(tr);
     trace_view_bounds(tr);
     trace_c5cc_full(tr);
-    func_4005e12c(tr);
+    trace_intensity_accumulate_lines(tr);
     trace_intensity_draw(tr);
 }
 """)
@@ -187,7 +187,7 @@ void trace_span_window_veneer(u32 tr);
 void scaled_pair_update(u32 tr);
 void trace_view_bounds(u32 tr);
 void trace_c5cc_window(u32 tr);
-void func_4005e838(u32 tr);
+void trace_intensity_accumulate_window(u32 tr);
 void trace_intensity_draw_window(u32 tr);
 
 void trace_process_window(u32 tr)
@@ -196,7 +196,7 @@ void trace_process_window(u32 tr)
     scaled_pair_update(tr);
     trace_view_bounds(tr);
     trace_c5cc_window(tr);
-    func_4005e838(tr);
+    trace_intensity_accumulate_window(tr);
     trace_intensity_draw_window(tr);
 }
 """)

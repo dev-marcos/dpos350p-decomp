@@ -2187,6 +2187,57 @@ palette, spur, peak hold) are DERIVED from the arithmetic.
   - So the device can learn a reference spectrum and remove its fixed spurs from later
     captures (DERIVED; which screen offers it is OPEN).
 
+## Intensity accumulators with smoothing, level-view layout and sample window (batch 57)
+
+Spec: `tools/platform_spec/zz_intensity_layout.py`, 4 functions. Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The names are
+DERIVED from the arithmetic.
+
+- **Intensity view, the other two accumulators** (with `trace_intensity_accumulate` of batch 56).
+  Both stamp the samples of a trace into its hit counts and then smooth each column:
+  - **Stamping.** Each column x takes (2 x points + 1) samples per segment, read at
+    0x413F92E8 + tr x 0x927C0:
+    - the row is (L x H - v) >> s, clamped to H - 3. It is H / 2 - 3 with SYS+0x2AA set (the
+      split screen) in the first window;
+    - the cells row - 1 / row / row + 1 get L - f / 0x40 / f, with f = (L x H - v) & (L - 1).
+      This is a sub-pixel split of the sample between two rows (DERIVED);
+    - the covered rows are flagged in 0x426BFF94 (0x4B0 bytes per column). Their lowest - 1 and
+      highest + 1 are kept in 0x42E63D24 and 0x42E63528.
+  - **Then each covered cell** gets 5 x segments + 20.
+  - **Smoothing.** Passes s = shift .. 1 run a moving sum of 2^s cells over each covered run. It
+    is written back 2^(s-1) cells behind as sum >> s.
+  - **The window.** The first window is u16 SYS+0x10 / +0x12, with points W32 SYS+0x5F8 and
+    gate u16 SYS+0x14. With `mode_not_0_or_1(tr)` it is SYS+0x16 / +0x18 / +0x610 / +0x1A.
+  - `trace_intensity_accumulate_lines` (0x4005E12C):
+    - it clears all column flags (0x95B50 u16), and calls `dcache_clean_inv_all` before the
+      fill;
+    - it uses up to 4 passes, fewer for short runs. With touch byte 0x42E68BB0+0x15 and byte
+      0x42E61FF8 = 1, the pass count is 0x927C0 (SYS+0x1B0 = 2) or 0x124F80 divided by the
+      summed run lengths, at most 4;
+    - the divisor SYS+0x7B0 becomes max / 75.
+  - `trace_intensity_accumulate_window` (0x4005E838) is the capture-window version:
+    - it runs only when SYS+0x6FC >= SYS+0x708, on the columns SYS+0x700 .. + u16 SYS+0x6F8 - 1;
+    - it always uses four passes, and sets SYS+0x7B0 = 45 x SYS+0x5F8 / 50.
+  - With 0 segments and a non-empty window, the stock pass-count loop never ends (the run length
+    is negative).
+- **`levels_view_layout`** (0x400612FC) sets up the level (spectrum) view in block 0x42E68668:
+  - the FFT size +0xF8 is 0x1000 / 0x2000 / 0x4000 / 0x8000 for mode +0xF4 = 0..3;
+  - it sets the sample pointer 0x42E68CB0 = 0x42CC64B4 + 2 x size;
+  - the plot box +0xB0 .. +0xD0 and the panel boxes +0xD4 .. +0xF0 come from the bytes +1 / +2
+    (the two side panels, DERIVED);
+  - the frequency axis comes from the s64 sample rate SYS+0x538 (DERIVED from the arithmetic):
+    bin width +0x100 = rate / 1000 / size, top +0x108 = rate / 1000 / 2, centre +0x118 =
+    (top + bin) / 2, span +0x110 = top - bin.
+- **`levels_samples_window`** (0x40061A70) fits the visible frequency range to the plot width
+  w = +0xB8:
+  - the first and last index come from +0x120 / +0x128: i = ((f - bin) x size / 2) / span;
+  - with more samples c than pixels, it calls `peak_hold_decimate(src, w, c / w)`;
+  - otherwise it centres the samples (minus 0x8000) in the zoom workspace 0x416431E8 at index
+    500000, with 100 copies of each end sample. It zooms them with the nearest-neighbour
+    resampler (m = w x SYS+0x554 / c below 3 x SYS+0x554) or the spline resampler, then puts
+    them back (plus 0x8000) through 0x4191F8A8;
+  - the result is copied to the start of the sample buffer.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

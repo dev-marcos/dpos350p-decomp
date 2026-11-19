@@ -14,7 +14,7 @@ void trace_shift_samples(u32 tr);
 void trace_zoom_segments(u32 tr);
 void trace_view_bounds(u32 tr);
 void trace_c5cc_full(u32 tr);
-void func_4005e12c(u32 tr);
+void trace_intensity_accumulate_lines(u32 tr);
 void trace_intensity_draw(u32 tr);
 
 void trace_process_full(u32 tr)
@@ -30,6 +30,6 @@ void trace_process_full(u32 tr)
     trace_zoom_segments(tr);
     trace_view_bounds(tr);
     trace_c5cc_full(tr);
-    func_4005e12c(tr);
+    trace_intensity_accumulate_lines(tr);
     trace_intensity_draw(tr);
 }

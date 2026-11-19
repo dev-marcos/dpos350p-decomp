@@ -4153,3 +4153,127 @@ def t_spcan56(r):
 
 
 TESTS[0x40060DC8] = t_spcan56
+
+
+# ================================================================ batch 57: intensity accumulators, level layout
+def _w16_57(m, a, v):
+    m.write(a, _st50.pack("<H", v & 0xFFFF))
+
+
+def _zero_fill57(m, a):
+    m.write(a[0], bytes(2 * (a[2] & 0xFFFFF)))
+
+
+def _acc57(r, window):
+    tr = r.choice([0, 1, 2, 3]) | (r.choice([0, 0, 0x100]) if not window else 0)
+    h = r.choice([60, 100, 200])
+    sh = r.choice([0, 1, 2])
+    lv = r.choice([1 << sh, 1 << sh, 1, 2, 4])
+    mode = r.choice([0, 0, 1])
+    split = r.choice([0, 1])
+    nseg = r.choice([1, 1, 2, 3])
+    np_ = r.choice([0, 1, 2, 5])
+    on = r.choice([0, 1, 1, 1, 1])
+    x0 = r.randrange(0, 12)
+    x1 = x0 + r.choice([0, 1, 2, 3, 4, 6, 10, 20])
+    k = 2 * np_ + 1
+    lh = lv * h
+    smp = [r.choice([r.randrange(0, lh + 1), r.randrange(0, lh + 1), r.randrange(lh // 3, 2 * lh // 3 + 1),
+                     r.randrange(0, lh + 4 * lv)]) for _ in range((x1 + 2) * k * nseg)]
+    ncell = (x1 + 2) * h
+    hits = bytes(b for _ in range(ncell) for b in (r.choice([0, 0, r.getrandbits(8)]), r.choice([0, r.getrandbits(3)])))
+    f15, f1ff8, f1b0 = r.choice([0, 1]), r.choice([0, 1, 1, 2]), r.choice([0, 2])
+    w6fc, w708 = r.choice([(5, 5), (6, 5), (4, 5), (0, 0)])
+    base = 0x400954A4 + (tr & 0xFF) * 0x12BE70
+    w5f8 = np_ if not mode else r.choice([np_, r.randrange(0, 1000), r.getrandbits(32)])
+
+    def setup(m):
+        m.max_insns = 60_000_000
+        _w16_57(m, SYS + 0xA, h)
+        m.w32(SYS + 0x1C0, lv)
+        m.w32(SYS + 0x1BC, sh)
+        m.w8(SYS + 0x2AA, split)
+        _w16_57(m, SYS + 0x5F4, nseg)
+        m.w32(SYS + 0x5F8, w5f8)
+        m.w32(SYS + 0x610, np_)
+        for o in (0x10, 0x16):
+            _w16_57(m, SYS + o, x0)
+        for o in (0x12, 0x18):
+            _w16_57(m, SYS + o, x1)
+        for o in (0x14, 0x1A):
+            _w16_57(m, SYS + o, on)
+        m.w32(SYS + 0x6FC, w6fc)
+        m.w32(SYS + 0x708, w708)
+        m.w32(SYS + 0x700, x0)
+        _w16_57(m, SYS + 0x6F8, x1 - x0)
+        m.w32(SYS + 0x7B0, 0x777)
+        m.w8(0x42E68BB0 + 0x15, f15)
+        m.w8(0x42E61FF8, f1ff8)
+        m.w8(SYS + 0x1B0, f1b0)
+        m.write(0x413F92E8 + (tr & 0xFF) * 0x927C0, b"".join(_st50.pack("<H", v) for v in smp))
+        m.write(base, hits)
+    stubs = [rec("m01", 0x4003BF78, 1, mode), rec("dci", 0x400632F8, 0)]
+    if not window:
+        stubs.append(Stub("fill", 0x400356F4, _zero_fill57, 3))
+    return Case([tr], setup=setup, ret=V, stubs=tuple(stubs))
+
+
+TESTS[0x4005E12C] = lambda r: _acc57(r, False)
+TESTS[0x4005E838] = lambda r: _acc57(r, True)
+
+
+def t_layout57(r):
+    f1, f2 = r.choice([0, 1, 7]), r.choice([0, 1, 0x80])
+    sel = r.choice([0, 1, 2, 3, 4, 0xFFFFFFFF])
+    n = r.choice([1, 2, 1000, 1024, r.getrandbits(31) | 1])
+    rate = r.choice([0, 1000, 999, 250100000, 1 << 40, -12345678, r.getrandbits(63), r.getrandbits(64)])
+    touch = r.choice([0, 0, 0, 1])
+    junk = [r.getrandbits(32) for _ in range(16)]
+
+    def setup(m):
+        m.w8(0x42E68BB0 + 0x17, touch)
+        m.w8(BLK56 + 1, f1)
+        m.w8(BLK56 + 2, f2)
+        m.w32(BLK56 + 0xF4, sel)
+        m.w32(BLK56 + 0xF8, n)
+        for i, v in enumerate(junk):
+            m.w32(BLK56 + 0xB0 + 4 * i, v)
+        m.write(SYS + 0x538, (rate & ((1 << 64) - 1)).to_bytes(8, "little"))
+    return Case([], setup=setup, ret=V)
+
+
+TESTS[0x400612FC] = t_layout57
+
+
+
+def t_lwin57(r):
+    n = r.choice([64, 256, 1024, 1025])
+    bin_ = r.choice([0, 100, -50, r.getrandbits(20)])
+    span = r.choice([n, 2 * n, n // 2 + 1, 1, -n])
+    d0 = r.randrange(-4, n)
+    d1 = d0 + r.choice([-2, -1, 0, 1, 2, r.randrange(0, n), r.randrange(0, 3 * n)])
+    w = r.choice([0, 1, 2, 10, 100, 400, 966, r.randrange(0, 1200)])
+    z = r.choice([1, 2, 3, 10, 100])
+    if r.random() < 0.3:              # c close to w / 2.5: between the nearest and spline ranges
+        span = n
+        d1 = d0 + 2 * int(w / r.choice([2.2, 2.5, 2.9, 3.1]))
+    touch = r.choice([0, 0, 0, 1])
+    data = bytes(r.getrandbits(8) for _ in range(2 * 4 * n + 64))
+
+    def setup(m):
+        m.max_insns = 40_000_000       # span 1 gives runs of up to ~1.5M samples
+        m.w8(0x42E68BB0 + 0x17, touch)
+        m.w32(BLK56 + 0xF8, n)
+        m.write(BLK56 + 0x100, (bin_ & ((1 << 64) - 1)).to_bytes(8, "little"))
+        m.write(BLK56 + 0x110, (span & ((1 << 64) - 1)).to_bytes(8, "little"))
+        m.write(BLK56 + 0x120, ((bin_ + d0) & ((1 << 64) - 1)).to_bytes(8, "little"))
+        m.write(BLK56 + 0x128, ((bin_ + d1) & ((1 << 64) - 1)).to_bytes(8, "little"))
+        m.w32(BLK56 + 0xB8, w)
+        m.w32(SYS + 0x554, z)
+        m.w32(0x42E68CB0, 0x42CC64B4 + 2 * n)
+        m.write(0x42CC64B4, data)
+    return Case([], setup=setup, ret=V,
+                stubs=(rec_stk("nn", 0x4005C678, 2), rec_stk("spl", 0x4005D048, 2)))
+
+
+TESTS[0x40061A70] = t_lwin57

@@ -1136,9 +1136,9 @@ address,size,name,type,evidence_level,source
 0x4005E0AC,88,func_4005e0ac,function_arm,DERIVED,analyze.py:gap-code
 0x4005E104,8,func_4005e104,function_arm,DERIVED,analyze.py:gap-code
 0x4005E10C,32,layer_clear,function_arm,DERIVED,this-project:phase5 (display)
-0x4005E12C,1764,func_4005e12c,function_arm,DERIVED,analyze.py:rea
+0x4005E12C,1764,trace_intensity_accumulate_lines,function_arm,DERIVED,this-project:phase5 (trace)
 0x4005E810,40,pool_4005e810,literal_pool,DERIVED,analyze.py
-0x4005E838,1412,func_4005e838,function_arm,DERIVED,analyze.py:rea
+0x4005E838,1412,trace_intensity_accumulate_window,function_arm,DERIVED,this-project:phase5 (trace)
 0x4005EDBC,4,pool_4005edbc,literal_pool,DERIVED,analyze.py
 0x4005EDC0,540,trace_intensity_accumulate,function_arm,DERIVED,this-project:phase5 (trace)
 0x4005EFDC,56,pool_4005efdc,literal_pool,DERIVED,analyze.py
@@ -1200,7 +1200,7 @@ address,size,name,type,evidence_level,source
 0x4006118C,8,pool_4006118c,literal_pool,DERIVED,analyze.py
 0x40061194,332,level_columns_draw_b,function_arm,DERIVED,this-project:phase5 (trace)
 0x400612E0,28,pool_400612e0,literal_pool,DERIVED,analyze.py
-0x400612FC,632,func_400612fc,function_arm,DERIVED,analyze.py:rea
+0x400612FC,632,levels_view_layout,function_arm,DERIVED,this-project:phase5 (ui)
 0x40061574,12,pool_40061574,literal_pool,DERIVED,analyze.py
 0x40061580,132,fft_input_prepare_b,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40061604,4,pool_40061604,literal_pool,DERIVED,analyze.py
@@ -1210,7 +1210,7 @@ address,size,name,type,evidence_level,source
 0x400617A4,8,pool_400617a4,literal_pool,DERIVED,analyze.py
 0x400617AC,672,measure_values_clamp,function_arm,DERIVED,this-project:phase5 (ui)
 0x40061A4C,36,pool_40061a4c,literal_pool,DERIVED,analyze.py
-0x40061A70,820,func_40061a70,function_arm,DERIVED,analyze.py:rea
+0x40061A70,820,levels_samples_window,function_arm,DERIVED,this-project:phase5 (trace)
 0x40061DA4,12,pool_40061da4,literal_pool,DERIVED,analyze.py
 0x40061DB0,300,fft_levels_db,function_arm,DERIVED,this-project:phase5 (trace)
 0x40061EDC,52,pool_40061edc,literal_pool,DERIVED,analyze.py
