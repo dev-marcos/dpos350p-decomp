@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1219 | 90.03% | 233882 | 69.30% |
+| EQUIVALENT | 1221 | 90.18% | 238778 | 70.75% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 135 | 9.97% | 103622 | 30.70% |
+| ASM | 133 | 9.82% | 98726 | 29.25% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1219 (91.04%) | 337104 | 233882 (69.38%) |
+| main code | 1339 | 1221 (91.19%) | 337104 | 238778 (70.83%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -42,6 +42,8 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4001C348` | ui_window_05_draw | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_4001c348.c` |
 | `0x4001CE30` | display_menu_draw | 1916 | EQUIVALENT | 200 | `nonmatching/platform/func_4001ce30.c` |
 | `0x4001E8E0` | menu_three_rows_draw | 764 | EQUIVALENT | 200 | `nonmatching/platform/func_4001e8e0.c` |
+| `0x4001EBE4` | ch1_menu_draw | 2444 | EQUIVALENT | 200 | `nonmatching/platform/func_4001ebe4.c` |
+| `0x4001F5A8` | ch2_menu_draw | 2452 | EQUIVALENT | 200 | `nonmatching/platform/func_4001f5a8.c` |
 | `0x40021630` | hires_menu_draw | 2036 | EQUIVALENT | 200 | `nonmatching/platform/func_40021630.c` |
 | `0x40023D04` | window_frame_23d04_draw | 340 | EQUIVALENT | 200 | `nonmatching/platform/func_40023d04.c` |
 | `0x40023E90` | func_40023ea4_unless_t17 | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_40023e90.c` |

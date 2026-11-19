@@ -1078,6 +1078,27 @@ MUTANTS = [
     (0x40019DB8, '0x40088208u + 0x170 * i, 2, 2, 0);', '0x40088208u + 0x160 * i, 2, 2, 0);'),
     (0x40019DB8, '(y + SB8(e + 0x195) + 0x19) & 0xFFFF', '(y + SB8(e + 0x195) + 0x18) & 0xFFFF'),
     (0x40019DB8, '    rect_fill(x, y, 0x3BA, 0x2C);', '    rect_fill(x, y, 0x3B9, 0x2C);'),
+    # batch 67: CH1 and CH2 settings menus
+    (0x4001EBE4, '        s = k == 0 ? "1X" : k == 1 ? "10X"', '        s = k == 0 ? "1X" : k == 1 ? "11X"'),
+    (0x4001EBE4, '    switch_row(x, r, w, B8(SYS + so + 0x3E), ro + 0x35E);', '    switch_row(x, r, w, B8(SYS + so + 0x3D), ro + 0x35E);'),
+    (0x4001EBE4, '        xo = x + 0x14 + 0xCF * k;', '        xo = x + 0x14 + 0xCE * k;'),
+    (0x4001EBE4, '    label_row(x, r, 0x4008A768u, ENT(28));', '    label_row(x, r, 0x4008A768u, ENT(29));'),
+    (0x4001EBE4, '        option_button(xo, r, 0x86, ro + (k == 0 ? 0x3B8 : 0x39A + 0xA * k));', '        option_button(xo, r, 0x86, ro + (k == 0 ? 0x3AE : 0x39A + 0xA * k));'),
+    (0x4001EBE4, '    switch_on_off_draw((x + 0x172) & 0xFFFF, (y - 5) & 0xFFFF, on);', '    switch_on_off_draw((x + 0x172) & 0xFFFF, (y - 4) & 0xFFFF, on);'),
+    (0x4001EBE4, '    touch_button_set_rect(xo & 0xFFFF, (y - 0xF) & 0xFFFF, wd, 0x3C,', '    touch_button_set_rect(xo & 0xFFFF, (y - 0xE) & 0xFFFF, wd, 0x3C,'),
+    (0x4001EBE4, '    if (sel == (u32)k) {', '    if (sel != (u32)k) {'),
+    (0x4001EBE4, '            s = k == 1 ? (const char *)0x40090340u : "20M";', '            s = k == 1 ? (const char *)0x40090340u : "25M";'),
+    (0x4001EBE4, '    r = y + 0x19;', '    r = y + 0x18;'),
+    (0x4001F5A8, '    channel_menu(0xCA, 0xC4, 0x64, 26);', '    channel_menu(0xCA, 0xC4, 0x64, 25);'),
+    (0x4001F5A8, '    channel_menu(0xCA, 0xC4, 0x64, 26);', '    channel_menu(0xCA, 0xC4, 0x6E, 26);'),
+    (0x4001F5A8, '    channel_menu(0xCA, 0xC4, 0x64, 26);', '    channel_menu(0xCA, 0xC5, 0x64, 26);'),
+    (0x4001F5A8, '    channel_menu(0xCA, 0xC4, 0x64, 26);', '    channel_menu(0xCC, 0xC4, 0x64, 26);'),
+    (0x4001F5A8, '        draw_colour_set(option_fill(B8(SYS + so + 0x47), k, xo, r, 0x86));', '        draw_colour_set(option_fill(B8(SYS + so + 0x40), k, xo, r, 0x86));'),
+    (0x4001F5A8, '    r += 0x43;\n    label_row(x, r, 0x4008A8D8u, ENT(31));', '    r += 0x44;\n    label_row(x, r, 0x4008A8D8u, ENT(31));'),
+    (0x4001F5A8, '(r + SB8(e + 0x195) + 8) & 0xFFFF, (const char *)W32(e));\n        option_button(xo, r, 0xCB', '(r + SB8(e + 0x195) + 9) & 0xFFFF, (const char *)W32(e));\n        option_button(xo, r, 0xCB'),
+    (0x4001F5A8, '    switch_row(x, r, w, B8(SYS + so + 0x42), ro + 0x39A);', '    switch_row(x, r, w, B8(SYS + so + 0x42), ro + 0x390);'),
+    (0x4001F5A8, '        draw_colour_set(W32(TH + 0x10));\n        txt = 0;', '        draw_colour_set(W32(TH + 0x10));\n        txt = 1;'),
+    (0x4001F5A8, '        draw_colour_set(W32(TH + 8));\n        rect_fill(xo & 0xFFFF, y & 0xFFFF, wd, 0x1E);', '        draw_colour_set(W32(TH + 8));\n        rect_fill(xo & 0xFFFF, y & 0xFFFF, wd, 0x1F);'),
 ]
 
 

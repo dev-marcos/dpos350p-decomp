@@ -1266,3 +1266,5 @@ address,name,type,evidence_level,source,note
 0x4001CE30,display_menu_draw,function,DERIVED,this-project:phase5 (ui),
 0x40021630,hires_menu_draw,function,DERIVED,this-project:phase5 (ui),
 0x40019DB8,main_toolbar_draw,function,DERIVED,this-project:phase5 (ui),
+0x4001EBE4,ch1_menu_draw,function,DERIVED,this-project:phase5 (ui),
+0x4001F5A8,ch2_menu_draw,function,DERIVED,this-project:phase5 (ui),

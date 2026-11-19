@@ -4995,3 +4995,53 @@ def t_maintb66(r):
 
 
 TESTS[0x40019DB8] = t_maintb66
+
+
+# ================================================================ batch 67: CH1 / CH2 settings menus
+def _text67(name, addr, si, ret=None):
+    """Records the string argument si by content when it can be read (C string literals live at
+    other addresses than the stock ones), else by address, and the arguments before it."""
+    def fn(m, a):
+        x = regs(m, si + 1)
+        try:
+            b = m.read(x[si], 24)
+            t = b[:b.index(0)] if 0 in b else b
+        except Exception:
+            t = x[si]
+        m.calls.append((name, t) + tuple(x[:si]))
+        return ret
+    return Stub(name, addr, fn, 0)
+
+
+def _chmenu67(lay, so, ro, en):
+    def t(r):
+        box = [r.choice([0, 3, 30, 200, r.getrandbits(16)]) for _ in range(4)]
+        th = {o: r.getrandbits(32) for o in (0, 4, 8, 0xC, 0x10, 0x14)}
+        recs = [ro + o for o in (0x35E, 0x368, 0x372, 0x37C, 0x386, 0x390, 0x39A, 0x3A4, 0x3AE, 0x3B8)]
+        press = [r.choice([0, 0, 0, 1, r.getrandbits(8)]) for _ in recs]
+        ev = {n: (r.getrandbits(32), r.getrandbits(8), r.getrandbits(8)) for n in (en, 27, 28, 29, 30, 31, 32, 33)}
+        sv = {o: r.choice([0, 1, 2, 2, 3, r.getrandbits(8)]) for o in (0x3E, 0x3F, 0x40, 0x42, 0x47)}
+        tw = r.choice([0, 7, 0x86, 0x87, 0xCB, 0xCC, r.getrandbits(16), r.getrandbits(32)])
+
+        def setup(m):
+            for i, v in enumerate(box):
+                m.write(0x42E64520 + lay + 2 * i, v.to_bytes(2, "little"))
+            for o, v in th.items():
+                m.w32(SYS + 0x3DD550 + o, v)
+            for rc, v in zip(recs, press):
+                m.w8(0x42E61FF8 + rc + 1, v)
+            for n, (pt, dx, dy) in ev.items():
+                e = 0x42C2FE74 + 0x1A0 * n
+                m.w32(e, pt)
+                m.w8(e + 0x194, dx)
+                m.w8(e + 0x195, dy)
+            for o, v in sv.items():
+                m.w8(SYS + so + o, v)
+        return Case([], setup=setup, ret=V, stubs=_draw62() + (_text67("d164", 0x4002D164, 0, tw & 0xFFFFFFFF),
+                                                              _text67("ce7c", 0x4002CE7C, 2),
+                                                              rec("9b8c", 0x40019B8C, 3)))
+    return t
+
+
+TESTS[0x4001EBE4] = _chmenu67(0xBC, 0, 0, 25)
+TESTS[0x4001F5A8] = _chmenu67(0xCA, 0xC4, 0x64, 26)

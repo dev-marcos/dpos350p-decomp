@@ -38,11 +38,11 @@ address,size,name,type,evidence_level,source
 0x4001E8E0,764,menu_three_rows_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4001EBDC,7,code_4001ebdc,data,OPEN,analyze.py
 0x4001EBE3,1,pad_4001ebe3,padding,STATIC-CONFIRMED,analyze.py:zero
-0x4001EBE4,2444,func_4001ebe4,function_arm,DERIVED,analyze.py:rea
+0x4001EBE4,2444,ch1_menu_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4001F570,16,pool_4001f570,literal_pool,DERIVED,analyze.py
 0x4001F580,4,code_4001f580,data,OPEN,analyze.py
 0x4001F584,36,pool_4001f584,literal_pool,DERIVED,analyze.py
-0x4001F5A8,2452,func_4001f5a8,function_arm,DERIVED,analyze.py:rea
+0x4001F5A8,2452,ch2_menu_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4001FF3C,8,pool_4001ff3c,literal_pool,DERIVED,analyze.py
 0x4001FF44,4,code_4001ff44,data,OPEN,analyze.py
 0x4001FF48,44,pool_4001ff48,literal_pool,DERIVED,analyze.py

@@ -2592,6 +2592,39 @@ DERIVED. The menu meanings come from the English labels of the text table (`buil
   - The touch records are 0x42E61FF8 + 0x55C + 0xA x i.
   - What the extra bits do in the acquisition path (averaging or oversampling) is OPEN.
 
+## CH1 and CH2 settings menus (batch 67)
+
+Spec: `tools/platform_spec/zzk_channel_menus.py`, 2 functions. Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The names are
+DERIVED. The menu meanings come from the English labels of the text table (`build/uitext46.txt`).
+
+`ch1_menu_draw` (0x4001EBE4) and `ch2_menu_draw` (0x4001F5A8) are the same code with other
+offsets. In the C they share one static function, `channel_menu`.
+
+| | CH1 | CH2 |
+|---|---|---|
+| layout box | + 0xBC | + 0xCA |
+| settings in SYS | + 0 | + 0xC4 |
+| touch records | 0x42E61FF8 + 0x35E .. | + 0x64 |
+| enable label | entry 25 | entry 26 |
+
+The CH1 settings bytes, with their rows and options:
+
+| Row | Byte | Control |
+|---|---|---|
+| 'Channel enable' | SYS+0x3E | ON/OFF switch |
+| 'Proble attenuation' | SYS+0x40 | options 0 '1X', 1 '10X', 2 '100X' |
+| 'Coupling mode' | SYS+0x3F | options 0 'DC', 1 'AC' |
+| 'FFT display' | SYS+0x42 | ON/OFF switch |
+| 'Bandwidth limit' | SYS+0x47 | options 0 'Full 350M', 1 '150M', 2 '20M' |
+
+For CH2 the bytes are the same + 0xC4: SYS+0x102, 0x104, 0x103, 0x106 and 0x10B.
+
+- The selected option is filled with theme colour + 0x10 and has black text.
+- A pressed row or option is shaded with theme + 8.
+- The two texts '1X' and '10X' are inside the stock function. The C uses string literals, so the
+  test stubs record these texts by content.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).
