@@ -435,14 +435,14 @@ void trace_defaults_37b48(void)
 """, src="acquisition")
 
 wa(0x40037AB8, 144, "trace_update_chain",
-   "trace_cursor_limits and trace_defaults_37b48, then (depending on the bytes 0x42E1810C/0D/0F) bode_sweep_run, bode_grid_draw, bode_autoscale + func_40039918, and bode_curves_draw unless +0x44 is set while +0x47 is clear; when +0x44 is 1 and +0x47 is set, +0x45 = 1 and window 0x22 is invalidated. Ends with trace_cursor_values and func_40037c3c_unless_t17.", """
+   "trace_cursor_limits and trace_defaults_37b48, then (depending on the bytes 0x42E1810C/0D/0F) bode_sweep_run, bode_grid_draw, bode_autoscale + bode_curves_zoom, and bode_curves_draw unless +0x44 is set while +0x47 is clear; when +0x44 is 1 and +0x47 is set, +0x45 = 1 and window 0x22 is invalidated. Ends with trace_cursor_values and func_40037c3c_unless_t17.", """
 #define G8(o) (*(volatile unsigned char *)(0x42E180C8u + (o)))
 void trace_cursor_limits(void);
 void trace_defaults_37b48(void);
 void bode_sweep_run(void);
 void bode_grid_draw(void);
 void bode_autoscale(void);
-void func_40039918(void);
+void bode_curves_zoom(void);
 void bode_curves_draw(void);
 void ui_window_invalidate_from(u32 id, u32 r1);
 void trace_cursor_values(void);
@@ -459,7 +459,7 @@ void trace_update_chain(void)
         if (G8(0x45))
             goto redraw;
         bode_autoscale();
-        func_40039918();
+        bode_curves_zoom();
     }
     if (G8(0x44) && G8(0x47) == 0)
         goto done;

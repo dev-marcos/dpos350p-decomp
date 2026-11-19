@@ -2276,6 +2276,37 @@ meaning of the fields are DERIVED from what is drawn.
     and 15, and shows '+-' on key 12 in modes 2 .. 4. Key 3 always has the same glyph (0x40087B94,
     likely backspace; OPEN).
 
+## Time-base step table and divisors, Bode curve zoom (batch 59)
+
+Spec: `tools/platform_spec/zzb_timebase_bode.py`, 3 functions. Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The names and units
+are DERIVED.
+
+- **`timebase_step_table_init`** (0x4003A680) fills the 36 s64 entries at SYS+0xBD0 with the
+  1-2-5 series 1, 2, 5, 10 .. 5e13. `timebase_period_load` reads them. Entry 11 (SYS+0xC28) is
+  5,000,000 instead of 5,000 in this build: STATIC-CONFIRMED. Whether that time-base step is ever
+  selected is OPEN.
+- **`timebase_divisors_compute`** (0x4003B834), called by `acquisition_rearm`:
+  - P = 1e15 / period (SYS+0x590) x u16 SYS+0x1C, and k = ceil(SYS+0x5A8 / P);
+  - the sample count SYS+0x5FC = k x W32 0x405453BC x P / SYS+0x5A8 (signed);
+  - SYS+0x5F8 = min(k, 10 x SYS+0x5D4);
+  - SYS+0x600 = the smallest j for which SYS+0x5FC x j is a multiple of W32 0x405453BC, and
+    SYS+0x604 = the quotient (1 when the count equals that word);
+  - the repeat SYS+0x5F4 = u16 SYS+0x5D0, or 1 when SYS+0x3C or SYS+0x665 is set. SYS+0x544 =
+    SYS+0x5F8 x the repeat (u16);
+  - per channel: the scales SYS+0xE4 / +0x1A4 = (s64 +0x58 / +0x118 << 10) / (+0x50 / +0x110),
+    the spans +0xE8 / +0x1A8 = +0x64 - +0x60 / +0x124 - +0x120, and the bytes SYS+0x650 / +0x651
+    = ceil of the ratio, rounded up from tenths and at least 1;
+  - with SYS+0x28 set and SYS+0x3C clear it clears SYS+0x570 .. +0x57F and the byte SYS+0x580;
+    otherwise it sets SYS+0x580 = 1.
+- **`bode_curves_zoom`** (0x40039918) fits the gain and phase curves of the Bode view (u16 rows
+  0x42E180C8 + 0x8D20 / + 0x9CC0, W32 +0x5C points) to the plot width u16 +4:
+  - each curve is centred at index 10000 of the workspace 0x416431E8, with 100 copies of each end
+    sample;
+  - it is resampled with m = +4 x SYS+0x554 / +0x5C (kept in +0x40): nearest neighbour below
+    3 x SYS+0x554, else the spline. Then it is copied back;
+  - every row is clamped to 3 .. +6 - 3 and flipped to +6 - row (screen rows grow downwards).
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

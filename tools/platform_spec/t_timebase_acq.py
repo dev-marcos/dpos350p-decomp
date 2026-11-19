@@ -182,7 +182,7 @@ void timebase_index_step_down(u32 d)
 u(0x4003A62C, 40, "acquisition_reconfigure",
   "sample_divisor_setup, 0x4003A680, 0x4005DB9C, sine_table_build (0x4005D27C; its first sine argument is whatever d0 holds here), acquisition_geometry_setup, then runtime_state_commit_copy.", """
 void sample_divisor_setup(void);
-void func_4003a680(void);
+void timebase_step_table_init(void);
 void intensity_palettes_init(void);
 void sine_table_build(void);
 void acquisition_geometry_setup(void);
@@ -191,7 +191,7 @@ void runtime_state_commit_copy(void);
 void acquisition_reconfigure(void)
 {
     sample_divisor_setup();
-    func_4003a680();
+    timebase_step_table_init();
     intensity_palettes_init();
     sine_table_build();
     acquisition_geometry_setup();
@@ -216,14 +216,14 @@ void acquisition_apply(void)
 """, src="acquisition")
 u(0x4003B7B8, 68, "acquisition_rearm",
   "Unless the byte 0x42E68BC7 is set: 0x4003B834, then 0x4004201C when SYS+0x2AA (second traces) is set.", """
-void func_4003b834(void);
+void timebase_divisors_compute(void);
 void func_4004201c(void);
 
 void acquisition_rearm(void)
 {
     if (""" + LOCK + """)
         return;
-    func_4003b834();
+    timebase_divisors_compute();
     if (SYS8(0x2AA))
         func_4004201c();
 }

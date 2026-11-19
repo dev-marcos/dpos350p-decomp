@@ -1239,3 +1239,6 @@ address,name,type,evidence_level,source,note
 0x40062448,levels_graph_draw,function,DERIVED,this-project:phase5 (ui),
 0x400606A0,levels_markers_draw,function,DERIVED,this-project:phase5 (ui),
 0x4005FF88,numpad_draw,function,DERIVED,this-project:phase5 (ui),
+0x4003A680,timebase_step_table_init,function,DERIVED,this-project:phase5 (timebase),
+0x4003B834,timebase_divisors_compute,function,DERIVED,this-project:phase5 (timebase),
+0x40039918,bode_curves_zoom,function,DERIVED,this-project:phase5 (trace),

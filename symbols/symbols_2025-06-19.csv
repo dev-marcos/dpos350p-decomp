@@ -413,7 +413,7 @@ address,size,name,type,evidence_level,source
 0x4003962C,16,pool_4003962c,literal_pool,DERIVED,analyze.py
 0x4003963C,672,bode_autoscale,function_arm,DERIVED,this-project:phase5 (ui)
 0x400398DC,60,pool_400398dc,literal_pool,DERIVED,analyze.py
-0x40039918,744,func_40039918,function_arm,DERIVED,analyze.py:rea
+0x40039918,744,bode_curves_zoom,function_arm,DERIVED,this-project:phase5 (trace)
 0x40039C00,8,pool_40039c00,literal_pool,DERIVED,analyze.py
 0x40039C08,676,bode_phase_measure,function_arm,DERIVED,this-project:phase5 (ui)
 0x40039EAC,12,pool_40039eac,literal_pool,DERIVED,analyze.py
@@ -426,7 +426,7 @@ address,size,name,type,evidence_level,source
 0x4003A5D8,84,__aeabi_l2d,function_thumb,DERIVED,this-project:phase2
 0x4003A62C,40,acquisition_reconfigure,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003A654,44,acquisition_apply,function_arm,DERIVED,this-project:phase5 (acquisition)
-0x4003A680,572,func_4003a680,function_arm,DERIVED,analyze.py:rea
+0x4003A680,572,timebase_step_table_init,function_arm,DERIVED,this-project:phase5 (timebase)
 0x4003A8BC,36,timebase_period_load,function_arm,DERIVED,this-project:phase5 (timebase)
 0x4003A8E0,40,pool_4003a8e0,literal_pool,DERIVED,analyze.py
 0x4003A908,92,sample_divisor_setup,function_arm,DERIVED,this-project:phase5 (acquisition)
@@ -434,7 +434,7 @@ address,size,name,type,evidence_level,source
 0x4003A984,3636,func_4003a984,function_arm,DERIVED,analyze.py:rea
 0x4003B7B8,68,acquisition_rearm,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003B7FC,56,pool_4003b7fc,literal_pool,DERIVED,analyze.py
-0x4003B834,776,func_4003b834,function_arm,DERIVED,analyze.py:rea
+0x4003B834,776,timebase_divisors_compute,function_arm,DERIVED,this-project:phase5 (timebase)
 0x4003BB3C,48,pool_4003bb3c,literal_pool,DERIVED,analyze.py
 0x4003BB6C,372,trace_view_bounds,function_arm,DERIVED,this-project:phase5 (trace)
 0x4003BCE0,16,pool_4003bce0,literal_pool,DERIVED,analyze.py

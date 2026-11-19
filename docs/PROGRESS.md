@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1192 | 88.04% | 200394 | 59.38% |
+| EQUIVALENT | 1195 | 88.26% | 202486 | 60.00% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 162 | 11.96% | 137110 | 40.62% |
+| ASM | 159 | 11.74% | 135018 | 40.00% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1192 (89.02%) | 337104 | 200394 (59.45%) |
+| main code | 1339 | 1195 (89.25%) | 337104 | 202486 (60.07%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -257,6 +257,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40038E40` | frequency_draw | 1016 | EQUIVALENT | 200 | `nonmatching/platform/func_40038e40.c` |
 | `0x40039254` | bode_curves_draw | 968 | EQUIVALENT | 200 | `nonmatching/platform/func_40039254.c` |
 | `0x4003963C` | bode_autoscale | 672 | EQUIVALENT | 200 | `nonmatching/platform/func_4003963c.c` |
+| `0x40039918` | bode_curves_zoom | 744 | EQUIVALENT | 200 | `nonmatching/platform/func_40039918.c` |
 | `0x40039C08` | bode_phase_measure | 676 | EQUIVALENT | 200 | `nonmatching/platform/func_40039c08.c` |
 | `0x40039EB8` | bode_calibrate | 380 | EQUIVALENT | 200 | `nonmatching/platform/func_40039eb8.c` |
 | `0x4003A044` | bode_point_measure | 652 | EQUIVALENT | 200 | `nonmatching/platform/func_4003a044.c` |
@@ -264,9 +265,11 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4003A5D8` | __aeabi_l2d | 84 | EQUIVALENT | 400 | `nonmatching/libc/func_4003a5d8.c` |
 | `0x4003A62C` | acquisition_reconfigure | 40 | EQUIVALENT | 200 | `nonmatching/platform/func_4003a62c.c` |
 | `0x4003A654` | acquisition_apply | 44 | EQUIVALENT | 200 | `nonmatching/platform/func_4003a654.c` |
+| `0x4003A680` | timebase_step_table_init | 572 | EQUIVALENT | 200 | `nonmatching/platform/func_4003a680.c` |
 | `0x4003A8BC` | timebase_period_load | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4003a8bc.c` |
 | `0x4003A908` | sample_divisor_setup | 92 | EQUIVALENT | 200 | `nonmatching/platform/func_4003a908.c` |
 | `0x4003B7B8` | acquisition_rearm | 68 | EQUIVALENT | 200 | `nonmatching/platform/func_4003b7b8.c` |
+| `0x4003B834` | timebase_divisors_compute | 776 | EQUIVALENT | 200 | `nonmatching/platform/func_4003b834.c` |
 | `0x4003BB6C` | trace_view_bounds | 372 | EQUIVALENT | 200 | `nonmatching/platform/func_4003bb6c.c` |
 | `0x4003BCF0` | timebase_index_clamp | 188 | EQUIVALENT | 200 | `nonmatching/platform/func_4003bcf0.c` |
 | `0x4003BDB0` | timebase_index_step | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_4003bdb0.c` |

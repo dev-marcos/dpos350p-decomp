@@ -8,7 +8,7 @@
 #include "hw/fpga.h"
 
 void sample_divisor_setup(void);
-void func_4003a680(void);
+void timebase_step_table_init(void);
 void intensity_palettes_init(void);
 void sine_table_build(void);
 void acquisition_geometry_setup(void);
@@ -17,7 +17,7 @@ void runtime_state_commit_copy(void);
 void acquisition_reconfigure(void)
 {
     sample_divisor_setup();
-    func_4003a680();
+    timebase_step_table_init();
     intensity_palettes_init();
     sine_table_build();
     acquisition_geometry_setup();

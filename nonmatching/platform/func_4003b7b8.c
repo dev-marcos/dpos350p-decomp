@@ -7,14 +7,14 @@
 
 #include "hw/fpga.h"
 
-void func_4003b834(void);
+void timebase_divisors_compute(void);
 void func_4004201c(void);
 
 void acquisition_rearm(void)
 {
     if ((*(volatile unsigned char *)0x42E68BC7u))
         return;
-    func_4003b834();
+    timebase_divisors_compute();
     if (SYS8(0x2AA))
         func_4004201c();
 }

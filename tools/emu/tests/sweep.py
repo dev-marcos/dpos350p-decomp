@@ -4390,3 +4390,71 @@ def t_graph58(r):
 
 
 TESTS[0x40062448] = t_graph58
+
+
+# ================================================================ batch 59: time-base table and divisors, Bode zoom
+def _wr59(m, a, v, sz):
+    m.write(a, (v & ((1 << (8 * sz)) - 1)).to_bytes(sz, "little"))
+
+
+TESTS[0x4003A680] = lambda r: Case([], ret=V)
+
+
+def t_tbdiv59(r):
+    tab = [r.choice([1, 2, 5, 10, 1000, 10 ** 6, 10 ** 9, 5 * 10 ** 12, r.randrange(1, 10 ** 13)]) for _ in range(36)]
+    idx = r.randrange(0, 36)
+    n = r.choice([1, 2, 10, 100, 1000, r.randrange(1, 0x10000)])
+    a = r.choice([1, 1000, 10 ** 6, 10 ** 9, r.getrandbits(40) | 1, r.getrandbits(62) | 1])
+    d = r.choice([1, 2, 4, 6, 100, 1000, r.randrange(1, 3000)])
+    vals = [(SYS + 0x1C, n, 2), (SYS + 0x588, idx, 8), (SYS + 0x5A8, a, 8), (0x405453BC, d, 4),
+            (SYS + 0x5D4, r.choice([0, 1, 5, 100, r.getrandbits(32)]), 4),
+            (SYS + 0x5D0, r.getrandbits(16), 2), (SYS + 0x3C, r.choice([0, 0, 1]), 1),
+            (SYS + 0x665, r.choice([0, 0, 1]), 1), (SYS + 0x28, r.choice([0, 1, 1]), 1)]
+    for o in (0x50, 0x110):
+        vals.append((SYS + o, r.choice([1, 10, 1000, -7, r.getrandbits(40) + 1]), 8))
+    for o in (0x58, 0x118):
+        vals.append((SYS + o, r.choice([0, 1, 9, 10, 11, 1000, -25, r.getrandbits(50)]), 8))
+    for o in (0x60, 0x64, 0x120, 0x124):
+        vals.append((SYS + o, r.getrandbits(32), 4))
+    for o in range(0x570, 0x588, 4):
+        vals.append((SYS + o, r.getrandbits(32), 4))
+
+    def setup(m):
+        for i, v in enumerate(tab):
+            _wr59(m, SYS + 0xBD0 + 8 * i, v, 8)
+        for ad, v, sz in vals:
+            _wr59(m, ad, v, sz)
+    return Case([], setup=setup, ret=V)
+
+
+TESTS[0x4003B834] = t_tbdiv59
+
+
+def t_bode59(r):
+    touch = r.choice([0, 0, 0, 1])
+    n = r.choice([0, 1, 2, 3, 100, 301, r.randrange(0, 800)])
+    c = r.choice([1, 2, 3, 50, 101, r.randrange(1, 900)])
+    h = r.choice([0, 3, 6, 100, 200, 0x8005, r.getrandbits(16)])
+    z = r.choice([1, 2, 3, 10, 100])
+    cur = bytes(r.getrandbits(8) for _ in range(2 * 2000))
+    ph = bytes(r.getrandbits(8) for _ in range(2 * 2000))
+    ws = b''.join(_st50.pack('<H', r.choice([0, 1, 2, 3, 4, h - 4 & 0xFFFF, h - 3 & 0xFFFF, h - 2 & 0xFFFF,
+                                             r.getrandbits(16)])) for _ in range(3000))
+    if r.random() < 0.3:              # m exactly 3 x zoom
+        c = r.choice([1, 2, 50, 101, 200])
+        n = 3 * c
+
+    def setup(m):
+        m.w8(0x42E68BB0 + 0x17, touch)
+        _wr59(m, 0x42E180C8 + 4, n, 2)
+        _wr59(m, 0x42E180C8 + 6, h, 2)
+        m.w32(0x42E180C8 + 0x5C, c)
+        m.w32(SYS + 0x554, z)
+        m.write(0x42E180C8 + 0x8D20, cur)
+        m.write(0x42E180C8 + 0x9CC0, ph)
+        m.write(0x416431E8 + 0x4E20 - 3000, ws)
+    return Case([], setup=setup, ret=V,
+                stubs=(rec_stk("nn", 0x4005C678, 2), rec_stk("spl", 0x4005D048, 2)))
+
+
+TESTS[0x40039918] = t_bode59
