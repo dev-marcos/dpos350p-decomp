@@ -1,7 +1,7 @@
 /*
  * plot_touch_drag -- stock 0x400545F8 (1664 bytes, ARM)
  * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
- * Drag and tap handler of the plot area (record 0x42E61FF8 + 0xF2 / + 0xF3, drag state U = 0x42E68998). Press (record + 0xF2 = 1): ui_window_invalidate_from(3), func_40069b0c picks the dragged object (byte U), whose start values are saved as int64 at U+8 / +0x10 / +0x18: 1 trigger position (SYS+0x570, or the zoom one SYS+0x578 in split view), 2 zoom position, 3 / 4 position plus CH1 / CH2 offset (SYS+0x60 / +0x120) plus the trigger level SYS+0x27E when that channel is the trigger channel, 5 / 6 zoom position plus CH1 / CH2 offset, 7 .. 10 cursor words SYS+0x808 .. +0x814, 11 / 12 words SYS+0x3DA534 / +0x3DA538, 13 both offsets; the press time 0x42E68CD8 is copied to 0x42E68C78. Move (record + 0xF3 = 1, flag byte set to 1): touch_drag_delta gives dx / dy (words U+0x30 / U+0x34) and the object is moved: positions by dx x the pixel time (int64 SYS+0x590, zoom SYS+0x5A0; only when SYS+0x580 is set for 1 .. 4), offsets and trigger level by dy, cursors by dx or dy with their clamp functions. Release (record + 0xF2 = 2): a tap (start and end point equal, under 600 ticks) on the right half of the plot steps the time base down (zoom_index_sub in split view), on the left half up (zoom_index_add), then clears SYS+0x586, acquisition_apply and ui_window_invalidate_from(3).
+ * Drag and tap handler of the plot area (record 0x42E61FF8 + 0xF2 / + 0xF3, drag state U = 0x42E68998). Press (record + 0xF2 = 1): ui_window_invalidate_from(3), touch_drag_pick picks the dragged object (byte U), whose start values are saved as int64 at U+8 / +0x10 / +0x18: 1 trigger position (SYS+0x570, or the zoom one SYS+0x578 in split view), 2 zoom position, 3 / 4 position plus CH1 / CH2 offset (SYS+0x60 / +0x120) plus the trigger level SYS+0x27E when that channel is the trigger channel, 5 / 6 zoom position plus CH1 / CH2 offset, 7 .. 10 cursor words SYS+0x808 .. +0x814, 11 / 12 words SYS+0x3DA534 / +0x3DA538, 13 both offsets; the press time 0x42E68CD8 is copied to 0x42E68C78. Move (record + 0xF3 = 1, flag byte set to 1): touch_drag_delta gives dx / dy (words U+0x30 / U+0x34) and the object is moved: positions by dx x the pixel time (int64 SYS+0x590, zoom SYS+0x5A0; only when SYS+0x580 is set for 1 .. 4), offsets and trigger level by dy, cursors by dx or dy with their clamp functions. Release (record + 0xF2 = 2): a tap (start and end point equal, under 600 ticks) on the right half of the plot steps the time base down (zoom_index_sub in split view), on the left half up (zoom_index_add), then clears SYS+0x586, acquisition_apply and ui_window_invalidate_from(3).
  */
 #include "hw/platform.h"
 
@@ -20,7 +20,7 @@
 #define SPLIT B8(SYS + 0x2AA)
 
 void ui_window_invalidate_from(u32 n);
-void func_40069b0c(void);
+void touch_drag_pick(void);
 void touch_drag_delta(void);
 void cursor_808_clamp(void);
 void cursor_810_clamp(void);
@@ -138,7 +138,7 @@ void plot_touch_drag(void)
         B8(BTN + 0xF2) = 0;
         B8(BTN) = 0;
         ui_window_invalidate_from(3);
-        func_40069b0c();
+        touch_drag_pick();
         press_save();
         W32(0x42E68C78u) = W32(0x42E68CD8u);
     }

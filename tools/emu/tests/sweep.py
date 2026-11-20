@@ -5322,3 +5322,114 @@ def t_drag71(r):
 
 
 TESTS[0x400545F8] = t_drag71
+
+
+# ================================================================ batch 72: trace hit distances, drag object picker
+def t_hit72(zoom):
+    def t(r):
+        U = 0x42E68998
+        ch = r.choice([2, 3, 3, 0, 7]) if zoom else r.choice([0, 0, 1, 1, 2])
+        w = r.choice([0, 1, 20, 60, 60, 200, 200, 200])
+        h = r.choice([0, 3, 90, 300, 480])
+        px, py = r.choice([0, 5, 100]), r.choice([0, 7, 40])
+        xlo, xhi = r.choice([0, 3, 30]), r.choice([0, 10, 150, 250, 250, 250])
+        a, b, b2 = r.choice([0, 1, 2, 3]), r.choice([0, 1, 2]), r.choice([0, 1, 2])
+        n = 1 + 2 * a * (b2 if zoom else b)
+        sh = r.choice([0, 0, 1, 2, 4, 32, 32, 40, 0x101])
+        rad = r.choice([0, 3, 3, 10, 10, 10, 40, 40, 1000, 0x0FFFFFFF, 0x10000000, 0xFFFFFFFF])
+        tx = px + (r.choice([xlo + 2, xlo + 3, xhi - 2, xhi - 3, r.randrange(xlo + 3, xlo + 60)]) if r.random() < 0.6 else
+                   r.choice([0, 1, 5, 20, 40, 100, 160, r.getrandbits(15)]))
+        ty = py + (r.randrange(max(h, 1)) if r.random() < 0.6 else r.choice([0, 1, 30, 100, 160, 300, r.getrandbits(15)]))
+        if r.random() < 0.6:              # a touch inside the scanned window
+            xlo, xhi, w = r.choice([0, 3]), 250, r.choice([200, 100, 60])
+            h = r.choice([90, 300, 480])
+            tx = px + r.randrange(xlo + 3, 150)
+            ty = py + r.randrange(h if r.random() < 0.5 else h // 3 + 1)
+            rad = r.choice([3, 10, 40])
+            hi = max(1, (h << (sh if sh < 32 else 0)) + 4)
+        rng = [r.choice([0, 10, 50, 100, 200, 400, r.getrandbits(32)]) if r.random() < 0.5 else 0
+               for _ in range(4)]
+        if r.random() < 0.4:              # a band around the touch row
+            tyr = ty - py
+            if zoom:
+                th = h // 3
+                lo_, hi_ = tyr - r.choice([1, 3, 20]), tyr + r.choice([1, 2, 20])
+                rng[0] = (h - (max(lo_ - th, 0) * 3 + 1) // 2) & 0xFFFFFFFF
+                rng[1] = (h - (max(hi_ - th, 0) * 3 + 1) // 2) & 0xFFFFFFFF
+                rng[2], rng[3] = rng[0], rng[1]
+            else:
+                lo_, hi_ = tyr - r.choice([1, 3, 20]), tyr + r.choice([1, 2, 20])
+                mul = r.choice([1, 3])        # split view divides the band rows by 3
+                rng[0] = rng[2] = (h - mul * lo_) & 0xFFFFFFFF
+                rng[1] = rng[3] = (h - mul * hi_) & 0xFFFFFFFF
+        off = (0x124F80, 0x1B7740) if zoom else (0, 0x927C0)
+        buf = 0x413F92E8 + off[0 if ch == (2 if zoom else 0) else 1]
+        hi = max(1, (h << (sh if sh < 32 else 0)) + 4)
+        other = b"".join(s16(r.randrange(hi) & 0xFFFF) for _ in range(n * (w + 1)))
+        obuf = 0x413F92E8 + off[1 if ch == (2 if zoom else 0) else 0]
+        samp = b"".join(s16(r.randrange(hi) & 0xFFFF if r.random() < 0.9 else r.getrandbits(16))
+                        for _ in range(n * (w + 1)))
+        rest = [r.getrandbits(32) for _ in range(4)]
+
+        def setup(m):
+            m.write(SYS + 4, s16(px) + s16(py) + s16(w) + s16(h))
+            m.write(SYS + 0x10, s16(xlo) + s16(xhi))
+            m.write(SYS + 0x16, s16(xlo) + s16(xhi))
+            m.write(SYS + 0x550, s16(a))
+            m.w32(SYS + 0x5F8, b)
+            m.w32(SYS + 0x610, b2)
+            m.w32(SYS + 0x1BC, sh)
+            m.w8(SYS + 0x2AA, r_split)
+            m.w32(U + 4, rad)
+            for i, o in enumerate((0x38, 0x3C, 0x40, 0x44)):
+                m.w32(U + o, rest[i])
+            m.write(0x42E68BB0 + 4, s16(tx) + s16(ty))
+            m.write(0x40545990, i32(rng[0]) + i32(rng[1]))
+            m.write(0x405459AC, i32(rng[2]) + i32(rng[3]))
+            m.write(obuf, other)
+            m.write(buf, samp)
+        r_split = r.choice([0, 1, 1, 0x80]) if zoom else r.choice([0, 0, 1])
+        return Case([ch], setup=setup, ret=V)
+    return t
+
+
+TESTS[0x400695D0] = t_hit72(False)
+TESTS[0x40069858] = t_hit72(True)
+for _a, _t in ((0x40069AEC, 0x400695D0), (0x40069AF4, 0x400695D0), (0x40069AFC, 0x40069858), (0x40069B04, 0x40069858)):
+    TESTS[_a] = (lambda t: lambda r: Case([r.getrandbits(32)], ret=V, stubs=(rec("hit", t, 1),)))(_t)
+
+
+def t_pick72(r):
+    U = 0x42E68998
+    d = [r.choice([5, 9, 10, 10, 11, 1000, 0x7FFFFFFF] if r.random() < 0.6 else
+                  [0, 1, 5, 9, 10, 11, 100, 0x7FFFFFFE, 0x7FFFFFFF, 0xFFFFFFFF, r.getrandbits(32)]) for _ in range(10)]
+    fl = {o: r.choice([0, 0, 1, 1, 0x80]) for o in (0x652, 0x802, 0x803, 0x3DA52C, 0x102, 0x3E, 0x2AA)}
+    if r.random() < 0.7:
+        fl[0x652] = 0
+    if r.random() < 0.5:
+        fl[0x802] = fl[0x803] = fl[0x3DA52C] = 0
+    tp = r.choice([(0, 0), (0, 5), (5, 0), (r.getrandbits(16), r.getrandbits(16))])
+    rad = r.choice([0, 10, 40, 0x7FFFFFFF, 0xFFFFFFFF])
+    if r.random() < 0.3:                  # both traces close: the tie rule
+        fl[0x652] = fl[0x802] = fl[0x803] = fl[0x3DA52C] = 0
+        fl[0x3E] = fl[0x102] = 1
+        for k in range(4):
+            d[k] = r.choice([0, 5, 9, 9, 10, 11])
+    b30 = r.getrandbits(32)
+    b4c = r.choice([b30, b30 + 1, b30 - 1, r.getrandbits(32)]) & 0xFFFFFFFF
+
+    def setup(m):
+        m.write(0x42E68BB0 + 4, s16(tp[0]) + s16(tp[1]))
+        m.w32(U + 4, rad)
+        for i, v in enumerate(d):
+            m.w32(U + 0x38 + 4 * i, v)
+        for o, v in fl.items():
+            m.w8(SYS + o, v)
+        m.w32(SYS + 0xB30, b30)
+        m.w32(SYS + 0xB4C, b4c)
+    return Case([], setup=setup, ret=V,
+                stubs=tuple(rec("%08x" % a, a, 0) for a in (0x40069384, 0x40069428, 0x40069524, 0x40069AEC,
+                                                           0x40069AF4, 0x40069AFC, 0x40069B04)))
+
+
+TESTS[0x40069B0C] = t_pick72

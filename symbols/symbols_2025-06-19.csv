@@ -1462,13 +1462,13 @@ address,size,name,type,evidence_level,source
 0x40069384,164,touch_hit_cursor_x,function_arm,DERIVED,this-project:phase5 (touch)
 0x40069428,252,touch_hit_cursor_y,function_arm,DERIVED,this-project:phase5 (touch)
 0x40069524,172,touch_hit_x_b,function_arm,DERIVED,this-project:phase5 (touch)
-0x400695D0,648,func_400695d0,function_arm,DERIVED,analyze.py:prologue
-0x40069858,660,func_40069858,function_arm,DERIVED,analyze.py:prologue
-0x40069AEC,8,func_40069aec,function_arm,DERIVED,analyze.py:rea
-0x40069AF4,8,func_40069af4,function_arm,DERIVED,analyze.py:rea
-0x40069AFC,8,func_40069afc,function_arm,DERIVED,analyze.py:rea
-0x40069B04,8,func_40069b04,function_arm,DERIVED,analyze.py:rea
-0x40069B0C,492,func_40069b0c,function_arm,DERIVED,analyze.py:rea
+0x400695D0,648,trace_hit_main,function_arm,DERIVED,this-project:phase5 (ui)
+0x40069858,660,trace_hit_zoom,function_arm,DERIVED,this-project:phase5 (ui)
+0x40069AEC,8,trace_hit_ch1,function_arm,DERIVED,this-project:phase5 (ui)
+0x40069AF4,8,trace_hit_ch2,function_arm,DERIVED,this-project:phase5 (ui)
+0x40069AFC,8,trace_hit_zoom_ch1,function_arm,DERIVED,this-project:phase5 (ui)
+0x40069B04,8,trace_hit_zoom_ch2,function_arm,DERIVED,this-project:phase5 (ui)
+0x40069B0C,492,touch_drag_pick,function_arm,DERIVED,this-project:phase5 (ui)
 0x40069CF8,96,touch_drag_delta,function_arm,DERIVED,this-project:phase5 (touch)
 0x40069D58,56,pool_40069d58,literal_pool,DERIVED,analyze.py
 0x40069D90,100,ff_uni2oem,function_arm,DERIVED,FatFs ffunicode.c (called with cp=437)

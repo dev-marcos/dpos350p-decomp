@@ -2766,6 +2766,41 @@ meanings of the fields are DERIVED.
   - A new app can reuse this pattern for its own gestures: the three record states, the int64
     start values and `touch_drag_delta`.
 
+## Drag object picker and trace hit distances (batch 72)
+
+Spec: `tools/platform_spec/zzp_touch_pick.py`, 7 functions. Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The names are DERIVED.
+These are the functions `plot_touch_drag` (batch 71) uses on a press to choose what to drag.
+
+- **`touch_drag_pick`** (0x40069B0C) writes the drag code into byte 0x42E68998:
+  - 0 when the touch point (0x42E68BB0 + 4 / + 6) is (0, 0); 13 when SYS+0x652 is set;
+  - else the nearest cursor closer than the radius word 0x42E68998 + 4: `touch_hit_cursor_x`
+    (when SYS+0x802 is set) gives distances + 0x48 / + 0x4C (codes 7 / 8), `touch_hit_cursor_y`
+    (SYS+0x803) + 0x50 / + 0x54 (9 / 10), `touch_hit_x_b` (SYS+0x3DA52C) + 0x58 / + 0x5C
+    (11 / 12). A tie keeps the earlier one (unsigned compare);
+  - with no cursor in reach, the nearest trace: CH2 (SYS+0x102) code 4 and its zoom part 6 (split
+    view), CH1 (SYS+0x3E) code 3 and its zoom part 5;
+  - when both channels are on and both traces of the chosen part are under 10 px, the result is 3
+    when word SYS+0xB30 < SYS+0xB4C, else 4.
+- **`trace_hit_main`** (0x400695D0, ch 0 / 1) and **`trace_hit_zoom`** (0x40069858, ch 2 / 3) write
+  the distance from the touch point to one trace (results 0x42E68998 + 0x38 / + 0x3C / + 0x40 /
+  + 0x44):
+  - the trace buffers are 0x413F92E8 (CH1), + 0x927C0 (CH2), + 0x124F80 (CH1 zoom) and + 0x1B7740
+    (CH2 zoom), with 1 + 2 x half SYS+0x550 x word SYS+0x5F8 (zoom: SYS+0x610) 16-bit samples per
+    plot column;
+  - a sample's row is height SYS+0xA - (sample >> SYS+0x1BC);
+  - the columns within the radius around the touch x are scanned (only when the touch x is inside
+    SYS+0x10 + 2 .. SYS+0x12 - 2, zoom SYS+0x16 / +0x18), and the smallest sqrt(dx^2 + dy^2) wins;
+    dy is 0 where the trace crosses the touch row;
+  - when the radius is below that distance and the touch row lies between the two range words at
+    0x40545990 (CH1) / 0x405459AC (CH2) (rows height - value; in split view / 3, zoom part
+    height / 3 + 2 x (height - value) / 3), the result is the distance to the nearer band edge;
+  - a touch in the wrong part of the split view gives 0x7FFFFFFF.
+- Four 8-byte veneers call them for each channel: `trace_hit_ch1` (0x40069AEC), `trace_hit_ch2`
+  (0x40069AF4), `trace_hit_zoom_ch1` (0x40069AFC), `trace_hit_zoom_ch2` (0x40069B04).
+- A new app can call `touch_drag_pick` for its own touch logic: it tells which trace or cursor a
+  finger is on.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

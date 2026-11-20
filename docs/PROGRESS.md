@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1230 | 90.84% | 264706 | 78.43% |
+| EQUIVALENT | 1237 | 91.36% | 266538 | 78.97% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 124 | 9.16% | 72798 | 21.57% |
+| ASM | 117 | 8.64% | 70966 | 21.03% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1230 (91.86%) | 337104 | 264706 (78.52%) |
+| main code | 1339 | 1237 (92.38%) | 337104 | 266538 (79.07%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -1067,6 +1067,13 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40069384` | touch_hit_cursor_x | 164 | EQUIVALENT | 200 | `nonmatching/platform/func_40069384.c` |
 | `0x40069428` | touch_hit_cursor_y | 252 | EQUIVALENT | 200 | `nonmatching/platform/func_40069428.c` |
 | `0x40069524` | touch_hit_x_b | 172 | EQUIVALENT | 200 | `nonmatching/platform/func_40069524.c` |
+| `0x400695D0` | trace_hit_main | 648 | EQUIVALENT | 200 | `nonmatching/platform/func_400695d0.c` |
+| `0x40069858` | trace_hit_zoom | 660 | EQUIVALENT | 200 | `nonmatching/platform/func_40069858.c` |
+| `0x40069AEC` | trace_hit_ch1 | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_40069aec.c` |
+| `0x40069AF4` | trace_hit_ch2 | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_40069af4.c` |
+| `0x40069AFC` | trace_hit_zoom_ch1 | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_40069afc.c` |
+| `0x40069B04` | trace_hit_zoom_ch2 | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_40069b04.c` |
+| `0x40069B0C` | touch_drag_pick | 492 | EQUIVALENT | 200 | `nonmatching/platform/func_40069b0c.c` |
 | `0x40069CF8` | touch_drag_delta | 96 | EQUIVALENT | 200 | `nonmatching/platform/func_40069cf8.c` |
 | `0x40069D90` | ff_uni2oem | 100 | EQUIVALENT | 200 | `nonmatching/platform/func_40069d90.c` |
 | `0x40069DF4` | ff_oem2uni | 68 | EQUIVALENT | 200 | `nonmatching/platform/func_40069df4.c` |
