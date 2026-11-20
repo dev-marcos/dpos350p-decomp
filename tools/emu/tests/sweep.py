@@ -5239,3 +5239,86 @@ def t_markers70(r):
 
 
 TESTS[0x40023EA4] = t_markers70
+
+
+# ================================================================ batch 71: generator panel buttons, plot drag
+def t_genbtn71(r):
+    G = 0x42E3F984
+    recs = [0x624 + 0xA * k for k in range(4)] + [0x656, 0x660, 0x66A, 0x674, 0x67E, 0x64C] +         [0x688 + 0xA * k for k in range(15)]
+    lim = (7, 3, 3, 2)
+    fld = r.choice([0, 0, 1, 2, 3, 3, 4, r.getrandbits(8)])
+    pos = [r.randrange(lim[k] + 2) if r.random() < 0.9 else r.getrandbits(8) for k in range(4)]
+    if r.random() < 0.15:
+        base = _recs69(r, recs)
+    else:
+        st = [r.choice([0, 0, 1, 3]) for _ in recs]
+        if r.random() < 0.9:               # one of the value buttons on a valid field and digit
+            hit = r.choice([4, 4, 4, 5, 5, 5, 7, 7, 7, 6, 8, 9, 9])
+            fld = r.choice([0, 1, 2, 3])
+            pos[fld] = r.choice([lim[fld] - 1, lim[fld]]) if hit == 7 else r.randrange(lim[fld] + 1)
+        else:
+            hit = r.randrange(len(recs))
+        st[hit] = 2
+        flag = r.getrandbits(8)
+
+        def base(m):
+            for rc, v in zip(recs, st):
+                m.w8(0x42E61FF8 + rc, v)
+            m.w8(0x42E61FF8, flag)
+    pos = bytes(pos)
+    vals = b"".join(i32(r.choice([0, 1, 999, 10 ** 7, 0x7FFFFFFF, r.getrandbits(32)])) for _ in range(4))
+    tog = r.choice([0, 1, 0x80])
+
+    def setup(m):
+        base(m)
+        m.w8(G + 1, fld)
+        m.write(G + 8, pos)
+        m.w8(G + 0xC, tog)
+        m.write(G + 0x2EFC, vals)
+    return Case([], compose(rand_block(r, 0x42E68A88, 0x58), rand_block(r, G, 0x10),
+                            rand_block(r, G + 0x2EF8, 4), setup), ret=V,
+                stubs=(rec("f968", 0x4002F968, 0), rec("d18c", 0x4004D18C, 0), rec("cd44", 0x4003CD44, 1),
+                       rec("f9f0", 0x4005F9F0, 2), rec("fa78", 0x4005FA78, 2), rec("fb00", 0x4005FB00, 2)))
+
+
+TESTS[0x40053B78] = t_genbtn71
+
+
+def t_drag71(r):
+    U = 0x42E68998
+    T = 0x42E68BB0
+    x0, y0 = r.getrandbits(16), r.getrandbits(16)
+    tap = r.random() < 0.6
+    t1 = r.getrandbits(32)
+    dt = r.choice([0, 1, 599, 600, 601, 0x80000000, r.getrandbits(32)])
+
+    v = dict(f2=r.choice([0, 1, 1, 2, 2, 3]), f3=r.choice([0, 1, 1, 2]), flag=r.getrandbits(8),
+             mode=r.choice(list(range(15)) + [0xFF]), split=r.choice([0, 0, 1, 0x80]), hon=r.choice([0, 1, 1]),
+             tch=r.choice([0, 1, 2]), px=r.choice([0, 3, 50, 0x8000, r.getrandbits(16)]),
+             pw=r.choice([0, 1, 100, 0xFFFF, r.getrandbits(16)]))
+
+    def setup(m):
+        m.w8(0x42E61FF8 + 0xF2, v["f2"])
+        m.w8(0x42E61FF8 + 0xF3, v["f3"])
+        m.w8(0x42E61FF8, v["flag"])
+        m.w8(U, v["mode"])
+        m.w8(SYS + 0x2AA, v["split"])
+        m.w8(SYS + 0x580, v["hon"])
+        m.w8(SYS + 0x27C, v["tch"])
+        m.write(T + 8, s16(x0) + s16(y0))
+        if tap:
+            m.write(T + 4, s16(x0) + s16(y0))
+        m.write(SYS + 4, s16(v["px"]) + s16(0) + s16(v["pw"]))
+        m.w32(0x42E68CD8, (t1 + dt) & 0xFFFFFFFF)
+        m.w32(0x42E68C78, t1)
+    return Case([], compose(rand_block(r, U, 0x40), rand_block(r, T, 0x10), rand_block(r, SYS + 0x570, 0x40),
+                            rand_block(r, SYS + 0x5A0, 8), rand_block(r, SYS + 0x5C, 8), rand_block(r, SYS + 0x11C, 8),
+                            rand_block(r, SYS + 0x27E, 2), rand_block(r, SYS + 0x804, 0x18),
+                            rand_block(r, SYS + 0x3DA530, 0x10), setup), ret=V,
+                stubs=(rec("cd44", 0x4003CD44, 1), rec("9b0c", 0x40069B0C, 0), rec("9cf8", 0x40069CF8, 0),
+                       rec("407c", 0x4003407C, 0), rec("40d4", 0x400340D4, 0), rec("67ec", 0x400367EC, 1),
+                       rec("bdb0", 0x4003BDB0, 1), rec("bde8", 0x4003BDE8, 1), rec("245c", 0x4004245C, 1),
+                       rec("2470", 0x40042470, 1), rec("a654", 0x4003A654, 0)))
+
+
+TESTS[0x400545F8] = t_drag71

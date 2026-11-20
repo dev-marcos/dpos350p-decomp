@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1228 | 90.69% | 260538 | 77.20% |
+| EQUIVALENT | 1230 | 90.84% | 264706 | 78.43% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 126 | 9.31% | 76966 | 22.80% |
+| ASM | 124 | 9.16% | 72798 | 21.57% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1228 (91.71%) | 337104 | 260538 (77.29%) |
+| main code | 1339 | 1230 (91.86%) | 337104 | 264706 (78.52%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -712,7 +712,9 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x400533A0` | timebase_menu_buttons | 1060 | EQUIVALENT | 200 | `nonmatching/platform/func_400533a0.c` |
 | `0x400537C4` | output_select_buttons | 380 | EQUIVALENT | 200 | `nonmatching/platform/func_400537c4.c` |
 | `0x40053940` | trigger_option_buttons | 560 | EQUIVALENT | 200 | `nonmatching/platform/func_40053940.c` |
+| `0x40053B78` | gen_panel_buttons | 2504 | EQUIVALENT | 200 | `nonmatching/platform/func_40053b78.c` |
 | `0x40054540` | button_71e_drag_handler | 168 | EQUIVALENT | 200 | `nonmatching/platform/func_40054540.c` |
+| `0x400545F8` | plot_touch_drag | 1664 | EQUIVALENT | 200 | `nonmatching/platform/func_400545f8.c` |
 | `0x40054C84` | list_a_thumbs_buttons | 564 | EQUIVALENT | 200 | `nonmatching/platform/func_40054c84.c` |
 | `0x40054EB8` | list_a_delete_button_handler | 80 | EQUIVALENT | 200 | `nonmatching/platform/func_40054eb8.c` |
 | `0x40054F08` | touch_btn_0804_release | 68 | EQUIVALENT | 200 | `nonmatching/platform/func_40054f08.c` |

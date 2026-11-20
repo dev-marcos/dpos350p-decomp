@@ -179,7 +179,7 @@ DISPATCH = [
     (8, "settings_slot_buttons"), (9, "language_select_buttons"), (10, "buttons_20a_handler"),
     (11, "measure_select_buttons"), (12, "file_lists_open_buttons"), (13, "channel1_settings_buttons"),
     (14, "channel2_settings_buttons"), (15, "timebase_menu_buttons"), (16, "output_select_buttons"),
-    (17, "trigger_option_buttons"), (18, "func_40053b78"), (19, "button_71e_drag_handler"),
+    (17, "trigger_option_buttons"), (18, "gen_panel_buttons"), (19, "button_71e_drag_handler"),
     (20, "list_a_thumbs_buttons"), (21, "list_a_delete_button_handler"), (22, "touch_btn_0804_release"),
     (23, "list_a_window_buttons"), (24, "list_b_window_buttons"), (25, "list_b_delete_button_handler"),
     (26, "list_c_window_buttons"), (27, "list_c_delete_button_handler"), (28, "buttons_9f8_handler"),

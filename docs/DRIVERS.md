@@ -2721,6 +2721,51 @@ DERIVED. The menu meanings come from the English labels of the text table (`buil
   - A new overlay (for example an extra cursor) can reuse these tags: they are plain spans,
     `rect_fill` and `text_draw` calls with fixed colours.
 
+## Generator panel buttons and plot drag (batch 71)
+
+Spec: `tools/platform_spec/zzo_touch_handlers.py`, 2 functions. Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The names and the
+meanings of the fields are DERIVED.
+
+- **`gen_panel_buttons`** (0x40053B78) is the touch handler of the signal generator panel. Block
+  GEN = 0x42E3F984. It calls `touch_buttons_6xx_update`, then handles the first record of
+  0x42E61FF8 in state 2 (released):
+  - + 0x624 + 0xA x k (k = 0 .. 3): select field k. Byte GEN+1 = k, word GEN+4 = GEN + 8 + k
+    (the address of that field's digit position byte).
+  - + 0x656 / + 0x660: add / subtract one unit of the selected digit. The values are the words
+    GEN+0x2EFC + 4 x field. The digit steps are 10^7 .. 1 (positions 0 .. 7) for field 0, 1000 .. 1
+    for fields 1 and 2, and 100, 10, 1 for field 3. A position past the table changes nothing.
+    Then `gen_update` and `ui_window_invalidate_from(3)`.
+  - + 0x66A / + 0x674: move the digit position left / right. The right limits are 7, 3, 3, 2.
+  - + 0x67E: open the number pad (0x1BD, 0xA8): `numpad_open_mode1` for field 0, `mode4` for
+    fields 1 and 2, `mode6` for field 3. The pad (0x42E68A88) gets the value address at + 0x30,
+    1 at + 0x4C and the callback `gen_update` (0x4004D18C) at + 0x50.
+  - + 0x64C: toggle byte GEN+0xC (cleared again by a waveform choice).
+  - + 0x688 + 0xA x k (k = 0 .. 14): waveform k into byte GEN+0x2EFA, then `gen_update`.
+  - The flag byte 0x42E61FF8 is cleared too, except for the digit-right button.
+  - So field 0 is a value with 8 decimal digits (frequency, DERIVED from the 50000000 limit at
+    GEN+0x2F14) and the fields 1 .. 3 have 4, 4 and 3 digits.
+- **`plot_touch_drag`** (0x400545F8) handles touches on the plot area (records + 0xF2 press /
+  release and + 0xF3 move, drag state U = 0x42E68998):
+  - Press: `func_40069b0c` picks the dragged object (byte U). Its start values are saved as int64
+    at U+8, +0x10, +0x18, and the press time 0x42E68CD8 is copied to 0x42E68C78.
+  - Objects: 1 trigger position (int64 SYS+0x570, or the zoom one SYS+0x578 in split view);
+    2 zoom position; 3 / 4 position plus the CH1 / CH2 offset (SYS+0x60 / +0x120), plus the trigger
+    level SYS+0x27E when that channel is the trigger channel (SYS+0x27C); 5 / 6 zoom position plus
+    the CH1 / CH2 offset; 7, 8 cursor words SYS+0x808 / +0x80C (moved by dx,
+    `cursor_808_clamp`); 9, 10 cursor words SYS+0x810 / +0x814 (moved by dy,
+    `cursor_810_clamp`); 11, 12 words SYS+0x3DA534 / +0x3DA538 (dx, `cursor_3da534_clamp(0 / 1)`);
+    13 both offsets (CH1 by -dx, CH2 by dy).
+  - Move: `touch_drag_delta` gives dx, dy (words U+0x30, U+0x34). A position moves by dx times the
+    time per pixel (int64 SYS+0x590, zoom SYS+0x5A0), only when SYS+0x580 is set for objects 1 .. 4.
+    Offsets and the trigger level move by dy pixels. The flag byte 0x42E61FF8 is set to 1.
+  - Release: a tap (same start and end point, under 600 ticks) on the right half of the plot steps
+    the time base with `timebase_index_step_down(1)` (`zoom_index_sub` in split view), on the left
+    half with `timebase_index_step(1)` (`zoom_index_add`). Then SYS+0x586 = 0,
+    `acquisition_apply` and `ui_window_invalidate_from(3)`.
+  - A new app can reuse this pattern for its own gestures: the three record states, the int64
+    start values and `touch_drag_delta`.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

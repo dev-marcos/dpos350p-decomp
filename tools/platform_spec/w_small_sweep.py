@@ -349,12 +349,12 @@ void check_pair_save(void)
 # ---------------------------------------------------------------- loose wrappers
 w(0x400525D4, 24, "touch_00f2_then_400545f8", "touch_button_update_00F2, then 0x400545F8.", """
 void touch_button_update_00F2(void);
-void func_400545f8(void);
+void plot_touch_drag(void);
 
 void touch_00f2_then_400545f8(void)
 {
     touch_button_update_00F2();
-    func_400545f8();
+    plot_touch_drag();
 }
 """)
 w(0x40063CB0, 32, "func_40063c34_all8", "0x40063C34(i) for i = 0..7.", """

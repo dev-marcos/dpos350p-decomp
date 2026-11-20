@@ -8,10 +8,10 @@
 #include "hw/fpga.h"
 
 void touch_button_update_00F2(void);
-void func_400545f8(void);
+void plot_touch_drag(void);
 
 void touch_00f2_then_400545f8(void)
 {
     touch_button_update_00F2();
-    func_400545f8();
+    plot_touch_drag();
 }

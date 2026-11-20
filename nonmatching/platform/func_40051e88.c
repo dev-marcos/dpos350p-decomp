@@ -23,7 +23,7 @@ void channel2_settings_buttons(void);
 void timebase_menu_buttons(void);
 void output_select_buttons(void);
 void trigger_option_buttons(void);
-void func_40053b78(void);
+void gen_panel_buttons(void);
 void button_71e_drag_handler(void);
 void list_a_thumbs_buttons(void);
 void list_a_delete_button_handler(void);
@@ -102,7 +102,7 @@ void window_buttons_dispatch(u32 id)
         trigger_option_buttons();
         break;
     case 18:
-        func_40053b78();
+        gen_panel_buttons();
         break;
     case 19:
         button_71e_drag_handler();

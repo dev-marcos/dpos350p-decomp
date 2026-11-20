@@ -981,10 +981,10 @@ address,size,name,type,evidence_level,source
 0x400537C4,380,output_select_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x40053940,560,trigger_option_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x40053B70,8,pool_40053b70,literal_pool,DERIVED,analyze.py
-0x40053B78,2504,func_40053b78,function_arm,DERIVED,analyze.py:rea
+0x40053B78,2504,gen_panel_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x40054540,168,button_71e_drag_handler,function_arm,DERIVED,this-project:phase5 (ui)
 0x400545E8,16,pool_400545e8,literal_pool,DERIVED,analyze.py
-0x400545F8,1664,func_400545f8,function_arm,DERIVED,analyze.py:prologue
+0x400545F8,1664,plot_touch_drag,function_arm,DERIVED,this-project:phase5 (ui)
 0x40054C78,12,pool_40054c78,literal_pool,DERIVED,analyze.py
 0x40054C84,564,list_a_thumbs_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x40054EB8,80,list_a_delete_button_handler,function_arm,DERIVED,this-project:phase5 (ui)
