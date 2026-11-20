@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1223 | 90.32% | 249358 | 73.88% |
+| EQUIVALENT | 1226 | 90.55% | 254350 | 75.36% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 131 | 9.68% | 88146 | 26.12% |
+| ASM | 128 | 9.45% | 83154 | 24.64% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1223 (91.34%) | 337104 | 249358 (73.97%) |
+| main code | 1339 | 1226 (91.56%) | 337104 | 254350 (75.45%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -40,6 +40,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4001A708` | side_menu_column_draw | 1464 | EQUIVALENT | 200 | `nonmatching/platform/func_4001a708.c` |
 | `0x4001C200` | battery_icon_draw | 324 | EQUIVALENT | 200 | `nonmatching/platform/func_4001c200.c` |
 | `0x4001C348` | ui_window_05_draw | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_4001c348.c` |
+| `0x4001C3BC` | system_menu_draw | 2628 | EQUIVALENT | 200 | `nonmatching/platform/func_4001c3bc.c` |
 | `0x4001CE30` | display_menu_draw | 1916 | EQUIVALENT | 200 | `nonmatching/platform/func_4001ce30.c` |
 | `0x4001D608` | measure_select_menu_draw | 4804 | EQUIVALENT | 200 | `nonmatching/platform/func_4001d608.c` |
 | `0x4001E8E0` | menu_three_rows_draw | 764 | EQUIVALENT | 200 | `nonmatching/platform/func_4001e8e0.c` |
@@ -702,9 +703,11 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x400525D4` | touch_00f2_then_400545f8 | 24 | EQUIVALENT | 200 | `nonmatching/platform/func_400525d4.c` |
 | `0x400525EC` | system_settings_buttons | 468 | EQUIVALENT | 200 | `nonmatching/platform/func_400525ec.c` |
 | `0x400527C0` | buttons_20a_handler | 552 | EQUIVALENT | 200 | `nonmatching/platform/func_400527c0.c` |
+| `0x400529F0` | measure_select_buttons | 1304 | EQUIVALENT | 200 | `nonmatching/platform/func_400529f0.c` |
 | `0x40052F08` | file_lists_open_buttons | 172 | EQUIVALENT | 200 | `nonmatching/platform/func_40052f08.c` |
 | `0x40052FC4` | channel1_settings_buttons | 488 | EQUIVALENT | 200 | `nonmatching/platform/func_40052fc4.c` |
 | `0x400531B0` | channel2_settings_buttons | 496 | EQUIVALENT | 200 | `nonmatching/platform/func_400531b0.c` |
+| `0x400533A0` | timebase_menu_buttons | 1060 | EQUIVALENT | 200 | `nonmatching/platform/func_400533a0.c` |
 | `0x400537C4` | output_select_buttons | 380 | EQUIVALENT | 200 | `nonmatching/platform/func_400537c4.c` |
 | `0x40053940` | trigger_option_buttons | 560 | EQUIVALENT | 200 | `nonmatching/platform/func_40053940.c` |
 | `0x40054540` | button_71e_drag_handler | 168 | EQUIVALENT | 200 | `nonmatching/platform/func_40054540.c` |

@@ -2653,6 +2653,40 @@ DERIVED. The menu meanings come from the English labels of the text table (`buil
     'Du-'. 'Du' is probably the duty cycle (DERIVED). The C keeps both texts.
   - The CH2 block is drawn without the `half_42e68be2_set(2)` that comes before the CH1 buttons.
 
+## Menu touch handlers and system menu (batch 69)
+
+Spec: `tools/platform_spec/zzm_menu_buttons.py`, 3 functions. Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The names are
+DERIVED. The menu meanings come from the English labels of the text table (`build/uitext46.txt`).
+
+- **`measure_select_buttons`** (0x400529F0) is the touch handler of the measurement selection
+  menu (batch 68).
+  - `touch_group_0250` updates the 24 records 0x42E61FF8 + 0x250 + 0xA x i.
+  - The first record in state 2 (released) is reset to 0, together with the pending flag
+    0x42E61FF8. Then measurement k = i % 12 + 1 of channel c = i / 12 is toggled.
+  - It is removed with `func_400300e8(c, k)` when `value_in_table_405456e8(c, k)` says it is shown.
+    Otherwise it is added with `marker_value_add(c, k)`.
+- **`timebase_menu_buttons`** (0x400533A0) is the touch handler of the time-base menu.
+  - `touch_group_0426` updates the records. The first record in state 2 is handled: + 0x426 gives
+    setting 0x2A (50 s), and + 0x430 + 0xA x k gives setting 0x29 - k.
+  - The setting goes to `timebase_index_set`, or to `zoom_index_set` when the split-screen byte
+    SYS+0x2AA is set.
+  - Then it calls `acquisition_apply()`, `ui_window_invalidate_from(3)` and
+    `ui_window_close(0xF)`, so the menu closes after one choice.
+  - Together with `timebase_menu_draw`, this is the full pattern of a menu: a draw function that
+    sets the touch rectangles and a handler that reads the released record. A new menu can copy it.
+- **`system_menu_draw`** (0x4001C3BC) draws the system settings menu (layout + 0x5A .. + 0x60).
+  - The rows are 'Configuration settings' (text entry 9), 'System calibration' (10), 'USB connect'
+    (11), 'Automatic shutdown' (12), 'Language settings' (13), 'Factory settings' (14) and 'Disk
+    formatting' (15). The rows with a sub-page have an arrow icon at x + 0x145.
+  - 'Automatic shutdown' has five options: 'OFF', '15 min', '30 min', '45 min' and '1 hour'. The
+    selected one is the one equal to the word SYS+0x658, so the shutdown delay is stored in minutes
+    (0, 15, 30, 45, 60). STATIC-CONFIRMED for the comparison; the meaning is DERIVED from the texts.
+  - A pressed row stores a number in layout byte + 0x59: rows 1, 2, 3, then 5, 5, 6 for the last
+    three rows (14 and 13 share 5, stock behaviour). A pressed shutdown option stores 0 .. 4.
+  - Touch records: 0x42E61FF8 + 0xFC, + 0x17E, + 0x192, + 0x1A6 .. + 0x1CE (options), + 0x1D8,
+    + 0x1E2 and + 0x1F6.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

@@ -5107,3 +5107,73 @@ def t_msmenu68(r):
 
 
 TESTS[0x4001D608] = t_msmenu68
+
+
+# ================================================================ batch 69: measurement and time-base menu touch handlers
+def _recs69(r, recs):
+    st = [r.choice([0, 0, 0, 1, 1, 3, r.getrandbits(8)]) for _ in recs]
+    if r.random() < 0.85:
+        for _ in range(r.choice([1, 1, 2, 3])):
+            st[r.randrange(len(recs))] = 2
+    flag = r.getrandbits(8)
+
+    def setup(m):
+        for rc, v in zip(recs, st):
+            m.w8(0x42E61FF8 + rc, v)
+        m.w8(0x42E61FF8, flag)
+    return setup
+
+
+def t_msbtn69(r):
+    base = _recs69(r, [0x250 + 0xA * i for i in range(24)])
+    shown = r.choice([0, 1])
+    return Case([], setup=base, ret=V,
+                stubs=(rec("f4f0", 0x4002F4F0, 0), rec("01a8", 0x400301A8, 2, lambda m, a: shown if (a[1] & 1) else 1 - shown),
+                       rec("00e8", 0x400300E8, 2), rec("0060", 0x40030060, 2)))
+
+
+TESTS[0x400529F0] = t_msbtn69
+
+
+def t_tbbtn69(r):
+    base = _recs69(r, [0x426] + [0x430 + 0xA * k for k in range(30)])
+    split = r.choice([0, 0, 1, r.getrandbits(8)])
+
+    def setup(m):
+        base(m)
+        m.w8(SYS + 0x2AA, split)
+    return Case([], setup=setup, ret=V,
+                stubs=(rec("f6fc", 0x4002F6FC, 0), rec("be50", 0x4003BE50, 1), rec("24b8", 0x400424B8, 1),
+                       rec("a654", 0x4003A654, 0), rec("cd44", 0x4003CD44, 1), rec("ce50", 0x4003CE50, 1)))
+
+
+TESTS[0x400533A0] = t_tbbtn69
+
+
+def t_sysmenu69(r):
+    box = [r.choice([0, 3, 30, 200, r.getrandbits(16)]) for _ in range(4)]
+    th = {o: r.getrandbits(32) for o in (0, 4, 8, 0xC, 0x10, 0x14)}
+    recs = [0xFC, 0x17E, 0x192, 0x1A6, 0x1B0, 0x1BA, 0x1C4, 0x1CE, 0x1D8, 0x1E2, 0x1F6]
+    press = [r.choice([0, 0, 0, 1, r.getrandbits(8)]) for _ in recs]
+    ev = {n: (r.getrandbits(32), r.getrandbits(8), r.getrandbits(8)) for n in range(9, 16)}
+    sd = r.choice([0, 15, 30, 45, 60, 1, 0xF0000000, r.getrandbits(32)])
+    tw = r.choice([0, 7, 0x41, 0x42, r.getrandbits(16), r.getrandbits(32)])
+
+    def setup(m):
+        for i, v in enumerate(box):
+            m.write(0x42E64520 + 0x5A + 2 * i, v.to_bytes(2, "little"))
+        for o, v in th.items():
+            m.w32(SYS + 0x3DD550 + o, v)
+        for rc, v in zip(recs, press):
+            m.w8(0x42E61FF8 + rc + 1, v)
+        for n, (pt, dx, dy) in ev.items():
+            e = 0x42C2FE74 + 0x1A0 * n
+            m.w32(e, pt)
+            m.w8(e + 0x194, dx)
+            m.w8(e + 0x195, dy)
+        m.w32(SYS + 0x658, sd)
+    return Case([], setup=setup, ret=V, stubs=_draw62() + (_text67("d164", 0x4002D164, 0, tw & 0xFFFFFFFF),
+                                                          _text67("ce7c", 0x4002CE7C, 2)))
+
+
+TESTS[0x4001C3BC] = t_sysmenu69

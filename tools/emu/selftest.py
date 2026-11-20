@@ -1120,6 +1120,27 @@ MUTANTS = [
     (0x4001D608, '        xo = (x0 + 0x55 * (k % 6)) & 0xFFFF;', '        xo = (x0 + 0x55 * (k % 5)) & 0xFFFF;'),
     (0x4001D608, '"Vrms", "Vp",', '"Vrms", "Vq",'),
     (0x4001D608, '        text_draw((xo + ((0x50 - tw) >> 1)) & 0xFFFF, (r + 0xC) & 0xFFFF, k < 10', '        text_draw((xo + ((0x50 - tw) >> 1)) & 0xFFFF, (r + 0xB) & 0xFFFF, k < 10'),
+    # batch 69: menu touch handlers, system menu
+    (0x400529F0, '    for (i = 0; i < 24; i++) {', '    for (i = 0; i < 23; i++) {'),
+    (0x400529F0, '        if (B8(BTN + 0x250 + 0xA * i) == 2) {', '        if (B8(BTN + 0x250 + 0xA * i) == 1) {'),
+    (0x400529F0, '            c = i / 12;', '            c = i / 11;'),
+    (0x400529F0, '            k = i % 12 + 1;', '            k = i % 12;'),
+    (0x400529F0, '            B8(BTN) = 0;\n            c', '            c'),
+    (0x400529F0, '                func_400300e8(c, k);\n            else\n                marker_value_add(c, k);', '                marker_value_add(c, k);\n            else\n                func_400300e8(c, k);'),
+    (0x400533A0, '        rec = k < 0 ? 0x426 : 0x430 + 0xA * k;', '        rec = k < 0 ? 0x424 : 0x430 + 0xA * k;'),
+    (0x400533A0, '            v = 0x29 - k;', '            v = 0x2A - k;'),
+    (0x400533A0, '            if (!B8(SYS + 0x2AA))', '            if (B8(SYS + 0x2AA))'),
+    (0x400533A0, '            ui_window_invalidate_from(3);', '            ui_window_invalidate_from(2);'),
+    (0x400533A0, '    for (k = -1; k < 30; k++) {', '    for (k = -1; k < 29; k++) {'),
+    (0x4001C3BC, '    icon_19c7c_draw((x + 0x145) & 0xFFFF, y & 0xFFFF);', '    icon_19c7c_draw((x + 0x144) & 0xFFFF, y & 0xFFFF);'),
+    (0x4001C3BC, '    arrow_row(x, r, w, 0x40089348u, ENT(14), 0x1E2, 5);', '    arrow_row(x, r, w, 0x40089348u, ENT(14), 0x1E2, 4);'),
+    (0x4001C3BC, '        xo = x + 0x14 + 0x45 * k;', '        xo = x + 0x14 + 0x46 * k;'),
+    (0x4001C3BC, '        draw_colour_set(W32(SYS + 0x658) == (u32)(15 * k) ? W32(TH + 0x10) : W32(TH + 0xC));', '        draw_colour_set(W32(SYS + 0x658) == (u32)(16 * k) ? W32(TH + 0x10) : W32(TH + 0xC));'),
+    (0x4001C3BC, '        s = k == 0 ? "OFF" : (const char *)(0x400902F8u + 8 * (k - 1));', '        s = k == 0 ? "ON" : (const char *)(0x400902F8u + 8 * (k - 1));'),
+    (0x4001C3BC, '    r += 0x48;', '    r += 0x3C;'),
+    (0x4001C3BC, '    rect_fill((x + 0xA) & 0xFFFF, (r - 0x10) & 0xFFFF, (w - 0x1E) & 0xFFFF, 0x78);', '    rect_fill((x + 0xA) & 0xFFFF, (r - 0x10) & 0xFFFF, (w - 0x1E) & 0xFFFF, 0x77);'),
+    (0x4001C3BC, '            B8(LAY + 0x59) = k;', '            B8(LAY + 0x59) = k + 1;'),
+    (0x4001C3BC, '        text_draw((xo + ((0x41 - tw) >> 1)) & 0xFFFF, (r + 8) & 0xFFFF, s);', '        text_draw((xo + ((0x40 - tw) >> 1)) & 0xFFFF, (r + 8) & 0xFFFF, s);'),
 ]
 
 

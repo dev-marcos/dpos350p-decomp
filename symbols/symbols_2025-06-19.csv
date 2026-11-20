@@ -27,7 +27,7 @@ address,size,name,type,evidence_level,source
 0x4001C348,52,ui_window_05_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4001C37C,4,code_4001c37c,data,OPEN,analyze.py
 0x4001C380,60,pool_4001c380,literal_pool,DERIVED,analyze.py
-0x4001C3BC,2628,func_4001c3bc,function_arm,DERIVED,analyze.py:rea
+0x4001C3BC,2628,system_menu_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4001CE00,48,pool_4001ce00,literal_pool,DERIVED,analyze.py
 0x4001CE30,1916,display_menu_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4001D5AC,92,pool_4001d5ac,literal_pool,DERIVED,analyze.py
@@ -971,13 +971,13 @@ address,size,name,type,evidence_level,source
 0x400525EC,468,system_settings_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x400527C0,552,buttons_20a_handler,function_arm,DERIVED,this-project:phase5 (ui)
 0x400529E8,8,pool_400529e8,literal_pool,DERIVED,analyze.py
-0x400529F0,1304,func_400529f0,function_arm,DERIVED,analyze.py:rea
+0x400529F0,1304,measure_select_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x40052F08,172,file_lists_open_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x40052FB4,16,pool_40052fb4,literal_pool,DERIVED,analyze.py
 0x40052FC4,488,channel1_settings_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x400531AC,4,pool_400531ac,literal_pool,DERIVED,analyze.py
 0x400531B0,496,channel2_settings_buttons,function_arm,DERIVED,this-project:phase5 (ui)
-0x400533A0,1060,func_400533a0,function_arm,DERIVED,analyze.py:rea
+0x400533A0,1060,timebase_menu_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x400537C4,380,output_select_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x40053940,560,trigger_option_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x40053B70,8,pool_40053b70,literal_pool,DERIVED,analyze.py

@@ -16,11 +16,11 @@ void buttons_106_handler(void);
 void settings_slot_buttons(void);
 void language_select_buttons(void);
 void buttons_20a_handler(void);
-void func_400529f0(void);
+void measure_select_buttons(void);
 void file_lists_open_buttons(void);
 void channel1_settings_buttons(void);
 void channel2_settings_buttons(void);
-void func_400533a0(void);
+void timebase_menu_buttons(void);
 void output_select_buttons(void);
 void trigger_option_buttons(void);
 void func_40053b78(void);
@@ -81,7 +81,7 @@ void window_buttons_dispatch(u32 id)
         buttons_20a_handler();
         break;
     case 11:
-        func_400529f0();
+        measure_select_buttons();
         break;
     case 12:
         file_lists_open_buttons();
@@ -93,7 +93,7 @@ void window_buttons_dispatch(u32 id)
         channel2_settings_buttons();
         break;
     case 15:
-        func_400533a0();
+        timebase_menu_buttons();
         break;
     case 16:
         output_select_buttons();
