@@ -1284,3 +1284,6 @@ address,name,type,evidence_level,source,note
 0x40069AFC,trace_hit_zoom_ch1,function,DERIVED,this-project:phase5 (ui),
 0x40069B04,trace_hit_zoom_ch2,function,DERIVED,this-project:phase5 (ui),
 0x40069B0C,touch_drag_pick,function,DERIVED,this-project:phase5 (ui),
+0x4004BFC8,frontend_offset_calibrate,function,DERIVED,this-project:phase5 (calibration),
+0x4004C7C8,auto_set_from,function,DERIVED,this-project:phase5 (calibration),
+0x4004C7C4,auto_set,function,DERIVED,this-project:phase5 (calibration),

@@ -5433,3 +5433,102 @@ def t_pick72(r):
 
 
 TESTS[0x40069B0C] = t_pick72
+
+
+# ================================================================ batch 73: offset calibration of a range, AUTO
+def t_cal73(r):
+    rg = r.choice([0, 1, 5, 11, 19, r.getrandbits(8), r.getrandbits(32)])
+    lo = r.choice([0, 0, 100, 2000, r.getrandbits(12)])
+    hi = r.choice([4095, 4095, 3000, lo, lo + 1, r.getrandbits(12)])
+    flip = r.choice([0, 0, 1, 0x80])
+    div = r.choice([1, 1, 2, 7, 100, r.getrandbits(8) | 1])
+    mul = r.choice([1, 3, 1000, r.getrandbits(16), r.getrandbits(32)])
+    sgn = -1 if flip else 1
+    mods = [(r.choice([0, 10, 100, 300, r.getrandbits(10)]),
+             r.choice([sgn * 4, sgn * 16, sgn * 30, sgn * 64, -sgn * 16, 0, r.randrange(-400, 400)]),
+             r.choice([0, 0, 0, 7, 40])) for _ in range(2)]
+    fill = bytes(r.getrandbits(8) for _ in range(0x700))
+    tab = bytes(r.getrandbits(8) for _ in range(0x600))
+
+    def mean(m, a):
+        ch = a[1] & 1
+        dac = m.r32(SYS + (0x108 if ch else 0x44)) & 0xFFFF
+        base, sl, nz = mods[ch]
+        m.nc += 1
+        lv = base + ((sl * dac) >> 4) + (m.nc * 13) % (nz + 1)
+        return (lv * div + m.nc % 3) & 0xFFFFFFFF
+
+    def setup(m):
+        m.write(SYS, fill)
+        m.write(0x42E53A0C, tab)
+        m.write(SYS + 0x1B4, s16(hi) + s16(lo))
+        m.w8(SYS + 0x1B2, flip)
+        m.w32(SYS + 0x26C, div)
+        m.w32(SYS + 0x270, mul)
+        m.nc = 0
+    stubs = (rec("acq_defaults_reset", 0x4003EB40, 0), rec("outputs_apply", 0x4003E708, 0),
+             rec("acquisition_dispatcher", 0x400419CC, 0), rec("sel2a", 0x4004AA94, 0), rec("sel2d", 0x4004ABCC, 0),
+             rec("delay_ms", 0x40042CF0, 1), rec("mode_apply", 0x4004AA24, 0), rec("mean", 0x4004ADF0, 4, mean))
+    return Case([rg], setup, ret=V, stubs=stubs)
+
+
+TESTS[0x4004BFC8] = t_cal73
+
+
+def t_auto73(entry):
+    def t(r):
+        on1, on2 = r.choice([0, 1, 1, 0x80]), r.choice([0, 1, 1])
+        mode = r.choice([1, 1, 2, 2, 0, 3])
+        if mode not in (1, 2):
+            on1 = on2 = 0
+        h = r.choice([100, 240, 400, 480, r.getrandbits(9)])
+        cnt = r.choice([0, 1, 3, 8, 20])
+        tb = r.choice([(0, 0), (3, 10), (10, 3), (0x1F, 0x22), (r.getrandbits(8), r.getrandbits(8))])
+        q = [r.choice([0, 1, 50, 100, 100, 150, 200, 1000, r.getrandbits(64)]) for _ in range(cnt + 2)]
+        fill = bytes(r.getrandbits(8) for _ in range(0x1000))
+        saved = bytes(r.getrandbits(8) for _ in range(0x700))
+        tbl = bytes(r.getrandbits(8) for _ in range(0x198))
+        vals = [0, 10, 30, 50, 51, 100, 200, 300, 470, h // 2, h // 4, 0xFFFFFFF0, r.getrandbits(32)]
+        seq = [[r.choice(vals) for _ in range(10)] for _ in range(40)]
+        per = [r.choice([0, 2, 5, 6, 7, 100, 0xFFFFFFFF]) for _ in range(40)]
+        trg = r.choice([0, 1, 1, 0x80])
+        if r.random() < 0.3:          # trace too low but room above: the offset moves up and the search goes on
+            on1, mode, h, cnt = 1, 1, 480, r.choice([2, 4])
+            q = [100] * (cnt + 2)
+            for row in seq:
+                row[0], row[1] = r.choice([350, 330, 360]), r.choice([0, 0, 10])
+
+        def present(m, a):
+            i = m.np % 40
+            m.np += 1
+            for k, o in enumerate((0xB28, 0xB2C, 0xB30, 0xB34, 0xB38, 0xB44, 0xB48, 0xB4C, 0xB50, 0xB54)):
+                m.w32(SYS + o, seq[i][k])
+            m.w32(SYS + (0xB54 if trg else 0xB38), per[i])
+
+        def setup(m):
+            m.write(SYS, fill)
+            m.write(0x409223F0, saved)
+            m.write(0x42C3D834, tbl)
+            m.w8(SYS + 0x3E, on1)
+            m.w8(SYS + 0x102, on2)
+            m.w8(SYS + 0x1B0, mode)
+            m.write(SYS + 0xA, s16(h))
+            m.w8(SYS + 0x1BA, cnt)
+            m.w8(SYS + 0x2A8, tb[0])
+            m.w8(SYS + 0x2A9, tb[1])
+            m.w8(SYS + 0x27C, trg)
+            for i, v in enumerate(q):
+                m.write(SYS + 0xEF0 + 8 * i, I64(v))
+            m.np = 0
+        stubs = (rec("backup", 0x4003F0C0, 0), rec("restore", 0x4003F0E0, 0), rec("fb_target_back", 0x400342DC, 0),
+                 rec("redraw03", 0x4003D74C, 1), rec("redraw05", 0x4003D764, 1), rec("box", 0x40034134, 4),
+                 Stub("present", 0x4003442C, present, 0), rec("outputs_apply", 0x4003E708, 0),
+                 rec("acquisition_dispatcher", 0x400419CC, 0), rec("trigger_level_auto", 0x4006382C, 0))
+        if entry:
+            return Case([], ret=V, stubs=(rec("body", 0x4004C7C8, 1),))
+        return Case([SYS], setup, ret=V, stubs=stubs)
+    return t
+
+
+TESTS[0x4004C7C8] = t_auto73(False)
+TESTS[0x4004C7C4] = t_auto73(True)

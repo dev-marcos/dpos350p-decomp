@@ -155,7 +155,7 @@ void gen_fpga_settings_write(void);
 void gen_table_repeat_default(void);                                /* 0x4004D094 */
 void state_backup_all(void);                 /* 0x4003F0C0 */
 void state_restore_all(void);                /* 0x4003F0E0 */
-void func_4004bfc8(u32 row);                                        /* per-row calibration (OPEN) */
+void frontend_offset_calibrate(u32 row);                                        /* per-row calibration (OPEN) */
 void func_4004b0a0(void);                                           /* calibration step (OPEN) */
 int  post_channel_mux_check(u32 vdiv);                              /* 0x4004AF0C */
 void calibration_save_wrapper(void);                                /* 0x40044680 (Hack name) */

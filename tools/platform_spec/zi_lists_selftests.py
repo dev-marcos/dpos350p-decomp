@@ -252,7 +252,7 @@ wi(0x40052280, 564, "buttons_05c_handler",
    TBI + """
 void touch_group_005C(void);
 void state_restore_all(void);
-void func_4004c7c4(void);
+void auto_set(void);
 void sys_word_pair_570_set(u32 lo, u32 hi);
 void sys_word_pair_578_set(u32 lo, u32 hi);
 void frontend_apply_all(void);
@@ -283,7 +283,7 @@ void buttons_05c_handler(void)
     } else if (TB(0x66) == 2) {
         TB(0x66) = 0;
         TB(0) = 0;
-        func_4004c7c4();
+        auto_set();
     } else if (TB(0x70) == 2) {
         TB(0x70) = 0;
         TB(0) = 0;

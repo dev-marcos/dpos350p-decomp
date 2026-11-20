@@ -2801,6 +2801,47 @@ These are the functions `plot_touch_drag` (batch 71) uses on a press to choose w
 - A new app can call `touch_drag_pick` for its own touch logic: it tells which trace or cursor a
   finger is on.
 
+## Offset calibration of a range and the AUTO routine (batch 73)
+
+Spec: `tools/platform_spec/zzq_auto_set.py`, 3 functions. Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The names and the
+meaning of the fields are DERIVED; nothing here was observed on the device.
+
+- **`frontend_offset_calibrate(r)`** (0x4004BFC8) is called by `system_calibration` once per
+  volts/div range r. It calibrates the offset DAC of both channels at once:
+  - setup: `acq_defaults_reset`, both channels on at range r (SYS+0x41 / +0x105), SYS+0x588 =
+    0x18, SYS+0x3A = 1, `outputs_apply`, `acquisition_dispatcher`;
+  - two binary searches over the DAC range half SYS+0x1B6 .. SYS+0x1B4, with at most k steps (k =
+    number of doublings of 1 up to the range width). CH1 writes half SYS+0x44 and calls
+    `fpga_write_sel_0x2a`; CH2 writes SYS+0x108 and calls `fpga_write_sel_0x2d`. After 100 ms the
+    level is `channel_level_mean(1, ch, 2000, 0x429D3AB4)` / word SYS+0x26C;
+  - the first search looks for a level in 420 .. 480, the second for 20 .. 80. Byte SYS+0x1B2
+    flips the search direction;
+  - from the two points: gain = (dac_hi - dac_lo) x SYS+0x270 x SYS+0x26C / (mean_hi - mean_lo)
+    (64-bit), offset = SYS+0x270 x dac_lo - mean_lo x gain / SYS+0x26C;
+  - results at 0x42E53A0C + 4r: + 0x50 / + 0xA0 gain CH1 / CH2, + 0xF0 / + 0x140 offset.
+- **`auto_set`** (0x4004C7C4) is the AUTO button of `buttons_05c_handler`. It loads r0 =
+  0x40544E68 and falls through into **`auto_set_from`** (0x4004C7C8):
+  - `state_backup_all`, `fb_target_back`, then a reset for the search (offsets SYS+0x60 / +0x120
+    = 250, ranges SYS+0x41 / +0x105 = 0, time base SYS+0x588 = 0x1F);
+  - vertical search: for each range i < SYS+0x1BA it redraws with a message box (table
+    0x42C3D834) and takes pct = 100 x int64 SYS+0xEF0 + 8i / int64 SYS+0xEF8 + 8i.
+    `percent_at_least` on the trace extent above / below the offset (SYS+0xB28 / +0xB2C for CH1,
+    +0xB44 / +0xB48 for CH2) moves the offset, and a channel stops once its trace no longer fits;
+  - a channel on with amplitude word SYS+0xB30 / +0xB4C of at least 51 is "found". Its offset
+    moves the trace centre (SYS+0xB34 / +0xB50) to the row of layout SYS+0x1B0 (1: half height for
+    both; 2: 3/4 for CH1, 1/4 for CH2), clamped to 30 .. height - 30;
+  - with a channel found, the trigger source SYS+0x27C follows it (unchanged when both are found)
+    and the trigger level half SYS+0x27E comes from the measurement block (0x40545990 for CH1,
+    0x405459AC for CH2). The time base then steps SYS+0x2A8 .. SYS+0x2A9 - 1 until the period
+    count word (+0x10) is at least 6, followed by `trigger_level_auto`;
+  - the results are copied into the backup block 0x409223F0, then a tail call to
+    `state_restore_all`;
+  - OPEN: for layouts other than 1 / 2 the stock code leaves the target row uninitialised (a
+    stack slot). The C uses 0, and the tests use only layouts 1 and 2 when a channel is on.
+- A new app can call `auto_set` for its own AUTO key, or `frontend_offset_calibrate` to recalibrate
+  a single range.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

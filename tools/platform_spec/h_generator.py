@@ -38,7 +38,7 @@ int system_calibration(void)
     state_backup_all();
     memset_w((void *)CAL_OBJ, 0, 0x1A90);
     for (i = 0; i < SYS8(0x1B9); )
-        func_4004bfc8(i++ & 0xFF);
+        frontend_offset_calibrate(i++ & 0xFF);
     {
         u32 b = SYS8(0x1B9), a = SYS8(0x1BA);
         if (b < a) {
