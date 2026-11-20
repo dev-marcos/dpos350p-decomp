@@ -1099,6 +1099,27 @@ MUTANTS = [
     (0x4001F5A8, '    switch_row(x, r, w, B8(SYS + so + 0x42), ro + 0x39A);', '    switch_row(x, r, w, B8(SYS + so + 0x42), ro + 0x390);'),
     (0x4001F5A8, '        draw_colour_set(W32(TH + 0x10));\n        txt = 0;', '        draw_colour_set(W32(TH + 0x10));\n        txt = 1;'),
     (0x4001F5A8, '        draw_colour_set(W32(TH + 8));\n        rect_fill(xo & 0xFFFF, y & 0xFFFF, wd, 0x1E);', '        draw_colour_set(W32(TH + 8));\n        rect_fill(xo & 0xFFFF, y & 0xFFFF, wd, 0x1F);'),
+    # batch 68: time-base menu, measurement selection menu
+    (0x4001FF74, '    "200mS", "100mS", "50mS", "20mS", "10mS", "5mS",', '    "200mS", "100mS", "50mS", "25mS", "10mS", "5mS",'),
+    (0x4001FF74, '    sel = B8(SYS + 0x2AA) ? B8(SYS + 0x598) : B8(SYS + 0x588);', '    sel = B8(SYS + 0x2AA) ? B8(SYS + 0x588) : B8(SYS + 0x598);'),
+    (0x4001FF74, '    e = B8(SYS + 0x2AA) ? ENT(35) : ENT(34);', '    e = B8(SYS + 0x2AA) ? ENT(34) : ENT(35);'),
+    (0x4001FF74, '            txt = fill_colour(sel, 0x29 - k);', '            txt = fill_colour(sel, 0x28 - k);'),
+    (0x4001FF74, '            xo = x + 0x14 + 0x55 * j;', '            xo = x + 0x14 + 0x54 * j;'),
+    (0x4001FF74, '    for (i = 0; i < 5; i++, r += 0x53) {', '    for (i = 0; i < 5; i++, r += 0x55) {'),
+    (0x4001FF74, '    txt = fill_colour(sel, 0x2A);', '    txt = fill_colour(sel, 0x2B);'),
+    (0x4001FF74, '(volatile unsigned char *)(BTN + 0x426));', '(volatile unsigned char *)(BTN + 0x428));'),
+    (0x4001FF74, '    text_draw((((x + 0x14) & 0xFFFF) + 0x154 + ((0xA5 - tw) >> 1)) & 0xFFFF, (y + 0x1B) & 0xFFFF, s);', '    text_draw((((x + 0x14) & 0xFFFF) + 0x154 + ((0xA5 - tw) >> 1)) & 0xFFFF, (y + 0x1C) & 0xFFFF, s);'),
+    (0x4001FF74, 'touch_button_set_rect(xo & 0xFFFF, (r - 0xF) & 0xFFFF, 0x50, 0x46,', 'touch_button_set_rect(xo & 0xFFFF, (r - 0xF) & 0xFFFF, 0x50, 0x45,'),
+    (0x4001D608, 'static const char ms_draw[2][4] = { "Du+", "Du-" };', 'static const char ms_draw[2][4] = { "Dt+", "Du-" };'),
+    (0x4001D608, '        if (value_in_table_405456e8(c, k + 1)) {', '        if (value_in_table_405456e8(c, k)) {'),
+    (0x4001D608, '    measure_rows(x + 0x14, y + 0x136, 1);', '    measure_rows(x + 0x14, y + 0x135, 1);'),
+    (0x4001D608, '    header(x, y + 0xFA, ENT(24));', '    header(x, y + 0xFA, ENT(23));'),
+    (0x4001D608, '        rec = 0x250 + 0xA * (12 * c + k);', '        rec = 0x250 + 0xA * (11 * c + k);'),
+    (0x4001D608, '        if (k == 6)\n            r += 0x55;', '        if (k == 6)\n            r += 0x53;'),
+    (0x4001D608, '    half_42e68be2_set(1);\n    header(x, y + 0xFA', '    header(x, y + 0xFA'),
+    (0x4001D608, '        xo = (x0 + 0x55 * (k % 6)) & 0xFFFF;', '        xo = (x0 + 0x55 * (k % 5)) & 0xFFFF;'),
+    (0x4001D608, '"Vrms", "Vp",', '"Vrms", "Vq",'),
+    (0x4001D608, '        text_draw((xo + ((0x50 - tw) >> 1)) & 0xFFFF, (r + 0xC) & 0xFFFF, k < 10', '        text_draw((xo + ((0x50 - tw) >> 1)) & 0xFFFF, (r + 0xB) & 0xFFFF, k < 10'),
 ]
 
 

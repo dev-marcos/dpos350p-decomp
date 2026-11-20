@@ -5045,3 +5045,65 @@ def _chmenu67(lay, so, ro, en):
 
 TESTS[0x4001EBE4] = _chmenu67(0xBC, 0, 0, 25)
 TESTS[0x4001F5A8] = _chmenu67(0xCA, 0xC4, 0x64, 26)
+
+
+# ================================================================ batch 68: time-base menu
+def t_tbmenu68(r):
+    box = [r.choice([0, 3, 30, 200, r.getrandbits(16)]) for _ in range(4)]
+    th = {o: r.getrandbits(32) for o in (0, 4, 8, 0xC, 0x10, 0x14)}
+    recs = [0x426] + [0x430 + 0xA * k for k in range(30)]
+    press = [r.choice([0, 0, 0, 0, 1, r.getrandbits(8)]) for _ in recs]
+    ev = {n: (r.getrandbits(32), r.getrandbits(8), r.getrandbits(8)) for n in (34, 35)}
+    split = r.choice([0, 0, 1, r.getrandbits(8)])
+    sv = [r.choice([0x2A, 0x29, 0x0C, 0x0B, 0x2B, r.randrange(0x0C, 0x2B), r.randrange(0x0C, 0x2B), r.getrandbits(8)]) for _ in range(2)]
+    tw = r.choice([0, 7, 0x50, 0x51, 0xA5, 0xA6, r.getrandbits(16), r.getrandbits(32)])
+
+    def setup(m):
+        for i, v in enumerate(box):
+            m.write(0x42E64520 + 0xD8 + 2 * i, v.to_bytes(2, "little"))
+        for o, v in th.items():
+            m.w32(SYS + 0x3DD550 + o, v)
+        for rc, v in zip(recs, press):
+            m.w8(0x42E61FF8 + rc + 1, v)
+        for n, (pt, dx, dy) in ev.items():
+            e = 0x42C2FE74 + 0x1A0 * n
+            m.w32(e, pt)
+            m.w8(e + 0x194, dx)
+            m.w8(e + 0x195, dy)
+        m.w8(SYS + 0x2AA, split)
+        m.w8(SYS + 0x588, sv[0])
+        m.w8(SYS + 0x598, sv[1])
+    return Case([], setup=setup, ret=V, stubs=_draw62() + (_text67("d164", 0x4002D164, 0, tw & 0xFFFFFFFF),
+                                                          _text67("ce7c", 0x4002CE7C, 2)))
+
+
+TESTS[0x4001FF74] = t_tbmenu68
+
+
+def t_msmenu68(r):
+    box = [r.choice([0, 3, 30, 200, r.getrandbits(16)]) for _ in range(4)]
+    th = {o: r.getrandbits(32) for o in (0, 4, 8, 0xC, 0x10, 0x14)}
+    press = [r.choice([0, 0, 0, 0, 1, r.getrandbits(8)]) for _ in range(24)]
+    ev = {n: (r.getrandbits(32), r.getrandbits(8), r.getrandbits(8)) for n in (23, 24)}
+    tab = [r.choice([0, 1, 5, 12, 13, -1, -6, -12, -13, r.randrange(-14, 15), r.getrandbits(16)]) & 0xFFFF for _ in range(24)]
+    tw = r.choice([0, 7, 0x50, 0x51, r.getrandbits(16), r.getrandbits(32)])
+
+    def setup(m):
+        for i, v in enumerate(box):
+            m.write(0x42E64520 + 0xA0 + 2 * i, v.to_bytes(2, "little"))
+        for o, v in th.items():
+            m.w32(SYS + 0x3DD550 + o, v)
+        for i, v in enumerate(press):
+            m.w8(0x42E61FF8 + 0x250 + 0xA * i + 1, v)
+        for n, (pt, dx, dy) in ev.items():
+            e = 0x42C2FE74 + 0x1A0 * n
+            m.w32(e, pt)
+            m.w8(e + 0x194, dx)
+            m.w8(e + 0x195, dy)
+        for i, v in enumerate(tab):
+            m.write(0x405456E8 + 2 * i, v.to_bytes(2, "little"))
+    return Case([], setup=setup, ret=V, stubs=_draw62() + (_text67("d164", 0x4002D164, 0, tw & 0xFFFFFFFF),
+                                                          _text67("ce7c", 0x4002CE7C, 2)))
+
+
+TESTS[0x4001D608] = t_msmenu68

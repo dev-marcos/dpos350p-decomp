@@ -2625,6 +2625,34 @@ For CH2 the bytes are the same + 0xC4: SYS+0x102, 0x104, 0x103, 0x106 and 0x10B.
 - The two texts '1X' and '10X' are inside the stock function. The C uses string literals, so the
   test stubs record these texts by content.
 
+## Time-base menu and measurement selection menu (batch 68)
+
+Spec: `tools/platform_spec/zzl_timebase_menu.py`, 2 functions. Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The names are
+DERIVED. The menu meanings come from the English labels of the text table (`build/uitext46.txt`).
+
+- **`timebase_menu_draw`** (0x4001FF74) draws the time-base menu (layout + 0xD8 .. + 0xDE).
+  - The title is 'Main time base' (text entry 34). When the split-screen byte SYS+0x2AA is set,
+    it is 'Zoom time base' (entry 35) instead.
+  - The current setting is the byte SYS+0x588 (main) or SYS+0x598 (zoom).
+  - There are 31 settings: 0x2A = 50 s, 0x29 = 20 s, 0x28 = 10 s, and so on in 1-2-5 steps down to
+    0x0C = 5 ns. The time-base index is therefore 0x0C (5 ns) .. 0x2A (50 s).
+  - 50 s is a wide button in the title row. The other 30 settings are 0x50 x 0x28 buttons in five
+    rows of six.
+  - The touch records are 0x42E61FF8 + 0x426 (50 s) and + 0x430 + 0xA x (0x29 - setting).
+- **`measure_select_menu_draw`** (0x4001D608) draws the measurement selection menu (layout + 0xA0
+  .. + 0xA6), with one block of twelve buttons for each channel.
+  - The blocks are 'CH1 parameter measurement' (entry 23) and 'CH2 parameter measurement' (entry
+    24). The buttons are 'Vmax', 'Vmin', 'Vavg', 'Vrms', 'Vp', 'Vpp', 'F', 'T', 'T+', 'T-', 'Du+'
+    and 'Du-'.
+  - Measurement k (1 .. 12) of channel c is shown as selected when `value_in_table_405456e8(c, k)`
+    is set. That is, k (CH1) or -k (CH2) is in the list of 24 shown measurements at 0x405456E8.
+    The measurement codes are therefore +-1 .. +-12 in this order.
+  - The touch records are 0x42E61FF8 + 0x250 + 0xA x (12 c + k - 1).
+  - Stock quirk: the last two buttons are centred by the width of 'Dt+' / 'Dt-' but draw 'Du+' /
+    'Du-'. 'Du' is probably the duty cycle (DERIVED). The C keeps both texts.
+  - The CH2 block is drawn without the `half_42e68be2_set(2)` that comes before the CH1 buttons.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).
