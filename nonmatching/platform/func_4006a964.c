@@ -7,11 +7,11 @@
 
 #include "hw/fpga.h"
 
-u32 func_4006a738(u32 a, u32 b, u32 c, u32 d);
+u32 usb_disk_sd_read(u32 a, u32 b, u32 c, u32 d);
 
 u32 usb_mass_disk_read(u32 a, u32 b, u32 c)
 {
     if (*(volatile u32 *)0x40095490u == 1)
-        return func_4006a738(a, b, c, 0x40095490u);   /* r3 still holds the state address */
+        return usb_disk_sd_read(a, b, c, 0x40095490u);   /* r3 still holds the state address */
     return a;
 }

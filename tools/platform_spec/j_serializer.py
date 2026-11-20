@@ -205,23 +205,23 @@ u32 strlen(const char *str)
 # ---------------------------------------------------------------- USB disk veneers, mode switches
 s(0x4006A964, 20, "usb_mass_disk_read",
   "Reads through 0x4006A738 when the SD card state (0x40095490) is 1; otherwise returns its first argument unchanged. Stock quirks kept: the callee also receives r3 = 0x40095490. (name: Hack)", """
-u32 func_4006a738(u32 a, u32 b, u32 c, u32 d);
+u32 usb_disk_sd_read(u32 a, u32 b, u32 c, u32 d);
 
 u32 usb_mass_disk_read(u32 a, u32 b, u32 c)
 {
     if (*(volatile u32 *)0x40095490u == 1)
-        return func_4006a738(a, b, c, 0x40095490u);   /* r3 still holds the state address */
+        return usb_disk_sd_read(a, b, c, 0x40095490u);   /* r3 still holds the state address */
     return a;
 }
 """, src="usb; name: Hack")
 s(0x4006A978, 20, "usb_mass_disk_write",
   "Writes through 0x4006A868 when the SD card state is 1; otherwise returns its first argument unchanged. (name: Hack)", """
-u32 func_4006a868(u32 a, u32 b, u32 c, u32 d);
+u32 usb_disk_sd_write(u32 a, u32 b, u32 c, u32 d);
 
 u32 usb_mass_disk_write(u32 a, u32 b, u32 c)
 {
     if (*(volatile u32 *)0x40095490u == 1)
-        return func_4006a868(a, b, c, 0x40095490u);   /* r3 still holds the state address */
+        return usb_disk_sd_write(a, b, c, 0x40095490u);   /* r3 still holds the state address */
     return a;
 }
 """, src="usb; name: Hack")

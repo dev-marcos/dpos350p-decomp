@@ -1287,3 +1287,8 @@ address,name,type,evidence_level,source,note
 0x4004BFC8,frontend_offset_calibrate,function,DERIVED,this-project:phase5 (calibration),
 0x4004C7C8,auto_set_from,function,DERIVED,this-project:phase5 (calibration),
 0x4004C7C4,auto_set,function,DERIVED,this-project:phase5 (calibration),
+0x4006A734,usb_disk_hook,function,DERIVED,this-project:phase5 (storage),
+0x4006A738,usb_disk_sd_read,function,DERIVED,this-project:phase5 (storage),
+0x4006A868,usb_disk_sd_write,function,DERIVED,this-project:phase5 (storage),
+0x400413C8,full_acquisition_entry,function,DERIVED,this-project:phase5 (acquisition),
+0x4006338C,acquisition_block_bank_selector,function,DERIVED,this-project:phase5 (acquisition),

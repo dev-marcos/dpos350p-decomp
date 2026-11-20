@@ -663,7 +663,7 @@ address,size,name,type,evidence_level,source
 0x40041118,524,frame_deviation_blend,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40041324,144,channel_filters_by_timebase,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x400413B4,20,pool_400413b4,literal_pool,DERIVED,analyze.py
-0x400413C8,1052,full_acquisition_entry,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/ACQUISITION.md:556
+0x400413C8,1052,full_acquisition_entry,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x400417E4,308,one_runtime_capture_step,function_arm,DERIVED,this-project:phase5 (acquisition; name: Hack)
 0x40041918,4,full_acquisition_veneer,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4004191C,176,runtime_sweep_path,function_arm,DERIVED,this-project:phase5 (acquisition; name: Hack)
@@ -1256,7 +1256,7 @@ address,size,name,type,evidence_level,source
 0x4006330C,28,func_4006330c,function_arm,DERIVED,analyze.py:gap-code
 0x40063328,44,fpga_config_push,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40063354,56,fpga_cmd0c_write,function_arm,DERIVED,this-project:phase5 (acquisition)
-0x4006338C,164,acquisition_block_bank_selector,function_arm,DERIVED,upstream:FNIRSI-DPOS350P-Hack/docs/FPGA.md:2458
+0x4006338C,164,acquisition_block_bank_selector,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40063430,48,fpga_cmd15_write,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40063460,36,fpga_cmd16_write,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40063484,108,cursor_27e_clamp,function_arm,DERIVED,this-project:phase5 (trace)
@@ -1495,9 +1495,9 @@ address,size,name,type,evidence_level,source
 0x4006A65C,76,func_4006a65c,function_arm,DERIVED,analyze.py:gap-code
 0x4006A6A8,84,strlen,function_arm,DERIVED,this-project:phase5 (word-at-a-time strlen; called by console_format_conv)
 0x4006A6FC,56,__aeabi_memset4,function_arm,DERIVED,this-project:phase5 (stores the r2 word as is: aligned memset4 entry)
-0x4006A734,4,func_4006a734,function_arm,DERIVED,analyze.py:gap-code
-0x4006A738,304,func_4006a738,function_arm,DERIVED,analyze.py:prologue
-0x4006A868,252,func_4006a868,function_arm,DERIVED,analyze.py:prologue
+0x4006A734,4,usb_disk_hook,function_arm,DERIVED,this-project:phase5 (storage)
+0x4006A738,304,usb_disk_sd_read,function_arm,DERIVED,this-project:phase5 (storage)
+0x4006A868,252,usb_disk_sd_write,function_arm,DERIVED,this-project:phase5 (storage)
 0x4006A964,20,usb_mass_disk_read,function_arm,DERIVED,this-project:phase5 (READ(10) data source; dispatches on 0x40095490)
 0x4006A978,20,usb_mass_disk_write,function_arm,DERIVED,this-project:phase5 (WRITE(10) data sink; dispatches on 0x40095490)
 0x4006A98C,80,usb_disk_geometry_update,function_arm,DERIVED,this-project:phase5 (usb)

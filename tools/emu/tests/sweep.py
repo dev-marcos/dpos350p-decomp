@@ -5532,3 +5532,96 @@ def t_auto73(entry):
 
 TESTS[0x4004C7C8] = t_auto73(False)
 TESTS[0x4004C7C4] = t_auto73(True)
+
+
+# ================================================================ batch 74: USB mass-storage data stage on the SD card
+def t_disk74(write):
+    def t(r):
+        st = r.choice([0, 0, 1, 1, 1, 2, 0x80])
+        cnt = r.choice([0, 1, 2, 8, r.getrandbits(32)])
+        args = [r.getrandbits(32), r.getrandbits(32), cnt, 0x40095490]
+        w = {0x42E68C7C: r.choice([0, 0, 1, 5, r.getrandbits(32)]),          # read: packets sent
+             0x42E68C84: r.choice([0, 1, 1, 2, 9, r.getrandbits(32)]),       # read: blocks left
+             0x42E68C80: r.choice([0, 0x200, 0x1000, r.getrandbits(12)]),    # read: offset
+             0x42E68C88: r.getrandbits(32), 0x42E68C8C: r.choice([0, 1, 2, 4, 8, r.getrandbits(32)]),
+             0x42E68C90: r.choice([0, 1, 3, 7, 8]), 0x42E68CE0: 0x42000000 + r.getrandbits(16),
+             0x42E68C18: r.getrandbits(32)}
+        b = {0x42E68D1B: st, 0x42E68D1C: r.getrandbits(8), 0x42E68D1D: r.choice([0, 3, 4, 4, r.getrandbits(8)])}
+        h16 = r.getrandbits(16)
+        mret = r.choice([0, 0, 0, 1, 0x100, 0xFFFFFFFF])
+        cret = r.getrandbits(32)
+
+        def setup(m):
+            for a, v in w.items():
+                m.w32(a, v)
+            for a, v in b.items():
+                m.w8(a, v)
+            m.write(0x42E68D16, s16(h16))
+        if write:
+            stubs = (rec("memcpy", 0x40035724, 3), rec("mmc_write_blocks", 0x40068794, 4, mret),
+                     rec("usb_mass_send_csw", 0x4006C08C, 2, cret), rec("hook", 0x4006A734, 0))
+        else:
+            stubs = (rec("mmc_read_blocks", 0x4006866C, 4, mret), rec("usb_mass_write", 0x4006B95C, 3),
+                     rec("hook", 0x4006A734, 0))
+        return Case(args, setup, ret=R, stubs=stubs)
+    return t
+
+
+TESTS[0x4006A738] = t_disk74(False)
+TESTS[0x4006A868] = t_disk74(True)
+TESTS[0x4006A734] = lambda r: Case([r.getrandbits(32)], ret=R)
+
+
+# ---------------------------------------------------------------- batch 74: full acquisition
+_FACQ0 = (("acquisition_prepare", 0x4003FA10), ("veneer_40063798", 0x4003FAE4), ("translator", 0x4003FB90),
+          ("tb_2b4", 0x40040030), ("geom", 0x400405E0), ("banks_0_3", 0x400406FC), ("banks_4_7", 0x4004071C),
+          ("banks_all", 0x400406DC), ("avg_align", 0x40040114), ("tb_2b0", 0x4004003C), ("both", 0x40034058),
+          ("filters", 0x40041324), ("fft_prep", 0x40041A4C), ("mark_dirty", 0x4003CDC0))
+_FACQ1 = (("bank_sel", 0x4006338C), ("minmax", 0x40032A58), ("freq", 0x40032B5C), ("post", 0x4004006C),
+          ("mavg", 0x40040F18), ("limit", 0x40040FC4), ("trig_cross", 0x400403AC))
+_FACQ3 = (("copy_u16", 0x40035728), ("unpack", 0x40040A5C), ("conv1", 0x400408FC), ("conv2", 0x40040B20))
+
+
+def t_facq74(r):
+    f = {0x27A: (1, r.choice([0, 1, 1, 2, 2, 3])), 0x100: (1, r.choice([0, 0, 1, 2, 3])),
+         0x3E: (1, r.choice([0, 1, 1])), 0x102: (1, r.choice([0, 1, 1])), 0x38: (1, r.choice([0, 1, 1])),
+         0x550: (2, r.choice([0, 1, 2, 3, 5])), 0x582: (2, r.choice([0, 1, 3, 6])), 0x584: (2, r.choice([0, 1, 3, 7])),
+         0x586: (2, r.choice([0, 1, 3, 6, 7])), 0x644: (2, r.choice([0, 1, 2, 3])), 0x640: (2, r.getrandbits(16)),
+         0x2B0: (4, r.choice([0, 100, 0x1000, r.getrandbits(32)])), 0x63C: (4, r.getrandbits(32)),
+         0x7B4: (4, r.getrandbits(32)), 0x7B8: (4, r.getrandbits(32)), 0x51C: (1, r.choice([0, 2, 1])),
+         0x51D: (1, r.choice([0, 2, 1])), 0x540: (4, r.choice([0, 100, 3000, r.getrandbits(32)])),
+         0x1B0: (1, r.choice([0, 1, 2, 2])), 0x558: (4, r.choice([0, 1, 30, 400, r.getrandbits(32)])),
+         0x101: (1, r.getrandbits(8)), 0x3C: (1, r.getrandbits(8))}
+    early = r.random() < 0.3        # touch held: the block loop stops once the sample budget is used
+    if early:
+        cpl = r.choice([0, 1])
+        f.update({0x27A: (1, r.choice([0, 3])), 0x38: (1, 1), 0x550: (2, 5), 0x1B0: (1, 1), 0x51C: (1, 2 * cpl),
+                  0x51D: (1, 0), 0x540: (4, 300 if cpl else 90), 0x558: (4, r.choice([10, 31, 7]))})
+    base = sys_fields(r, {o: (sz, [v]) for o, (sz, v) in f.items()})
+    t15 = 1 if early else r.choice([0, 0, 1, 1])
+    run = [1] * 8 if early else [r.choice([1, 1, 1, 0]) for _ in range(8)]
+
+    def wait(m, a):
+        m.w8(SYS + 0x38, run[m.nw % 8])
+        m.nw += 1
+
+    def setup(m):
+        base(m)
+        m.w8(TOUCH_BLK + 0x15, t15)
+        m.nw = 0
+    stubs = tuple(rec(n, a, 0) for n, a in _FACQ0) + tuple(rec(n, a, 1) for n, a in _FACQ1) +         tuple(rec(n, a, 3) for n, a in _FACQ3) + (rec("to_display", 0x40041094, 2), Stub("wait", 0x4003FCC0, wait, 0))
+    return Case([], setup, ret=V, stubs=stubs)
+
+
+TESTS[0x400413C8] = t_facq74
+
+
+
+def t_bank74(r):
+    f = {0x554: (4, [r.choice([0, 5, 100, r.getrandbits(32)])]), 0x55C: (4, [r.choice([0, 5, 101, r.getrandbits(32)])]),
+         0x1B0: (1, [r.choice([0, 1, 1, 2])]), 0x27C: (1, [r.choice([0, 0, 1, 0x80])])}
+    i = r.choice([0, 1, 2, 3, 5, 7, 8, 13, 0xFF, 0x7FFFFFFF, 0x80000000, 0xFFFFFFFF, r.getrandbits(32)])
+    return Case([i], sys_fields(r, f), ret=V, stubs=(rec("sel", SEL, 1), rec("wr", WR, 1)))
+
+
+TESTS[0x4006338C] = t_bank74

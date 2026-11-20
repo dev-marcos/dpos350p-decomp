@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1240 | 91.58% | 269802 | 79.94% |
+| EQUIVALENT | 1245 | 91.95% | 271578 | 80.47% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 114 | 8.42% | 67702 | 20.06% |
+| ASM | 109 | 8.05% | 65926 | 19.53% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1240 (92.61%) | 337104 | 269802 (80.04%) |
+| main code | 1339 | 1245 (92.98%) | 337104 | 271578 (80.56%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -460,6 +460,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40041094` | channel_to_display_copy | 132 | EQUIVALENT | 200 | `nonmatching/platform/func_40041094.c` |
 | `0x40041118` | frame_deviation_blend | 524 | EQUIVALENT | 200 | `nonmatching/platform/func_40041118.c` |
 | `0x40041324` | channel_filters_by_timebase | 144 | EQUIVALENT | 200 | `nonmatching/platform/func_40041324.c` |
+| `0x400413C8` | full_acquisition_entry | 1052 | EQUIVALENT | 200 | `nonmatching/platform/func_400413c8.c` |
 | `0x400417E4` | one_runtime_capture_step | 308 | EQUIVALENT | 200 | `nonmatching/platform/func_400417e4.c` |
 | `0x40041918` | full_acquisition_veneer | 4 | EQUIVALENT | 200 | `nonmatching/platform/func_40041918.c` |
 | `0x4004191C` | runtime_sweep_path | 176 | EQUIVALENT | 200 | `nonmatching/platform/func_4004191c.c` |
@@ -912,6 +913,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x400632B8` | pio_set_drive | 64 | EQUIVALENT | 300 | `nonmatching/drivers/func_400632b8.c` |
 | `0x40063328` | fpga_config_push | 44 | EQUIVALENT | 200 | `nonmatching/platform/func_40063328.c` |
 | `0x40063354` | fpga_cmd0c_write | 56 | EQUIVALENT | 200 | `nonmatching/platform/func_40063354.c` |
+| `0x4006338C` | acquisition_block_bank_selector | 164 | EQUIVALENT | 200 | `nonmatching/platform/func_4006338c.c` |
 | `0x40063430` | fpga_cmd15_write | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_40063430.c` |
 | `0x40063460` | fpga_cmd16_write | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_40063460.c` |
 | `0x40063484` | cursor_27e_clamp | 108 | EQUIVALENT | 200 | `nonmatching/platform/func_40063484.c` |
@@ -1089,6 +1091,9 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4006A530` | __aeabi_llsl | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_4006a530.c` |
 | `0x4006A6A8` | strlen | 84 | EQUIVALENT | 200 | `nonmatching/platform/func_4006a6a8.c` |
 | `0x4006A6FC` | __aeabi_memset4 | 56 | EQUIVALENT | 400 | `nonmatching/libc/func_4006a6fc.c` |
+| `0x4006A734` | usb_disk_hook | 4 | EQUIVALENT | 200 | `nonmatching/platform/func_4006a734.c` |
+| `0x4006A738` | usb_disk_sd_read | 304 | EQUIVALENT | 200 | `nonmatching/platform/func_4006a738.c` |
+| `0x4006A868` | usb_disk_sd_write | 252 | EQUIVALENT | 200 | `nonmatching/platform/func_4006a868.c` |
 | `0x4006A964` | usb_mass_disk_read | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_4006a964.c` |
 | `0x4006A978` | usb_mass_disk_write | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_4006a978.c` |
 | `0x4006A98C` | usb_disk_geometry_update | 80 | EQUIVALENT | 200 | `nonmatching/platform/func_4006a98c.c` |

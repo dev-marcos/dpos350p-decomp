@@ -2842,6 +2842,58 @@ meaning of the fields are DERIVED; nothing here was observed on the device.
 - A new app can call `auto_set` for its own AUTO key, or `frontend_offset_calibrate` to recalibrate
   a single range.
 
+## USB disk data stage on the SD card, full acquisition (batch 74)
+
+Specs: `tools/platform_spec/zzr_usb_disk.py` (3 functions) and `tools/platform_spec/zzs_full_acq.py`
+(2 functions). Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The names and the
+meaning of the fields are DERIVED; nothing here was observed on the device.
+
+- **USB mass storage on the SD card.** `usb_mass_disk_read` / `usb_mass_disk_write` call these
+  functions when the SD state 0x40095490 is 1. Each call handles one 512-byte packet; state byte
+  0x42E68D1B is 0 while idle and 1 during a transfer:
+  - **`usb_disk_sd_read(a, lba, count)`** (0x4006A738):
+    - the first packet reads all count blocks with `mmc_read_blocks(0, lba, count, 0x42E08074)`;
+      a failure sets bit 3 of 0x42E68D1C;
+    - each packet goes out with `usb_mass_write(1, buffer + offset, 512)`, the offset advancing
+      in 0x42E68C80;
+    - each packet takes 512 from the residue word 0x42E68C10 + 8 and one block from the count in
+      0x42E68C84;
+    - at the end the state resets and 0x42E68D1D = 3 (send the status). The result is the number
+      of blocks left;
+  - **`usb_disk_sd_write(a, lba, count)`** (0x4006A868):
+    - each packet is copied from the pointer word 0x42E68CE0 to 0x42E08074 + 512 x n, and the
+      half 0x42E68D16 is taken from the residue;
+    - once all blocks are in, or when 0x42E68D1D is 4, `mmc_write_blocks(0, lba, count,
+      0x42E08074)` writes them; a failure sets bit 2 of 0x42E68D1C;
+    - then `usb_mass_send_csw(0, 1)` and a state reset. The result is the one of
+      `usb_mass_send_csw`, otherwise the packet count n;
+  - both end in the empty hook **`usb_disk_hook`** (0x4006A734, `bx lr`).
+- **`full_acquisition_entry`** (0x400413C8) is the full acquisition. Mode byte SYS+0x27A selects
+  the set-up:
+  - in mode 1, SYS+0x101 and the halves SYS+0x584 / +0x586 are cleared;
+  - in mode 2 (roll), each history buffer (0x42AC7CF4 and + 0x62250) moves up by the segment word
+    SYS+0x2B0 samples, using `copy_u16` through 0x416431E8. The count SYS+0x586 grows up to
+    SYS+0x582, the start SYS+0x584 steps (wrapping to 0), the per-block tables at SYS+0x2C4 /
+    +0x38C / +0x454 are refilled, and one block runs;
+  - for each block i < SYS+0x550:
+    - `acquisition_block_bank_selector`, `acquisition_prepare`, `acq_wait_done`; the loop stops
+      when SYS+0x38 is clear;
+    - for each channel that is on, the stream geometry and SYS+0x644 chunks of SYS+0x640 samples;
+      mode SYS+0x100 picks the bank capture and the unpack or conversion into the buffers
+      SYS+0x7B4 / +0x7B8;
+    - then the measurement chain and `channel_to_display_copy(ch, i)`;
+  - while touch byte 0x42E68BB0 + 0x15 is set, the loop ends early once (i + 1) x SYS+0x558 is
+    above SYS+0x540 / SYS+0x1B0 / 10 (/ 3 unless a coupling byte SYS+0x51C / +0x51D is 2);
+  - at the end: `channel_filters_by_timebase`, `fft_input_prepare`, and `ui_windows_mark_dirty`
+    in mode 1.
+- **`acquisition_block_bank_selector(i)`** (0x4006338C) does nothing unless word SYS+0x554 <
+  SYS+0x55C. Otherwise it sends FPGA selector 0x15 with a bank byte:
+  - i & 7 when the divisor SYS+0x1B0 is 1;
+  - otherwise 2 x (i mod 4), plus 1 when the trigger source SYS+0x27C is not 0.
+- A new app can use `usb_disk_sd_read` / `usb_disk_sd_write` as the model of a sector stream over
+  USB, and `full_acquisition_entry` to run one complete capture.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).
