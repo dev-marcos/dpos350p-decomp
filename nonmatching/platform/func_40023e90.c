@@ -9,10 +9,10 @@
 
 #define TCH8(o)  (*(volatile unsigned char *)(0x42E68BB0u + (o)))   /* touch block */
 
-void func_40023ea4(void);
+void plot_markers_draw(void);
 
 void func_40023ea4_unless_t17(void)
 {
     if (TCH8(0x17) == 0)
-        func_40023ea4();
+        plot_markers_draw();
 }

@@ -2687,6 +2687,40 @@ DERIVED. The menu meanings come from the English labels of the text table (`buil
   - Touch records: 0x42E61FF8 + 0xFC, + 0x17E, + 0x192, + 0x1A6 .. + 0x1CE (options), + 0x1D8,
     + 0x1E2 and + 0x1F6.
 
+## Trigger menu and plot edge markers (batch 70)
+
+Spec: `tools/platform_spec/zzn_trigger_menu.py`, 2 functions. Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The names are
+DERIVED. The menu meanings come from the English labels of the text table (`build/uitext46.txt`).
+
+- **`trigger_menu_draw`** (0x40021E68) draws the trigger menu (layout + 0xF4 .. + 0xFA). It has
+  four sections, each an image, a label and a row of option buttons 0x1E high:
+  - 'Trigger mode' (text entry 37): 'Auto', 'Single', 'Normal' (entries 41 .. 43) for the byte
+    SYS+0x27A = 0, 1, 2;
+  - 'Trigger edge' (38): 'Rising', 'Falling' (44, 45) for SYS+0x27B = 0, 1;
+  - 'Trigger channel' (39): 'CH1', 'CH2' (texts in the code) for SYS+0x27C = 0, 1;
+  - 'HF suppresstion' (40, spelled so in the firmware): 'OFF' (entry 140), 'L1', 'L2', 'L3' for
+    SYS+0x284 = 0 .. 3.
+  - The touch records are 0x42E61FF8 + 0x5B6 + 0xA x i (i = 0 .. 10, in the order above). The
+    handler is `trigger_option_buttons` (0x40053940, done earlier).
+- **`plot_markers_draw`** (0x40023EA4) draws the tags at the edges of the plot. The plot box is
+  SYS+4 (x), +6 (y), +8 (width), +0xA (height), all 16 bit.
+  - Channel tags on the left edge: '1' in yellow 0xFFFF00 at the offset word SYS+0x60 when CH1 is
+    on (SYS+0x3E), and '2' in cyan 0x00FFFF at SYS+0x120 when CH2 is on (SYS+0x102). The tag row is
+    y + height - offset - 1, kept between y + 8 and y + height - 8. So the offset words are in
+    pixels from the bottom of the plot (DERIVED).
+  - Trigger level tag 'T' on the right edge (x 0x3A3 .. 0x3B5, colour 0x8800FF) when SYS+0x275
+    and SYS+0x274 are both set. Its row is y + height - half SYS+0x27E (signed), so the trigger
+    level is also in pixels from the bottom.
+  - Trigger position tag 'H' (green 0xFF00) on the top edge when SYS+0x580 is set. Its column is
+    x + int64 SYS+0x570 / int64 SYS+0x590 + width / 2 (at least 0). Past the right edge
+    (> width - 8) or the left edge (< 8) it is drawn as a sideways arrow instead.
+  - In the split view (SYS+0x2AA) the plot is cut at height / 3. The upper part gets small tags
+    (font 0x42E64F58) with the levels scaled by 1/3. The lower part gets big tags with the levels
+    scaled by 2/3, and its 'H' uses SYS+0x578 / SYS+0x5A0 (the zoom time base).
+  - A new overlay (for example an extra cursor) can reuse these tags: they are plain spans,
+    `rect_fill` and `text_draw` calls with fixed colours.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

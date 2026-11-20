@@ -5177,3 +5177,65 @@ def t_sysmenu69(r):
 
 
 TESTS[0x4001C3BC] = t_sysmenu69
+
+
+def t_trigmenu70(r):
+    box = [r.choice([0, 3, 30, 200, r.getrandbits(16)]) for _ in range(4)]
+    th = {o: r.getrandbits(32) for o in (0, 4, 8, 0xC, 0x10, 0x14)}
+    recs = [0x5B6 + 0xA * i for i in range(11)]
+    press = [r.choice([0, 0, 0, 1, r.getrandbits(8)]) for _ in recs]
+    ents = list(range(37, 46)) + [140]
+    strs = {n: 0x40090000 + 0x10 * i for i, n in enumerate(ents)}
+    ev = {n: (r.choice([strs[n], r.getrandbits(32)]), r.getrandbits(8), r.getrandbits(8)) for n in ents}
+    sel = {o: r.choice([0, 1, 2, 3, 4, r.getrandbits(8)]) for o in (0x27A, 0x27B, 0x27C, 0x284)}
+    tw = r.choice([0, 7, 0x63, 0x64, 0x86, 0xCB, 0xCC, r.getrandbits(16), r.getrandbits(32)])
+
+    def setup(m):
+        for i, v in enumerate(box):
+            m.write(0x42E64520 + 0xF4 + 2 * i, v.to_bytes(2, "little"))
+        for o, v in th.items():
+            m.w32(SYS + 0x3DD550 + o, v)
+        for rc, v in zip(recs, press):
+            m.w8(0x42E61FF8 + rc + 1, v)
+        for n, (pt, dx, dy) in ev.items():
+            e = 0x42C2FE74 + 0x1A0 * n
+            m.w32(e, pt)
+            m.w8(e + 0x194, dx)
+            m.w8(e + 0x195, dy)
+        for o, v in sel.items():
+            m.w8(SYS + o, v)
+    return Case([], setup=setup, ret=V, stubs=_draw62() + (_text67("d164", 0x4002D164, 0, tw & 0xFFFFFFFF),
+                                                          _text67("ce7c", 0x4002CE7C, 2)))
+
+
+TESTS[0x40021E68] = t_trigmenu70
+
+
+def t_markers70(r):
+    box = [r.choice([0, 8, 200, 400, 0x320, r.getrandbits(16)]) for _ in range(4)]
+    en = {o: r.choice([0, 1, r.getrandbits(8)]) for o in (0x3E, 0x102, 0x274, 0x275, 0x580, 0x2AA)}
+    off = [r.choice([0, 100, 200, -50, 0x7FFFFFFF, -0x80000000, r.getrandbits(32), r.randint(-600, 600)]) & 0xFFFFFFFF for _ in range(2)]
+    lvl = r.choice([0, 100, -100, 0x7FFF, -0x8000, r.getrandbits(16)]) & 0xFFFF
+
+    def s64():
+        return r.choice([0, 1, -1, 1000, -1000, r.getrandbits(40), -r.getrandbits(40), r.getrandbits(63)])
+
+    def div():
+        return r.choice([1, 2, 3, 10, 1000, -7, r.getrandbits(20) + 1, r.getrandbits(40) + 1])
+    pos = [s64(), s64()]
+    sc = [div(), div()]
+
+    def setup(m):
+        for i, v in enumerate(box):
+            m.write(SYS + 4 + 2 * i, v.to_bytes(2, "little"))
+        for o, v in en.items():
+            m.w8(SYS + o, v)
+        m.w32(SYS + 0x60, off[0])
+        m.w32(SYS + 0x120, off[1])
+        m.write(SYS + 0x27E, lvl.to_bytes(2, "little"))
+        for a, v in ((0x570, pos[0]), (0x578, pos[1]), (0x590, sc[0]), (0x5A0, sc[1])):
+            m.write(SYS + a, (v & 0xFFFFFFFFFFFFFFFF).to_bytes(8, "little"))
+    return Case([], setup=setup, ret=V, stubs=_draw62() + (_text67("ce7c", 0x4002CE7C, 2),))
+
+
+TESTS[0x40023EA4] = t_markers70

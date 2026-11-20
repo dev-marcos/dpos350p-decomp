@@ -1273,3 +1273,5 @@ address,name,type,evidence_level,source,note
 0x400529F0,measure_select_buttons,function,DERIVED,this-project:phase5 (ui),
 0x400533A0,timebase_menu_buttons,function,DERIVED,this-project:phase5 (ui),
 0x4001C3BC,system_menu_draw,function,DERIVED,this-project:phase5 (ui),
+0x40021E68,trigger_menu_draw,function,DERIVED,this-project:phase5 (ui),
+0x40023EA4,plot_markers_draw,function,DERIVED,this-project:phase5 (ui),

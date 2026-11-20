@@ -1141,6 +1141,27 @@ MUTANTS = [
     (0x4001C3BC, '    rect_fill((x + 0xA) & 0xFFFF, (r - 0x10) & 0xFFFF, (w - 0x1E) & 0xFFFF, 0x78);', '    rect_fill((x + 0xA) & 0xFFFF, (r - 0x10) & 0xFFFF, (w - 0x1E) & 0xFFFF, 0x77);'),
     (0x4001C3BC, '            B8(LAY + 0x59) = k;', '            B8(LAY + 0x59) = k + 1;'),
     (0x4001C3BC, '        text_draw((xo + ((0x41 - tw) >> 1)) & 0xFFFF, (r + 8) & 0xFFFF, s);', '        text_draw((xo + ((0x40 - tw) >> 1)) & 0xFFFF, (r + 8) & 0xFFFF, s);'),
+    # batch 70: trigger menu, plot markers
+    (0x40021E68, '    ent_option(x + 0x9E, r, 0x86, SYS + 0x27A, 1, ENT(42), 0x5C0);', '    ent_option(x + 0x9E, r, 0x86, SYS + 0x27A, 2, ENT(42), 0x5C0);'),
+    (0x40021E68, '    ent_option(x + 0xE3, r, 0xCB, SYS + 0x27B, 1, ENT(45), 0x5DE);', '    ent_option(x + 0xE3, r, 0xCB, SYS + 0x27B, 1, ENT(44), 0x5DE);'),
+    (0x40021E68, '    option(x + 0x7B, r, 0x64, SYS + 0x284, 1, "L1", 0, 0, 0x606);', '    option(x + 0x7B, r, 0x63, SYS + 0x284, 1, "L1", 0, 0, 0x606);'),
+    (0x40021E68, '    option(x + 0xE3, r, 0xCB, SYS + 0x27C, 1, "CH2", 0, 0, 0x5F2);', '    option(x + 0xE3, r, 0xCB, SYS + 0x27C, 1, "CH1", 0, 0, 0x5F2);'),
+    (0x40021E68, '    text_draw((xo + ((wd - tw) >> 1) + dx) & 0xFFFF, (r + dy + 8) & 0xFFFF, s);', '    text_draw((xo + ((wd - tw) >> 1) + dx) & 0xFFFF, (r + dy + 7) & 0xFFFF, s);'),
+    (0x40021E68, '    touch_button_set_rect(xo & 0xFFFF, (r - 0xF) & 0xFFFF, wd, 0x3C,', '    touch_button_set_rect(xo & 0xFFFF, (r - 0xE) & 0xFFFF, wd, 0x3C,'),
+    (0x40021E68, '    r = y + 0x19;', '    r = y + 0x18;'),
+    (0x40021E68, '    label_row(x, r, 0x4008AE98u, ENT(39));', '    label_row(x, r, 0x4008AE98u, ENT(38));'),
+    (0x40021E68, '    ent_option(x + 0x14, r, 0x63, SYS + 0x284, 0, ENT(140), 0x5FC);', '    ent_option(x + 0x14, r, 0x63, SYS + 0x27C, 0, ENT(140), 0x5FC);'),
+    (0x40021E68, '        txt = W32(TH + 0x14);', '        txt = W32(TH + 0x10);'),
+    (0x40023EA4, '        channel_tag(SYS + 0x120, 0xFFFF, "2", 4, 3, 4);', '        channel_tag(SYS + 0x120, 0xFFFF, "2", 4, 4, 4);'),
+    (0x40023EA4, '        big_tag(clamp(ph + py - (int)W32(offa) - 1, py + 8, ph + py - 8), col, xn, s);', '        big_tag(clamp(ph + py - (int)W32(offa), py + 8, ph + py - 8), col, xn, s);'),
+    (0x40023EA4, '    small_tag(clamp((ph - (int)W32(offa)) / 3 + py, py + 8, py + ph / 3 - 8), col, xu, s);', '    small_tag(clamp((ph - (int)W32(offa)) / 3 + py, py + 8, py + ph / 3 - 7), col, xu, s);'),
+    (0x40023EA4, '    if (a < lo)\n        return lo;', '    if (a < lo)\n        return lo + 1;'),
+    (0x40023EA4, '        func_4002ecc4_span((p - i) & 0xFFFF, 0x3A3 + i, 0x3AA);', '        func_4002ecc4_span((p - i) & 0xFFFF, 0x3A4 + i, 0x3AA);'),
+    (0x40023EA4, '    text_draw(0x3AE, (p - 5) & 0xFFFF, "T");', '    text_draw(0x3AE, (p - 6) & 0xFFFF, "T");'),
+    (0x40023EA4, '    p = (int)((u32)p + (u32)__aeabi_ldivmod((long long)pw, 2));', '    p = (int)((u32)p + (u32)__aeabi_ldivmod((long long)pw, 3));'),
+    (0x40023EA4, '    p = h_pos(SYS + 0x578, SYS + 0x5A0);', '    p = h_pos(SYS + 0x570, SYS + 0x5A0);'),
+    (0x40023EA4, '        h_down(p, t + 2);', '        h_down(p, t + 1);'),
+    (0x40023EA4, '    int xr = pw + px - 0x14, x6 = xr + 0xB, i;', '    int xr = pw + px - 0x14, x6 = xr + 0xA, i;'),
 ]
 
 
