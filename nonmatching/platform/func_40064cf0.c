@@ -8,7 +8,7 @@
 #include "hw/fpga.h"
 
 void gen_update(void);
-int func_400647f4(u32 a, u32 b, u32 c);
+int lane_trim_search4x2(u32 a, u32 b, u32 c);
 #define GB8(o) (*(volatile unsigned char *)(0x42E3F984u + (o)))
 #define GB32(o) (*(volatile u32 *)(0x42E3F984u + (o)))
 
@@ -20,18 +20,18 @@ int gen_selftest_64cf0(void)
     GB32(0x2EFC) = 0x1797D51;
     GB32(0x2F00) = 1300;
     gen_update();
-    a = func_400647f4(0x15, 4, 1);
+    a = lane_trim_search4x2(0x15, 4, 1);
     GB32(0x2EFC) = 0x1279611;
     GB32(0x2F00) = 1500;
     gen_update();
-    a &= func_400647f4(0x12, 5, 1);
+    a &= lane_trim_search4x2(0x12, 5, 1);
     GB32(0x2EFC) = 0xBC84B1;
     GB32(0x2F00) = 1200;
     gen_update();
-    b = func_400647f4(0x16, 6, 2);
+    b = lane_trim_search4x2(0x16, 6, 2);
     GB32(0x2EFC) = 0x5DA66D;
     GB32(0x2F00) = 1200;
     gen_update();
-    c = func_400647f4(0x17, 7, 3);
+    c = lane_trim_search4x2(0x17, 7, 3);
     return c & b & a & 1;
 }

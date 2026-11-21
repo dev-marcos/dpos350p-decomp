@@ -5710,3 +5710,113 @@ def t_wave76(r):
 
 
 TESTS[0x4004D880] = t_wave76
+
+
+# ================================================================ batch 77: lane gain calibration, trim searches
+import random
+
+
+def t_lcal77(r):
+    first = r.choice([0, 0, 1, 3, 10, 200, r.getrandbits(8)])
+    n = r.choice([-3, -1, 0, 1, 1, 2, 3, 5, 11, 20, 50])
+    if n > 0:
+        first = min(first, 256 - n)
+    else:
+        first = max(first, 1 - n)
+    last = first + n - 1
+    k1c0 = r.choice([1, 2, 10, 100, 1000, r.getrandbits(16), r.getrandbits(32)])
+    k26c = r.choice([1, 1, 3, 100, 4096, r.getrandbits(12) | 1, r.getrandbits(32) | 1])
+    k268 = r.choice([0, 1, 7, 1000, 100000, r.getrandbits(16), r.getrandbits(32)])
+    gains = [r.choice([1, 2, 5, 16, 40, r.randrange(-50, 50) or 3]) for _ in range(16)]
+    base = [r.choice([0, 100, 2000, r.getrandbits(12), r.getrandbits(31)]) for _ in range(16)]
+    fill = bytes(r.getrandbits(8) for _ in range(0x700))
+    cal = bytes(r.getrandbits(8) for _ in range(0x1A90))
+    tch = bytes(r.getrandbits(8) for _ in range(0x18))
+
+    def mean(m, a):
+        start, lane, ch = a[0], a[1] & 7, a[2]
+        lvl = m.r32(SYS + 0x60)
+        row = m.read(SYS + 0x588, 1)[0]
+        ps = m.read(SYS + 0x102, 1)[0] & 1
+        m.nc += 1
+        g = gains[ps * 8 + lane]
+        v = base[ps * 8 + lane] + g * lvl + row * 3 + start * 5 + ch * 11 + (m.nc * 7) % 3
+        return v & 0xFFFFFFFF
+
+    def setup(m):
+        m.write(SYS, fill)
+        m.write(0x42E53A0C, cal)
+        m.write(TOUCH_BLK, tch)
+        m.w8(SYS + 0x6EC, first)
+        m.w8(SYS + 0x6ED, last)
+        m.w32(SYS + 0x1C0, k1c0)
+        m.w32(SYS + 0x26C, k26c)
+        m.w32(SYS + 0x268, k268)
+        m.nc = 0
+    stubs = (rec("acq_defaults_reset", 0x4003EB40, 0), rec("outputs_apply", 0x4003E708, 0),
+             rec("acquisition_dispatcher", 0x400419CC, 0), rec("delay_ms", 0x40042CF0, 1),
+             rec("lane_level_mean", 0x4004ADCC, 4, mean))
+    return Case([], setup, ret=V, stubs=stubs)
+
+
+TESTS[0x4004B0A0] = t_lcal77
+
+
+def t_trim77(entry):
+    def t(r):
+        row = r.choice([0, 1, 5, 10, r.getrandbits(8), r.getrandbits(32)])
+        bank = r.choice([0, 1, 2, 5, 10, r.getrandbits(5)])
+        step = r.choice([1, 1, 2, 4, 8, 16, 0, r.getrandbits(8), 0x101, r.getrandbits(32)])
+        idx = list(range(8))
+        r.shuffle(idx)
+        if r.random() < 0.2:
+            idx = [r.getrandbits(8) for _ in range(8)]
+        elif r.random() < 0.2:
+            idx[r.randrange(8)] = idx[r.randrange(8)]
+        mode = r.choice([0, 0, 0, 1, 2, 3])      # 0 converge, 1 never negative, 2 random, 3 noisy
+        tgt = [r.randrange(256) for _ in range(16)]
+        fill = bytes(r.getrandbits(8) for _ in range(0x800))
+
+        def err(m, key, t):
+            v = m.read(SYS + 0x684 + ((bank * 8 + t) & 0xFFFFFFFF), 1)[0]
+            if mode == 1:
+                return r2.randrange(0, 50)
+            if mode == 2:
+                return r2.randrange(-100, 100)
+            e = (v - tgt[key]) * 3
+            if mode == 3:
+                e += r2.randrange(-4, 5)
+            return e
+
+        def meas8(m, a):
+            m.nc += 1
+            for k in range(8):
+                t = m.read(SYS + 0x6E3 - k, 1)[0] if k else 0
+                m.w32(a[0] + 4 * k, err(m, k, t))
+
+        def meas4(m, a):
+            m.nc += 1
+            for k in range(4):
+                t1 = m.read(SYS + 0x6DF - k, 1)[0] if k else 0
+                t2 = m.read(SYS + 0x6E3 - k, 1)[0] if k else 0
+                m.w32(a[0] + 4 * k, err(m, k, t1))
+                m.w32(a[1] + 4 * k, err(m, 8 + k, t2))
+
+        r2 = random.Random(r.getrandbits(32))
+        seed = r2.getstate()
+
+        def setup(m):
+            r2.setstate(seed)
+            m.write(SYS, fill)
+            for k in range(8):
+                m.w8(SYS + 0x6DB + k, idx[k])
+            m.nc = 0
+        stubs = (rec("acq_defaults_reset", 0x4003EB40, 0), rec("outputs_apply", 0x4003E708, 0),
+                 rec("delay_ms", 0x40042CF0, 1), rec("all8", 0x40063CB0, 0),
+                 (quiet("meas8", 0x40064E0C, meas8, 1) if entry == 0x4006453C else quiet("meas4", 0x4006529C, meas4, 2)))
+        return Case([row, bank, step], setup, ret=R, stubs=stubs)
+    return t
+
+
+TESTS[0x4006453C] = t_trim77(0x4006453C)
+TESTS[0x400647F4] = t_trim77(0x400647F4)

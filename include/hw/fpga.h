@@ -156,7 +156,7 @@ void gen_table_repeat_default(void);                                /* 0x4004D09
 void state_backup_all(void);                 /* 0x4003F0C0 */
 void state_restore_all(void);                /* 0x4003F0E0 */
 void frontend_offset_calibrate(u32 row);                                        /* per-row calibration (OPEN) */
-void func_4004b0a0(void);                                           /* calibration step (OPEN) */
+void lane_gain_calibrate(void);                                           /* calibration step (OPEN) */
 int  post_channel_mux_check(u32 vdiv);                              /* 0x4004AF0C */
 void calibration_save_wrapper(void);                                /* 0x40044680 (Hack name) */
 void list_c_index_load(void); void list_c_data_load(void); void list_c_record_select(u32 v);

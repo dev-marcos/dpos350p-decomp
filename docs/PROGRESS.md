@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1247 | 92.10% | 280310 | 83.05% |
+| EQUIVALENT | 1250 | 92.32% | 285942 | 84.72% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 107 | 7.90% | 57194 | 16.95% |
+| ASM | 104 | 7.68% | 51562 | 15.28% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1247 (93.13%) | 337104 | 280310 (83.15%) |
+| main code | 1339 | 1250 (93.35%) | 337104 | 285942 (84.82%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -663,6 +663,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4004ADCC` | lane_level_mean | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4004adcc.c` |
 | `0x4004ADF0` | channel_level_mean | 284 | EQUIVALENT | 200 | `nonmatching/platform/func_4004adf0.c` |
 | `0x4004AF0C` | post_channel_mux_check | 368 | EQUIVALENT | 200 | `nonmatching/platform/func_4004af0c.c` |
+| `0x4004B0A0` | lane_gain_calibrate | 3864 | EQUIVALENT | 200 | `nonmatching/platform/func_4004b0a0.c` |
 | `0x4004BFC8` | frontend_offset_calibrate | 1404 | EQUIVALENT | 200 | `nonmatching/platform/func_4004bfc8.c` |
 | `0x4004C544` | retained_inside_current_sc1_3_t6 | 368 | EQUIVALENT | 200 | `nonmatching/platform/func_4004c544.c` |
 | `0x4004C6B4` | system_calibration | 212 | EQUIVALENT | 200 | `nonmatching/platform/func_4004c6b4.c` |
@@ -935,6 +936,8 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40063CB0` | func_40063c34_all8 | 32 | EQUIVALENT | 200 | `nonmatching/platform/func_40063cb0.c` |
 | `0x40063CD0` | smec_byte_params_sync | 564 | EQUIVALENT | 200 | `nonmatching/platform/func_40063cd0.c` |
 | `0x40063F04` | adc_lanes_config_for_rate | 1592 | EQUIVALENT | 200 | `nonmatching/platform/func_40063f04.c` |
+| `0x4006453C` | lane_trim_search8 | 692 | EQUIVALENT | 200 | `nonmatching/platform/func_4006453c.c` |
+| `0x400647F4` | lane_trim_search4x2 | 1076 | EQUIVALENT | 200 | `nonmatching/platform/func_400647f4.c` |
 | `0x40064C28` | gen_selftest_64c28 | 200 | EQUIVALENT | 200 | `nonmatching/platform/func_40064c28.c` |
 | `0x40064CF0` | gen_selftest_64cf0 | 208 | EQUIVALENT | 200 | `nonmatching/platform/func_40064cf0.c` |
 | `0x40064DC0` | check_pair_save | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40064dc0.c` |

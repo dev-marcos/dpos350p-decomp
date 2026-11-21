@@ -30,7 +30,7 @@ int system_calibration(void)
             } while (--n);
         }
     }
-    func_4004b0a0();
+    lane_gain_calibrate();
     for (r = 0; ; ) {
         res = post_channel_mux_check(r & 0xFF);
         if (res != 1)

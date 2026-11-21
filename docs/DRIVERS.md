@@ -235,7 +235,7 @@ C: `tools/platform_spec/h_generator.py`. Tests: `tools/emu/tests/fpga.py` (third
     1. clears the calibration object;
     2. calibrates each row (0x4004BFC8, not rewritten);
     3. fills the aux arrays above the calibrated rows with the last value;
-    4. runs 0x4004B0A0;
+    4. runs `lane_gain_calibrate` (0x4004B0A0, batch 77);
     5. runs the channel-multiplex check for V/div 0..10, and saves the calibration only when all
        11 pass.
 - **Quirks kept**: `gen_limits` (wave index above 14) and `gen_update` pass on whatever r0..r3
@@ -2993,6 +2993,45 @@ O - A .. O + A (wave 9 adds 1.102 x half; wave 13 is half). All values are trunc
 
 For a new app this is the place to add a waveform: a new case that fills both tables, plus the limits in
 `gen_limits` (maximum frequency per waveform).
+
+## Lane gain calibration and trim searches (batch 77)
+
+Spec: `tools/platform_spec/zzv_lane_cal.py`, 3 functions (5.5 KB). Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT) with the measurement
+functions stubbed. The names and the reading "lane = one of the 8 interleaved ADC lanes" are DERIVED;
+nothing here was observed on the device.
+
+**`lane_gain_calibrate`** (0x4004B0A0, the step after the row offsets in `system_calibration`) is a
+two-point gain/offset fit per lane:
+
+1. `acq_defaults_reset`, a fixed acquisition set-up (SYS+0x41 / +0x105 = 6, touch disabled), then the
+   level SYS+0x60 / +0x120 = 450, `outputs_apply`, `acquisition_dispatcher`, 100 ms.
+2. For each row r = SYS+0x6EC .. SYS+0x6ED (written to SYS+0x588, 20 ms settle), the mean of each of the
+   8 lanes over 2000 samples (`lane_level_mean`; lane 0 with start = 1). Then the same at level 50.
+3. With K(level) = level x SYS+0x1C0 x SYS+0x26C and S = SYS+0x268 (unsigned), for lane k and row j:
+   gain = (K450 - K50) x S / (H - L) and offset = (K450 x S - gain x H) / SYS+0x26C, in 64-bit
+   (`__aeabi_ldivmod`).
+4. Pass 1 (SYS+0x102 = 0) writes gains to CAL_OBJ+0x190 and offsets to CAL_OBJ+0x7D0; pass 2
+   (SYS+0x102 = 1, lanes 4..7 measured with ch = 1) writes CAL_OBJ+0xE10 and CAL_OBJ+0x1450. Each table
+   is 8 lanes x 50 ints.
+
+Stock limit: the measurements live in stack arrays of 50 rows, so more than 50 rows overruns the frame
+(the tests stay within 50).
+
+**`lane_trim_search8`** (0x4006453C) and **`lane_trim_search4x2`** (0x400647F4) are the checks behind
+the two generator self-tests (row, bank, step). Both set up the acquisition with level 250 (SYS+0x588 =
+row, SYS+0x102 = 0 / 1) and run five rounds of a search over trim bytes
+SYS+0x684 + bank x 8 + index, where the index comes from SYS8(0x6E3 - k) (and SYS8(0x6DF - k) for the
+first group of the 4x2 version):
+
+- each pass measures the lane errors (0x40064E0C for lanes 1..7; 0x4006529C for two groups of lanes 1..3);
+- a lane whose error is >= 0 moves its trim by +step, < 0 by -step, remembering the trim and |error| of
+  each side; once both signs were seen it keeps the trim with the smaller error;
+- a round ends when every lane is settled, or after 61 passes, which makes the result 0 (later rounds
+  then do one pass each).
+
+They return 1 when no round timed out. For a new app these are the hooks to read the per-lane gain,
+offset and trim values: the tables above and the trim bytes at SYS+0x684.
 
 ## Not yet rewritten (next batches)
 

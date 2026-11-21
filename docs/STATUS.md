@@ -1,6 +1,6 @@
 # Project status and resume point
 
-Snapshot from 2026-11-18, after Phase 5 batch 76. All addresses apply to build
+Snapshot from 2026-11-18, after Phase 5 batch 77. All addresses apply to build
 2025-06-19 only. Work is paused here; this page is the place to start from next time.
 
 ## 1. Where things stand
@@ -8,12 +8,12 @@ Snapshot from 2026-11-18, after Phase 5 batch 76. All addresses apply to build
 | Item | State |
 |---|---|
 | `make check` | MATCH, SHA-256 `6635ddd6…cefd58c` |
-| Functions with equivalent C | 1247 of 1354 (92.10%) |
-| Code bytes covered by C | 280,310 of 337,504 (83.05%) |
+| Functions with equivalent C | 1250 of 1354 (92.32) |
+| Code bytes covered by C | 285942 of 337,504 (84.72) |
 | MATCHING C | 0 by construction: Arm Compiler 5 is not licensed here (docs/COMPILER.md) |
-| Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library); full suite after batch 76, all 1247 EQUIVALENT (unchanged builds keep their cached result, see CONTRIBUTING.md) |
-| Mutation self-test | 1206/1206 mutants detected (`make selftest`, full run after batch 76). Before that, from batch 27 to batch 43, a mutant made stale by a rename stopped the full run at mutant 168, so those batches checked only their own mutants. The self-test now lists stale mutants and stops before building anything |
-| TEST image | `make testiso`: 772 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
+| Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library); full suite after batch 77, all 1250 EQUIVALENT (unchanged builds keep their cached result, see CONTRIBUTING.md) |
+| Mutation self-test | 1231/1231 mutants detected (`make selftest`, full run after batch 77). Before that, from batch 27 to batch 43, a mutant made stale by a rename stopped the full run at mutant 168, so those batches checked only their own mutants. The self-test now lists stale mutants and stops before building anything |
+| TEST image | `make testiso`: 775 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
 | Browser emulator | repo `dev-marcos/dpos350p-emu`, submodule `tools/sim` at `5ed2f7e`, runs fully in the browser (docs/SIM.md) |
 
 The two numbers in the table differ because the finished work is mostly small and medium
@@ -97,6 +97,7 @@ functions. The large ones (UI, the table builders, the calibration steps) are st
 | 74 | USB disk data stage on the SD card, full acquisition, block bank selector | 5 | DRIVERS.md |
 | 75 | Acquisition timing set-up from the time base (3.6 KB) | 1 | DRIVERS.md |
 | 76 | Generator waveform tables (5 KB, 15 waveforms) | 1 | DRIVERS.md |
+| 77 | Lane gain calibration and generator self-test trim searches (5.5 KB) | 3 | DRIVERS.md |
 
 The exact list, with addresses and case counts, is in PROGRESS.md (`make progress`).
 
@@ -121,8 +122,8 @@ The exact list, with addresses and case counts, is in PROGRESS.md (`make progres
 | 0x4003C000 | 113 / 157 | the time-base switch 0x4003F160..0x4003F868 (one function split by the analyser), `final_per_channel_normalization` 0x4003FE14, fragment 0x4003FFE4 |
 | 0x40040000 | 39 / 124 | acquisition pipeline with Hack names: `full_acquisition_entry`, `one_runtime_capture_step`, `acquisition_dispatcher`, conversion wrappers, `persistence_read/write`; `sys_mmu_init` (CP15, not emulated) |
 | 0x40044000 | 0 / 27 | the largest function in the image (0x40045974, 13.5 KB); calibration serialisation and save/load (0x40044680…) |
-| 0x40048000 | 85 / 89 | almost done; `power_off` stays in assembly on purpose (it waits forever for the supply to drop) |
-| 0x4004C000 | 16 / 30 | the four big calibration/generator functions: 0x4004B0A0 (3.8 KB), 0x4004BFC8, 0x4004C7C8, 0x4004D880 (5 KB, generator table builder) |
+| 0x40048000 | 87 / 89 | almost done; `power_off` stays in assembly on purpose (it waits forever for the supply to drop); `lane_gain_calibrate` 0x4004B0A0 done in batch 77 |
+| 0x4004C000 | 29 / 30 | calibration and generator: `frontend_offset_calibrate`, `auto_set_from`, `gen_wave_build` and the rest are done (batches 13, 73-77) |
 | 0x40050000 | 0 / 28 | not analysed (0x4004FB44 2.4 KB, 0x40053B78 2.5 KB) |
 | 0x40054000–0x4005FFFF | 89 / 162 | resampling helpers (Hack names), `__aeabi_memset_entry` |
 | 0x40060000–0x4006BFFF | 161 / 295 | CSI format, the field serialiser (`serializer_*`), `mmc_read_csd_cid`, FatFs code-page tables, `strlen`, `__exp_kernel` |
@@ -140,7 +141,7 @@ The exact list, with addresses and case counts, is in PROGRESS.md (`make progres
 3. **Remaining small functions in 0x4003C000 and 0x40034000–0x4003BFFF**, including `main`.
 4. **The time-base switch** (0x4003F160..0x4003F868). First merge the fragments into one function
    in the symbols (`make map` / analyser), then write it.
-5. **Generator table builder 0x4004D880** and the calibration steps 0x4004B0A0 / 0x4004BFC8. These
+5. **Done in batches 73-77**: generator table builder 0x4004D880 and the calibration steps 0x4004B0A0 / 0x4004BFC8. These
    are large but their callers and data are already understood (batch 13, docs/SIM.md).
 6. **First look at 0x40018000–0x40033FFF**: identify the screens through their strings and the
    draw calls, before writing any C. Batch 21 gives a starting point: each of the 42 window draw

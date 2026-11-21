@@ -1294,3 +1294,6 @@ address,name,type,evidence_level,source,note
 0x4006338C,acquisition_block_bank_selector,function,DERIVED,this-project:phase5 (acquisition),
 0x4003A984,acquisition_timing_setup,function,DERIVED,this-project:phase5 (acquisition),
 0x4004D880,gen_wave_build,function,DERIVED,this-project:phase5 (generator),
+0x4004B0A0,lane_gain_calibrate,function,DERIVED,this-project:phase5 (calibration),
+0x4006453C,lane_trim_search8,function,DERIVED,this-project:phase5 (calibration),
+0x400647F4,lane_trim_search4x2,function,DERIVED,this-project:phase5 (calibration),
