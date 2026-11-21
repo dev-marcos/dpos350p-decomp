@@ -2894,6 +2894,65 @@ meaning of the fields are DERIVED; nothing here was observed on the device.
 - A new app can use `usb_disk_sd_read` / `usb_disk_sd_write` as the model of a sector stream over
   USB, and `full_acquisition_entry` to run one complete capture.
 
+## Acquisition timing set-up from the time base (batch 75)
+
+Spec: `tools/platform_spec/zzt_acq_timing.py`, 1 function (3.6 KB). Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT); the runtime helpers
+(64-bit division, `pow`, double conversions) run as stock code in the tests. The names and the
+meaning of the fields are DERIVED; nothing here was observed on the device.
+
+**`acquisition_timing_setup`** (0x4003A984) is the third step of `acquisition_apply`, between
+`sample_divisor_setup` and `fpga_sample_count_write`. It turns the time base into the acquisition
+parameters, in order:
+
+1. **Preparation.** With SYS+0x652 set, the time base SYS+0x588 is limited to 0x20. Then
+   `timebase_period_load`, `zoom_entry_select` and SYS+0x101 = 1. Nothing more happens while
+   SYS+0x3C is set.
+2. **Time-base tables.** Index t = SYS+0x588 - 11 (0 .. 31; other values keep the old fields).
+   There are two 32-row tables in the spec (`TB1` when the divisor SYS+0x1B0 is 1, `TB2`
+   otherwise). Each row gives:
+   - the s64 sample period SYS+0x538, from 1e12 (t = 0, `TB1`) down to 95000;
+   - the block count half SYS+0x550;
+   - the step word SYS+0x558;
+   - the decimation word SYS+0x55C = SYS+0x554 x k, with k up to 20 (`TB1`) or 40 (`TB2`).
+3. **Clock.** The MS5351M clock generator (`ms5351m_b(hz, old)`, then 5 ms) is reprogrammed when
+   word SYS+0x5F0 differs from the target: 100 MHz for t = 0, 0x05A92F37 for every other value.
+4. **Derived values:**
+   - SYS+0x530 = period x decimation / SYS+0x554, and SYS+0x528 = period / SYS+0x1B1;
+   - the block count is divided by 4 in roll mode (SYS+0x27A = 2, also copied to SYS+0x582). It
+     is 1 in single mode (SYS+0x28), in mode 1 and when SYS+0x54F is set;
+   - the smallest k with decimation x k divisible by SYS+0x554 (SYS+0x560 = k, SYS+0x564 =
+     quotient);
+   - block sizes: n = plot width SYS+8 x step / SYS+0x1B1 + 1, giving SYS+0x2B8 = n, SYS+0x2B0 =
+     n x SYS+0x1B1, SYS+0x2BC = SYS+0x62C + n, SYS+0x2B4 = SYS+0x1B1 x SYS+0x2BC, SYS+0x2C0 =
+     blocks x SYS+0x2B0.
+5. **Trigger hold-off**, s64 SYS+0x30:
+   - normally 1e10 / SYS+0x590 x SYS+0x1C x step / blocks x SYS+0x554 / decimation / SYS+0x1B1;
+   - when SYS+0x275 is set, at least 2 x SYS+0x2BC; otherwise 1.2 x SYS+0x2BC replaces it;
+   - single mode uses word SYS+0x520 (and SYS+0x274 = 0); with SYS+0x652 set it is 1.2 x n, the
+     position is reset and both channels are switched on.
+6. **Chunks.** SYS+0x644 is the smallest k with SYS+0x2BC / k <= SYS+0x642, and SYS+0x640 =
+   SYS+0x2BC / k.
+7. **Position and pre-trigger:**
+   - the view position s64 SYS+0x570 is clamped to +-SYS+0xC steps of SYS+0x590;
+   - the trigger multiplier SYS+0x282 comes from SYS+0x284 (0..3 give 1 / 2 / 3 / 6);
+   - the pre-trigger words are SYS+0x294 / +0x298 and half SYS+0x276, from 0.95 x half the record
+     SYS+0x62C;
+   - outside single mode the window SYS+0x568 / +0x56C clamps the position again. The upper edge
+     moves by 2^(SYS+0x660 - 6) x 3 (divisor 2) or x 1.5 when SYS+0x660 >= 6.
+8. **Ratios and limits:**
+   - `retained_inside_current_sc1_3_t6` runs;
+   - SYS+0xE0 = 32 x s64 SYS+0xD8 / SYS+0x50 and SYS+0x1A0 = 32 x SYS+0x198 / SYS+0x110, or 32
+     when the first value is not above the second;
+   - the bandwidth limits s64 SYS+0x68 / +0x128 come from the coupling bytes (SYS+0x46 / +0x10A,
+     or +0x48 / +0x10C in single mode, at least SYS+0x1AC): 0, 1 and 2 give 350, 150 and 20
+     MHz. With SYS+0x660 set they are at most SYS+0x530 / n / 1000 / 2.24 (also stored in
+     SYS+0xF8, with n in SYS+0x662);
+   - the trigger source SYS+0x27C follows the only channel that is on.
+
+For a new app this is the reference for how a time-base index becomes sample rate, record length
+and trigger timing. A custom time base needs a new table row and the same derived fields.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

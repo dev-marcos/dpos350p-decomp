@@ -431,7 +431,7 @@ address,size,name,type,evidence_level,source
 0x4003A8E0,40,pool_4003a8e0,literal_pool,DERIVED,analyze.py
 0x4003A908,92,sample_divisor_setup,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003A964,32,pool_4003a964,literal_pool,DERIVED,analyze.py
-0x4003A984,3636,func_4003a984,function_arm,DERIVED,analyze.py:rea
+0x4003A984,3636,acquisition_timing_setup,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003B7B8,68,acquisition_rearm,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003B7FC,56,pool_4003b7fc,literal_pool,DERIVED,analyze.py
 0x4003B834,776,timebase_divisors_compute,function_arm,DERIVED,this-project:phase5 (timebase)

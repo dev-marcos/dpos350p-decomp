@@ -202,14 +202,14 @@ u(0x4003A654, 44, "acquisition_apply",
   "timebase_slow_flag_update, sample_divisor_setup, 0x4003A984, fpga_sample_count_write(SYS+0x30), then timebase_apply.", """
 void timebase_slow_flag_update(void);
 void sample_divisor_setup(void);
-void func_4003a984(void);
+void acquisition_timing_setup(void);
 void timebase_apply(void);
 
 void acquisition_apply(void)
 {
     timebase_slow_flag_update();
     sample_divisor_setup();
-    func_4003a984();
+    acquisition_timing_setup();
     fpga_sample_count_write(SYS32(0x30));
     timebase_apply();
 }
