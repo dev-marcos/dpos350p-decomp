@@ -150,7 +150,7 @@ void gen_decimate2(int n);                                          /* 0x4004D5C
 void gen_limits(u32 r0, u32 r1, u32 lo, u32 hi);                    /* 0x4004CF34 */
 void gen_send_params(void);                                         /* 0x4004D1B4 */
 void fpga_cmd63_write(void);
-void func_4004d880(void);
+void gen_wave_build(void);
 void gen_fpga_settings_write(void);
 void gen_table_repeat_default(void);                                /* 0x4004D094 */
 void state_backup_all(void);                 /* 0x4003F0C0 */

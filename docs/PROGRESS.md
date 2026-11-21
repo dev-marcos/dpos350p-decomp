@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1246 | 92.02% | 275214 | 81.54% |
+| EQUIVALENT | 1247 | 92.10% | 280310 | 83.05% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 108 | 7.98% | 62290 | 18.46% |
+| ASM | 107 | 7.90% | 57194 | 16.95% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1246 (93.05%) | 337104 | 275214 (81.64%) |
+| main code | 1339 | 1247 (93.13%) | 337104 | 280310 (83.15%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -682,6 +682,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4004D5CC` | gen_decimate2 | 76 | EQUIVALENT | 200 | `nonmatching/platform/func_4004d5cc.c` |
 | `0x4004D618` | gen_normalize2 | 272 | EQUIVALENT | 200 | `nonmatching/platform/func_4004d618.c` |
 | `0x4004D730` | gen_resample2 | 280 | EQUIVALENT | 200 | `nonmatching/platform/func_4004d730.c` |
+| `0x4004D880` | gen_wave_build | 5096 | EQUIVALENT | 200 | `nonmatching/platform/func_4004d880.c` |
 | `0x4004EC98` | fpga_sel42_43_fill | 128 | EQUIVALENT | 200 | `nonmatching/platform/func_4004ec98.c` |
 | `0x4004ED18` | gen_fpga_settings_write | 468 | EQUIVALENT | 200 | `nonmatching/platform/func_4004ed18.c` |
 | `0x4004EEEC` | fpga_cmd63_write | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_4004eeec.c` |

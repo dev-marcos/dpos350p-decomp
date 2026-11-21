@@ -5667,3 +5667,46 @@ def t_timing75(r):
 
 
 TESTS[0x4003A984] = t_timing75
+
+
+# ================================================================ batch 76: generator waveform tables
+def t_wave76(r):
+    G = 0x42E3F984
+    wave = r.choice(list(range(15)) * 3 + [0, 0, 0, 1, 15, 200])
+    words = [r.getrandbits(32) for _ in range(0x80 // 4)]
+    words[0] = r.choice([0, 1000, 1000000, 16999999, 17000000, 19999999, 20000000, 21999999, 22000000, 25000000, 60000000, -5, 5000000])
+    words[3] = r.choice([0, 1, 2, 3, 10, 250, 500, 501, 750, 990, 999, 1000, 1200, -7])
+    words[13] = r.choice([0, 1, 100, 1000, 2047, 4000, r.getrandbits(16), r.getrandbits(32)])
+    words[19] = r.choice([0, 100, 2048, 4000, r.getrandbits(16)])
+    words[23] = r.choice([1, 2, 5, 64, 1000, 4096, r.getrandbits(16) | 1])
+    if wave == 0 and r.random() < 0.6:
+        words[0] = r.choice([1000, 1000000, 5000000, 16999999])
+    if wave == 1 and r.random() < 0.5:
+        words[3] = r.choice([0, 1, -7, 2, 3])
+    if wave in (11, 12):
+        words[13] = r.choice([0, 1, 100, 1000, 2047, 4000, r.getrandbits(16)])
+    nout = r.choice([0, 1, 2, 3, 4, 5, 7, 10, 24, 25, 27, 31, 36, 42, 47, 49, 50, 64, 101, 150, 199, 200, 257, 300, r.randrange(1, 400)])
+    length = r.choice([0, 1, 10, 100, 199, 256, 300, 400, r.randrange(1, 400)])
+    cnt = r.choice([1, 1, 2, 3, 4, 7])
+    if wave == 1 and r.random() < 0.5:
+        length, cnt, nout, words[3] = r.choice([2, 10, 30, 60]), 1, r.choice([100, 300, 400]), r.choice([0, 1, 2])
+    top = r.choice([0, 1, 100, 4095, 4096, 0xFFFF, r.getrandbits(16)])
+    buf = bytes(r.getrandbits(8) for _ in range(4000))
+    buf2 = bytes(r.getrandbits(8) for _ in range(4000))
+    tch = bytearray(r.getrandbits(8) for _ in range(0x18))
+    tch[0x17] = r.choice([0] * 9 + [1])
+
+    def setup(m):
+        m.write(G + 0x2EFC, b"".join((w & 0xFFFFFFFF).to_bytes(4, "little") for w in words))
+        m.write(G + 0xE, buf); m.write(G + 0xFB6, buf2)
+        m.write(G + 0xFAE, (length & 0xFFFF).to_bytes(2, "little") + (top & 0xFFFF).to_bytes(2, "little"))
+        m.write(G + 0xFB4, (cnt & 0xFFFF).to_bytes(2, "little"))
+        m.write(G + 0x2EF6, (nout & 0xFFFF).to_bytes(2, "little"))
+        m.w8(G + 0x2EFA, wave)
+        m.write(TOUCH_BLK, bytes(tch))
+    stubs = (rec("gen_normalize", 0x4004D390, 0), rec("gen_resample", 0x4004D49C, 0),
+             rec("gen_normalize2", 0x4004D618, 0), rec("gen_resample2", 0x4004D730, 0))
+    return Case([], setup, ret=V, stubs=stubs)
+
+
+TESTS[0x4004D880] = t_wave76

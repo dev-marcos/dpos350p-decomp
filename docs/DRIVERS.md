@@ -2953,6 +2953,47 @@ parameters, in order:
 For a new app this is the reference for how a time-base index becomes sample rate, record length
 and trigger timing. A custom time base needs a new table row and the same derived fields.
 
+## Generator waveform tables (batch 76)
+
+Spec: `tools/platform_spec/zzu_gen_waves.py`, 1 function (5 KB). Tests: `tools/emu/tests/sweep.py`.
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT); `sin`, `exp`, `sqrt` and
+`fill_u16` run as stock code in the tests. The waveform names are DERIVED from the formulas; nothing
+here was observed on the device.
+
+**`gen_wave_build`** (0x4004D880) is the table step of `gen_update`. It does nothing while the touch
+service is busy (touch +0x17). It writes two tables:
+
+- the **output table** at G+0xFB6, n = u16 G+0x2EF6 samples, using values from the settings block
+  G+0x2EFC: amplitude A (+0x34), offset O (+0x4C), divisor D (+0x5C) and duty in per mille (+0xC);
+- the **preview table** `GEN_BUF` (G+0xE), one period of per = length / count samples (descriptor
+  G+0xFAE) between 0 and 2 x half, where half = top (G+0xFB0) / 2.
+
+With frequency 0 (+0x0) the output table is filled with O. Otherwise the waveform byte G+0x2EFA selects:
+
+| Wave | Output table (i = 0 .. n-1) | Notes |
+|---|---|---|
+| 0 | A sin(ph + 2 pi i / n) + O | at >= 17 / 20 / 22 / 25 MHz n becomes 6 / 5 / 4 / 2 with ph 0.4 / 0.2 / 0.5 / pi/2 |
+| 1 | O + A for i < round(n x duty / 1000), else O - A | duty raised/lowered so that each level has at least 3 samples (written back to +0xC); preview clamps the edge to 1 .. per-2 |
+| 2 | triangle from O - A up to O + A and back | |
+| 3 | ramp up 2A i / n + O - A | |
+| 4 | ramp down, written at index n - i | stock quirk: writes indices n .. 1 (one past the end, index 0 untouched); the preview does the same |
+| 5 | staircase of 5 .. 10 steps (n = 25 .. 49 gives 5 .. 9, else 10; +1 when n < 200 and n mod steps > 5) | |
+| 6 | half-wave sine: O - A + 2A sin for the first half, O - A after | |
+| 7 | sine hump O - A + 2A sin(pi i / n) | |
+| 8 | exponential O - A + exp(5.995 i / n) x 40 x A / D | |
+| 9 | (1.224 x i^2 / (n^2 / 10) x sin(10 pi i / n)) x A, then + 1.102 x O | |
+| 10 | square-root peak sqrt(x x (500e6 or 520e6) / n) x A / D + O - A, x = i or n - i | 520e6 for even n |
+| 11 | O - A + sum over k = 1..5 of (sin(k x) + 0.79) x (2015 A / D) | x = 2 pi i / n |
+| 12 | O - A + sum of (sin(x), sin(4.72 + 2x), sin(9.44 + 3x), 0.7 x sin(14.16 + 4x)), each + 0.365, x (3150 A / D) | |
+| 13 | DC: O (preview: half) | |
+| 14 | arbitrary: `gen_normalize2`, `gen_resample2`, `gen_normalize`, `gen_resample` | |
+
+The preview table uses the same shapes with per for n and half for A, around 0 .. 2 x half instead of
+O - A .. O + A (wave 9 adds 1.102 x half; wave 13 is half). All values are truncated to int and stored as u16. Other wave values do nothing.
+
+For a new app this is the place to add a waveform: a new case that fills both tables, plus the limits in
+`gen_limits` (maximum frequency per waveform).
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

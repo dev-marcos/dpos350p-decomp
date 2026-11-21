@@ -183,7 +183,7 @@ void gen_update(void)
     asm volatile("" : "=r"(r0), "=r"(r1), "=r"(r2), "=r"(r3));   /* gen_limits gets whatever r0..r3 hold, as in the stock code */
     gen_limits(r0, r1, r2, r3);
     gen_send_params();
-    func_4004d880();
+    gen_wave_build();
     gen_fpga_settings_write();
     gen_table_repeat_default();
 }

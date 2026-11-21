@@ -924,7 +924,7 @@ address,size,name,type,evidence_level,source
 0x4004D728,8,pool_4004d728,literal_pool,DERIVED,analyze.py
 0x4004D730,280,gen_resample2,function_arm,DERIVED,this-project:phase5 (generator)
 0x4004D848,56,pool_4004d848,literal_pool,DERIVED,analyze.py
-0x4004D880,5096,func_4004d880,function_arm,DERIVED,analyze.py:rea
+0x4004D880,5096,gen_wave_build,function_arm,DERIVED,this-project:phase5 (generator)
 0x4004EC68,48,pool_4004ec68,literal_pool,DERIVED,analyze.py
 0x4004EC98,128,fpga_sel42_43_fill,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4004ED18,468,gen_fpga_settings_write,function_arm,DERIVED,this-project:phase5 (acquisition)
