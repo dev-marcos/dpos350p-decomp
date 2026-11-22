@@ -11,7 +11,7 @@
 void ui_window_open(u32 id);
 
 void touch_button_update_01EC(void);
-void func_400447c8(void);
+void factory_reset_keep_language(void);
 
 void touch_btn_01ec_release(void)
 {
@@ -20,5 +20,5 @@ void touch_btn_01ec_release(void)
         return;
     BTN8(0x1EC) = 0;
     BTN8(0) = 0;
-    func_400447c8();
+    factory_reset_keep_language();
 }

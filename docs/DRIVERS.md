@@ -3134,6 +3134,42 @@ Harness change in this batch: a run that ends in a branch-to-self (`b .`, from `
 reports "halted in a branch-to-self loop" without the pc. Its calls and memory are still compared,
 and it does not count as a both-fault case.
 
+## UI text table, main and factory reset (batch 80)
+
+Specs: `tools/platform_spec/zzy_ui_texts.py` (1 function, 13.3 KB) and `tools/platform_spec/zzz_main.py`
+(2 functions). Tests: `tools/emu/tests/sweep.py`. The code facts are STATIC-CONFIRMED and checked in the
+emulator (EQUIVALENT). Nothing here was run on the device.
+
+**`ui_texts_init`** (0x40045974), the largest function in the image, fills the UI text table at
+0x42C2FE74 (141 entries of 0x1A0 bytes). For each entry k it makes four calls, one per language column:
+`ui_text_set_lang1..4(k, string, dx, dy)` (Chinese, English, Russian, Portuguese). The s8 dx / dy are
+per-language nudges stored at +0x194 / +0x195. The spec lists them as one `ut(k, zh, dx, dy, en, ..)`
+line per entry, with the English text as a comment. Strings in .rodata are passed by address (`S(0x...)`).
+The 28 strings that sit in the function's own literal pool are C literals, because the TEST image
+overwrites that pool. The stock order is kept, including entry 101 before 98..100. To change a menu
+text, edit the row or the string at the listed address.
+
+**`main`** (0x40034700): the boot sequence, in this order:
+
+| Step | Call |
+|---:|---|
+| 1 | `sys_clock_init(0x44AA2000)`, `sys_mmu_init`, `timers_init`, word 0x40095490 = 1 |
+| 2 | `factory_defaults`, `spi0_init(0)`, `settings_load_all`, `ui_text_init` |
+| 3 | `FPGA_Start`, `display_start`, `touch_init`, `ui_cf88_then_579c`, `colour_table_3dd530_init` |
+| 4 | `disk_mount`, `SMEC_Init`, `power_monitor_init`, `acquisition_reconfigure`, `rate_table_init_entry`, `applied_state_invalidate` |
+| 5 | `Gen_Init`, `sd_update_check`, `factory_steps_run`, `outputs_apply`, `ui_windows_open_1_5` |
+| loop | `touch_service`, `window_touch_poll`, `ui_frame_update`, SYS32(0x64C) += 1 (pass counter) |
+
+This is the place to hook a new app: one more call in the loop, or one more step before it.
+
+**`factory_reset_keep_language`** (0x400447C8): `factory_defaults` with the language byte SYS+0x7AC
+kept, then for slot SYS+0x7C0 = 5 .. 1 `settings_f_save` and `settings_slot_save`, then
+`settings_b_save`, `wdt_system_reset` and `for (;;)` until the watchdog fires.
+
+Harness: the main loop never returns. Its test stub of `ui_frame_update` calls the new
+`Machine.stop_run()` after 1..4 passes, and both runs end "stopped by a stub" with calls and memory
+compared. The `for (;;)` of the factory reset ends in the branch-to-self halt added in batch 79.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

@@ -6006,3 +6006,72 @@ def t_factory79_cg(r):
 TESTS[0x40050FE0] = t_factory79_board
 TESTS[0x40051578] = t_factory79_tester
 TESTS[0x4004FB44] = t_factory79_cg
+
+
+# ================================================================ batch 80: UI text table fill
+def _ut_stub(n, addr):
+    def fn(m, a):
+        k, sp, x, y = regs(m, 4)
+        raw = m.read(sp, 0x64)
+        m.calls.append(("lang%d" % n, k, raw[:raw.index(0) if 0 in raw else 0x64], x, y))
+    return Stub("lang%d" % n, addr, fn, 0)
+
+
+def t_uitexts80(r):
+    def setup(m):
+        m.max_insns = 4_000_000
+    st = [_ut_stub(1, 0x4004589C), _ut_stub(2, 0x400458CC), _ut_stub(3, 0x400458FC), _ut_stub(4, 0x4004592C)]
+    return Case([], setup, ret=V, stubs=tuple(st))
+
+
+TESTS[0x40045974] = t_uitexts80
+
+
+def t_main80(r):
+    passes = r.randrange(1, 5)
+    cnt = r.getrandbits(32)
+
+    def frame(m, a):
+        m.npass += 1
+        m.calls.append(("frame", m.r32(SYS + 0x64C)))
+        if m.npass >= passes:
+            m.stop_run()
+
+    def setup(m):
+        m.npass = 0
+        m.w32(SYS + 0x64C, cnt)
+        m.w32(0x40095490, 0x77)
+    names = [("clk", 0x4004282C, 1), ("mmu", 0x40042A60, 0), ("timers", 0x40042D28, 0), ("defaults", 0x4003EFAC, 0),
+             ("spi0", 0x40043474, 1), ("load", 0x40044794, 0), ("text", 0x4004579C, 0), ("fpga", 0x40049188, 0),
+             ("disp", 0x400344E0, 0), ("touch", 0x40049A74, 0), ("cf88", 0x4003D454, 0), ("colours", 0x40019AF4, 0),
+             ("mount", 0x40049B80, 0), ("smec", 0x4004A15C, 0), ("power", 0x4004A198, 0), ("reconf", 0x4003A62C, 0),
+             ("rates", 0x4004A50C, 0), ("inval", 0x4003EF1C, 0), ("gen", 0x4004D164, 0), ("sdupd", 0x4004F134, 0),
+             ("factory", 0x40051CF0, 0), ("outputs", 0x4003E708, 0), ("open15", 0x4003D6AC, 0),
+             ("tsvc", 0x40049A9C, 0), ("wpoll", 0x40052098, 0)]
+    st = [rec(n, a, k, (lambda m, x, n=n: m.calls.append((n + "/w", m.r32(0x40095490))))) for n, a, k in names]
+    st.append(Stub("frame", 0x4003CF58, frame, 0))
+    return Case([], setup, ret=V, stubs=tuple(st))
+
+
+def t_freset80(r):
+    lang = r.getrandbits(8)
+    junk = r.getrandbits(8)
+
+    def defaults(m, a):
+        m.w8(SYS + 0x7AC, junk)
+        m.w8(SYS + 0x7C0, junk ^ 0x5A)
+
+    def snap(n):
+        return lambda m, a: m.calls.append((n, m.read(SYS + 0x7AC, 1)[0], m.read(SYS + 0x7C0, 1)[0]))
+
+    def setup(m):
+        m.max_insns = 200_000
+        m.w8(SYS + 0x7AC, lang)
+    st = [rec("defaults", 0x4003EFAC, 0, defaults), rec("f_save", 0x40043EEC, 0, snap("f")),
+          rec("slot", 0x4004435C, 0, snap("slot")), rec("b_save", 0x40043A80, 0, snap("b")),
+          rec("wdt", 0x40067574, 0)]
+    return Case([], setup, ret=V, stubs=tuple(st))
+
+
+TESTS[0x40034700] = t_main80
+TESTS[0x400447C8] = t_freset80

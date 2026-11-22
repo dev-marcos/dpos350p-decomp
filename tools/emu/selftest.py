@@ -1375,6 +1375,21 @@ MUTANTS = [
     (0x4004FB44, '    FT8(0x24) = r == 3;', '    FT8(0x24) = r != 0;'),
     (0x4004FB44, '    SYS8(0x105) = vdiv;', '    SYS8(0x105) = tb;'),
     (0x4004FB44, '    GEN8(-2) = 0;', '    GEN8(-2) = 1;'),
+    # batch 80: UI texts, main, factory reset
+    (0x40045974, '    ut(  0, S(0x4008F04C), 0, 1,', '    ut(  0, S(0x4008F04C), 0, 2,'),
+    (0x40045974, '    ui_text_set_lang3(k, ru, rx, ry);', '    ui_text_set_lang3(k, ru, ry, rx);'),
+    (0x40045974, 'S(0x4008FA98), 0, 0, S(0x4008F0EC)', 'S(0x4008FA8C), 0, 0, S(0x4008F0EC)'),
+    (0x40045974, '    ut( 30, S(0x40090068), 0, 0, "AC", 0, 0, "AC", 0, 0, "AC", 0, 0);', '    ut( 30, S(0x40090068), 0, 0, "AC", 0, 0, "AC", 0, 0, "DC", 0, 0);'),
+    (0x40045974, 'S(0x4008EBCC), 5, 0,', 'S(0x4008EBCC), 4, 0,'),
+    (0x40034700, '    *(volatile u32 *)0x40095490u = 1;', '    *(volatile u32 *)0x40095490u = 2;'),
+    (0x40034700, '    sys_clock_init(0x44AA2000u);', '    sys_clock_init(0x44AA1000u);'),
+    (0x40034700, '    Gen_Init();\n    sd_update_check();', '    sd_update_check();\n    Gen_Init();'),
+    (0x40034700, '        SYS32(0x64C) += 1;', '        SYS32(0x64C) += 2;'),
+    (0x40034700, '        window_touch_poll();\n', ''),
+    (0x400447C8, '    SYS8(0x7AC) = lang;', '    SYS8(0x7AC) = lang + 1;'),
+    (0x400447C8, '    for (k = 5; k >= 1; k--) {', '    for (k = 5; k >= 2; k--) {'),
+    (0x400447C8, '        settings_f_save();\n        settings_slot_save();', '        settings_slot_save();\n        settings_f_save();'),
+    (0x400447C8, '    settings_b_save();\n    wdt_system_reset();', '    wdt_system_reset();'),
 ]
 
 

@@ -1302,3 +1302,5 @@ address,name,type,evidence_level,source,note
 0x40050FE0,factory_test_board,function,DERIVED,this-project:phase5 (init),
 0x40051578,factory_test_tester,function,DERIVED,this-project:phase5 (init),
 0x4004FB44,factory_channel_gen_check,function,DERIVED,this-project:phase5 (init),
+0x40045974,ui_texts_init,function,DERIVED,this-project:phase5 (ui),
+0x400447C8,factory_reset_keep_language,function,DERIVED,this-project:phase5 (init),

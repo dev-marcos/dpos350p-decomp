@@ -69,7 +69,7 @@ rec("b", "settings_b_fields", 0x40043A80, None, 0x7E4, 0x1000, "SYS_INFO+0x7AC, 
 g(0x40043AB4, 88, "settings_b_load",
   "Loads record B; when the loaded SYS_INFO+0 differs from the value before, sets SYS+0x7AC = 2 and runs 0x400447C8.", SER + """
 void settings_b_fields(void);
-void func_400447c8(void);
+void factory_reset_keep_language(void);
 
 void settings_b_load(void)
 {
@@ -79,7 +79,7 @@ void settings_b_load(void)
     settings_b_fields();
     if (SYS32(0) != old) {
         SYS8(0x7AC) = 2;
-        func_400447c8();
+        factory_reset_keep_language();
     }
 }
 """)

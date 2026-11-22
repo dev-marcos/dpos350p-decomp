@@ -149,12 +149,12 @@ void ui_text_language_apply(void)
 }
 """, src="ui")
 v(0x4004579C, 20, "ui_text_init", "Fills the text table (0x40045974, 13.5 KB of str_copy calls), then falls into ui_text_language_apply.", """
-void func_40045974(void);
+void ui_texts_init(void);
 void ui_text_language_apply(void);
 
 void ui_text_init(void)
 {
-    func_40045974();
+    ui_texts_init();
     ui_text_language_apply();
 }
 """, src="ui")

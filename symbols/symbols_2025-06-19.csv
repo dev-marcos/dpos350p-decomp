@@ -780,7 +780,7 @@ address,size,name,type,evidence_level,source
 0x4004472C,52,settings_g_save,function_arm,DERIVED,this-project:phase5 (settings)
 0x40044760,52,settings_g_load,function_arm,DERIVED,this-project:phase5 (settings)
 0x40044794,52,settings_load_all,function_arm,DERIVED,this-project:phase5 (settings)
-0x400447C8,64,func_400447c8,function_arm,DERIVED,analyze.py:rea
+0x400447C8,64,factory_reset_keep_language,function_arm,DERIVED,this-project:phase5 (init)
 0x40044808,4,pool_40044808,literal_pool,DERIVED,analyze.py
 0x4004480C,124,settings_h_fields,function_arm,DERIVED,this-project:phase5 (settings)
 0x40044888,44,pool_40044888,literal_pool,DERIVED,analyze.py
@@ -801,7 +801,7 @@ address,size,name,type,evidence_level,source
 0x400458FC,48,ui_text_set_lang3,function_arm,DERIVED,this-project:phase5 (ui)
 0x4004592C,48,ui_text_set_lang4,function_arm,DERIVED,this-project:phase5 (ui)
 0x4004595C,24,pool_4004595c,literal_pool,DERIVED,analyze.py
-0x40045974,13584,func_40045974,function_arm,DERIVED,analyze.py:rea
+0x40045974,13584,ui_texts_init,function_arm,DERIVED,this-project:phase5 (ui)
 0x40048E84,112,pool_40048e84,literal_pool,DERIVED,analyze.py
 0x40048EF4,4,code_40048ef4,data,OPEN,analyze.py
 0x40048EF8,412,pool_40048ef8,literal_pool,DERIVED,analyze.py

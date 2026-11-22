@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1255 | 92.69% | 293346 | 86.92% |
+| EQUIVALENT | 1258 | 92.91% | 307142 | 91.00% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 99 | 7.31% | 44158 | 13.08% |
+| ASM | 96 | 7.09% | 30362 | 9.00% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1255 (93.73%) | 337104 | 293346 (87.02%) |
+| main code | 1339 | 1258 (93.95%) | 337104 | 307142 (91.11%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -188,6 +188,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4003453C` | __aeabi_ldivmod | 84 | EQUIVALENT | 400 | `nonmatching/libc/func_4003453c.c` |
 | `0x40034590` | __aeabi_uldivmod | 304 | EQUIVALENT | 400 | `nonmatching/libc/func_40034590.c` |
 | `0x400346C0` | ui_frame_chain | 64 | EQUIVALENT | 200 | `nonmatching/platform/func_400346c0.c` |
+| `0x40034700` | main | 148 | EQUIVALENT | 200 | `nonmatching/platform/func_40034700.c` |
 | `0x400347A0` | list_a_index_create | 204 | EQUIVALENT | 200 | `nonmatching/platform/func_400347a0.c` |
 | `0x4003486C` | list_a_index_load | 180 | EQUIVALENT | 200 | `nonmatching/platform/func_4003486c.c` |
 | `0x40034920` | list_a_index_save | 148 | EQUIVALENT | 200 | `nonmatching/platform/func_40034920.c` |
@@ -562,6 +563,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x4004472C` | settings_g_save | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_4004472c.c` |
 | `0x40044760` | settings_g_load | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40044760.c` |
 | `0x40044794` | settings_load_all | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40044794.c` |
+| `0x400447C8` | factory_reset_keep_language | 64 | EQUIVALENT | 200 | `nonmatching/platform/func_400447c8.c` |
 | `0x4004480C` | settings_h_fields | 124 | EQUIVALENT | 200 | `nonmatching/platform/func_4004480c.c` |
 | `0x400448B4` | settings_image_fields | 3276 | EQUIVALENT | 200 | `nonmatching/platform/func_400448b4.c` |
 | `0x40045580` | settings_i_fields | 100 | EQUIVALENT | 200 | `nonmatching/platform/func_40045580.c` |
@@ -578,6 +580,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x400458CC` | ui_text_set_lang2 | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_400458cc.c` |
 | `0x400458FC` | ui_text_set_lang3 | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_400458fc.c` |
 | `0x4004592C` | ui_text_set_lang4 | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_4004592c.c` |
+| `0x40045974` | ui_texts_init | 13584 | EQUIVALENT | 200 | `nonmatching/platform/func_40045974.c` |
 | `0x40049094` | fpga_pe_mode_select | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_40049094.c` |
 | `0x400490B8` | ms5351_start_clocks | 36 | EQUIVALENT | 200 | `nonmatching/platform/func_400490b8.c` |
 | `0x400490DC` | fpga_bus_input | 24 | EQUIVALENT | 300 | `nonmatching/drivers/func_400490dc.c` |

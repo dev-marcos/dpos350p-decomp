@@ -7,11 +7,11 @@
 
 #include "hw/fpga.h"
 
-void func_40045974(void);
+void ui_texts_init(void);
 void ui_text_language_apply(void);
 
 void ui_text_init(void)
 {
-    func_40045974();
+    ui_texts_init();
     ui_text_language_apply();
 }

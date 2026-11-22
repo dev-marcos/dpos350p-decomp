@@ -1,6 +1,6 @@
 # Project status and resume point
 
-Snapshot from 2026-11-18, after Phase 5 batch 79. All addresses apply to build
+Snapshot from 2026-11-18, after Phase 5 batch 80. All addresses apply to build
 2025-06-19 only. Work is paused here; this page is the place to start from next time.
 
 ## 1. Where things stand
@@ -8,11 +8,11 @@ Snapshot from 2026-11-18, after Phase 5 batch 79. All addresses apply to build
 | Item | State |
 |---|---|
 | `make check` | MATCH, SHA-256 `6635ddd6…cefd58c` |
-| Functions with equivalent C | 1255 of 1354 (92.69%) |
-| Code bytes covered by C | 293,346 of 337,504 (86.92%) |
+| Functions with equivalent C | 1258 of 1354 (92.91%) |
+| Code bytes covered by C | 307,142 of 337,504 (91.00%) |
 | MATCHING C | 0 by construction: Arm Compiler 5 is not licensed here (docs/COMPILER.md) |
-| Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library); full suite after batch 79, all 1255 EQUIVALENT (unchanged builds keep their cached result, see CONTRIBUTING.md) |
-| Mutation self-test | 1278/1278 mutants detected (`make selftest`, full run after batch 79). Before that, from batch 27 to batch 43, a mutant made stale by a rename stopped the full run at mutant 168, so those batches checked only their own mutants. The self-test now lists stale mutants and stops before building anything |
+| Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library); full suite after batch 80, all 1258 EQUIVALENT (unchanged builds keep their cached result, see CONTRIBUTING.md) |
+| Mutation self-test | 1292/1292 mutants detected (`make selftest`, full run after batch 80). Before that, from batch 27 to batch 43, a mutant made stale by a rename stopped the full run at mutant 168, so those batches checked only their own mutants. The self-test now lists stale mutants and stops before building anything |
 | TEST image | `make testiso`: 780 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
 | Browser emulator | repo `dev-marcos/dpos350p-emu`, submodule `tools/sim` at `5ed2f7e`, runs fully in the browser (docs/SIM.md) |
 
@@ -100,6 +100,7 @@ functions. The large ones (UI, the table builders, the calibration steps) are st
 | 77 | Lane gain calibration and generator self-test trim searches (5.5 KB) | 3 | DRIVERS.md |
 | 78 | Lane phase measurements behind the trim searches (2.4 KB) | 2 | DRIVERS.md |
 | 79 | Factory test flow: board test, tester test, generator-to-channel loop-back (4.8 KB) | 3 | DRIVERS.md |
+| 80 | UI text table fill (141 entries x 4 languages), main boot sequence and loop, factory reset that keeps the language (13.8 KB) | 3 | DRIVERS.md |
 
 The exact list, with addresses and case counts, is in PROGRESS.md (`make progress`).
 

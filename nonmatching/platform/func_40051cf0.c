@@ -11,7 +11,7 @@ void factory_test_board(void);
 void factory_test_tester(void);
 void touch_targets_test(void);
 void settings_e_save(void);
-void func_400447c8(void);
+void factory_reset_keep_language(void);
 void settings_load_all(void);
 void state_blocks_init(void);
 void outputs_apply(void);
@@ -38,7 +38,7 @@ void factory_steps_run(void)
         FS32(0) = 0x5A5555A5u;
         settings_e_save();
     }
-    func_400447c8();
+    factory_reset_keep_language();
     settings_load_all();
     state_blocks_init();
     outputs_apply();

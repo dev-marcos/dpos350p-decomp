@@ -16,7 +16,7 @@ void persistence_write_read_modify_write(u32 dev, u32 addr, volatile void *buf, 
 #define SER_IMAGE ((volatile void *)0x408A526Cu)   /* SYS_INFO+0x360404 */
 
 void settings_b_fields(void);
-void func_400447c8(void);
+void factory_reset_keep_language(void);
 
 void settings_b_load(void)
 {
@@ -26,6 +26,6 @@ void settings_b_load(void)
     settings_b_fields();
     if (SYS32(0) != old) {
         SYS8(0x7AC) = 2;
-        func_400447c8();
+        factory_reset_keep_language();
     }
 }

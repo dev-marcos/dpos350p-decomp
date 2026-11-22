@@ -210,7 +210,7 @@ void touch_btn_0804_release(void)
 w(0x40055B98, 60, "touch_btn_01ec_release",
   "Updates button +0x1EC (0x4002FDB4); on its release clears it and the table byte +0, then runs the factory reset 0x400447C8 (it does not return).", REL + """
 void touch_button_update_01EC(void);
-void func_400447c8(void);
+void factory_reset_keep_language(void);
 
 void touch_btn_01ec_release(void)
 {
@@ -219,7 +219,7 @@ void touch_btn_01ec_release(void)
         return;
     BTN8(0x1EC) = 0;
     BTN8(0) = 0;
-    func_400447c8();
+    factory_reset_keep_language();
 }
 """)
 w(0x40055C78, 76, "touch_btn_019c_release",
