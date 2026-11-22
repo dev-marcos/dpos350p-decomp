@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1250 | 92.32% | 285942 | 84.72% |
+| EQUIVALENT | 1252 | 92.47% | 288406 | 85.45% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 104 | 7.68% | 51562 | 15.28% |
+| ASM | 102 | 7.53% | 49098 | 14.55% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1250 (93.35%) | 337104 | 285942 (84.82%) |
+| main code | 1339 | 1252 (93.50%) | 337104 | 288406 (85.55%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -941,6 +941,8 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40064C28` | gen_selftest_64c28 | 200 | EQUIVALENT | 200 | `nonmatching/platform/func_40064c28.c` |
 | `0x40064CF0` | gen_selftest_64cf0 | 208 | EQUIVALENT | 200 | `nonmatching/platform/func_40064cf0.c` |
 | `0x40064DC0` | check_pair_save | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_40064dc0.c` |
+| `0x40064E0C` | lane_phase_measure8 | 1152 | EQUIVALENT | 200 | `nonmatching/platform/func_40064e0c.c` |
+| `0x4006529C` | lane_phase_measure4x2 | 1312 | EQUIVALENT | 200 | `nonmatching/platform/func_4006529c.c` |
 | `0x4006582C` | csi_readl | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_4006582c.c` |
 | `0x40065834` | csi_writel | 8 | EQUIVALENT | 200 | `nonmatching/platform/func_40065834.c` |
 | `0x4006583C` | csi_setbits | 40 | EQUIVALENT | 200 | `nonmatching/platform/func_4006583c.c` |

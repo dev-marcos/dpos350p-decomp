@@ -5820,3 +5820,63 @@ def t_trim77(entry):
 
 TESTS[0x4006453C] = t_trim77(0x4006453C)
 TESTS[0x400647F4] = t_trim77(0x400647F4)
+
+
+# ================================================================ batch 78: lane phase measurements
+def t_phase78(entry):
+    import struct as _st
+
+    def t(r):
+        n8 = entry == 0x40064E0C
+        end = 0x9C0E if n8 else 0x4DEE
+        nl = 8 if n8 else 4
+        kind = r.choice([0, 0, 0, 1, 2, 3, 4])
+        lvl = r.choice([16000, 16000, 15990, 16010])
+        seeds = [r.getrandbits(32) for _ in range(12)]
+
+        def wave(seed):
+            g = random.Random(seed)
+            per = g.choice([7, 9, 13, 16, 31, 50, 101, g.randrange(3, 300)])
+            amp = g.choice([5, 100, 1000, 8000, g.randrange(1, 16000)])
+            skew = [g.randrange(-amp // 2 - 1, amp // 2 + 1) for _ in range(nl)]
+            out = []
+            for i in range(end + 2):
+                if kind == 1:
+                    v = g.choice([0, 16000, 16001, 15999, 40000, 65535])
+                elif kind == 2:
+                    v = 20000 if (i % nl) else 10000
+                elif kind == 3:
+                    v = 16000 + g.randrange(-3, 4)
+                elif kind == 4:
+                    v = g.randrange(0, 65536)
+                else:
+                    ph = (i % per) / per
+                    tri = 4 * ph - 1 if ph < 0.5 else 3 - 4 * ph
+                    v = lvl + int(amp * tri) + skew[i % nl] + g.randrange(-2, 3)
+                out.append(max(0, min(0xFFFF, v)))
+            return _st.pack("<%dH" % len(out), *out)
+
+        def conv(m, a):
+            m.nconv += 1
+            m.write(a[0], wave(seeds[m.nconv % 12]))
+
+        def setup(m):
+            m.nconv = 0
+            m.max_insns = 20_000_000
+            m.write(SYS + 0x600, bytes(r2.getrandbits(8) for _ in range(0x80)))
+        r2 = random.Random(r.getrandbits(32))
+        base = [rec("outputs_apply", 0x4003E708, 0), rec("count", 0x4003F948, 1), rec("pe", 0x40049094, 1),
+                rec("prep", 0x4003FA10, 0), rec("wait", 0x4003FCC0, 0), rec("trig", 0x4003FAB8, 0),
+                rec("geom", 0x400405E0, 0)]
+        if n8:
+            base += [rec("banks", 0x400406DC, 0), rec("conv1", 0x400408FC, 3, conv)]
+        else:
+            base += [rec("banks03", 0x400406FC, 0), rec("banks47", 0x4004071C, 0),
+                     rec("unpack", 0x40040A5C, 3, conv), rec("conv2", 0x40040B20, 3, conv)]
+        args = [0x42E00000] if n8 else [0x42E00000, 0x42E00040]
+        return Case(args, setup, ret=V, stubs=tuple(base))
+    return t
+
+
+TESTS[0x40064E0C] = t_phase78(0x40064E0C)
+TESTS[0x4006529C] = t_phase78(0x4006529C)

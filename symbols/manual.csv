@@ -1297,3 +1297,5 @@ address,name,type,evidence_level,source,note
 0x4004B0A0,lane_gain_calibrate,function,DERIVED,this-project:phase5 (calibration),
 0x4006453C,lane_trim_search8,function,DERIVED,this-project:phase5 (calibration),
 0x400647F4,lane_trim_search4x2,function,DERIVED,this-project:phase5 (calibration),
+0x40064E0C,lane_phase_measure8,function,DERIVED,this-project:phase5 (calibration),
+0x4006529C,lane_phase_measure4x2,function,DERIVED,this-project:phase5 (calibration),

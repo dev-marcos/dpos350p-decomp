@@ -184,7 +184,7 @@ wc(0x4006453C, 692, "lane_trim_search8",
    "SYS+0x684 + bank x 8 + SYS8(0x6E3 - k) moves by +step (error >= 0) or -step (error < 0) until both signs were seen, "
    "then keeps the trim with the smaller error. A round ends when all 7 lanes are settled or after 61 passes (then the "
    "result becomes 0 and the next rounds do one pass each). Returns 1 / 0.", LTRIM + r"""
-void func_40064e0c(int *m);
+void lane_phase_measure8(int *m);
 
 int lane_trim_search8(u32 row, u32 bank, u32 step)
 {
@@ -199,7 +199,7 @@ int lane_trim_search8(u32 row, u32 bank, u32 step)
         it = 0;
         for (;;) {
             func_40063c34_all8();
-            func_40064e0c(m);
+            lane_phase_measure8(m);
             for (k = 1; k < 8; k++)
                 ltrim_lane(&s, k, m[k], p, SYS8(0x6E3 - k), st);
             if (ltrim_mask(&s, 8) == 0xFE)
@@ -221,7 +221,7 @@ wc(0x400647F4, 1076, "lane_trim_search4x2",
    "Second generator self-test check (row, bank, step): like lane_trim_search8 with SYS+0x102 = 1 and two groups of lanes "
    "1..3 measured together by 0x4006529C (first group trims SYS+0x684 + bank x 8 + SYS8(0x6DF - k), second group "
    "SYS8(0x6E3 - k)). A round ends when both groups are settled or after 61 passes. Returns 1 / 0.", LTRIM + r"""
-void func_4006529c(int *m1, int *m2);
+void lane_phase_measure4x2(int *m1, int *m2);
 
 int lane_trim_search4x2(u32 row, u32 bank, u32 step)
 {
@@ -237,7 +237,7 @@ int lane_trim_search4x2(u32 row, u32 bank, u32 step)
         it = 0;
         for (;;) {
             func_40063c34_all8();
-            func_4006529c(m1, m2);
+            lane_phase_measure4x2(m1, m2);
             for (k = 1; k < 4; k++)
                 ltrim_lane(&s1, k, m1[k], p, SYS8(0x6DF - k), st);
             for (k = 1; k < 4; k++)

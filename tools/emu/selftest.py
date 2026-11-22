@@ -1326,6 +1326,27 @@ MUTANTS = [
     (0x400647F4, '    ltrim_setup(row, 1);', '    ltrim_setup(row, 0);'),
     (0x400647F4, '        v = p[t] + step;', '        v = p[t] + step + 1;'),
     (0x400647F4, '    SYS16(0x27E) = 250;', '    SYS16(0x27E) = 251;'),
+    # batch 78: lane phase measurements
+    (0x40064E0C, '            if (b <= LPH_LEVEL)\n                continue;', '            if (b < LPH_LEVEL)\n                continue;'),
+    (0x40064E0C, '            if (a == LPH_LEVEL)\n                continue;', '            if (a == LPH_LEVEL + 1)\n                continue;'),
+    (0x40064E0C, '            if (b >= LPH_LEVEL)\n                continue;', '            if (b > LPH_LEVEL)\n                continue;'),
+    (0x40064E0C, '        d = a < b ? b - a : a - b;', '        d = a < b ? b - a + 1 : a - b;'),
+    (0x40064E0C, '    for (i = 50; i < end; i++, s++) {', '    for (i = 51; i < end; i++, s++) {'),
+    (0x40064E0C, '        cnt[i % nl]++;', '        cnt[(i + 1) % nl]++;'),
+    (0x40064E0C, '        s = q[0] + q[1] + q[2] + q[3] + q[4] + q[5] + q[6] + q[7];', '        s = q[0] + q[1] + q[2] + q[3] + q[4] + q[5] + q[6];'),
+    (0x40064E0C, '            r[k] = q[k] * 360.0 / s;', '            r[k] = q[k] * 359.0 / s;'),
+    (0x40064E0C, '        m[1] = 450 - (int)(c * 10.0);', '        m[1] = 450 - (int)(c * 10.0 + 0.5);'),
+    (0x40064E0C, '            m[k] = 450 * k - (int)(c * 10.0);', '            m[k] = 451 * k - (int)(c * 10.0);'),
+    (0x40064E0C, '    for (it = 0; it <= 2; it++) {', '    for (it = 0; it <= 1; it++) {'),
+    (0x40064E0C, '    SYS16(0x640) = 5000;', '    SYS16(0x640) = 5001;'),
+    (0x40064E0C, '        lph_scan((const volatile unsigned short *)0x42C62B58u, 0x9C0E, 8, sum, cnt);', '        lph_scan((const volatile unsigned short *)0x42C62B58u, 0x9C0D, 8, sum, cnt);'),
+    (0x4006529C, '    m[2] = 1800 - (int)(c * 10.0);', '    m[2] = 1800 - (int)(c * 10.1);'),
+    (0x4006529C, '    c = c + r[2];', '    c = c + r[3];'),
+    (0x4006529C, '    s = q[0] + q[1] + q[2] + q[3];', '    s = q[0] + q[1] + q[2] + q[2];'),
+    (0x4006529C, '        second_conversion_wrapper(0x42C7B964u, 1, SYS16(0x640));', '        second_conversion_wrapper(0x42C7B964u, 0, SYS16(0x640));'),
+    (0x4006529C, '        lph_scan((const volatile unsigned short *)0x42C7B9C8u, 0x4DEE, 4, sum2, cnt2);', '        lph_scan((const volatile unsigned short *)0x42C7B9CAu, 0x4DEE, 4, sum2, cnt2);'),
+    (0x4006529C, '    for (it = 0; it <= 4; it++) {', '    for (it = 0; it <= 3; it++) {'),
+    (0x4006529C, '    m[3] = 2700 - (int)(c * 10.0);', '    m[3] = 2700 - (int)(c * 10.0) - 1;'),
 ]
 
 

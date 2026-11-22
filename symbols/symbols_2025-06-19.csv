@@ -1284,9 +1284,9 @@ address,size,name,type,evidence_level,source
 0x40064CF0,208,gen_selftest_64cf0,function_arm,DERIVED,this-project:phase5 (init)
 0x40064DC0,52,check_pair_save,function_arm,DERIVED,this-project:phase5 (init)
 0x40064DF4,24,pool_40064df4,literal_pool,DERIVED,analyze.py
-0x40064E0C,1152,func_40064e0c,function_arm,DERIVED,analyze.py:rea
+0x40064E0C,1152,lane_phase_measure8,function_arm,DERIVED,this-project:phase5 (calibration)
 0x4006528C,16,pool_4006528c,literal_pool,DERIVED,analyze.py
-0x4006529C,1312,func_4006529c,function_arm,DERIVED,analyze.py:rea
+0x4006529C,1312,lane_phase_measure4x2,function_arm,DERIVED,this-project:phase5 (calibration)
 0x400657BC,64,pool_400657bc,literal_pool,DERIVED,analyze.py
 0x400657FC,48,func_400657fc,function_arm,DERIVED,analyze.py:rea
 0x4006582C,8,csi_readl,function_arm,DERIVED,this-project:phase5 (CSI)

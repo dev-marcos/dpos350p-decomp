@@ -76,7 +76,7 @@ static u32 ltrim_mask(ltrim_t *s, int n)
     return mask;
 }
 
-void func_40064e0c(int *m);
+void lane_phase_measure8(int *m);
 
 int lane_trim_search8(u32 row, u32 bank, u32 step)
 {
@@ -91,7 +91,7 @@ int lane_trim_search8(u32 row, u32 bank, u32 step)
         it = 0;
         for (;;) {
             func_40063c34_all8();
-            func_40064e0c(m);
+            lane_phase_measure8(m);
             for (k = 1; k < 8; k++)
                 ltrim_lane(&s, k, m[k], p, SYS8(0x6E3 - k), st);
             if (ltrim_mask(&s, 8) == 0xFE)

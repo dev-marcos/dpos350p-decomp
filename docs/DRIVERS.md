@@ -3033,6 +3033,37 @@ first group of the 4x2 version):
 They return 1 when no round timed out. For a new app these are the hooks to read the per-lane gain,
 offset and trim values: the tables above and the trim bytes at SYS+0x684.
 
+## Lane phase measurements (batch 78)
+
+Spec: `tools/platform_spec/zzw_lane_phase.py`, 2 functions (2.4 KB). Tests: `tools/emu/tests/sweep.py`
+(capture and conversion stubbed; the conversion stub writes a synthetic trace into the buffer).
+The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The reading "phase error
+of the interleaved ADC lanes in 0.1 degree" is DERIVED from the constants (360, 10, 450 = 45.0 degrees
+per lane for 8 lanes, 900 for 4); nothing here was observed on the device.
+
+These are the measurements behind `lane_trim_search8` / `lane_trim_search4x2` (batch 77).
+
+**`lane_phase_measure8`** (0x40064E0C, `m[8]`):
+
+1. `outputs_apply`, `fpga_sample_count_write(0x13EC)`.
+2. Three captures: `fpga_pe_mode_select(0)`, `acquisition_prepare`, `acq_wait_done`, SYS+0x63C = 20,
+   SYS16(0x640) = 5000, `trigger_pos_update`, the 0x22 stream set-up, `capture_banks_all`,
+   `first_conversion_wrapper(0x42C62AF4, 0, 5000)`.
+3. Over samples i = 50 .. 39949 of the buffer, a pair (s[i], s[i+1]) that crosses 16000 (one below, the
+   other above; exactly 16000 does not count) adds |s[i] - s[i+1]| to lane i % 8. Sums and counts carry
+   over the three captures.
+4. After each capture: m_k = sum / count, r_k = m_k x 360 / (m_0 + .. + m_7), m[0] = 0 and
+   m[k] = 450 k - (int)(10 x (r_0 + .. + r_(k-1))). A lane without crossings gives a NaN that the
+   conversion turns into 0 or a saturated value (stock behaviour, kept).
+
+**`lane_phase_measure4x2`** (0x4006529C, `m1[4]`, `m2[4]`) does five rounds of two captures (banks 0..3
+through `capture_banks_0_3` + `bank_unpack_0_3_n` into 0x42C62AF4, banks 4..7 through
+`capture_banks_4_7` + `second_conversion_wrapper(.., 1, ..)` into 0x42C7B964), scans samples 50 .. 19949
+of each buffer with lane = i % 4 and writes m[k] = 900 k - (int)(10 x (r_0 + .. + r_(k-1))) for both groups.
+
+For a new app these two functions are a ready-made skew measurement of the ADC lanes: feed a signal that
+crosses the middle of the range and read the per-lane phase error.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).
