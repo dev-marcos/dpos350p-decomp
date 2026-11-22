@@ -8,6 +8,10 @@ Usage (inside dpos-re):  python3 -m tools.emu.selftest
 import random
 import sys
 import tempfile
+try:
+    from tools import srcindex                # noqa: E402
+except ImportError:                           # run as a script from tools/
+    import srcindex                           # noqa: E402
 from pathlib import Path
 
 from tools import nmbuild
@@ -1471,8 +1475,9 @@ MUTANTS = [
 def main():
     # A rename in a later batch can change the text a mutant expects. Check them all first, so a
     # stale mutant stops the run with a list instead of an assertion half-way through.
+    SRC = srcindex.sources()
     stale = [(o, old) for o, old, _ in MUTANTS
-             if old not in next(ROOT.glob(f"nonmatching/**/func_{o:08x}.c")).read_text()]
+             if old not in SRC[o].read_text()]
     for o, old in stale:
         print(f"STALE   0x{o:08x}: {old!r} is no longer in the source")
     if stale:
@@ -1481,7 +1486,7 @@ def main():
     caught = 0
     with tempfile.TemporaryDirectory(dir=ROOT / "build") as tmp:
         for orig, old, new in MUTANTS:
-            src = next(ROOT.glob(f"nonmatching/**/func_{orig:08x}.c"))
+            src = SRC[orig]
             text = src.read_text()
             assert old in text, (src, old)
             mut = Path(tmp) / src.name
@@ -1493,7 +1498,7 @@ def main():
             caught += ok
             print(f"{'caught ' if ok else 'MISSED '} 0x{orig:08x}: {old!r} -> {new!r}")
     for orig, _, _ in MUTANTS:                       # restore genuine builds
-        nmbuild.build(next(ROOT.glob(f"nonmatching/**/func_{orig:08x}.c")), syms)
+        nmbuild.build(SRC[orig], syms)
     print(f"{caught}/{len(MUTANTS)} mutants detected")
     sys.exit(0 if caught == len(MUTANTS) else 1)
 

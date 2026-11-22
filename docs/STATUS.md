@@ -16,8 +16,22 @@ Snapshot from 2026-11-18, after Phase 5 batch 84. All addresses apply to build
 | TEST image | `make testiso`: 788 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
 | Browser emulator | repo `dev-marcos/dpos350p-emu`, submodule `tools/sim` at `5ed2f7e`, runs fully in the browser (docs/SIM.md) |
 
-The two numbers in the table differ because the finished work is mostly small and medium
-functions. The large ones (UI, the table builders, the calibration steps) are still assembly.
+The two numbers in the table differ because the 90 functions left are almost all small (about
+6 KB together; section 2 says why each stays in assembly).
+
+### Readability work (branch `readability`)
+
+`main` keeps the decompilation exactly as Phase 5 left it. The `readability` branch makes the C
+easier for a person to read and edit, and is merged into `main` once it is mature. Every step
+keeps `make check` at MATCH, all 1264 functions EQUIVALENT, the self-test complete and testiso at
+788 functions.
+
+| Step | State |
+|---|---|
+| 1. Files named after their function and grouped by module (`nonmatching/<module>/<name>.c`); tools find a function by its header address (`tools/srcindex.py`); the spec generators retired, so the C files are the source | done |
+| 2. One header per module instead of prototypes repeated in each file | to do |
+| 3. Structs with named fields for the system, layout and theme blocks instead of raw offsets | to do |
+| 4. Names for the 14 `func_…` wrappers and the mechanical names (`touch_group_0B06`, `half_42e68be2_set`…) | to do |
 
 ### Batches done (Phase 5)
 
@@ -142,16 +156,16 @@ Environment: WSL distro `dpos-re`. Run every command as
 1. Sanity check: `make check` (MATCH), then `make emutest` (about 20 minutes; every line must
    say EQUIVALENT).
 2. For a new batch:
-   1. Read the assembly (`asm/func_XXXXXXXX.s`, or REA/Ghidra) and write C in a new spec file
-      `tools/platform_spec/j_<area>.py`. Follow the `q(addr, size, name, desc, body)` pattern of
-      `i_acq_control.py`, which includes only `hw/fpga.h`. `gen_platform.py` already includes
-      `hw/platform.h`, so do **not** include `hw/drivers.h` as well: its PIO prototypes conflict.
+   1. Read the assembly (`asm/func_XXXXXXXX.s`, or REA/Ghidra) and write C in
+      `nonmatching/<module>/<name>.c` (folders in docs/CONTRIBUTING.md, "Source layout"), with
+      the `* <name> -- stock 0x<address> (...)` header line. Platform files include
+      `hw/platform.h` and `hw/fpga.h`; do **not** include `hw/drivers.h` as well: its PIO
+      prototypes conflict.
    2. Add prototypes and RAM macros to `include/hw/fpga.h`, or to a new header.
-   3. Add the symbol rows **before** building: `python3 tools/gen_platform.py --csv`, then append
-      the rows whose address is not in `symbols/manual.csv` yet.
-   4. `python3 tools/gen_platform.py`, then `python3 tools/nmbuild.py` (about 10 minutes for all).
-      To rebuild one file, call `nmbuild.build(nmbuild.ROOT / "nonmatching/platform/func_X.c",
-      nmbuild.original_symbols())`. It needs an absolute path.
+   3. Add the symbol row to `symbols/manual.csv` **before** building.
+   4. `python3 tools/nmbuild.py` (about 10 minutes for all). To rebuild one file, call
+      `nmbuild.build(nmbuild.ROOT / "nonmatching/<module>/<name>.c", nmbuild.original_symbols())`.
+      It needs an absolute path.
    5. Write the tests in `tools/emu/tests/fpga.py`, or in a new suite added to
       `tools/emu/run_tests.py` and `selftest.py`. Run them with
       `python3 -m tools.emu.run_tests --only 0x...`.

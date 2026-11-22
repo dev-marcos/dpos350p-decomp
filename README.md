@@ -21,6 +21,9 @@ wsl -d dpos-re -- bash tools/run.sh make check
 - `docs/SPLIT.md`: how `asm/` and `data/` are produced and verified
 - `docs/COMPILER.md`: original toolchain identification (FatFs R0.13b; GCC ruled out; armcc pending)
 
+- `nonmatching/<module>/<name>.c`: the C version of each function, one file per function,
+  grouped by module (`drivers/`, `fpga/`, `acquisition/`, `processing/`, `ui/`, `storage/`, `usb/`…;
+  the folder list is in `docs/CONTRIBUTING.md`, "Source layout")
 - `docs/CONTRIBUTING.md`: how to decompile a function (C + emulation test)
 - `docs/LIBRARY.md`: Arm C library routines found in the image (AEABI, libm) and their status
 - `docs/DRIVERS.md`: low-level drivers (PIO, FPGA bus, GT911, MS5351M, watchdog) and the recovered pin map

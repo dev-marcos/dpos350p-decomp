@@ -15,6 +15,10 @@ import re
 from collections import defaultdict
 from datetime import date
 from pathlib import Path
+try:
+    from tools import srcindex                # noqa: E402
+except ImportError:                           # run as a script from tools/
+    import srcindex                           # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 AREAS = [(0x40019AF4, 0x4006DDEC, "main code"), (0x4008CB28, 0x4008CFB8, "startup")]
@@ -26,9 +30,8 @@ def main():
     funcs = {f["start"]: f["end"] - f["start"] for f in m["functions"]}
     res_path = ROOT / "build/emu/results.json"
     results = {int(k, 16): v for k, v in json.loads(res_path.read_text()).items()} if res_path.exists() else {}
-    src = {int(re.search(r"func_([0-9a-f]{8})", p.name).group(1), 16) for p in ROOT.glob("src/**/func_*.c")}
-    nonm = {int(re.search(r"func_([0-9a-f]{8})", p.name).group(1), 16): p
-            for p in ROOT.glob("nonmatching/**/func_*.c")}
+    src = set(srcindex.sources("src")) if (ROOT / "src").exists() else set()
+    nonm = srcindex.sources()
 
     def level(a):
         if a in src:

@@ -3,7 +3,7 @@
 
 FOR THE EMULATOR ONLY. Never write a TEST image to a device. The output name always carries TEST.
 
-For each nonmatching/**/func_XXXXXXXX.c whose tools/emu result is EQUIVALENT:
+For each nonmatching/**/*.c whose tools/emu result is EQUIVALENT:
   1. compile it with GCC (the nmbuild flags, -O2) and link it AT ITS ORIGINAL ADDRESS, with every
      other symbol resolved to the original address;
   2. if code + constants fit in the original function's size, write them over the stock bytes;
@@ -38,6 +38,10 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from tools import nmbuild               # noqa: E402
 from tools.dposiso import pack          # noqa: E402
+try:
+    from tools import srcindex                # noqa: E402
+except ImportError:                           # run as a script from tools/
+    import srcindex                           # noqa: E402
 
 BASE = 0x40000000
 OUT = ROOT / "build/test"
@@ -153,7 +157,7 @@ def process(src):
     """one C file -> (rec, chosen (opt, code) or None, new verify-cache keys, process-cache entry);
     runs in a worker; an unchanged function is taken from the process cache"""
     a, equiv, info, syms, vcache, pcache = _W["a"], _W["equiv"], _W["info"], _W["syms"], _W["vcache"], _W["pcache"]
-    orig = int(re.search(r"func_([0-9a-f]{8})\.c$", src.name).group(1), 16)
+    orig = srcindex.orig_of(src)
     if orig not in equiv:
         return None, None, [], None
     size, typ = info.get(orig, (0, ""))
@@ -213,7 +217,7 @@ def main():
     vcache = json.loads(VCACHE.read_text()) if VCACHE.exists() else {}
     pcache = json.loads(PCACHE.read_text()) if PCACHE.exists() and not a.no_cache else {}
     _W.update(a=a, equiv=equiv, info=info, syms=syms, vcache=vcache, pcache=pcache)
-    srcs = sorted(ROOT.glob("nonmatching/**/func_*.c"))
+    srcs = list(srcindex.sources().values())
     with multiprocessing.get_context("fork").Pool(max(1, a.j)) as pool:
         outs = pool.map(process, srcs, chunksize=4)
     for rec, chosen, keys, ent in outs:

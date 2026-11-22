@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build every nonmatching/**/func_XXXXXXXX.c as a standalone test image.
+"""Build every nonmatching/**/*.c (one stock function each, see tools/srcindex.py) as a standalone test image.
 
 Each C file is compiled with GCC (only for behavioural checking, see docs/COMPILER.md §6)
 and linked alone at SCRATCH (0x48000000). Every symbol it references but does not define
@@ -25,6 +25,10 @@ import subprocess
 import sys
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+try:
+    from tools import srcindex                # noqa: E402
+except ImportError:                           # run as a script from tools/
+    import srcindex                           # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 SCRATCH = 0x48000000
@@ -75,8 +79,7 @@ def link_key(okey, undef, syms):
 
 
 def build(src, syms, force=False):
-    m = re.search(r"func_([0-9a-f]{8})\.c$", src.name)
-    orig = int(m.group(1), 16)
+    orig = srcindex.orig_of(src)
     stem = OUT / f"func_{orig:08x}"
     OUT.mkdir(parents=True, exist_ok=True)
     okey = object_key(src)
@@ -120,7 +123,7 @@ def main():
     ap.add_argument("-j", type=int, default=os.cpu_count() or 1)
     a = ap.parse_args()
     syms = original_symbols()
-    srcs = sorted(ROOT.glob("nonmatching/**/func_*.c"))
+    srcs = list(srcindex.sources().values())
 
     def one(s):
         try:

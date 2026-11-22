@@ -45,11 +45,10 @@ Related note (clock code, not USB):
 
 ## Rewrite status (Phase 5, batch 7)
 
-All 179 functions of the stack are in `nonmatching/usb/` and EQUIVALENT under tools/emu: same
-return value, memory, ordered MMIO log and stub calls. They are generated from
-`tools/gen_usb.py` and `tools/usb_spec/*.py`, which keep one entry per function: address, size,
-name, EasyUSB origin, description and C body. Run `python3 tools/gen_usb.py` to regenerate the
-files, and `--csv` to print the matching `symbols/manual.csv` rows.
+All 179 functions of the stack are in `nonmatching/usb/<layer>/<name>.c` (`usbc`, `core`,
+`mass_storage`, `cdc`, `hid`, `uvc`, `phy`) and EQUIVALENT under tools/emu: same return value,
+memory, ordered MMIO log and stub calls. On `main` they are generated from `tools/gen_usb.py`
+and `tools/usb_spec/*.py`; on the `readability` branch the C files are the source.
 
 | Layer | Functions | Stock range |
 |---|---:|---|

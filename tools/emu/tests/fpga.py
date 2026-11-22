@@ -1338,12 +1338,23 @@ TESTS[0x400434F4] = t_wait
 # ---------------------------------------------------------------- batch 21: UI window layer
 WREC, WSTK, FBP = 0x42E64520, 0x42E68BC8, 0x40095498
 FB_BACK, FB_FRONT, FB_OFF = 0x41BFBF68, 0x41FB8FE8, 0x4233CBBC
-UI_WINDOWS = {}   # id -> (wrapper, draw, kind); filled from the spec table below
-for _l in open(__file__.replace("tests/fpga.py", "../platform_spec/p_ui_windows.py")).read().split("WINDOWS = {")[1].split("}")[0].split("),"):
-    if ":" in _l:
-        _id, _t = _l.split(":", 1)
-        _w, _d, _k = [x.strip(" ()\n\"'") for x in _t.split(",")[:3]]
-        UI_WINDOWS[int(_id.strip(" \n,"))] = (int(_w, 16), int(_d, 16), _k)
+# id -> (wrapper, draw function, kind): the stock window table
+UI_WINDOWS = {
+    1: (0x4003D71C, 0x40019DB8, "v"), 2: (0x4003D734, 0x4001A708, "v"), 3: (0x4003D74C, 0x4001AD50, "v"),
+    4: (0x4003D77C, 0x4001C200, "v"), 5: (0x4003D764, 0x4001C348, "v"), 6: (0x4003D794, 0x4001C3BC, "S"),
+    7: (0x4003DBD0, 0x40028740, "S"), 8: (0x4003DC08, 0x40028AB4, "S"), 9: (0x4003DC40, 0x400292E4, "S"),
+    10: (0x4003D7CC, 0x4001CE30, "S"), 11: (0x4003D81C, 0x4001D608, "S"), 12: (0x4003D86C, 0x4001E8E0, "S"),
+    13: (0x4003D8A4, 0x4001EBE4, "B"), 14: (0x4003D8DC, 0x4001F5A8, "B"), 15: (0x4003D914, 0x4001FF74, "B"),
+    16: (0x4003D950, 0x40021630, "B"), 17: (0x4003D98C, 0x40021E68, "B"), 18: (0x4003D9C8, 0x40022958, "B"),
+    19: (0x4003DA00, 0x40023D04, "v"), 20: (0x4003DA18, 0x400250DC, "S"), 21: (0x4003DA50, 0x40024E38, "S"),
+    22: (0x4003DA88, 0x40025D08, "S"), 23: (0x4003DAC0, 0x40025DB4, "v"), 24: (0x4003DAD8, 0x400265BC, "S"),
+    25: (0x4003DB10, 0x400262F8, "S"), 26: (0x4003DB48, 0x40027498, "S"), 27: (0x4003DB80, 0x400271B0, "S"),
+    28: (0x4003DBB8, 0x40028084, "v"), 29: (0x4003DC78, 0x4002903C, "S"), 30: (0x4003DCB0, 0x4002967C, "S"),
+    31: (0x4003DCEC, 0x40029920, "S"), 32: (0x4003DD24, 0x40029BC0, "S"), 33: (0x4003DD5C, 0x4005FF88, "X"),
+    34: (0x4003DDB0, 0x4002A184, "v"), 35: (0x4003DDC8, 0x4002A7F4, "v"), 36: (0x4003DDE0, 0x40037AB8, "v"),
+    37: (0x4003DDF8, 0x40029EC0, "S"), 38: (0x4003DE34, 0x4002AE60, "v"), 39: (0x4003DE4C, 0x4002B43C, "v"),
+    40: (0x4003DE64, 0x40062EE8, "v"), 41: (0x4003DE7C, 0x4002BC40, "S"), 42: (0x4003DEB4, 0x4002C32C, "S"),
+}
 
 
 def stack_setup(r, p_zero=0.3, ids=46):

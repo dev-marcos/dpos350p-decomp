@@ -14,9 +14,10 @@ Without a licensed Arm Compiler 5 (see `docs/COMPILER.md`), rewritten C is verif
 2. **Understand it.** Use REA/Ghidra pseudocode (MCP `rea-agents`, or
    `rea … --provider ghidra`), plus `python3 tools/armdis.py ADDR LEN [--thumb]` and the
    original `asm/func_XXXXXXXX.s`.
-3. **Write C** in `nonmatching/<module>/func_XXXXXXXX.c`. Header requirements:
-   - the first comment line must be `* <name> -- stock 0xXXXXXXXX (...)`, because
-     `tools/nmbuild.py` reads the function name from it;
+3. **Write C** in `nonmatching/<module>/<name>.c` (see "Source layout" below). Header requirements:
+   - the first comment line must be `* <name> -- stock 0xXXXXXXXX (...)`. The tools take the
+     function name and the stock address from this line, not from the file name
+     (`tools/srcindex.py`), so a file can be renamed or moved freely;
    - put real types and structs in `include/`, with `_Static_assert` on every field offset
      you rely on (see `include/fatfs/ff_stock.h`);
    - every external function and global is resolved to its **original** address at link
@@ -48,6 +49,40 @@ Without a licensed Arm Compiler 5 (see `docs/COMPILER.md`), rewritten C is verif
 When an Arm Compiler 5 licence is available, the same C files are compiled with the original
 flags and compared with `tools/cmpfunc.py`. A byte-identical function moves to `src/` and
 replaces its `asm/func_XXXXXXXX.s`.
+
+## Source layout
+
+The C files are the source: edit them directly. (On `main`, most of them were generated from
+the Python specs in `tools/platform_spec/` and `tools/usb_spec/` by `gen_platform.py`, `gen_usb.py` and
+`fatfs_gen.py`; the `readability` branch retired those generators.) Each file holds one stock
+function, plus its `static` helpers, and is named after the function.
+
+| Folder | Contents |
+|---|---|
+| `drivers/<peripheral>/` | SoC and board drivers: `gic`, `uart`, `spi`, `csi`, `sdmmc`, `display`, `lradc`, `ccu`, `timer`, `avs`, `pio`, `wdt`, `mmio`, and the external chips `gt911` (touch), `ms5351` (clock generator), `fpga_bus` |
+| `fpga/` | FPGA command protocol, SMEC jobs, ADC lane calibration |
+| `frontend/` | analogue front end: V/div, offsets, coupling, auto set |
+| `acquisition/` | time base, trigger, capture and bank unpacking |
+| `processing/` | trace processing, filters, resampling, FFT, measurements, zoom and cursors |
+| `generator/` | signal generator |
+| `bode/` | frequency response (Bode) sweep |
+| `power/` | battery, charger, auto power-off |
+| `storage/settings/` | settings, calibration and the field serializer |
+| `storage/files/` | screenshot, waveform and record files and their lists |
+| `storage/diskio/` | FatFs disk glue |
+| `ui/draw/` | drawing primitives, fonts, text, colours, frame buffers |
+| `ui/windows/` | window stack, redraw and frame update |
+| `ui/screens/` | menus, panels, dialogs, browsers and the status bar |
+| `ui/input/` | touch buttons, button handlers, numeric pad |
+| `ui/text/` | UI text tables and language selection |
+| `selftest/` | factory and self tests |
+| `system/` | `main`, defaults, state backup and restore |
+| `util/` | string and memory helpers |
+| `usb/` | USB controller (`usbc`), core, mass storage, CDC, HID, UVC, PHY |
+| `fatfs/`, `libc/`, `libm/` | FatFs R0.13b and the compiler run-time and maths library |
+
+The folder of a function is an interpretation (DERIVED), like its name. Move a file when a
+better place is found; nothing else has to change.
 
 ## TEST image for the emulator
 
@@ -101,15 +136,11 @@ function compiled in place (`tools/testiso.py`). **Emulator only, never write it
   - The opposite also matters: do not record the address of a buffer on the caller's stack (a
     `FIL`, for example). It depends on the frame layout, so an `-Os` build that is correct fails
     against it. `quiet` in `tests/sweep.py` gives a stub the registers without recording them.
-  - `p_ui_windows.py` now takes the draw-function names from `symbols/manual.csv`, so renaming a
-    window's draw function needs no edit there.
-  - A spec that calls a function renamed in a later batch must use the new name. `ren_generic`
-    does not change names built by a template such as `func_%(fail)08x`; fix those by hand.
+  - C that calls a function renamed later must use the new name. Search the C files for the
+    old name after every rename.
   - In a `compose(...)` setup, later writes win. A random block written after `t17(r)` that
     covers touch byte +0x17 undoes the gate choice, and the function then almost always returns
     early. Put `t17(r)` last.
-  - Spec files run in `gen_platform.py`'s own namespace. Do not define module-level names that
-    it uses (`HDR`, `SPEC`, `OUT`, `f`).
   - `--no-cache` runs everything.
 - `tools/testiso.py` processes the C files in parallel and keeps two caches:
   - `build/test/process_cache.json` holds the outcome per function: the chosen build bytes, or
@@ -135,11 +166,11 @@ Compilation gains less than the CPU count because file access on `/mnt/f` is the
 | Tool | Purpose |
 |---|---|
 | `tools/armdis.py` | quick Capstone disassembly of the image |
-| `tools/nmbuild.py` | builds each `nonmatching/**/func_*.c` alone at `0x48000000` (GCC) |
+| `tools/srcindex.py` | maps each stock address to its C file, from the file's header line |
+| `tools/nmbuild.py` | builds each `nonmatching/**/*.c` alone at `0x48000000` (GCC) |
 | `tools/emu/` | Unicorn harness (`emu.py`), runner (`run_tests.py`), mutation self-test (`selftest.py`), per-module tests (`tests/`) |
 | `tools/cmpfunc.py` | byte and instruction similarity of an object against the image |
 | `tools/progress.py` | writes `docs/PROGRESS.md` |
-| `tools/fatfs_gen.py` | regenerates `include/fatfs/*` and `nonmatching/fatfs/*` from the pristine FatFs R0.13b sources |
 | `tools/whydiff.py` | first divergence when `make check` fails |
 
 Evidence levels (HW-CONFIRMED / STATIC-CONFIRMED / DERIVED / OPEN) apply to every name and

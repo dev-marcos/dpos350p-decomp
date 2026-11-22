@@ -1,7 +1,8 @@
 # Platform drivers (build 2025-06-19)
 
-The C rewrites live in `nonmatching/platform/`. They are generated from
-`tools/gen_platform.py` and `tools/platform_spec/*.py`, with one spec entry per function. Every
+The C rewrites live in `nonmatching/<module>/<name>.c` (folders in docs/CONTRIBUTING.md,
+"Source layout"). On `main` they are generated from `tools/gen_platform.py` and
+`tools/platform_spec/*.py`; on the `readability` branch the C files are the source. Every
 function is EQUIVALENT under tools/emu: same return value, final memory, ordered MMIO log and stub
 calls. The test suite is `tools/emu/tests/platform.py`. Names are DERIVED. Addresses and register
 values are STATIC-CONFIRMED.

@@ -1,6 +1,9 @@
 # Low-level drivers (build 2025-06-19)
 
-C rewrites live in `nonmatching/drivers/`. Shared definitions are in `include/hw/` (V3s
+C rewrites live in `nonmatching/<module>/<name>.c` (folders listed in docs/CONTRIBUTING.md,
+"Source layout"). The sections below still name the spec file that first produced each group
+(`tools/platform_spec/<x>.py` on `main`); on the `readability` branch those specs are retired
+and the C files are the source, found by function name. Shared definitions are in `include/hw/` (V3s
 addresses, the PIO port layout, prototypes). Every function listed here is EQUIVALENT under
 `tools/emu`: same return value, same final memory, and the **same ordered sequence of MMIO
 accesses** (address, width, value, read/write). Names are DERIVED unless noted.
