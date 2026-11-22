@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1262 | 93.21% | 321342 | 95.21% |
+| EQUIVALENT | 1263 | 93.28% | 326598 | 96.77% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 92 | 6.79% | 16162 | 4.79% |
+| ASM | 91 | 6.72% | 10906 | 3.23% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1262 (94.25%) | 337104 | 321342 (95.32%) |
+| main code | 1339 | 1263 (94.32%) | 337104 | 326598 (96.88%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -38,6 +38,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40019CF8` | slider_draw | 184 | EQUIVALENT | 200 | `nonmatching/platform/func_40019cf8.c` |
 | `0x40019DB8` | main_toolbar_draw | 2304 | EQUIVALENT | 200 | `nonmatching/platform/func_40019db8.c` |
 | `0x4001A708` | side_menu_column_draw | 1464 | EQUIVALENT | 200 | `nonmatching/platform/func_4001a708.c` |
+| `0x4001AD50` | status_bar_draw | 5256 | EQUIVALENT | 200 | `nonmatching/platform/func_4001ad50.c` |
 | `0x4001C200` | battery_icon_draw | 324 | EQUIVALENT | 200 | `nonmatching/platform/func_4001c200.c` |
 | `0x4001C348` | ui_window_05_draw | 52 | EQUIVALENT | 200 | `nonmatching/platform/func_4001c348.c` |
 | `0x4001C3BC` | system_menu_draw | 2628 | EQUIVALENT | 200 | `nonmatching/platform/func_4001c3bc.c` |

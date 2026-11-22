@@ -3221,6 +3221,31 @@ Colours come from the palette 0x409223B4 and the theme SYS+0x3DD54C. To add a wa
 has 15 slots (k < 14 use the theme colour, the 15th is grey 0x444444) and the names are text entries
 50..64.
 
+## Top status bar (batch 83)
+
+Spec: `tools/platform_spec/zzz_status_bar.py`, 1 function (5.1 KB). Tests: `tools/emu/tests/sweep.py`
+(the stub of `value_si_scale` returns random scaled values, decimals and prefixes). STATIC-CONFIRMED,
+EQUIVALENT in the emulator; not run on the device.
+
+**`status_bar_draw`** (0x4001AD50) draws window 3 (layout 0x42E64520 + 0x30): seven 130 x 44 tiles,
+134 px apart. Each tile has a 40 x 18 coloured name tag and a touch button (0x42E61FF8 + offset),
+filled with theme colour 2 (SYS+0x3DD54C) while pressed. All texts are drawn in font 0x42E658D8.
+
+| Tile | Tag colour | Line 1 | Line 2 | Button |
+|---|---|---|---|---|
+| CH1 | yellow, grey when off (SYS+0x3E) | BW limit SYS64(0x68) x 1000 (Hz/K/M) | V/div string SYS+0x70, DC/AC (SYS+0x3F), 1X/10X/100X (SYS+0x40) | +0xAC |
+| CH2 | cyan, grey when off (SYS+0x102) | BW limit SYS64(0x128) | SYS+0x130, SYS+0x103, SYS+0x104 | +0xB6 |
+| HOR | 0x3388FF | | time base SYS64(0x590) (`M = ` prefix); with zoom (SYS+0x2AA) also SYS64(0x5A0) on the right | +0xC0 |
+| ACQ | 0xFF8833 | Run, or Stop in red (SYS+0x3C) | sample rate SYS64(0x538) x SYS8(0x1B0) x 100 / 95 S/s, and SYS8(0x660) + 8 bit | +0xCA |
+| TRI | 0xAA44FF | source CH1 / CH2 (SYS+0x27C) | Auto / Single / Normal (SYS+0x27A), edge icon (SYS+0x27B: 0 rising), HF1..HF3 (SYS+0x284) | +0xD4 |
+| GEN | 0xFF3388 | waveform name (0x40094EF0 + 30 x G+0x2EFA) | amplitude G32(0x2F00), frequency G32(0x2EFC) | +0xDE |
+| MOV | 0x33FF88 | | text entry 65, or 66 when SYS+0x671 is set | +0xE8 |
+
+The bandwidth and the generator frequency drop one decimal after scaling. The units come from the
+function's own literal pool, so they are C literals here. When the prefix index is out of range, the
+stock leaves the previous text in its 20-byte stack buffer. The C keeps that behaviour with one buffer
+shared by all tiles.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

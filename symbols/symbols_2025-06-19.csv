@@ -15,7 +15,7 @@ address,size,name,type,evidence_level,source
 0x4001A6B8,80,pool_4001a6b8,literal_pool,DERIVED,analyze.py
 0x4001A708,1464,side_menu_column_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4001ACC0,144,pool_4001acc0,literal_pool,DERIVED,analyze.py
-0x4001AD50,5256,func_4001ad50,function_arm,DERIVED,analyze.py:prologue
+0x4001AD50,5256,status_bar_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4001C1D8,16,code_4001c1d8,data,OPEN,analyze.py
 0x4001C1E8,4,pool_4001c1e8,literal_pool,DERIVED,analyze.py
 0x4001C1EC,8,code_4001c1ec,data,OPEN,analyze.py

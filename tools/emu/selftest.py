@@ -1425,6 +1425,26 @@ MUTANTS = [
     (0x40022958, '                volatile unsigned char *b = TREC(k < 14 ? 0x688 + 10 * k : 0x714);', '                volatile unsigned char *b = TREC(k < 13 ? 0x688 + 10 * k : 0x714);'),
     (0x40022958, '                u32 e = U16(k + 0x32);', '                u32 e = U16(k + 0x33);'),
     (0x40022958, '        if (cur >= 2)\n            cx += 20;', '        if (cur >= 3)\n            cx += 20;'),
+    # batch 83: top status bar
+    (0x4001AD50, '    sb_channel(c, x, y, 0x102, 0x128, 0x00FFFF, "CH2", 0xB6);', '    sb_channel(c, x, y, 0x102, 0x120, 0x00FFFF, "CH2", 0xB6);'),
+    (0x4001AD50, '        r8 = x + 0x79 - (sb_numw(c) + tw);', '        r8 = x + 0x7A - (sb_numw(c) + tw);'),
+    (0x4001AD50, '    if (c->dec) {', '    if (c->dec > 1) {'),
+    (0x4001AD50, '    str_copy(c->buf, S8(base + 1) == 0 ? "DC" : "AC");', '    str_copy(c->buf, S8(base + 1) != 1 ? "DC" : "AC");'),
+    (0x4001AD50, '    else if (S8(base + 2) == 2)\n        str_copy(c->buf, "100X");', '    else\n        str_copy(c->buf, "100X");'),
+    (0x4001AD50, '        nx = text_width("M = ") + sl + 9;', '        nx = text_width("M = ") + sl + 8;'),
+    (0x4001AD50, '    if (S8(0x2AA)) {\n        value_si_scale(8, 0, (long long)S64(0x5A0)', '    if (!S8(0x2AA)) {\n        value_si_scale(8, 0, (long long)S64(0x5A0)'),
+    (0x4001AD50, 'S64(0x538) * S8(0x1B0) * 100u / 0x5Fu', 'S64(0x538) * S8(0x1B0) * 100u / 0x60u'),
+    (0x4001AD50, '    w = func_4002d2d4_d0(S8(0x660) + 8, 0, 0);', '    w = func_4002d2d4_d0(S8(0x660) + 7, 0, 0);'),
+    (0x4001AD50, '        func_4002ecc4_span(U16(y + 0x1E), U16(x + 0x48), U16(x + 0x4A));', '        func_4002ecc4_span(U16(y + 0x1E), U16(x + 0x47), U16(x + 0x4A));'),
+    (0x4001AD50, '    if (S8(0x27B) == 0) {', '    if (S8(0x27B) != 1) {'),
+    (0x4001AD50, '    else if (S8(0x284) == 3)\n        s = "HF3";', '    else if (S8(0x284) >= 3)\n        s = "HF3";'),
+    (0x4001AD50, '    w = text_width((const char *)(0x40094EF0u + GN8(0x2EFA) * 30u));', '    w = text_width((const char *)(0x40094EF0u + GN8(0x2EFA) * 32u));'),
+    (0x4001AD50, '    case 0:\n    case 1: str_copy(c->buf, "Hz"); break;', '    case 1: str_copy(c->buf, "Hz"); break;'),
+    (0x4001AD50, '    value_si_scale(6, 0, (long long)GN32(0x2F00) * 1000,', '    value_si_scale(6, 0, (long long)(u32)GN32(0x2F00) * 1000,'),
+    (0x4001AD50, '        sb_text(x + TDX(66) + 7, y + TDY(66) + 0x19, TXP(66));', '        sb_text(x + TDX(65) + 7, y + TDY(66) + 0x19, TXP(66));'),
+    (0x4001AD50, '    if (TREC(rec)[1] == 1) {', '    if (TREC(rec)[1]) {'),
+    (0x4001AD50, '    sb_num(c, x + 0x43, y1);', '    sb_num(c, x + 0x42, y1);'),
+    (0x4001AD50, '    draw_colour_set(S8(base) ? on_colour : 0x888888);', '    draw_colour_set(S8(base) ? 0x888888 : on_colour);'),
 ]
 
 

@@ -6239,3 +6239,96 @@ def t_genscreen82(r):
 
 
 TESTS[0x40022958] = t_genscreen82
+
+
+# ================================================================ batch 83: top status bar
+def t_statusbar83(r):
+    g = random.Random(r.getrandbits(32))
+    x, y = g.choice([0, 0, 2, g.randrange(0, 1100)]), g.choice([0, 0, 1, g.randrange(0, 600), 0xFFFE])
+    flags = {o: g.choice([0, 0, 1, 1, 2, 3, 4, g.getrandbits(8)]) for o in
+             (0x3C, 0x3E, 0x3F, 0x40, 0x102, 0x103, 0x104, 0x2AA, 0x27A, 0x27B, 0x27C, 0x284, 0x671, 0x660, 0x1B0)}
+    q64 = {o: g.choice([0, 1, 5, 1000, 20000000, 0xFFFFFFFF, g.getrandbits(64)]) for o in (0x68, 0x128, 0x590, 0x5A0, 0x538)}
+    vdiv = [bytes(g.randrange(0x20, 0x7F) for _ in range(g.randrange(0, 7))) for _ in range(2)]
+    wave = g.choice(list(range(15)) + [g.getrandbits(8)])
+    gp = [g.choice([0, 1, -1, 999, 1000, 1234567, -5000, g.getrandbits(32) - (1 << 31)]) for _ in range(2)]
+    theme = [g.getrandbits(32) for _ in range(4)]
+    recs = bytes(g.choice([0, 1, 1, 2]) for _ in range(0x100))
+    txt = {k: (g.getrandbits(32), g.randrange(-128, 128), g.randrange(-128, 128)) for k in (65, 66)}
+    tseed = g.getrandbits(32)
+
+    def textw(m, a):
+        p0 = m.reg(A.UC_ARM_REG_R0)
+        try:
+            raw = m.read(p0, 12)
+        except Exception:
+            raw = b""
+        m.calls.append(("width/s", raw[:raw.index(0)] if 0 in raw else p0))
+        m.ntext += 1
+        return random.Random(tseed + m.ntext).choice([0, 1, 20, 0x30, 0x79, 0xFFFF, 300])
+
+    def numw(m, a):
+        m.ntext += 1
+        return random.Random(tseed + 3 * m.ntext).choice([0, 2, 30, 0x7B, 0x10000])
+
+    def sisc(m, a):
+        k, _, lo, hi = regs(m, 4)
+        sp = m.reg(A.UC_ARM_REG_SP)
+        po, pd, pp = m.r32(sp), m.r32(sp + 4), m.r32(sp + 8)
+        m.nsisc += 1
+        rr = random.Random(tseed + 11 * m.nsisc)
+        pre = 1 if m.nsisc == 1 else rr.choice([0, 1, 2, 3, 4, 5, 0xFFFFFFFF])
+        m.calls.append(("sisc", k, lo, hi))
+        m.write(po, rr.getrandbits(64).to_bytes(8, "little"))
+        m.w32(pd, rr.choice([0, 0, 1, 2, 3, 0xFFFFFFFF]))
+        m.w32(pp, pre)
+
+    def strarg(n):
+        def fn(m, a):
+            p2 = m.reg(A.UC_ARM_REG_R2)
+            try:
+                raw = m.read(p2, 12)
+            except Exception:
+                raw = b""
+            m.calls.append((n, m.reg(A.UC_ARM_REG_R0), m.reg(A.UC_ARM_REG_R1), raw[:raw.index(0)] if 0 in raw else p2))
+        return fn
+
+    def setup(m):
+        m.ntext = 0
+        m.nsisc = 0
+        m.max_insns = 3_000_000
+        m.write(0x42E64520 + 0x30, x.to_bytes(2, "little") + y.to_bytes(2, "little"))
+        for o, v in flags.items():
+            m.w8(SYS + o, v)
+        for o, v in q64.items():
+            m.write(SYS + o, v.to_bytes(8, "little"))
+        m.write(SYS + 0x70, vdiv[0] + b"\0")
+        m.write(SYS + 0x130, vdiv[1] + b"\0")
+        G = 0x42E3F984
+        m.w8(G + 0x2EFA, wave)
+        m.w32(G + 0x2EFC, gp[0] & 0xFFFFFFFF)
+        m.w32(G + 0x2F00, gp[1] & 0xFFFFFFFF)
+        for i, v in enumerate(theme):
+            m.w32(SYS + 0x3DD544 + 4 * i, v)
+        m.write(0x42E61FF8, recs)
+        for k, (pt, dx, dy) in txt.items():
+            e = 0x42C2FE74 + k * 0x1A0
+            m.w32(e, pt)
+            m.w8(e + 0x194, dx & 0xFF)
+            m.w8(e + 0x195, dy & 0xFF)
+
+    def stk(name, n):
+        return lambda m, a: m.calls.append((name,) + tuple(regs(m, 4)) + tuple(m.r32(m.reg(A.UC_ARM_REG_SP) + 4 * i) & 0xFF for i in range(n)))
+
+    def shadow(m, a):
+        strarg("shadow")(m, a)
+        m.calls.append(("shadow/x", m.reg(A.UC_ARM_REG_R3), m.r32(m.reg(A.UC_ARM_REG_SP)) & 0xFF, m.r32(m.reg(A.UC_ARM_REG_SP) + 4) & 0xFF))
+
+    st = [rec("colour", 0x4002EA38, 1), rec("fill", 0x4002ECC4, 4), rec("vline", 0x4002EBC8, 3),
+          rec("span", 0x4002EBA8, 3), rec("spacing", 0x4002DC40, 1), rec("font", 0x4002CCCC, 1),
+          Stub("text", 0x4002CE7C, strarg("text"), 2), rec("width", 0x4002D164, 0, textw),
+          Stub("shadow", 0x4002D0D4, shadow, 2), Stub("num", 0x4002D724, stk("num", 4), 4),
+          rec("numw", 0x4002D71C, 3, numw), Stub("sisc", 0x400301E0, sisc, 0), rec_stk("touch", 0x4002F160, 1)]
+    return Case([], setup, ret=V, stubs=tuple(st))
+
+
+TESTS[0x4001AD50] = t_statusbar83
