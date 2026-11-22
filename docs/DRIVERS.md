@@ -3170,6 +3170,37 @@ Harness: the main loop never returns. Its test stub of `ui_frame_update` calls t
 `Machine.stop_run()` after 1..4 passes, and both runs end "stopped by a stub" with calls and memory
 compared. The `for (;;)` of the factory reset ends in the branch-to-self halt added in batch 79.
 
+## File browsers (batch 81)
+
+Spec: `tools/platform_spec/zzz_browsers.py`, 3 functions (9.0 KB). Tests: `tools/emu/tests/sweep.py`
+(every draw call stubbed; text stubs record the string content). STATIC-CONFIRMED, EQUIVALENT in the
+emulator; not run on the device. Function names are DERIVED from what they draw.
+
+| Function | Window | Layout | Grid buttons | Title image / entry | Bottom buttons |
+|---|---:|---|---|---|---|
+| `screenshot_browser_draw` (0x400250DC) | 20 | +0x11E | +0x728 + 10 k | 0x4008A038 / 110 | +0x7BE + 10 i |
+| `waveform_browser_draw` (0x400265BC) | 24 | +0x156 | +0x840 + 10 k | 0x4008A1A8 / 111 | +0x8D6 + 10 i |
+| `record_browser_draw` (0x40027498) | 26 | +0x172 | +0x91C + 10 k | 0x4008A318 / 112 | +0x9B2 + 10 i |
+
+Layout offsets are into the window table 0x42E64520; buttons are touch records 0x42E61FF8 + offset.
+The browser state is at SYS+0xF90: selection mode (+0), items per page u16 (+0xA), page s16 (+0xE),
+two counts (+0x10, +0x12), the file numbers u16 from +0x16 (SYS+0xFA6) and the selection flags from
+SYS+0x5DC6.
+
+The screen is a light grey (0xDDDDDD) body with a 5 x 3 grid of 203 x 138 cells, 204 / 165 px apart
+from (x, 45). A zero file number ends the grid. For a screenshot or waveform cell the code builds the
+path (`screenshot_path_make` / `waveform_path_make`, name at SYS+0x88C1) and copies thumbnail k
+(SYS+0x12ED60 + 0x256D8 k, THUMB_W x THUMB_H from SYS+0x109684 / +0x109686) straight into the frame
+buffer at *0x40095498. Under each cell it draws a 9-line grey gradient and the centred name. In
+selection mode it adds a dark veil and a check box. A record cell has no image: it draws a line plot
+of the preview points u16 SYS+0x10968E[], unless the point count is 3..6, and a SET tag on the
+record that is currently loaded (u16 SYS+0x3DA52E). All three share one title bar (0x202020, 30 px:
+image, title, "count / count", "page n") and one bottom bar of six 170 x 60 buttons at
+y = 540 - window y, labelled by text entries 67 and 113..117.
+
+Quirk kept: the stock passes an unset stack byte as the last argument of `draw_text_shadowed` for
+the title image. The C passes 0, and the test does not record that argument.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

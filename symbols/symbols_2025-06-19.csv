@@ -78,7 +78,7 @@ address,size,name,type,evidence_level,source
 0x40024E38,656,ui_delete_confirm_12c,function_arm,DERIVED,this-project:phase5 (ui)
 0x400250C8,8,code_400250c8,data,OPEN,analyze.py
 0x400250D0,12,pool_400250d0,literal_pool,DERIVED,analyze.py
-0x400250DC,3104,func_400250dc,function_arm,DERIVED,analyze.py:rea
+0x400250DC,3104,screenshot_browser_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x40025CFC,12,pool_40025cfc,literal_pool,DERIVED,analyze.py
 0x40025D08,128,image_42468a58_show,function_arm,DERIVED,this-project:phase5 (ui)
 0x40025D88,44,pool_40025d88,literal_pool,DERIVED,analyze.py
@@ -87,13 +87,13 @@ address,size,name,type,evidence_level,source
 0x400262F8,664,ui_delete_confirm_164,function_arm,DERIVED,this-project:phase5 (ui)
 0x40026590,4,code_40026590,data,OPEN,analyze.py
 0x40026594,40,pool_40026594,literal_pool,DERIVED,analyze.py
-0x400265BC,3052,func_400265bc,function_arm,DERIVED,analyze.py:rea
+0x400265BC,3052,waveform_browser_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x400271A8,8,pool_400271a8,literal_pool,DERIVED,analyze.py
 0x400271B0,664,ui_delete_confirm_180,function_arm,DERIVED,this-project:phase5 (ui)
 0x40027448,36,pool_40027448,literal_pool,DERIVED,analyze.py
 0x4002746C,4,code_4002746c,data,OPEN,analyze.py
 0x40027470,40,pool_40027470,literal_pool,DERIVED,analyze.py
-0x40027498,3044,func_40027498,function_arm,DERIVED,analyze.py:rea
+0x40027498,3044,record_browser_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002807C,8,pool_4002807c,literal_pool,DERIVED,analyze.py
 0x40028084,664,ui_colour_buttons_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002831C,52,pool_4002831c,literal_pool,DERIVED,analyze.py

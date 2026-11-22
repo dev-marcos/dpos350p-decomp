@@ -1390,6 +1390,26 @@ MUTANTS = [
     (0x400447C8, '    for (k = 5; k >= 1; k--) {', '    for (k = 5; k >= 2; k--) {'),
     (0x400447C8, '        settings_f_save();\n        settings_slot_save();', '        settings_slot_save();\n        settings_f_save();'),
     (0x400447C8, '    settings_b_save();\n    wdt_system_reset();', '    wdt_system_reset();'),
+    # batch 81: file browsers
+    (0x400250DC, '    tb_draw(0x11E, screenshot_path_make, 0x728, 0x4008A038u, 110, 0x7BE);', '    tb_draw(0x11E, screenshot_path_make, 0x728, 0x4008A038u, 111, 0x7BE);'),
+    (0x400250DC, '            dst = 2 * (row * 0x292B6u + x + 0xCC * col);', '            dst = 2 * (row * 0x292B6u + x + 0xCB * col);'),
+    (0x400250DC, '                draw_colour_set(0x111111 * i);', '                draw_colour_set(0x111111 * (i + 1));'),
+    (0x400250DC, '            if (!item[col])\n                goto bars;', '            if (!item[col])\n                continue;'),
+    (0x400250DC, '    tb_number(xa, y + 7, BRS16(0xE) + 1);', '    tb_number(xa, y + 7, BRS16(0xE));'),
+    (0x400250DC, '        u32 kk = i ? 112 + i : 67;', '        u32 kk = i ? 113 + i : 67;'),
+    (0x400250DC, '                if (sel[col]) {', '                if (!sel[col]) {'),
+    (0x400265BC, '    tb_draw(0x156, waveform_path_make, 0x840, 0x4008A1A8u, 111, 0x8D6);', '    tb_draw(0x156, waveform_path_make, 0x840, 0x4008A1A8u, 111, 0x8CC);'),
+    (0x400265BC, '            if (i == 0)\n                rect_fill(U16(cx), U16(cy), 0xAA, 0x3C);', '            if (i == 1)\n                rect_fill(U16(cx), U16(cy), 0xAA, 0x3C);'),
+    (0x400265BC, '    tb_number(xb, y + 7, BRS16(0x12));', '    tb_number(xb, y + 7, BRS16(0x10));'),
+    (0x400265BC, '    cy = 0x21C - y;', '    cy = 0x21B - y;'),
+    (0x400265BC, '            for (i = 0; i < THUMB_H; i++, dst += 0x7FC)', '            for (i = 0; i < THUMB_H; i++, dst += 0x800)'),
+    (0x40027498, '            if ((u32)(THUMB_W - 3) >= 4)', '            if ((u32)(THUMB_W - 3) >= 5)'),
+    (0x40027498, '                        vline_draw(U16(cx + j + 5), U16(b + cy), U16(a + cy));', '                        vline_draw(U16(cx + j + 5), U16(a + cy), U16(a + cy));'),
+    (0x40027498, '                        vline_draw(U16(cx + j + 5), U16(a + cy), U16(b + cy));', '                        vline_draw(U16(cx + j + 4), U16(a + cy), U16(b + cy));'),
+    (0x40027498, '            if (n == CUR_REC) {', '            if (n != CUR_REC) {'),
+    (0x40027498, '            draw_colour_set(BR8(0) ? 0x555555 : 0);', '            draw_colour_set(BR8(0) ? 0 : 0x555555);'),
+    (0x40027498, '                text_draw(U16(cx + 4), U16(cy + 3), "SET");', '                text_draw(U16(cx + 4), U16(cy + 3), "SEL");'),
+    (0x40027498, '            touch_button_set_rect(U16(cx), U16(cy), 0xCB, 0x8A, TREC(10 * U16(k) + 0x91C));', '            touch_button_set_rect(U16(cx), U16(cy), 0xCB, 0x8A, TREC(10 * U16(k) + 0x926));'),
 ]
 
 

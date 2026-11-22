@@ -6075,3 +6075,91 @@ def t_freset80(r):
 
 TESTS[0x40034700] = t_main80
 TESTS[0x400447C8] = t_freset80
+
+
+# ================================================================ batch 81: thumbnail browsers
+def t_browser81(lay, recb=False):
+    def t(r):
+        g = random.Random(r.getrandbits(32))
+        x, y = g.choice([0, 0, 1, 5, g.randrange(0, 400)]), g.choice([0, 0, 2, g.randrange(0, 600)])
+        w, h = g.choice([1024, 1000, g.randrange(1, 1100)]), g.choice([600, g.randrange(1, 700)])
+        per = g.choice([15, 15, 0, 1, g.randrange(0, 40)])
+        page = g.choice([0, 0, 1, 2, -1, g.randrange(-3, 5)])
+        sel_mode = g.choice([0, 1, 1, 0x80])
+        nfill = g.choice([0, 1, 4, 5, 7, 14, 15, 40, 200])
+        items = [g.randrange(1, 0x10000) if i < nfill and g.random() < 0.85 else 0 for i in range(200)]
+        flags = bytes(g.getrandbits(1) for _ in range(256))
+        tw, th = g.choice([0, 1, 2, 3]), g.choice([0, 1, 2])
+        if recb:
+            tw = g.choice([3, 4, 5, 6, 7, 8, 12, 30])
+        pts = [g.choice([0, 1, 50, 137, 0xFFFF, g.getrandbits(16)]) for _ in range(40)]
+        cur = g.choice(items[:20] + [0, 1])
+        cnt = [g.choice([0, 1, 9, 99, 0xFFFF, g.getrandbits(16)]) for _ in range(2)]
+        tseed = g.getrandbits(32)
+        txt = {k: (g.getrandbits(32), g.randrange(-128, 128), g.randrange(-128, 128)) for k in (67, 110, 111, 112, 113, 114, 115, 116, 117, 119, 120, 121, 122, 123)}
+        recs = bytes(g.getrandbits(1) for _ in range(0x200))
+        theme = [g.getrandbits(32) for _ in range(8)]
+        fb = g.getrandbits(32) & ~1
+
+        def textw(m, a):
+            m.ntext += 1
+            v = random.Random(tseed + m.ntext).choice([0, 1, 30, 0xA9, 0xAA, 0xCB, 0xCC, 300])
+            return v
+
+        def bump(m, a):
+            m.ntext += 1
+            m.write(0x42E68BE4, random.Random(tseed + 7 * m.ntext).getrandbits(16).to_bytes(2, "little"))
+
+        def textrec(m, a):
+            pp = m.reg(A.UC_ARM_REG_R2)
+            try:
+                raw = m.read(pp, 8)
+            except Exception:
+                raw = b""
+            m.calls.append(("text/s", raw[:raw.index(0)] if 0 in raw else pp))
+            bump(m, a)
+
+        def setup(m):
+            m.ntext = 0
+            for i, v in enumerate((x, y, w, h)):
+                m.write(0x42E64520 + lay + 2 * i, v.to_bytes(2, "little"))
+            B = SYS + 0xF90
+            m.w8(B, sel_mode)
+            m.write(B + 0xA, per.to_bytes(2, "little"))
+            m.write(B + 0xE, (page & 0xFFFF).to_bytes(2, "little"))
+            m.write(B + 0x10, cnt[0].to_bytes(2, "little") + cnt[1].to_bytes(2, "little"))
+            base = max(0, page * per) if page * per >= 0 else 0
+            for i, v in enumerate(items):
+                o = 0xFA6 + 2 * (page * per + i)
+                if 0 <= o < 0x5000:
+                    m.write(SYS + o, v.to_bytes(2, "little"))
+            m.write(SYS + 0x5DC6 + max(0, page * per) - 0, flags[:64])
+            m.write(SYS + 0x109684, tw.to_bytes(2, "little") + th.to_bytes(2, "little"))
+            m.w32(0x40095498, fb)
+            for i, v in enumerate(pts):
+                m.write(SYS + 0x10968E + 2 * i, v.to_bytes(2, 'little'))
+            m.write(SYS + 0x3DA52E, cur.to_bytes(2, 'little'))
+            for k, (pt, dx, dy) in txt.items():
+                e = 0x42C2FE74 + k * 0x1A0
+                m.w32(e, pt)
+                m.w8(e + 0x194, dx & 0xFF)
+                m.w8(e + 0x195, dy & 0xFF)
+            m.write(0x42E68BE4, b"\x10\x00")
+            m.write(0x42E61FF8 + 0x700, recs)
+            for i, v in enumerate(theme):
+                m.w32(SYS + 0x3DD54C + 4 * i, v)
+        st = [rec("colour", 0x4002EA38, 1), rec("fill", 0x4002ECC4, 4), rec("outline", 0x4002EC4C, 4),
+              rec("vline", 0x4002EBC8, 3), rec("span", 0x4002EBA8, 3), rec("spacing", 0x4002DC40, 1),
+              rec("font", 0x4002CCCC, 1), Stub("text", 0x4002CE7C, textrec, 2), rec("width", 0x4002D164, 1, textw),
+              Stub("shadow", 0x4002D0D4, lambda m, a: (m.calls.append(("shadow/stk", m.r32(m.reg(A.UC_ARM_REG_SP)) & 0xFF, m.r32(m.reg(A.UC_ARM_REG_SP) + 4) & 0xFF)), bump(m, a)) and None, 4),
+              Stub("num", 0x4002D724, lambda m, a: (m.calls.append(("num/stk",) + tuple(m.r32(m.reg(A.UC_ARM_REG_SP) + 4 * i) & 0xFF for i in range(4))), bump(m, a)) and None, 4),
+              rec_stk("img", 0x4002F0E8, 2), rec_stk("touch", 0x4002F160, 1),
+              rec("copy", 0x40035728, 3), rec("path_s", 0x40034B78, 1), rec("path_w", 0x40035BC4, 1),
+              rec("num88c0", 0x40037160, 1), rec("preview", 0x4003754C, 1)]
+        return Case([], setup, ret=V, stubs=tuple(st))
+    return t
+
+
+TESTS[0x400250DC] = t_browser81(0x11E)
+TESTS[0x400265BC] = t_browser81(0x156)
+TESTS[0x40027498] = t_browser81(0x172, True)

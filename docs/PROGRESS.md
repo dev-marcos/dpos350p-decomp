@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1258 | 92.91% | 307142 | 91.00% |
+| EQUIVALENT | 1261 | 93.13% | 316342 | 93.73% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 96 | 7.09% | 30362 | 9.00% |
+| ASM | 93 | 6.87% | 21162 | 6.27% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1258 (93.95%) | 337104 | 307142 (91.11%) |
+| main code | 1339 | 1261 (94.17%) | 337104 | 316342 (93.84%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -56,10 +56,13 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40024C60` | trace_markers_draw | 436 | EQUIVALENT | 200 | `nonmatching/platform/func_40024c60.c` |
 | `0x40024E14` | func_40023ea4_or_40024c60 | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_40024e14.c` |
 | `0x40024E38` | ui_delete_confirm_12c | 656 | EQUIVALENT | 200 | `nonmatching/platform/func_40024e38.c` |
+| `0x400250DC` | screenshot_browser_draw | 3104 | EQUIVALENT | 200 | `nonmatching/platform/func_400250dc.c` |
 | `0x40025D08` | image_42468a58_show | 128 | EQUIVALENT | 200 | `nonmatching/platform/func_40025d08.c` |
 | `0x40025DB4` | screenshot_view_frame_draw | 1324 | EQUIVALENT | 200 | `nonmatching/platform/func_40025db4.c` |
 | `0x400262F8` | ui_delete_confirm_164 | 664 | EQUIVALENT | 200 | `nonmatching/platform/func_400262f8.c` |
+| `0x400265BC` | waveform_browser_draw | 3052 | EQUIVALENT | 200 | `nonmatching/platform/func_400265bc.c` |
 | `0x400271B0` | ui_delete_confirm_180 | 664 | EQUIVALENT | 200 | `nonmatching/platform/func_400271b0.c` |
+| `0x40027498` | record_browser_draw | 3044 | EQUIVALENT | 200 | `nonmatching/platform/func_40027498.c` |
 | `0x40028084` | ui_colour_buttons_draw | 664 | EQUIVALENT | 200 | `nonmatching/platform/func_40028084.c` |
 | `0x40028350` | func_40028364_unless_t17 | 20 | EQUIVALENT | 200 | `nonmatching/platform/func_40028350.c` |
 | `0x40028364` | time_cursors_draw | 968 | EQUIVALENT | 200 | `nonmatching/platform/func_40028364.c` |
