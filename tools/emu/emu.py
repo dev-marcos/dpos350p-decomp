@@ -92,6 +92,12 @@ class Machine:
     def r32(self, a): return struct.unpack("<I", self.read(a, 4))[0]
     def reg(self, r): return self.uc.reg_read(r)
 
+    def stop_run(self):
+        """For a stub: end the measured call here (a function that never returns, such as the
+        main loop). The outcome is a halt like a branch-to-self: calls and memory are compared."""
+        self.stopped = True
+        self.uc.emu_stop()
+
     def _stub_hook(self, uc, addr, size, stub):
         args = [uc.reg_read(r) for r in ARGREGS[:stub.nargs]]
         self.calls.append((stub.name, tuple(args)))
@@ -151,20 +157,30 @@ class Machine:
         self.calls.clear()
         self.mmio.clear()
         err = None
+        self.stopped = False
         try:
             uc.emu_start(entry | thumb, STOP, count=self.max_insns)
         except UcError as e:
             err = str(e)
         pc = uc.reg_read(R.UC_ARM_REG_PC)
-        if err is None and pc != STOP:
-            err = f"did not return (pc=0x{pc:08x}, instruction budget exhausted)"
+        halt = False
+        if err is None and self.stopped:
+            err, halt = "stopped by a stub", True
+        elif err is None and pc != STOP:
+            w = int.from_bytes(uc.mem_read(pc & ~3, 4), "little")
+            if not pc & 1 and w & 0x0FFFFFFF == 0x0AFFFFFE:
+                # parked in a branch-to-self (`while (1);`): the two versions park at different
+                # addresses, so the pc is left out and calls and memory are still compared
+                err, halt = "halted in a branch-to-self loop", True
+            else:
+                err = f"did not return (pc=0x{pc:08x}, instruction budget exhausted)"
         r0, r1 = uc.reg_read(R.UC_ARM_REG_R0), uc.reg_read(R.UC_ARM_REG_R1)
         r2, r3 = uc.reg_read(R.UC_ARM_REG_R2), uc.reg_read(R.UC_ARM_REG_R3)
         d0 = uc.reg_read(R.UC_ARM_REG_D0)
         mem = {a: self.read(a, 1)[0] for a in sorted(self.writes)}
         return {"r0": r0, "r1": r1, "r2": r2, "r3": r3, "d0": d0, "mem": mem, "calls": list(self.calls),
                 "mmio": list(self.mmio),
-                "error": err, "m": self}
+                "error": err, "halt": halt, "m": self}
 
 
 def load_c_build(orig):
@@ -190,7 +206,7 @@ def outcome_equal(a, b, ret_bits):
     if a["error"] or b["error"]:
         if a["error"] != b["error"]:
             diffs.append(f"error: stock={a['error']} c={b['error']}")
-        else:
+        elif not (a.get("halt") and b.get("halt")):
             return []      # both fault identically: undefined-state input, counted by the runner
     if ret_bits and (a["r0"] & mask) != (b["r0"] & mask):
         diffs.append(f"r0: stock=0x{a['r0'] & mask:x} c=0x{b['r0'] & mask:x}")

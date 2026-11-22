@@ -62,7 +62,7 @@ def run_one(orig, case_fn, cases, seed):
                     c.setup(m)
             res.append(m.call(entry, c.args, c.stack, getattr(c, 'dregs', None)))
         d = outcome_equal(res[0], res[1], c.ret)
-        if not d and res[0]["error"]:
+        if not d and res[0]["error"] and not res[0].get("halt"):
             crashed += 1
         if d:
             fails.append({"case": i, "args": [hex(a) for a in c.args], "diff": d})

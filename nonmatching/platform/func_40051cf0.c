@@ -7,8 +7,8 @@
 
 #include "hw/fpga.h"
 
-void func_40050fe0(void);
-void func_40051578(void);
+void factory_test_board(void);
+void factory_test_tester(void);
 void touch_targets_test(void);
 void settings_e_save(void);
 void func_400447c8(void);
@@ -23,12 +23,12 @@ void factory_steps_run(void)
     if (FS32(0) == 0x5A5555A5u)
         return;
     if (FS32(4) != 0xA5AA555Au) {
-        func_40050fe0();
+        factory_test_board();
         FS32(4) = 0xA5AA555Au;
         settings_e_save();
     }
     if (FS32(8) != 0x5A5AA5AAu) {
-        func_40051578();
+        factory_test_tester();
         FS32(8) = 0x5A5AA5AAu;
         settings_e_save();
     }

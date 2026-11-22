@@ -940,7 +940,7 @@ address,size,name,type,evidence_level,source
 0x4004F89C,532,gen_selftest_4f89c,function_arm,DERIVED,this-project:phase5 (init)
 0x4004FAB0,132,calibration_result_flags,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4004FB34,16,pool_4004fb34,literal_pool,DERIVED,analyze.py
-0x4004FB44,2396,func_4004fb44,function_arm,DERIVED,analyze.py:rea
+0x4004FB44,2396,factory_channel_gen_check,function_arm,DERIVED,this-project:phase5 (init)
 0x400504A0,24,pool_400504a0,literal_pool,DERIVED,analyze.py
 0x400504B8,460,gen_selftest_504b8,function_arm,DERIVED,this-project:phase5 (init)
 0x40050684,4,pool_40050684,literal_pool,DERIVED,analyze.py
@@ -951,9 +951,9 @@ address,size,name,type,evidence_level,source
 0x40050DD4,8,pool_40050dd4,literal_pool,DERIVED,analyze.py
 0x40050DDC,504,gen_selftest_50ddc,function_arm,DERIVED,this-project:phase5 (init)
 0x40050FD4,12,pool_40050fd4,literal_pool,DERIVED,analyze.py
-0x40050FE0,1416,func_40050fe0,function_arm,DERIVED,analyze.py:rea
+0x40050FE0,1416,factory_test_board,function_arm,DERIVED,this-project:phase5 (init)
 0x40051568,16,pool_40051568,literal_pool,DERIVED,analyze.py
-0x40051578,1128,func_40051578,function_arm,DERIVED,analyze.py:rea
+0x40051578,1128,factory_test_tester,function_arm,DERIVED,this-project:phase5 (init)
 0x400519E0,4,pool_400519e0,literal_pool,DERIVED,analyze.py
 0x400519E4,540,touch_targets_test,function_arm,DERIVED,this-project:phase5 (init)
 0x40051C00,4,pool_40051c00,literal_pool,DERIVED,analyze.py

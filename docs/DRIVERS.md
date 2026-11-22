@@ -3064,6 +3064,76 @@ of each buffer with lane = i % 4 and writes m[k] = 900 k - (int)(10 x (r_0 + .. 
 For a new app these two functions are a ready-made skew measurement of the ADC lanes: feed a signal that
 crosses the middle of the range and read the per-lane phase error.
 
+## Factory test flow (batch 79)
+
+Spec: `tools/platform_spec/zzx_factory_test.py`, 3 functions (4.8 KB). Tests: `tools/emu/tests/sweep.py`
+(drawing, touch and every self-test stubbed; the result flags are preset, and the stub of
+`acquisition_dispatcher` writes measurements around the set values). The code facts are
+STATIC-CONFIRMED and checked in the emulator (EQUIVALENT). The labels are the firmware's own Chinese
+strings, read from the image; the English glosses and the function names are DERIVED. Nothing here was
+run on the device.
+
+`factory_steps_run` (0x40051CF0) runs these steps once each, until the done-word of the step is set.
+Every line prints a label at x = 15 (y = 15, 40, 65 .. in steps
+of 25), runs one test, then prints 成功 ("OK", white 0xFFFFFF) or a red (0xFF2222) failure text. Any
+failure parks the CPU in `for (;;)`. The result flags are bytes at 0x42E68AE0 + offset.
+
+**`factory_test_board`** (0x40050FE0), results at x = 160:
+
+| y | Label | Test | Flag (sub-flags on failure) |
+|---:|---|---|---|
+| 15 | 磁盘初始化 (disk init) | `disk_check_file` | +0x10 |
+| 40 | FPGA检测 (FPGA) | `fpga_probe_and_copy_7fc` | +0x11 |
+| 65 | 加密芯片检测 (crypto chip) | `security_check_and_copy` | +0x12 |
+| 90 | ADC检测 (ADC) | `table_684_init`, `selftest_4f5e4` | +0x18 (ADC1..ADC8: +0x19..+0x20, one red line each) |
+| 115 | 系统校准 (system calibration) | `calibration_result_flags`, `acq_defaults_reset`, `calib_run_4_channels` with SYS+0x54E = 1 | +0x21 (channel 1 / 2: +0x22 / +0x23) |
+| 140 | 通道复用检测 (channel mux) | `gen_selftest_4f89c` | +0x13 |
+| 165 | 150M带宽限制检测 (150 MHz limit) | `gen_selftest_50bac` | +0x3F (+0x40 / +0x41) |
+
+On success it copies SYS32(0x77C) to SYS32(0x780).
+
+**`factory_test_tester`** (0x40051578) first prints 请插入测试器并按 OK 键继续... ("insert the tester
+and press OK"), draws a grey (0x555555) 120 x 120 button at (452, 240) with "OK" in font 0x42E65D98, and
+polls `gt911_poll` until a release (state byte 0x42E68BBC = 2) with 453 <= x < 572 and 241 <= y < 360.
+Then it resets the settings (`acq_defaults_reset`, the three state-block inits, `outputs_apply`) and runs
+`gen_output_calibrate` and `bode_calibrate`. Results are at x = 220:
+
+| y | Label | Test | Flag (channel 1 / 2) |
+|---:|---|---|---|
+| 15 | 通道和信号发生器检测 (channels and generator) | `factory_channel_gen_check` | +0x24 (+0x25 / +0x26; both bad: 通道或信号发生器异常) |
+| 40 | 通道量程检测 (ranges) | `gen_selftest_50688` | +0x2E (+0x2F / +0x30) |
+| 65 | 通道DCAC检测 (DC/AC coupling) | `gen_selftest_504b8` | +0x27 (+0x28 / +0x29) |
+| 90 | 通道平坦度检测 (flatness) | `gen_selftest_50898` | +0x34 (+0x35 / +0x36) |
+| 115 | 20M带宽限制检测 (20 MHz limit) | `gen_selftest_50ddc` | +0x42 (+0x43 / +0x44) |
+| 140 | ADC时钟相位校准 (ADC clock phase) | `check_pair_save` | +0x45 |
+
+**`factory_channel_gen_check`** (0x4004FB44) is a loop-back test of the generator into both channels.
+It runs `acq_defaults_reset` and sets SYS+0x3E = SYS+0x102 = 1, SYS+0x660 = 5 and byte 0x42E68BC6 = 0.
+Then, for each setting, it selects sine (0x42E4287E = 0) and writes frequency (Hz, 0x42E42880),
+amplitude (mVpp, +4), offset (mV, +8), time base SYS+0x588 and volts/div SYS+0x41 = SYS+0x105. It runs
+`outputs_apply`, `gen_update` and `acquisition_dispatcher` twice, and checks the measurements divided
+by 1000 against the set value v within v x (100 - t) / 100 .. v x (100 + t) / 100. For a negative v,
+t changes sign, so the window stays ordered.
+
+| # | Frequency | Amplitude | Offset | SYS+0x588 | V/div | t % | Checked |
+|---:|---:|---:|---:|---:|---:|---:|---|
+| 1-2 | 10 kHz | 1250 | +-1000 | 24 | 5 | 15 | frequency, amplitude, mean |
+| 3-4 | 10 kHz | 500 | +-400 | 24 | 6 | 15 | frequency, amplitude, mean |
+| 5 | 50 MHz | 2500 | 0 | 13 | 5 | 70 | frequency, amplitude |
+| 6 | 50 MHz | 1000 | 0 | 13 | 6 | 70 | frequency, amplitude |
+| 7 | 10 Hz | 1000 | 0 | 32 | 6 | 15 | frequency, amplitude |
+| 8-9 | 0 | 0 | +-2500 | 24 | 4 | 15 | mean |
+
+The measurements are s64 SYS+0x918 (frequency), +0x910 (amplitude) and +0x8F8 (mean) for CH1, and
++0x978, +0x970 and +0x958 for CH2. Flags: +0x25 / +0x26 = every CH1 / CH2 check passed, +0x24 = both.
+
+For a new app this is a worked example of driving the generator and reading the automatic
+measurements back. The table also gives the factory tolerances the device is expected to meet.
+
+Harness change in this batch: a run that ends in a branch-to-self (`b .`, from `for (;;)`) now
+reports "halted in a branch-to-self loop" without the pc. Its calls and memory are still compared,
+and it does not count as a both-fault case.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

@@ -245,8 +245,8 @@ void disk_check_file(void)
 
 wc(0x40051CF0, 140, "factory_steps_run",
    "Unless the saved state word 0x42E68AE0 is 0x5A5555A5 (factory flow complete): runs each factory step whose done-word is not yet set (0x40050FE0 / +4 = 0xA5AA555A, 0x40051578 / +8 = 0x5A5AA5AA, 0x400519E4 / +0xC = 0xA5A5AA55, the last also setting the state word), saving after each (settings_e_save); then 0x400447C8, settings_load_all, state_blocks_init, outputs_apply and gen_update.", """
-void func_40050fe0(void);
-void func_40051578(void);
+void factory_test_board(void);
+void factory_test_tester(void);
 void touch_targets_test(void);
 void settings_e_save(void);
 void func_400447c8(void);
@@ -261,12 +261,12 @@ void factory_steps_run(void)
     if (FS32(0) == 0x5A5555A5u)
         return;
     if (FS32(4) != 0xA5AA555Au) {
-        func_40050fe0();
+        factory_test_board();
         FS32(4) = 0xA5AA555Au;
         settings_e_save();
     }
     if (FS32(8) != 0x5A5AA5AAu) {
-        func_40051578();
+        factory_test_tester();
         FS32(8) = 0x5A5AA5AAu;
         settings_e_save();
     }

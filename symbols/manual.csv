@@ -1299,3 +1299,6 @@ address,name,type,evidence_level,source,note
 0x400647F4,lane_trim_search4x2,function,DERIVED,this-project:phase5 (calibration),
 0x40064E0C,lane_phase_measure8,function,DERIVED,this-project:phase5 (calibration),
 0x4006529C,lane_phase_measure4x2,function,DERIVED,this-project:phase5 (calibration),
+0x40050FE0,factory_test_board,function,DERIVED,this-project:phase5 (init),
+0x40051578,factory_test_tester,function,DERIVED,this-project:phase5 (init),
+0x4004FB44,factory_channel_gen_check,function,DERIVED,this-project:phase5 (init),

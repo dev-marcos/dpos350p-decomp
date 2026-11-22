@@ -5880,3 +5880,129 @@ def t_phase78(entry):
 
 TESTS[0x40064E0C] = t_phase78(0x40064E0C)
 TESTS[0x4006529C] = t_phase78(0x4006529C)
+
+
+# ================================================================ batch 79: factory test flow
+FT_BASE = 0x42E68AE0
+
+
+def _ft_draw_stubs():
+    return [rec("fb_back", 0x400342DC, 0), rec("fb_clear", 0x40034454, 0), rec("present", 0x4003442C, 0),
+            rec("colour", 0x4002EA38, 1), rec("font", 0x4002CCCC, 1), rec("spacing", 0x4002DC40, 1),
+            rec("text", 0x4002CE7C, 3), rec("rect", 0x4002ECC4, 4)]
+
+
+def t_factory79_board(r):
+    rr = random.Random(r.getrandbits(32))
+    steps = (0x10, 0x11, 0x12, 0x18, 0x21, 0x13, 0x3F)
+    stop = r.randrange(len(steps) + 1)          # the first failing step (none when stop = 7)
+    vals = {o: (1 if rr.random() < 0.5 else 0) for o in range(0x10, 0x48)}
+    for k, o in enumerate(steps):
+        vals[o] = 0 if k == stop else 1 if k < stop or rr.random() < 0.5 else 0
+    if r.random() < 0.2:
+        for o in range(0x19, 0x21):
+            vals[o] = 0
+    tw = r.choice([0, 1, 0xFFFF, 0xFF60, r.getrandbits(16)])
+    w77c = r.getrandbits(32)
+
+    def setup(m):
+        m.max_insns = 300_000
+        for o, v in vals.items():
+            m.w8(FT_BASE + o, v)
+        m.write(0x42E68BE4, tw.to_bytes(2, "little"))
+        m.w32(SYS + 0x77C, w77c)
+        m.w32(SYS + 0x780, 0x12345678)
+        m.w8(SYS + 0x54E, 0x77)
+
+    st = _ft_draw_stubs() + [
+        rec("disk", 0x40051C28, 0), rec("fpga", 0x4004F59C, 0), rec("crypto", 0x4004F5C0, 0),
+        rec("t684", 0x40063A50, 0), rec("adc", 0x4004F5E4, 0), rec("calflags", 0x4004FAB0, 0),
+        rec("acqdef", 0x4003EB40, 0), rec("cal4", 0x40060D68, 0, lambda m, a: m.calls.append(("cal4/54e", m.read(SYS + 0x54E, 1)[0]))),
+        rec("mux", 0x4004F89C, 0), rec("bw150", 0x40050BAC, 0)]
+    return Case([], setup, ret=V, stubs=tuple(st))
+
+
+def t_factory79_tester(r):
+    rr = random.Random(r.getrandbits(32))
+    steps = (0x24, 0x2E, 0x27, 0x34, 0x42, 0x45)
+    stop = r.randrange(len(steps) + 1)
+    vals = {o: (1 if rr.random() < 0.5 else 0) for o in range(0x10, 0x48)}
+    for k, o in enumerate(steps):
+        vals[o] = 0 if k == stop else 1 if k < stop or rr.random() < 0.5 else 0
+    tseed = r.getrandbits(32)
+    xs = [452, 453, 454, 570, 571, 572, -1, 0, 500, 0x7FFF, -32768, 600]
+    ys = [240, 241, 242, 358, 359, 360, -1, 0, 300, 0x7FFF, -32768, 400]
+
+    def poll(m, a):
+        g = random.Random(tseed + m.npoll)
+        m.npoll += 1
+        if m.npoll > 40 or g.random() < 0.15:
+            st, x, y = 2, g.randrange(453, 572), g.randrange(241, 360)
+        else:
+            st, x, y = g.choice([0, 1, 2, 2, 3]), g.choice(xs), g.choice(ys)
+        m.w8(TOUCH_BLK + 0xC, st)
+        m.write(TOUCH_BLK + 4, (x & 0xFFFF).to_bytes(2, "little") + (y & 0xFFFF).to_bytes(2, "little"))
+        m.calls.append(("poll", st, x, y))
+
+    def setup(m):
+        m.max_insns = 300_000
+        m.npoll = 0
+        for o, v in vals.items():
+            m.w8(FT_BASE + o, v)
+
+    st = _ft_draw_stubs() + [
+        Stub("poll", 0x400498E4, poll, 0),
+        rec("acqdef", 0x4003EB40, 0), rec("sb1", 0x4003ED28, 0), rec("sb2", 0x4003ED80, 0), rec("sb3", 0x4003EDF4, 0),
+        rec("outputs", 0x4003E708, 0), rec("gencal", 0x4004EF10, 0), rec("bodecal", 0x40039EB8, 0),
+        rec("cgcheck", 0x4004FB44, 0), rec("ranges", 0x40050688, 0), rec("dcac", 0x400504B8, 0),
+        rec("flat", 0x40050898, 0), rec("bw20", 0x40050DDC, 0), rec("phase", 0x40064DC0, 0)]
+    return Case([], setup, ret=V, stubs=tuple(st))
+
+
+def _tdiv(a, b):
+    q = abs(a) // abs(b)
+    return q if (a >= 0) == (b >= 0) else -q
+
+
+def t_factory79_cg(r):
+    seed = r.getrandbits(32)
+    p_in = r.choice([0.5, 0.9, 0.97, 1.0])
+
+    def pick(g, v):
+        cands = [v, g.randrange(-100000, 100000), 0]
+        for t in (15, 70):
+            tt = -t if v < 0 else t
+            lo, hi = _tdiv(v * (100 - tt), 100), _tdiv(v * (100 + tt), 100)
+            cands += [lo, hi, lo - 1, hi + 1, (lo + hi) // 2]
+        if g.random() < p_in:
+            tt = -15 if v < 0 else 15
+            lo, hi = _tdiv(v * (100 - tt), 100), _tdiv(v * (100 + tt), 100)
+            return g.randrange(min(lo, hi), max(lo, hi) + 1)
+        return g.choice(cands)
+
+    def disp(m, a):
+        g = random.Random(seed + m.ndisp)
+        m.ndisp += 1
+        f, am, of = (int.from_bytes(m.read(0x42E42880 + 4 * k, 4), "little", signed=True) for k in range(3))
+        for o, v in ((0x918, f), (0x910, am), (0x8F8, of), (0x978, f), (0x970, am), (0x958, of)):
+            q = pick(g, v)
+            frac = g.randrange(0, 1000)
+            raw = q * 1000 + (frac if q > 0 or (q == 0 and g.random() < 0.5) else -frac)
+            m.write(SYS + o, (raw & 0xFFFFFFFFFFFFFFFF).to_bytes(8, "little"))
+        m.calls.append(("disp", m.read(0x42E4287E, 1)[0], f, am, of, m.read(SYS + 0x588, 1)[0],
+                        m.read(SYS + 0x41, 1)[0], m.read(SYS + 0x105, 1)[0]))
+
+    def setup(m):
+        m.ndisp = 0
+        m.w8(0x42E4287E, 0x55)
+        for o in (0x24, 0x25, 0x26):
+            m.w8(FT_BASE + o, 0x77)
+
+    st = [rec("acqdef", 0x4003EB40, 0), rec("outputs", 0x4003E708, 0), rec("gen_update", 0x4004D18C, 0),
+          Stub("disp", 0x400419CC, disp, 0)]
+    return Case([], setup, ret=V, stubs=tuple(st))
+
+
+TESTS[0x40050FE0] = t_factory79_board
+TESTS[0x40051578] = t_factory79_tester
+TESTS[0x4004FB44] = t_factory79_cg
