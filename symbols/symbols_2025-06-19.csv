@@ -60,7 +60,7 @@ address,size,name,type,evidence_level,source
 0x40022920,4,pool_40022920,literal_pool,DERIVED,analyze.py
 0x40022924,4,code_40022924,data,OPEN,analyze.py
 0x40022928,48,pool_40022928,literal_pool,DERIVED,analyze.py
-0x40022958,5000,func_40022958,function_arm,DERIVED,analyze.py:rea
+0x40022958,5000,gen_screen_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x40023CE0,36,pool_40023ce0,literal_pool,DERIVED,analyze.py
 0x40023D04,340,window_frame_23d04_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x40023E58,56,pool_40023e58,literal_pool,DERIVED,analyze.py

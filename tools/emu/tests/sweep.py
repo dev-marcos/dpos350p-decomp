@@ -6163,3 +6163,79 @@ def t_browser81(lay, recb=False):
 TESTS[0x400250DC] = t_browser81(0x11E)
 TESTS[0x400265BC] = t_browser81(0x156)
 TESTS[0x40027498] = t_browser81(0x172, True)
+
+
+# ================================================================ batch 82: signal generator screen
+def t_genscreen82(r):
+    g = random.Random(r.getrandbits(32))
+    G = 0x42E3F984
+    x, y = g.choice([0, 0, 3, g.randrange(0, 500)]), g.choice([0, 0, 7, g.randrange(0, 400)])
+    w, h = g.choice([1024, 640, g.randrange(0, 1100)]), g.choice([600, 540, g.randrange(0, 700)])
+    sel = g.choice([0, 0, 0, 1, 2, 3, 3, 3, 4, 0xFF])
+    cur = g.choice([0, 1, 2, 2, 3, 4, 5, 5, 6, 7, 0xFF])
+    picker = g.choice([0, 0, 1, 0x40])
+    npts = g.choice([1, 2, 3, 4, 10, 40])
+    pts = [g.choice([0, 1, 100, 0xFFFF, g.getrandbits(16)]) for _ in range(42)]
+    wave = g.choice(list(range(15)) + [15, 20, 0xFF])
+
+    def iv():
+        return g.choice([0, 1, -1, 5, 9, 10, 99, 999, 1000, 9999, 10000, 12345678, 99999999, 100000000,
+                         -5, -999, -1000, -9999, -12345, 0x7FFFFFFF, -0x80000000, g.getrandbits(32) - (1 << 31)])
+    params = [iv() for _ in range(4)]
+    pal = [g.getrandbits(32) for _ in range(8)]
+    theme = [g.getrandbits(32) for _ in range(8)]
+    recs = bytes(g.getrandbits(1) for _ in range(0x100))
+    txt = {k: (g.getrandbits(32), g.randrange(-128, 128), g.randrange(-128, 128)) for k in list(range(46, 65)) + [50 + wave]}
+    tseed = g.getrandbits(32)
+
+    def textw(m, a):
+        m.ntext += 1
+        return random.Random(tseed + m.ntext).choice([0, 1, 0x74, 0x75, 0x76, 0xFFFF, 0x10075, 0x1FFFF, 300])
+
+    def setup(m):
+        m.ntext = 0
+        m.max_insns = 5_000_000
+        for i, v in enumerate((x, y, w, h)):
+            m.write(0x42E64520 + 0x102 + 2 * i, v.to_bytes(2, "little"))
+        m.w8(G + 1, sel)
+        m.w32(G + 4, 0x42E00100)
+        m.w8(0x42E00100, cur)
+        m.w8(G + 0xC, picker)
+        for i, v in enumerate(pts):
+            m.write(G + 0x10 + 2 * i, v.to_bytes(2, "little"))
+        m.write(G + 0xFAE, npts.to_bytes(2, "little"))
+        m.w8(G + 0x2EFA, wave)
+        for i, v in enumerate(params):
+            m.w32(G + 0x2EFC + 4 * i, v & 0xFFFFFFFF)
+        for i, v in enumerate(pal):
+            m.w32(0x409223B4 + 4 * i, v)
+        for i, v in enumerate(theme):
+            m.w32(SYS + 0x3DD54C + 4 * i, v)
+        m.write(0x42E61FF8 + 0x620, recs)
+        for k, (pt, dx, dy) in txt.items():
+            e = 0x42C2FE74 + k * 0x1A0
+            m.w32(e, pt)
+            m.w8(e + 0x194, dx & 0xFF)
+            m.w8(e + 0x195, dy & 0xFF)
+
+    def stk(name, n):
+        return lambda m, a: m.calls.append((name,) + tuple(m.r32(m.reg(A.UC_ARM_REG_SP) + 4 * i) & 0xFF for i in range(n)))
+
+    def strarg(m, a):
+        p = m.reg(A.UC_ARM_REG_R2)
+        try:
+            raw = m.read(p, 8)
+        except Exception:
+            raw = b""
+        m.calls.append(("shadow/s", raw[:raw.index(0)] if 0 in raw else p, m.reg(A.UC_ARM_REG_R3)))
+        stk("shadow/stk", 2)(m, a)
+
+    st = [rec("colour", 0x4002EA38, 1), rec("fill", 0x4002ECC4, 4), rec("vline", 0x4002EBC8, 3),
+          rec("span", 0x4002EBA8, 3), rec("spacing", 0x4002DC40, 1), rec("font", 0x4002CCCC, 1),
+          rec("centre", 0x4002DC74, 1), rec("text", 0x4002CE7C, 3), rec("width", 0x4002D164, 1, textw),
+          Stub("shadow", 0x4002D0D4, strarg, 2),
+          Stub("num", 0x4002D724, stk("num/stk", 4), 4), rec_stk("touch", 0x4002F160, 1)]
+    return Case([], setup, ret=V, stubs=tuple(st))
+
+
+TESTS[0x40022958] = t_genscreen82

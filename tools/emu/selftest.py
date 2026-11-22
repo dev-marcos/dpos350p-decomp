@@ -1410,6 +1410,21 @@ MUTANTS = [
     (0x40027498, '            draw_colour_set(BR8(0) ? 0x555555 : 0);', '            draw_colour_set(BR8(0) ? 0 : 0x555555);'),
     (0x40027498, '                text_draw(U16(cx + 4), U16(cy + 3), "SET");', '                text_draw(U16(cx + 4), U16(cy + 3), "SEL");'),
     (0x40027498, '            touch_button_set_rect(U16(cx), U16(cy), 0xCB, 0x8A, TREC(10 * U16(k) + 0x91C));', '            touch_button_set_rect(U16(cx), U16(cy), 0xCB, 0x8A, TREC(10 * U16(k) + 0x926));'),
+    # batch 82: signal generator screen
+    (0x40022958, '    d[1] = v % 10000000 / 1000000;', '    d[1] = v % 10000000 / 100000;'),
+    (0x40022958, '        cx += (i == 1 || i == 4) ? 0x1E : 0x14;', '        cx += (i == 1 || i == 5) ? 0x1E : 0x14;'),
+    (0x40022958, '            if (GN32(0x2F04) > 0) {', '            if (GN32(0x2F04) >= 0) {'),
+    (0x40022958, '        if (cur > 4)\n            cx += 10;', '        if (cur > 5)\n            cx += 10;'),
+    (0x40022958, '        if (GN32(0x2F04) != 0)\n            cx += 20;', '        if (GN32(0x2F04) == 0)\n            cx += 20;'),
+    (0x40022958, '    gs_text(GN32(0x2F04) == 0 ? x + 0x9E + 0x66 : x + 0x9E + 0x7A, y + 0x9C, "VDC");', '    gs_text(x + 0x9E + 0x7A, y + 0x9C, "VDC");'),
+    (0x40022958, '        func_4002ecc4_span(U16(cy + 0x22 - i), x, U16(x + i));', '        func_4002ecc4_span(U16(cy + 0x21 - i), x, U16(x + i));'),
+    (0x40022958, '    draw_colour_set(TREC(0x67E)[1] ? 0x666666 : 0x333333);', '    draw_colour_set(TREC(0x67E)[1] ? 0x333333 : 0x666666);'),
+    (0x40022958, '    touch_button_set_rect(U16(x + 0x229), U16(y + 0x5A), 0x5C, 0x46, TREC(0x674));', '    touch_button_set_rect(U16(x + 0x229), U16(y + 0x5A), 0x5C, 0x46, TREC(0x67E));'),
+    (0x40022958, '    if ((u32)(GN16(0xFAE) - 1) > 1)', '    if ((u32)(GN16(0xFAE) - 1) > 2)'),
+    (0x40022958, '            if (a < b)\n                vline_draw(U16(x + i + 0x2B)', '            if (a > b)\n                vline_draw(U16(x + i + 0x2B)'),
+    (0x40022958, '                volatile unsigned char *b = TREC(k < 14 ? 0x688 + 10 * k : 0x714);', '                volatile unsigned char *b = TREC(k < 13 ? 0x688 + 10 * k : 0x714);'),
+    (0x40022958, '                u32 e = U16(k + 0x32);', '                u32 e = U16(k + 0x33);'),
+    (0x40022958, '        if (cur >= 2)\n            cx += 20;', '        if (cur >= 3)\n            cx += 20;'),
 ]
 
 

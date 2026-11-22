@@ -1307,3 +1307,4 @@ address,name,type,evidence_level,source,note
 0x400250DC,screenshot_browser_draw,function,DERIVED,this-project:phase5 (ui),
 0x400265BC,waveform_browser_draw,function,DERIVED,this-project:phase5 (ui),
 0x40027498,record_browser_draw,function,DERIVED,this-project:phase5 (ui),
+0x40022958,gen_screen_draw,function,DERIVED,this-project:phase5 (ui),

@@ -3201,6 +3201,26 @@ y = 540 - window y, labelled by text entries 67 and 113..117.
 Quirk kept: the stock passes an unset stack byte as the last argument of `draw_text_shadowed` for
 the title image. The C passes 0, and the test does not record that argument.
 
+## Signal generator screen (batch 82)
+
+Spec: `tools/platform_spec/zzz_gen_screen.py`, 1 function (5 KB). Tests: `tools/emu/tests/sweep.py`.
+STATIC-CONFIRMED, EQUIVALENT in the emulator; not run on the device.
+
+**`gen_screen_draw`** (0x40022958) draws window 18 (layout 0x42E64520 + 0x102). G is 0x42E3F984:
+
+| Part | Content | State |
+|---|---|---|
+| left tabs | 4 tabs of 390 x 60, labels = text entries 46..49, touch +0x624 + 10 i | selected tab G+1 |
+| read-outs | frequency 8 digits + Hz; amplitude d.ddd VPP; offset [+-]d.ddd VDC; duty dd.d % (font 0x42E66BD8) | GN32 at +0x2EFC / +0x2F00 / +0x2F04 / +0x2F08 |
+| edit cursor | a 15 x 3 bar under the digit being edited | digit *(*(G+4)) |
+| arrow pad | four triangles, grey while pressed (+0x656 up, +0x660 down, +0x66A left, +0x674 right); a 4 x 4 menu icon (+0x67E) | |
+| preview | white polyline of G16(0xFAE) points G16(0x10 + 2 i), touch +0x64C | |
+| picker | 3 x 5 waveform buttons (+0x688 + 10 k; the last at +0x714), labels = entries 50..64, current one highlighted | open while G+0xC is set |
+
+Colours come from the palette 0x409223B4 and the theme SYS+0x3DD54C. To add a waveform, the picker
+has 15 slots (k < 14 use the theme colour, the 15th is grey 0x444444) and the names are text entries
+50..64.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).
