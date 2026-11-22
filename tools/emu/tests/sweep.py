@@ -6332,3 +6332,78 @@ def t_statusbar83(r):
 
 
 TESTS[0x4001AD50] = t_statusbar83
+
+
+# ================================================================ batch 84: cursor read-out panel
+def t_cursors84(r):
+    g = random.Random(r.getrandbits(32))
+
+    def b8(*extra):
+        return g.choice([0, 0, 1, 1] + list(extra) + [g.getrandbits(8)])
+    gate = g.choice([0] * 8 + [1])
+    f = {0x652: g.choice([0] * 6 + [1]), 0x28: b8(), 0x3C: b8(), 0x802: b8(), 0x803: b8(),
+         0x2AA: b8(), 0x3E: b8(), 0x102: b8()}
+    h16 = {o: g.choice([0, 1, 2, 100, 599, 0xFFFF, g.getrandbits(16)]) for o in (4, 6, 0xA, 0xC)}
+    h16[0x20] = g.choice([1, 25, 50, 0xFFFF, g.randrange(1, 0x10000)])
+    h16[0x1C] = g.choice([1, 25, 100, 0xFFFF, g.randrange(1, 0x10000)])
+    w32 = {o: g.choice([0, 1, -1, 300, -300, 0x7FFFFFFF, g.getrandbits(32) - (1 << 31)]) for o in
+           (0x60, 0x120, 0x810, 0x814, 0x808)}
+    w32[0x80C] = g.choice([w32[0x808], w32[0x808] + 1, g.getrandbits(32) - (1 << 31)]) if g.random() < 0.3 else g.getrandbits(32) - (1 << 31)
+    w64 = {o: g.choice([0, 1, 1000, 10 ** 9, -5, g.getrandbits(40), g.getrandbits(64)]) for o in (0x50, 0x110, 0x590)}
+    tseed = g.getrandbits(32)
+
+    def sisc(m, a):
+        k, _, lo, hi = regs(m, 4)
+        sp = m.reg(A.UC_ARM_REG_SP)
+        po, pd, pp = m.r32(sp), m.r32(sp + 4), m.r32(sp + 8)
+        m.nsisc += 1
+        rr = random.Random(tseed + 11 * m.nsisc)
+        m.calls.append(("sisc", k, lo, hi))
+        m.write(po, rr.choice([0, 1, (1 << 64) - 1, (1 << 63), rr.getrandbits(64)]).to_bytes(8, "little"))
+        m.w32(pd, rr.choice([0, 1, 2, 3, 0xFFFFFFFF]))
+        m.w32(pp, rr.choice([0, 1, 2, 3, 4, 5, 0xFFFFFFFF]))
+
+    def bump(m):
+        m.ntext += 1
+        m.write(0x42E68BE4, random.Random(tseed + 7 * m.ntext).getrandbits(16).to_bytes(2, "little"))
+
+    def text(m, a):
+        p2 = m.reg(A.UC_ARM_REG_R2)
+        try:
+            raw = m.read(p2, 8)
+        except Exception:
+            raw = b""
+        m.calls.append(("text", m.reg(A.UC_ARM_REG_R0), m.reg(A.UC_ARM_REG_R1), raw[:raw.index(0)] if 0 in raw else p2))
+        bump(m)
+
+    def num(n):
+        def fn(m, a):
+            r0, r1, r2, r3 = regs(m, 4)
+            m.calls.append((n, r0, r1, r2, r3, m.r32(m.reg(A.UC_ARM_REG_SP)) & 0xFF))
+            bump(m)
+        return fn
+
+    def setup(m):
+        m.ntext = 0
+        m.nsisc = 0
+        m.max_insns = 3_000_000
+        m.w8(0x42E68BB0 + 0x17, gate)
+        m.w8(0x42E68D1A, 0x5A)
+        for o, v in f.items():
+            m.w8(SYS + o, v)
+        for o, v in h16.items():
+            m.write(SYS + o, v.to_bytes(2, "little"))
+        for o, v in w32.items():
+            m.w32(SYS + o, v & 0xFFFFFFFF)
+        for o, v in w64.items():
+            m.write(SYS + o, (v & ((1 << 64) - 1)).to_bytes(8, "little"))
+        m.write(0x42E68BE4, b"\x10\x00")
+
+    st = [rec("colour", 0x4002EA38, 1), rec("fill", 0x4002ECC4, 4), rec("spacing", 0x4002DC40, 1),
+          rec("font", 0x4002CCCC, 1), rec("toggle", 0x40031710, 0), Stub("text", 0x4002CE7C, text, 2),
+          Stub("num1", 0x4002D6D4, num("num1"), 4), Stub("num0", 0x4002D6F8, num("num0"), 4),
+          Stub("sisc", 0x400301E0, sisc, 0)]
+    return Case([], setup, ret=V, stubs=tuple(st))
+
+
+TESTS[0x40031794] = t_cursors84

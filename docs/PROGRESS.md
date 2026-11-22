@@ -16,16 +16,16 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | level | functions | % | code bytes | % |
 |---|---:|---:|---:|---:|
 | MATCHING | 0 | 0.00% | 0 | 0.00% |
-| EQUIVALENT | 1263 | 93.28% | 326598 | 96.77% |
+| EQUIVALENT | 1264 | 93.35% | 331398 | 98.19% |
 | NONMATCHING | 0 | 0.00% | 0 | 0.00% |
-| ASM | 91 | 6.72% | 10906 | 3.23% |
+| ASM | 90 | 6.65% | 6106 | 1.81% |
 | **total** | 1354 | | 337504 | |
 
 ## By area
 
 | area | functions | C (equiv+match) | code bytes | C bytes |
 |---|---:|---:|---:|---:|
-| main code | 1339 | 1263 (94.32%) | 337104 | 326598 (96.88%) |
+| main code | 1339 | 1264 (94.40%) | 337104 | 331398 (98.31%) |
 | startup | 15 | 0 (0.00%) | 400 | 0 (0.00%) |
 
 ## Functions with C
@@ -170,6 +170,7 @@ The build always ships `asm/`; C never changes the ISO. Levels (see `docs/COMPIL
 | `0x40030F8C` | measure_panel_draw | 400 | EQUIVALENT | 200 | `nonmatching/platform/func_40030f8c.c` |
 | `0x4003117C` | manual_cursors_draw | 1424 | EQUIVALENT | 200 | `nonmatching/platform/func_4003117c.c` |
 | `0x40031710` | colour_toggle_42e68d1a | 48 | EQUIVALENT | 200 | `nonmatching/platform/func_40031710.c` |
+| `0x40031794` | cursor_panel_draw | 4800 | EQUIVALENT | 200 | `nonmatching/platform/func_40031794.c` |
 | `0x40032A58` | channel_minmax_stats | 228 | EQUIVALENT | 200 | `nonmatching/platform/func_40032a58.c` |
 | `0x40032B5C` | channel_freq_measure | 480 | EQUIVALENT | 200 | `nonmatching/platform/func_40032b5c.c` |
 | `0x40032D3C` | key_repeat_update | 192 | EQUIVALENT | 200 | `nonmatching/platform/func_40032d3c.c` |

@@ -3246,6 +3246,39 @@ function's own literal pool, so they are C literals here. When the prefix index 
 stock leaves the previous text in its 20-byte stack buffer. The C keeps that behaviour with one buffer
 shared by all tiles.
 
+## Cursor read-out panel (batch 84)
+
+Spec: `tools/platform_spec/zzz_cursor_panel.py`, 1 function (4.7 KB). Tests: `tools/emu/tests/sweep.py`.
+STATIC-CONFIRMED, EQUIVALENT in the emulator; not run on the device.
+
+**`cursor_panel_draw`** (0x40031794) runs from the frame update. It returns at once in any of these
+cases:
+- touch byte 0x42E68BB0 + 0x17 is set;
+- SYS+0x652 is set;
+- the single-shot flag SYS+0x28 is set while stopped (SYS+0x3C clear);
+- neither the time cursors (SYS+0x802) nor the voltage cursors (SYS+0x803) are on.
+
+First it converts the cursor positions and stores the results, which other code may read:
+
+| Result | Formula |
+|---|---|
+| SYS64(0x838) / (0x840) CH1 V1 / V2 | (SYS16(0xA) - 2 - SYS32(0x60) - cursor y SYS32(0x810) / (0x814)) x SYS64(0x50) / SYS16(0x20) |
+| SYS64(0x848) / (0x850) CH2 V1 / V2 | the same with offset SYS32(0x120) and scale SYS64(0x110) |
+| SYS64(0x858) / (0x860) | dV of CH1 / CH2 (V2 - V1) |
+| SYS64(0x818) / (0x820) T1 / T2 | (cursor x SYS32(0x808) / (0x80C) - SYS16(0xC)) x SYS64(0x590) / SYS16(0x1C) |
+| SYS64(0x830) | dT = T2 - T1 |
+| SYS64(0x828) | 1/dT = 10^15 / dT (it is cleared when dT scales to 0) |
+
+All divisions are signed 64-bit (`__aeabi_ldivmod`). The units are DERIVED: SYS64(0x50) is volts per
+division in the value_si_scale kind-6 unit, and SYS16(0x20) / SYS16(0x1C) are pixels per division.
+Then it draws a 145 px panel at (SYS16(4) + 1, SYS16(6) + 1), or at y + 0xA9 with zoom (SYS+0x2AA,
+rows 25 px instead of 33). The rows alternate in colour through `colour_toggle_42e68d1a`:
+- HOR, H1, H2, D-T, D-F;
+- for each channel that is on: CH1 / CH2, V1, V2, D-V.
+
+Labels are grey 0x999999 in font 0x42E65418. Values are white in font 0x42E66258, and the differences
+are shown as absolute values.
+
 ## Not yet rewritten (next batches)
 
 - Remaining clock users: `sys_mmu_init` and 0x400429E4 (CP15, not emulated), and 0x4003E00C..0x4003E314 (with TCON).

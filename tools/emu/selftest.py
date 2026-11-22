@@ -1445,6 +1445,26 @@ MUTANTS = [
     (0x4001AD50, '    if (TREC(rec)[1] == 1) {', '    if (TREC(rec)[1]) {'),
     (0x4001AD50, '    sb_num(c, x + 0x43, y1);', '    sb_num(c, x + 0x42, y1);'),
     (0x4001AD50, '    draw_colour_set(S8(base) ? on_colour : 0x888888);', '    draw_colour_set(S8(base) ? 0x888888 : on_colour);'),
+    # batch 84: cursor read-out panel
+    (0x40031794, '    if (S8(0x28) && S8(0x3C) == 0)\n        return;', '    if (S8(0x28) && S8(0x3C))\n        return;'),
+    (0x40031794, '        py = S16(6) + 0xA9;', '        py = S16(6) + 0xA8;'),
+    (0x40031794, '    a = (long long)S16(0xA) - 2;', '    a = (long long)S16(0xA) - 1;'),
+    (0x40031794, '    q2 = (t - S32(0x814)) * m / (long long)d;', '    q2 = (t - S32(0x810)) * m / (long long)d;'),
+    (0x40031794, '    q3 = (b - S32(0x810)) * S64(0x110) / (long long)d;', '    q3 = (b - S32(0x810)) * S64(0x50) / (long long)d;'),
+    (0x40031794, '    S64(0x860) = q4 - q3;', '    S64(0x860) = q3 - q4;'),
+    (0x40031794, '    t1 = (long long)(int)(S32(0x808) - S16(0xC)) * tm / (long long)ts;', '    t1 = (long long)(u32)(S32(0x808) - S16(0xC)) * tm / (long long)ts;'),
+    (0x40031794, '    S64(0x828) = 1000000000000000LL / dt;', '    S64(0x828) = 100000000000000LL / dt;'),
+    (0x40031794, '    text_draw(U16(px + 8), U16(y + (int)(rh - 12) / 2), name);', '    text_draw(U16(px + 8), U16(y + (int)(rh - 11) / 2), name);'),
+    (0x40031794, '        cp_block(px, y, rh, 4, "CH1");', '        cp_block(px, y, rh, 3, "CH1");'),
+    (0x40031794, '        if ((flags & CP_ZF) && c->v == 0) {', '        if (c->v == 0) {'),
+    (0x40031794, '        if (c->v < 0)\n            c->v = -c->v;', '        if (c->v < -1)\n            c->v = -c->v;'),
+    (0x40031794, '    cp_row(c, 6, off + 8, x8, y + 2 * rh, rh, "V", "2", 0, x8 + 0x1C, 0, 2);', '    cp_row(c, 6, off + 8, x8, y + 2 * rh, rh, "V", "2", 1, x8 + 0x1C, 0, 2);'),
+    (0x40031794, '        case 4: return "kV";', '        case 3: return "kV";'),
+    (0x40031794, '        case 0: return "mHz";', '        case 0: return "Hz";'),
+    (0x40031794, '        cp_row(c, 7, 0x828, px + 8, y + 4 * rh, rh, "D-F", 0, 0, px + 0x2B, CP_ABS, 1);', '        cp_row(c, 7, 0x828, px + 8, y + 4 * rh, rh, "D-F", 0, 0, px + 0x2B, 0, 1);'),
+    (0x40031794, '    numx = numx + TEXT_W + 7;', '    numx = numx + TEXT_W + 6;'),
+    (0x40031794, '        cp_volts(c, px + 8, y, rh, 0x848, 0x860);', '        cp_volts(c, px + 8, y, rh, 0x848, 0x858);'),
+    (0x40031794, '    *(volatile unsigned char *)0x42E68D1Au = 0;', '    *(volatile unsigned char *)0x42E68D1Au = 1;'),
 ]
 
 

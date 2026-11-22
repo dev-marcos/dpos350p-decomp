@@ -253,7 +253,7 @@ address,size,name,type,evidence_level,source
 0x40031758,8,pool_40031758,literal_pool,DERIVED,analyze.py
 0x40031760,4,code_40031760,data,OPEN,analyze.py
 0x40031764,48,pool_40031764,literal_pool,DERIVED,analyze.py
-0x40031794,4800,func_40031794,function_arm,DERIVED,analyze.py:rea
+0x40031794,4800,cursor_panel_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x40032A54,1,code_40032a54,data,OPEN,analyze.py
 0x40032A55,3,pad_40032a55,padding,STATIC-CONFIRMED,analyze.py:zero
 0x40032A58,228,channel_minmax_stats,function_arm,DERIVED,this-project:phase5 (acquisition)
