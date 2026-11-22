@@ -13,7 +13,7 @@ Snapshot from 2026-11-18, after Phase 5 batch 84. All addresses apply to build
 | MATCHING C | 0 by construction: Arm Compiler 5 is not licensed here (docs/COMPILER.md) |
 | Emulation tests | every EQUIVALENT function passes 200 cases (400 for the C library); full suite after batch 84, all 1264 EQUIVALENT (unchanged builds keep their cached result, see CONTRIBUTING.md) |
 | Mutation self-test | 1363/1363 mutants detected (`make selftest`, full run after batch 84). Before that, from batch 27 to batch 43, a mutant made stale by a rename stopped the full run at mutant 168, so those batches checked only their own mutants. The self-test now lists stale mutants and stops before building anything |
-| TEST image | `make testiso`: 780 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
+| TEST image | `make testiso`: 788 functions compiled in place, emulator only; boots and the menus work (checked by the user on the batch 13 image) |
 | Browser emulator | repo `dev-marcos/dpos350p-emu`, submodule `tools/sim` at `5ed2f7e`, runs fully in the browser (docs/SIM.md) |
 
 The two numbers in the table differ because the finished work is mostly small and medium
@@ -110,50 +110,29 @@ The exact list, with addresses and case counts, is in PROGRESS.md (`make progres
 
 ## 2. What is left
 
-762 functions and 267,602 bytes are still assembly only. By size:
+90 functions (6106 bytes) stay in assembly. None of them is a candidate for C; each group says why.
 
-| Size | Functions |
-|---|---:|
-| ≤ 64 bytes | 291 |
-| 65–256 bytes | 261 |
-| 257–1024 bytes | 148 |
-| > 1024 bytes | 62 |
+| Group | Functions | Bytes | Why |
+|---|---:|---:|---|
+| startup | 15 | 400 | Startup code and exception vectors (0x4008Cxxx): reset, scatter-load, VFP enable, exit stubs, one-instruction handlers. They switch CPU modes and run before C; they need a different harness. |
+| cp15 | 16 | 824 | Cache, MMU and control-register code (CP15 `mcr`/`mrc`, cache walks by set/way, `sys_mmu_init`). C has no way to express it, and the emulator does not model it. |
+| frag | 23 | 1186 | Fragments that the analyser split off a larger function: they start in the middle of a function, use registers set by the code before them, or are literal pools and Thumb data decoded as code. The real function around them is already in C, or is listed here as a whole. |
+| switch | 25 | 1440 | The sample-rate switch 0x4003F2F4 with its case fragments 0x4003F4A4..0x4003F6E8 and its tail 0x4003F704 (one function split by the analyser; its table is documented in DRIVERS.md). Its default case reads a stack word that is never written and the caller's registers, so no C version can be EQUIVALENT. |
+| undef | 4 | 1756 | Functions whose stock behaviour depends on undefined values (uninitialised registers or stack), so no C version can be EQUIVALENT: 0x400300E8 (reads ip when the value is not found), 0x40061F10 (uninitialised VFP registers), `csi_set_fmt` (uninitialised stack arrays), `mmc_read_csd_cid` (copies 4 bytes past its buffer). |
+| lib | 6 | 472 | Library entry points with a register interface, not a C one: `__exp_kernel`, `__frexp_core`, the inner entries of `memset`, the switch-dispatch helper 0x400657FC (reads its table after the call). |
+| noret | 1 | 28 | `power_off`: waits forever for the supply to drop (kept on purpose). |
 
-12 of them are Thumb. Remaining work by 16 KB region (functions with C / total):
+Addresses by group:
 
-| Region | Done / total | Notes |
-|---|---|---|
-| 0x40018000–0x40033FFF | 0 / 144 | Nearly 150 KB, mostly very large functions (up to 5.7 KB). Not analysed yet. Probably UI screens and drawing (OPEN). |
-| 0x4002C000 | 0 / 81 | many small functions inside that range; good batch material once their role is known |
-| 0x40034000–0x4003BFFF | 11 / 136 | `main` (0x40034700, 148 bytes), runtime state helpers, a 3.6 KB function at 0x4003A984 |
-| 0x4003C000 | 113 / 157 | the time-base switch 0x4003F160..0x4003F868 (one function split by the analyser), `final_per_channel_normalization` 0x4003FE14, fragment 0x4003FFE4 |
-| 0x40040000 | 39 / 124 | acquisition pipeline with Hack names: `full_acquisition_entry`, `one_runtime_capture_step`, `acquisition_dispatcher`, conversion wrappers, `persistence_read/write`; `sys_mmu_init` (CP15, not emulated) |
-| 0x40044000 | 0 / 27 | the largest function in the image (0x40045974, 13.5 KB); calibration serialisation and save/load (0x40044680…) |
-| 0x40048000 | 87 / 89 | almost done; `power_off` stays in assembly on purpose (it waits forever for the supply to drop); `lane_gain_calibrate` 0x4004B0A0 done in batch 77 |
-| 0x4004C000 | 30 / 30 | done; calibration and generator: `frontend_offset_calibrate`, `auto_set_from`, `gen_wave_build` and the rest are done (batches 13, 73-77) |
-| 0x40050000 | 28 / 28 | done; factory test flow (batch 79), generator self-tests (batches 40-41) |
-| 0x40054000–0x4005FFFF | 89 / 162 | resampling helpers (Hack names), `__aeabi_memset_entry` |
-| 0x40060000–0x4006BFFF | 161 / 295 | CSI format, the field serialiser (`serializer_*`), `mmc_read_csd_cid`, FatFs code-page tables, `strlen`, `__exp_kernel` |
-| 0x4006C000 | 147 / 147 | done |
-| 0x4008C000 (startup) | 0 / 15 | reset, scatter-load, exception vectors: tiny, but they need a different harness (mode switches, CP15) |
+- **startup**: 0x4008CB28 `Reset_Handler`, 0x4008CB94 `vfp_enable`, 0x4008CBBC, 0x4008CBEC `__scatterload`, 0x4008CC1C `__rt_exit_veneer`, 0x4008CC24 `exit`, 0x4008CC28 `_sys_exit`, 0x4008CC3C `__rt_exit`, 0x4008CCE4 `Undef_Handler`, 0x4008CCE8 `SWI_Handler`, 0x4008CCEC `PAbort_Handler`, 0x4008CCF0 `DAbort_Handler`, 0x4008CCF4 `IRQ_Handler`, 0x4008CD2C `FIQ_Handler`, 0x4008CF80 `__scatterload_zeroinit`
+- **cp15**: 0x40042A60 `sys_mmu_init`, 0x400632F8 `dcache_clean_inv_all`, 0x400632FC, 0x4006330C, 0x4006680C, 0x40066814, 0x40066830, 0x4006684C, 0x40066868, 0x40066884, 0x400668A0, 0x400668BC, 0x4006A550, 0x4006A5FC, 0x4006A658, 0x4006A65C
+- **frag**: 0x40040004, 0x40042024, 0x4004219C, 0x400421A0, 0x400421FC, 0x40042200, 0x4004A094, 0x4005E0A8, 0x4005E0AC, 0x4005E104, 0x40062354, 0x40066FB8, 0x40066FC0, 0x40066FD4, 0x40067010, 0x40067058, 0x40067060, 0x40067068, 0x40067070, 0x40067078, 0x40068F64, 0x4006A3F8, 0x4006A4D0
+- **switch**: 0x4003F2F4, 0x4003F4A4, 0x4003F4C0, 0x4003F4DC, 0x4003F4F8, 0x4003F514, 0x4003F524, 0x4003F540, 0x4003F55C, 0x4003F56C, 0x4003F57C, 0x4003F598, 0x4003F5B4, 0x4003F5D0, 0x4003F5EC, 0x4003F608, 0x4003F624, 0x4003F640, 0x4003F65C, 0x4003F678, 0x4003F694, 0x4003F6B0, 0x4003F6CC, 0x4003F6E8, 0x4003F704
+- **undef**: 0x400300E8, 0x40061F10, 0x40065D04 `csi_set_fmt`, 0x40068134 `mmc_read_csd_cid`
+- **lib**: 0x4005C604 `__aeabi_memset_entry`, 0x4005C630, 0x4005C664, 0x400657FC, 0x40069F6C `__frexp_core`, 0x4006A400 `__exp_kernel`
+- **noret**: 0x4004A1B4 `power_off`
 
-### Suggested next batches, in order
-
-1. **Rest of 0x40060000–0x4006BFFF**: `mmc_read_csd_cid`, `csi_set_fmt`, the two large touch
-   functions 0x400695D0 / 0x40069858, 0x40069B0C, and `func_4006a738/4006a868` behind the USB disk
-   veneers. Batches 15–16 did the serialiser, code page and touch helpers.
-2. **Rest of the acquisition pipeline in 0x40040000**: `full_acquisition_entry` (1 KB),
-   `moving_average_and_crossing_alignment_search`, 0x400403AC. Batches 17–19 did the dispatcher,
-   sweep, capture blocks, bank unpacking (raw ADC to samples) and the channel filters.
-3. **Remaining small functions in 0x4003C000 and 0x40034000–0x4003BFFF**, including `main`.
-4. **The time-base switch** (0x4003F160..0x4003F868). First merge the fragments into one function
-   in the symbols (`make map` / analyser), then write it.
-5. **Done in batches 73-77**: generator table builder 0x4004D880 and the calibration steps 0x4004B0A0 / 0x4004BFC8. These
-   are large but their callers and data are already understood (batch 13, docs/SIM.md).
-6. **First look at 0x40018000–0x40033FFF**: identify the screens through their strings and the
-   draw calls, before writing any C. Batch 21 gives a starting point: each of the 42 window draw
-   functions there is called from one `ui_window_NN_redraw` wrapper (table in
-   `tools/platform_spec/p_ui_windows.py`) and reads its own rect from the window table.
+Phase 5 is complete for everything that can be written as C: each remaining function belongs to one of the groups above. Further work is on the documentation of data and behaviour (section 4), and on new features built on the C sources.
 
 ## 3. How to resume (checklist)
 
