@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/input.h"
 
 void touch_button_set_rect(u32 x, u32 y, u32 wd, u32 ht, volatile unsigned char *b)
 {

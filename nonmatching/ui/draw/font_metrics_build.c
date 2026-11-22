@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
 
 void font_metrics_build(volatile unsigned char *d)
 {

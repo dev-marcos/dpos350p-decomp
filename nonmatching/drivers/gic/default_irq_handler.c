@@ -4,5 +4,6 @@
  * Empty handler installed in every slot of the IRQ table.
  */
 #include "hw/platform.h"
+#include "drivers/gic.h"
 
 void default_irq_handler(void) { }

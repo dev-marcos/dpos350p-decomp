@@ -4,6 +4,7 @@
  * GIC distributor: off, target all SPIs to this CPU, level/edge config 0, priority 0xA0, disable all, on. Line count from GICD_TYPER (max 0x3FC).
  */
 #include "hw/platform.h"
+#include "drivers/gic.h"
 
 void gic_dist_init(u32 base)
 {

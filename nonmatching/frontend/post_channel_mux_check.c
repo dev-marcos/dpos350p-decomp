@@ -6,6 +6,10 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "drivers/timer.h"
+#include "frontend.h"
+#include "system.h"
 
 int post_channel_mux_check(u32 vdiv)
 {

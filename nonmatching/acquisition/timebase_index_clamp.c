@@ -6,9 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void ui_window_invalidate_from(u32 id, u32 r1);
-void timebase_period_load(void);
+#include "acquisition.h"
+#include "ui/windows.h"
 
 void timebase_index_clamp(void)
 {

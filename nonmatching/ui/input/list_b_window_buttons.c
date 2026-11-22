@@ -6,23 +6,14 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "storage/files.h"
+#include "ui/draw.h"
+#include "ui/input.h"
+#include "ui/windows.h"
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
-void ui_window_close(u32 id);
-void ui_window_open(u32 id);
-void ui_window_invalidate_from(u32 id, u32 r1);
 void inv_left(u32 id) __asm__("ui_window_invalidate_from");
 
-void touch_buttons_840_update(void);
-void ui_windows_reset(void);
-void list_b_current_load(void);
-void fb_clear_current(void);
-void ui_windows_open_1_5(void);
-void list_b_marks_clear(void);
-void list_b_page_mark(void);
-void list_count_nonzero_40036454(void);
-void list_cursor_clamp_400362f4(void);
-void list_b_page_thumbs(void);
 #define P16(o) (*(volatile unsigned short *)(0x40544E68u + 0xF90 + (o)))
 #define PS16(o) (*(volatile short *)(0x40544E68u + 0xF90 + (o)))
 

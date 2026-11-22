@@ -16,7 +16,6 @@ FRESULT f_opendir (
 	FATFS *fs;
 	DEF_NAMBUF
 
-
 	if (!dp) return FR_INVALID_OBJECT;
 
 	/* Get logical drive */

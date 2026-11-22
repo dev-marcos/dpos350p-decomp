@@ -6,8 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void fpga_cmd61_write(void);
+#include "drivers/fpga_bus.h"
+#include "fpga.h"
 
 void fpga_cmd61_pulse(void)
 {

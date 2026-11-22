@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
 
 void half_42e68be2_set(u32 a)
 {

@@ -4,6 +4,8 @@
  * Clear VBUS error, session request, connect and SOF; return the other bits.
  */
 #include "hw/usb.h"
+#include "usb/core.h"
+#include "usb/usbc.h"
 
 u32 filtrate_irq_misc(u32 irq_misc)
 {

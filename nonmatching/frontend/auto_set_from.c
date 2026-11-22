@@ -6,6 +6,17 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "frontend.h"
+#include "system.h"
+#include "ui/draw.h"
+#include "ui/screens.h"
+#include "ui/windows.h"
+
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void ui_window_03_redraw_raw(u32 a) __asm__("ui_window_03_redraw");
+void ui_window_05_redraw_raw(u32 a) __asm__("ui_window_05_redraw");
 
 #define SYS 0x40544E68u
 #define TCH 0x42E68BB0u
@@ -17,17 +28,10 @@
 #define SAVED 0x409223F0u            /* backup copy of the settings block (state_backup_all) */
 #define TBL 0x42C3D834u              /* message table: +0 text, +0x194 / +0x195 x / y offsets */
 
-void fb_target_back(void);
-void fb_present(void);
-void ui_window_03_redraw(u32 a);
-void ui_window_05_redraw(u32 a);
-int percent_at_least(int x, int y, int pct);
-void trigger_level_auto(void);
-
 static void box(int cx, int cy)
 {
-    ui_window_03_redraw(0);
-    ui_window_05_redraw(0);
+    ui_window_03_redraw_raw(0);
+    ui_window_05_redraw_raw(0);
     message_box_draw(cx + S8(TBL + 0x194), cy + S8(TBL + 0x195), W32(TBL), 0);
     fb_present();
 }

@@ -4,9 +4,8 @@
  * Enable the AVS clock gate (CCU AVS_CLK bit 31) and set AVS_CNT_DIV[15:0] (idx 0) or [31:16] (idx 1) to div - 1.
  */
 #include "hw/drivers.h"
-
-u32 readl_d(u32 addr);
-void writel_d(u32 addr, u32 v);
+#include "drivers/avs.h"
+#include "drivers/mmio.h"
 
 void avs_set_div(u32 idx, u32 div)
 {

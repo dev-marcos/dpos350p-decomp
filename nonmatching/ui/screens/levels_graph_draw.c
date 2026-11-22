@@ -6,6 +6,10 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "libc.h"
+#include "ui/draw.h"
+#include "ui/input.h"
+#include "ui/screens.h"
 
 #define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
@@ -14,18 +18,6 @@
 #define D64(a) (*(volatile double *)(a))
 #define BLK 0x42E68668u
 #define ADV 0x42E68BE4u
-
-void half_42e68be2_set(u32 a);
-void word_42e68c74_set(u32 a);
-void draw_colour_set(u32 c);
-void rect_fill(u32 x, u32 y, u32 w, u32 h);
-void text_draw(u32 x, u32 y, const char *s);
-
-void rect_outline_draw(u32 x, u32 y, u32 w, u32 h);
-void touch_button_set_rect(u32 x, u32 y, u32 wd, u32 ht, volatile unsigned char *b);
-void func_4002ecc4_span(u32 a, u32 b, u32 c);
-void level_value_draw(u32 x, u32 y, u32 c, double v);
-u32 frequency_draw(u32 x, u32 y, u32 measure, double d);
 
 /* the frequency labels under a plot whose left edge is x0 and whose bottom is y */
 static u32 freq_labels(u32 x8, u32 x0off, u32 y)

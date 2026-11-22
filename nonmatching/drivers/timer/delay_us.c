@@ -4,12 +4,9 @@
  * Busy-wait using AVS counter 1 (restart, then poll until 2*CNT1 >= n).
  */
 #include "hw/drivers.h"
-
-u32 readl_d(u32 addr);
-void writel_d(u32 addr, u32 v);
-
-void avs1_restart(void);
-u32 avs1_read(void);
+#include "drivers/avs.h"
+#include "drivers/mmio.h"
+#include "drivers/timer.h"
 
 void delay_us(u32 n)
 {

@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
 
 #define MB8(o) (*(volatile unsigned char *)(0x42E68668u + (o)))
 #define MB32(o) (*(volatile int *)(0x42E68668u + (o)))

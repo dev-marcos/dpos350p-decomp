@@ -4,5 +4,6 @@
  * INTUSB = mask.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void USBC_INT_ClearMiscPending(u32 mask) { REG8(USBC_INTUSB) = (unsigned char)mask; }

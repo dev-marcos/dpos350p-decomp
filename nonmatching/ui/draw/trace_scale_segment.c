@@ -6,9 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-u32 mode_not_0_or_2(u32 v);
-u32 mode_not_0_or_1(u32 v);
+#include "acquisition.h"
+#include "ui/draw.h"
 
 void trace_scale_segment(u32 tr, u32 start, u32 len)
 {

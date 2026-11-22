@@ -6,6 +6,13 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "generator.h"
+#include "ui/input.h"
+#include "ui/windows.h"
+
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void ui_window_invalidate_from_raw(u32 n) __asm__("ui_window_invalidate_from");
 
 #define SYS 0x40544E68u
 #define BTN 0x42E61FF8u              /* touch button records; byte 0 is the pending-touch flag */
@@ -16,13 +23,6 @@
 
 #define GEN 0x42E3F984u
 #define PAD 0x42E68A88u              /* number pad state */
-
-void touch_buttons_6xx_update(void);
-void gen_update(void);
-void ui_window_invalidate_from(u32 n);
-void numpad_open_mode1(u32 x, u32 y);
-void numpad_open_mode4(u32 x, u32 y);
-void numpad_open_mode6(u32 x, u32 y);
 
 static const int step8[8] = { 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1 };
 static const int step4[4] = { 1000, 100, 10, 1 };
@@ -56,7 +56,7 @@ static void step(int dir)
     }
     B8(BTN) = 0;
     gen_update();
-    ui_window_invalidate_from(3);
+    ui_window_invalidate_from_raw(3);
 }
 
 void gen_panel_buttons(void)
@@ -123,7 +123,7 @@ void gen_panel_buttons(void)
             B8(GEN + 0x2EFA) = k;
             B8(GEN + 0xC) = 0;
             gen_update();
-            ui_window_invalidate_from(3);
+            ui_window_invalidate_from_raw(3);
             return;
         }
     }

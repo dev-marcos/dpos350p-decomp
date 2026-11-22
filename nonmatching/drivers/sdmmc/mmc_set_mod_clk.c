@@ -4,15 +4,11 @@
  * SDMMCn clock (CCU 0x01C20088 + 4n): OSC24M up to 24 MHz, else PLL_PERIPH0; M divider (<= 16) and N = 2^k (k < 4); sample/output phase by rate (400 kHz, 25 MHz, 50 MHz).
  */
 #include "hw/platform.h"
+#include "drivers/mmio.h"
+#include "drivers/sdmmc.h"
+#include "drivers/uart.h"
 
-u32 readl_a(u32 addr);
-void writel_a(u32 addr, u32 v);
-void mmc_delay_us(u32 us);
-u32 mmc_base(u32 n);
-int mmc_update_clk(u32 n);
 #define mmc_capacity (*(u32 *)0x42E68CC0u)
-
-s32 mmc_periph0_freq(void);
 
 int mmc_set_mod_clk(u32 n, u32 hz)
 {

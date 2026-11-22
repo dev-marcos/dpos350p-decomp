@@ -18,7 +18,6 @@ FRESULT f_mkdir (
 	DWORD dcl, pcl, tm;
 	DEF_NAMBUF
 
-
 	/* Get logical drive */
 	res = find_volume(&path, &fs, FA_WRITE);
 	if (res == FR_OK) {

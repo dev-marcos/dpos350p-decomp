@@ -4,6 +4,7 @@
  * PIO: (DAT >> pin) & 1.
  */
 #include "hw/v3s.h"
+#include "drivers/pio.h"
 
 int pio_get_bit(pio_port_t *port, u32 pin)
 {

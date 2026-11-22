@@ -4,6 +4,9 @@
  * MS5351M: shift out one byte MSB first, then clock the ACK slot without reading it.
  */
 #include "hw/drivers.h"
+#include "drivers/ms5351.h"
+#include "drivers/pio.h"
+#include "drivers/timer.h"
 
 #define PE ((pio_port_t *)PIO_PE)
 

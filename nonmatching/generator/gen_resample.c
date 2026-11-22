@@ -6,6 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "generator.h"
+#include "processing.h"
+#include "util.h"
 
 void gen_resample(void)
 {

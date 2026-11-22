@@ -4,6 +4,7 @@
  * Address of the max-LUN byte (0x42E68D23).
  */
 #include "hw/usb.h"
+#include "usb/mass_storage.h"
 
 #define cbw            ((unsigned char *)0x42E68B90u)   /* 31-byte command block wrapper */
 #define CBW_SIG        (*(u32 *)0x42E68B90u)
@@ -27,13 +28,5 @@
 #define max_lun_rsp    (*(unsigned char *)0x42E68D1Eu)
 #define max_lun        (*(volatile u32 *)0x42E68D23u)   /* read as an unaligned word by the CBW check */
 #define sense_data     ((unsigned char *)0x40095400u)   /* 18-byte fixed-format sense */
-void usb_mass_send_data(unsigned char *buf, int len);
-void usb_mass_send_csw(u32 status, u32 next);
-void usb_mass_set_sense(u32 lun, u32 key, u32 asc);
-int usb_mass_write(int unused, unsigned char *buf, int len);
-int scsi_lun_invalid(u32 lun);
-int scsi_check_range(u32 lun, u32 op, u32 lba, u32 count);
-void usb_mass_disk_read(u32 lun, u32 lba, u32 count);
-void usb_mass_disk_write(u32 lun, u32 lba, u32 count);
 
 unsigned char *usb_mass_max_lun_ptr(void) { return (unsigned char *)0x42E68D23u; }

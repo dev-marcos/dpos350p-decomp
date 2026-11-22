@@ -6,9 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
 
-unsigned short font_glyph_index(u32 c);
-unsigned short char_to_digit_glyph(u32 c);
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define FONT W32(0x42E68C74u)
@@ -40,9 +39,6 @@ static u32 utf8_next(const char *s, unsigned char *n)
     return 0;
 }
 
-void glyph_14x14_draw(u32 x, u32 y, unsigned short code);
-void font_char_draw(u32 x, u32 y, u32 ch);
-void font_char_tint_draw(u32 x, u32 y, u32 ch);
 #define CENTRED (*(volatile unsigned char *)0x42E68BE0u)
 
 void text_draw(u32 x, u32 y, const char *s)

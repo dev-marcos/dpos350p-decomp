@@ -6,9 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void touch_button_update_00F2(void);
-void plot_touch_drag(void);
+#include "ui/input.h"
 
 void touch_00f2_then_400545f8(void)
 {

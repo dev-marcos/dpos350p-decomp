@@ -6,10 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void fft_hann_spectrum(void);
-void fft_db_traces_scale(void);
-void fft_traces_draw(void);
+#include "processing.h"
+#include "ui/draw.h"
 
 void zoom_views_update(void)
 {

@@ -4,5 +4,6 @@
  * CSR0.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 u32 USBC_Dev_Read_EP0_CSR(void) { return REG16(USBC_CSR0); }

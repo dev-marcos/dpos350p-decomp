@@ -13,7 +13,6 @@ FRESULT sync_fs (	/* Returns FR_OK or FR_DISK_ERR */
 {
 	FRESULT res;
 
-
 	res = sync_window(fs);
 	if (res == FR_OK) {
 		if (fs->fs_type == FS_FAT32 && fs->fsi_flag == 1) {	/* FAT32: Update FSInfo sector if needed */

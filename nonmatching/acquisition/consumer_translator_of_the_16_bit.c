@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
 
 void consumer_translator_of_the_16_bit(void)
 {

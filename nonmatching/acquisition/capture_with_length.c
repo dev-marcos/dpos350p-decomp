@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void capture_block(u32 v, u32 buf);
+#include "acquisition.h"
 
 void capture_with_length(u32 v, u32 len, u32 buf)
 {

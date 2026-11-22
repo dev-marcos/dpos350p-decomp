@@ -20,7 +20,6 @@ FRESULT f_unlink (
 #endif
 	DEF_NAMBUF
 
-
 	/* Get logical drive */
 	res = find_volume(&path, &fs, FA_WRITE);
 	if (res == FR_OK) {

@@ -6,22 +6,16 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
+#include "ui/draw.h"
+#include "ui/input.h"
+#include "ui/screens.h"
+#include "util.h"
 
-void draw_colour_set(u32 c);
-void rect_fill(u32 x, u32 y, u32 w, u32 h);
-void vline_draw(u32 x, u32 y0, u32 y1);
-void func_4002ecc4_span(u32 y, u32 x0, u32 x1);
-void half_42e68be2_set(u32 a);
-void word_42e68c74_set(u32 a);
-void text_draw(u32 x, u32 y, const char *s);
-u32 text_width(const char *s);
-void text_shadow_draw(u32 x, u32 y, const char *s, u32 n, unsigned char m, unsigned char alpha);
-void text_d6f8_shadow_draw(u32 x, u32 y, u32 a, u32 b, unsigned char e, unsigned char n, unsigned char m,
-                           unsigned char alpha);
-void touch_button_set_rect(u32 x, u32 y, u32 wd, u32 ht, volatile unsigned char *b);
-void value_si_scale(u32 kind, u32 unused, long long v, long long *out, int *dec, int *prefix);
-u32 func_4002d2d4_d0(u32 lo, u32 hi, u32 dec);
-void str_copy(char *d, const char *s);
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+u32 func_4002d2d4_d0_raw(u32 lo, u32 hi, u32 dec) __asm__("func_4002d2d4_d0");
+void str_copy_raw(char *d, const char *s) __asm__("str_copy");
 
 #define SYSB      0x40544E68u
 #define U16(v)    ((v) & 0xFFFFu)
@@ -56,7 +50,7 @@ static void sb_num(struct sbc *c, u32 x, u32 y)
 
 static u32 sb_numw(struct sbc *c)
 {
-    return func_4002d2d4_d0((u32)c->v, (u32)((unsigned long long)c->v >> 32), (unsigned char)c->dec);
+    return func_4002d2d4_d0_raw((u32)c->v, (u32)((unsigned long long)c->v >> 32), (unsigned char)c->dec);
 }
 
 /* drop one decimal (the values are scaled by 1000 before value_si_scale) */
@@ -102,11 +96,11 @@ static void sb_channel(struct sbc *c, u32 x, u32 y, u32 base, u32 bw, u32 on_col
     if (S8(base)) {                                           /* bandwidth limit */
         value_si_scale(7, 0, (long long)(S64(bw) * 1000u), &c->v, &c->dec, &c->pre);
         if (c->pre == 1)
-            str_copy(c->buf, "Hz");
+            str_copy_raw(c->buf, "Hz");
         else if (c->pre == 2)
-            str_copy(c->buf, "K");
+            str_copy_raw(c->buf, "K");
         else if (c->pre == 3)
-            str_copy(c->buf, "M");
+            str_copy_raw(c->buf, "M");
         sb_drop(c);
         tw = text_width(c->buf);
         r8 = x + 0x79 - (sb_numw(c) + tw);
@@ -116,14 +110,14 @@ static void sb_channel(struct sbc *c, u32 x, u32 y, u32 base, u32 bw, u32 on_col
     }
     draw_colour_set(THEME(1));
     sb_text(x + 7, y + 0x19, (const char *)(SYSB + bw + 8));          /* volts / div */
-    str_copy(c->buf, S8(base + 1) == 0 ? "DC" : "AC");
+    str_copy_raw(c->buf, S8(base + 1) == 0 ? "DC" : "AC");
     sb_text(x + 0x45, y + 0x19, c->buf);
     if (S8(base + 2) == 0)
-        str_copy(c->buf, "1X");
+        str_copy_raw(c->buf, "1X");
     else if (S8(base + 2) == 1)
-        str_copy(c->buf, "10X");
+        str_copy_raw(c->buf, "10X");
     else if (S8(base + 2) == 2)
-        str_copy(c->buf, "100X");
+        str_copy_raw(c->buf, "100X");
     sb_text(x + 0x7B - text_width(c->buf), y + 0x19, c->buf);
     sb_button(x, y, rec);
 }
@@ -131,11 +125,11 @@ static void sb_channel(struct sbc *c, u32 x, u32 y, u32 base, u32 bw, u32 on_col
 static void sb_time_unit(struct sbc *c)
 {
     switch (c->pre) {
-    case 0: str_copy(c->buf, "pS"); break;
-    case 1: str_copy(c->buf, "nS"); break;
-    case 2: str_copy(c->buf, "uS"); break;
-    case 3: str_copy(c->buf, "mS"); break;
-    case 4: str_copy(c->buf, "S"); break;
+    case 0: str_copy_raw(c->buf, "pS"); break;
+    case 1: str_copy_raw(c->buf, "nS"); break;
+    case 2: str_copy_raw(c->buf, "uS"); break;
+    case 3: str_copy_raw(c->buf, "mS"); break;
+    case 4: str_copy_raw(c->buf, "S"); break;
     }
 }
 
@@ -194,16 +188,16 @@ void status_bar_draw(void)
     draw_colour_set(THEME(1));
     value_si_scale(8, 0, (long long)(S64(0x538) * S8(0x1B0) * 100u / 0x5Fu), &c->v, &c->dec, &c->pre);
     switch (c->pre) {
-    case 1: str_copy(c->buf, "S/s"); break;
-    case 2: str_copy(c->buf, "KS/s"); break;
-    case 3: str_copy(c->buf, "MS/s"); break;
-    case 4: str_copy(c->buf, "GS/s"); break;
+    case 1: str_copy_raw(c->buf, "S/s"); break;
+    case 2: str_copy_raw(c->buf, "KS/s"); break;
+    case 3: str_copy_raw(c->buf, "MS/s"); break;
+    case 4: str_copy_raw(c->buf, "GS/s"); break;
     }
     w = sb_numw(c);
     sb_num(c, x + 7, y1);
     sb_text(w + x + 0xA, y1, c->buf);
     fx = text_width("bit");
-    w = func_4002d2d4_d0(S8(0x660) + 8, 0, 0);
+    w = func_4002d2d4_d0_raw(S8(0x660) + 8, 0, 0);
     text_d6f8_shadow_draw(U16(x + 0x77 - fx - w), U16(y1), S8(0x660) + 8, 0, 0, 1, 2, 0);
     sb_text(x + 0x7B - text_width("bit"), y1, "bit");
     sb_button(x, y, 0xCA);
@@ -221,11 +215,11 @@ void status_bar_draw(void)
     sb_text(x + 0x7B - text_width(s), y + 2, s);
     draw_colour_set(THEME(1));
     if (S8(0x27A) == 0)
-        str_copy(c->buf, "Auto");
+        str_copy_raw(c->buf, "Auto");
     else if (S8(0x27A) == 1)
-        str_copy(c->buf, "Single");
+        str_copy_raw(c->buf, "Single");
     else if (S8(0x27A) == 2)
-        str_copy(c->buf, "Normal");
+        str_copy_raw(c->buf, "Normal");
     sb_text(x + 7, y1, c->buf);
     fx = x + 0x49;
     y2 = y + 0x25;
@@ -266,10 +260,10 @@ void status_bar_draw(void)
     half_42e68be2_set(2);
     value_si_scale(6, 0, (long long)GN32(0x2F00) * 1000, &c->v, &c->dec, &c->pre);
     switch (c->pre) {
-    case 0: str_copy(c->buf, "uV"); break;
-    case 1: str_copy(c->buf, "mV"); break;
-    case 2: str_copy(c->buf, "V"); break;
-    case 3: str_copy(c->buf, "KV"); break;
+    case 0: str_copy_raw(c->buf, "uV"); break;
+    case 1: str_copy_raw(c->buf, "mV"); break;
+    case 2: str_copy_raw(c->buf, "V"); break;
+    case 3: str_copy_raw(c->buf, "KV"); break;
     }
     w = sb_numw(c);
     sb_num(c, x + 7, y1);
@@ -277,10 +271,10 @@ void status_bar_draw(void)
     value_si_scale(7, 0, (long long)GN32(0x2EFC) * 1000, &c->v, &c->dec, &c->pre);
     switch (c->pre) {
     case 0:
-    case 1: str_copy(c->buf, "Hz"); break;
-    case 2: str_copy(c->buf, "KHz"); break;
-    case 3: str_copy(c->buf, "MHz"); break;
-    case 4: str_copy(c->buf, "GHz"); break;
+    case 1: str_copy_raw(c->buf, "Hz"); break;
+    case 2: str_copy_raw(c->buf, "KHz"); break;
+    case 3: str_copy_raw(c->buf, "MHz"); break;
+    case 4: str_copy_raw(c->buf, "GHz"); break;
     }
     sb_drop(c);
     w = sb_numw(c);

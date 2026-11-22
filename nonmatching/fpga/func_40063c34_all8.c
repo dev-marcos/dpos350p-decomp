@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void fpga_counter_step(u32 i);
+#include "fpga.h"
 
 void func_40063c34_all8(void)
 {

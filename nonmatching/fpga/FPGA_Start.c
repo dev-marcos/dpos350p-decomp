@@ -6,9 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void fpga_pe_mode_select(u32 mode);
-void ms5351_start_clocks(void);
+#include "drivers/csi.h"
+#include "drivers/ms5351.h"
+#include "fpga.h"
 
 void FPGA_Start(void)
 {

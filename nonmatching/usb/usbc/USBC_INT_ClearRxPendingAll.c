@@ -4,5 +4,6 @@
  * INTRx = 0xFFFF.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void USBC_INT_ClearRxPendingAll(void) { REG16(USBC_INTRx) = 0xFFFF; }

@@ -4,15 +4,13 @@
  * String descriptors 0 (language, max 4 bytes), 1/3, 2 (header rewritten with the length), 4, 5, 6, 0xEE (MS OS string, header rewritten in the 1/3 buffer); max 0x20 or 0x26 bytes; others send nothing.
  */
 #include "hw/usb.h"
+#include "drivers/uart.h"
+#include "usb/core.h"
+#include "usb/mass_storage.h"
 
 #define setup_req      ((unsigned char *)0x42E68C58u)   /* copy of the last setup packet */
 #define line_coding    ((unsigned char *)0x40095484u)   /* 7 bytes */
 #define line_coding_rx (*(u32 *)0x42E68CECu)
-void usb_mass_send_data(unsigned char *buf, int len);
-void usb_mass_send_csw(u32 status, u32 next);
-void usb_mass_set_sense(u32 lun, u32 key, u32 asc);
-
-int usb_device_write_data_ep_pack(int ep, unsigned char *databuf, int len);
 
 void udp_get_dev_descriptor_string(unsigned char *req)
 {

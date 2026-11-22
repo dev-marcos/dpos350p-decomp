@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
 
 #define SYS 0x40544E68u
 #define GEN 0x42E3F984u
@@ -14,8 +15,6 @@
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define D64(a) (*(volatile unsigned long long *)(a))
-
-void runtime_state_commit_force(void);
 
 void acq_defaults_reset(void)
 {

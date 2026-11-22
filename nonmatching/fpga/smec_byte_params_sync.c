@@ -6,16 +6,13 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/fpga_bus.h"
+#include "fpga.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
-
-void fpga_param_updater(u32 idx, u32 size, u32 v32, u32 vsmall);
-void smec_commit(u32 idx);
-void fpga_selector_command_write(u32 sel);
-void fpga_data_byte_write(u32 v);
 
 void smec_byte_params_sync(void)
 {

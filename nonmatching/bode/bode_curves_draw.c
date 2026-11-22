@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "bode.h"
+#include "ui/draw.h"
 
 #define SYS 0x40544E68u
 #define BB 0x42E180C8u
@@ -20,15 +22,6 @@
 #define BW(o) W(BB + (o))
 #define BD(o) DD(BB + (o))
 #define U16(v) ((unsigned short)(v))
-
-void draw_colour_set(u32 c);
-void half_42e68be2_set(u32 a);
-void word_42e68c74_set(u32 a);
-void rect_fill(u32 x, u32 y, u32 w, u32 h);
-void vline_draw(u32 x, u32 y0, u32 y1);
-void func_4002ecc4_span(u32 y, u32 x0, u32 x1);
-void text_draw(u32 x, u32 y, const char *s);
-u32 text_width(const char *s);
 
 static void curve(u32 tab, u32 colour)
 {

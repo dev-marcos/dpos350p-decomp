@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "util.h"
 
 int strcmp(const char *a, const char *b)
 {

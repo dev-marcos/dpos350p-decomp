@@ -4,6 +4,7 @@
  * FIFO size code = log2 of the 512-aligned size in 16-byte units; address in 8-byte units; bit 4 = double buffer.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void __USBC_ConfigFifo_TxEp(u32 is_double_fifo, u32 fifo_size, u32 fifo_addr)
 {

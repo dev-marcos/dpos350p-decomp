@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
 
 static u32 shr(u32 v, u32 s)
 {

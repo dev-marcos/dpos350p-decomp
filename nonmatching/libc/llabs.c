@@ -4,6 +4,7 @@
  * Arm C library: 64-bit absolute value (llabs(LLONG_MIN) == LLONG_MIN).
  */
 #include "rt/bits.h"
+#include "libc.h"
 
 s64 llabs(s64 x)
 {

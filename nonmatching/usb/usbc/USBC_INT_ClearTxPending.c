@@ -4,5 +4,6 @@
  * INTTx = 1 << ep.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void USBC_INT_ClearTxPending(u32 ep_index) { REG16(USBC_INTTx) = (unsigned short)(1u << ep_index); }

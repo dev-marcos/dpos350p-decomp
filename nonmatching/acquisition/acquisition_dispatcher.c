@@ -6,10 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void full_acquisition_veneer(void);
-void runtime_sweep_path(void);
-void runtime_state_commit_copy(void);
+#include "acquisition.h"
 
 void acquisition_dispatcher(void)
 {

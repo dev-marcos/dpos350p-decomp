@@ -6,9 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void draw_colour_set(u32 c);
-void rect_fill(u32 a, u32 b, u32 c, u32 d);
+#include "ui/draw.h"
 
 void sys_rect_fill(void)
 {

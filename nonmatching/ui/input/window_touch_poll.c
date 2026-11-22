@@ -6,9 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/input.h"
 
-void screenshot_button_poll(void);
-void window_buttons_dispatch(u32 id);
 #define WS8(o) (*(volatile unsigned char *)(0x42E68BC8u + (o)))
 
 void window_touch_poll(void)

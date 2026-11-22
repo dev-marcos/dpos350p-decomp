@@ -4,39 +4,23 @@
  * Pins, bus gate/reset (bit n+8), 400 kHz, controller resets, CMD0; CMD8 decides SD 2.0 (ACMD41 0x40FF8000: SDHC or SD) or SD 1.1 (ACMD41 0x00FF8000) / MMC (CMD1, unreachable: the code compares the result with +0x98); CID, RCA, CSD/CID decode (0x42E68A18), select and 4-bit setup.
  */
 #include "hw/platform.h"
+#include "drivers/mmio.h"
+#include "drivers/sdmmc.h"
+#include "drivers/uart.h"
+#include "libc.h"
 
 typedef struct { unsigned short opcode, pad; u32 flags, arg, resp[4]; } mmc_cmd_t;   /* flags: 1 resp, 2 long, 4 crc, 8 busy */
 typedef struct { u32 *buf; unsigned char flags, pad[3]; u32 blocks, blksz; } mmc_xfer_t; /* flags: 1 read, 2 write */
-u32 readl_a(u32 addr);
-void writel_a(u32 addr, u32 v);
-u32 mmc_base(u32 n);
-void mmc_delay_us(u32 us);
-void mmc_delay_ms(u32 ms);
-int mmc_update_clk(u32 n);
-int mmc_wait_rint(u32 n, u32 timeout, u32 mask);
-int mmc_idma_status(u32 n);
 int mmc_trans_data_by_cpu(u32 n, mmc_xfer_t *d);
 int mmc_trans_data_by_dma(u32 n, mmc_xfer_t *d, u32 *desc);
 int mmc_send_cmd(u32 n, mmc_cmd_t *cmd, mmc_xfer_t *data);
 int mmc_cmd(u32 n, mmc_cmd_t *cmd, mmc_xfer_t *data, u32 opcode, u32 arg, u32 flags);
-int mmc_config_clock(u32 n, u32 hz);
-int mmc_set_bus_width(u32 n, u32 ctype);
-int mmc_check_range(u32 start, u32 count);
-void dcache_flush_range(u32 addr, u32 len);
 #define mmc_card_type (*(int *)0x42E68CB8u)   /* 0 none, 1 SDHC, 2 SD (byte addressed), 3 MMC */
 #define mmc_rca       (*(u32 *)0x42E68CBCu)
 #define mmc_dma_buf   ((unsigned char *)0x42E68B28u)
 
-void sdmmc_pins_init(u32 n);
-int mmc_set_mod_clk(u32 n, u32 hz);
-void mmc_hw_reset(u32 n);
-int mmc_reset(u32 n);
-int mmc_gctrl_clr_bit8(u32 n);
-int mmc_clk_lowpower_on(u32 n);
-int mmc_clk_enable(u32 n);
 void mmc_read_csd_cid(u32 n, mmc_cmd_t *cmd, void *info);
 int mmc_select_setup(u32 n, mmc_cmd_t *cmd, int width4);
-unsigned long long __aeabi_llsl(unsigned long long v, int sh);
 
 int mmc_card_init(u32 n)
 {

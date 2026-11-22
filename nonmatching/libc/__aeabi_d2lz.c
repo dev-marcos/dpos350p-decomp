@@ -5,6 +5,7 @@
  * |x| >= 2^63 saturates to INT64_MAX/INT64_MIN, but Inf and NaN (exponent 0x7FF) give 0.
  */
 #include "rt/bits.h"
+#include "libc.h"
 
 AEABI s64 __aeabi_d2lz(u32 lo, u32 hi)
 {

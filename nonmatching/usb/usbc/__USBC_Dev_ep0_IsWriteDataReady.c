@@ -4,5 +4,6 @@
  * CSR0 bit 1.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 u32 __USBC_Dev_ep0_IsWriteDataReady(void) { return REG16(USBC_CSR0) & 2; }

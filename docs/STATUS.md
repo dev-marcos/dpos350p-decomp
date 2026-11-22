@@ -29,7 +29,7 @@ keeps `make check` at MATCH, all 1264 functions EQUIVALENT, the self-test comple
 | Step | State |
 |---|---|
 | 1. Files named after their function and grouped by module (`nonmatching/<module>/<name>.c`); tools find a function by its header address (`tools/srcindex.py`); the spec generators retired, so the C files are the source | done |
-| 2. One header per module instead of prototypes repeated in each file | to do |
+| 2. One header per module (`include/<module>.h`, 45 headers) instead of prototypes repeated in each file; prototypes removed from `include/hw/*.h`; 58 files keep an `__asm__` alias where the stock caller uses a different register interface. Object code of every file unchanged (compared byte for byte, three flag sets) | done |
 | 3. Structs with named fields for the system, layout and theme blocks instead of raw offsets | to do |
 | 4. Names for the 14 `func_…` wrappers and the mechanical names (`touch_group_0B06`, `half_42e68be2_set`…) | to do |
 
@@ -158,10 +158,10 @@ Environment: WSL distro `dpos-re`. Run every command as
 2. For a new batch:
    1. Read the assembly (`asm/func_XXXXXXXX.s`, or REA/Ghidra) and write C in
       `nonmatching/<module>/<name>.c` (folders in docs/CONTRIBUTING.md, "Source layout"), with
-      the `* <name> -- stock 0x<address> (...)` header line. Platform files include
-      `hw/platform.h` and `hw/fpga.h`; do **not** include `hw/drivers.h` as well: its PIO
-      prototypes conflict.
-   2. Add prototypes and RAM macros to `include/hw/fpga.h`, or to a new header.
+      the `* <name> -- stock 0x<address> (...)` header line. Include `hw/platform.h` and
+      `hw/fpga.h` for the hardware macros, and the module headers of the functions it calls.
+   2. Add the prototype to the folder's header (`include/<module>.h`), and RAM macros to
+      `include/hw/fpga.h`.
    3. Add the symbol row to `symbols/manual.csv` **before** building.
    4. `python3 tools/nmbuild.py` (about 10 minutes for all). To rebuild one file, call
       `nmbuild.build(nmbuild.ROOT / "nonmatching/<module>/<name>.c", nmbuild.original_symbols())`.

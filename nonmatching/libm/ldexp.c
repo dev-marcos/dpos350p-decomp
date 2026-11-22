@@ -6,6 +6,7 @@
  * for n >= 0x3FC scales by 2^1009 and then by 2^(n-1016); this is reproduced as is.
  */
 #include "rt/bits.h"
+#include "libm.h"
 
 static inline double mk(u32 hi, u32 lo) { return bitsd(((u64)hi << 32) | lo); }
 

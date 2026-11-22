@@ -6,14 +6,12 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void fb_target_back(void);
-void fb_clear_current(void);
-void fb_present(void);
-void draw_colour_set(u32 c);
-void word_42e68c74_set(u32 a);
-void half_42e68be2_set(u32 a);
-void text_draw(u32 x, u32 y, const char *s);
+#include "acquisition.h"
+#include "fpga.h"
+#include "selftest.h"
+#include "storage/diskio.h"
+#include "system.h"
+#include "ui/draw.h"
 
 #define FT8(o)      (*(volatile unsigned char *)(0x42E68AE0u + (o)))
 #define FT_WHITE    0x00FFFFFFu
@@ -56,17 +54,6 @@ static void ft_fail2(u32 x, u32 y, u32 ok1, u32 ok2)
         ft_text(FT_RED, x, y, FT_CH2_FAIL);
     ft_halt();
 }
-
-void disk_check_file(void);
-void fpga_probe_and_copy_7fc(void);
-void security_check_and_copy(void);
-void table_684_init(void);
-void selftest_4f5e4(void);
-void calibration_result_flags(void);
-void acq_defaults_reset(void);
-void calib_run_4_channels(void);
-void gen_selftest_4f89c(void);
-void gen_selftest_50bac(void);
 
 #define TEXT_W (*(volatile unsigned short *)0x42E68BE4u)
 

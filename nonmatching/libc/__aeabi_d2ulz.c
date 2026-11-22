@@ -5,6 +5,7 @@
  * >= 2^64, +Inf and positive-sign NaN saturate to UINT64_MAX (sign taken from bit 63).
  */
 #include "rt/bits.h"
+#include "libc.h"
 
 AEABI u64 __aeabi_d2ulz(u32 lo, u32 hi)
 {

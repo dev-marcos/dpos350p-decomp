@@ -4,6 +4,8 @@
  * MBC = total, MTC = TX bytes, BCC = TX bytes | dual mode << 28 (24-bit counts).
  */
 #include "hw/platform.h"
+#include "drivers/mmio.h"
+#include "drivers/spi.h"
 
 void sys_spi_set_counts(int spi, u32 txn, u32 total)
 {

@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "frontend.h"
 
 #define SYS 0x40544E68u
 #define TCH 0x42E68BB0u
@@ -13,8 +14,6 @@
 #define H16(a) (*(volatile unsigned short *)(a))
 #define S8(a) (*(volatile signed char *)(a))
 #define W32(a) (*(volatile u32 *)(a))
-
-void auto_set_from(u32 box_base);
 
 void auto_set(void)
 {

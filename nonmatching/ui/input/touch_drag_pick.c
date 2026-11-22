@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/input.h"
 
 #define SYS 0x40544E68u
 #define U 0x42E68998u                /* drag state */
@@ -14,14 +15,6 @@
 #define H16(a) (*(volatile unsigned short *)(a))
 #define S16(a) (*(volatile short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
-
-void touch_hit_cursor_x(void);
-void touch_hit_cursor_y(void);
-void touch_hit_x_b(void);
-void trace_hit_ch1(void);
-void trace_hit_ch2(void);
-void trace_hit_zoom_ch1(void);
-void trace_hit_zoom_ch2(void);
 
 #define SPLIT B8(SYS + 0x2AA)
 

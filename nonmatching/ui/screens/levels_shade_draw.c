@@ -6,13 +6,12 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
+#include "ui/screens.h"
 
 #define MI(o) (*(volatile int *)(0x42E68668u + (o)))
 #define MD(o) (*(volatile double *)(0x42E68668u + (o)))
 #define M64(o) (*(volatile long long *)(0x42E68668u + (o)))
-
-void draw_colour_set(u32 c);
-void pixel_put(u32 x, u32 y);
 
 void levels_shade_draw(void)
 {

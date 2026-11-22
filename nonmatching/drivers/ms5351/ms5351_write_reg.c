@@ -4,6 +4,8 @@
  * MS5351M: write one register (START, 0xC0, reg, value, STOP).
  */
 #include "hw/drivers.h"
+#include "drivers/ms5351.h"
+#include "drivers/timer.h"
 
 #define PE ((pio_port_t *)PIO_PE)
 

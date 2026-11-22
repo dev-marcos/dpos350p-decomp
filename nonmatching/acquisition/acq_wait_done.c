@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
 
 void acq_wait_done(void)
 {

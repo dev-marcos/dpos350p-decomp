@@ -4,5 +4,6 @@
  * CSR0 |= 0x20.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void __USBC_Dev_ep0_SendStall(void) { REG16(USBC_CSR0) = (unsigned short)(REG16(USBC_CSR0) | 0x20); }

@@ -4,6 +4,7 @@
  * Copy cnt bytes to a FIFO: 32-bit words, then the tail bytes. Returns cnt.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 u32 USBC_WritePacket(void *fifo, u32 cnt, void *buff)
 {

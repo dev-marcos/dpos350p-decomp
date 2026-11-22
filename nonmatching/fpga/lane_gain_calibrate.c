@@ -6,9 +6,10 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void acq_defaults_reset(void);
-u32 lane_level_mean(u32 start, u32 lane, u32 ch, u32 n, unsigned char *buf);
+#include "acquisition.h"
+#include "drivers/timer.h"
+#include "fpga.h"
+#include "system.h"
 
 #define LCAL_BUF ((unsigned char *)0x429D3AB4u)
 #define LCAL_ROWS 50

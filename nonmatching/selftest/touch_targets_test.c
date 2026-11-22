@@ -6,16 +6,11 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/gt911.h"
+#include "selftest.h"
+#include "ui/draw.h"
+#include "ui/input.h"
 
-void touch_state_clear(void);
-void fb_target_back(void);
-void fb_clear_current(void);
-void draw_colour_set(u32 c);
-void word_42e68c74_set(u32 v);
-void half_42e68be2_set(u32 v);
-void rect_fill(u32 x, u32 y, u32 w, u32 h);
-void fb_present(void);
-void gt911_poll(void);
 #define TS8(o) (*(volatile unsigned char *)(0x42E68BB0u + (o)))
 #define TS16(o) (*(volatile short *)(0x42E68BB0u + (o)))
 #define IN(v, lo) ((u32)((v) - (lo)) < 0x4Fu)

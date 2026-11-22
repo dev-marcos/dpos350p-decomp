@@ -4,5 +4,6 @@
  * CSR0 = 0x48 (ServicedRxPktRdy | DataEnd).
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void __USBC_Dev_ep0_ReadDataComplete(void) { REG16(USBC_CSR0) = 0x48; }

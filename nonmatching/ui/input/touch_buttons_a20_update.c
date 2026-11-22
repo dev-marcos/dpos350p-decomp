@@ -6,8 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/input.h"
 
-void touch_button_update(volatile unsigned char *b);
 #define TBU(o) touch_button_update((volatile unsigned char *)(0x42E61FF8u + (o)))
 
 void touch_buttons_a20_update(void)

@@ -4,6 +4,8 @@
  * FPGA bus: write a command/selector byte (as data write but with PE2 and PE3 high).
  */
 #include "hw/drivers.h"
+#include "drivers/fpga_bus.h"
+#include "drivers/pio.h"
 
 void fpga_selector_command_write(u32 v)
 {

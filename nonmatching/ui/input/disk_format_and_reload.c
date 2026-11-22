@@ -6,11 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void disk_format(void);
-void list_a_index_load(void);
-void list_b_index_load(void);
-void list_c_index_load(void);
+#include "storage/diskio.h"
+#include "storage/files.h"
+#include "ui/input.h"
 
 void disk_format_and_reload(void)
 {

@@ -6,8 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void *__aeabi_memset_entry(void *d, unsigned int n, int v);
+#include "stock_asm.h"
+#include "util.h"
 
 void mem_clear(void *d, unsigned int n)
 {

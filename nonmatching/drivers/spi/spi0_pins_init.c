@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/pio.h"
+#include "drivers/spi.h"
 
 void spi0_pins_init(u32 mode)
 {

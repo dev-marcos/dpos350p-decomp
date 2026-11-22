@@ -4,6 +4,7 @@
  * PIO: set the 2-bit drive strength of a pin (values above 3 clamp to 3).
  */
 #include "hw/v3s.h"
+#include "drivers/pio.h"
 
 void pio_set_drive(pio_port_t *port, u32 pin, u32 drv)
 {

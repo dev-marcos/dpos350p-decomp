@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "generator.h"
 
 void gen_limits(u32 r0, u32 r1, u32 lo, u32 hi)
 {

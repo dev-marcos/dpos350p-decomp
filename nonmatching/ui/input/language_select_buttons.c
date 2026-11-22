@@ -6,15 +6,12 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "storage/settings.h"
+#include "ui/input.h"
+#include "ui/text.h"
+#include "ui/windows.h"
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
-void ui_window_close(u32 id);
-void ui_window_open(u32 id);
-
-void touch_group_0156(void);
-void ui_text_language_apply(void);
-void settings_b_save(void);
-void ui_windows_mark_dirty(void);
 
 void language_select_buttons(void)
 {

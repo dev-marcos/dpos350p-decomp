@@ -4,9 +4,9 @@
  * CCU: PLL_PERIPH0 output = 24 MHz * N * K / 2 (signed halving).
  */
 #include "hw/drivers.h"
+#include "drivers/ccu.h"
+#include "drivers/mmio.h"
 
-u32 readl_e(u32 addr);
-void writel_e(u32 addr, u32 v);
 #define CCU 0x01C20000u
 #define PLL_LOCK 0x10000000u
 

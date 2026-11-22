@@ -4,5 +4,6 @@
  * RXCSR bit 6.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 u32 __USBC_Dev_Rx_IsEpStall(void) { return REG16(USBC_RXCSR) & 0x40; }

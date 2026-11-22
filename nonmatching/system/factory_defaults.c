@@ -6,9 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void system_defaults_init(void);
-void state_blocks_init(void);
+#include "system.h"
+#include "util.h"
 
 void factory_defaults(void)
 {

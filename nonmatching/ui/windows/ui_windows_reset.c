@@ -6,12 +6,15 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/windows.h"
+#include "util.h"
+
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void mem_clear_raw(volatile void *p, u32 n) __asm__("mem_clear");
 
 #define WIN(id)  ((volatile unsigned char *)(0x42E64520u + (id) * 14u))
 #define WSTK     ((volatile unsigned char *)0x42E68BC8u)
-void ui_window_stack_top_update(void);
-
-void mem_clear(volatile void *p, u32 n);
 
 void ui_windows_reset(void)
 {
@@ -24,6 +27,6 @@ void ui_windows_reset(void)
         w[5] = 0;
         w += 14;
     }
-    mem_clear(WSTK + 2, 20);
+    mem_clear_raw(WSTK + 2, 20);
     *(volatile unsigned short *)WSTK = 0;
 }

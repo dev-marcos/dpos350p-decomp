@@ -6,16 +6,14 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
+#include "util.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define F32(a) (*(volatile float *)(a))
-
-void spline_resample(int n, const volatile float *xk, const volatile float *yk, u32 m, const volatile float *xin,
-                     volatile float *yout);
-void copy_u16(unsigned short *d, const unsigned short *s, u32 n);
 
 #define FY 0x42DBCD54u
 #define FX 0x42DA94D4u

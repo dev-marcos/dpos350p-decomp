@@ -6,21 +6,20 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "generator.h"
+#include "system.h"
+#include "ui/draw.h"
+#include "ui/input.h"
+#include "ui/windows.h"
+
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void ui_window_close_raw(u32 id) __asm__("ui_window_close");
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
-void ui_window_close(u32 id);
-void ui_window_open(u32 id);
-void ui_window_invalidate_from(u32 id, u32 r1);
 void inv_left(u32 id) __asm__("ui_window_invalidate_from");
 
-void touch_group_020A(void);
-void sys_3c_enter(void);
-void sys_info_backup(void);
-void gen_state_backup(void);
-void acq_defaults_reset(void);
-void state_block_3f984_init(void);
-void ui_windows_reset(void);
-void fb_clear_current(void);
 #define TH16(o) (*(volatile unsigned short *)(0x42E61FF8u + (o)))
 
 void buttons_20a_handler(void)
@@ -59,9 +58,9 @@ void buttons_20a_handler(void)
     } else if (TB(0x232) == 2) {
         TB(0) = 0;
         TB(0x232) = 0;
-        ui_window_close(0xA);
-        ui_window_close(5);
-        ui_window_close(2);
+        ui_window_close_raw(0xA);
+        ui_window_close_raw(5);
+        ui_window_close_raw(2);
         ui_window_open(0x1C);
         ui_window_open(5);
         sys_3c_enter();

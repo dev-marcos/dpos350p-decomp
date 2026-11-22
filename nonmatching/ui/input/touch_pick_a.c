@@ -6,12 +6,11 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/input.h"
 
 #define TP      ((volatile short *)0x42E68BB0u)            /* touch block: x0, y0, x1, y1 (s16) */
 #define TS32(o) (*(volatile u32 *)(0x42E68998u + (o)))     /* touch-control state */
 #define TS8     (*(volatile unsigned char *)0x42E68998u)   /* control code of the current touch */
-
-void touch_hit_pair_a(void);
 
 void touch_pick_a(void)
 {

@@ -6,12 +6,11 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void table_684_init(void);
-u32 gen_selftest_64c28(void);
-u32 gen_selftest_64cf0(void);
-void settings_a_save(void);
-void acq_defaults_reset(void);
+#include "acquisition.h"
+#include "selftest.h"
+#include "storage/files.h"
+#include "storage/settings.h"
+#include "system.h"
 
 void check_pair_save(void)
 {

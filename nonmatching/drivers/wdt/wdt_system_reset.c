@@ -4,9 +4,7 @@
  * Watchdog 0: configure (interval 0, whole-system reset, no IRQ) and enable.
  */
 #include "hw/drivers.h"
-
-int wdt_config(u32 interval, u32 cfg, u32 irq);
-void wdt_enable(void);
+#include "drivers/wdt.h"
 
 void wdt_system_reset(void)
 {

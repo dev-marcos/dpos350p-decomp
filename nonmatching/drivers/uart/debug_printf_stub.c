@@ -4,5 +4,6 @@
  * Variadic no-op (the usbprint/debug macro target).
  */
 #include "hw/platform.h"
+#include "drivers/uart.h"
 
 void debug_printf_stub(const char *fmt, ...) { (void)fmt; }

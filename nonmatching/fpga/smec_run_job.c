@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "fpga.h"
 
 u32 smec_run_job(u32 idx, u32 val)
 {

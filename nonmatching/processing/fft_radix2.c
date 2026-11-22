@@ -6,6 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "processing.h"
+#include "stock_asm.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -20,8 +23,6 @@ typedef double (*dfn)(double);
 #define SIN_T ((dfn)0x40066535u)   /* sin at 0x40066534 is Thumb */
 
 cfloat cmul(cfloat a, cfloat b);
-void dcache_clean_inv_all(void);
-void runtime_event_service(void);
 
 void fft_radix2(int n, volatile float *x)
 {

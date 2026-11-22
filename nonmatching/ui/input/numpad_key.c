@@ -6,12 +6,12 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/input.h"
 
-void numpad_sign_apply(void);
-void numpad_backspace(void);
-void numpad_append_char(u32 c);
-void numpad_value_parse(u32 unit);
-void numpad_close(void);
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void numpad_close_raw(void) __asm__("numpad_close");
+
 #define NP8(o) (*(volatile unsigned char *)(0x42E68A88u + (o)))
 
 void numpad_key(u32 k)
@@ -34,6 +34,6 @@ void numpad_key(u32 k)
             numpad_append_char((u32)(int)(signed char)(k + 0x2D));
     } else if (k == 0xE || k == 0xF || k == 0x10) {
         numpad_value_parse(k);
-        numpad_close();
+        numpad_close_raw();
     }
 }

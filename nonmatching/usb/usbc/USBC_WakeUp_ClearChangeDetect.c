@@ -4,5 +4,6 @@
  * Clear the write-1-to-clear VBUS/ID/DPDM change bits (6:4) from a value.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 u32 USBC_WakeUp_ClearChangeDetect(u32 reg_val) { return reg_val & ~0x70u; }

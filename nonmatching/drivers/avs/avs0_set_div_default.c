@@ -4,11 +4,8 @@
  * avs_set_div(0, 24000).
  */
 #include "hw/drivers.h"
-
-u32 readl_d(u32 addr);
-void writel_d(u32 addr, u32 v);
-
-void avs_set_div(u32 idx, u32 div);
+#include "drivers/avs.h"
+#include "drivers/mmio.h"
 
 void avs0_set_div_default(void)
 {

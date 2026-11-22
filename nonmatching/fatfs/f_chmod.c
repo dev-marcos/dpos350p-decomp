@@ -18,7 +18,6 @@ FRESULT f_chmod (
 	FATFS *fs;
 	DEF_NAMBUF
 
-
 	res = find_volume(&path, &fs, FA_WRITE);	/* Get logical drive */
 	if (res == FR_OK) {
 		dj.obj.fs = fs;

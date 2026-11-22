@@ -21,7 +21,6 @@ FRESULT find_volume (	/* FR_OK(0): successful, !=0: an error occurred */
 	FATFS *fs;
 	UINT i;
 
-
 	/* Get logical drive number */
 	*rfs = 0;
 	vol = get_ldnumber(path);

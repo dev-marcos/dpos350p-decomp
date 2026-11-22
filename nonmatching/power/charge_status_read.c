@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/fpga_bus.h"
+#include "power.h"
 
 void charge_status_read(void)
 {

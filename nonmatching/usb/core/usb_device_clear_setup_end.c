@@ -4,5 +4,7 @@
  * b USBC_Dev_Ctrl_ClearSetupEnd.
  */
 #include "hw/usb.h"
+#include "usb/core.h"
+#include "usb/usbc.h"
 
 void usb_device_clear_setup_end(void) { USBC_Dev_Ctrl_ClearSetupEnd(); }

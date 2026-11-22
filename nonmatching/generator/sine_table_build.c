@@ -6,9 +6,10 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "generator.h"
+#include "libm.h"
 
 #define SINT ((volatile int *)0x42D564B4u)
-double sin(double x);
 
 void sine_table_build(double a0)
 {

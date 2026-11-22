@@ -6,10 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
+#include "ui/screens.h"
 
-void draw_colour_set(u32 c);
-void func_4002ecc4_span(u32 a, u32 b, u32 c);
-void vline_draw(u32 x, u32 y0, u32 y1);
 #define H16(a) (*(volatile unsigned short *)(a))
 #define SYS 0x40544E68u
 #define U16(v) ((unsigned short)(v))

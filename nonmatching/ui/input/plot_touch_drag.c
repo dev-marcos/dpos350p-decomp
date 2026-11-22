@@ -6,6 +6,15 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "processing.h"
+#include "storage/files.h"
+#include "ui/input.h"
+#include "ui/windows.h"
+
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void ui_window_invalidate_from_raw(u32 n) __asm__("ui_window_invalidate_from");
 
 #define SYS 0x40544E68u
 #define BTN 0x42E61FF8u              /* touch button records; byte 0 is the pending-touch flag */
@@ -18,18 +27,6 @@
 #define TCH 0x42E68BB0u              /* touch point: +4 / +6 now, +8 / +0xA at press */
 #define S64(a) (*(volatile long long *)(a))
 #define SPLIT B8(SYS + 0x2AA)
-
-void ui_window_invalidate_from(u32 n);
-void touch_drag_pick(void);
-void touch_drag_delta(void);
-void cursor_808_clamp(void);
-void cursor_810_clamp(void);
-void cursor_3da534_clamp(u32 n);
-void timebase_index_step(u32 n);
-void timebase_index_step_down(u32 n);
-void zoom_index_add(u32 n);
-void zoom_index_sub(u32 n);
-void acquisition_apply(void);
 
 static void press_save(void)
 {
@@ -137,7 +134,7 @@ void plot_touch_drag(void)
     if (B8(BTN + 0xF2) == 1) {
         B8(BTN + 0xF2) = 0;
         B8(BTN) = 0;
-        ui_window_invalidate_from(3);
+        ui_window_invalidate_from_raw(3);
         touch_drag_pick();
         press_save();
         W32(0x42E68C78u) = W32(0x42E68CD8u);
@@ -168,5 +165,5 @@ void plot_touch_drag(void)
     }
     H16(SYS + 0x586) = 0;
     acquisition_apply();
-    ui_window_invalidate_from(3);
+    ui_window_invalidate_from_raw(3);
 }

@@ -6,6 +6,11 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "drivers/timer.h"
+#include "processing.h"
+#include "stock_asm.h"
+#include "system.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -19,11 +24,6 @@ typedef double (*ul2d_fn)(unsigned long long) __attribute__((pcs("aapcs")));
 #define UL2D(v) (((ul2d_fn)0x4005F731u)(v))
 typedef double (*pow_fn)(double, double);
 #define POW(a, b) (((pow_fn)0x4005D4A5u)((a), (b)))
-
-void timebase_period_load(void);
-void zoom_entry_select(void);
-void ms5351m_b(u32 hz, u32 old);
-void retained_inside_current_sc1_3_t6(void);
 
 struct tb_row {
     unsigned long long period;

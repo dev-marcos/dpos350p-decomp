@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/fpga_bus.h"
+#include "fpga.h"
 
 void selector_0x6b_32_bit_job_value(u32 v)
 {

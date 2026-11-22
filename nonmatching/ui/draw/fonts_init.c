@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void font_metrics_build(volatile unsigned char *d);
+#include "ui/draw.h"
 
 void fonts_init(void)
 {

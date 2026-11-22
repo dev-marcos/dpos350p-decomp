@@ -6,16 +6,15 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "stock_asm.h"
+#include "ui/draw.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define F32(a) (*(volatile float *)(a))
-
-u32 mode_not_0_or_2(u32 v);
-void dcache_clean_inv_all(void);
-void fb_present_rect(u32 x0, u32 y0, u32 x1, u32 y1);
 
 #define HITS(tr) (0x400954A4u + (tr) * 0x12BE70u)
 #define FBP (*(volatile u32 *)0x40095498u)

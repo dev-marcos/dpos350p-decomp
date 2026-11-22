@@ -6,8 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void levels_markers_draw(void);
+#include "ui/input.h"
+#include "ui/screens.h"
 
 void func_400606a0_unless_locked(void)
 {

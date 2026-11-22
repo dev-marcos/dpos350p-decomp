@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/gt911.h"
 
 void gt911_poll(void)
 {

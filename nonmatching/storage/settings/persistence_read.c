@@ -6,10 +6,12 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/spi.h"
+#include "storage/settings.h"
 
-void sys_spi_select(u32 dev);
-void sys_spi_deselect(u32 dev);
-int sys_spi_write_then_read(u32 dev, const volatile unsigned char *tx, u32 ntx, volatile unsigned char *rx, u32 nrx);
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+int sys_spi_write_then_read_raw(u32 dev, const volatile unsigned char *tx, u32 ntx, volatile unsigned char *rx, u32 nrx) __asm__("sys_spi_write_then_read");
 
 #define READ_MODE (*(volatile int *)0x42E68CC4u)
 
@@ -35,7 +37,7 @@ int persistence_read(u32 dev, u32 addr, volatile unsigned char *buf, u32 len)
     if (mode > 0)
         cmd[n++] = 0;
     sys_spi_select(dev);
-    if (sys_spi_write_then_read(dev, cmd, n, buf, len) < 0)
+    if (sys_spi_write_then_read_raw(dev, cmd, n, buf, len) < 0)
         ret = -1;
     sys_spi_deselect(dev);
     if (READ_MODE > 0)

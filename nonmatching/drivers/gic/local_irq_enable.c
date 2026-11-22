@@ -4,7 +4,6 @@
  * b local_irq_enable_body (stock name irq_enable).
  */
 #include "hw/platform.h"
-
-void local_irq_enable_body(void);
+#include "drivers/gic.h"
 
 void local_irq_enable(void) { local_irq_enable_body(); }

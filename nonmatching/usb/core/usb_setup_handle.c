@@ -4,16 +4,14 @@
  * Copy and print the 8-byte setup packet, then dispatch standard (type 0) or class (type 1) requests; vendor requests are ignored.
  */
 #include "hw/usb.h"
+#include "drivers/uart.h"
+#include "usb/core.h"
+#include "usb/mass_storage.h"
+#include "util.h"
 
 #define setup_req      ((unsigned char *)0x42E68C58u)   /* copy of the last setup packet */
 #define line_coding    ((unsigned char *)0x40095484u)   /* 7 bytes */
 #define line_coding_rx (*(u32 *)0x42E68CECu)
-void usb_mass_send_data(unsigned char *buf, int len);
-void usb_mass_send_csw(u32 status, u32 next);
-void usb_mass_set_sense(u32 lun, u32 key, u32 asc);
-
-void usb_standard_request(unsigned char *req);
-void usb_class_request(unsigned char *req);
 
 void usb_setup_handle(unsigned char *req, int len)
 {

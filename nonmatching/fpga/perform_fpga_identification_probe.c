@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/fpga_bus.h"
+#include "fpga.h"
 
 void perform_fpga_identification_probe(void)
 {

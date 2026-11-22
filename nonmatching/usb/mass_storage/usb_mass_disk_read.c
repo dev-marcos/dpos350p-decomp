@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-u32 usb_disk_sd_read(u32 a, u32 b, u32 c, u32 d);
+#include "usb/mass_storage.h"
 
 u32 usb_mass_disk_read(u32 a, u32 b, u32 c)
 {

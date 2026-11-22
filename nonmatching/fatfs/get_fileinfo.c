@@ -20,7 +20,6 @@ void get_fileinfo (
 	TCHAR c;
 #endif
 
-
 	fno->fname[0] = 0;			/* Invaidate file info */
 	if (dp->sect == 0) return;	/* Exit if read pointer has reached end of directory */
 

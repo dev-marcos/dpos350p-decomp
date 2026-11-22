@@ -6,6 +6,14 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
+#include "ui/input.h"
+#include "ui/screens.h"
+
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+u32 func_4002d2d4_d0_raw(u32 lo, u32 hi, u32 dec) __asm__("func_4002d2d4_d0");
+void glyph_alpha_draw_raw(u32 x, u32 y, u32 s) __asm__("glyph_alpha_draw");
 
 #define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
@@ -15,21 +23,7 @@
 #define BLK 0x42E68668u
 #define ADV 0x42E68BE4u
 
-void half_42e68be2_set(u32 a);
-void word_42e68c74_set(u32 a);
-void draw_colour_set(u32 c);
-void rect_fill(u32 x, u32 y, u32 w, u32 h);
-void text_draw(u32 x, u32 y, const char *s);
-
 #define REC 0x42E61FF8u
-
-void text_shadow_draw(u32 x, u32 y, const char *s, u32 n, unsigned char m, unsigned char alpha);
-void touch_button_set_rect(u32 x, u32 y, u32 wd, u32 ht, volatile unsigned char *b);
-void touch_button_disable(volatile unsigned char *b);
-void glyph_alpha_draw(u32 x, u32 y, u32 s);
-u32 func_4002d2d4_d0(u32 lo, u32 hi, u32 dec);
-void func_4002d82c_flag0(u32 x, u32 y, u32 lo, u32 hi, u32 dec);
-u32 text_width(const char *s);
 
 void numpad_draw(void)
 {
@@ -83,7 +77,7 @@ void numpad_draw(void)
             }
             draw_colour_set(0xCCCCCC);
             if (lb <= 9) {
-                tw = func_4002d2d4_d0(lb, 0, 0);
+                tw = func_4002d2d4_d0_raw(lb, 0, 0);
                 func_4002d82c_flag0((x + ((0x5A - tw) >> 1)) & 0xFFFF, (ry + 0x12) & 0xFFFF, lb, 0, 0);
                 continue;
             }
@@ -91,7 +85,7 @@ void numpad_draw(void)
             gx = 0;
             s = 0;
             if (k == 3) {
-                glyph_alpha_draw((x + 0x20) & 0xFFFF, (ry + 0x15) & 0xFFFF, 0x40087B94u);
+                glyph_alpha_draw_raw((x + 0x20) & 0xFFFF, (ry + 0x15) & 0xFFFF, 0x40087B94u);
                 continue;
             } else if (k == 14) {
                 s = (const char *)0x400604E8u;
@@ -124,7 +118,7 @@ void numpad_draw(void)
                 tw = text_width(s);
                 text_draw((x + ((0x5A - tw) >> 1)) & 0xFFFF, (ry + 0x12) & 0xFFFF, s);
             } else if (gs) {
-                glyph_alpha_draw((x + gx) & 0xFFFF, (ry + 0x16) & 0xFFFF, gs);
+                glyph_alpha_draw_raw((x + gx) & 0xFFFF, (ry + 0x16) & 0xFFFF, gs);
             }
         }
         ry += 0x3F;

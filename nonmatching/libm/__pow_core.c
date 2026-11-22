@@ -6,8 +6,7 @@
  * chain for zero/Inf/NaN operands, transcribed from the stock code (compiled C).
  */
 #include "rt/dtrunc.h"
-
-double ldexp(double x, int n);
+#include "libm.h"
 
 #define K(x) bitsd(x##ull)
 

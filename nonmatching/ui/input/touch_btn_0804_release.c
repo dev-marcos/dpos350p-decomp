@@ -6,11 +6,10 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/input.h"
+#include "ui/windows.h"
 
 #define BTN8(o)  (*(volatile unsigned char *)(0x42E61FF8u + (o)))   /* button table */
-void ui_window_open(u32 id);
-
-void touch_button_update_0804(void);
 
 void touch_btn_0804_release(void)
 {

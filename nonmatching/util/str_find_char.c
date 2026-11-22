@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "util.h"
 
 int str_find_char(const signed char *s, int ch)
 {

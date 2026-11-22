@@ -6,11 +6,10 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "libc.h"
+#include "processing.h"
+#include "stock_asm.h"
 
-void levels_view_layout(void);
-void auto_level_search(void);
-void fft_spur_cancel(void);
-void func_40061f10(void);
 #define MD(o) (*(volatile double *)(0x42E68668u + (o)))
 #define M64(o) (*(volatile long long *)(0x42E68668u + (o)))
 

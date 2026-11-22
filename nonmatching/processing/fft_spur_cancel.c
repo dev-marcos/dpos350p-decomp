@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -35,9 +36,6 @@ static void spur_lists(u32 sel, u32 *vals, u32 *idxs, u32 *mean, u32 *cntp)
 #define HX 0x42BEFE74u
 typedef double (*dfn)(double);
 #define COS_T ((dfn)0x40066531u)   /* cos at 0x40066530 is Thumb */
-
-void fft_radix2(int n, volatile float *x);
-void cvec_magnitude(const volatile float *src, volatile float *dst, int n);
 
 void fft_spur_cancel(void)
 {

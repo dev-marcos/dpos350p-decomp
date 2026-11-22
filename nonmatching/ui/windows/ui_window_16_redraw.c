@@ -6,6 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
+#include "ui/screens.h"
+#include "ui/windows.h"
 
 #define WIN(id)  ((volatile unsigned char *)(0x42E64520u + (id) * 14u))
 #define WSTK     ((volatile unsigned char *)0x42E68BC8u)
@@ -13,12 +16,6 @@
 #define fb_front ((unsigned short *)0x41FB8FE8u)
 #define fb_back  ((unsigned short *)0x41BFBF68u)
 #define fb_off   ((unsigned short *)0x4233CBBCu)
-void fb_target_back(void);
-void fb_target_offscreen(void);
-void ui_reveal_slide_down(volatile unsigned short *r);
-void ui_reveal_bottom_up(volatile unsigned short *r);
-
-void hires_menu_draw(void);
 
 void ui_window_16_redraw(u32 anim)
 {

@@ -4,6 +4,7 @@
  * Generic 32-bit register read (one copy per source file in the stock image).
  */
 #include "hw/v3s.h"
+#include "drivers/mmio.h"
 
 u32 readl_a(u32 addr)
 {

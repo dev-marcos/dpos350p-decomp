@@ -6,9 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void timebase_divisors_compute(void);
-void zoom_ratio_window_update(void);
+#include "acquisition.h"
+#include "ui/screens.h"
 
 void acquisition_rearm(void)
 {

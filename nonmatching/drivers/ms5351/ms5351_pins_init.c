@@ -4,6 +4,8 @@
  * MS5351M: PE20/PE21 as outputs (no pull). Hack: MS5351M path.
  */
 #include "hw/drivers.h"
+#include "drivers/ms5351.h"
+#include "drivers/pio.h"
 
 #define PE ((pio_port_t *)PIO_PE)
 

@@ -4,6 +4,7 @@
  * GT911: write len bytes to a register (device address 0xBA; 8- or 16-bit register address).
  */
 #include "hw/drivers.h"
+#include "drivers/gt911.h"
 
 void gt911_write_regs(u32 reg, u32 addr_len, const unsigned char *buf, int len)
 {

@@ -15,7 +15,6 @@ FRESULT load_xdir (	/* FR_INT_ERR: invalid entry block */
 	UINT i, sz_ent;
 	BYTE* dirb = dp->obj.fs->dirbuf;	/* Pointer to the on-memory direcotry entry block 85+C0+C1s */
 
-
 	/* Load 85 entry */
 	res = move_window(dp->obj.fs, dp->sect);
 	if (res != FR_OK) return res;

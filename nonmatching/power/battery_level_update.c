@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "power.h"
 
 void battery_level_update(void)
 {

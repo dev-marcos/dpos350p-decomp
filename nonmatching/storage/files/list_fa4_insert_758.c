@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "storage/files.h"
 
 #define SS16(o) (*(volatile short *)(0x40544E68u + (o)))
 

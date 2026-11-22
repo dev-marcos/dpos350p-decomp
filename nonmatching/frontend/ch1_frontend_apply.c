@@ -6,8 +6,10 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void fpga_write_sel_0x2a(void);
+#include "drivers/fpga_bus.h"
+#include "drivers/timer.h"
+#include "fpga.h"
+#include "frontend.h"
 
 void ch1_frontend_apply(void)
 {

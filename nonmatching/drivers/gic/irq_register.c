@@ -4,6 +4,8 @@
  * Install handler, set the priority byte (prio << 3) in GICD_IPRIORITYR, enable or disable the interrupt.
  */
 #include "hw/platform.h"
+#include "drivers/gic.h"
+#include "drivers/uart.h"
 
 void irq_register(int irq, void (*handler)(void), int prio, int enable)
 {

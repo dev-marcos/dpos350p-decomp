@@ -6,9 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void plot_grid_draw(void);
-void xy_grid_draw(void);
+#include "ui/screens.h"
 
 void func_4002c7ac_or_4002c5f8(void)
 {

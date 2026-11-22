@@ -16,7 +16,6 @@ FRESULT follow_path (	/* FR_OK(0): successful, !=0: error code */
 	BYTE ns;
 	FATFS *fs = dp->obj.fs;
 
-
 #if FF_FS_RPATH != 0
 	if (*path != '/' && *path != '\\') {	/* Without heading separator */
 		dp->obj.sclust = fs->cdir;				/* Start from current directory */

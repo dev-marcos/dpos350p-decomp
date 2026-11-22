@@ -6,16 +6,17 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/spi.h"
 
-void sys_spi_select(u32 dev);
-void sys_spi_deselect(u32 dev);
-int  sys_spi_write_then_read(u32 dev, const volatile unsigned char *tx, u32 ntx, volatile unsigned char *rx, u32 nrx);
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+int  sys_spi_write_then_read_raw(u32 dev, const volatile unsigned char *tx, u32 ntx, volatile unsigned char *rx, u32 nrx) __asm__("sys_spi_write_then_read");
 
 u32 spi_flash_cmd_read1(u32 dev, u32 cmd)
 {
     volatile unsigned char c = cmd, rx;
     sys_spi_select(dev);
-    sys_spi_write_then_read(dev, &c, 1, &rx, 1);
+    sys_spi_write_then_read_raw(dev, &c, 1, &rx, 1);
     sys_spi_deselect(dev);
     return rx;
 }

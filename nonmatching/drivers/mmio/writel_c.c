@@ -4,6 +4,7 @@
  * Generic 32-bit register write (one copy per source file in the stock image).
  */
 #include "hw/v3s.h"
+#include "drivers/mmio.h"
 
 void writel_c(u32 addr, u32 v)
 {

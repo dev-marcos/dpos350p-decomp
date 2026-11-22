@@ -4,6 +4,9 @@
  * SPI clock divider (largest rate <= spi_max_hz, n < 10), master mode + soft reset (wait), TCR sample delay by rate and SS options, FIFO resets.
  */
 #include "hw/platform.h"
+#include "drivers/mmio.h"
+#include "drivers/spi.h"
+#include "drivers/uart.h"
 
 void sys_spi_init(int spi)
 {

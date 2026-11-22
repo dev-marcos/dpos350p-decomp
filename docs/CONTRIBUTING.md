@@ -82,7 +82,40 @@ function, plus its `static` helpers, and is named after the function.
 | `fatfs/`, `libc/`, `libm/` | FatFs R0.13b and the compiler run-time and maths library |
 
 The folder of a function is an interpretation (DERIVED), like its name. Move a file when a
-better place is found; nothing else has to change.
+better place is found, and move its prototype to the matching header.
+
+### Headers
+
+Each folder has one header in `include/` with the same path: `nonmatching/ui/draw/` →
+`include/ui/draw.h`, `nonmatching/fpga/` → `include/fpga.h`. It declares every function of the
+folder, in address order, with the parameter names of the definition and the stock address. A C
+file includes the headers of the functions it calls and of its own function, so the compiler
+checks each definition against its prototype. `include/hw/` keeps the hardware addresses,
+register macros and shared types.
+
+Three headers are special:
+
+- `include/stock_asm.h`: functions that stay in assembly, declared the way the C callers use them;
+- `include/fatfs_app.h`: the FatFs API as the application calls it (`FIL`, `DIR` and `FATFS`
+  passed as raw buffers). FatFs's own files keep `include/fatfs/ff.h`;
+- the FatFs disk layer (`disk_read`…) is declared for FatFs by `include/fatfs/diskio.h` and for
+  the rest by `include/storage/diskio.h`.
+
+Some callers use a different register interface from the definition. For example,
+`ui_window_close(id, a, b)` is called with only `id`, and r1 and r2 keep whatever they hold.
+Those files declare the call form under another C name bound to the same symbol, and say so in a
+comment:
+
+```c
+void ui_window_close_raw(u32 id) __asm__("ui_window_close");
+```
+
+The C must pass exactly the registers the stock caller passes, so these aliases stay until a
+change is verified in the emulator.
+
+The headers were introduced on the `readability` branch without changing a single instruction:
+every file's object code (code, data and relocations, with the nmbuild `-O2` flags and the
+testiso `-O2` and `-Os` flags) was compared with the one built before the change.
 
 ## TEST image for the emulator
 

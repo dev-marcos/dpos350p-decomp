@@ -4,6 +4,8 @@
  * FPGA bus control pins PE0..PE3 as outputs (no pull), PE0 high, PE1 low, then data pins as inputs.
  */
 #include "hw/drivers.h"
+#include "drivers/fpga_bus.h"
+#include "drivers/pio.h"
 
 void fpga_bus_init(void)
 {

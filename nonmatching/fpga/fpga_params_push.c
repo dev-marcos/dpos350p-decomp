@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "fpga.h"
 
 void fpga_params_push(void)
 {

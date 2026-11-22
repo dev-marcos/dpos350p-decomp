@@ -6,18 +6,10 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-int f_opendir(void *dp, const char *path);
-int f_closedir(void *dp);
-int f_readdir(void *dp, void *fno);
-int f_open(void *fp, const char *path, unsigned char mode);
-int f_close(void *fp);
-int f_read(void *fp, void *buff, u32 btr, u32 *br);
-int f_lseek(void *fp, unsigned long long ofs);
-int f_unlink(const char *path);
-void __aeabi_memclr4(void *p, u32 n);
-void persistence_write_read_modify_write(u32 dev, u32 addr, const volatile unsigned char *buf, u32 len);
-void wdt_system_reset(void);
+#include "drivers/wdt.h"
+#include "fatfs_app.h"
+#include "libc.h"
+#include "storage/settings.h"
 
 #define IMAGE ((volatile unsigned char *)0x41E7B9C8u)
 #define MAGIC ((const volatile unsigned char *)0x40093EF0u)

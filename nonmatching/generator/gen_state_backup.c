@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "generator.h"
+#include "util.h"
 
 void gen_state_backup(void)
 {

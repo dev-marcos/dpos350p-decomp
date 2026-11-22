@@ -6,20 +6,14 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
+#include "stock_asm.h"
+#include "ui/draw.h"
+#include "ui/input.h"
+#include "ui/screens.h"
+#include "ui/windows.h"
 
 #define CB8(o)  (*(volatile unsigned char *)(0x42E68668u + (o)))
-void levels_view_layout(void);
-void auto_level_search(void);
-void fft_spur_cancel(void);
-void func_40061f10(void);
-void measure_values_clamp(void);
-void levels_update_chain(void);
-void levels_graph_draw(void);
-void levels_shade_draw(void);
-void levels_max_panel_draw(void);
-void level_columns_draw(void);
-void level_columns_draw_b(void);
-void func_400606a0_unless_locked(void);
 
 void ui_window_40_draw(void)
 {

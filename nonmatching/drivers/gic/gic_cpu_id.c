@@ -4,5 +4,6 @@
  * Always CPU 0.
  */
 #include "hw/platform.h"
+#include "drivers/gic.h"
 
 int gic_cpu_id(void) { return 0; }

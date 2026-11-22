@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void pixel_blend(u32 x, u32 y);
+#include "ui/draw.h"
 
 void pixel_put(u32 x, u32 y)
 {

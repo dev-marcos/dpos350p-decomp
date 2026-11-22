@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "storage/diskio.h"
 
 int disk_ioctl(u32 pdrv, u32 cmd, void *buff)
 {

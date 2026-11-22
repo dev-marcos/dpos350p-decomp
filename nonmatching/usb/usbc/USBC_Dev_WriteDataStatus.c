@@ -4,6 +4,7 @@
  * complete ? __USBC_Dev_WriteDataComplete : __USBC_Dev_WriteDataHalf.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 int USBC_Dev_WriteDataStatus(u32 ep_type, u32 complete)
 {

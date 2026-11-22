@@ -4,6 +4,8 @@
  * Clear TX, RX and misc pending interrupts.
  */
 #include "hw/usb.h"
+#include "usb/core.h"
+#include "usb/usbc.h"
 
 void clear_all_irq(void)
 {

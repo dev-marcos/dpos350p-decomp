@@ -5,6 +5,7 @@
  * (__aeabi_memcpy4) or destination-unaligned path. Observable effect: n bytes copied forward.
  */
 #include "rt/bits.h"
+#include "libc.h"
 
 AEABI void __aeabi_memcpy(void *dst, const void *src, u32 n)
 {

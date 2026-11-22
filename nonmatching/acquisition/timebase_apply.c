@@ -6,6 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "fpga.h"
+#include "stock_asm.h"
 
 void timebase_apply(void)
 {

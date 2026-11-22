@@ -6,6 +6,7 @@
  * tail selected by the low bits of n (halfword = c & 0xFFFF, byte = c & 0xFF).
  */
 #include "rt/bits.h"
+#include "libc.h"
 
 AEABI void __aeabi_memset4(void *dest, u32 n, u32 c)
 {

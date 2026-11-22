@@ -6,14 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void runtime_rearm_setup(void);
-void one_runtime_capture_step(void);
-void runtime_state_commit_copy(void);
-void per_channel_processing(void);
-void runtime_counter_progress_advance(void);
-void write_sys_info_0x6f0_to_fpga(void);
-void pulse_fpga_selector_0x08_0_1(void);
+#include "acquisition.h"
+#include "fpga.h"
+#include "processing.h"
 
 void runtime_sweep_path(void)
 {

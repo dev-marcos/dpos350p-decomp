@@ -4,6 +4,7 @@
  * EP0/RX dispatch; -1 otherwise.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 int __USBC_Dev_ReadDataComplete(u32 ep_type)
 {

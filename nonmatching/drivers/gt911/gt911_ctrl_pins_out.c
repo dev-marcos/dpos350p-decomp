@@ -4,6 +4,8 @@
  * GT911: PE22 and PE24 (reset / INT) as outputs, both high.
  */
 #include "hw/drivers.h"
+#include "drivers/gt911.h"
+#include "drivers/pio.h"
 
 #define PE ((pio_port_t *)PIO_PE)
 

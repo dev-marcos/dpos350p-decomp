@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void capture_bank(u32 i);
+#include "acquisition.h"
 
 void capture_banks_4_7(void)
 {

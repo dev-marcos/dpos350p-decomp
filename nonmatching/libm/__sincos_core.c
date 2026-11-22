@@ -8,6 +8,7 @@
  *   q += n & 3; odd q -> cosine polynomial, bit 1 of q -> negate; |r| < 2^-27 short-cuts.
  */
 #include "rt/bits.h"
+#include "libm.h"
 
 #define K(x) bitsd(x##ull)
 #define TWO_OVER_PI K(0x3FE45F306DC9C883)

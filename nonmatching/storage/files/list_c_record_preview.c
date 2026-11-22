@@ -6,10 +6,10 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
+#include "storage/files.h"
+#include "util.h"
 
-void array_3da548_decimate(u32 f);
-void copy_u16(unsigned short *d, const unsigned short *s, u32 n);
-unsigned long long __aeabi_uldivmod(unsigned long long a, unsigned long long b);
 #define SYS 0x40544E68u
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))

@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void rect_fill(u32 x, u32 y, u32 w, u32 h);
+#include "ui/draw.h"
 
 void rect_outline_draw(u32 x, u32 y, u32 w, u32 h)
 {

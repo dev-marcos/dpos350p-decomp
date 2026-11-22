@@ -6,9 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void fpga_counters_init(void);
-void outputs_apply(void);
+#include "fpga.h"
+#include "system.h"
 
 void applied_state_invalidate(void)
 {

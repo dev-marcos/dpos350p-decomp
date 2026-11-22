@@ -4,6 +4,7 @@
  * COUNT0 (EP0) or RXCOUNT (RX), same register; 0 otherwise.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 u32 USBC_ReadLenFromFifo(u32 ep_type)
 {

@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void rect_fill(u32 a, u32 b, u32 c, u32 d);
+#include "ui/draw.h"
 
 void func_4002ecc4_span(u32 a, u32 b, u32 c)
 {

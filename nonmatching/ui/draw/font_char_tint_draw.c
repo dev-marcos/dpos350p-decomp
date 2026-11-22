@@ -6,13 +6,12 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
 
 #define CB8(o) (*(volatile unsigned char *)(0x42E6865Cu + (o)))
 #define CB16(o) (*(volatile unsigned short *)(0x42E6865Cu + (o)))
 #define FBP (*(volatile u32 *)0x40095498u)
-void pixel_put(u32 x, u32 y);
 
-void draw_colour_set(u32 c);
 #define FONT (*(volatile u32 *)0x42E68C74u)
 #define H16(a) (*(volatile unsigned short *)(a))
 

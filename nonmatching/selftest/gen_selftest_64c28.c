@@ -6,9 +6,10 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "fpga.h"
+#include "generator.h"
+#include "selftest.h"
 
-void gen_update(void);
-int lane_trim_search8(u32 a, u32 b, u32 c);
 #define GB8(o) (*(volatile unsigned char *)(0x42E3F984u + (o)))
 #define GB32(o) (*(volatile u32 *)(0x42E3F984u + (o)))
 

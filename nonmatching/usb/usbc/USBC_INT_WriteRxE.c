@@ -4,5 +4,6 @@
  * Store r0 to INTRxE: tail shared with USBC_INT_DisableRxAll (name OPEN).
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void USBC_INT_WriteRxE(u32 v) { REG16(USBC_INTRxE) = (unsigned short)v; }

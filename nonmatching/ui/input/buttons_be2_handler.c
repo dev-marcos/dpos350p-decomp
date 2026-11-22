@@ -6,12 +6,11 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/input.h"
+#include "ui/windows.h"
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
-void ui_window_close(u32 id);
-void ui_window_open(u32 id);
 
-void touch_group_0BE2(void);
 #define MK8(o) (*(volatile unsigned char *)(0x42E68668u + (o)))
 #define MK32(o) (*(volatile u32 *)(0x42E68668u + (o)))
 

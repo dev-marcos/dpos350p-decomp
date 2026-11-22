@@ -6,11 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void timebase_apply_2b0_x1_3(void);
-void amplitude_statistical_normalization(u32 ch);
-void workspace_copy_and_resampling(u32 ch, u32 src, u32 half, u32 len, u32 n);
-void final_per_channel_normalization(u32 ch);
+#include "acquisition.h"
+#include "processing.h"
 
 void channel_post_process(u32 ch)
 {

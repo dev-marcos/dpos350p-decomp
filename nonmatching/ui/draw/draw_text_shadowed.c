@@ -6,15 +6,17 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
 
-void draw_colour_set(u32 c);
-void glyph_alpha_draw(u32 x, u32 y, u32 s);
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void glyph_alpha_draw_raw(u32 x, u32 y, u32 s) __asm__("glyph_alpha_draw");
 
 void draw_text_shadowed(u32 x, u32 y, u32 s, u32 dx, u32 dy, u32 col)
 {
     u32 saved = *(volatile u32 *)0x42E68664u;
     draw_colour_set((col & 0xFF) << 24);
-    glyph_alpha_draw((x + dx) & 0xFFFF, (y + (dy & 0xFF)) & 0xFFFF, s);
+    glyph_alpha_draw_raw((x + dx) & 0xFFFF, (y + (dy & 0xFF)) & 0xFFFF, s);
     draw_colour_set(saved);
-    glyph_alpha_draw(x, y, s);
+    glyph_alpha_draw_raw(x, y, s);
 }

@@ -4,5 +4,6 @@
  * Register write.
  */
 #include "hw/platform.h"
+#include "drivers/mmio.h"
 
 void writel_g(u32 addr, u32 v) { REG32(addr) = v; }

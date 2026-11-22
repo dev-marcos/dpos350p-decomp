@@ -16,7 +16,6 @@ FRESULT dir_clear (	/* Returns FR_OK or FR_DISK_ERR */
 	UINT n, szb;
 	BYTE *ibuf;
 
-
 	if (sync_window(fs) != FR_OK) return FR_DISK_ERR;	/* Flush disk access window */
 	sect = clst2sect(fs, clst);		/* Top of the cluster */
 	fs->winsect = sect;				/* Set window to top of the cluster */

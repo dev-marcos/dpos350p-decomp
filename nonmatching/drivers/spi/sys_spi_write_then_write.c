@@ -4,6 +4,7 @@
  * Two transmit-only transfers. 0 on success, -1 otherwise.
  */
 #include "hw/platform.h"
+#include "drivers/spi.h"
 
 int sys_spi_write_then_write(int spi, const unsigned char *tx0, int len0, const unsigned char *tx1, int len1)
 {

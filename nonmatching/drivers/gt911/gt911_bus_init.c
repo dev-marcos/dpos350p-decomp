@@ -4,6 +4,8 @@
  * GT911: reset sequence, INT to input, wait 20 ms (Hack: bus initialization wrapper).
  */
 #include "hw/drivers.h"
+#include "drivers/gt911.h"
+#include "drivers/timer.h"
 
 void gt911_bus_init(void)
 {

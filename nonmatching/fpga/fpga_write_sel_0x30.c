@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/fpga_bus.h"
+#include "fpga.h"
 
 void fpga_write_sel_0x30(void)
 {

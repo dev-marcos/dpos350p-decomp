@@ -4,9 +4,8 @@
  * Generic register write (CCU source file copy).
  */
 #include "hw/drivers.h"
+#include "drivers/mmio.h"
 
-u32 readl_e(u32 addr);
-void writel_e(u32 addr, u32 v);
 #define CCU 0x01C20000u
 #define PLL_LOCK 0x10000000u
 

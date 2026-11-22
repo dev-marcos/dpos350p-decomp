@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void fb_rect_copy_from_e4e84(u32 a, u32 b, u32 c, u32 d);
+#include "ui/draw.h"
 
 void rect_42e68c38_draw(void)
 {

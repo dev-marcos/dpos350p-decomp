@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
+#include "ui/screens.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -16,14 +18,6 @@
 
 #define BLK 0x42E68668u
 #define ADV 0x42E68BE4u
-
-void half_42e68be2_set(u32 a);
-void word_42e68c74_set(u32 a);
-void draw_colour_set(u32 c);
-void text_draw(u32 x, u32 y, const char *s);
-u32 frequency_draw(u32 x, u32 y, u32 measure, double d);
-void level_label_dbmv(u32 x, u32 y, u32 c, double v);
-void voltage_uv_draw(u32 x, u32 y, u32 sg, double d);
 
 void levels_max_panel_draw(void)
 {

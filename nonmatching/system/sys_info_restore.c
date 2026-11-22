@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "system.h"
+#include "util.h"
 
 void sys_info_restore(void)
 {

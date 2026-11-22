@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "fpga.h"
 
 void fpga_param_updater(u32 idx, u32 size, u32 v32, u32 vsmall)
 {

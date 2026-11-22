@@ -4,5 +4,6 @@
  * usb_ep0_state = state.
  */
 #include "hw/usb.h"
+#include "usb/core.h"
 
 void usb_device_set_ep0_state(int state) { usb_ep0_state = state; }

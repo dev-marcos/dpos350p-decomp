@@ -6,8 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
+#include "util.h"
 
-void copy_u16(unsigned short *d, const unsigned short *s, u32 n);
 #define SYS 0x40544E68u
 #define W32(a) (*(volatile u32 *)(a))
 

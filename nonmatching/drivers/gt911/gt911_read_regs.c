@@ -4,6 +4,7 @@
  * GT911: set the register address (write 0xBA), repeated start, read len bytes (0xBB), ACK after every byte.
  */
 #include "hw/drivers.h"
+#include "drivers/gt911.h"
 
 void gt911_read_regs(u32 reg, u32 addr_len, unsigned char *buf, int len)
 {

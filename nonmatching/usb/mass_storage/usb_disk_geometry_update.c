@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-unsigned long long __aeabi_uldivmod(unsigned long long n, unsigned long long d);
+#include "usb/mass_storage.h"
 
 void usb_disk_geometry_update(void)
 {

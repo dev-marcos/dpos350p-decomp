@@ -14,7 +14,6 @@ FRESULT f_closedir (
 	FRESULT res;
 	FATFS *fs;
 
-
 	res = validate(&dp->obj, &fs);	/* Check validity of the file object */
 	if (res == FR_OK) {
 #if FF_FS_LOCK != 0

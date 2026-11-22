@@ -4,5 +4,6 @@
  * Empty function (bx lr); no EasyUSB counterpart identified (name OPEN).
  */
 #include "hw/usb.h"
+#include "usb/phy.h"
 
 void usb_phy_nop(void) { }

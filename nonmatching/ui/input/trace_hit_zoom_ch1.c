@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void trace_hit_zoom(u32 ch);
+#include "ui/input.h"
 
 void trace_hit_zoom_ch1(void)
 {

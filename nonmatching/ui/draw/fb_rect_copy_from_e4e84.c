@@ -6,8 +6,12 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/sdmmc.h"
+#include "ui/draw.h"
 
-void dcache_clean_inv_all_t(u32 a, u32 b, u32 c, u32 d);
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void dcache_clean_inv_all_t_raw(u32 a, u32 b, u32 c, u32 d) __asm__("dcache_clean_inv_all_t");
 
 void fb_rect_copy_from_e4e84(u32 x0, u32 y0, u32 x1, u32 y1)
 {
@@ -20,5 +24,5 @@ void fb_rect_copy_from_e4e84(u32 x0, u32 y0, u32 x1, u32 y1)
                 *d++ = *s++;
         }
     }
-    dcache_clean_inv_all_t(x0, y0, x1, y1);
+    dcache_clean_inv_all_t_raw(x0, y0, x1, y1);
 }

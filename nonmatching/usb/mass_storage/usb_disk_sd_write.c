@@ -6,6 +6,14 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/sdmmc.h"
+#include "usb/mass_storage.h"
+#include "util.h"
+
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+int mmc_write_blocks_raw(int, u32, u32, const void *) __asm__("mmc_write_blocks");
+u32 usb_mass_send_csw_raw(u32 a, u32 b) __asm__("usb_mass_send_csw");
 
 #define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
@@ -16,13 +24,9 @@
 #define USB 0x42E68C10u              /* +8: data residue */
 #define BUF 0x42E08074u              /* sector bounce buffer */
 
-void usb_disk_hook(void);
-
 #define LBA 0x42E68C88u
 #define TOTAL 0x42E68C8Cu
 #define N 0x42E68C90u
-
-u32 usb_mass_send_csw(u32 a, u32 b);
 
 u32 usb_disk_sd_write(u32 a, u32 lba, u32 count, u32 d)
 {
@@ -42,10 +46,10 @@ u32 usb_disk_sd_write(u32 a, u32 lba, u32 count, u32 d)
     }
     if (W32(N) < W32(TOTAL) && B8(CSWST) != 4)
         return W32(N);
-    if ((unsigned char)mmc_write_blocks(0, W32(LBA), W32(TOTAL), (const void *)BUF))
+    if ((unsigned char)mmc_write_blocks_raw(0, W32(LBA), W32(TOTAL), (const void *)BUF))
         B8(ERR) |= 4;
     W32(N) = 0;
-    r = usb_mass_send_csw(0, 1);
+    r = usb_mass_send_csw_raw(0, 1);
     B8(ST) = 0;
     usb_disk_hook();
     return r;

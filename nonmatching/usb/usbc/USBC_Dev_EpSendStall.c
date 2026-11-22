@@ -4,6 +4,7 @@
  * EP0/TX/RX dispatch; -1 for another type.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 int USBC_Dev_EpSendStall(u32 ep_type)
 {

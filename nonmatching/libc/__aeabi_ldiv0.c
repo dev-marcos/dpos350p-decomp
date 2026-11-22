@@ -1,3 +1,4 @@
+#include "libc.h"
 /*
  * __aeabi_ldiv0 -- stock 0x4003E704 (4 bytes, ARM)
  * Status: NONMATCHING; behaviour verified by tools/emu (docs/PROGRESS.md)

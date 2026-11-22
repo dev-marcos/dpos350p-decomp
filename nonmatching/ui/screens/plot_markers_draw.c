@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
+#include "ui/screens.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -15,14 +17,6 @@
 #define S64(a) (*(volatile long long *)(a))
 #define FONT 0x42E658D8u             /* normal font */
 #define FONT_S 0x42E64F58u           /* small font */
-
-void word_42e68c74_set(u32 a);
-void draw_colour_set(u32 c);
-void rect_fill(u32 x, u32 y, u32 w, u32 h);
-void text_draw(u32 x, u32 y, const char *s);
-void func_4002ecc4_span(u32 y, u32 x0, u32 x1);
-void vline_draw(u32 x, u32 y0, u32 y1);
-long long __aeabi_ldivmod(long long n, long long d);
 
 static int clamp(int a, int lo, int hi)
 {

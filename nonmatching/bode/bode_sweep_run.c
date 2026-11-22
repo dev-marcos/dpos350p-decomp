@@ -6,6 +6,11 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "bode.h"
+#include "drivers/sdmmc.h"
+#include "libm.h"
+#include "ui/draw.h"
 
 #define SYS 0x40544E68u
 #define BB 0x42E180C8u
@@ -21,11 +26,6 @@
 #define BD(o) DD(BB + (o))
 #define U16(v) ((unsigned short)(v))
 
-void bode_point_measure(u32 f);
-void bode_phase_measure(u32 idx);
-void runtime_event_service(void);
-double log10(double x);
-
 static const union { unsigned long long u; double d; } LIM = { 0x40B3880000000001ULL };   /* 5000.000000000001 */
 
 static double point_ratio(void)
@@ -38,16 +38,6 @@ static double point_ratio(void)
         B8(BB + 0xAD1A) = 1;
     return r;
 }
-
-double pow(double x, double y);
-void word_42e68c74_set(u32 a);
-void half_42e68be2_set(u32 a);
-void draw_target_default(void);
-void fb_target_back(void);
-void dcache_clean_inv_all_t(void);
-void draw_colour_set(u32 c);
-void rect_fill(u32 x, u32 y, u32 w, u32 h);
-void text_draw(u32 x, u32 y, const char *s);
 
 void bode_sweep_run(void)
 {

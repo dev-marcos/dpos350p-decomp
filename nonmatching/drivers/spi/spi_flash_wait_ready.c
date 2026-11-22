@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-u32 spi_flash_cmd_read1(u32 dev, u32 cmd);
+#include "drivers/spi.h"
 
 void spi_flash_wait_ready(u32 dev)
 {

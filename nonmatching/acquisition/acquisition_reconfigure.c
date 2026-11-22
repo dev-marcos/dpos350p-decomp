@@ -6,20 +6,20 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "generator.h"
+#include "ui/draw.h"
 
-void sample_divisor_setup(void);
-void timebase_step_table_init(void);
-void intensity_palettes_init(void);
-void sine_table_build(void);
-void acquisition_geometry_setup(void);
-void runtime_state_commit_copy(void);
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void sine_table_build_raw(void) __asm__("sine_table_build");
 
 void acquisition_reconfigure(void)
 {
     sample_divisor_setup();
     timebase_step_table_init();
     intensity_palettes_init();
-    sine_table_build();
+    sine_table_build_raw();
     acquisition_geometry_setup();
     runtime_state_commit_copy();
 }

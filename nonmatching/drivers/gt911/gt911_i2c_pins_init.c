@@ -4,6 +4,8 @@
  * GT911: PG6/PG7 as outputs with pull-up, both high (bus idle).
  */
 #include "hw/drivers.h"
+#include "drivers/gt911.h"
+#include "drivers/pio.h"
 
 #define PG ((pio_port_t *)PIO_PG)
 

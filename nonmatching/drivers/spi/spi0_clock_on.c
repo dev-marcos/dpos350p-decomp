@@ -6,8 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void ccu_gate_on(u32 id);
+#include "drivers/ccu.h"
+#include "drivers/spi.h"
 
 void spi0_clock_on(void)
 {

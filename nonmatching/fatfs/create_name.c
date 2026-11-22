@@ -19,7 +19,6 @@ FRESULT create_name (	/* FR_OK: successful, FR_INVALID_NAME: could not create */
 	UINT i, ni, si, di;
 	const TCHAR *p;
 
-
 	/* Create LFN into LFN working buffer */
 	p = *path; lfn = dp->obj.fs->lfnbuf; di = 0;
 	for (;;) {
@@ -131,7 +130,6 @@ FRESULT create_name (	/* FR_OK: successful, FR_INVALID_NAME: could not create */
 	dp->fn[NSFLAG] = cf;	/* SFN is created into dp->fn[] */
 
 	return FR_OK;
-
 
 #else	/* FF_USE_LFN : Non-LFN configuration */
 	BYTE c, d, *sfn;

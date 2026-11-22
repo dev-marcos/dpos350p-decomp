@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/sdmmc.h"
+#include "storage/diskio.h"
 
 int disk_initialize(u32 pdrv)
 {

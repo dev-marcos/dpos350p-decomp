@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
+#include "util.h"
 
 void table_scatter_42cf64b4(void)
 {

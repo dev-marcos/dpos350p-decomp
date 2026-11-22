@@ -4,8 +4,9 @@
  * Disable, close the clocks, reset the stack state.
  */
 #include "hw/usb.h"
-
-void sunxi_udc_disable(void);
+#include "drivers/uart.h"
+#include "usb/core.h"
+#include "usb/phy.h"
 
 void usb_device_exit(void)
 {

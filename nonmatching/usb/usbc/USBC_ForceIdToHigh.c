@@ -4,8 +4,7 @@
  * ISCR: Force ID = 11 (device).
  */
 #include "hw/usb.h"
-
-u32 USBC_WakeUp_ClearChangeDetect(u32 reg_val);
+#include "usb/usbc.h"
 
 void USBC_ForceIdToHigh(void)
 {

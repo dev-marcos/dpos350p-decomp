@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
 
 void channel_minmax_stats(u32 ch)
 {

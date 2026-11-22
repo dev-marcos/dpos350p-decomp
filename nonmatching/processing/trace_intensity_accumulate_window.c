@@ -6,6 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "processing.h"
+#include "util.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -18,9 +21,6 @@
 #define COLB 0x426BFF94u   /* per column: 600 u16 "row covered" flags (0x4B0 bytes) */
 #define MAXL 0x42E63528u   /* per column: highest covered row + 1 (u16) */
 #define MINL 0x42E63D24u   /* per column: lowest covered row - 1 (u16) */
-
-u32 mode_not_0_or_1(u32 v);
-void fill_u16(unsigned short *d, unsigned short v, u32 n);
 
 #define ADD16(a, k) (H16(a) = (unsigned short)(H16(a) + (k)))
 

@@ -4,11 +4,9 @@
  * Clocks, PHY CSR = 2 around the PHY setup, FIFO base, pull-ups, force ID = device and VBUS valid high, PIO bus.
  */
 #include "hw/usb.h"
-
-void USBC_EnableDpDmPullUp(void);
-void USBC_EnableIdPullUp(void);
-void USBC_ForceId(u32 type);
-void USBC_ForceVbusValid(u32 type);
+#include "usb/core.h"
+#include "usb/phy.h"
+#include "usb/usbc.h"
 
 int usb_dev_bsp_init(void)
 {

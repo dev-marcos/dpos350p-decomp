@@ -10,9 +10,7 @@
  * Stock special-case quirks are reproduced, e.g. (-Inf)^(+-Inf) is treated as an odd power.
  */
 #include "rt/dtrunc.h"
-
-double frexp(double x, int *e);
-double __pow_core(double x, double y, int k);
+#include "libm.h"
 
 #define K(x) bitsd(x##ull)
 

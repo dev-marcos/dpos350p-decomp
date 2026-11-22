@@ -6,8 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "storage/files.h"
 
-long long __aeabi_ldivmod(long long a, long long b);
 #define SYS 0x40544E68u
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))

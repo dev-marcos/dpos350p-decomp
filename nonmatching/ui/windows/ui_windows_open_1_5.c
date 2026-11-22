@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void ui_window_open(u32 id);
+#include "ui/windows.h"
 
 void ui_windows_open_1_5(void)
 {

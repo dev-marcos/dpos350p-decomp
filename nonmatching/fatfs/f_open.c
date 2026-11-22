@@ -22,7 +22,6 @@ FRESULT f_open (
 #endif
 	DEF_NAMBUF
 
-
 	if (!fp) return FR_INVALID_OBJECT;
 
 	/* Get logical drive number */

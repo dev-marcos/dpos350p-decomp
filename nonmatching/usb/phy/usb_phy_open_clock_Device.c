@@ -4,6 +4,8 @@
  * USB PHY clock gate+reset (CCU 0x01C200CC bits 8, 0), bus gate (0x01C20060 bit 24) and bus reset (0x01C202C0 bit 24). FNIRSI version of usb_phy_open_clock.
  */
 #include "hw/usb.h"
+#include "drivers/uart.h"
+#include "usb/phy.h"
 
 u32 usb_phy_open_clock_Device(void)
 {

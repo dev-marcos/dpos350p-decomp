@@ -6,18 +6,20 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/timer.h"
+#include "selftest.h"
+#include "ui/input.h"
+#include "ui/screens.h"
+#include "ui/windows.h"
+
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void ui_window_close_raw(u32 id) __asm__("ui_window_close");
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
-void ui_window_close(u32 id);
-void ui_window_open(u32 id);
-void message_box_draw(int x, int y, u32 text, int align);
-void delay_ms(u32 ms);
 #define TX8(o) (*(volatile signed char *)(0x42C2FE74u + (o)))
 #define TX32(o) (*(volatile u32 *)(0x42C2FE74u + (o)))
 #define WR16(o) (*(volatile unsigned short *)(0x42E64520u + (o)))
-
-void touch_button_update_0C28(void);
-void calib_run_4_channels(void);
 
 void calibration_button_handler(void)
 {
@@ -33,5 +35,5 @@ void calibration_button_handler(void)
     calib_run_4_channels();
     message_box_draw((int)cx + TX8(0x9C00 + 0x334), (int)cy + TX8(0x9C00 + 0x335), TX32(0x9C00 + 0x1A0), 0);
     delay_ms(700);
-    ui_window_close(0x2A);
+    ui_window_close_raw(0x2A);
 }

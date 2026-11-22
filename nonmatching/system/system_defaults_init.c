@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "system.h"
 
 #define SYS 0x40544E68u
 #define GEN 0x42E3F984u

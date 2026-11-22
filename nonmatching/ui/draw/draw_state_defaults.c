@@ -6,11 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void table_scatter_42cf64b4(void);
-void fonts_init(void);
-void byte_42e68be0_set(u32 a);
-void half_42e68be2_set(u32 a);
+#include "processing.h"
+#include "ui/draw.h"
 
 void draw_state_defaults(void)
 {

@@ -4,5 +4,6 @@
  * RXCSR &= ~0x4000.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void __USBC_Dev_Rx_EnableBulkEp(void) { REG16(USBC_RXCSR) = (unsigned short)(REG16(USBC_RXCSR) & 0xBFFF); }

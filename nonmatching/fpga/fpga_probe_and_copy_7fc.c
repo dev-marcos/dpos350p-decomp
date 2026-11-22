@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void perform_fpga_identification_probe(void);
+#include "fpga.h"
 
 void fpga_probe_and_copy_7fc(void)
 {

@@ -6,8 +6,12 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
+#include "util.h"
 
-void fill_u32(volatile u32 *d, u32 v, u32 n);
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void fill_u32_raw(volatile u32 *d, u32 v, u32 n) __asm__("fill_u32");
 
 void frame_deviation_blend(u32 ch, u32 n, float fr)
 {
@@ -27,7 +31,7 @@ void frame_deviation_blend(u32 ch, u32 n, float fr)
             mean[j] = F ? s / F : 0;
         }
     }
-    fill_u32((volatile u32 *)dev, (u32)init, 100);
+    fill_u32_raw((volatile u32 *)dev, (u32)init, 100);
     F = SYS16(0x550);
     L = SYS32(0x2B0);
     for (j = 0; j < L; j++) {

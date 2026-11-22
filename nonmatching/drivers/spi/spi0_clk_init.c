@@ -4,10 +4,9 @@
  * CCU SPI0_CLK (0x01C200A0): gate off, source PLL_PERIPH0 with divider 3, gate on; returns PLL_PERIPH0/3 for controller 0, else 0.
  */
 #include "hw/drivers.h"
-
-s32 periph0_freq(void);
-u32 readl_f(u32 addr);
-void writel_f(u32 addr, u32 v);
+#include "drivers/ccu.h"
+#include "drivers/mmio.h"
+#include "drivers/spi.h"
 
 s32 spi0_clk_init(int ctrl)
 {

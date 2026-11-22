@@ -6,6 +6,11 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "fpga.h"
+#include "frontend.h"
+#include "storage/settings.h"
+#include "system.h"
+#include "util.h"
 
 int system_calibration(void)
 {

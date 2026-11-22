@@ -6,8 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "libc.h"
+#include "storage/files.h"
 
-void __aeabi_memcpy4(void *d, const void *s, unsigned n);
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
 

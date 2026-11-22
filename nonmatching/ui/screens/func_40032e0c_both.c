@@ -6,9 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void key_repeat_update(void);
-void measure_channel(u32 a);
+#include "processing.h"
+#include "ui/input.h"
+#include "ui/screens.h"
 
 void func_40032e0c_both(void)
 {

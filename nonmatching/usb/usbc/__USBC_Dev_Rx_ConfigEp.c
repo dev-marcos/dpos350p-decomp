@@ -4,6 +4,7 @@
  * CSR = 0x0090 (flush + clear toggle; written twice for a double FIFO), MAXP |= max packet (11 bits), then the type (2 = ISO, 3 = INT, else bulk).
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void __USBC_Dev_Rx_ConfigEp(u32 ts_type, u32 is_double_fifo, u32 ep_MaxPkt)
 {

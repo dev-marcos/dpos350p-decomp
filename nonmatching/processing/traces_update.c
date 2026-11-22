@@ -6,9 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void channels_process_full(void);
-void traces_process_single(void);
+#include "processing.h"
 
 void traces_update(void)
 {

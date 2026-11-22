@@ -6,10 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-int f_open(void *fp, const char *path, unsigned char mode);
-int f_close(void *fp);
-void screenshot_path_make(u32 a);
+#include "fatfs_app.h"
+#include "storage/files.h"
 
 u32 file_exists_40034b78(u32 a)
 {

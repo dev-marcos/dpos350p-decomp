@@ -6,16 +6,11 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "generator.h"
+#include "selftest.h"
+#include "storage/settings.h"
+#include "system.h"
 
-void factory_test_board(void);
-void factory_test_tester(void);
-void touch_targets_test(void);
-void settings_e_save(void);
-void factory_reset_keep_language(void);
-void settings_load_all(void);
-void state_blocks_init(void);
-void outputs_apply(void);
-void gen_update(void);
 #define FS32(o) (*(volatile u32 *)(0x42E68AE0u + (o)))
 
 void factory_steps_run(void)

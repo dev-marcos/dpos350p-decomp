@@ -4,6 +4,7 @@
  * SRAM controller +0x04: USB FIFO 8 KiB mode.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void USBC_ConfigFIFO_Base(void)
 {

@@ -4,5 +4,6 @@
  * INTUSB.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 u32 USBC_INT_MiscPending(void) { return REG8(USBC_INTUSB); }

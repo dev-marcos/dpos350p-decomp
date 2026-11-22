@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -16,11 +17,6 @@
 #define SPL_B 0x42D6EB54u
 #define SPL_C 0x42D823D4u
 #define SPL_D 0x42D95C54u
-
-void spline_coeffs(int n, int f0, int f1, const volatile float *xk, const volatile float *yk, volatile float *b,
-                   volatile float *c, volatile float *d, volatile u32 *work, float s0, float s1);
-float spline_eval(u32 unused, int n, const volatile float *xk, const volatile float *a, const volatile float *b,
-                  const volatile float *c, const volatile float *d, volatile int *idx, float x);
 
 void spline_resample(int n, const volatile float *xk, const volatile float *yk, u32 m, const volatile float *xin,
                      volatile float *yout)

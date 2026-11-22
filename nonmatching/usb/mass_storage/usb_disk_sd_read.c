@@ -6,6 +6,12 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/sdmmc.h"
+#include "usb/mass_storage.h"
+
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void usb_mass_write_raw(u32 ep, u32 buf, u32 n) __asm__("usb_mass_write");
 
 #define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
@@ -16,13 +22,9 @@
 #define USB 0x42E68C10u              /* +8: data residue */
 #define BUF 0x42E08074u              /* sector bounce buffer */
 
-void usb_disk_hook(void);
-
 #define DONE 0x42E68C7Cu             /* packets sent */
 #define LEFT 0x42E68C84u             /* blocks left */
 #define OFF 0x42E68C80u              /* buffer offset of the next packet */
-
-void usb_mass_write(u32 ep, u32 buf, u32 n);
 
 u32 usb_disk_sd_read(u32 a, u32 lba, u32 count, u32 d)
 {
@@ -38,12 +40,12 @@ u32 usb_disk_sd_read(u32 a, u32 lba, u32 count, u32 d)
         if (W32(DONE) == 0) {
             if ((unsigned char)mmc_read_blocks(0, lba, count, (void *)BUF))
                 B8(ERR) |= 8;
-            usb_mass_write(1, BUF, 0x200);
+            usb_mass_write_raw(1, BUF, 0x200);
             left = W32(LEFT) - 1;
             W32(DONE) = W32(DONE) + 1;
             W32(OFF) = 0x200;
         } else {
-            usb_mass_write(1, BUF + W32(OFF), 0x200);
+            usb_mass_write_raw(1, BUF + W32(OFF), 0x200);
             left = W32(LEFT) - 1;
             W32(DONE) = W32(DONE) + 1;
             W32(OFF) = W32(OFF) + 0x200;

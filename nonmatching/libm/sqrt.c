@@ -5,6 +5,7 @@
  * high word with 0x7FFFFFFF, keeping the low word of x (a NaN with x's low bits).
  */
 #include "rt/bits.h"
+#include "libm.h"
 
 double sqrt(double x)
 {

@@ -6,23 +6,14 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "generator.h"
+#include "storage/files.h"
+#include "ui/draw.h"
+#include "ui/input.h"
+#include "ui/windows.h"
 
-void ui_windows_reset(void);
-void fb_clear_current(void);
-void ui_windows_open_1_5(void);
-void list_c_index_save(void);
-void list_c_record_select(u32 v);
-void gen_load_samples(void);
-void gen_update(void);
-void list_c_marks_clear(void);
-void list_c_page_mark(void);
-void list_count_nonzero_40037880(void);
-void list_cursor_clamp_4003771c(void);
 #define LC_REC (*(volatile unsigned short *)(0x40544E68u + 0x3DA52E))
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
-void ui_window_close(u32 id);
-void ui_window_open(u32 id);
-void ui_window_invalidate_from(u32 id, u32 r1);
 void inv_left(u32 id) __asm__("ui_window_invalidate_from");
 #define P16(o) (*(volatile unsigned short *)(0x40544E68u + 0xF90 + (o)))
 #define PS16(o) (*(volatile short *)(0x40544E68u + 0xF90 + (o)))
@@ -35,8 +26,6 @@ static int sdv(int a, int b)
         return (int)(0u - (u32)a);
     return a / b;
 }
-
-void touch_buttons_91c_update(void);
 
 void list_c_window_buttons(void)
 {

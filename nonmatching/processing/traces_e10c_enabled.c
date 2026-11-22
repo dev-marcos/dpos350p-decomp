@@ -6,8 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void layer_clear(u32 tr);
+#include "processing.h"
+#include "ui/draw.h"
 
 void traces_e10c_enabled(void)
 {

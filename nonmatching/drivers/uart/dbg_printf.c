@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include <stdarg.h>
+#include "drivers/mmio.h"
+#include "drivers/uart.h"
 
 void dbg_printf(const char *fmt, ...)
 {

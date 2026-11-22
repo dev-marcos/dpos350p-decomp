@@ -4,5 +4,6 @@
  * Generic byte read (SPI-clock source file copy).
  */
 #include "hw/drivers.h"
+#include "drivers/mmio.h"
 
 u32 readb_f(u32 addr) { return REG8(addr); }

@@ -4,9 +4,9 @@
  * CCU: program PLL_CPU for f Hz (N = f/24 MHz via multiply-high; above 768 MHz P = 1 and N halves), wait for LOCK, AXI/APB dividers before (0x10102) and after (0x20101). DERIVED from the V3s CCU map.
  */
 #include "hw/drivers.h"
+#include "drivers/ccu.h"
+#include "drivers/mmio.h"
 
-u32 readl_e(u32 addr);
-void writel_e(u32 addr, u32 v);
 #define CCU 0x01C20000u
 #define PLL_LOCK 0x10000000u
 

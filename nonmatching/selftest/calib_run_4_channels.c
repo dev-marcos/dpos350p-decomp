@@ -6,14 +6,12 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
+#include "selftest.h"
+#include "storage/settings.h"
 
 #define CB8(o)  (*(volatile unsigned char *)(0x42E68668u + (o)))
 #define CB32(o) (*(volatile u32 *)(0x42E68668u + (o)))
-void levels_view_layout(void);
-void auto_level_search(void);
-void fft_spur_cancel(void);
-void fft_spur_capture(void);
-void settings_c_save(void);
 
 void calib_run_4_channels(void)
 {

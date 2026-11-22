@@ -4,8 +4,7 @@
  * ISCR: DP/DM pull-up (bit 16) and VBUS valid source 3 (bits 11:10).
  */
 #include "hw/usb.h"
-
-u32 USBC_WakeUp_ClearChangeDetect(u32 reg_val);
+#include "usb/usbc.h"
 
 void USBC_EnableDpDmPullUp(void)
 {

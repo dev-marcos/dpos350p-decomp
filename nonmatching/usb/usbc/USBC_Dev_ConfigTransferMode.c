@@ -4,6 +4,7 @@
  * ts_type 1..4 = CTRL/ISO/INT/BULK; speed 1 = LS, 2 = FS, 3 = HS.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void USBC_Dev_ConfigTransferMode(u32 ts_type, u32 speed_mode)
 {

@@ -6,8 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-double log10(double x);
+#include "libm.h"
+#include "processing.h"
 
 static void scale(volatile float *s, volatile unsigned short *d, u32 n, int h)
 {

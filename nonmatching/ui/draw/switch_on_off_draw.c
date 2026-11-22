@@ -6,17 +6,10 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
 
-void draw_colour_set(u32 c);
-void rect_fill(u32 a, u32 b, u32 c, u32 d);
-void func_4002ecc4_span(u32 a, u32 b, u32 c);
-void text_draw(u32 x, u32 y, const char *s);
-void pixel_put(u32 x, u32 y);
 #define W32(a) (*(volatile u32 *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
-
-void half_42e68be2_set(u32 a);
-void word_42e68c74_set(u32 a);
 
 void switch_on_off_draw(u32 x, u32 y, u32 on)
 {

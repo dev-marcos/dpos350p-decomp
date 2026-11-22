@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "util.h"
 
 u32 strlen(const char *str)
 {

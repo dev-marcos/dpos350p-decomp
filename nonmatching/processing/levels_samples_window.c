@@ -6,6 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "libc.h"
+#include "processing.h"
+#include "util.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -19,11 +22,6 @@
 #define OUT 0x416431E8u
 #define MID (OUT + 0xF4240u)
 #define FIN 0x4191F8A8u
-
-unsigned long long __aeabi_uldivmod(unsigned long long n, unsigned long long d);
-void fill_u16(unsigned short *d, unsigned short v, u32 n);
-void peak_hold_decimate(volatile short *buf, u32 n, double step);
-void floating_point_interpolation_resampling(u32 ws, u32 half, u32 len, u32 m, long long shift);
 
 void levels_samples_window(void)
 {

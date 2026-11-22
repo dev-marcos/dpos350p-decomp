@@ -4,16 +4,10 @@
  * IF_CFG polarity bits: vref (18), href (17), clock edge (16, set when cfg[3] == 1), field (19).
  */
 #include "hw/platform.h"
+#include "drivers/csi.h"
+#include "stock_asm.h"
 
 #define csi_base_tbl ((u32 *)0x42E68C50u)
-u32 csi_readl(u32 addr);
-void csi_writel(u32 addr, u32 v);
-void csi_setbits(u32 addr, u32 bits);
-void csi_clrbits(u32 addr, u32 bits);
-void csi_clrsetbits(u32 addr, u32 clr, u32 set);
-void dcache_clean_inv_all(void);
-void csi_writel_t(u32 addr, u32 v);
-u32 csi_readl_t(u32 addr);
 
 void csi_timing_cfg(u32 sel, const signed char *cfg)
 {

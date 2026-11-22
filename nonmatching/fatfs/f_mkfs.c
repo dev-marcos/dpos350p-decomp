@@ -31,7 +31,6 @@ FRESULT f_mkfs (
 	DWORD tbl[3];
 #endif
 
-
 	/* Check mounted drive and clear work area */
 	vol = get_ldnumber(&path);					/* Get target logical drive */
 	if (vol < 0) return FR_INVALID_DRIVE;

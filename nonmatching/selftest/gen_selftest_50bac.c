@@ -6,10 +6,10 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "selftest.h"
+#include "system.h"
 
-void acq_defaults_reset(void);
-void outputs_apply(void);
-void acquisition_dispatcher(void);
 #define RS8(o) (*(volatile unsigned char *)(0x42E68AE0u + (o)))
 #define CAP8(o) (*(volatile unsigned char *)(0x42DF76D4u + (o)))
 

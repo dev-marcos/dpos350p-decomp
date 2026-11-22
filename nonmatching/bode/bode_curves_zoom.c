@@ -6,6 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "bode.h"
+#include "processing.h"
+#include "util.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -17,11 +20,6 @@
 #define BB 0x42E180C8u
 #define WS 0x416431E8u
 #define MID (WS + 0x4E20u)
-
-void copy_u16(unsigned short *d, const unsigned short *s, u32 n);
-void fill_u16(unsigned short *d, unsigned short v, u32 n);
-void simple_integer_index_mapping_nearest_neighbour(u32 src_a, u32 center_a, u32 w, u32 m, u32 shift_a, u32 unused);
-void floating_point_interpolation_resampling(u32 ws, u32 half, u32 len, u32 m, long long shift);
 
 static void zoom_one(u32 off)
 {

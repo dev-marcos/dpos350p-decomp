@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/lradc.h"
+#include "power.h"
 
 void power_monitor_init(void)
 {

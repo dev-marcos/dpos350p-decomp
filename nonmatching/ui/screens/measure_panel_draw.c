@@ -6,11 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
+#include "ui/screens.h"
 
-void draw_colour_set(u32 c);
-void rect_fill(u32 x, u32 y, u32 w, u32 h);
-void func_4002ecc4_span(u32 a, u32 b, u32 c);
-void measure_item_draw(u32 x, u32 y, u32 ch, u32 kind);
 #define SYS 0x40544E68u
 #define U16(v) ((unsigned short)(v))
 

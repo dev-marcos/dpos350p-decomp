@@ -4,6 +4,7 @@
  * TX: TXCSR = 0x2048; RX: RXCSR = 0x90.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void USBC_Clear_Feature_HALT(u32 ep_type)
 {

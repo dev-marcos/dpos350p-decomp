@@ -6,10 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "libc.h"
+#include "ui/draw.h"
 
-void func_4002d82c_flag1(u32 x, u32 y, u32 lo, u32 hi, u32 dec);
-void func_4002d82c_flag0(u32 x, u32 y, u32 lo, u32 hi, u32 dec);
-void text_draw(u32 x, u32 y, const char *s);
 #define TW (*(volatile unsigned short *)0x42E68BE4u)
 
 static void num(u32 x, u32 y, u32 sg, long long v, u32 dec)

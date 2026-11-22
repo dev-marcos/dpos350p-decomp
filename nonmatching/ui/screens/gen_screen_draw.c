@@ -6,20 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void draw_colour_set(u32 c);
-void rect_fill(u32 x, u32 y, u32 w, u32 h);
-void vline_draw(u32 x, u32 y0, u32 y1);
-void func_4002ecc4_span(u32 y, u32 x0, u32 x1);
-void half_42e68be2_set(u32 a);
-void word_42e68c74_set(u32 a);
-void byte_42e68be0_set(u32 a);
-void text_draw(u32 x, u32 y, const char *s);
-u32 text_width(const char *s);
-void text_shadow_draw(u32 x, u32 y, const char *s, u32 n, unsigned char m, unsigned char alpha);
-void text_d6f8_shadow_draw(u32 x, u32 y, u32 a, u32 b, unsigned char e, unsigned char n, unsigned char m,
-                           unsigned char alpha);
-void touch_button_set_rect(u32 x, u32 y, u32 wd, u32 ht, volatile unsigned char *b);
+#include "ui/draw.h"
+#include "ui/input.h"
+#include "ui/screens.h"
 
 #define U16(v)    ((v) & 0xFFFFu)
 #define LAY16(o)  (*(volatile unsigned short *)(0x42E64520u + (o)))

@@ -6,15 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-double sin(double x);
-double exp(double x);
-double sqrt(double x);
-void fill_u16(unsigned short *d, unsigned short v, u32 n);
-void gen_normalize(void);
-void gen_resample(void);
-void gen_normalize2(void);
-void gen_resample2(void);
+#include "generator.h"
+#include "libm.h"
+#include "util.h"
 
 #define GW    ((volatile int *)(GEN_G + 0x2EFC))
 #define GU(i) ((u32)GW[i])

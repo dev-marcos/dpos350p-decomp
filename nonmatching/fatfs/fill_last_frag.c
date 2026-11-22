@@ -15,7 +15,6 @@ FRESULT fill_last_frag (
 {
 	FRESULT res;
 
-
 	while (obj->n_frag > 0) {	/* Create the chain of last fragment */
 		res = put_fat(obj->fs, lcl - obj->n_frag + 1, (obj->n_frag > 1) ? lcl - obj->n_frag + 2 : term);
 		if (res != FR_OK) return res;

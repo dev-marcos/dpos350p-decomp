@@ -4,5 +4,6 @@
  * uart_putc on the debug port (g_uart_port, low byte sign-extended).
  */
 #include "hw/platform.h"
+#include "drivers/uart.h"
 
 void console_putc(int c) { uart_putc((signed char)g_uart_port, c); }

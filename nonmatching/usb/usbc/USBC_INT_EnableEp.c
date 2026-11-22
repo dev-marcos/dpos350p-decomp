@@ -4,6 +4,7 @@
  * TX/RX endpoint interrupt enable.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void USBC_INT_EnableEp(u32 ep_type, u32 ep_index)
 {

@@ -4,13 +4,11 @@
  * CCU: CPU clock (argument < 1500 is taken as MHz, rounded down to a multiple of 24 MHz), PLL_VIDEO = 0x91004107, PLL_PERIPH0 = 0x90041811 (wait LOCK), AHB/APB0 = 0x3180, MBUS = 0x81000003. Hack: sys_clock_init(1152000000).
  */
 #include "hw/drivers.h"
+#include "drivers/ccu.h"
+#include "drivers/mmio.h"
 
-u32 readl_e(u32 addr);
-void writel_e(u32 addr, u32 v);
 #define CCU 0x01C20000u
 #define PLL_LOCK 0x10000000u
-
-void ccu_set_cpu_pll(u32 f);
 
 void sys_clock_init(s32 f)
 {

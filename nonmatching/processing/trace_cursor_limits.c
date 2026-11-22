@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "generator.h"
+#include "processing.h"
 
 #define TC32(o) (*(volatile int *)(0x42E180C8u + (o)))
 #define Q32(o) (*(volatile int *)(0x42E42884u + (o)))

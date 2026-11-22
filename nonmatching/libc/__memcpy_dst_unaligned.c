@@ -5,6 +5,7 @@
  * unaligned destination (word loads, halfword/byte stores). Name is OPEN.
  */
 #include "rt/bits.h"
+#include "libc.h"
 
 AEABI void __memcpy_dst_unaligned(void *dst, const void *src, u32 n)
 {

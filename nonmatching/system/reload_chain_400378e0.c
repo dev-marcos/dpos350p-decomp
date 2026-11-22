@@ -6,11 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void list_c_index_load(void);
-void list_c_data_load(void);
-void list_c_marks_clear(void);
-void list_cursor_clamp_4003771c(void);
+#include "storage/files.h"
+#include "system.h"
 
 void reload_chain_400378e0(void)
 {

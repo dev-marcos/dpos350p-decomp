@@ -6,6 +6,11 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "bode.h"
+#include "libm.h"
+#include "processing.h"
+#include "storage/settings.h"
 
 #define SYS 0x40544E68u
 #define BB 0x42E180C8u
@@ -21,11 +26,6 @@
 #define BD(o) DD(BB + (o))
 #define U16(v) ((unsigned short)(v))
 
-void bode_point_measure(u32 f);
-void bode_phase_measure(u32 idx);
-void runtime_event_service(void);
-double log10(double x);
-
 static const union { unsigned long long u; double d; } LIM = { 0x40B3880000000001ULL };   /* 5000.000000000001 */
 
 static double point_ratio(void)
@@ -38,9 +38,6 @@ static double point_ratio(void)
         B8(BB + 0xAD1A) = 1;
     return r;
 }
-
-void trace_defaults_37b48(void);
-void settings_d_save(void);
 
 void bode_calibrate(void)
 {

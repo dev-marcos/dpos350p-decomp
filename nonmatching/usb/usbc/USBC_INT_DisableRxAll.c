@@ -4,5 +4,6 @@
  * INTRxE = 0 (falls into 0x4006C4E0).
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void USBC_INT_DisableRxAll(void) { REG16(USBC_INTRxE) = 0; }

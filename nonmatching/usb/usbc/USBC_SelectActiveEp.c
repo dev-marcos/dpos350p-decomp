@@ -4,5 +4,6 @@
  * EPIND = ep.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void USBC_SelectActiveEp(u32 ep_index) { REG8(USBC_EPIND) = (unsigned char)ep_index; }

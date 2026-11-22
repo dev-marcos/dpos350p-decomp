@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/fpga_bus.h"
+#include "fpga.h"
 
 void pulse_fpga_selector_0x08_0_1(void)
 {

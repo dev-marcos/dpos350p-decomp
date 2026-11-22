@@ -4,8 +4,8 @@
  * Watchdog 0: CFG[1:0] = cfg, MODE[7:4] = interval, IRQ_EN bit 0 = irq; then tail-calls wdt_irq_ack. Names DERIVED from the V3s register map.
  */
 #include "hw/drivers.h"
-
-int wdt_irq_ack(void);
+#include "drivers/mmio.h"
+#include "drivers/wdt.h"
 
 int wdt_config(u32 interval, u32 cfg, u32 irq)
 {

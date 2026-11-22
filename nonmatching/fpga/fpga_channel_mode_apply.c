@@ -6,6 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/fpga_bus.h"
+#include "drivers/timer.h"
+#include "fpga.h"
 
 void fpga_channel_mode_apply(void)
 {

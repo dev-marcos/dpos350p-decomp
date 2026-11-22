@@ -6,17 +6,19 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "processing.h"
+#include "ui/input.h"
+#include "ui/windows.h"
+
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void ui_window_close_raw(u32 n) __asm__("ui_window_close");
+void ui_window_invalidate_from_raw(u32 n) __asm__("ui_window_invalidate_from");
 
 #define SYS 0x40544E68u
 #define BTN 0x42E61FF8u              /* touch button records; byte 0 is the pending-touch flag */
 #define B8(a) (*(volatile unsigned char *)(a))
-
-void touch_group_0426(void);
-void timebase_index_set(u32 v);
-void zoom_index_set(u32 v);
-void acquisition_apply(void);
-void ui_window_invalidate_from(u32 n);
-void ui_window_close(u32 n);
 
 void timebase_menu_buttons(void)
 {
@@ -35,8 +37,8 @@ void timebase_menu_buttons(void)
             else
                 zoom_index_set(v);
             acquisition_apply();
-            ui_window_invalidate_from(3);
-            ui_window_close(0xF);
+            ui_window_invalidate_from_raw(3);
+            ui_window_close_raw(0xF);
             return;
         }
     }

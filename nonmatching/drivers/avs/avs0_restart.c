@@ -4,9 +4,8 @@
  * AVS counter 0: CNT0 = 0, CTL |= 1.
  */
 #include "hw/drivers.h"
-
-u32 readl_d(u32 addr);
-void writel_d(u32 addr, u32 v);
+#include "drivers/avs.h"
+#include "drivers/mmio.h"
 
 void avs0_restart(void)
 {

@@ -4,19 +4,13 @@
  * Standard requests: GET_DESCRIPTOR, SET_CONFIGURATION, SET_ADDRESS, CLEAR_FEATURE (endpoint halt); the others are only reported. Ends with an EP0 status acknowledge.
  */
 #include "hw/usb.h"
+#include "drivers/uart.h"
+#include "usb/core.h"
+#include "usb/mass_storage.h"
 
 #define setup_req      ((unsigned char *)0x42E68C58u)   /* copy of the last setup packet */
 #define line_coding    ((unsigned char *)0x40095484u)   /* 7 bytes */
 #define line_coding_rx (*(u32 *)0x42E68CECu)
-void usb_mass_send_data(unsigned char *buf, int len);
-void usb_mass_send_csw(u32 status, u32 next);
-void usb_mass_set_sense(u32 lun, u32 key, u32 asc);
-
-void usb_get_descriptor(unsigned char *req);
-void usb_set_configuration(void);
-void usb_set_address(u32 addr);
-void usb_device_clear_ep_halt(int epaddr);
-void usb_device_read_data_status_ep0(u32 is_complete);
 
 void usb_standard_request(unsigned char *req)
 {

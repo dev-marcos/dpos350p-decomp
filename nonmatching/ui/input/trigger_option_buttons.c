@@ -6,14 +6,15 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/input.h"
+#include "ui/windows.h"
+
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void ui_window_close_raw(u32 id) __asm__("ui_window_close");
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
-void ui_window_close(u32 id);
-void ui_window_open(u32 id);
-void ui_window_invalidate_from(u32 id, u32 r1);
 void inv_left(u32 id) __asm__("ui_window_invalidate_from");
-
-void touch_group_05B6(void);
 
 void trigger_option_buttons(void)
 {
@@ -27,7 +28,7 @@ void trigger_option_buttons(void)
     } else if (TB(0x5C0) == 2) {
         TB(0x5C0) = 0;
         TB(0) = 0;
-        ui_window_close(0x11);
+        ui_window_close_raw(0x11);
         inv_left(3);
         SYS8(0x27A) = 1;
     } else if (TB(0x5CA) == 2) {

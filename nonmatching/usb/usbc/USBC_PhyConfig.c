@@ -4,6 +4,8 @@
  * PHY tuning: 45 ohm (0x0C), magnitude/rate (0x20), disconnect threshold (0x2A).
  */
 #include "hw/usb.h"
+#include "usb/phy.h"
+#include "usb/usbc.h"
 
 void USBC_PhyConfig(void)
 {

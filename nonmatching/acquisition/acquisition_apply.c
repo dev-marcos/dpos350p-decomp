@@ -6,11 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void timebase_slow_flag_update(void);
-void sample_divisor_setup(void);
-void acquisition_timing_setup(void);
-void timebase_apply(void);
+#include "acquisition.h"
+#include "fpga.h"
 
 void acquisition_apply(void)
 {

@@ -6,26 +6,16 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "fatfs_app.h"
+#include "storage/files.h"
+#include "util.h"
+
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void record_clear_raw(u32 v) __asm__("record_clear");
 
 #define SS16(o) (*(volatile short *)(0x40544E68u + (o)))
 #define PATHBUF ((const char *)0x4054D728u)   /* SYS+0x88C0: path built by the list's path helper */
-int f_open(void *fp, const char *path, unsigned char mode);
-int f_close(void *fp);
-int f_read(void *fp, void *buff, u32 btr, u32 *br);
-int f_write(void *fp, const void *buff, u32 btw, u32 *bw);
-int f_lseek(void *fp, unsigned long long ofs);
-int f_mkdir(const char *path);
-int f_chmod(const char *path, unsigned char attr, unsigned char mask);
-void fill_u16(unsigned short *d, unsigned short v, u32 n);
-
-void list_current_advance(int i);
-void list_c_entry_remove(u32 v);
-void record_clear(u32 v);
-void list_a_marks_clear(void);
-void list_c_index_save(void);
-void list_c_data_save(void);
-void list_c_index_load(void);
-void list_c_data_load(void);
 
 void list_c_delete_marked(void)
 {
@@ -35,7 +25,7 @@ void list_c_delete_marked(void)
             u32 v = SYS16(0xFA6 + 2 * i);
             list_current_advance((unsigned short)i);
             list_c_entry_remove(v);
-            record_clear(v);
+            record_clear_raw(v);
         }
     }
     list_a_marks_clear();

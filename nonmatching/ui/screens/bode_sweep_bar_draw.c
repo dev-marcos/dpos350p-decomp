@@ -6,6 +6,10 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
+#include "ui/draw.h"
+#include "ui/input.h"
+#include "ui/screens.h"
 
 #define SYS 0x40544E68u
 #define LAY 0x42E64520u              /* UI layout table */
@@ -18,15 +22,6 @@
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define ENT(n) (TXT + 0x1A0 * (n))
-
-void half_42e68be2_set(u32 a);
-void word_42e68c74_set(u32 a);
-void draw_colour_set(u32 c);
-void rect_fill(u32 x, u32 y, u32 w, u32 h);
-void touch_button_set_rect(u32 x, u32 y, u32 wd, u32 ht, volatile unsigned char *b);
-void text_shadow_draw(u32 x, u32 y, const char *s, u32 n, unsigned char m, unsigned char alpha);
-void draw_text_shadowed(u32 x, u32 y, u32 s, u32 dx, u32 dy, u32 col);
-u32 text_width(const char *s);
 
 /* one toolbar button: background, icon (colour c is set and at once replaced by the theme
    colour, as in the stock code), centred label of text entry e, touch record, pressed shade */
@@ -48,11 +43,6 @@ static void tool_button(u32 tx, u32 y, u32 c, u32 img, u32 e, u32 rec)
         rect_fill(tx & 0xFFFF, y, 0xA6, 0x2C);
     }
 }
-
-void trace_cursor_limits(void);
-void voltage_uv_draw(u32 x, u32 y, u32 sg, double d);
-u32 frequency_draw(u32 x, u32 y, u32 measure, double d);
-void func_4002d82c_flag0(u32 x, u32 y, u32 lo, u32 hi, u32 dec);
 
 #define S32(a) (*(volatile int *)(a))
 

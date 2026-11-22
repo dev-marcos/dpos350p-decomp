@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void security_chip_check(void);
+#include "fpga.h"
 
 void security_check_and_copy(void)
 {

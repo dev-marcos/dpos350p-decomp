@@ -6,10 +6,13 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
 
-void number_text_width(u32 a, u32 b, u32 c, u32 d);
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void number_text_width_raw(u32 a, u32 b, u32 c, u32 d) __asm__("number_text_width");
 
 void func_4002d2d4_d0(u32 a, u32 b, u32 c)
 {
-    number_text_width(a, b, c, 0);
+    number_text_width_raw(a, b, c, 0);
 }

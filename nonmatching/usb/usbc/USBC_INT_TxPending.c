@@ -4,5 +4,6 @@
  * INTTx.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 u32 USBC_INT_TxPending(void) { return REG16(USBC_INTTx); }

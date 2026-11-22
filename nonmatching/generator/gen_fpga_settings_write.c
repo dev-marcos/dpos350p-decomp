@@ -6,9 +6,11 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/fpga_bus.h"
+#include "drivers/ms5351.h"
+#include "fpga.h"
+#include "generator.h"
 
-void ms5351_set_clk1(u32 hz);
-void fpga_sel42_43_fill(u32 n);
 #define GB8(o) (*(volatile unsigned char *)(0x42E3F984u + (o)))
 #define GB16(o) (*(volatile unsigned short *)(0x42E3F984u + (o)))
 #define GB32(o) (*(volatile u32 *)(0x42E3F984u + (o)))

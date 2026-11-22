@@ -4,8 +4,9 @@
  * Speed unknown, bulk/HS transfer mode, misc interrupt enables (FNIRSI passes the bit numbers 0, 1, 2, 5 as masks), EP0 interrupt, soft connect.
  */
 #include "hw/usb.h"
-
-void cfg_udc_command(u32 cmd);
+#include "drivers/uart.h"
+#include "usb/core.h"
+#include "usb/usbc.h"
 
 void sunxi_udc_enable(void)
 {

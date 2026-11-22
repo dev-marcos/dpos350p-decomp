@@ -6,9 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-long long __aeabi_ldivmod(long long a, long long b);
-double sqrt(double x);
+#include "libc.h"
+#include "libm.h"
+#include "processing.h"
 
 #define SYS 0x40544E68u
 #define H16(a) (*(volatile unsigned short *)(a))

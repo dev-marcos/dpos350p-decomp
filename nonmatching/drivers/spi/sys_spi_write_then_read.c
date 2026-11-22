@@ -4,6 +4,7 @@
  * Send txlen bytes, set the dual-mode bits 7:4 if dual mode is on, read rxlen bytes. 0 on success, -1 otherwise.
  */
 #include "hw/platform.h"
+#include "drivers/spi.h"
 
 int sys_spi_write_then_read(int spi, const unsigned char *tx, int txlen, unsigned char *rx, int rxlen)
 {

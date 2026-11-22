@@ -6,19 +6,14 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
+#include "ui/screens.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
 #define SB8(a) (*(volatile signed char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
-
-void half_42e68be2_set(u32 a);
-void word_42e68c74_set(u32 a);
-void draw_colour_set(u32 c);
-void rect_fill(u32 x, u32 y, u32 w, u32 h);
-
-void vline_draw(u32 x, u32 y0, u32 y1);
 
 #define H3 ((H16(SYS + 0xA) * 0xAAABu) >> 17)    /* a third of the plot height */
 #define VL(col, x) do { draw_colour_set(col); vline_draw((u32)(x) & 0xFFFF, (H16(SYS + 6) + 1) & 0xFFFF, (H16(SYS + 6) + H3) & 0xFFFF); } while (0)

@@ -6,16 +6,11 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void __aeabi_memcpy(void *d, const void *s, u32 n);
-void disk_format_and_reload(void);
-int f_open(void *fp, const char *path, unsigned char mode);
-int f_close(void *fp);
-int f_read(void *fp, void *buff, u32 btr, u32 *br);
-int f_write(void *fp, const void *buff, u32 btw, u32 *bw);
-int f_lseek(void *fp, unsigned long long ofs);
-int f_unlink(const char *path);
-int strcmp(const char *a, const char *b);
+#include "fatfs_app.h"
+#include "libc.h"
+#include "storage/diskio.h"
+#include "ui/input.h"
+#include "util.h"
 
 void disk_check_file(void)
 {

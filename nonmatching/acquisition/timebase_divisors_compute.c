@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -13,8 +14,6 @@
 #define W32(a) (*(volatile u32 *)(a))
 #define S64(a) (*(volatile long long *)(a))
 #define U64(a) (*(volatile unsigned long long *)(a))
-
-void timebase_period_load(void);
 
 static u32 ceil_div10(long long v)
 {

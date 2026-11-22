@@ -6,16 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void settings_e_load(void);
-void settings_f_load(void);
-void settings_slot_load(void);
-void settings_b_load(void);
-void calibration_load_wrapper(void);
-void settings_a_load(void);
-void settings_g_load(void);
-void settings_d_load(void);
-void settings_c_load(void);
+#include "storage/settings.h"
 
 void settings_load_all(void)
 {

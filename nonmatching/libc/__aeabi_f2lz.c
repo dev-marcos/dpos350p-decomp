@@ -4,6 +4,7 @@
  * Arm C library: float (r0) -> int64 (r0:r1), truncating; saturates on overflow, Inf/NaN -> 0.
  */
 #include "rt/bits.h"
+#include "libc.h"
 
 AEABI s64 __aeabi_f2lz(u32 x)
 {

@@ -6,6 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "libc.h"
+#include "ui/draw.h"
+#include "ui/screens.h"
 
 #define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
@@ -14,17 +17,6 @@
 #define D64(a) (*(volatile double *)(a))
 #define BLK 0x42E68668u
 #define ADV 0x42E68BE4u
-
-void half_42e68be2_set(u32 a);
-void word_42e68c74_set(u32 a);
-void draw_colour_set(u32 c);
-void rect_fill(u32 x, u32 y, u32 w, u32 h);
-void text_draw(u32 x, u32 y, const char *s);
-
-void vline_draw(u32 x, u32 y0, u32 y1);
-u32 frequency_draw(u32 x, u32 y, u32 measure, double d);
-void level_label_dbmv(u32 x, u32 y, u32 c, double v);
-void voltage_uv_draw(u32 x, u32 y, u32 sg, double d);
 
 /* the triangle-topped flag of a marker at x r7 */
 static void marker_flag(u32 r7, u32 r4, u32 r6, u32 r8)

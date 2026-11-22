@@ -4,8 +4,6 @@
  * Generic register read (timer source file copy).
  */
 #include "hw/drivers.h"
-
-u32 readl_d(u32 addr);
-void writel_d(u32 addr, u32 v);
+#include "drivers/mmio.h"
 
 u32 readl_d(u32 addr) { return REG32(addr); }

@@ -6,16 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void word_42e68c74_set(u32 a);
-void half_42e68be2_set(u32 a);
-int text_width(const char *s);
-void fb_rect_copy_to_e4e84(u32 x0, u32 y0, u32 x1, u32 y1);
-void fb_target_back(void);
-void draw_colour_set(u32 c);
-void rect_fill(u32 x, u32 y, u32 w, u32 h);
-void text_shadow_draw(u32 x, u32 y, const char *s, u32 n, unsigned char m, unsigned char alpha);
-void fb_present_rect(u32 x0, u32 y0, u32 x1, u32 y1);
+#include "ui/draw.h"
+#include "ui/screens.h"
 
 void message_box_draw(int x, int y, u32 text, int align)
 {

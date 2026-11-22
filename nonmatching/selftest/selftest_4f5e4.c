@@ -6,15 +6,12 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "drivers/timer.h"
+#include "fpga.h"
+#include "selftest.h"
+#include "system.h"
 
-void acq_defaults_reset(void);
-void outputs_apply(void);
-void stream_geometry_fpga_selector_0x22_configuration(void);
-void fpga_write_sel_0x2a(void);
-void delay_ms(u32 ms);
-void acquisition_prepare(void);
-void trigger_pos_update(void);
-void capture_banks_all(void);
 #define RS8(o) (*(volatile unsigned char *)(0x42E68AE0u + (o)))
 #define LANE8(o) (*(volatile unsigned char *)(0x42E51EB4u + (o)))
 

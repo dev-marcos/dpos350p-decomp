@@ -4,6 +4,8 @@
  * OUT packet: in stage 0 parse a CBW (the CBW decoder at 0x4006BB6C is a separate stock function that the map merges into this one), in stage 1 continue a WRITE(10); otherwise phase error.
  */
 #include "hw/usb.h"
+#include "drivers/uart.h"
+#include "usb/mass_storage.h"
 
 #define cbw            ((unsigned char *)0x42E68B90u)   /* 31-byte command block wrapper */
 #define CBW_SIG        (*(u32 *)0x42E68B90u)
@@ -27,28 +29,6 @@
 #define max_lun_rsp    (*(unsigned char *)0x42E68D1Eu)
 #define max_lun        (*(volatile u32 *)0x42E68D23u)   /* read as an unaligned word by the CBW check */
 #define sense_data     ((unsigned char *)0x40095400u)   /* 18-byte fixed-format sense */
-void usb_mass_send_data(unsigned char *buf, int len);
-void usb_mass_send_csw(u32 status, u32 next);
-void usb_mass_set_sense(u32 lun, u32 key, u32 asc);
-int usb_mass_write(int unused, unsigned char *buf, int len);
-int scsi_lun_invalid(u32 lun);
-int scsi_check_range(u32 lun, u32 op, u32 lba, u32 count);
-void usb_mass_disk_read(u32 lun, u32 lba, u32 count);
-void usb_mass_disk_write(u32 lun, u32 lba, u32 count);
-
-void scsi_test_unit_ready(u32 lun);
-void scsi_request_sense(u32 lun);
-void scsi_format_unit(u32 lun);
-void scsi_invalid_cmd(u32 lun);
-void scsi_inquiry(u32 lun);
-void scsi_mode_sense6(u32 lun);
-void scsi_start_stop(u32 lun);
-void scsi_read_format_capacities(u32 lun);
-void scsi_read_capacity10(u32 lun);
-void scsi_read10(u32 lun, u32 lba, u32 count);
-void scsi_write10(u32 lun, u32 lba, u32 count);
-void scsi_verify10(u32 lun);
-void scsi_mode_sense10(u32 lun);
 
 /* stock 0x4006BB6C: decode a CBW (only reached by a tail branch from usb_mass_out_handler) */
 static void usb_mass_decode_cbw(void)

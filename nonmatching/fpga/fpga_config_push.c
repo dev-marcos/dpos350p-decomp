@@ -6,14 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void fpga_cmd61_write(void);
-void fpga_cmd0c_write(void);
-void fpga_cmd1a_write(void);
-void fpga_cmd15_write(void);
-void fpga_cmd16_write(void);
-void fpga_params_0e_13_write(void);
-void trigger_offsets_update(void);
+#include "acquisition.h"
+#include "fpga.h"
 
 void fpga_config_push(void)
 {

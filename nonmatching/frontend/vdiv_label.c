@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "frontend.h"
 
 void vdiv_label(u32 ch, u32 r1, int d, int unit)
 {

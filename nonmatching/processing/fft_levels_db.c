@@ -6,12 +6,13 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "libc.h"
+#include "libm.h"
+#include "processing.h"
 
 #define MI(o) (*(volatile int *)(0x42E68668u + (o)))
 #define MD(o) (*(volatile double *)(0x42E68668u + (o)))
 #define M64(o) (*(volatile long long *)(0x42E68668u + (o)))
-
-double log10(double x);
 
 void fft_levels_db(void)
 {

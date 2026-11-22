@@ -6,9 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void ui_texts_init(void);
-void ui_text_language_apply(void);
+#include "ui/text.h"
 
 void ui_text_init(void)
 {

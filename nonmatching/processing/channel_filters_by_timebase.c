@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void frame_deviation_blend(u32 ch, u32 n, float fr);
+#include "processing.h"
 
 void channel_filters_by_timebase(void)
 {

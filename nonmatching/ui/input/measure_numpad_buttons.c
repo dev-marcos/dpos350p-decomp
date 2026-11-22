@@ -6,16 +6,12 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/input.h"
+#include "ui/windows.h"
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
-void ui_window_close(u32 id);
-void ui_window_open(u32 id);
-void ui_window_invalidate_from(u32 id, u32 r1);
 void inv_left(u32 id) __asm__("ui_window_invalidate_from");
 
-void touch_group_0B92(void);
-void numpad_open_mode1(u32 x, u32 y);
-void numpad_open_mode3(u32 x, u32 y);
 #define NP8(o) (*(volatile unsigned char *)(0x42E68A88u + (o)))
 #define NP32(o) (*(volatile u32 *)(0x42E68A88u + (o)))
 #define MB8(o) (*(volatile unsigned char *)(0x42E68668u + (o)))

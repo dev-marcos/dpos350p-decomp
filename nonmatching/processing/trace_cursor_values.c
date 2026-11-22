@@ -6,8 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "libm.h"
+#include "processing.h"
 
-double pow(double x, double y);
 #define TD(o) (*(volatile double *)(0x42E180C8u + (o)))
 #define TI(o) (*(volatile int *)(0x42E180C8u + (o)))
 #define TH(o) (*(volatile unsigned short *)(0x42E180C8u + (o)))

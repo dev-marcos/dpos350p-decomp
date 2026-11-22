@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
+#include "util.h"
 
 void index_map_if_above(u32 a, u32 b, u32 c, u32 d, u32 e, u32 g)
 {

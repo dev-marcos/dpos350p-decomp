@@ -4,5 +4,6 @@
  * PCTL = PCTL | 0x80 (ISO-update bit 7 / HS-enable bit 5).
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void __USBC_Dev_TsType_Iso(void) { REG8(USBC_PCTL) = (unsigned char)(REG8(USBC_PCTL) | 0x80); }

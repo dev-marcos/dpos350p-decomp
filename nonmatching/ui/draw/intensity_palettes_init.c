@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
+#include "util.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -18,9 +20,6 @@
 #define PAL_B 0x42E47B8Cu
 #define TAB_A 0x42E56C30u
 #define TAB_B 0x42E583A0u
-
-void fill_u16(unsigned short *d, unsigned short v, u32 n);
-void fill_u32(u32 *d, u32 v, u32 n);
 
 void intensity_palettes_init(void)
 {

@@ -4,6 +4,8 @@
  * Read len bytes from an endpoint FIFO.
  */
 #include "hw/usb.h"
+#include "usb/core.h"
+#include "usb/usbc.h"
 
 int usb_device_read_data_ep_pack(int ep, unsigned char *databuf, int len)
 {

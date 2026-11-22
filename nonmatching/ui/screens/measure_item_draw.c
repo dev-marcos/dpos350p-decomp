@@ -6,13 +6,10 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
+#include "ui/draw.h"
+#include "ui/screens.h"
 
-void half_42e68be2_set(u32 a);
-void draw_colour_set(u32 c);
-void word_42e68c74_set(u32 a);
-void text_draw(u32 x, u32 y, const char *s);
-void func_4002d82c_flag0(u32 x, u32 y, u32 lo, u32 hi, u32 dec);
-void value_si_scale(u32 kind, u32 unused, long long v, long long *out, int *dec, int *prefix);
 #define H16(a) (*(volatile unsigned short *)(a))
 #define SYS 0x40544E68u
 #define U16(v) ((unsigned short)(v))

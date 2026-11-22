@@ -4,5 +4,6 @@
  * Store r0 at 0x4091F38C.
  */
 #include "hw/platform.h"
+#include "storage/settings.h"
 
 void serializer_set_cursor(u32 v) { *(u32 *)0x4091F38Cu = v; }

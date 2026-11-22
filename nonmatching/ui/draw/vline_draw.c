@@ -6,11 +6,11 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
 
 #define CB8(o) (*(volatile unsigned char *)(0x42E6865Cu + (o)))
 #define CB16(o) (*(volatile unsigned short *)(0x42E6865Cu + (o)))
 #define FBP (*(volatile u32 *)0x40095498u)
-void pixel_put(u32 x, u32 y);
 
 void vline_draw(u32 x, u32 y0, u32 y1)
 {

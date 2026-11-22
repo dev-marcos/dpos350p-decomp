@@ -4,6 +4,8 @@
  * Watchdog 0: MODE |= 1 (enable).
  */
 #include "hw/drivers.h"
+#include "drivers/mmio.h"
+#include "drivers/wdt.h"
 
 void wdt_enable(void)
 {

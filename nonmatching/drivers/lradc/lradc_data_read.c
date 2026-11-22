@@ -6,8 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-u32 readl_c(u32 addr);
+#include "drivers/lradc.h"
+#include "drivers/mmio.h"
 
 u32 lradc_data_read(void)
 {

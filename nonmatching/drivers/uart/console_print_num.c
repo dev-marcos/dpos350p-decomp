@@ -4,6 +4,7 @@
  * Integer to text: base < 0 = signed |base|; base 16 uses masks; base 10 inserts ',' every three digits; width < 0 = left aligned; width > 80 ignored; pad 0 means ' '.
  */
 #include "hw/platform.h"
+#include "drivers/uart.h"
 
 void console_print_num(int val, int base, int width, int pad)
 {

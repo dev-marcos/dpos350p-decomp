@@ -6,15 +6,15 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "generator.h"
+#include "processing.h"
+#include "util.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define F32(a) (*(volatile float *)(a))
-
-int sine_table_lookup(int x);
-void copy_u16(unsigned short *d, const unsigned short *s, u32 n);
 
 #define OUT16 0x416431E8u
 

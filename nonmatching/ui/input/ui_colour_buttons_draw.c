@@ -6,14 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
+#include "ui/input.h"
 
-void draw_colour_set(u32 c);
-void rect_fill(u32 x, u32 y, u32 w, u32 h);
-void half_42e68be2_set(u32 a);
-void word_42e68c74_set(u32 a);
-u32 text_width(const char *s);
-void text_shadow_draw(u32 x, u32 y, const char *s, u32 n, unsigned char m, unsigned char alpha);
-void touch_button_set_rect(u32 x, u32 y, u32 wd, u32 ht, volatile unsigned char *b);
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define WR16(o) H16(0x42E64520u + (o))
@@ -24,7 +19,6 @@ void touch_button_set_rect(u32 x, u32 y, u32 wd, u32 ht, volatile unsigned char 
 #define DY(k) (*(volatile signed char *)(TXE(k) + 0x195))
 #define U16(v) ((unsigned short)(v))
 
-void draw_text_shadowed(u32 x, u32 y, u32 s, u32 dx, u32 dy, u32 col);
 #define COL(i) W32(0x40544E68u + 0x3DD53Cu + 4 * (i))
 
 void ui_colour_buttons_draw(void)

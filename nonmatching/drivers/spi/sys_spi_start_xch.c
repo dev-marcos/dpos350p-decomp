@@ -4,6 +4,8 @@
  * TCR |= XCH (bit 31).
  */
 #include "hw/platform.h"
+#include "drivers/mmio.h"
+#include "drivers/spi.h"
 
 void sys_spi_start_xch(int spi)
 {

@@ -6,8 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
+#include "ui/windows.h"
 
-void window_64_recalc(void);
 #define M64(o) (*(volatile long long *)(0x42E68668u + (o)))
 #define MD(o) (*(volatile double *)(0x42E68668u + (o)))
 #define LIM 0x1.0400000000001p+8

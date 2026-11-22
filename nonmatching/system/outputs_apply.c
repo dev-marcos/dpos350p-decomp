@@ -6,10 +6,10 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void acquisition_apply(void);
-void frontend_apply_all(void);
-void fpga_config_push(void);
+#include "acquisition.h"
+#include "fpga.h"
+#include "frontend.h"
+#include "system.h"
 
 void outputs_apply(void)
 {

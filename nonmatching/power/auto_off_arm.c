@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "power.h"
 
 void auto_off_arm(void)
 {

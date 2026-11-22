@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/windows.h"
 
 #define WIN(id)  ((volatile unsigned char *)(0x42E64520u + (id) * 14u))
 #define WSTK     ((volatile unsigned char *)0x42E68BC8u)
@@ -13,8 +14,6 @@
 #define fb_front ((unsigned short *)0x41FB8FE8u)
 #define fb_back  ((unsigned short *)0x41BFBF68u)
 #define fb_off   ((unsigned short *)0x4233CBBCu)
-
-void ui_window_stack_top_update(void);
 
 void ui_window_open(u32 id)
 {

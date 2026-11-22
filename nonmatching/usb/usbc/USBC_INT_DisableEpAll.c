@@ -4,6 +4,7 @@
  * TX/RX: all endpoint interrupts off.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void USBC_INT_DisableEpAll(u32 ep_type)
 {

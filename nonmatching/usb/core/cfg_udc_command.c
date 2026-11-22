@@ -4,9 +4,8 @@
  * 1 = start, 2 = stop, 3 = 'reset not supported', else 'unknown cmd'.
  */
 #include "hw/usb.h"
-
-void usbd_start_work(void);
-void usbd_stop_work(void);
+#include "drivers/uart.h"
+#include "usb/core.h"
 
 void cfg_udc_command(u32 cmd)
 {

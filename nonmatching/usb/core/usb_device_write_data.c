@@ -4,6 +4,9 @@
  * Bulk IN: ep_max_len-sized packets, up to 10 000 000 polls for each FIFO slot; -1 on timeout or when not connected.
  */
 #include "hw/usb.h"
+#include "drivers/uart.h"
+#include "usb/core.h"
+#include "usb/usbc.h"
 
 int usb_device_write_data(int ep, unsigned char *databuf, int len)
 {

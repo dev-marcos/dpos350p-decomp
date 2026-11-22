@@ -4,6 +4,9 @@
  * GT911 I2C: shift out one byte MSB first.
  */
 #include "hw/drivers.h"
+#include "drivers/gt911.h"
+#include "drivers/pio.h"
+#include "drivers/timer.h"
 
 #define PG ((pio_port_t *)PIO_PG)
 

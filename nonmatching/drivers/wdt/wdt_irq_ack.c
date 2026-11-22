@@ -4,6 +4,8 @@
  * Watchdog 0: if IRQ_STA bit 0 is set, write it back (ack) and return 1, else 0.
  */
 #include "hw/drivers.h"
+#include "drivers/mmio.h"
+#include "drivers/wdt.h"
 
 int wdt_irq_ack(void)
 {

@@ -6,13 +6,10 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/input.h"
+#include "ui/windows.h"
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
-void ui_window_close(u32 id);
-void ui_window_open(u32 id);
-
-void touch_group_00AC(void);
-void ui_window_invalidate_from(u32 id, u32 r1);
 
 void buttons_ac_open_windows(void)
 {

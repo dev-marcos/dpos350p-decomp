@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "fpga.h"
+#include "libc.h"
 
 void SMEC_Init(void)
 {

@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
 
 #define H32(o) (*(volatile u32 *)(0x42E554B0u + (o)))
 

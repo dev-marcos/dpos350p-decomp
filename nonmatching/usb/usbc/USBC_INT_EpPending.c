@@ -4,6 +4,7 @@
  * EP0/TX -> INTTx, RX -> INTRx, else 0.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 u32 USBC_INT_EpPending(u32 ep_type)
 {

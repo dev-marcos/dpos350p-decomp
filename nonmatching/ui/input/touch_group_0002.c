@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void touch_button_update(volatile unsigned char *b);
+#include "ui/input.h"
 
 void touch_group_0002(void)
 {

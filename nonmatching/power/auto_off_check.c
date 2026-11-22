@@ -6,6 +6,10 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/timer.h"
+#include "power.h"
+#include "stock_asm.h"
+#include "ui/screens.h"
 
 void auto_off_check(void)
 {

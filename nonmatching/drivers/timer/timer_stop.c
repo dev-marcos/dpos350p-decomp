@@ -4,9 +4,8 @@
  * Timer n: CTRL &= ~1.
  */
 #include "hw/drivers.h"
-
-u32 readl_d(u32 addr);
-void writel_d(u32 addr, u32 v);
+#include "drivers/mmio.h"
+#include "drivers/timer.h"
 
 void timer_stop(u32 n)
 {

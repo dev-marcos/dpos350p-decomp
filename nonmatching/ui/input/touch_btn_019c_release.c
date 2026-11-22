@@ -6,16 +6,12 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
+#include "ui/input.h"
+#include "ui/windows.h"
+#include "usb/core.h"
 
 #define BTN8(o)  (*(volatile unsigned char *)(0x42E61FF8u + (o)))   /* button table */
-void ui_window_open(u32 id);
-
-void touch_button_update_019C(void);
-void usb_mode_exit(void);
-void fb_target_back(void);
-void ui_windows_reset(void);
-void fb_clear_current(void);
-void ui_windows_open_1_5(void);
 
 void touch_btn_019c_release(void)
 {

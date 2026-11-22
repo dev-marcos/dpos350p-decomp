@@ -6,10 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void ui_window_redraw_dirty(void);
-void battery_service(void);
-void fb_present(void);
+#include "power.h"
+#include "ui/draw.h"
+#include "ui/windows.h"
 
 void ui_frame_update(void)
 {

@@ -14,7 +14,6 @@ WORD xname_sum (	/* Get check sum (to be used as hash) of the file name */
 	WCHAR chr;
 	WORD sum = 0;
 
-
 	while ((chr = *name++) != 0) {
 		chr = (WCHAR)ff_wtoupper(chr);		/* File name needs to be up-case converted */
 		sum = ((sum & 1) ? 0x8000 : 0) + (sum >> 1) + (chr & 0xFF);

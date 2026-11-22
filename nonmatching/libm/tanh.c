@@ -11,8 +11,7 @@
  *                        tanh(2y) = 2t/(1+t^2) for |x| >= ln2/2.
  */
 #include "rt/bits.h"
-
-double exp(double x);
+#include "libm.h"
 
 #define BIG    bitsd(0x40330FC1931F09C9ull)   /* 19.0615 */
 #define HLN2   bitsd(0x3FD62E42FEFA39EFull)

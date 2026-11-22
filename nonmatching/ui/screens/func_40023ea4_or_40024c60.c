@@ -6,9 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void func_40023ea4_unless_t17(void);
-void func_40024c60_unless_t17(void);
+#include "ui/screens.h"
 
 void func_40023ea4_or_40024c60(void)
 {

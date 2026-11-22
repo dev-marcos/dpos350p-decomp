@@ -6,28 +6,17 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "bode.h"
+#include "libm.h"
+#include "ui/draw.h"
+#include "ui/input.h"
 
-void half_42e68be2_set(u32 a);
-void word_42e68c74_set(u32 a);
-void draw_colour_set(u32 c);
-void rect_fill(u32 x, u32 y, u32 w, u32 h);
-void vline_draw(u32 x, u32 y0, u32 y1);
-void text_draw(u32 x, u32 y, const char *s);
-void level_label_db(u32 x, u32 y, u32 c, double v);
-void phase_deg_draw(u32 x, u32 y, u32 sg, double d);
-u32 frequency_draw(u32 x, u32 y, u32 measure, double d);
 #define BB 0x42E180C8u
 #define BH(o) (*(volatile unsigned short *)(BB + (o)))
 #define BW(o) (*(volatile int *)(BB + (o)))
 #define BD(o) (*(volatile double *)(BB + (o)))
 #define U16(v) ((unsigned short)(v))
 #define TW (*(volatile unsigned short *)0x42E68BE4u)
-
-void rect_outline_draw(u32 x, u32 y, u32 w, u32 h);
-void touch_button_set_rect(u32 x, u32 y, u32 wd, u32 ht, volatile unsigned char *b);
-void func_4002ecc4_span(u32 y, u32 x0, u32 x1);
-double log10(double x);
-double pow(double x, double y);
 
 void bode_grid_draw(void)
 {

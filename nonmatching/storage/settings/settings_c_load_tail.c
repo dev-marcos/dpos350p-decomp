@@ -6,10 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void persistence_read(u32 dev, u32 addr, volatile void *buf, u32 len);
-void serializer_set_decode_mode(void);
-void record_c_fields(void);
+#include "storage/files.h"
+#include "storage/settings.h"
 
 void settings_c_load_tail(volatile unsigned char *p, u32 off, u32 unused, u32 len)
 {

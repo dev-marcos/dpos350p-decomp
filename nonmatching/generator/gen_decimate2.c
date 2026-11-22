@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "generator.h"
 
 void gen_decimate2(int n)
 {

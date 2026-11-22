@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void vline_draw(u32 x, u32 y0, u32 y1);
+#include "ui/draw.h"
 
 void line_draw(int x0, int y0, int x1, int y1)
 {

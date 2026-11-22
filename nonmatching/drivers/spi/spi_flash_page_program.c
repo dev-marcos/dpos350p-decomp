@@ -6,12 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void sys_spi_select(u32 dev);
-void sys_spi_deselect(u32 dev);
-int spi_flash_write_enable(u32 dev);
-void spi_flash_wait_ready(u32 dev);
-int sys_spi_write_then_write(int spi, const unsigned char *tx0, int len0, const unsigned char *tx1, int len1);
+#include "drivers/spi.h"
 
 int spi_flash_page_program(u32 dev, u32 addr, const unsigned char *buf, int len)
 {

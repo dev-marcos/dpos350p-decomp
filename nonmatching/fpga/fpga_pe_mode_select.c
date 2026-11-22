@@ -6,6 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/csi.h"
+#include "drivers/fpga_bus.h"
+#include "fpga.h"
 
 void fpga_pe_mode_select(u32 mode)
 {

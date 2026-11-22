@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "fpga.h"
+#include "generator.h"
 
 void gen_send_params(void)
 {

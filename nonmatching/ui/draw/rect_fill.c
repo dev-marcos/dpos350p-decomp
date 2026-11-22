@@ -6,14 +6,12 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
+#include "util.h"
 
 #define CB8(o) (*(volatile unsigned char *)(0x42E6865Cu + (o)))
 #define CB16(o) (*(volatile unsigned short *)(0x42E6865Cu + (o)))
 #define FBP (*(volatile u32 *)0x40095498u)
-void pixel_put(u32 x, u32 y);
-
-void pixel_blend(u32 x, u32 y);
-void fill_u16(unsigned short *d, unsigned short v, u32 n);
 
 void rect_fill(u32 x, u32 y, u32 w, u32 h)
 {

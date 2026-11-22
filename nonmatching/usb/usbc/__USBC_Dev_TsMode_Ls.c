@@ -4,5 +4,6 @@
  * Same as full speed (b __USBC_Dev_TsMode_Fs).
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void __USBC_Dev_TsMode_Ls(void) { __USBC_Dev_TsMode_Fs(); }

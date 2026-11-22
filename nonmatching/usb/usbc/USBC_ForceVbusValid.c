@@ -4,10 +4,7 @@
  * 1 = low, 2 = high, anything else = disable.
  */
 #include "hw/usb.h"
-
-void USBC_ForceVbusValidToLow(void);
-void USBC_ForceVbusValidToHigh(void);
-void USBC_ForceVbusValidDisable(void);
+#include "usb/usbc.h"
 
 void USBC_ForceVbusValid(u32 type)
 {

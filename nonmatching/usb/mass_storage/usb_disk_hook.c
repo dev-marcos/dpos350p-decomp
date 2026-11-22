@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "usb/mass_storage.h"
 
 #define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
@@ -15,8 +16,6 @@
 #define CSWST 0x42E68D1Du            /* command state: 3 send status, 4 host ended the data */
 #define USB 0x42E68C10u              /* +8: data residue */
 #define BUF 0x42E08074u              /* sector bounce buffer */
-
-void usb_disk_hook(void);
 
 void usb_disk_hook(void)
 {

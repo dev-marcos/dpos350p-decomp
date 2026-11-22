@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "frontend.h"
 
 void rate_table_init_entry(void)
 {

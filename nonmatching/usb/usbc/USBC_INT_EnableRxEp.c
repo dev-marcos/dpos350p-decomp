@@ -4,5 +4,6 @@
  * INTRxE |= 1 << ep.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void USBC_INT_EnableRxEp(u32 ep_index) { REG16(USBC_INTRxE) = (unsigned short)(REG16(USBC_INTRxE) | (1u << ep_index)); }

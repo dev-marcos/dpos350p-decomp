@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void trace_span_full(u32 tr);
+#include "processing.h"
 
 void trace_span_full_veneer(u32 tr)
 {

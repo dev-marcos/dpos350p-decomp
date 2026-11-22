@@ -6,18 +6,15 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "generator.h"
+#include "storage/files.h"
+#include "system.h"
+#include "ui/draw.h"
+#include "ui/input.h"
+#include "ui/windows.h"
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
-void ui_window_close(u32 id);
-void ui_window_open(u32 id);
 
-void touch_group_0AC0(void);
-void sys_info_restore(void);
-void gen_state_restore(void);
-void ui_windows_reset(void);
-void fb_clear_current(void);
-void ui_windows_open_1_5(void);
-void list_a_save_new(void);
 #define TT8(o) (*(volatile unsigned char *)(0x42E180C8u + (o)))
 
 void buttons_ac0_handler(void)

@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "system.h"
 
 void mmu_map_sections(volatile u32 *tbl, unsigned long long va, unsigned long long pa, unsigned long long size,
                       unsigned char attr)

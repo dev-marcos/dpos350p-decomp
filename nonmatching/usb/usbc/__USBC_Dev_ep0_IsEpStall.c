@@ -4,5 +4,6 @@
  * CSR0 bit 2 (sent stall).
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 u32 __USBC_Dev_ep0_IsEpStall(void) { return REG16(USBC_CSR0) & 4; }

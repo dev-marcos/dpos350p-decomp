@@ -4,6 +4,9 @@
  * Endpoint epidx != 0: configure it (double FIFO), give it 2*maxpack bytes of FIFO at fifo_offset, enable its interrupt, set ep_max_len (FNIRSI dropped the 4 KiB bound check).
  */
 #include "hw/usb.h"
+#include "drivers/uart.h"
+#include "usb/core.h"
+#include "usb/usbc.h"
 
 void usb_config_ep_out(int epidx, int maxpack, int type)
 {

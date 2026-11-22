@@ -4,17 +4,13 @@
  * IDMAC: one descriptor per 4 KiB (max 256), flush buffer and descriptors, DMA on, IDMAC reset/enable, RX or TX interrupt, descriptor base, FIFO thresholds 0x20070008.
  */
 #include "hw/platform.h"
+#include "drivers/mmio.h"
+#include "drivers/sdmmc.h"
+#include "util.h"
 
-u32 readl_a(u32 addr);
-void writel_a(u32 addr, u32 v);
-void mmc_delay_us(u32 us);
-u32 mmc_base(u32 n);
-int mmc_update_clk(u32 n);
 #define mmc_capacity (*(u32 *)0x42E68CC0u)
 
 typedef struct { u32 *buf; unsigned char flags; unsigned char pad[3]; u32 blksz, blocks; } mmc_data_t;
-void *memset_w(void *d, int v, unsigned int n);
-void dcache_flush_range(u32 addr, u32 len);
 
 int mmc_trans_data_by_dma(u32 n, mmc_data_t *d, u32 *desc)
 {

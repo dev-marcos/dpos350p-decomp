@@ -4,8 +4,7 @@
  * Arm C library: "movs r2, #0; b __aeabi_memset4".
  */
 #include "rt/bits.h"
-
-AEABI void __aeabi_memset4(void *dest, u32 n, u32 c);
+#include "libc.h"
 
 AEABI void __aeabi_memclr4(void *dest, u32 n)
 {

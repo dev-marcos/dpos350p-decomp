@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void channel_traces_process_full(u32 ch);
+#include "processing.h"
 
 void channels_process_full_ordered(volatile unsigned char *p)
 {

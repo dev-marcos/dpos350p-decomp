@@ -16,7 +16,6 @@ FRESULT f_sync (
 	DWORD tm;
 	BYTE *dir;
 
-
 	res = validate(&fp->obj, &fs);	/* Check validity of the file object */
 	if (res == FR_OK) {
 		if (fp->flag & FA_MODIFIED) {	/* Is there any change to the file? */

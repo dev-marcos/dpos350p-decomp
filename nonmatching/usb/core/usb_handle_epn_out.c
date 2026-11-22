@@ -4,11 +4,12 @@
  * RX endpoint interrupt: read the packet into usb_rx_buf and pass it to the class (1 HID, 2 CDC, 3 none, 4 mass storage).
  */
 #include "hw/usb.h"
-
-void usb_hid_out_ep_callback(unsigned char *buf, int len);
-void usb_cdc_out_ep_callback(unsigned char *buf, int len);
-void usb_mass_out_ep_callback(unsigned char *buf, int len);
-int usb_device_read_data_ep_pack(int ep, unsigned char *databuf, int len);
+#include "drivers/uart.h"
+#include "usb/cdc.h"
+#include "usb/core.h"
+#include "usb/hid.h"
+#include "usb/mass_storage.h"
+#include "usb/usbc.h"
 
 void usb_handle_epn_out(int ep)
 {

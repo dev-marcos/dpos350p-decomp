@@ -4,6 +4,7 @@
  * GT911: read len bytes from a 16-bit register address.
  */
 #include "hw/drivers.h"
+#include "drivers/gt911.h"
 
 void gt911_read16(u32 reg, unsigned char *buf, int len)
 {

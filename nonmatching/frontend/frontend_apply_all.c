@@ -6,18 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void offset_clamp(void);
-void vscale_update(void);
-void vdiv_labels_update(void);
-void fpga_write_sel_0x62(void);
-void ch1_frontend_apply(void);
-void ch2_frontend_apply(void);
-void fpga_write_sel_0x2f(void);
-void fpga_write_sel_0x29(void);
-void fpga_write_sel_0x30(void);
-void fpga_write_sel_0x2c(void);
-void fpga_channel_mode_apply(void);
+#include "fpga.h"
+#include "frontend.h"
+#include "system.h"
 
 void frontend_apply_all(void)
 {

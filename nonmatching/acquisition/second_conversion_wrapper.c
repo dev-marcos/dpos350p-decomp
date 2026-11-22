@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void calibration_gain_baseline_clamp_conversion(u32 b, u32 ch, volatile unsigned short *buf, u32 nb, u32 slot, u32 phase, u32 count);
+#include "acquisition.h"
 
 void second_conversion_wrapper(volatile unsigned short *buf, u32 ch, u32 n)
 {

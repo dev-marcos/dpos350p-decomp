@@ -6,10 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "fpga.h"
+#include "processing.h"
 
-void cursor_27e_clamp(void);
-void smec_commit(u32 idx);
-void fpga_cmd17_write(void);
 #define PB32(o) (*(volatile u32 *)(0x42E53A0Cu + (o)))
 
 void fpga_params_0e_13_write(void)

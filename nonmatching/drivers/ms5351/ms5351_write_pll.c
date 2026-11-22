@@ -4,6 +4,7 @@
  * MS5351M: program a PLL/multisynth block (8 registers at base) from a + b/c, Si5351 encoding: P1 = 128a + floor(128b/c) - 512, P2 = 128b - c*floor(128b/c), P3 = c. floor(128b/c) is computed in single precision (VCVT.U32.F32 #7).
  */
 #include "hw/drivers.h"
+#include "drivers/ms5351.h"
 
 #define PE ((pio_port_t *)PIO_PE)
 

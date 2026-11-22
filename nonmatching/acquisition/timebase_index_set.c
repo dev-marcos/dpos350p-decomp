@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void timebase_index_clamp(void);
+#include "acquisition.h"
 
 void timebase_index_set(u32 v)
 {

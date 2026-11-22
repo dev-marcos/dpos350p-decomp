@@ -16,7 +16,6 @@ void create_xdir (
 	BYTE nc1, nlen;
 	WCHAR wc;
 
-
 	/* Create 85,C0 entry */
 	mem_set(dirb, 0, 2 * SZDIRE);
 	dirb[0 * SZDIRE + XDIR_Type] = 0x85;	/* 85 entry */

@@ -6,14 +6,14 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void fb_target_back(void);
-void fb_clear_current(void);
-void fb_present(void);
-void draw_colour_set(u32 c);
-void word_42e68c74_set(u32 a);
-void half_42e68be2_set(u32 a);
-void text_draw(u32 x, u32 y, const char *s);
+#include "acquisition.h"
+#include "bode.h"
+#include "drivers/gt911.h"
+#include "generator.h"
+#include "selftest.h"
+#include "storage/files.h"
+#include "system.h"
+#include "ui/draw.h"
 
 #define FT8(o)      (*(volatile unsigned char *)(0x42E68AE0u + (o)))
 #define FT_WHITE    0x00FFFFFFu
@@ -56,22 +56,6 @@ static void ft_fail2(u32 x, u32 y, u32 ok1, u32 ok2)
         ft_text(FT_RED, x, y, FT_CH2_FAIL);
     ft_halt();
 }
-
-void rect_fill(u32 x, u32 y, u32 w, u32 h);
-void gt911_poll(void);
-void acq_defaults_reset(void);
-void state_block_3f984_init(void);
-void state_block_180c8_init(void);
-void state_block_68668_init(void);
-void outputs_apply(void);
-void gen_output_calibrate(void);
-void bode_calibrate(void);
-void factory_channel_gen_check(void);
-void gen_selftest_50688(void);
-void gen_selftest_504b8(void);
-void gen_selftest_50898(void);
-void gen_selftest_50ddc(void);
-void check_pair_save(void);
 
 #define TS8(o)  (*(volatile unsigned char *)(0x42E68BB0u + (o)))
 #define TS16(o) (*(volatile short *)(0x42E68BB0u + (o)))

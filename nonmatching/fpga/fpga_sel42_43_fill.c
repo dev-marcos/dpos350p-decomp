@@ -6,9 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void fpga_selector_command_write(u32 sel);
-void fpga_data_byte_write(u32 v);
+#include "drivers/fpga_bus.h"
+#include "fpga.h"
 
 void fpga_sel42_43_fill(u32 n)
 {

@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "fatfs_app.h"
+#include "storage/diskio.h"
 
 u32 disk_free_bytes(void)
 {

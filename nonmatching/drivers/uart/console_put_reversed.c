@@ -4,6 +4,7 @@
  * Write buf[n-1] .. buf[0].
  */
 #include "hw/platform.h"
+#include "drivers/uart.h"
 
 void console_put_reversed(const char *buf, int n)
 {

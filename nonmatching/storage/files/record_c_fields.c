@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "storage/files.h"
+#include "storage/settings.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -13,9 +15,6 @@
 #define W32(a) (*(volatile u32 *)(a))
 
 #define SPUR 0x42E3C000u
-
-void serializer_set_cursor(u32 v);
-void serializer_process_field(volatile void *p, u32 size);
 
 static void pairs(u32 vals, u32 idxs, u32 n)
 {

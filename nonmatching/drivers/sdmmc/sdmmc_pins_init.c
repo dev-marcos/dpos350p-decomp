@@ -4,6 +4,8 @@
  * SD/MMC pin mux: controller 0 -> PF0..PF5, 1 -> PC0..PC5, 2 -> PC0..PC10; function 2, pull-up. Name DERIVED from the pins.
  */
 #include "hw/drivers.h"
+#include "drivers/pio.h"
+#include "drivers/sdmmc.h"
 
 void sdmmc_pins_init(int ctrl)
 {

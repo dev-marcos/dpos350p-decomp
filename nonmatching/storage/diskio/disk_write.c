@@ -6,6 +6,13 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/sdmmc.h"
+#include "storage/diskio.h"
+#include "util.h"
+
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+int mmc_write_blocks_raw(int, u32, u32, const void *) __asm__("mmc_write_blocks");
 
 int disk_write(u32 pdrv, const unsigned char *buff, u32 sector, u32 count)
 {
@@ -14,5 +21,5 @@ int disk_write(u32 pdrv, const unsigned char *buff, u32 sector, u32 count)
     if (g_sd_state != 1)
         return 0;
     memcpy(SD_BOUNCE, buff, g_sector_size * count);
-    return mmc_write_blocks(0, sector, count, SD_BOUNCE) ? 1 : 0;
+    return mmc_write_blocks_raw(0, sector, count, SD_BOUNCE) ? 1 : 0;
 }

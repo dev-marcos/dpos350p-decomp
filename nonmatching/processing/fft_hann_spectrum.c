@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -18,9 +19,6 @@ typedef struct { float re, im; } cfloat;
 typedef double (*dfn)(double);
 #define COS_T ((dfn)0x40066531u)   /* cos at 0x40066530 is Thumb */
 #define SIN_T ((dfn)0x40066535u)   /* sin at 0x40066534 is Thumb */
-
-void fft_radix2(int n, volatile float *x);
-void cvec_magnitude(const volatile float *src, volatile float *dst, int n);
 
 static void hann_one(u32 in, u32 x, u32 out)
 {

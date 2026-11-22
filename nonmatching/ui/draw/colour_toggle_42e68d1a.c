@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void draw_colour_set(u32 c);
+#include "ui/draw.h"
 
 void colour_toggle_42e68d1a(void)
 {

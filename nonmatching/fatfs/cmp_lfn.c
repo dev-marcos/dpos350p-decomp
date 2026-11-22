@@ -15,7 +15,6 @@ int cmp_lfn (		/* 1:matched, 0:not matched */
 	UINT i, s;
 	WCHAR wc, uc;
 
-
 	if (ld_word(dir + LDIR_FstClusLO) != 0) return 0;	/* Check LDIR_FstClusLO */
 
 	i = ((dir[LDIR_Ord] & 0x3F) - 1) * 13;	/* Offset in the LFN buffer */

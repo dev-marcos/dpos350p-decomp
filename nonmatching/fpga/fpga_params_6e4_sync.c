@@ -6,6 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/fpga_bus.h"
+#include "drivers/timer.h"
+#include "fpga.h"
 
 #define SYS 0x40544E68u
 #define GEN 0x42E3F984u
@@ -15,8 +18,6 @@
 #define W32(a) (*(volatile u32 *)(a))
 #define D64(a) (*(volatile unsigned long long *)(a))
 
-void smec_commit(u32 id);
-void delay_ms(u32 ms);
 typedef u32 u32_unaligned __attribute__((aligned(1)));
 #define WU(a) (*(volatile u32_unaligned *)(a))
 

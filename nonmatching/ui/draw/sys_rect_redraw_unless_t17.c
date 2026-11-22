@@ -6,12 +6,11 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
+#include "ui/draw.h"
+#include "ui/screens.h"
 
 #define TCH8(o)  (*(volatile unsigned char *)(0x42E68BB0u + (o)))   /* touch block */
-
-u32 traces_e10c_enabled(void);
-void sys_rect_fill(void);
-void func_4002c7ac_or_4002c5f8(void);
 
 void sys_rect_redraw_unless_t17(void)
 {

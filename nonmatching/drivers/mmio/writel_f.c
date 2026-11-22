@@ -4,5 +4,6 @@
  * Generic register write.
  */
 #include "hw/drivers.h"
+#include "drivers/mmio.h"
 
 void writel_f(u32 addr, u32 v) { REG32(addr) = v; }

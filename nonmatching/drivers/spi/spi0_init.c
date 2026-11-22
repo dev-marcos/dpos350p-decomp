@@ -6,10 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void spi0_pins_init(u32 mode);
-void spi0_clock_on(void);
-void sys_spi_init(u32 mode);
+#include "drivers/spi.h"
 
 void spi0_init(u32 mode)
 {

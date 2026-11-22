@@ -4,6 +4,7 @@
  * EP0/TX/RX dispatch; -1 for another type. The stall bit read is discarded: always 0 for a valid type (EasyUSB bug kept).
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 int USBC_Dev_IsEpStall(u32 ep_type)
 {

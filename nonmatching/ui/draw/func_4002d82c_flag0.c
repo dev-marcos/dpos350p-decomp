@@ -6,10 +6,13 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
 
-void number_draw(u32 a, u32 b, u32 c, u32 d, u32 e, u32 g);
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void number_draw_raw(u32 a, u32 b, u32 c, u32 d, u32 e, u32 g) __asm__("number_draw");
 
 void func_4002d82c_flag0(u32 a, u32 b, u32 c, u32 d, u32 e)
 {
-    number_draw(a, b, c, d, e & 0xFF, 0);
+    number_draw_raw(a, b, c, d, e & 0xFF, 0);
 }

@@ -4,6 +4,7 @@
  * Write a NUL-terminated string.
  */
 #include "hw/platform.h"
+#include "drivers/uart.h"
 
 void console_puts(const char *s)
 {

@@ -4,16 +4,16 @@
  * memset(dst, value, n): b __aeabi_memset (0x4005C604) with the length and value registers swapped.
  */
 #include "hw/platform.h"
+#include "drivers/sdmmc.h"
+#include "stock_asm.h"
+#include "util.h"
+
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void *__aeabi_memset_entry_raw(void *d, unsigned int n, int v) __asm__("__aeabi_memset_entry");
 
 #define FB_PIXELS 0x95B50u                     /* 1022 * 600 */
 #define fb_front  ((unsigned short *)0x41FB8FE8u)
 #define fb_back   ((unsigned short *)0x41BFBF68u)
-void copy_u16(unsigned short *d, const unsigned short *s, u32 n);
-void fill_u16(unsigned short *d, unsigned short v, u32 n);
-void fill_u32(u32 *d, u32 v, u32 n);
-void dcache_clean_inv_all(void);
-void dcache_clean_inv_all_t(void);
 
-void *__aeabi_memset_entry(void *d, unsigned int n, int v);
-
-void *memset_w(void *d, int v, unsigned int n) { return __aeabi_memset_entry(d, n, v); }
+void *memset_w(void *d, int v, unsigned int n) { return __aeabi_memset_entry_raw(d, n, v); }

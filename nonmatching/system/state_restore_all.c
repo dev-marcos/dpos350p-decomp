@@ -6,8 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void sys_info_restore(void); void gen_state_restore(void); void state_c_restore(void); void state_d_restore(void);
+#include "generator.h"
+#include "system.h"
 
 void state_restore_all(void)
 {

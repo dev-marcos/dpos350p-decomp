@@ -5,6 +5,7 @@
  * Stock uses UDIV + MLS, so a zero divisor yields q = 0, r = n (no trap).
  */
 #include "rt/bits.h"
+#include "libc.h"
 
 u64 __aeabi_uidivmod(u32 n, u32 d)
 {

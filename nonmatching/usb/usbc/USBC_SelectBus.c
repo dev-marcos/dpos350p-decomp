@@ -4,6 +4,7 @@
  * VEND0: select DMA (DRQ for a TX/RX endpoint) or PIO.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void USBC_SelectBus(u32 io_type, u32 ep_type, u32 ep_index)
 {

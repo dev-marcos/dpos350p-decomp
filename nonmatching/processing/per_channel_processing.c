@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void trace_process_window(u32 tr);
+#include "processing.h"
 
 void per_channel_processing(void)
 {

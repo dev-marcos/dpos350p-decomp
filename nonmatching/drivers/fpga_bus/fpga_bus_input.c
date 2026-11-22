@@ -4,6 +4,7 @@
  * FPGA parallel bus (PE8..PE15): data pins as inputs (PE_CFG1 = 0), direction flag = 0. Hack: FPGA_PROTOCOL.md.
  */
 #include "hw/drivers.h"
+#include "drivers/fpga_bus.h"
 
 void fpga_bus_input(void)
 {

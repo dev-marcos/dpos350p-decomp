@@ -6,15 +6,11 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/input.h"
+#include "ui/windows.h"
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
-void ui_window_close(u32 id);
-void ui_window_open(u32 id);
 
-void touch_group_0B06(void);
-void numpad_open_mode1(u32 x, u32 y);
-void numpad_open_mode4(u32 x, u32 y);
-void numpad_open_mode5(u32 x, u32 y);
 #define TT8(o) (*(volatile unsigned char *)(0x42E180C8u + (o)))
 #define TT32(o) (*(volatile u32 *)(0x42E180C8u + (o)))
 #define NP8(o) (*(volatile unsigned char *)(0x42E68A88u + (o)))

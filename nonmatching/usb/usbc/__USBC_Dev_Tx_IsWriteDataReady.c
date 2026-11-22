@@ -4,5 +4,6 @@
  * TXCSR bit 0.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 u32 __USBC_Dev_Tx_IsWriteDataReady(void) { return REG16(USBC_CSR0) & 1; }

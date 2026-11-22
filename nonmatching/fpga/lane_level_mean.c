@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "fpga.h"
 
 u32 lane_level_mean(u32 start, u32 lane, u32 ch, u32 n, unsigned char *buf)
 {

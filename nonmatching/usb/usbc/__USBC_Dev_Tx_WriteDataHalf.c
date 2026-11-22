@@ -4,5 +4,6 @@
  * TXCSR = (TXCSR & ~4) | 1.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void __USBC_Dev_Tx_WriteDataHalf(void) { REG16(USBC_CSR0) = (unsigned short)((REG16(USBC_CSR0) & 0xFFFB) | 1); }

@@ -4,11 +4,8 @@
  * avs_set_div(1, 24) (the stock code falls through into avs_set_div).
  */
 #include "hw/drivers.h"
-
-u32 readl_d(u32 addr);
-void writel_d(u32 addr, u32 v);
-
-void avs_set_div(u32 idx, u32 div);
+#include "drivers/avs.h"
+#include "drivers/mmio.h"
 
 void avs1_set_div_default(void)
 {

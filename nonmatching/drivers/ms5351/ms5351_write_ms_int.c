@@ -4,6 +4,7 @@
  * MS5351M: program an integer output multisynth (P1 = 128*div - 512, P2 = 0, P3 = 1) with the R-divider bits in register base+2.
  */
 #include "hw/drivers.h"
+#include "drivers/ms5351.h"
 
 #define PE ((pio_port_t *)PIO_PE)
 

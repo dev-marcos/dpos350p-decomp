@@ -4,6 +4,7 @@
  * PIO: set the 4-bit function of a pin (cleared first, then set: 0 clears bit 0 again, 1 sets bit 0, else ORs func) and its 2-bit pull setting.
  */
 #include "hw/v3s.h"
+#include "drivers/pio.h"
 
 void pio_cfg_pin(pio_port_t *port, u32 pin, u32 func, u32 pull)
 {

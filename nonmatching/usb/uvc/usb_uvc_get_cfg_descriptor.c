@@ -4,15 +4,14 @@
  * UVC configuration descriptor (0x400950B4), wLength bytes.
  */
 #include "hw/usb.h"
+#include "drivers/uart.h"
+#include "usb/core.h"
+#include "usb/mass_storage.h"
+#include "usb/uvc.h"
 
 #define setup_req      ((unsigned char *)0x42E68C58u)   /* copy of the last setup packet */
 #define line_coding    ((unsigned char *)0x40095484u)   /* 7 bytes */
 #define line_coding_rx (*(u32 *)0x42E68CECu)
-void usb_mass_send_data(unsigned char *buf, int len);
-void usb_mass_send_csw(u32 status, u32 next);
-void usb_mass_set_sense(u32 lun, u32 key, u32 asc);
-
-int usb_device_write_data_ep_pack(int ep, unsigned char *databuf, int len);
 
 int usb_uvc_get_cfg_descriptor(unsigned char *req)
 {

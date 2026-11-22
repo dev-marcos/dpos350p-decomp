@@ -4,6 +4,7 @@
  * CPSR_c = CPSR & 0x7F: clears the I bit (msr cpsr_c).
  */
 #include "hw/platform.h"
+#include "drivers/gic.h"
 
 void local_irq_enable_body(void)
 {

@@ -6,12 +6,19 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/sdmmc.h"
+#include "storage/diskio.h"
+#include "util.h"
+
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+int mmc_read_blocks_raw(int, u32, u32, void *) __asm__("mmc_read_blocks");
 
 int disk_read(u32 pdrv, unsigned char *buff, u32 sector, u32 count)
 {
     int res = 0;
     if (pdrv == 0 && g_sd_state == 1) {
-        if (mmc_read_blocks(0, sector, count, SD_BOUNCE) != 0)
+        if (mmc_read_blocks_raw(0, sector, count, SD_BOUNCE) != 0)
             res = 1;
         memcpy(buff, SD_BOUNCE, g_sector_size * count);
     }

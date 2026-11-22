@@ -6,12 +6,10 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void acq_defaults_reset(void);
-void outputs_apply(void);
-void gen_update(void);
-void acquisition_dispatcher(void);
-long long __aeabi_ldivmod(long long n, long long d);
+#include "acquisition.h"
+#include "generator.h"
+#include "selftest.h"
+#include "system.h"
 
 #define FT8(o)   (*(volatile unsigned char *)(0x42E68AE0u + (o)))
 #define GEN8(o)  (*(volatile unsigned char *)(0x42E42880u + (o)))

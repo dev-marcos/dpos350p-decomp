@@ -4,6 +4,7 @@
  * Dispatch on the endpoint type.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void USBC_INT_ClearEpPendingAll(u32 ep_type)
 {

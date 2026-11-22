@@ -6,10 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void acq_defaults_reset(void);
-void outputs_apply(void);
-void acquisition_dispatcher(void);
+#include "acquisition.h"
+#include "selftest.h"
+#include "system.h"
 
 static void apply2(void)
 {

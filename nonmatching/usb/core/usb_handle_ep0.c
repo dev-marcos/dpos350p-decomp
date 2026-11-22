@@ -4,10 +4,9 @@
  * EP0 state machine: IDLE reads the 8-byte setup packet, IN continues a long reply from usb_tx_data (the last packet sets usb_tx_pos = 0), OUT reads and prints, END clears usb_xfer_type. FNIRSI sends every setup packet to usb_setup_handle.
  */
 #include "hw/usb.h"
-
-int usb_device_read_data_ep_pack(int ep, unsigned char *databuf, int len);
-void usb_device_read_data_status_ep0(u32 is_complete);
-void usb_setup_handle(unsigned char *req, int len);
+#include "drivers/uart.h"
+#include "usb/core.h"
+#include "usb/usbc.h"
 
 void usb_handle_ep0(void)
 {

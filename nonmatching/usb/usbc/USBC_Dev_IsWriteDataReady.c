@@ -4,6 +4,7 @@
  * EP0/TX dispatch; 0 otherwise.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 u32 USBC_Dev_IsWriteDataReady(u32 ep_type)
 {

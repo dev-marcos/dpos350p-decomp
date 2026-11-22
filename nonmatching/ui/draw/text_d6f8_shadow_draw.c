@@ -6,9 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void draw_colour_set(u32 c);
-void func_4002d82c_flag0(u32 a, u32 b, u32 c, u32 d, u32 e);
+#include "ui/draw.h"
 
 void text_d6f8_shadow_draw(u32 x, u32 y, u32 a, u32 b, unsigned char e, unsigned char n, unsigned char m,
                            unsigned char alpha)

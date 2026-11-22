@@ -6,14 +6,11 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "fatfs_app.h"
+#include "storage/files.h"
+#include "ui/draw.h"
+#include "util.h"
 
-void *memcpy(void *d, const void *s, u32 n);
-void draw_target_default(void);
-void fb_target_back(void);
-int f_open(void *fp, const char *path, unsigned char mode);
-int f_lseek(void *fp, unsigned long long ofs);
-int f_write(void *fp, const void *buf, u32 btw, u32 *bw);
-int f_close(void *fp);
 #define SYS 0x40544E68u
 #define H16(a) (*(volatile unsigned short *)(a))
 #define BMP ((volatile unsigned char *)0x41D3E3A8u)

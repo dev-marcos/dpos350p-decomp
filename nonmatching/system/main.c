@@ -6,33 +6,25 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void sys_clock_init(u32 a);
-void sys_mmu_init(void);
-void timers_init(void);
-void factory_defaults(void);
-void spi0_init(u32 a);
-void settings_load_all(void);
-void ui_text_init(void);
-void FPGA_Start(void);
-void display_start(void);
-void touch_init(void);
-void ui_cf88_then_579c(void);
-void colour_table_3dd530_init(void);
-int disk_mount(void);
-void SMEC_Init(void);
-void power_monitor_init(void);
-void acquisition_reconfigure(void);
-void rate_table_init_entry(void);
-void applied_state_invalidate(void);
-void Gen_Init(void);
-void sd_update_check(void);
-void factory_steps_run(void);
-void outputs_apply(void);
-void ui_windows_open_1_5(void);
-void touch_service(void);
-void window_touch_poll(void);
-void ui_frame_update(void);
+#include "acquisition.h"
+#include "drivers/ccu.h"
+#include "drivers/display.h"
+#include "drivers/spi.h"
+#include "drivers/timer.h"
+#include "fpga.h"
+#include "frontend.h"
+#include "generator.h"
+#include "power.h"
+#include "selftest.h"
+#include "stock_asm.h"
+#include "storage/diskio.h"
+#include "storage/settings.h"
+#include "system.h"
+#include "ui/draw.h"
+#include "ui/input.h"
+#include "ui/screens.h"
+#include "ui/text.h"
+#include "ui/windows.h"
 
 int main(void)
 {

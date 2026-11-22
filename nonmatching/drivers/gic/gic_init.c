@@ -4,6 +4,7 @@
  * GIC at 0x01C80000, irq_base 0, 0x9C table entries all set to default_irq_handler; distributor and CPU interface init. (Previously listed as irq_disable.)
  */
 #include "hw/platform.h"
+#include "drivers/gic.h"
 
 void gic_init(void)
 {

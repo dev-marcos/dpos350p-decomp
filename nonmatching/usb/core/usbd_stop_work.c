@@ -4,6 +4,9 @@
  * Soft connect off.
  */
 #include "hw/usb.h"
+#include "drivers/uart.h"
+#include "usb/core.h"
+#include "usb/usbc.h"
 
 void usbd_stop_work(void)
 {

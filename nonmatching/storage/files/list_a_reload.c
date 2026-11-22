@@ -6,12 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void list_a_index_load(void);
-void list_a_marks_clear(void);
-void list_cursor_clamp_40035248(void);
-void list_a_page_validate(void);
-void list_a_page_thumbs(void);
+#include "storage/files.h"
 
 void list_a_reload(void)
 {

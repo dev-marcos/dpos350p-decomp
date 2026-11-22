@@ -4,6 +4,7 @@
  * EP0/TX/RX dispatch; -1 otherwise.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 int USBC_Dev_ConfigEp(u32 ts_type, u32 ep_type, u32 is_double_fifo, u32 ep_MaxPkt)
 {

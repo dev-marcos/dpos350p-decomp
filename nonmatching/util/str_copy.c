@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "util.h"
 
 unsigned char *str_copy(unsigned char *d, const unsigned char *s)
 {

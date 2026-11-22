@@ -4,6 +4,7 @@
  * PIO: DAT |= 1 << pin.
  */
 #include "hw/v3s.h"
+#include "drivers/pio.h"
 
 void pio_set_bit(pio_port_t *port, u32 pin)
 {

@@ -4,6 +4,8 @@
  * Length check (< 16 MiB, else message and -1); returns len whatever the transfer result.
  */
 #include "hw/platform.h"
+#include "drivers/spi.h"
+#include "drivers/uart.h"
 
 int sys_spi_transfer(int spi, const unsigned char *tx, unsigned char *rx, int len)
 {

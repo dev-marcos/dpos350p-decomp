@@ -6,14 +6,10 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void runtime_state_commit_force(void);
-void acquisition_rearm(void);
-void func_40023ea4_or_40024c60(void);
-void acquisition_geometry_setup(void);
-void fb_present(void);
-void write_sys_info_0x6f0_to_fpga(void);
-void pulse_fpga_selector_0x08_0_1(void);
+#include "acquisition.h"
+#include "fpga.h"
+#include "ui/draw.h"
+#include "ui/screens.h"
 
 void runtime_rearm_setup(void)
 {

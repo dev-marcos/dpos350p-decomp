@@ -15,7 +15,6 @@ int pick_lfn (	/* 1:succeeded, 0:buffer overflow or invalid LFN entry */
 	UINT i, s;
 	WCHAR wc, uc;
 
-
 	if (ld_word(dir + LDIR_FstClusLO) != 0) return 0;	/* Check LDIR_FstClusLO is 0 */
 
 	i = ((dir[LDIR_Ord] & ~LLEF) - 1) * 13;	/* Offset in the LFN buffer */

@@ -6,8 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void ui_window_close(u32 id, u32 r1, u32 r2);
+#include "ui/input.h"
+#include "ui/windows.h"
 
 void numpad_close(u32 r0, u32 r1, u32 r2)
 {

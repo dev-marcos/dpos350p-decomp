@@ -6,15 +6,13 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define F32(a) (*(volatile float *)(a))
-
-void floating_point_interpolation_resampling(u32 ws, u32 half, u32 len, u32 m, long long shift);
-void fixed_point_weighted_or_filtered_resampling(u32 ws, u32 half, u32 len, u32 m, long long shift);
 
 #define WS 0x41A13AE8u
 

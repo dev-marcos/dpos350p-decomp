@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void trace_segments_gather(u32 tr, u32 start, u32 n);
+#include "processing.h"
 
 void trace_c5cc_window(u32 tr)
 {

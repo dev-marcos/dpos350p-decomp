@@ -6,10 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void sys_spi_select(u32 dev);
-void sys_spi_deselect(u32 dev);
-int  sys_spi_write_then_read(u32 dev, const volatile unsigned char *tx, u32 ntx, volatile unsigned char *rx, u32 nrx);
+#include "drivers/spi.h"
 
 int spi_flash_write_enable(u32 dev)
 {

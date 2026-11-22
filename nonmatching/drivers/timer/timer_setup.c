@@ -4,9 +4,8 @@
  * Timer n: CTRL = 0, two read-back writes, set clock source (bit 2) and reload (bit 1), INTV = 24*interval, optionally enable its IRQ.
  */
 #include "hw/drivers.h"
-
-u32 readl_d(u32 addr);
-void writel_d(u32 addr, u32 v);
+#include "drivers/mmio.h"
+#include "drivers/timer.h"
 
 void timer_setup(u32 n, u32 interval, u32 irq)
 {

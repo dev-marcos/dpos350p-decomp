@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "util.h"
 
 u32 value_in_table_405456e8(u32 mode, int v)
 {

@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/gt911.h"
+#include "ui/input.h"
 
 void touch_init(void)
 {

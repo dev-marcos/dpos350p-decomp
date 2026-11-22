@@ -4,6 +4,9 @@
  * PIO transfer: start the burst, then feed the TX FIFO (8 words when >= 32 bytes, else bytes) and drain the RX FIFO (words to rx if not NULL; the byte tail always stores), wait for XCH to clear (10000 polls). Returns len, -1 on timeout.
  */
 #include "hw/platform.h"
+#include "drivers/mmio.h"
+#include "drivers/spi.h"
+#include "drivers/uart.h"
 
 int sys_spi_cpu_transfer(int spi, const unsigned char *tx, unsigned char *rx, int len)
 {

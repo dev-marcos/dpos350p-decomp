@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/input.h"
 
 #define SYS 0x40544E68u
 #define U 0x42E68998u                /* drag state */

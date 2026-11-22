@@ -5,6 +5,7 @@
  * normalised first. This rewrite inlines the stock core (r0:r1 -> r0:r1 + r2).
  */
 #include "rt/bits.h"
+#include "libm.h"
 
 double frexp(double x, int *e)
 {

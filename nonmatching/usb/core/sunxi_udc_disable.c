@@ -4,9 +4,9 @@
  * All USB interrupts off and cleared, then soft disconnect.
  */
 #include "hw/usb.h"
-
-void clear_all_irq(void);
-void cfg_udc_command(u32 cmd);
+#include "drivers/uart.h"
+#include "usb/core.h"
+#include "usb/usbc.h"
 
 void sunxi_udc_disable(void)
 {

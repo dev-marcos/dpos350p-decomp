@@ -4,6 +4,8 @@
  * FPGA bus: read one data byte (bus to input if needed; PE2, PE3, PE0 low; PE0 high; byte = DAT[15:8]). Hack: FPGA.md.
  */
 #include "hw/drivers.h"
+#include "drivers/fpga_bus.h"
+#include "drivers/pio.h"
 
 u32 fpga_data_byte_read(void)
 {

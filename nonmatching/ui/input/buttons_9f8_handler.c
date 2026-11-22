@@ -6,15 +6,17 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "system.h"
+#include "ui/input.h"
+#include "ui/windows.h"
+
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void ui_window_close_raw(u32 id) __asm__("ui_window_close");
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
-void ui_window_close(u32 id);
-void ui_window_open(u32 id);
 
-void touch_group_09F8(void);
-void reload_chain_400373e0(void);
-void sys_3c_leave(void);
-void ui_window_invalidate_from(u32 id, u32 r1);
 #define FLAG (*(volatile unsigned char *)0x4091F398u)
 
 void buttons_9f8_handler(void)
@@ -46,8 +48,8 @@ void buttons_9f8_handler(void)
         return;
     }
     sys_3c_leave();
-    ui_window_close(0x1C);
-    ui_window_close(5);
+    ui_window_close_raw(0x1C);
+    ui_window_close_raw(5);
     ui_window_open(2);
     ui_window_open(5);
 }

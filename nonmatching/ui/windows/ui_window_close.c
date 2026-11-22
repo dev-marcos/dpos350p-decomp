@@ -6,10 +6,10 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/windows.h"
 
 #define WIN(id)  ((volatile unsigned char *)(0x42E64520u + (id) * 14u))
 #define WSTK     ((volatile unsigned char *)0x42E68BC8u)
-void ui_window_stack_top_update(void);
 
 void ui_window_close(u32 id, u32 r1, u32 r2)
 {

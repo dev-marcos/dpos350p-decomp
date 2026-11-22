@@ -6,9 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
 
-unsigned short font_glyph_index(u32 c);
-unsigned short char_to_digit_glyph(u32 c);
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define FONT W32(0x42E68C74u)

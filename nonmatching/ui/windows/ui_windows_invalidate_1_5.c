@@ -6,9 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/windows.h"
 
 #define WSTK ((volatile unsigned char *)0x42E68BC8u)
-void ui_window_invalidate_from(u32 id, u32 r1);
 
 /* r1 as ui_window_invalidate_from (0x4003CD44) leaves it */
 static u32 inv_r1_out(u32 id, u32 r1)

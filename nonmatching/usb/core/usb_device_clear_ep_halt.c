@@ -4,6 +4,8 @@
  * Clear HALT on the TX (bit 7 set) or RX endpoint.
  */
 #include "hw/usb.h"
+#include "usb/core.h"
+#include "usb/usbc.h"
 
 void usb_device_clear_ep_halt(int epaddr)
 {

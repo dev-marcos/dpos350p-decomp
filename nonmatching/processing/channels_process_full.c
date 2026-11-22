@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void channels_process_full_ordered(volatile unsigned char *p);
+#include "processing.h"
 
 void channels_process_full(void)
 {

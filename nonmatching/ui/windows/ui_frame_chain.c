@@ -6,17 +6,12 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void sys_rect_redraw_unless_t17(void);
-void acquisition_rearm(void);
-void traces_update(void);
-void zoom_views_update(void);
-void split_window_marker_draw(void);
-void func_40023ea4_or_40024c60(void);
-void manual_cursors_draw(void);
-void measure_panel_draw(void);
-void cursor_panel_draw(void);
-void func_40028364_unless_t17(void);
+#include "acquisition.h"
+#include "processing.h"
+#include "system.h"
+#include "ui/draw.h"
+#include "ui/screens.h"
+#include "ui/windows.h"
 
 void ui_frame_chain(void)
 {

@@ -4,5 +4,6 @@
  * Generic register read.
  */
 #include "hw/drivers.h"
+#include "drivers/mmio.h"
 
 u32 readl_f(u32 addr) { return REG32(addr); }

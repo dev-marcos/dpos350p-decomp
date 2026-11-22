@@ -4,5 +4,6 @@
  * EPIND.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 u32 USBC_GetActiveEp(void) { return REG8(USBC_EPIND); }

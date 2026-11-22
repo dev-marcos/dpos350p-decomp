@@ -4,6 +4,7 @@
  * Set the bit of irq (+irq_base) in GICD_ICENABLER (base + 0x1180); armcc's signed n/32 and n%32 sequences kept.
  */
 #include "hw/platform.h"
+#include "drivers/gic.h"
 
 void gic_disable_irq(gic_t *g, int irq)
 {

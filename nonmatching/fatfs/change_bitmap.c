@@ -18,7 +18,6 @@ FRESULT change_bitmap (
 	UINT i;
 	DWORD sect;
 
-
 	clst -= 2;	/* The first bit corresponds to cluster #2 */
 	sect = fs->database + clst / 8 / SS(fs);	/* Sector address (assuming bitmap is located top of the cluster heap) */
 	i = clst / 8 % SS(fs);						/* Byte offset in the sector */

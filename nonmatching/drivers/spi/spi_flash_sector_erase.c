@@ -6,11 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void sys_spi_select(u32 dev);
-void sys_spi_deselect(u32 dev);
-int spi_flash_write_enable(u32 dev);
-void spi_flash_wait_ready(u32 dev);
+#include "drivers/spi.h"
 
 int spi_flash_sector_erase(u32 dev, u32 addr)
 {

@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -14,8 +15,6 @@
 #define S64(a) (*(volatile long long *)(a))
 
 #define BLK 0x42E68668u
-
-unsigned long long __aeabi_uldivmod(unsigned long long n, unsigned long long d);
 
 void levels_view_layout(void)
 {

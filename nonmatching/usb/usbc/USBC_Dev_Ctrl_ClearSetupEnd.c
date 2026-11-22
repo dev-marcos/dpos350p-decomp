@@ -4,5 +4,6 @@
  * CSR0 |= 0x80 (serviced setup end).
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void USBC_Dev_Ctrl_ClearSetupEnd(void) { REG16(USBC_CSR0) = (unsigned short)(REG16(USBC_CSR0) | 0x80); }

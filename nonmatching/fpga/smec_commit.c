@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "fpga.h"
 
 void smec_commit(u32 idx)
 {

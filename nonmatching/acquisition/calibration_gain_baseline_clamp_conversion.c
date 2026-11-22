@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
 
 #define CAL_W(o) (*(volatile int *)(0x42E53A0Cu + (o)))
 

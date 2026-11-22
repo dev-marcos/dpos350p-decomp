@@ -4,6 +4,8 @@
  * FPGA bus: write one data byte (bus to output if needed; PE2 high, PE3 low; DAT[15:8] = byte; PE0 low then high).
  */
 #include "hw/drivers.h"
+#include "drivers/fpga_bus.h"
+#include "drivers/pio.h"
 
 void fpga_data_byte_write(u32 v)
 {

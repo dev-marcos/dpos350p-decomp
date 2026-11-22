@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void trace_buffer_pointers_setup(u32 v);                   /* 0x4003FFE4 */
+#include "acquisition.h"
 
 void timebase_apply_2b0(void)
 {

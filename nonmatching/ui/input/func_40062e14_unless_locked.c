@@ -6,8 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void measure_setup_62e14(void);
+#include "processing.h"
+#include "ui/input.h"
 
 void func_40062e14_unless_locked(void)
 {

@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-u32 mode_not_0_or_1(u32 v);
+#include "acquisition.h"
 
 void scaled_pair_update(u32 mode)
 {

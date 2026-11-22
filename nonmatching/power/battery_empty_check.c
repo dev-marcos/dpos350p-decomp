@@ -6,6 +6,11 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/timer.h"
+#include "power.h"
+#include "stock_asm.h"
+#include "ui/draw.h"
+#include "ui/screens.h"
 
 void battery_empty_check(void)
 {

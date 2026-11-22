@@ -4,5 +4,6 @@
  * INTRx.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 u32 USBC_INT_RxPending(void) { return REG16(USBC_INTRx); }

@@ -6,9 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
+#include "ui/windows.h"
 
-void zoom_entry_select(void);
-void ui_window_invalidate_from(u32 id, u32 r1);
 #define Z64(o) (*(volatile unsigned long long *)(0x40544E68u + 0x590u + (o)))
 #define Z8(o) (*(volatile unsigned char *)(0x40544E68u + 0x590u + (o)))
 

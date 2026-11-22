@@ -6,21 +6,11 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "fatfs_app.h"
+#include "storage/files.h"
 
 #define SS16(o) (*(volatile short *)(0x40544E68u + (o)))
 #define PATHBUF ((const char *)0x4054D728u)   /* SYS+0x88C0: path built by the list's path helper */
-int f_open(void *fp, const char *path, unsigned char mode);
-int f_close(void *fp);
-int f_read(void *fp, void *buff, u32 btr, u32 *br);
-int f_write(void *fp, const void *buff, u32 btw, u32 *bw);
-int f_lseek(void *fp, unsigned long long ofs);
-int f_unlink(const char *path);
-
-void screenshot_path_make(u32 v);
-void list_a_entry_remove(u32 v);
-void list_a_index_save(void);
-void list_a_index_load(void);
-void list_cursor_clamp_40035248(void);
 
 void list_a_prune_missing(void)
 {

@@ -4,5 +4,6 @@
  * Register read.
  */
 #include "hw/platform.h"
+#include "drivers/mmio.h"
 
 u32 readl_g(u32 addr) { return REG32(addr); }

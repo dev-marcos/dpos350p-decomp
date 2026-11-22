@@ -6,16 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void draw_colour_set(u32 c);
-void rect_fill(u32 x, u32 y, u32 w, u32 h);
-void half_42e68be2_set(u32 a);
-void word_42e68c74_set(u32 a);
-void text_draw(u32 x, u32 y, const char *s);
-void colour_toggle_42e68d1a(void);
-void value_si_scale(u32 kind, u32 unused, long long v, long long *out, int *dec, int *prefix);
-void func_4002d82c_flag0(u32 x, u32 y, u32 lo, u32 hi, u32 dec);
-void func_4002d82c_flag1(u32 x, u32 y, u32 lo, u32 hi, u32 dec);
+#include "processing.h"
+#include "ui/draw.h"
+#include "ui/screens.h"
 
 #define SYSB      0x40544E68u
 #define U16(v)    ((v) & 0xFFFFu)

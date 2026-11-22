@@ -4,6 +4,9 @@
  * GT911 I2C: shift in one byte MSB first (SDA as input, short busy-wait after each bit), SDA back to output high.
  */
 #include "hw/drivers.h"
+#include "drivers/gt911.h"
+#include "drivers/pio.h"
+#include "drivers/timer.h"
 
 #define PG ((pio_port_t *)PIO_PG)
 

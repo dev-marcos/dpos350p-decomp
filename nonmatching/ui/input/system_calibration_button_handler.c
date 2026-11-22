@@ -6,21 +6,23 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/timer.h"
+#include "system.h"
+#include "ui/draw.h"
+#include "ui/input.h"
+#include "ui/screens.h"
+#include "ui/windows.h"
+
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void ui_window_close_raw(u32 id) __asm__("ui_window_close");
+void ui_window_invalidate_from_raw(u32 id) __asm__("ui_window_invalidate_from");   /* r1 is what ui_window_close left, as in the stock code */
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
-void ui_window_close(u32 id);
-void ui_window_open(u32 id);
-void message_box_draw(int x, int y, u32 text, int align);
-void delay_ms(u32 ms);
 #define TX8(o) (*(volatile signed char *)(0x42C2FE74u + (o)))
 #define TX32(o) (*(volatile u32 *)(0x42C2FE74u + (o)))
 #define WR16(o) (*(volatile unsigned short *)(0x42E64520u + (o)))
 #define MSG(cx, cy, b) message_box_draw((int)(cx) + TX8((b) + 0x194), (int)(cy) + TX8((b) + 0x195), TX32(b), 0)
-
-void touch_button_update_0188(void);
-int system_calibration(void);
-void rect_42e68c38_draw(void);
-void ui_window_invalidate_from(u32 id);   /* r1 is what ui_window_close left, as in the stock code */
 
 void system_calibration_button_handler(void)
 {
@@ -46,6 +48,6 @@ void system_calibration_button_handler(void)
     if (t)
         message_box_draw((int)cx + TX8(0x9C00 + p), (int)cy + TX8(0x9C00 + p + 1), TX32(0x9C00 + t), 0);
     delay_ms(1000);
-    ui_window_close(0x1D);
-    ui_window_invalidate_from(5);
+    ui_window_close_raw(0x1D);
+    ui_window_invalidate_from_raw(5);
 }

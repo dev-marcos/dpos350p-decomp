@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "bode.h"
 
 #define SYS 0x40544E68u
 #define BB 0x42E180C8u

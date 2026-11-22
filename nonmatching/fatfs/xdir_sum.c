@@ -14,7 +14,6 @@ WORD xdir_sum (	/* Get checksum of the directoly entry block */
 	UINT i, szblk;
 	WORD sum;
 
-
 	szblk = (dir[XDIR_NumSec] + 1) * SZDIRE;	/* Number of bytes of the entry block */
 	for (i = sum = 0; i < szblk; i++) {
 		if (i == XDIR_SetSum) {	/* Skip 2-byte sum field */

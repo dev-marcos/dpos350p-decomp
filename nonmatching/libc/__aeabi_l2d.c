@@ -4,6 +4,7 @@
  * Arm C library: int64 (r0:r1) -> double (r0:r1), round to nearest even.
  */
 #include "rt/l2d.h"
+#include "libc.h"
 
 AEABI u64 __aeabi_l2d(s64 x)
 {

@@ -4,6 +4,7 @@
  * Banked SGI/PPI enables and priorities, priority mask 0xF8, CPU interface on.
  */
 #include "hw/platform.h"
+#include "drivers/gic.h"
 
 void gic_cpu_init(u32 base)
 {

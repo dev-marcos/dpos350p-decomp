@@ -6,8 +6,11 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/spi.h"
 
-void spi_flash_page_program(u32 dev, u32 addr, u32 buf, u32 n);
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void spi_flash_page_program_raw(u32 dev, u32 addr, u32 buf, u32 n) __asm__("spi_flash_page_program");
 
 void spi_flash_write_paged(u32 dev, u32 addr, u32 buf, u32 len)
 {
@@ -15,7 +18,7 @@ void spi_flash_write_paged(u32 dev, u32 addr, u32 buf, u32 len)
     if (n > room)
         n = room;
     for (;;) {
-        spi_flash_page_program(dev, addr, buf, (u32)n);
+        spi_flash_page_program_raw(dev, addr, buf, (u32)n);
         if ((u32)n == (len & 0xFFFF))
             return;
         buf += n;

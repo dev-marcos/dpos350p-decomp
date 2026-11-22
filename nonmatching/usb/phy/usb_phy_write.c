@@ -4,6 +4,7 @@
  * Bit-bang len bits of data into the PHY through the CSR at +0x410. Every macro does a 32-bit read and an 8-bit write (FNIRSI variant), so the bit address (bits 15:8) never reaches the PHY.
  */
 #include "hw/usb.h"
+#include "usb/phy.h"
 
 void usb_phy_write(int addr, int data, int len)
 {

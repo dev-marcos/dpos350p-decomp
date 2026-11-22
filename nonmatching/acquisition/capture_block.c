@@ -6,15 +6,10 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void pe0_set(void);
-void pe0_clr(void);
-void fpga_write_sel_0x1f(u32 v);
-void fpga_pe_mode_select(u32 v);
-void csi_set_buffer(u32 buf);
-void csi_clear_frame_flag(void);
-void timer_start(int n);
-void enable_csi_capture(void);
+#include "acquisition.h"
+#include "drivers/csi.h"
+#include "drivers/timer.h"
+#include "fpga.h"
 
 void capture_block(u32 v, u32 buf)
 {

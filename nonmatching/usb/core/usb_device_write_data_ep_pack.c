@@ -4,6 +4,10 @@
  * Queue an IN transfer: copy to usb_tx_buf, keep the caller's buffer (FNIRSI) and length, send the first packet; usb_tx_pos = 64 if more follows.
  */
 #include "hw/usb.h"
+#include "drivers/uart.h"
+#include "usb/core.h"
+#include "usb/usbc.h"
+#include "util.h"
 
 int usb_device_write_data_ep_pack(int ep, unsigned char *databuf, int len)
 {

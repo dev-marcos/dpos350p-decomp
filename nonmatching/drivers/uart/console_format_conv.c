@@ -4,6 +4,8 @@
  * One conversion after '%': flags '0' (pad) and '-' (left), width digits, then c s d i u x X o '%'; any other character prints the argument in base 3. Returns the pointer after the conversion. The cases are the fragments 0x40066FB8..0x40067098.
  */
 #include "hw/platform.h"
+#include "drivers/uart.h"
+#include "util.h"
 
 const char *console_format_conv(const char *p, int arg)
 {

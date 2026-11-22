@@ -4,8 +4,7 @@
  * 2 * AVS_CNT1.
  */
 #include "hw/drivers.h"
-
-u32 readl_d(u32 addr);
-void writel_d(u32 addr, u32 v);
+#include "drivers/avs.h"
+#include "drivers/mmio.h"
 
 u32 avs1_read(void) { return readl_d(AVS_CNT1) << 1; }

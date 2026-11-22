@@ -4,9 +4,8 @@
  * Timer 0 interrupt: acknowledge (IRQ_STA |= 1) and increment the tick counter at 0x42E68CD8.
  */
 #include "hw/drivers.h"
-
-u32 readl_d(u32 addr);
-void writel_d(u32 addr, u32 v);
+#include "drivers/mmio.h"
+#include "drivers/timer.h"
 
 extern volatile u32 g_tick_count;   /* 0x42E68CD8 */
 

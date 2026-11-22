@@ -6,14 +6,16 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "system.h"
+#include "ui/input.h"
+#include "ui/windows.h"
+
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void ui_windows_invalidate_1_5_raw(void) __asm__("ui_windows_invalidate_1_5");
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
-void ui_window_close(u32 id);
-void ui_window_open(u32 id);
-void ui_window_invalidate_from(u32 id, u32 r1);
 void inv_left(u32 id) __asm__("ui_window_invalidate_from");
-void outputs_apply(void);
-void ui_windows_invalidate_1_5(void);
 
 /* b = first button (toggle), s = SYS offset of the channel enable byte */
 static void channel_buttons(u32 b, u32 s)
@@ -64,10 +66,8 @@ static void channel_buttons(u32 b, u32 s)
         return;
     }
     outputs_apply();
-    ui_windows_invalidate_1_5();
+    ui_windows_invalidate_1_5_raw();
 }
-
-void touch_group_03C2(void);
 
 void channel2_settings_buttons(void)
 {

@@ -6,13 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void acq_defaults_reset(void);
-void state_block_3f984_init(void);
-void state_block_180c8_init(void);
-void state_block_68668_init(void);
-void marker_value_add(u32 a, u32 k);
-void state_backup_all(void);
+#include "acquisition.h"
+#include "processing.h"
+#include "system.h"
 
 void state_blocks_init(void)
 {

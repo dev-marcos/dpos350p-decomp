@@ -6,9 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void touch_button_set_rect(u32 x, u32 y, u32 wd, u32 ht, volatile unsigned char *b);
-void ui_frame_chain(void);
+#include "ui/input.h"
+#include "ui/windows.h"
 
 void ui_window_05_draw(void)
 {

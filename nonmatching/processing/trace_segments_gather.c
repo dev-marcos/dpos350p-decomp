@@ -6,8 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "processing.h"
 
-u32 mode_not_0_or_1(u32 v);
 #define SYS 0x40544E68u
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))

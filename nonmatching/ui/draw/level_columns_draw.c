@@ -6,9 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
+#include "util.h"
 
-void draw_colour_set(u32 c);
-void copy_u16(unsigned short *d, const unsigned short *s, u32 n);
 #define MB8(o) (*(volatile unsigned char *)(0x42E68668u + (o)))
 #define MB32(o) (*(volatile u32 *)(0x42E68668u + (o)))
 #define COLOUR16 (*(volatile unsigned short *)0x42E68660u)

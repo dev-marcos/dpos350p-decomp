@@ -4,16 +4,10 @@
  * Channel CH_CFG (+0x44 + ch*0x100): input format (23:20), output format (19:16), field select (11:10), input seq (9:8).
  */
 #include "hw/platform.h"
+#include "drivers/csi.h"
+#include "stock_asm.h"
 
 #define csi_base_tbl ((u32 *)0x42E68C50u)
-u32 csi_readl(u32 addr);
-void csi_writel(u32 addr, u32 v);
-void csi_setbits(u32 addr, u32 bits);
-void csi_clrbits(u32 addr, u32 bits);
-void csi_clrsetbits(u32 addr, u32 clr, u32 set);
-void dcache_clean_inv_all(void);
-void csi_writel_t(u32 addr, u32 v);
-u32 csi_readl_t(u32 addr);
 
 void csi_fmt_cfg(u32 sel, u32 ch, const signed char *fmt)
 {

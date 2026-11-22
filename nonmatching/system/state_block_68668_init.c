@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "system.h"
 
 #define B(o) (*(volatile unsigned char *)(0x42E68668u + (o)))
 #define H(o) (*(volatile unsigned short *)(0x42E68668u + (o)))

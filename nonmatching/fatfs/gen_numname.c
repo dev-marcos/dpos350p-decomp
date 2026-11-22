@@ -19,7 +19,6 @@ void gen_numname (
 	WCHAR wc;
 	DWORD sr;
 
-
 	mem_cpy(dst, src, 11);
 
 	if (seq > 5) {	/* In case of many collisions, generate a hash number instead of sequential number */

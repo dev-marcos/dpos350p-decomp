@@ -6,15 +6,12 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "storage/files.h"
+#include "system.h"
 
-void list_c_index_load(void);
-void list_c_data_load(void);
-void list_c_next_free(void);
-void saved_wave_trace_build(void);
-void record_append(void);
-void list_fa4_insert_758(u32 a);
-void list_c_index_save(void);
-void list_c_data_save(void);
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void record_append_raw(void) __asm__("record_append");
 
 void reload_chain_400373e0(void)
 {
@@ -22,7 +19,7 @@ void reload_chain_400373e0(void)
     list_c_data_load();
     list_c_next_free();
     saved_wave_trace_build();
-    record_append();
+    record_append_raw();
     list_fa4_insert_758(*(volatile unsigned short *)0x40545E04u);
     list_c_index_save();
     list_c_data_save();

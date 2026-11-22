@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/windows.h"
 
 #define M64(o) (*(volatile long long *)(0x42E68668u + (o)))
 

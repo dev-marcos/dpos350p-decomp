@@ -6,14 +6,13 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/windows.h"
 
 #define TCH8(o)  (*(volatile unsigned char *)(0x42E68BB0u + (o)))   /* touch block */
 #define TCH16(o) (*(volatile short *)(0x42E68BB0u + (o)))
 #define WIN(id)  ((volatile unsigned char *)(0x42E64520u + (id) * 14u))
 #define WH(p, o) (*(volatile unsigned short *)((p) + (o)))
 #define WSTK     ((volatile unsigned char *)0x42E68BC8u)
-
-void ui_window_close(u32 id, u32 r1, u32 r2);
 
 void ui_windows_close_untouched(void)
 {

@@ -6,9 +6,11 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void acq_defaults_reset(void);
-void fill_u32(u32 *d, u32 v, u32 n);
+#include "acquisition.h"
+#include "drivers/timer.h"
+#include "fpga.h"
+#include "system.h"
+#include "util.h"
 
 typedef struct { u32 neg[8], pos[8], dn[8], dp[8], tn[8], tp[8]; } ltrim_t;
 
@@ -75,8 +77,6 @@ static u32 ltrim_mask(ltrim_t *s, int n)
             mask |= 1u << k;
     return mask;
 }
-
-void lane_phase_measure4x2(int *m1, int *m2);
 
 int lane_trim_search4x2(u32 row, u32 bank, u32 step)
 {

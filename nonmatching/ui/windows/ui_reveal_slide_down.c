@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
+#include "ui/windows.h"
 
 #define WIN(id)  ((volatile unsigned char *)(0x42E64520u + (id) * 14u))
 #define WSTK     ((volatile unsigned char *)0x42E68BC8u)
@@ -15,8 +17,6 @@
 #define fb_off   ((unsigned short *)0x4233CBBCu)
 typedef double (*tanh_fn)(double);
 #define TANH_T ((tanh_fn)0x4005F91Du)   /* tanh at 0x4005F91C is Thumb */
-void fb_present_rect(u32 x0, u32 y0, u32 x1, u32 y1);
-void ui_window_redraw_dirty(void);
 
 void ui_reveal_slide_down(volatile unsigned short *r)
 {

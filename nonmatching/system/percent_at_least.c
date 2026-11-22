@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "system.h"
 
 u32 percent_at_least(int v, int total, int min_pct)
 {

@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "libc.h"
+#include "ui/input.h"
 
 #define NP8(o) (*(volatile unsigned char *)(0x42E68A88u + (o)))
 #define NPS8(o) (*(volatile signed char *)(0x42E68A88u + (o)))

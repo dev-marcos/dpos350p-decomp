@@ -4,12 +4,9 @@
  * USB OTG interrupt (IRQ 103): reset, resume, suspend, disconnect; EP0 (the first EP0 interrupt picks HS or FS packet sizes); RX then TX endpoints 1..3.
  */
 #include "hw/usb.h"
-
-u32 filtrate_irq_misc(u32 irq_misc);
-void clear_all_irq(void);
-void usb_handle_ep0(void);
-void usb_handle_epn_in(int ep);
-void usb_handle_epn_out(int ep);
+#include "drivers/uart.h"
+#include "usb/core.h"
+#include "usb/usbc.h"
 
 void usb_irq_handle(void)
 {

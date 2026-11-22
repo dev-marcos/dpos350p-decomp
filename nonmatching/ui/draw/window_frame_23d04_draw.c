@@ -6,17 +6,11 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
+#include "ui/input.h"
 
-void draw_colour_set(u32 c);
-void rect_fill(u32 a, u32 b, u32 c, u32 d);
-void func_4002ecc4_span(u32 a, u32 b, u32 c);
-void text_draw(u32 x, u32 y, const char *s);
-void pixel_put(u32 x, u32 y);
 #define W32(a) (*(volatile u32 *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
-
-void line_draw(u32 a, u32 b, u32 c, u32 d);
-void touch_button_set_rect(u32 x, u32 y, u32 wd, u32 ht, volatile unsigned char *b);
 
 void window_frame_23d04_draw(void)
 {

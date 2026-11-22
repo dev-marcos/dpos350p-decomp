@@ -6,8 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "system.h"
 
-int system_calibration(void);
 #define B8(o) (*(volatile unsigned char *)(0x42E68AE0u + (o)))
 
 void calibration_result_flags(void)

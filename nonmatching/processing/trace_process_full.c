@@ -6,16 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-u32 mode_not_0_or_1(u32 tr);
-void trace_span_full_veneer(u32 tr);
-void scaled_pair_update(u32 tr);
-void trace_shift_samples(u32 tr);
-void trace_zoom_segments(u32 tr);
-void trace_view_bounds(u32 tr);
-void trace_c5cc_full(u32 tr);
-void trace_intensity_accumulate_lines(u32 tr);
-void trace_intensity_draw(u32 tr);
+#include "acquisition.h"
+#include "processing.h"
+#include "ui/draw.h"
 
 void trace_process_full(u32 tr)
 {

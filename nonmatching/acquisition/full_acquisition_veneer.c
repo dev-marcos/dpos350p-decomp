@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void full_acquisition_entry(void);
+#include "acquisition.h"
 
 void full_acquisition_veneer(void)
 {

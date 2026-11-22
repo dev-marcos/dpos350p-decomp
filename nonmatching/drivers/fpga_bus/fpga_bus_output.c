@@ -4,6 +4,7 @@
  * FPGA parallel bus: data pins as outputs (PE_CFG1 = 0x11111111), direction flag = 1.
  */
 #include "hw/drivers.h"
+#include "drivers/fpga_bus.h"
 
 void fpga_bus_output(void)
 {

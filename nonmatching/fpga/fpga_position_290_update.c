@@ -6,9 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void fpga_cmd18_read(void);
-void fpga_selector_command_write(u32 sel);
+#include "drivers/fpga_bus.h"
+#include "fpga.h"
 
 void fpga_position_290_update(void)
 {

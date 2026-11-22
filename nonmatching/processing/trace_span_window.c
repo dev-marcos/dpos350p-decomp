@@ -6,8 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void trace_scale_segment(u32 tr, u32 start, u32 len);
+#include "processing.h"
+#include "ui/draw.h"
 
 void trace_span_window(u32 tr)
 {

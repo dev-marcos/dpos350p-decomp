@@ -6,9 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void draw_colour_set(u32 c);
-void vline_draw(u32 x, u32 y0, u32 y1);
+#include "ui/draw.h"
 
 static void trace(volatile short *p, u32 x0, u32 y0)
 {

@@ -4,6 +4,7 @@
  * Write c n times (n == 0: nothing).
  */
 #include "hw/platform.h"
+#include "drivers/uart.h"
 
 void console_putn(int c, int n)
 {

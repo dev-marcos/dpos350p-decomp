@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/input.h"
 
 #define TICK (*(volatile u32 *)0x42E68CD8u)
 

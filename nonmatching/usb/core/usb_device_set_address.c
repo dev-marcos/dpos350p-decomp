@@ -4,6 +4,8 @@
  * FADDR and usb_addr.
  */
 #include "hw/usb.h"
+#include "usb/core.h"
+#include "usb/usbc.h"
 
 void usb_device_set_address(unsigned char addr)
 {

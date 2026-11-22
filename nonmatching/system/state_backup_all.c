@@ -6,8 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void sys_info_backup(void); void gen_state_backup(void); void state_c_backup(void); void state_d_backup(void);
+#include "generator.h"
+#include "system.h"
 
 void state_backup_all(void)
 {

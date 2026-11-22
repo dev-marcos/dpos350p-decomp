@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
+#include "util.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -13,8 +15,6 @@
 #define W32(a) (*(volatile u32 *)(a))
 #define S64(a) (*(volatile long long *)(a))
 #define U64(a) (*(volatile unsigned long long *)(a))
-
-void copy_u16(unsigned short *d, const unsigned short *s, u32 n);
 
 #define AVG 0x416431E8u
 

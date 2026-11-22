@@ -6,6 +6,12 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "bode.h"
+#include "drivers/timer.h"
+#include "generator.h"
+#include "libc.h"
+#include "system.h"
 
 #define SYS 0x40544E68u
 #define BB 0x42E180C8u
@@ -20,13 +26,6 @@
 #define BW(o) W(BB + (o))
 #define BD(o) DD(BB + (o))
 #define U16(v) ((unsigned short)(v))
-
-void gen_update(void);
-void delay_ms(u32 ms);
-void runtime_event_service(void);
-void outputs_apply(void);
-void acquisition_dispatcher(void);
-unsigned long long __aeabi_uldivmod(unsigned long long a, unsigned long long b);
 
 void bode_point_measure(u32 f)
 {

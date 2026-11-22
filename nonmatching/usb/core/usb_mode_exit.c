@@ -6,9 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void usb_device_exit(void);
-void disk_remount(void);
+#include "storage/diskio.h"
+#include "usb/core.h"
 
 void usb_mode_exit(void)
 {

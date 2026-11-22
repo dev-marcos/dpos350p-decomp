@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "frontend.h"
 
 void vscale_update(void)
 {

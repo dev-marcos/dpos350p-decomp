@@ -4,5 +4,6 @@
  * CSR0 = 0x0A (TxPktRdy | DataEnd).
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void __USBC_Dev_ep0_WriteDataComplete(void) { REG16(USBC_CSR0) = 0x0A; }

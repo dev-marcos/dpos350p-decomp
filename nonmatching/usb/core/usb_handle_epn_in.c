@@ -4,8 +4,10 @@
  * TX endpoint interrupt: clear a stall; when the FIFO is free and the class is mass storage (4), run its IN callback (the HID callback of EasyUSB is gone).
  */
 #include "hw/usb.h"
-
-void usb_mass_in_ep_callback(void);
+#include "drivers/uart.h"
+#include "usb/core.h"
+#include "usb/mass_storage.h"
+#include "usb/usbc.h"
 
 void usb_handle_epn_in(int ep)
 {

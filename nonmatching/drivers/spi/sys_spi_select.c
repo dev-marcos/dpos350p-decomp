@@ -4,6 +4,9 @@
  * Chip select assert: TCR SS bits, or the GPIO from the CS tables when spi_soft_cs.
  */
 #include "hw/platform.h"
+#include "drivers/mmio.h"
+#include "drivers/pio.h"
+#include "drivers/spi.h"
 
 void sys_spi_select(int spi)
 {

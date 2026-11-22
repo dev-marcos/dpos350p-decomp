@@ -8,6 +8,7 @@
  * equals -Inf's returns +0); |r| < 2^-54 skips the rational approximation.
  */
 #include "rt/bits.h"
+#include "libm.h"
 
 #define LOG2E   bitsd(0x3FF71547652B82FEull)   /* 1/ln2 */
 #define LN2HI   bitsd(0x3FE62E42F8000000ull)

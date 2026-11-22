@@ -6,8 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "processing.h"
 
-u32 mode_not_0_or_1(u32 v);
 #define SYS 0x40544E68u
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
@@ -15,8 +16,6 @@ u32 mode_not_0_or_1(u32 v);
 #define S64(a) (*(volatile long long *)(a))
 #define P(o) (SYS + 0x5F4 + (o))
 #define TRBUF(ch) (0x411AF3E8u + (ch) * 0x927C0u)
-
-void view_bounds_update(void);
 
 void trace_view_bounds(u32 tr)
 {

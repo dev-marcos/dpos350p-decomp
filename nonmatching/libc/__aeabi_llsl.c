@@ -4,6 +4,7 @@
  * 64-bit shift left (shift taken mod 256; ARM register-shift semantics).
  */
 #include "hw/platform.h"
+#include "libc.h"
 
 unsigned long long __aeabi_llsl(unsigned long long v, int sh)
 {

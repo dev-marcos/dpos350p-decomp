@@ -4,20 +4,12 @@
  * SET_CONFIGURATION: loads &current_usb_type and falls into 0x4006D2DC. Endpoint 1 OUT and IN, 512 bytes, type 4 (mass storage: bulk), 3 (HID/CDC: interrupt) or 2 (UVC: iso).
  */
 #include "hw/usb.h"
+#include "usb/core.h"
+#include "usb/mass_storage.h"
 
 #define setup_req      ((unsigned char *)0x42E68C58u)   /* copy of the last setup packet */
 #define line_coding    ((unsigned char *)0x40095484u)   /* 7 bytes */
 #define line_coding_rx (*(u32 *)0x42E68CECu)
-void usb_mass_send_data(unsigned char *buf, int len);
-void usb_mass_send_csw(u32 status, u32 next);
-void usb_mass_set_sense(u32 lun, u32 key, u32 asc);
-
-void usb_config_ep_in(int epidx, int maxpack, int type);
-void usb_config_ep_out(int epidx, int maxpack, int type);
-void usb_device_read_data_status_ep0(u32 is_complete);
-void usb_device_clear_setup_end(void);
-void usb_device_send_nullpack_ep0(void);
-void usb_device_set_ep0_state(int state);
 
 void usb_set_configuration(void)
 {

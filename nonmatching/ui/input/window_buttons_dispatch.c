@@ -6,49 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void main_menu_buttons(void);
-void buttons_05c_handler(void);
-void buttons_ac_open_windows(void);
-void touch_00f2_then_400545f8(void);
-void system_settings_buttons(void);
-void buttons_106_handler(void);
-void settings_slot_buttons(void);
-void language_select_buttons(void);
-void buttons_20a_handler(void);
-void measure_select_buttons(void);
-void file_lists_open_buttons(void);
-void channel1_settings_buttons(void);
-void channel2_settings_buttons(void);
-void timebase_menu_buttons(void);
-void output_select_buttons(void);
-void trigger_option_buttons(void);
-void gen_panel_buttons(void);
-void button_71e_drag_handler(void);
-void list_a_thumbs_buttons(void);
-void list_a_delete_button_handler(void);
-void touch_btn_0804_release(void);
-void list_a_window_buttons(void);
-void list_b_window_buttons(void);
-void list_b_delete_button_handler(void);
-void list_c_window_buttons(void);
-void list_c_delete_button_handler(void);
-void buttons_9f8_handler(void);
-void system_calibration_button_handler(void);
-void touch_btn_01ec_release(void);
-void format_button_handler(void);
-void touch_btn_019c_release(void);
-void numpad_key_buttons(void);
-void buttons_ac0_handler(void);
-void numpad_buttons_b06(void);
-void cursor_drag_buttons_b42(void);
-void calibration_b4c_button_handler(void);
-void buttons_b56_handler(void);
-void measure_numpad_buttons(void);
-void marker_drag_buttons_bd8(void);
-void buttons_be2_handler(void);
-void calibration_button_handler(void);
-void ui_window_touch_handle(u32 id);
+#include "ui/input.h"
 
 void window_buttons_dispatch(u32 id)
 {

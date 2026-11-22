@@ -6,9 +6,14 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "fpga.h"
+#include "system.h"
+#include "util.h"
 
-void fpga_pe_mode_select(u32 mode);
-void stream_geometry_fpga_selector_0x22_configuration(void);
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void first_conversion_wrapper_raw(u32 dst, u32 ch, u32 n) __asm__("first_conversion_wrapper");
 
 #define LPH_LEVEL 0x3E80
 
@@ -43,9 +48,6 @@ static void lph_capture_setup(void)
     stream_geometry_fpga_selector_0x22_configuration();
 }
 
-void capture_banks_all(void);
-void first_conversion_wrapper(u32 dst, u32 ch, u32 n);
-
 void lane_phase_measure8(int *m)
 {
     u32 sum[8], cnt[8];
@@ -61,7 +63,7 @@ void lane_phase_measure8(int *m)
         acq_wait_done();
         lph_capture_setup();
         capture_banks_all();
-        first_conversion_wrapper(0x42C62AF4u, 0, SYS16(0x640));
+        first_conversion_wrapper_raw(0x42C62AF4u, 0, SYS16(0x640));
         lph_scan((const volatile unsigned short *)0x42C62B58u, 0x9C0E, 8, sum, cnt);
         for (k = 0; k < 8; k++)
             q[k] = (double)sum[k] / (double)cnt[k];

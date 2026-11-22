@@ -4,5 +4,6 @@
  * INTTxE |= 1 << ep.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void USBC_INT_EnableTxEp(u32 ep_index) { REG16(USBC_INTTxE) = (unsigned short)(REG16(USBC_INTTxE) | (1u << ep_index)); }

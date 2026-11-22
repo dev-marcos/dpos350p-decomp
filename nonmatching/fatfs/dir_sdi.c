@@ -15,7 +15,6 @@ FRESULT dir_sdi (	/* FR_OK(0):succeeded, !=0:error */
 	DWORD csz, clst;
 	FATFS *fs = dp->obj.fs;
 
-
 	if (ofs >= (DWORD)((FF_FS_EXFAT && fs->fs_type == FS_EXFAT) ? MAX_DIR_EX : MAX_DIR) || ofs % SZDIRE) {	/* Check range of offset and alignment */
 		return FR_INT_ERR;
 	}

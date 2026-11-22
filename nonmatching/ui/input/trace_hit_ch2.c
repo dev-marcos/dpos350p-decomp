@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void trace_hit_main(u32 ch);
+#include "ui/input.h"
 
 void trace_hit_ch2(void)
 {

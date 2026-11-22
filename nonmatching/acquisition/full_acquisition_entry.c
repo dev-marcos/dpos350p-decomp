@@ -6,6 +6,17 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "processing.h"
+#include "ui/screens.h"
+#include "ui/windows.h"
+#include "util.h"
+
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void bank_unpack_0_3_n_raw(u32 dst, u32 ch, u32 n) __asm__("bank_unpack_0_3_n");
+void first_conversion_wrapper_raw(u32 dst, u32 ch, u32 n) __asm__("first_conversion_wrapper");
+void second_conversion_wrapper_raw(u32 dst, u32 ch, u32 n) __asm__("second_conversion_wrapper");
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -15,33 +26,6 @@
 #define HIST 0x42AC7CF4u
 #define TMP 0x416431E8u
 #define ROLL_N 0x31128u
-
-void acquisition_block_bank_selector(u32 i);
-void acquisition_prepare(void);
-void acq_wait_done(void);
-void veneer_40063798(void);
-void consumer_translator_of_the_16_bit(void);
-void timebase_apply_2b4(void);
-void stream_geometry_fpga_selector_0x22_configuration(void);
-void capture_banks_0_3(void);
-void capture_banks_4_7(void);
-void capture_banks_all(void);
-void bank_unpack_0_3_n(u32 dst, u32 ch, u32 n);
-void first_conversion_wrapper(u32 dst, u32 ch, u32 n);
-void second_conversion_wrapper(u32 dst, u32 ch, u32 n);
-void channel_minmax_stats(u32 ch);
-void channel_freq_measure(u32 ch);
-void moving_average_and_crossing_alignment_search(void);
-void timebase_apply_2b0(void);
-void channel_post_process(u32 ch);
-void channel_moving_average(u32 ch);
-void channel_step_limiter(u32 ch);
-void trigger_window_crossing(u32 ch);
-void func_40032e0c_both(void);
-void channel_to_display_copy(u32 ch, u32 i);
-void channel_filters_by_timebase(void);
-void fft_input_prepare(void);
-void ui_windows_mark_dirty(void);
 
 static void table(u32 i)
 {
@@ -69,14 +53,14 @@ static void chunks(u32 ch, u32 base)
         if (B8(SYS + 0x100) == 0) {
             if (ch) {
                 capture_banks_4_7();
-                second_conversion_wrapper(W32(SYS + 0x7B8) + 2 * s, 1, H16(SYS + 0x640));
+                second_conversion_wrapper_raw(W32(SYS + 0x7B8) + 2 * s, 1, H16(SYS + 0x640));
             } else {
                 capture_banks_0_3();
-                bank_unpack_0_3_n(W32(SYS + 0x7B4) + 2 * s, 0, H16(SYS + 0x640));
+                bank_unpack_0_3_n_raw(W32(SYS + 0x7B4) + 2 * s, 0, H16(SYS + 0x640));
             }
         } else if (B8(SYS + 0x100) == ch + 1) {
             capture_banks_all();
-            first_conversion_wrapper(W32(ch ? SYS + 0x7B8 : SYS + 0x7B4) + 2 * s, ch, H16(SYS + 0x640));
+            first_conversion_wrapper_raw(W32(ch ? SYS + 0x7B8 : SYS + 0x7B4) + 2 * s, ch, H16(SYS + 0x640));
         }
     }
 }

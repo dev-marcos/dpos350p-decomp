@@ -4,5 +4,6 @@
  * INTRx = 1 << ep.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void USBC_INT_ClearRxPending(u32 ep_index) { REG16(USBC_INTRx) = (unsigned short)(1u << ep_index); }

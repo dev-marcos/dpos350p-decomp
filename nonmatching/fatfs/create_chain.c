@@ -16,7 +16,6 @@ DWORD create_chain (	/* 0:No free cluster, 1:Internal error, 0xFFFFFFFF:Disk err
 	FRESULT res;
 	FATFS *fs = obj->fs;
 
-
 	if (clst == 0) {	/* Create a new chain */
 		scl = fs->last_clst;				/* Suggested cluster to start to find */
 		if (scl == 0 || scl >= fs->n_fatent) scl = 1;

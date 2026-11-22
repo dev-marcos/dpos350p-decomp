@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "fpga.h"
 
 u32 lane_level_sum(u32 start, u32 lane, u32 ch, u32 n, unsigned char *buf)
 {

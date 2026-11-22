@@ -6,17 +6,14 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/input.h"
+#include "ui/windows.h"
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
-void ui_window_close(u32 id);
-void ui_window_open(u32 id);
 #define DG8(o) (*(volatile unsigned char *)(0x42E68998u + (o)))
 #define DG32(o) (*(volatile u32 *)(0x42E68998u + (o)))
 #define DG64(o) (*(volatile long long *)(0x42E68998u + (o)))
 
-void touch_button_update_0BD8(void);
-void touch_pick_a(void);
-void touch_drag_delta_c(void);
 #define MK(o) (*(volatile int *)(0x42E68668u + (o)))
 
 void marker_drag_buttons_bd8(void)

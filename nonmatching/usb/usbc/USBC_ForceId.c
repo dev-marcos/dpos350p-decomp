@@ -4,10 +4,7 @@
  * 1 = low, 2 = high, anything else = disable.
  */
 #include "hw/usb.h"
-
-void USBC_ForceIdToLow(void);
-void USBC_ForceIdToHigh(void);
-void USBC_ForceIdDisable(void);
+#include "usb/usbc.h"
 
 void USBC_ForceId(u32 type)
 {

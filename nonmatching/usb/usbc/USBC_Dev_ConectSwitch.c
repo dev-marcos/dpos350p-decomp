@@ -4,6 +4,7 @@
  * PCTL bit 6 (soft connect): set for 1, cleared otherwise.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void USBC_Dev_ConectSwitch(u32 is_on)
 {

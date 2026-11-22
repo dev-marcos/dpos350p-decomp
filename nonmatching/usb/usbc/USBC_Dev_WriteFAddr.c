@@ -4,5 +4,6 @@
  * FADDR = r0: tail shared with USBC_Dev_SetAddress_default (name OPEN).
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void USBC_Dev_WriteFAddr(u32 v) { REG8(USBC_FADDR) = (unsigned char)v; }

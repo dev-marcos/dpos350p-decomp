@@ -6,11 +6,11 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "generator.h"
+#include "selftest.h"
+#include "system.h"
 
-void acq_defaults_reset(void);
-void outputs_apply(void);
-void gen_update(void);
-void acquisition_dispatcher(void);
 #define GB8(o) (*(volatile unsigned char *)(0x42E3F984u + (o)))
 #define GB32(o) (*(volatile u32 *)(0x42E3F984u + (o)))
 #define RS8(o) (*(volatile unsigned char *)(0x42E68AE0u + (o)))

@@ -5,6 +5,7 @@
  * constants (1/ln10 and log10(2) in hi/lo parts). Special cases shared with log.
  */
 #include "rt/logcore.h"
+#include "libm.h"
 
 #define K0 bitsd(0x3E7427DE7FBCC47Cull)   /* log10(2) lo */
 #define K1 bitsd(0x3FDBCB7B1526E50Eull)   /* 1/ln10 */

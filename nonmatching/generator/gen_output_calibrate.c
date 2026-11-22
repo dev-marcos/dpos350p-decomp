@@ -6,6 +6,13 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "drivers/timer.h"
+#include "fpga.h"
+#include "generator.h"
+#include "storage/settings.h"
+#include "system.h"
+#include "util.h"
 
 #define SYS 0x40544E68u
 #define GEN 0x42E3F984u
@@ -15,17 +22,6 @@
 #define W32(a) (*(volatile u32 *)(a))
 #define D64(a) (*(volatile unsigned long long *)(a))
 
-void state_backup_all(void);
-void state_block_3f984_init(void);
-void fpga_cmd63_write(void);
-void fill_u16(unsigned short *d, unsigned short v, u32 n);
-void outputs_apply(void);
-void gen_fpga_settings_write(void);
-void delay_ms(u32 ms);
-void acquisition_dispatcher(void);
-void settings_g_save(void);
-void state_restore_all(void);
-void gen_update(void);
 #define F32(a) (*(volatile float *)(a))
 
 static double measure(u32 a, u32 b, u32 range)

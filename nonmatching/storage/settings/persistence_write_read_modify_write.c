@@ -6,10 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-int persistence_read(u32 dev, u32 addr, volatile unsigned char *buf, u32 len);
-int spi_flash_sector_erase(u32 dev, u32 addr);
-void spi_flash_write_paged(u32 dev, u32 addr, u32 buf, u32 len);
+#include "drivers/spi.h"
+#include "storage/settings.h"
 
 #define SECTOR_BUF ((volatile unsigned char *)0x42E5E010u)
 

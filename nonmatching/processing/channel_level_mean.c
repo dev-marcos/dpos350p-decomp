@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "fpga.h"
+#include "processing.h"
 
 u32 channel_level_mean(u32 start, u32 ch, u32 n, unsigned char *buf)
 {

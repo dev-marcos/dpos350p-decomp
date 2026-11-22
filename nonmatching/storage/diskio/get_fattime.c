@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "storage/diskio.h"
 
 u32 get_fattime(void)
 {

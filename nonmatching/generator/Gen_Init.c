@@ -6,8 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void gen_update(void);
+#include "generator.h"
+#include "storage/files.h"
 
 void Gen_Init(void)
 {

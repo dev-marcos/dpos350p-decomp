@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "generator.h"
+#include "util.h"
 
 void gen_table_repeat(u32 off, u32 r1, volatile touch_t *t)
 {

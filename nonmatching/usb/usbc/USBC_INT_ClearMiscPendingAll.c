@@ -4,5 +4,6 @@
  * INTUSB = 0xFF.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void USBC_INT_ClearMiscPendingAll(void) { REG8(USBC_INTUSB) = 0xFF; }

@@ -14,7 +14,6 @@ FRESULT fill_first_frag (
 	FRESULT res;
 	DWORD cl, n;
 
-
 	if (obj->stat == 3) {	/* Has the object been changed 'fragmented' in this session? */
 		for (cl = obj->sclust, n = obj->n_cont; n; cl++, n--) {	/* Create cluster chain on the FAT */
 			res = put_fat(obj->fs, cl, cl + 1);

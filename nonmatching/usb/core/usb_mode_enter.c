@@ -6,9 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void usb_disk_geometry_update(void);
-void usb_device_init(u32 mode);
+#include "usb/core.h"
+#include "usb/mass_storage.h"
 
 void usb_mode_enter(void)
 {

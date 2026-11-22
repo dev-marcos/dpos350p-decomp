@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/windows.h"
 
 #define WIN(id)  ((volatile unsigned char *)(0x42E64520u + (id) * 14u))
 #define WSTK     ((volatile unsigned char *)0x42E68BC8u)
@@ -13,48 +14,6 @@
 #define fb_front ((unsigned short *)0x41FB8FE8u)
 #define fb_back  ((unsigned short *)0x41BFBF68u)
 #define fb_off   ((unsigned short *)0x4233CBBCu)
-void ui_window_01_redraw(void);
-void ui_window_02_redraw(void);
-void ui_window_03_redraw(void);
-void ui_window_04_redraw(void);
-void ui_window_05_redraw(void);
-void ui_window_06_redraw(u32 anim);
-void ui_window_07_redraw(u32 anim);
-void ui_window_08_redraw(u32 anim);
-void ui_window_09_redraw(u32 anim);
-void ui_window_10_redraw(u32 anim);
-void ui_window_11_redraw(u32 anim);
-void ui_window_12_redraw(u32 anim);
-void ui_window_13_redraw(u32 anim);
-void ui_window_14_redraw(u32 anim);
-void ui_window_15_redraw(u32 anim);
-void ui_window_16_redraw(u32 anim);
-void ui_window_17_redraw(u32 anim);
-void ui_window_18_redraw(u32 anim);
-void ui_window_19_redraw(void);
-void ui_window_20_redraw(u32 anim);
-void ui_window_21_redraw(u32 anim);
-void ui_window_22_redraw(u32 anim);
-void ui_window_23_redraw(void);
-void ui_window_24_redraw(u32 anim);
-void ui_window_25_redraw(u32 anim);
-void ui_window_26_redraw(u32 anim);
-void ui_window_27_redraw(u32 anim);
-void ui_window_28_redraw(void);
-void ui_window_29_redraw(u32 anim);
-void ui_window_30_redraw(u32 anim);
-void ui_window_31_redraw(u32 anim);
-void ui_window_32_redraw(u32 anim);
-void ui_window_33_redraw(u32 anim);
-void ui_window_34_redraw(void);
-void ui_window_35_redraw(void);
-void ui_window_36_redraw(void);
-void ui_window_37_redraw(u32 anim);
-void ui_window_38_redraw(void);
-void ui_window_39_redraw(void);
-void ui_window_40_redraw(void);
-void ui_window_41_redraw(u32 anim);
-void ui_window_42_redraw(u32 anim);
 
 void ui_window_redraw_dirty(void)
 {

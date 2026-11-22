@@ -4,5 +4,6 @@
  * INTUSBE = 0.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void USBC_INT_DisableUsbMiscAll(void) { REG8(USBC_INTUSBE) = 0; }

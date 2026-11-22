@@ -4,13 +4,12 @@
  * Copy 7 bytes of SET_LINE_CODING data to line_coding; clear the 'waiting for data' flag.
  */
 #include "hw/usb.h"
+#include "usb/cdc.h"
+#include "usb/mass_storage.h"
 
 #define setup_req      ((unsigned char *)0x42E68C58u)   /* copy of the last setup packet */
 #define line_coding    ((unsigned char *)0x40095484u)   /* 7 bytes */
 #define line_coding_rx (*(u32 *)0x42E68CECu)
-void usb_mass_send_data(unsigned char *buf, int len);
-void usb_mass_send_csw(u32 status, u32 next);
-void usb_mass_set_sense(u32 lun, u32 key, u32 asc);
 
 void usb_cdc_store_line_coding(unsigned char *buf)
 {

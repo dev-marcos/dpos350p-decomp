@@ -6,11 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void timebase_index_set(u32 v);
-void zoom_index_set(u32 v);
-void sys_word_pair_570_set(u32 lo, u32 hi);
-void sys_word_pair_578_set(u32 lo, u32 hi);
+#include "acquisition.h"
+#include "processing.h"
 
 void zoom_reset(void)
 {

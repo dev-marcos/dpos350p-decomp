@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void calibration_gain_baseline_clamp_conversion(u32 b, u32 ch, volatile unsigned short *buf, u32 nb, u32 slot, u32 phase, u32 count);
+#include "acquisition.h"
 
 void bank_unpack_4_7(volatile unsigned short *buf, u32 ch)
 {

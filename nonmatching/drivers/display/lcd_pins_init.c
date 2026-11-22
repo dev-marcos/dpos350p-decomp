@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/display.h"
+#include "drivers/pio.h"
 
 void lcd_pins_init(void)
 {

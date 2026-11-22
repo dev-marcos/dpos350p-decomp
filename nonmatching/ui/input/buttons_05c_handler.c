@@ -6,20 +6,14 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "frontend.h"
+#include "system.h"
+#include "ui/input.h"
+#include "ui/windows.h"
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
-void ui_window_close(u32 id);
-void ui_window_open(u32 id);
-void ui_window_invalidate_from(u32 id, u32 r1);
 void inv_left(u32 id) __asm__("ui_window_invalidate_from");
-
-void touch_group_005C(void);
-void state_restore_all(void);
-void auto_set(void);
-void sys_word_pair_570_set(u32 lo, u32 hi);
-void sys_word_pair_578_set(u32 lo, u32 hi);
-void frontend_apply_all(void);
-void trigger_level_auto(void);
 
 static void level_apply(void)
 {

@@ -6,18 +6,12 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "bode.h"
+#include "processing.h"
+#include "ui/screens.h"
+#include "ui/windows.h"
 
 #define G8(o) (*(volatile unsigned char *)(0x42E180C8u + (o)))
-void trace_cursor_limits(void);
-void trace_defaults_37b48(void);
-void bode_sweep_run(void);
-void bode_grid_draw(void);
-void bode_autoscale(void);
-void bode_curves_zoom(void);
-void bode_curves_draw(void);
-void ui_window_invalidate_from(u32 id, u32 r1);
-void trace_cursor_values(void);
-void func_40037c3c_unless_t17(void);
 
 void trace_update_chain(void)
 {

@@ -19,7 +19,6 @@ FRESULT f_getfree (
 	UINT i;
 	FFOBJID obj;
 
-
 	/* Get logical drive */
 	res = find_volume(&path, &fs, 0);
 	if (res == FR_OK) {

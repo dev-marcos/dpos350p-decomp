@@ -4,6 +4,7 @@
  * TX/RX dispatch (EP0 not supported).
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void USBC_ConfigFifo(u32 ep_type, u32 is_double_fifo, u32 fifo_size, u32 fifo_addr)
 {

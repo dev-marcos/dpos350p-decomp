@@ -6,16 +6,14 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "util.h"
 
-void runtime_ready_read(void);
-void timebase_apply_2b0(void);
-void stream_geometry_fpga_selector_0x22_configuration(void);
-void capture_banks_all(void);
-void capture_banks_0_3(void);
-void capture_banks_4_7(void);
-void bank_unpack_0_3(u32 buf, u32 ch);
-void bank_unpack_4_7(u32 buf, u32 ch);
-void bank_unpack_all(u32 buf, u32 ch);
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void bank_unpack_0_3_raw(u32 buf, u32 ch) __asm__("bank_unpack_0_3");
+void bank_unpack_4_7_raw(u32 buf, u32 ch) __asm__("bank_unpack_4_7");
+void bank_unpack_all_raw(u32 buf, u32 ch) __asm__("bank_unpack_all");
 
 void one_runtime_capture_step(void)
 {
@@ -36,10 +34,10 @@ void one_runtime_capture_step(void)
         m = SYS8(0x100);
         if (m == 0) {
             capture_banks_0_3();
-            bank_unpack_0_3(SYS32(0x7B4), 0);
+            bank_unpack_0_3_raw(SYS32(0x7B4), 0);
         } else if (m == 1) {
             capture_banks_all();
-            bank_unpack_all(SYS32(0x7B4), 0);
+            bank_unpack_all_raw(SYS32(0x7B4), 0);
         }
     }
     if (SYS8(0x102) != 0) {
@@ -47,10 +45,10 @@ void one_runtime_capture_step(void)
         m = SYS8(0x100);
         if (m == 0) {
             capture_banks_4_7();
-            bank_unpack_4_7(SYS32(0x7B8), 1);
+            bank_unpack_4_7_raw(SYS32(0x7B8), 1);
         } else if (m == 2) {
             capture_banks_all();
-            bank_unpack_all(SYS32(0x7B8), 1);
+            bank_unpack_all_raw(SYS32(0x7B8), 1);
         }
     }
     copy_u16((unsigned short *)(0x42AC7CF4u + SYS32(0x6FC) * 2), (const unsigned short *)(SYS32(0x7B4) + SYS32(0x704) * 2), SYS16(0x6F6));

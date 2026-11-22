@@ -6,22 +6,11 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void draw_colour_set(u32 c);
-void rect_fill(u32 x, u32 y, u32 w, u32 h);
-void rect_outline_draw(u32 x, u32 y, u32 w, u32 h);
-void vline_draw(u32 x, u32 y0, u32 y1);
-void func_4002ecc4_span(u32 y, u32 x0, u32 x1);
-void half_42e68be2_set(u32 a);
-void word_42e68c74_set(u32 a);
-void text_draw(u32 x, u32 y, const char *s);
-u32 text_width(const char *s);
-void text_shadow_draw(u32 x, u32 y, const char *s, u32 n, unsigned char m, unsigned char alpha);
-void text_d6f8_shadow_draw(u32 x, u32 y, u32 a, u32 b, unsigned char e, unsigned char n, unsigned char m,
-                           unsigned char alpha);
-void draw_text_shadowed(u32 x, u32 y, u32 s, u32 dx, u32 dy, u32 col);
-void touch_button_set_rect(u32 x, u32 y, u32 wd, u32 ht, volatile unsigned char *b);
-void copy_u16(unsigned short *d, const unsigned short *s, u32 n);
+#include "storage/files.h"
+#include "ui/draw.h"
+#include "ui/input.h"
+#include "ui/screens.h"
+#include "util.h"
 
 #define U16(v)    ((v) & 0xFFFFu)
 #define LAY16(o)  (*(volatile unsigned short *)(0x42E64520u + (o)))
@@ -125,7 +114,6 @@ static void tb_bars(u32 x, u32 y, u32 w, u32 img, u32 title, u32 bar_rec)
     }
 }
 
-
 static void tb_draw(u32 lay, void (*path)(u32), u32 grid_rec, u32 img, u32 title, u32 bar_rec)
 {
     u32 x = LAY16(lay), y = LAY16(lay + 2), w = LAY16(lay + 4), h = LAY16(lay + 6);
@@ -174,9 +162,6 @@ static void tb_draw(u32 lay, void (*path)(u32), u32 grid_rec, u32 img, u32 title
 bars:
     tb_bars(x, y, w, img, title, bar_rec);
 }
-
-void number_text_88c0(u32 v);
-void list_c_record_preview(u32 v);
 
 #define NAME_C    ((const char *)(0x40544E68u + 0x88C0u))
 #define PLOT(i)   (*(volatile unsigned short *)(0x40544E68u + 0x10968Eu + 2 * (i)))

@@ -6,9 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void level_value_draw(u32 x, u32 y, u32 c, double v);
-void text_draw(u32 x, u32 y, const char *s);
+#include "ui/draw.h"
 
 void level_label_dbmv(u32 x, u32 y, u32 c, double v)
 {

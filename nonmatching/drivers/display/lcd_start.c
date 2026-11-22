@@ -6,11 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void tcon_clock_off(void);
-void de_clock_off(void);
-void lcd_pins_init(void);
-void display_init(u32 width, u32 height, u32 fb);
+#include "drivers/display.h"
 
 void lcd_start(void)
 {

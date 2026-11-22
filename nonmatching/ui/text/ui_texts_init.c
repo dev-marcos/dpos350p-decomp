@@ -6,21 +6,24 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/text.h"
 
-void ui_text_set_lang1(u32 k, const char *s, u32 a, u32 b);
-void ui_text_set_lang2(u32 k, const char *s, u32 a, u32 b);
-void ui_text_set_lang3(u32 k, const char *s, u32 a, u32 b);
-void ui_text_set_lang4(u32 k, const char *s, u32 a, u32 b);
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void ui_text_set_lang1_raw(u32 k, const char *s, u32 a, u32 b) __asm__("ui_text_set_lang1");
+void ui_text_set_lang2_raw(u32 k, const char *s, u32 a, u32 b) __asm__("ui_text_set_lang2");
+void ui_text_set_lang3_raw(u32 k, const char *s, u32 a, u32 b) __asm__("ui_text_set_lang3");
+void ui_text_set_lang4_raw(u32 k, const char *s, u32 a, u32 b) __asm__("ui_text_set_lang4");
 
 #define S(a) ((const char *)(a##u))
 
 static void ut(u32 k, const char *zh, int zx, int zy, const char *en, int ex, int ey,
                const char *ru, int rx, int ry, const char *pt, int px, int py)
 {
-    ui_text_set_lang1(k, zh, zx, zy);
-    ui_text_set_lang2(k, en, ex, ey);
-    ui_text_set_lang3(k, ru, rx, ry);
-    ui_text_set_lang4(k, pt, px, py);
+    ui_text_set_lang1_raw(k, zh, zx, zy);
+    ui_text_set_lang2_raw(k, en, ex, ey);
+    ui_text_set_lang3_raw(k, ru, rx, ry);
+    ui_text_set_lang4_raw(k, pt, px, py);
 }
 
 /* comments: the English column */

@@ -4,6 +4,8 @@
  * Reverse of usb_phy_open_clock_Device.
  */
 #include "hw/usb.h"
+#include "drivers/uart.h"
+#include "usb/phy.h"
 
 u32 usb_phy_close_clock_Device(void)
 {

@@ -4,6 +4,8 @@
  * Wait for TX FIFO not full (USR bit 1), write THR. Port 0/1/2 = 0x01C28000/400/800 (another port uses an unset register: OPEN, not tested).
  */
 #include "hw/platform.h"
+#include "drivers/mmio.h"
+#include "drivers/uart.h"
 
 void uart_putc(int port, int c)
 {

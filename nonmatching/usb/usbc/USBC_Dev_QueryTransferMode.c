@@ -4,5 +4,6 @@
  * PCTL bit 4 (HS flag): 3 = HS, else 2 = FS.
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 u32 USBC_Dev_QueryTransferMode(void) { return (REG8(USBC_PCTL) & 0x10) ? 3 : 2; }

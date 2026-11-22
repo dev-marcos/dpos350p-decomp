@@ -17,7 +17,6 @@ void put_lfn (
 	UINT i, s;
 	WCHAR wc;
 
-
 	dir[LDIR_Chksum] = sum;			/* Set checksum */
 	dir[LDIR_Attr] = AM_LFN;		/* Set attribute. LFN entry */
 	dir[LDIR_Type] = 0;

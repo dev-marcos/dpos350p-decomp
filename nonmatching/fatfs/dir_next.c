@@ -15,7 +15,6 @@ FRESULT dir_next (	/* FR_OK(0):succeeded, FR_NO_FILE:End of table, FR_DENIED:Cou
 	DWORD ofs, clst;
 	FATFS *fs = dp->obj.fs;
 
-
 	ofs = dp->dptr + SZDIRE;	/* Next entry */
 	if (dp->sect == 0 || ofs >= (DWORD)((FF_FS_EXFAT && fs->fs_type == FS_EXFAT) ? MAX_DIR_EX : MAX_DIR)) return FR_NO_FILE;	/* Report EOT when offset has reached max value */
 

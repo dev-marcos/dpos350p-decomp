@@ -6,10 +6,11 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/text.h"
+#include "util.h"
 
 #define TXT(k) (0x42C2FE74u + (k) * 0x1A0u)   /* 141 entries of 0x1A0 bytes */
 #define TB(a)   (*(volatile unsigned char *)(a))
-unsigned char *str_copy(unsigned char *d, const unsigned char *s);
 
 void ui_text_set_lang4(u32 k, const unsigned char *s, u32 a, u32 b)
 {

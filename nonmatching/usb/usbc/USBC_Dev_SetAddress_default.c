@@ -4,5 +4,6 @@
  * FADDR = 0 (falls into 0x4006C770).
  */
 #include "hw/usb.h"
+#include "usb/usbc.h"
 
 void USBC_Dev_SetAddress_default(void) { REG8(USBC_FADDR) = 0; }

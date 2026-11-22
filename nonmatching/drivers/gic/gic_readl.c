@@ -4,5 +4,6 @@
  * Register read (copy in the GIC source file).
  */
 #include "hw/platform.h"
+#include "drivers/gic.h"
 
 u32 gic_readl(u32 addr) { return REG32(addr); }

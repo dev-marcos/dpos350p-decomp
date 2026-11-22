@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "drivers/fpga_bus.h"
 
 void acq_done_read(void)
 {

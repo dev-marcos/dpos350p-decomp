@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "generator.h"
 
 #define SINT ((volatile int *)0x42D564B4u)
 

@@ -6,13 +6,12 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "processing.h"
+#include "storage/files.h"
+#include "ui/input.h"
+#include "ui/windows.h"
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
-void ui_window_open(u32 id);
-
-void touch_group_0002(void);
-void list_b_save_new(void);
-void zoom_reset(void);
 
 void main_menu_buttons(void)
 {

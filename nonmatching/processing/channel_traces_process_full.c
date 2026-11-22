@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void trace_process_full(u32 tr);
+#include "processing.h"
 
 void channel_traces_process_full(u32 ch)
 {

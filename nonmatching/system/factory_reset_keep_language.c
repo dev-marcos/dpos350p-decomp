@@ -6,12 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void factory_defaults(void);
-void settings_f_save(void);
-void settings_slot_save(void);
-void settings_b_save(void);
-void wdt_system_reset(void);
+#include "drivers/wdt.h"
+#include "storage/settings.h"
+#include "system.h"
 
 void factory_reset_keep_language(void)
 {

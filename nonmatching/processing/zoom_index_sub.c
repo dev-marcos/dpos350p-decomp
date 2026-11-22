@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void zoom_index_fit(void);
+#include "processing.h"
 
 void zoom_index_sub(u32 d)
 {

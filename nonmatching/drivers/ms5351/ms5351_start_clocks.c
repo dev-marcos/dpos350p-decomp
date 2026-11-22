@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/ms5351.h"
 
 void ms5351_start_clocks(void)
 {

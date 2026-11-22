@@ -6,13 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void fft_levels_db(void);
-void levels_samples_window(void);
-void marker_values_compute(void);
-void level_stats_5f010(void);
-void level_stats_60008(void);
-void level_stats_61000(void);
+#include "processing.h"
 
 void levels_update_chain(void)
 {

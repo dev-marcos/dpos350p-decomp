@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "drivers/pio.h"
+#include "fpga.h"
 
 void pe0_set(void)
 {

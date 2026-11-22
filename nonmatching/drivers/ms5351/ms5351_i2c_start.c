@@ -4,6 +4,9 @@
  * MS5351M bit-banged I2C START.
  */
 #include "hw/drivers.h"
+#include "drivers/ms5351.h"
+#include "drivers/pio.h"
+#include "drivers/timer.h"
 
 #define PE ((pio_port_t *)PIO_PE)
 

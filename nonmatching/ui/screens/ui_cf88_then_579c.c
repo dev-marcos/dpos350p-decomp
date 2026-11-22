@@ -6,9 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void ui_layout_init(void);
-void ui_text_init(void);
+#include "ui/screens.h"
+#include "ui/text.h"
+#include "ui/windows.h"
 
 void ui_cf88_then_579c(void)
 {

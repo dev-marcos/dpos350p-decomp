@@ -4,6 +4,12 @@
  * READ CAPACITY(10): last LBA and block size, big endian, at 0x42E68C48.
  */
 #include "hw/usb.h"
+#include "usb/mass_storage.h"
+#include "usb/phy.h"
+
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void usb_phy_nop_raw(u32 x) __asm__("usb_phy_nop");
 
 #define cbw            ((unsigned char *)0x42E68B90u)   /* 31-byte command block wrapper */
 #define CBW_SIG        (*(u32 *)0x42E68B90u)
@@ -27,15 +33,6 @@
 #define max_lun_rsp    (*(unsigned char *)0x42E68D1Eu)
 #define max_lun        (*(volatile u32 *)0x42E68D23u)   /* read as an unaligned word by the CBW check */
 #define sense_data     ((unsigned char *)0x40095400u)   /* 18-byte fixed-format sense */
-void usb_mass_send_data(unsigned char *buf, int len);
-void usb_mass_send_csw(u32 status, u32 next);
-void usb_mass_set_sense(u32 lun, u32 key, u32 asc);
-int usb_mass_write(int unused, unsigned char *buf, int len);
-int scsi_lun_invalid(u32 lun);
-int scsi_check_range(u32 lun, u32 op, u32 lba, u32 count);
-void usb_mass_disk_read(u32 lun, u32 lba, u32 count);
-void usb_mass_disk_write(u32 lun, u32 lba, u32 count);
-void usb_phy_nop(u32 x);
 
 void scsi_read_capacity10(u32 lun)
 {
@@ -44,7 +41,7 @@ void scsi_read_capacity10(u32 lun)
     if (scsi_lun_invalid(lun)) {
         usb_mass_set_sense(CBW_LUN, 2, 0x3A);   /* NOT READY, MEDIUM NOT PRESENT */
         usb_mass_send_csw(1, 1);
-        usb_phy_nop(0);
+        usb_phy_nop_raw(0);
         return;
     }
     n = lun_blocks[lun] - 1;

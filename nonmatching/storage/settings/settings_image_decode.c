@@ -6,11 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void settings_h_decode(void);
-void settings_block_448b4_decode(void);
-void settings_i_decode(void);
-void settings_j_decode(void);
+#include "storage/settings.h"
 
 void settings_image_decode(void)
 {

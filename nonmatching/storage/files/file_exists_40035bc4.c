@@ -6,10 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-int f_open(void *fp, const char *path, unsigned char mode);
-int f_close(void *fp);
-void waveform_path_make(u32 a);
+#include "fatfs_app.h"
+#include "storage/files.h"
 
 u32 file_exists_40035bc4(u32 a)
 {

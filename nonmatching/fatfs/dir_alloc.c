@@ -16,7 +16,6 @@ FRESULT dir_alloc (	/* FR_OK(0):succeeded, !=0:error */
 	UINT n;
 	FATFS *fs = dp->obj.fs;
 
-
 	res = dir_sdi(dp, 0);
 	if (res == FR_OK) {
 		n = 0;

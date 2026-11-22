@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "generator.h"
 
 void gen_table_repeat_default(void)
 {

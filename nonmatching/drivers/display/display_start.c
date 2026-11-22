@@ -6,12 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void draw_state_defaults(void);
-void draw_colour_set(u32 c);
-void word_42e68c74_set(u32 a);
-void lcd_start(void);
-void fb_clear_all(void);
+#include "drivers/display.h"
+#include "ui/draw.h"
 
 void display_start(void)
 {

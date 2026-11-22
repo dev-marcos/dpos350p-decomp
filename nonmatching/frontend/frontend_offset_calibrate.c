@@ -6,6 +6,16 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "drivers/timer.h"
+#include "fpga.h"
+#include "frontend.h"
+#include "processing.h"
+#include "system.h"
+
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+u32 channel_level_mean_raw(u32 a, u32 ch, u32 n, u32 p) __asm__("channel_level_mean");
 
 #define SYS 0x40544E68u
 #define TCH 0x42E68BB0u
@@ -18,17 +28,11 @@
 #define DIV W32(SYS + 0x26C)
 #define FLIP B8(SYS + 0x1B2)
 
-void acq_defaults_reset(void);
-void fpga_write_sel_0x2a(void);
-void fpga_write_sel_0x2d(void);
-void fpga_channel_mode_apply(void);
-u32 channel_level_mean(u32 a, u32 ch, u32 n, u32 p);
-
 static u32 mean(u32 ch)
 {
     B8(SYS + 0x100) = ch + 1;
     fpga_channel_mode_apply();
-    return channel_level_mean(1, ch, 2000, K);
+    return channel_level_mean_raw(1, ch, 2000, K);
 }
 
 /* one step of the search for channel ch: narrows lo / hi around mid, returns 1 when the level is inside lo_ok .. hi_ok */

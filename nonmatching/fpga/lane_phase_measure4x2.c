@@ -6,9 +6,14 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "fpga.h"
+#include "system.h"
 
-void fpga_pe_mode_select(u32 mode);
-void stream_geometry_fpga_selector_0x22_configuration(void);
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+void bank_unpack_0_3_n_raw(u32 dst, u32 ch, u32 n) __asm__("bank_unpack_0_3_n");
+void second_conversion_wrapper_raw(u32 dst, u32 ch, u32 n) __asm__("second_conversion_wrapper");
 
 #define LPH_LEVEL 0x3E80
 
@@ -43,11 +48,6 @@ static void lph_capture_setup(void)
     stream_geometry_fpga_selector_0x22_configuration();
 }
 
-void capture_banks_0_3(void);
-void capture_banks_4_7(void);
-void bank_unpack_0_3_n(u32 dst, u32 ch, u32 n);
-void second_conversion_wrapper(u32 dst, u32 ch, u32 n);
-
 static void lph_out4(int *m, const u32 *sum, const u32 *cnt)
 {
     double q[4], s, r[4], c;
@@ -78,10 +78,10 @@ void lane_phase_measure4x2(int *m1, int *m2)
         acq_wait_done();
         lph_capture_setup();
         capture_banks_0_3();
-        bank_unpack_0_3_n(0x42C62AF4u, 0, SYS16(0x640));
+        bank_unpack_0_3_n_raw(0x42C62AF4u, 0, SYS16(0x640));
         lph_capture_setup();
         capture_banks_4_7();
-        second_conversion_wrapper(0x42C7B964u, 1, SYS16(0x640));
+        second_conversion_wrapper_raw(0x42C7B964u, 1, SYS16(0x640));
         lph_scan((const volatile unsigned short *)0x42C62B58u, 0x4DEE, 4, sum1, cnt1);
         lph_scan((const volatile unsigned short *)0x42C7B9C8u, 0x4DEE, 4, sum2, cnt2);
         lph_out4(m1, sum1, cnt1);

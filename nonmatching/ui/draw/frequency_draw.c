@@ -6,11 +6,13 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "libc.h"
+#include "ui/draw.h"
 
-void func_4002d82c_flag0(u32 x, u32 y, u32 lo, u32 hi, u32 dec);
-u32 func_4002d2d4_d0(u32 lo, u32 hi, u32 dec);
-u32 text_width(const char *s);
-void text_draw(u32 x, u32 y, const char *s);
+/* Same functions, declared the way the stock code calls them (see the definitions for the
+ * full interface): the C must pass exactly these registers. */
+u32 func_4002d2d4_d0_raw(u32 lo, u32 hi, u32 dec) __asm__("func_4002d2d4_d0");
+
 #define TW (*(volatile unsigned short *)0x42E68BE4u)
 
 u32 frequency_draw(u32 x, u32 y, u32 measure, double d)
@@ -58,7 +60,7 @@ u32 frequency_draw(u32 x, u32 y, u32 measure, double d)
             q++;
     }
     if (measure)
-        return func_4002d2d4_d0((u32)q, (u32)((unsigned long long)q >> 32), dec) + text_width(u) + 4;
+        return func_4002d2d4_d0_raw((u32)q, (u32)((unsigned long long)q >> 32), dec) + text_width(u) + 4;
     func_4002d82c_flag0(x, y, (u32)q, (u32)((unsigned long long)q >> 32), dec);
     text_draw((unsigned short)(x + TW + 4), y, u);
     return 0;

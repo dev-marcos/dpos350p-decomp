@@ -4,16 +4,11 @@
  * PE0, PE2, PE3 function 2 (CSI PCLK/HSYNC/VSYNC), PE8..PE15 function 2 (data) via PE_CFG1 = 0x22222222.
  */
 #include "hw/platform.h"
+#include "drivers/csi.h"
+#include "drivers/pio.h"
+#include "stock_asm.h"
 
 #define csi_base_tbl ((u32 *)0x42E68C50u)
-u32 csi_readl(u32 addr);
-void csi_writel(u32 addr, u32 v);
-void csi_setbits(u32 addr, u32 bits);
-void csi_clrbits(u32 addr, u32 bits);
-void csi_clrsetbits(u32 addr, u32 clr, u32 set);
-void dcache_clean_inv_all(void);
-void csi_writel_t(u32 addr, u32 v);
-u32 csi_readl_t(u32 addr);
 
 void csi_pins_init(void)
 {

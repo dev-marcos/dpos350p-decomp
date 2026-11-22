@@ -6,8 +6,9 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
-
-void csi_init_structs(u32 v);
+#include "acquisition.h"
+#include "drivers/csi.h"
+#include "drivers/fpga_bus.h"
 
 void stream_geometry_fpga_selector_0x22_configuration(void)
 {

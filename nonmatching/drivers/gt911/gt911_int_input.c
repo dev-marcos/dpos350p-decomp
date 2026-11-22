@@ -4,6 +4,8 @@
  * GT911: PE24 (INT) back to input.
  */
 #include "hw/drivers.h"
+#include "drivers/gt911.h"
+#include "drivers/pio.h"
 
 void gt911_int_input(void)
 {

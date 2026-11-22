@@ -6,6 +6,7 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "ui/draw.h"
 
 /* Formats v with dec decimals into buf: 16 digits are taken (digit 15 is v / 10^15, so it can
    exceed 9), leading zeros above the units digit are dropped. mode 0: '-' when negative; mode 1:
@@ -45,8 +46,6 @@ static void number_format(char *buf, long long v, int dec, int mode)
         buf[p++] = (char)d[k];
     buf[p] = 0;
 }
-
-void text_draw(u32 x, u32 y, const char *s);
 
 void number_draw(u32 x, u32 y, long long v, unsigned char dec, signed char mode)
 {

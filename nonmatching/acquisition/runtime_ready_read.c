@@ -6,6 +6,8 @@
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
+#include "acquisition.h"
+#include "drivers/fpga_bus.h"
 
 void runtime_ready_read(void)
 {

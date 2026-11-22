@@ -17,7 +17,6 @@ FRESULT put_fat (	/* FR_OK(0):succeeded, !=0:error */
 	BYTE *p;
 	FRESULT res = FR_INT_ERR;
 
-
 	if (clst >= 2 && clst < fs->n_fatent) {	/* Check if in valid range */
 		switch (fs->fs_type) {
 		case FS_FAT12 :
