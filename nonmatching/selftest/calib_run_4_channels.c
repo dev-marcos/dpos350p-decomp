@@ -9,24 +9,23 @@
 #include "processing.h"
 #include "selftest.h"
 #include "storage/settings.h"
+#include "state/levels_block.h"
 
-#define CB8(o)  (*(volatile unsigned char *)(0x42E68668u + (o)))
-#define CB32(o) (*(volatile u32 *)(0x42E68668u + (o)))
 
 void calib_run_4_channels(void)
 {
     u32 old, i;
-    CB8(0x190) = 1;
-    old = CB32(0xF4);
-    CB8(5) = 1;
+    LEVELS(f_190) = 1;
+    old = LEVELS(spur_mode);
+    LEVELS(f_005) = 1;
     for (i = 0; i < 4; i++) {
-        CB32(0xF4) = i;
+        LEVELS(spur_mode) = i;
         levels_view_layout();
         auto_level_search();
         fft_spur_cancel();
         fft_spur_capture();
     }
-    CB8(0x190) = 0;
-    CB32(0xF4) = old & 0xFF;
+    LEVELS(f_190) = 0;
+    LEVELS(spur_mode) = old & 0xFF;
     settings_c_save();
 }

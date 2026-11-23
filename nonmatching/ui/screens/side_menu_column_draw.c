@@ -10,14 +10,13 @@
 #include "ui/input.h"
 #include "ui/screens.h"
 #include "sys_info.h"
+#include "state/ui_windows.h"
 
 #define SYS 0x40544E68u
-#define LAY 0x42E64520u              /* UI layout table */
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed */
 #define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
 #define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define ENT(n) (TXT + 0x1A0 * (n))
 
@@ -40,7 +39,7 @@ static void icon_rec(u32 x, u32 y, u32 yi, u32 img, u32 rec)
 
 void side_menu_column_draw(void)
 {
-    u32 x = H16(LAY + 0x22) + 2, y = H16(LAY + 0x24);
+    u32 x = WREC(2, x) + 2, y = WREC(2, y);
 
     draw_colour_set(W32(TB));
     rect_fill(x & 0xFFFF, y, 0x40, 0x47);

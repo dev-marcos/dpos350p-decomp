@@ -9,6 +9,7 @@
 #include "ui/input.h"
 #include "ui/windows.h"
 #include "sys_info.h"
+#include "state/touch_buttons.h"
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
 
@@ -19,15 +20,15 @@ void buttons_ac_open_windows(void)
     for (i = 0; i < 6; i++) {
         if (TB(0xAC + 10 * i) == 2) {
             TB(0xAC + 10 * i) = 0;
-            TB(0) = 0;
+            BREC_BYTE0 = 0;
             ui_window_open(0xD + i);
             return;
         }
     }
-    if (TB(0xE8) != 2)
+    if (BREC(23, state) != 2)
         return;
-    TB(0xE8) = 0;
-    TB(0) = 0;
+    BREC(23, state) = 0;
+    BREC_BYTE0 = 0;
     v = SI(f_671) == 0;
     SI(f_671) = v;
     ui_window_invalidate_from(3, v);

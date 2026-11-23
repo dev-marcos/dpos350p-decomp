@@ -10,10 +10,8 @@
 #include "drivers/ms5351.h"
 #include "fpga.h"
 #include "generator.h"
+#include "state/gen_block.h"
 
-#define GB8(o) (*(volatile unsigned char *)(0x42E3F984u + (o)))
-#define GB16(o) (*(volatile unsigned short *)(0x42E3F984u + (o)))
-#define GB32(o) (*(volatile u32 *)(0x42E3F984u + (o)))
 
 void gen_fpga_settings_write(void)
 {
@@ -21,37 +19,37 @@ void gen_fpga_settings_write(void)
     volatile unsigned short *smp;
     if (*(volatile unsigned char *)(0x42E68BB0u + 0x17))
         return;
-    f = GB16(0x2EF6) * GB32(0x2EFC);
-    c = GB32(0x2F5C);
+    f = GENS(period_len) * GENS(frequency);
+    c = GENS(f_2f5c);
     if (c > f)
         c = f;
     if (c < 2500) {
-        GB8(0x2F0C) = 1;
+        GENS(f_2f0c) = 1;
         c *= 10;
         if (c < 2500)
             c = 2500;
     } else {
-        GB8(0x2F0C) = 0;
+        GENS(f_2f0c) = 0;
     }
-    GB32(0x2F40) = c;
+    GENS(f_2f40) = c;
     ms5351_set_clk1(c);
     fpga_selector_command_write(0x31);
-    fpga_data_byte_write((GB32(0x2F38) >> 8) & 0xFF);
-    fpga_data_byte_write(GB32(0x2F38) & 0xFF);
+    fpga_data_byte_write((GENS(f_2f38) >> 8) & 0xFF);
+    fpga_data_byte_write(GENS(f_2f38) & 0xFF);
     fpga_selector_command_write(0x32);
-    fpga_data_byte_write((GB32(0x2F3C) >> 8) & 0xFF);
-    fpga_data_byte_write(GB32(0x2F3C) & 0xFF);
+    fpga_data_byte_write((GENS(f_2f3c) >> 8) & 0xFF);
+    fpga_data_byte_write(GENS(f_2f3c) & 0xFF);
     fpga_selector_command_write(0x3C);
-    fpga_data_byte_write(GB8(0x2F0C));
+    fpga_data_byte_write(GENS(f_2f0c));
     fpga_selector_command_write(0x3D);
     fpga_data_byte_write(1);
     fpga_selector_command_write(0x41);
-    fpga_data_byte_write(((GB16(0x2EF6) - 2) >> 8) & 0xFF);
-    fpga_data_byte_write((GB16(0x2EF6) - 2) & 0xFF);
+    fpga_data_byte_write(((GENS(period_len) - 2) >> 8) & 0xFF);
+    fpga_data_byte_write((GENS(period_len) - 2) & 0xFF);
     fpga_selector_command_write(0x44);
-    fpga_data_byte_write(GB8(0x2EFA) != 0);
+    fpga_data_byte_write(GENS(waveform) != 0);
     smp = (volatile unsigned short *)(0x42E3F984u + 0xFB6);
-    for (i = 0; i < GB16(0x2EF6); i++) {
+    for (i = 0; i < GENS(period_len); i++) {
         fpga_selector_command_write(0x3F);
         fpga_data_byte_write((i >> 8) & 0xFF);
         fpga_data_byte_write(i & 0xFF);
@@ -64,7 +62,7 @@ void gen_fpga_settings_write(void)
         fpga_selector_command_write(0x3E);
         fpga_data_byte_write(1);
     }
-    fpga_sel42_43_fill(GB16(0x2F46) & 0xFF);
+    fpga_sel42_43_fill(GENS(f_2f46) & 0xFF);
     fpga_selector_command_write(0x3D);
     fpga_data_byte_write(0);
 }

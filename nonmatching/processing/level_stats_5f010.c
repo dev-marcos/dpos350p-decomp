@@ -7,8 +7,8 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "state/levels_block.h"
 
-#define MB8(o) (*(volatile unsigned char *)(0x42E68668u + (o)))
 #define MB32(o) (*(volatile int *)(0x42E68668u + (o)))
 #define SRC (*(volatile short *volatile *)0x42E68CB0u)
 
@@ -41,7 +41,7 @@ void level_stats_5f010(void)
             mn = v;
         sum += v;
     }
-    MB32(0x160) = sdv((int)sum, n);
-    MB32(0x164) = mx;
-    MB32(0x168) = mn;
+    LEVELS(f_160) = sdv((int)sum, n);
+    LEVELS(f_164) = mx;
+    LEVELS(f_168) = mn;
 }

@@ -13,10 +13,11 @@
 #include "libc.h"
 #include "system.h"
 #include "sys_info.h"
+#include "state/bode_block.h"
+#include "state/gen_block.h"
 
 #define SYS 0x40544E68u
 #define BB 0x42E180C8u
-#define GEN 0x42E3F984u
 #define DREC 0x42E554B0u
 #define TOUCH 0x42E68BB0u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -36,10 +37,10 @@ void bode_point_measure(u32 f)
     double h = (double)SI(plot_height);
     hmax = (u32)(h * 0.8);
     hmin = (u32)(h * 0.3);
-    W(GEN + 0x2EFC) = f;
+    GENS(frequency) = f;
     gen_update();
     delay_ms(1);
-    f2 = W(GEN + 0x2EFC);
+    f2 = GENS(frequency);
     if ((int)f2 < 5000000) {
         SI(f_046) = 2;
         SI(f_10a) = 2;
@@ -75,10 +76,10 @@ void bode_point_measure(u32 f)
     }
 measure:
     for (;;) {
-        if (B8(BB + 0xAD18) == 0) {
+        if (BODES(sweep_busy) == 0) {
             runtime_event_service();
             if (B8(TOUCH + 0x15)) {
-                B8(BB + 0x47) = 0;
+                BODES(f_047) = 0;
                 break;
             }
         }

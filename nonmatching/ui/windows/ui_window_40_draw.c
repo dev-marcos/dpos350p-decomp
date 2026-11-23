@@ -12,14 +12,15 @@
 #include "ui/input.h"
 #include "ui/screens.h"
 #include "ui/windows.h"
+#include "state/levels_block.h"
 
 #define CB8(o)  (*(volatile unsigned char *)(0x42E68668u + (o)))
 
 void ui_window_40_draw(void)
 {
-    CB8(5) = 0;
+    LEVELS(f_005) = 0;
     levels_view_layout();
-    if (CB8(0) == 0 || CB8(4) == 0) {
+    if (CB8(0) == 0 || LEVELS(f_004) == 0) {
         auto_level_search();
         fft_spur_cancel();
         func_40061f10();

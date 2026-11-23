@@ -9,20 +9,19 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 #include "ui/screens.h"
+#include "state/ui_windows.h"
 
 #define SYS 0x40544E68u
-#define LAY 0x42E64520u              /* UI layout table */
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed */
 #define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
 #define B8(a) (*(volatile unsigned char *)(a))
 #define SB8(a) (*(volatile signed char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 
 void config_menu_draw(void)
 {
-    u32 x = H16(LAY + 0x68), y = H16(LAY + 0x6A), w = H16(LAY + 0x6C), h = H16(LAY + 0x6E);
+    u32 x = WREC(7, x), y = WREC(7, y), w = WREC(7, w), h = WREC(7, h);
     u32 x2, sl, e;
     int i;
 
@@ -42,8 +41,8 @@ void config_menu_draw(void)
         text_shadow_draw((x2 + 0x41 + SB8(e + 0x194)) & 0xFFFF, (sl + 3 + SB8(e + 0x195)) & 0xFFFF, (const char *)W32(e), 1, 2, 0);
         icon_19c7c_draw((x2 + 0x122) & 0xFFFF, sl & 0xFFFF);
         touch_button_set_rect(x2 & 0xFFFF, (sl - 0x14) & 0xFFFF, w, 0x3C, (volatile unsigned char *)(BTN + 0x106 + 0xA * i));
-        if (B8(BTN + 0x107 + 0xA * i) || B8(LAY + 0x67) == i + 1) {
-            B8(LAY + 0x67) = i + 1;
+        if (B8(BTN + 0x107 + 0xA * i) || WREC(7, f_5) == i + 1) {
+            WREC(7, f_5) = i + 1;
             draw_colour_set(W32(TH + 8));
             rect_fill(x2 & 0xFFFF, (sl - 0x14) & 0xFFFF, w, 0x3C);
         }

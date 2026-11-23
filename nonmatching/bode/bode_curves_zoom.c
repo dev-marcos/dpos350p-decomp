@@ -10,6 +10,7 @@
 #include "processing.h"
 #include "util.h"
 #include "sys_info.h"
+#include "state/bode_block.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -22,18 +23,18 @@
 
 static void zoom_one(u32 off)
 {
-    int c = (int)W32(BB + 0x5C);
+    int c = (int)BODES(freq_count);
     u32 n;
     copy_u16((unsigned short *)(MID - 2 * (u32)(c / 2)), (const unsigned short *)(BB + off), (u32)c + 100);
-    c = (int)W32(BB + 0x5C);
+    c = (int)BODES(freq_count);
     fill_u16((unsigned short *)(MID - 200 - 2 * (u32)(c / 2)), H16(BB + off), 100);
-    c = (int)W32(BB + 0x5C);
+    c = (int)BODES(freq_count);
     fill_u16((unsigned short *)(MID + 2 * (u32)(c / 2)), H16(BB + 2 * (u32)c + off - 2), 100);
-    if (W32(BB + 0x40) < 3 * SI(f_554))
-        simple_integer_index_mapping_nearest_neighbour(WS, 10000, H16(BB + 4), W32(BB + 0x40), 0, 0);
+    if (BODES(f_040) < 3 * SI(f_554))
+        simple_integer_index_mapping_nearest_neighbour(WS, 10000, BODES(f_004), BODES(f_040), 0, 0);
     else
-        floating_point_interpolation_resampling(WS, 10000, H16(BB + 4), W32(BB + 0x40), 0LL);
-    n = H16(BB + 4);
+        floating_point_interpolation_resampling(WS, 10000, BODES(f_004), BODES(f_040), 0LL);
+    n = BODES(f_004);
     copy_u16((unsigned short *)(BB + off), (const unsigned short *)(MID - (n & ~1u)), n);
 }
 
@@ -41,28 +42,28 @@ static void clamp_flip(u32 off)
 {
     volatile unsigned short *p = (volatile unsigned short *)(BB + off);
     u32 i, h;
-    if (H16(BB + 4) == 0)
+    if (BODES(f_004) == 0)
         return;
     i = 0;
     do {
         if ((short)*p < 3) {
             *p = 3;
         } else {
-            h = H16(BB + 6);
+            h = BODES(f_006);
             if ((int)(short)h - 3 < (int)(short)*p)
                 *p = (unsigned short)(0xFFFD + h);
         }
-        *p = (unsigned short)(H16(BB + 6) - *p);
+        *p = (unsigned short)(BODES(f_006) - *p);
         p++;
         i++;
-    } while (i < H16(BB + 4));
+    } while (i < BODES(f_004));
 }
 
 void bode_curves_zoom(void)
 {
     if (B8(0x42E68BB0u + 0x17))
         return;
-    W32(BB + 0x40) = H16(BB + 4) * SI(f_554) / W32(BB + 0x5C);
+    BODES(f_040) = BODES(f_004) * SI(f_554) / BODES(freq_count);
     zoom_one(0x8D20);
     zoom_one(0x9CC0);
     clamp_flip(0x8D20);

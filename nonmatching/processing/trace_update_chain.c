@@ -10,30 +10,30 @@
 #include "processing.h"
 #include "ui/screens.h"
 #include "ui/windows.h"
+#include "state/bode_block.h"
 
-#define G8(o) (*(volatile unsigned char *)(0x42E180C8u + (o)))
 
 void trace_update_chain(void)
 {
     trace_cursor_limits();
     trace_defaults_37b48();
-    if (G8(0x45) == 0)
+    if (BODES(running) == 0)
         bode_sweep_run();
     bode_grid_draw();
-    if (G8(0x47)) {
-        if (G8(0x45))
+    if (BODES(f_047)) {
+        if (BODES(running))
             goto redraw;
         bode_autoscale();
         bode_curves_zoom();
     }
-    if (G8(0x44) && G8(0x47) == 0)
+    if (BODES(loop) && BODES(f_047) == 0)
         goto done;
 redraw:
     bode_curves_draw();
-    if (G8(0x44) == 1) {
-        u32 k = G8(0x47);
+    if (BODES(loop) == 1) {
+        u32 k = BODES(f_047);
         if (k) {
-            G8(0x45) = 1;
+            BODES(running) = 1;
             ui_window_invalidate_from(0x22, k);
         }
     }

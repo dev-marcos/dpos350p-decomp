@@ -9,8 +9,8 @@
 #include "libc.h"
 #include "ui/draw.h"
 #include "ui/screens.h"
+#include "state/levels_block.h"
 
-#define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define S64(a) (*(volatile long long *)(a))
@@ -43,13 +43,13 @@ static void readout(u32 x, u32 y, u32 f, u32 l, u32 lc, u32 vlt, u32 vs)
 void levels_markers_draw(void)
 {
     u32 x, r4, m1, m2, n, i, r6, r8, r7, y;
-    if (W32(BLK + 0x58) == 0)
+    if (LEVELS(markers_on) == 0)
         return;
-    x = W32(BLK + 0xB0) + 1;
-    r4 = W32(BLK + 0xB4) + 2;
+    x = LEVELS(plot_x) + 1;
+    r4 = LEVELS(plot_y) + 2;
     m1 = W32(BLK + 0x5C);
     m2 = W32(BLK + 0x60);
-    n = (u32)((int)(W32(BLK + 0xC0) + W32(BLK + 0xB4) - r4 + 1) / 4);
+    n = (u32)((int)(LEVELS(plot_h) + LEVELS(plot_y) - r4 + 1) / 4);
     word_42e68c74_set(0x42E65418u);
     draw_colour_set(0x88FFFFFFu);
     if (n) {
@@ -60,14 +60,14 @@ void levels_markers_draw(void)
     }
     r6 = r4 + 0xB;
     r8 = r6 + 0xD;
-    r7 = m1 + W32(BLK + 0xB0);
+    r7 = m1 + LEVELS(plot_x);
     draw_colour_set(0xBBBBBB);
     marker_flag(r7, r4, r6, r8);
     draw_colour_set(0);
     half_42e68be2_set(2);
     text_draw((r7 - 3) & 0xFFFF, (r6 - 0xB) & 0xFFFF, (const char *)0x40060B90u);
     text_draw((r7 - 1) & 0xFFFF, (r6 - 2) & 0xFFFF, (const char *)0x40060B94u);
-    r7 = m2 + W32(BLK + 0xB0);
+    r7 = m2 + LEVELS(plot_x);
     draw_colour_set(0xBBBBBB);
     marker_flag(r7, r4, r6, r8);
     half_42e68be2_set(1);
@@ -77,8 +77,8 @@ void levels_markers_draw(void)
     half_42e68be2_set(1);
     word_42e68c74_set(0x42E658D8u);
     draw_colour_set(0xBBBBBB);
-    x = W32(BLK + 0xB0) + 0xA;
-    y = W32(BLK + 0xC0) + W32(BLK + 0xB4) - 0x37;
+    x = LEVELS(plot_x) + 0xA;
+    y = LEVELS(plot_h) + LEVELS(plot_y) - 0x37;
     half_42e68be2_set(4);
     text_draw(x & 0xFFFF, y & 0xFFFF, (const char *)0x40060B9Cu);
     half_42e68be2_set(2);
@@ -88,7 +88,7 @@ void levels_markers_draw(void)
     x += H16(ADV);
     readout(x, y, 0x68, 0x80, 1, 0x98, 1);
     y += 0x11;
-    x = W32(BLK + 0xB0) + 0xA;
+    x = LEVELS(plot_x) + 0xA;
     half_42e68be2_set(3);
     text_draw(x & 0xFFFF, y & 0xFFFF, (const char *)0x40060D64u);
     half_42e68be2_set(2);
@@ -97,7 +97,7 @@ void levels_markers_draw(void)
     half_42e68be2_set(2);
     x += H16(ADV);
     readout(x, y, 0x70, 0x88, 1, 0xA0, 1);
-    x = W32(BLK + 0xB0) + 0xA;
+    x = LEVELS(plot_x) + 0xA;
     y += 0x11;
     half_42e68be2_set(3);
     text_draw(x & 0xFFFF, y & 0xFFFF, (const char *)0x40060DC4u);

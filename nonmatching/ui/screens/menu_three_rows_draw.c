@@ -9,11 +9,10 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 #include "ui/screens.h"
+#include "state/ui_windows.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
 #define SB8(a) (*(volatile signed char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed */
@@ -21,8 +20,8 @@
 
 void menu_three_rows_draw(void)
 {
-    u32 x = H16(0x42E64520u + 0xAE), y = H16(0x42E64520u + 0xB0);
-    u32 w = H16(0x42E64520u + 0xB2), h = H16(0x42E64520u + 0xB4);
+    u32 x = WREC(12, x), y = WREC(12, y);
+    u32 w = WREC(12, w), h = WREC(12, h);
     u32 sl, e;
     volatile unsigned char *rec;
     int i;

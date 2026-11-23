@@ -9,15 +9,14 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 #include "ui/screens.h"
+#include "state/ui_windows.h"
 
 #define SYS 0x40544E68u
-#define LAY 0x42E64520u              /* UI layout table */
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
 #define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
 #define B8(a) (*(volatile unsigned char *)(a))
 #define SB8(a) (*(volatile signed char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define ENT(n) (TXT + 0x1A0 * (n))
 
@@ -60,7 +59,7 @@ static void ent_option(u32 xo, u32 r, u32 wd, u32 sel, u32 v, u32 e, u32 rec)
 
 void trigger_menu_draw(void)
 {
-    u32 x = H16(LAY + 0xF4), y = H16(LAY + 0xF6), w = H16(LAY + 0xF8), h = H16(LAY + 0xFA);
+    u32 x = WREC(17, x), y = WREC(17, y), w = WREC(17, w), h = WREC(17, h);
     u32 r;
 
     word_42e68c74_set(0x42E658D8u);

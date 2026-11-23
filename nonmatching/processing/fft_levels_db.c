@@ -10,9 +10,9 @@
 #include "libm.h"
 #include "processing.h"
 #include "sys_info.h"
+#include "state/levels_block.h"
 
 #define MI(o) (*(volatile int *)(0x42E68668u + (o)))
-#define MD(o) (*(volatile double *)(0x42E68668u + (o)))
 
 void fft_levels_db(void)
 {
@@ -30,8 +30,8 @@ void fft_levels_db(void)
         double g = (double)SI(f_020);
         double fr = (double)*(volatile unsigned long long *)(0x40544E68u + 0x50);
         double t = (double)v * 6.916 / g * fr / 1000.0 * 80.0 / g;
-        double r = log10(t) * 20.0 + (double)MI(0xD0) * MD(0x140);
-        long long q = (long long)((r - MD(0x148)) * (double)MI(0xCC) / MD(0x140));
+        double r = log10(t) * 20.0 + (double)MI(0xD0) * LEVELS(attenuation);
+        long long q = (long long)((r - LEVELS(reference)) * (double)MI(0xCC) / LEVELS(attenuation));
         if (q < -4095)
             q = -4095;
         else if (q >= 0x1000)

@@ -8,15 +8,15 @@
 #include "hw/fpga.h"
 #include "ui/input.h"
 #include "util.h"
+#include "state/entry_pad.h"
 
-#define PAD(o)  (*(volatile unsigned char *)(0x42E68A88u + (o)))
 #define WIN21   ((volatile unsigned short *)(0x42E64520u + 0x21u * 14u))
 
 void numpad_reset(void)
 {
     mem_clear((void *)0x42E68A8Bu, 0x14);
     *(volatile unsigned short *)0x42E68A88u = 0;
-    PAD(0x17) = 0;
+    NUMPAD(len) = 0;
     *(volatile unsigned short *)0x42E68AA0u = 0;
     *(volatile double *)0x42E68AA8u = 0.0;
     *(volatile u32 *)0x42E68AB4u = 0x42E68AC8u;

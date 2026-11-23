@@ -11,8 +11,8 @@
 #include "selftest.h"
 #include "system.h"
 #include "sys_info.h"
+#include "state/factory_block.h"
 
-#define FT8(o)   (*(volatile unsigned char *)(0x42E68AE0u + (o)))
 #define GEN8(o)  (*(volatile unsigned char *)(0x42E42880u + (o)))
 #define GEN32(o) (*(volatile int *)(0x42E42880u + (o)))
 #define CG_MEAS(o) ((int)__aeabi_ldivmod((long long)SYS64(o), 1000))
@@ -77,7 +77,7 @@ void factory_channel_gen_check(void)
     r &= cg_point(10, 1000, 0, 32, 6, 15, CG_FREQ | CG_AMP);
     r &= cg_point(0, 0, 2500, 24, 4, 15, CG_MEAN);
     r &= cg_point(0, 0, -2500, 24, 4, 15, CG_MEAN);
-    FT8(0x25) = r & 1;
-    FT8(0x26) = r >> 1;
-    FT8(0x24) = r == 3;
+    FACT(ch1_checks_ok) = r & 1;
+    FACT(ch2_checks_ok) = r >> 1;
+    FACT(f_024) = r == 3;
 }

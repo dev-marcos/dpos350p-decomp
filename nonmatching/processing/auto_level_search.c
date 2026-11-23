@@ -13,8 +13,8 @@
 #include "ui/draw.h"
 #include "util.h"
 #include "sys_info.h"
+#include "state/levels_block.h"
 
-#define MB8(o) (*(volatile unsigned char *)(0x42E68668u + (o)))
 #define MB32(o) (*(volatile u32 *)(0x42E68668u + (o)))
 #define COLOUR16 (*(volatile unsigned short *)0x42E68660u)
 #define SCREEN (*(volatile u32 *)0x40095498u)
@@ -22,14 +22,14 @@
 static void scroll_rows(u32 buf, u32 ow, u32 oh)
 {
     int i;
-    if ((int)(MB32(oh) - MB32(0x184)) < 0)
+    if ((int)(MB32(oh) - LEVELS(f_184)) < 0)
         return;
     i = 0;
     do {
         u32 w = MB32(ow);
-        copy_u16((unsigned short *)(buf + 2 * (w * (u32)i)), (const unsigned short *)(buf + 2 * (w * (MB32(0x184) + (u32)i))), w);
+        copy_u16((unsigned short *)(buf + 2 * (w * (u32)i)), (const unsigned short *)(buf + 2 * (w * (LEVELS(f_184) + (u32)i))), w);
         i++;
-    } while ((int)(MB32(oh) - MB32(0x184)) >= i);
+    } while ((int)(MB32(oh) - LEVELS(f_184)) >= i);
 }
 
 void auto_level_search(void)
@@ -71,8 +71,8 @@ void auto_level_search(void)
     }
     *(volatile double *)0x42E22DC0u = (double)*(volatile long long *)(0x40544E68u + 0x910);
     fft_input_prepare_b();
-    if (MB8(1))
+    if (LEVELS(panel_a_on))
         scroll_rows(0x42B8C194u, 0xDC, 0xE0);
-    if (MB8(2))
+    if (LEVELS(panel_b_on))
         scroll_rows(0x425948F4u, 0xEC, 0xF0);
 }

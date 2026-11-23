@@ -7,15 +7,15 @@
 
 #include "hw/fpga.h"
 #include "ui/windows.h"
+#include "state/levels_block.h"
 
-#define M64(o) (*(volatile long long *)(0x42E68668u + (o)))
 
 void window_64_recalc(void)
 {
-    long long span = M64(0x138), c = M64(0x130), t, h;
+    long long span = LEVELS(freq_span), c = LEVELS(center_freq), t, h;
     int mode = *(volatile int *)(0x42E68668u + 0x18C);
     if (mode == 1 || mode == 2) {
-        long long a = M64(0x128), b = M64(0x120);
+        long long a = LEVELS(stop_freq), b = LEVELS(start_freq);
         c = (long long)((unsigned long long)b + (unsigned long long)a) / 2;
         span = (long long)((unsigned long long)a - (unsigned long long)b);
     } else if (mode == 3 || mode == 4) {
@@ -27,9 +27,9 @@ void window_64_recalc(void)
                 c = span / 2;
         }
         h = span / 2;
-        M64(0x120) = (long long)((unsigned long long)c - (unsigned long long)h);
-        M64(0x128) = (long long)((unsigned long long)c + (unsigned long long)h);
+        LEVELS(start_freq) = (long long)((unsigned long long)c - (unsigned long long)h);
+        LEVELS(stop_freq) = (long long)((unsigned long long)c + (unsigned long long)h);
     }
-    M64(0x130) = c;
-    M64(0x138) = span;
+    LEVELS(center_freq) = c;
+    LEVELS(freq_span) = span;
 }

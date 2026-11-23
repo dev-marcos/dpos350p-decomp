@@ -8,36 +8,35 @@
 #include "hw/fpga.h"
 #include "ui/input.h"
 #include "ui/windows.h"
+#include "state/levels_block.h"
+#include "state/touch_buttons.h"
+#include "state/touch_ctl.h"
 
-#define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
-#define DG8(o) (*(volatile unsigned char *)(0x42E68998u + (o)))
 #define DG32(o) (*(volatile u32 *)(0x42E68998u + (o)))
-#define DG64(o) (*(volatile long long *)(0x42E68998u + (o)))
 
-#define MK(o) (*(volatile int *)(0x42E68668u + (o)))
 
 void marker_drag_buttons_bd8(void)
 {
     u32 m;
     touch_button_update_0BD8();
-    if (TB(0xBD8) == 1) {
-        TB(0xBD8) = 0;
-        TB(0) = 0;
+    if (BREC(303, state) == 1) {
+        BREC(303, state) = 0;
+        BREC_BYTE0 = 0;
         touch_pick_a();
-        m = DG8(0);
+        m = TCS(code);
         if (m == 0x10)
-            DG64(8) = MK(0x5C);
+            TCS(drag_start) = LEVELS(marker1_x);
         else if (m == 0x11)
-            DG64(8) = MK(0x60);
+            TCS(drag_start) = LEVELS(marker2_x);
     }
-    if (TB(0xBD9) != 1)
+    if (BREC(303, touch_code) != 1)
         return;
-    TB(0xBD9) = 0;
-    TB(0) = 1;
+    BREC(303, touch_code) = 0;
+    BREC_BYTE0 = 1;
     touch_drag_delta_c();
-    m = DG8(0);
+    m = TCS(code);
     if (m == 0x10)
-        MK(0x5C) = DG32(8) - DG32(0x30);
+        LEVELS(marker1_x) = DG32(8) - TCS(drag_dx);
     else if (m == 0x11)
-        MK(0x60) = DG32(8) - DG32(0x30);
+        LEVELS(marker2_x) = DG32(8) - TCS(drag_dx);
 }

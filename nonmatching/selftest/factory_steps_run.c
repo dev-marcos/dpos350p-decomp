@@ -10,27 +10,27 @@
 #include "selftest.h"
 #include "storage/settings.h"
 #include "system.h"
+#include "state/factory_block.h"
 
-#define FS32(o) (*(volatile u32 *)(0x42E68AE0u + (o)))
 
 void factory_steps_run(void)
 {
-    if (FS32(0) == 0x5A5555A5u)
+    if (FACT(magic) == 0x5A5555A5u)
         return;
-    if (FS32(4) != 0xA5AA555Au) {
+    if (FACT(f_004) != 0xA5AA555Au) {
         factory_test_board();
-        FS32(4) = 0xA5AA555Au;
+        FACT(f_004) = 0xA5AA555Au;
         settings_e_save();
     }
-    if (FS32(8) != 0x5A5AA5AAu) {
+    if (FACT(f_008) != 0x5A5AA5AAu) {
         factory_test_tester();
-        FS32(8) = 0x5A5AA5AAu;
+        FACT(f_008) = 0x5A5AA5AAu;
         settings_e_save();
     }
-    if (FS32(0xC) != 0xA5A5AA55u) {
+    if (FACT(f_00c) != 0xA5A5AA55u) {
         touch_targets_test();
-        FS32(0xC) = 0xA5A5AA55u;
-        FS32(0) = 0x5A5555A5u;
+        FACT(f_00c) = 0xA5A5AA55u;
+        FACT(magic) = 0x5A5555A5u;
         settings_e_save();
     }
     factory_reset_keep_language();

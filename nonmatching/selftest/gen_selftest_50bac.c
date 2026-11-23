@@ -10,8 +10,8 @@
 #include "selftest.h"
 #include "system.h"
 #include "sys_info.h"
+#include "state/factory_block.h"
 
-#define RS8(o) (*(volatile unsigned char *)(0x42E68AE0u + (o)))
 #define CAP8(o) (*(volatile unsigned char *)(0x42DF76D4u + (o)))
 
 static u32 spread_sum(int end)
@@ -63,7 +63,7 @@ void gen_selftest_50bac(void)
     d = (int)spread_sum(end);
     p1 = b < (int)((float)a * 0.9f);
     p2 = d < (int)((float)c * 0.9f);
-    RS8(0x40) = p1;
-    RS8(0x41) = p2;
-    RS8(0x3F) = p2 & p1;
+    FACT(f_040) = p1;
+    FACT(f_041) = p2;
+    FACT(f_03f) = p2 & p1;
 }

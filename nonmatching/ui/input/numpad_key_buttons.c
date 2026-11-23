@@ -8,6 +8,7 @@
 #include "hw/fpga.h"
 #include "ui/input.h"
 #include "ui/windows.h"
+#include "state/touch_buttons.h"
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
 void inv_left(u32 id) __asm__("ui_window_invalidate_from");
@@ -16,9 +17,9 @@ void numpad_key_buttons(void)
 {
     u32 i, k;
     touch_buttons_a20_update();
-    if (TB(0xA20) == 2) {
-        TB(0xA20) = 0;
-        TB(0) = 0;
+    if (BREC(259, state) == 2) {
+        BREC(259, state) = 0;
+        BREC_BYTE0 = 0;
         numpad_key(3);
         inv_left(0x21);
         return;
@@ -26,7 +27,7 @@ void numpad_key_buttons(void)
     for (i = 1; i < 16; i++) {
         if (TB(0xA20 + 10 * i) == 2) {
             TB(0xA20 + 10 * i) = 0;
-            TB(0) = 0;
+            BREC_BYTE0 = 0;
             if (i < 10)
                 k = i + 3;
             else if (i < 12)

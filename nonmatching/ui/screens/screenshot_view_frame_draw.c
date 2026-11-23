@@ -11,6 +11,7 @@
 #include "ui/input.h"
 #include "ui/screens.h"
 #include "sys_info.h"
+#include "state/ui_windows.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -24,8 +25,8 @@
 
 void screenshot_view_frame_draw(void)
 {
-    u32 x = H16(0x42E64520u + 0x148), y = H16(0x42E64520u + 0x14A);
-    u32 w = H16(0x42E64520u + 0x14C), h = H16(0x42E64520u + 0x14E);
+    u32 x = WREC(23, x), y = WREC(23, y);
+    u32 w = WREC(23, w), h = WREC(23, h);
     u32 k, e, bx, by, ny, tw;
 
     touch_button_set_rect(x, (y + 0x1E) & 0xFFFF, w, (h - 0x5A) & 0xFFFF, (volatile unsigned char *)(BTN + 0x80E));

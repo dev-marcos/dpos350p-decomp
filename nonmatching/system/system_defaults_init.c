@@ -8,9 +8,9 @@
 #include "hw/fpga.h"
 #include "system.h"
 #include "sys_info.h"
+#include "state/gen_block.h"
 
 #define SYS 0x40544E68u
-#define GEN 0x42E3F984u
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define D64(a) (*(volatile unsigned long long *)(a))
@@ -63,24 +63,24 @@ void system_defaults_init(void)
     SI(f_264) = 0x6;
     SI(f_048) = 0x2;
     SI(f_10c) = 0x2;
-    W32(GEN + 0x2F34) = 0x7D0;
-    W32(GEN + 0x2F24) = 0xBB8;
-    W32(GEN + 0x2F28) = 0xFFFFF448;
-    W32(GEN + 0x2F10) = 0xE;
-    W32(GEN + 0x2F14) = 0x2FAF080;
-    W32(GEN + 0x2F18) = 0x1388;
-    W32(GEN + 0x2F1C) = 0x9C4;
-    W32(GEN + 0x2F20) = 0x3E7;
-    H16(GEN + 0xFAE) = 0x230;
-    H16(GEN + 0xFB0) = 0x5F;
-    W32(GEN + 0x2F48) = 0x2000;
-    H16(GEN + 0x2F46) = 0x32;
-    W32(GEN + 0x2F50) = 0x14A;
-    W32(GEN + 0x2F54) = 0x206C;
-    W32(GEN + 0x2F58) = 0x1F40;
-    W32(GEN + 0x2F4C) = 0x38DA740E;
-    W32(GEN + 0x2F5C) = 0x7735940;
-    H16(GEN + 0xFB4) = 0x5;
+    GENS(f_2f34) = 0x7D0;
+    GENS(f_2f24) = 0xBB8;
+    GENS(f_2f28) = 0xFFFFF448;
+    GENS(f_2f10) = 0xE;
+    GENS(f_2f14) = 0x2FAF080;
+    GENS(f_2f18) = 0x1388;
+    GENS(f_2f1c) = 0x9C4;
+    GENS(f_2f20) = 0x3E7;
+    GENS(f_fae) = 0x230;
+    GENS(f_fb0) = 0x5F;
+    GENS(f_2f48) = 0x2000;
+    GENS(f_2f46) = 0x32;
+    GENS(f_2f50) = 0x14A;
+    GENS(f_2f54) = 0x206C;
+    GENS(f_2f58) = 0x1F40;
+    GENS(f_2f4c) = 0x38DA740E;
+    GENS(f_2f5c) = 0x7735940;
+    GENS(f_fb4) = 0x5;
     SI(acq_geometry_26c) = 0x64;
     SI(f_3da540) = 0x3E;
     SI(f_6ec) = 0xB;

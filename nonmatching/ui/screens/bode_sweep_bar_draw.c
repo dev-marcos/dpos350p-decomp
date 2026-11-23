@@ -10,16 +10,16 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 #include "ui/screens.h"
+#include "state/bode_block.h"
+#include "state/ui_windows.h"
 
 #define SYS 0x40544E68u
-#define LAY 0x42E64520u              /* UI layout table */
 #define TT (SYS + 0x3DD530)          /* toolbar theme: +0 fill, +4 icon, +8 text, +0x1C pressed */
 #define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
 #define BODE 0x42E180C8u             /* frequency-response view block */
 #define B8(a) (*(volatile unsigned char *)(a))
 #define SB8(a) (*(volatile signed char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define ENT(n) (TXT + 0x1A0 * (n))
 
@@ -70,10 +70,10 @@ void bode_sweep_bar_draw(void)
     u32 x, y, w, h, tx, e, k;
 
     trace_cursor_limits();
-    x = H16(LAY + 0x1F0);
-    y = H16(LAY + 0x1F2);
-    w = H16(LAY + 0x1F4);
-    h = H16(LAY + 0x1F6);
+    x = WREC(35, x);
+    y = WREC(35, y);
+    w = WREC(35, w);
+    h = WREC(35, h);
     draw_colour_set(0xFFFFFF);
     word_42e68c74_set(0x42E658D8u);
     half_42e68be2_set(2);
@@ -93,11 +93,11 @@ void bode_sweep_bar_draw(void)
         tx += 0xAA;
     }
     param_head(tx, y, ENT(76));
-    func_4002d82c_flag0((tx + 0xF) & 0xFFFF, (y + 0x19) & 0xFFFF, W32(BODE + 0x5C), (u32)(S32(BODE + 0x5C) >> 31), 0);
+    func_4002d82c_flag0((tx + 0xF) & 0xFFFF, (y + 0x19) & 0xFFFF, BODES(freq_count), (u32)(S32(BODE + 0x5C) >> 31), 0);
     param_tail(tx, y, 0xB2E);
     tx += 0xAA;
     param_head(tx, y, ENT(77));
-    e = B8(BODE + 0x46) ? ENT(66) : ENT(65);
+    e = BODES(move_slow) ? ENT(66) : ENT(65);
     text_shadow_draw((tx + SB8(e + 0x194) + 0xF) & 0xFFFF, (y + SB8(e + 0x195) + 0x19) & 0xFFFF, (const char *)W32(e), 1, 2, 0);
     param_tail(tx, y, 0xB38);
 }

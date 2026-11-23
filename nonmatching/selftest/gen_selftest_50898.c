@@ -11,12 +11,12 @@
 #include "selftest.h"
 #include "system.h"
 #include "sys_info.h"
+#include "state/factory_block.h"
+#include "state/gen_block.h"
 
 #define SYS 0x40544E68u
-#define GEN 0x42E3F984u
 #define TOUCH 0x42E68BB0u
 #define B8(a) (*(volatile unsigned char *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 
 void gen_selftest_50898(void)
 {
@@ -38,10 +38,10 @@ void gen_selftest_50898(void)
     start = 0x2E68 + 5 * step;
     n = 0x924 - 10 * step;
     for (i = 0; i < 5; i++) {
-        B8(GEN + 0x2EFA) = 1;
-        W32(GEN + 0x2EFC) = freq[i];
-        W32(GEN + 0x2F00) = amp[i];
-        W32(GEN + 0x2F04) = 0;
+        GENS(waveform) = 1;
+        GENS(frequency) = freq[i];
+        GENS(amplitude) = amp[i];
+        GENS(offset) = 0;
         SI(timebase_index) = tb[i];
         SI(ch1_vdiv_index) = rng[i];
         SI(ch2_vdiv_index) = rng[i];
@@ -77,7 +77,7 @@ void gen_selftest_50898(void)
         lim = SI(acq_geometry_1c0) * 10;
         ok_b &= lim >= (u32)(mx - mn) ? 1u : 0u;
     }
-    B8(0x42E68AE0u + 0x35) = (unsigned char)ok_a;
-    B8(0x42E68AE0u + 0x36) = (unsigned char)ok_b;
-    B8(0x42E68AE0u + 0x34) = (unsigned char)(ok_a & ok_b);
+    FACT(window_a_ok) = (unsigned char)ok_a;
+    FACT(window_b_ok) = (unsigned char)ok_b;
+    FACT(f_034) = (unsigned char)(ok_a & ok_b);
 }

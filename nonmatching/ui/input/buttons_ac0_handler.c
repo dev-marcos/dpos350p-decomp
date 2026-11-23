@@ -12,44 +12,44 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 #include "ui/windows.h"
+#include "state/bode_block.h"
+#include "state/touch_buttons.h"
 
-#define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
 
-#define TT8(o) (*(volatile unsigned char *)(0x42E180C8u + (o)))
 
 void buttons_ac0_handler(void)
 {
     u32 v;
     touch_group_0AC0();
-    if (TB(0xAC0) == 2) {
-        TB(0xAC0) = 0;
-        TB(0) = 0;
+    if (BREC(275, state) == 2) {
+        BREC(275, state) = 0;
+        BREC_BYTE0 = 0;
         sys_info_restore();
         gen_state_restore();
         ui_windows_reset();
         fb_clear_current();
         ui_windows_open_1_5();
-    } else if (TB(0xACA) == 2) {
-        TB(0xACA) = 0;
-        TB(0) = 0;
+    } else if (BREC(276, state) == 2) {
+        BREC(276, state) = 0;
+        BREC_BYTE0 = 0;
         ui_window_open(0x25);
-    } else if (TB(0xAD4) == 2) {
-        TB(0xAD4) = 0;
-        TB(0) = 0;
+    } else if (BREC(277, state) == 2) {
+        BREC(277, state) = 0;
+        BREC_BYTE0 = 0;
         list_a_save_new();
-    } else if (TB(0xADE) == 2) {
-        TB(0xADE) = 0;
-        TB(0) = 0;
-        TT8(0xAC60) = TT8(0xAC60) == 0;
-    } else if (TB(0xAF2) == 2) {
-        TB(0xAF2) = 0;
-        TB(0) = 0;
-        TT8(0x44) = TT8(0x44) == 0;
-    } else if (TB(0xAFC) == 2) {
-        TB(0xAFC) = 0;
-        TB(0) = 0;
-        v = TT8(0x45) == 0;
-        TT8(0x45) = v;
-        TT8(0x47) = v;
+    } else if (BREC(278, state) == 2) {
+        BREC(278, state) = 0;
+        BREC_BYTE0 = 0;
+        BODES(cursors_on) = BODES(cursors_on) == 0;
+    } else if (BREC(280, state) == 2) {
+        BREC(280, state) = 0;
+        BREC_BYTE0 = 0;
+        BODES(loop) = BODES(loop) == 0;
+    } else if (BREC(281, state) == 2) {
+        BREC(281, state) = 0;
+        BREC_BYTE0 = 0;
+        v = BODES(running) == 0;
+        BODES(running) = v;
+        BODES(f_047) = v;
     }
 }

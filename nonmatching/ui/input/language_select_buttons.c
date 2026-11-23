@@ -11,26 +11,26 @@
 #include "ui/text.h"
 #include "ui/windows.h"
 #include "sys_info.h"
+#include "state/touch_buttons.h"
 
-#define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
 
 void language_select_buttons(void)
 {
     touch_group_0156();
-    if (TB(0x156) == 2) {
-        TB(0x156) = 0;
-        TB(0) = 0;
+    if (BREC(34, state) == 2) {
+        BREC(34, state) = 0;
+        BREC_BYTE0 = 0;
         SI(menu_language) = 1;
-    } else if (TB(0x160) == 2) {
-        TB(0x160) = 0;
-        TB(0) = 0;
+    } else if (BREC(35, state) == 2) {
+        BREC(35, state) = 0;
+        BREC_BYTE0 = 0;
         SI(menu_language) = 2;
-    } else if (TB(0x16A) == 2) {
-        TB(0x16A) = 0;
-        TB(0) = 0;
+    } else if (BREC(36, state) == 2) {
+        BREC(36, state) = 0;
+        BREC_BYTE0 = 0;
         SI(menu_language) = 3;
-    } else if (TB(0x174) == 2) {
-        TB(0x174) = 0;
+    } else if (BREC(37, state) == 2) {
+        BREC(37, state) = 0;
         SI(menu_language) = 4;
     } else {
         return;

@@ -143,6 +143,24 @@ and the code changes. Some accesses stay raw:
 - accesses whose type differs from the field's type, for example an s64 read of a field that is
   u64 in most places, or a 32-bit read of half of a 64-bit field.
 
+The other RAM blocks follow the same pattern, one header each in `include/state/`:
+
+| Header | Block | Accessor |
+|---|---|---|
+| `gen_block.h` | generator block G, 0x42E3F984 | `GENS(field)` |
+| `levels_block.h` | level (spectrum) view, 0x42E68668 | `LEVELS(field)` |
+| `bode_block.h` | Bode (frequency response) view, 0x42E180C8 | `BODES(field)` |
+| `factory_block.h` | factory / self-test state, 0x42E68AE0 | `FACT(field)` |
+| `touch_ctl.h` | touch-control state, 0x42E68998 | `TCS(field)` |
+| `entry_pad.h` | numeric entry pad, 0x42E68A88 | `NUMPAD(field)` |
+| `touch_buttons.h` | touch button records (10 bytes, record k at 0x42E61FFA + 10k) | `BREC(k, field)` |
+| `ui_windows.h` | UI window records (14 bytes, record id at 0x42E64520 + 14 id) | `WREC(id, field)` |
+
+The record tables are arrays of `struct touch_button` (state, touch code, rectangle) and
+`struct ui_window` (flags, then the box x, y, w, h). `BREC(182, state)` is the state byte of
+button record 182, the record that the older names call by its byte offset (2 + 10 x 182 =
+0x71E). The byte before button record 0 has its own accessor, `BREC_BYTE0`.
+
 ## TEST image for the emulator
 
 `make testiso` builds `build/test/DPOS350P_TEST.iso`: the stock image with every EQUIVALENT C

@@ -10,12 +10,11 @@
 #include "ui/input.h"
 #include "ui/screens.h"
 #include "sys_info.h"
+#include "state/ui_windows.h"
 
-#define LAY 0x42E64520u              /* UI layout table */
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
 #define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define SB8(a) (*(volatile signed char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define ENT(n) (TXT + 0x1A0 * (n))
 
@@ -39,14 +38,14 @@ static void arrow_row(u32 x, u32 y, u32 w, u32 img, u32 e, u32 rec, u32 n)
     touch_button_set_rect(x, (y - 0x14) & 0xFFFF, w, 0x3C, (volatile unsigned char *)(BTN + rec));
     draw_colour_set(W32(TH + 8));
     if (B8(BTN + rec + 1)) {
-        B8(LAY + 0x59) = n;
+        WREC(6, f_5) = n;
         rect_fill(x, (y - 0x14) & 0xFFFF, w, 0x3C);
     }
 }
 
 void system_menu_draw(void)
 {
-    u32 x = H16(LAY + 0x5A), y = H16(LAY + 0x5C), w = H16(LAY + 0x5E), h = H16(LAY + 0x60);
+    u32 x = WREC(6, x), y = WREC(6, y), w = WREC(6, w), h = WREC(6, h);
     u32 r, xo, tw, rec;
     const char *s;
     int k;
@@ -77,7 +76,7 @@ void system_menu_draw(void)
         text_draw((xo + ((0x41 - tw) >> 1)) & 0xFFFF, (r + 8) & 0xFFFF, s);
         touch_button_set_rect(xo & 0xFFFF, (r - 0xF) & 0xFFFF, 0x41, 0x3C, (volatile unsigned char *)(BTN + rec));
         if (B8(BTN + rec + 1)) {
-            B8(LAY + 0x59) = k;
+            WREC(6, f_5) = k;
             draw_colour_set(W32(TH + 8));
             rect_fill(xo & 0xFFFF, r & 0xFFFF, 0x41, 0x1E);
         }

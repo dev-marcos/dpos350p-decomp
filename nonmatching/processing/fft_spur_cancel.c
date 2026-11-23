@@ -7,13 +7,11 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "state/levels_block.h"
 
-#define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 #define F32(a) (*(volatile float *)(a))
-#define D64(a) (*(volatile double *)(a))
 
 #define BLK 0x42E68668u
 #define SPT 0x42E3C000u
@@ -46,22 +44,22 @@ void fft_spur_cancel(void)
     if (B8(0x42E68BB0u + 0x17))
         return;
     i = 0;
-    if (W32(BLK + 0xF8) != 0) {
-        dn = (double)(int)(W32(BLK + 0xF8) - 1);
+    if (LEVELS(fft_points) != 0) {
+        dn = (double)(int)(LEVELS(fft_points) - 1);
         do {
             v = (double)F32(HIN + 4 * i);
-            lim = W32(BLK + 0xF8);
+            lim = LEVELS(fft_points);
             F32(HX + 8 * i) = (float)(v * (0.5 - COS_T((double)i * 6.283185307179586 / dn) * 0.5));
             F32(HX + 8 * i + 4) = 0.0f;
             i++;
         } while (i < lim);
     }
-    B8(BLK + 4) = 1;
-    fft_radix2((int)W32(BLK + 0xF8), (volatile float *)HX);
-    cvec_magnitude((volatile float *)HX, (volatile float *)SPEC, (int)W32(BLK + 0xF8) / 2);
-    if (B8(BLK + 0x190))
+    LEVELS(f_004) = 1;
+    fft_radix2((int)LEVELS(fft_points), (volatile float *)HX);
+    cvec_magnitude((volatile float *)HX, (volatile float *)SPEC, (int)LEVELS(fft_points) / 2);
+    if (LEVELS(f_190))
         return;
-    spur_lists(W32(BLK + 0xF4), &vals, &idxs, &mean, &cntp);
+    spur_lists(LEVELS(spur_mode), &vals, &idxs, &mean, &cntp);
     cnt = H16(cntp);
     for (k = 0; k < cnt; k++) {
         idx = H16(idxs + 2 * k);

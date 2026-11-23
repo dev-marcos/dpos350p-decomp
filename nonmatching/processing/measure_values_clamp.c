@@ -8,9 +8,9 @@
 #include "hw/fpga.h"
 #include "processing.h"
 #include "ui/windows.h"
+#include "state/levels_block.h"
 
 #define M64(o) (*(volatile long long *)(0x42E68668u + (o)))
-#define MD(o) (*(volatile double *)(0x42E68668u + (o)))
 #define LIM 0x1.0400000000001p+8
 
 static void clamp4(void)
@@ -33,14 +33,14 @@ void measure_values_clamp(void)
     clamp4();
     window_64_recalc();
     clamp4();
-    d = MD(0x148);
+    d = LEVELS(reference);
     if (d >= LIM)
-        MD(0x148) = 260.0;
+        LEVELS(reference) = 260.0;
     else if (d < -60.0)
-        MD(0x148) = -60.0;
-    d = MD(0x140);
+        LEVELS(reference) = -60.0;
+    d = LEVELS(attenuation);
     if (d >= LIM)
-        MD(0x140) = 260.0;
+        LEVELS(attenuation) = 260.0;
     else if (d < 1.0)
-        MD(0x140) = 1.0;
+        LEVELS(attenuation) = 1.0;
 }

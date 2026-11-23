@@ -8,13 +8,13 @@
 #include "hw/fpga.h"
 #include "processing.h"
 #include "sys_info.h"
+#include "state/levels_block.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define S64(a) (*(volatile long long *)(a))
 
-#define BLK 0x42E68668u
 
 void levels_view_layout(void)
 {
@@ -22,74 +22,74 @@ void levels_view_layout(void)
     long long rate, bin, top;
     if (B8(0x42E68BB0u + 0x17))
         return;
-    n = W32(BLK + 0xF8);
-    switch (W32(BLK + 0xF4)) {
+    n = LEVELS(fft_points);
+    switch (LEVELS(spur_mode)) {
     case 0: n = 0x1000; break;
     case 1: n = 0x2000; break;
     case 2: n = 0x4000; break;
     case 3: n = 0x8000; break;
     }
-    f1 = B8(BLK + 1);
-    x = W32(BLK + 0xB0);
-    y = W32(BLK + 0xB4);
-    w = W32(BLK + 0xB8);
-    c0 = W32(BLK + 0xC0);
-    c4 = W32(BLK + 0xC4);
-    c8 = W32(BLK + 0xC8);
-    cc = W32(BLK + 0xCC);
-    d0 = W32(BLK + 0xD0);
-    f2 = B8(BLK + 2);
+    f1 = LEVELS(panel_a_on);
+    x = LEVELS(plot_x);
+    y = LEVELS(plot_y);
+    w = LEVELS(plot_w);
+    c0 = LEVELS(plot_h);
+    c4 = LEVELS(grid_x_step);
+    c8 = LEVELS(grid_x_div);
+    cc = LEVELS(grid_y_step);
+    d0 = LEVELS(grid_y_div);
+    f2 = LEVELS(panel_b_on);
     if (!f1 && !f2) {
         x = 0x34; y = 0x30; w = 0x3C6; c0 = 0x1E0; c4 = 0xA1; c8 = 6; cc = 0x50; d0 = 6;
     } else if (f1) {
         x = 0x34; y = 0x30; w = 0x3C6;
         if (!f2) {
             cc = 0x2F;
-            W32(BLK + 0xD4) = 0x34;
+            LEVELS(panel_a_x) = 0x34;
             c0 = 0x11A; c4 = 0xA1; c8 = 6; d0 = 6;
-            W32(BLK + 0xD8) = 0x163;
-            W32(BLK + 0xDC) = 0x3C6;
-            W32(BLK + 0xE0) = 0xAB;
+            LEVELS(panel_a_y) = 0x163;
+            LEVELS(f_0dc) = 0x3C6;
+            LEVELS(panel_a_rows) = 0xAB;
         } else {
-            W32(BLK + 0xD4) = 0x34;
+            LEVELS(panel_a_x) = 0x34;
             c0 = 0x8F;
-            W32(BLK + 0xE4) = 0x34;
-            W32(BLK + 0xD8) = 0xD8;
+            LEVELS(panel_b_x) = 0x34;
+            LEVELS(panel_a_y) = 0xD8;
             c4 = 0xA1;
-            W32(BLK + 0xDC) = 0x3C6;
+            LEVELS(f_0dc) = 0x3C6;
             c8 = 6;
-            W32(BLK + 0xE0) = 0x8F;
+            LEVELS(panel_a_rows) = 0x8F;
             cc = 0x18; d0 = 6;
-            W32(BLK + 0xE8) = 0x180;
-            W32(BLK + 0xEC) = 0x3C6;
-            W32(BLK + 0xF0) = 0x8F;
+            LEVELS(panel_b_y) = 0x180;
+            LEVELS(f_0ec) = 0x3C6;
+            LEVELS(panel_b_rows) = 0x8F;
         }
     } else {
         cc = 0x2F; w = 0x3C6; x = 0x34; y = 0x30; c0 = 0x11A;
-        W32(BLK + 0xE4) = 0x34;
+        LEVELS(panel_b_x) = 0x34;
         c4 = 0xA1; c8 = 6; d0 = 6;
-        W32(BLK + 0xE8) = 0x163;
-        W32(BLK + 0xEC) = 0x3C6;
-        W32(BLK + 0xF0) = 0xAB;
+        LEVELS(panel_b_y) = 0x163;
+        LEVELS(f_0ec) = 0x3C6;
+        LEVELS(panel_b_rows) = 0xAB;
     }
-    W32(BLK + 0xCC) = cc;
-    W32(BLK + 0xD0) = d0;
-    W32(BLK + 0xB0) = x;
-    W32(BLK + 0xB4) = y;
-    W32(BLK + 0xC0) = c0;
-    W32(BLK + 0xC4) = c4;
-    W32(BLK + 0xC8) = c8;
+    LEVELS(grid_y_step) = cc;
+    LEVELS(grid_y_div) = d0;
+    LEVELS(plot_x) = x;
+    LEVELS(plot_y) = y;
+    LEVELS(plot_h) = c0;
+    LEVELS(grid_x_step) = c4;
+    LEVELS(grid_x_div) = c8;
     SI(acq_transition_flag) = 0;
     SI(f_54e) = 1;
     W32(0x42E68CB0u) = 0x42CC64B4u + n * 2;
-    W32(BLK + 0xF8) = n;
-    W32(BLK + 0xB8) = w;
-    W32(BLK + 0xBC) = (u32)((int)w / 2);
+    LEVELS(fft_points) = n;
+    LEVELS(plot_w) = w;
+    LEVELS(f_0bc) = (u32)((int)w / 2);
     rate = S64(SYS + 0x538);
-    bin = __aeabi_ldivmod(__aeabi_ldivmod(rate, 1000), (long long)(int)W32(BLK + 0xF8));
+    bin = __aeabi_ldivmod(__aeabi_ldivmod(rate, 1000), (long long)(int)LEVELS(fft_points));
     top = (long long)(__aeabi_uldivmod((unsigned long long)rate, 1000) >> 1);
-    S64(BLK + 0x108) = top;
-    S64(BLK + 0x100) = bin;
-    S64(BLK + 0x118) = __aeabi_ldivmod(top + bin, 2);
-    S64(BLK + 0x110) = S64(BLK + 0x108) - S64(BLK + 0x100);
+    LEVELS(f_108) = top;
+    LEVELS(bin_width) = bin;
+    LEVELS(f_118) = __aeabi_ldivmod(top + bin, 2);
+    LEVELS(f_110) = LEVELS(f_108) - LEVELS(bin_width);
 }

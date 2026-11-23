@@ -9,38 +9,37 @@
 #include "libc.h"
 #include "libm.h"
 #include "processing.h"
+#include "state/levels_block.h"
 
 #define MI(o) (*(volatile int *)(0x42E68668u + (o)))
-#define MD(o) (*(volatile double *)(0x42E68668u + (o)))
-#define M64(o) (*(volatile long long *)(0x42E68668u + (o)))
 
 void marker_values_compute(void)
 {
-    double span = (double)M64(0x138), n = (double)MI(0xB8), lo = (double)M64(0x120);
+    double span = (double)LEVELS(freq_span), n = (double)MI(0xB8), lo = (double)LEVELS(start_freq);
     double sc, top, stp, y0, y1, l0, l1, p0, p1;
     long long a, b;
     unsigned long long d;
-    a = (long long)((double)MI(0x5C) / n * span + lo);
-    b = (long long)((double)MI(0x60) / n * span + lo);
+    a = (long long)((double)LEVELS(marker1_x) / n * span + lo);
+    b = (long long)((double)LEVELS(marker2_x) / n * span + lo);
     d = (unsigned long long)b - (unsigned long long)a;
     if ((long long)d < 0)
         d = 0 - d;                   /* llabs */
-    M64(0x70) = b;
-    M64(0x68) = a;
-    M64(0x78) = (long long)d;
+    LEVELS(c2_freq) = b;
+    LEVELS(c1_freq) = a;
+    LEVELS(dc_freq) = (long long)d;
     sc = (double)MI(0xCC);
-    top = MD(0x148);
-    stp = MD(0x140);
-    y1 = (double)*(volatile short *)(0x42E5F010u + 2u * (u32)MI(0x60));
-    y0 = (double)*(volatile short *)(0x42E5F010u + 2u * (u32)MI(0x5C));
+    top = LEVELS(reference);
+    stp = LEVELS(attenuation);
+    y1 = (double)*(volatile short *)(0x42E5F010u + 2u * (u32)LEVELS(marker2_x));
+    y0 = (double)*(volatile short *)(0x42E5F010u + 2u * (u32)LEVELS(marker1_x));
     l0 = top - y0 / sc * stp;
     l1 = top - y1 / sc * stp;
-    MD(0x88) = l1;
-    MD(0x90) = __builtin_fabs(l1 - l0);
-    MD(0x80) = l0;
-    p0 = pow(10.0, MD(0x80) / 20.0) * 1000.0;
-    p1 = pow(10.0, MD(0x88) / 20.0) * 1000.0;
-    MD(0x98) = p0;
-    MD(0xA8) = __builtin_fabs(p1 - p0);
-    MD(0xA0) = p1;
+    LEVELS(c2_level) = l1;
+    LEVELS(dc_level) = __builtin_fabs(l1 - l0);
+    LEVELS(c1_level) = l0;
+    p0 = pow(10.0, LEVELS(c1_level) / 20.0) * 1000.0;
+    p1 = pow(10.0, LEVELS(c2_level) / 20.0) * 1000.0;
+    LEVELS(c1_volts) = p0;
+    LEVELS(dc_volts) = __builtin_fabs(p1 - p0);
+    LEVELS(c2_volts) = p1;
 }

@@ -8,9 +8,8 @@
 #include "hw/fpga.h"
 #include "libm.h"
 #include "processing.h"
+#include "state/bode_block.h"
 
-#define TD(o) (*(volatile double *)(0x42E180C8u + (o)))
-#define TI(o) (*(volatile int *)(0x42E180C8u + (o)))
 #define TH(o) (*(volatile unsigned short *)(0x42E180C8u + (o)))
 
 void trace_cursor_values(void)
@@ -19,31 +18,31 @@ void trace_cursor_values(void)
     int c1, c2;
     if (*(volatile unsigned char *)(0x42E68BB0u + 0x17))
         return;
-    sc = TD(0x8D18);
-    w = (double)TH(4);
-    base = TD(0x8D08);
-    p1 = pow(10.0, base + (double)TI(0xAC64) / w * sc);
-    p2 = pow(10.0, base + (double)TI(0xAC68) / w * sc);
-    top = TD(0x10);
-    c1 = TI(0xAC64);
-    bot = TD(0x18);
-    h = (double)TH(6);
-    c2 = TI(0xAC68);
-    TD(0xAC70) = p1;
-    TD(0xAC78) = p2;
-    TD(0xAC80) = __builtin_fabs(p2 - p1);
+    sc = BODES(f_8d18);
+    w = (double)BODES(f_004);
+    base = BODES(f_8d08);
+    p1 = pow(10.0, base + (double)BODES(cursor1) / w * sc);
+    p2 = pow(10.0, base + (double)BODES(cursor2) / w * sc);
+    top = BODES(f_010);
+    c1 = BODES(cursor1);
+    bot = BODES(f_018);
+    h = (double)BODES(f_006);
+    c2 = BODES(cursor2);
+    BODES(f_ac70) = p1;
+    BODES(f_ac78) = p2;
+    BODES(f_ac80) = __builtin_fabs(p2 - p1);
     r = top - bot;
     a1 = top - r * (double)TH(0x8D20 + 2 * c1) / h;
     a2 = top - r * (double)TH(0x8D20 + 2 * c2) / h;
-    s5 = TD(0x20) - TD(0x28);
+    s5 = BODES(f_020) - BODES(f_028);
     b2 = s5 * (double)TH(0x9CC0 + 2 * c2);
     b1 = s5 * (double)TH(0x9CC0 + 2 * c1);
-    TD(0xAC88) = a1;
-    TD(0xAC90) = a2;
+    BODES(f_ac88) = a1;
+    BODES(f_ac90) = a2;
     b2 = b2 / h;
     b1 = b1 / h;
-    TD(0xACA8) = TD(0x20) - b2;
-    TD(0xAC98) = __builtin_fabs(a2 - a1);
-    TD(0xACA0) = TD(0x20) - b1;
-    TD(0xACB0) = __builtin_fabs(TD(0xACA8) - TD(0xACA0));
+    BODES(f_aca8) = BODES(f_020) - b2;
+    BODES(f_ac98) = __builtin_fabs(a2 - a1);
+    BODES(f_aca0) = BODES(f_020) - b1;
+    BODES(f_acb0) = __builtin_fabs(BODES(f_aca8) - BODES(f_aca0));
 }

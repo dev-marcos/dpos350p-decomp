@@ -14,20 +14,19 @@
 #include "system.h"
 #include "util.h"
 #include "sys_info.h"
+#include "state/gen_block.h"
 
 #define SYS 0x40544E68u
 #define GEN 0x42E3F984u
 #define TOUCH 0x42E68BB0u
 #define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 
 #define F32(a) (*(volatile float *)(a))
 
 static double measure(u32 a, u32 b, u32 range)
 {
-    W32(GEN + 0x2F38) = a;
-    W32(GEN + 0x2F3C) = b;
+    GENS(f_2f38) = a;
+    GENS(f_2f3c) = b;
     SI(ch1_vdiv_index) = (unsigned char)range;
     outputs_apply();
     gen_fpga_settings_write();
@@ -42,14 +41,14 @@ void gen_output_calibrate(void)
     float f0, f1, f2;
     state_backup_all();
     state_block_3f984_init();
-    W32(GEN + 0x2EFC) = 1000;
-    H16(GEN + 0x2EF6) = 2000;
+    GENS(frequency) = 1000;
+    GENS(period_len) = 2000;
     SI(timebase_index) = 0x18;
     SI(f_54f) = 1;
-    B8(GEN + 0x2F60) = 1;
+    GENS(f_2f60) = 1;
     B8(TOUCH + 0x16) = 0;
     fpga_cmd63_write();
-    fill_u16((unsigned short *)(GEN + 0xFB6), 0x1FFE, H16(GEN + 0x2EF6));
+    fill_u16((unsigned short *)(GEN + 0xFB6), 0x1FFE, GENS(period_len));
     a = measure(0x206C, 0x22C4, 4);
     b = measure(0x206C, 0x1068, 4);
     c = measure(1000, 0xE42, 8);
@@ -64,9 +63,9 @@ void gen_output_calibrate(void)
     F32(0x42E428F4u + 0x2F64) = f0;
     F32(0x42E428F4u + 0x2F68) = f1;
     F32(0x42E428F4u + 0x2F6C) = f2;
-    F32(GEN + 0x2F6C) = f2;
-    F32(GEN + 0x2F68) = f1;
-    F32(GEN + 0x2F64) = f0;
+    GENS(rec_g_2) = f2;
+    GENS(rec_g_1) = f1;
+    GENS(rec_g_0) = f0;
     settings_g_save();
     state_restore_all();
     gen_update();

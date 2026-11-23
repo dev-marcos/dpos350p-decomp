@@ -7,12 +7,13 @@
 
 #include "hw/fpga.h"
 #include "ui/input.h"
+#include "state/entry_pad.h"
 
 #define PAD(o)  (*(volatile unsigned char *)(0x42E68A88u + (o)))
 #define WIN21   ((volatile unsigned short *)(0x42E64520u + 0x21u * 14u))
 
 void numpad_append_char(u32 c)
 {
-    PAD(3 + PAD(0x17)) = c;
-    PAD(0x17) = PAD(0x17) + 1;
+    PAD(3 + NUMPAD(len)) = c;
+    NUMPAD(len) = NUMPAD(len) + 1;
 }

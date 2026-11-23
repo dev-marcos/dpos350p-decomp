@@ -7,24 +7,24 @@
 
 #include "hw/fpga.h"
 #include "system.h"
+#include "state/factory_block.h"
 
-#define B8(o) (*(volatile unsigned char *)(0x42E68AE0u + (o)))
 
 void calibration_result_flags(void)
 {
     int r;
     u32 a, b;
-    B8(0x21) = 0;
+    FACT(f_021) = 0;
     *(volatile unsigned short *)(0x42E68AE0u + 0x22) = 0;
     r = system_calibration();
     if (r == 1) {
-        B8(0x21) = 1;
-        B8(0x23) = 1;
-        B8(0x22) = 1;
+        FACT(f_021) = 1;
+        FACT(f_023) = 1;
+        FACT(f_022) = 1;
         return;
     }
-    a = B8(0x22);
-    b = B8(0x23);
+    a = FACT(f_022);
+    b = FACT(f_023);
     if (r == 0) {
         a = 0;
         b = 0;
@@ -35,6 +35,6 @@ void calibration_result_flags(void)
         a = 1;
         b = 0;
     }
-    B8(0x23) = b;
-    B8(0x22) = a;
+    FACT(f_023) = b;
+    FACT(f_022) = a;
 }

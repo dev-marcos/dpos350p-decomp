@@ -11,6 +11,7 @@
 #include "ui/input.h"
 #include "ui/windows.h"
 #include "sys_info.h"
+#include "state/touch_buttons.h"
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
 void inv_left(u32 id) __asm__("ui_window_invalidate_from");
@@ -38,7 +39,7 @@ void list_b_window_buttons(void)
             if (TB(0x840 + 10 * i) == 2) {
                 int ps, tot, c;
                 TB(0x840 + 10 * i) = 0;
-                TB(0) = 0;
+                BREC_BYTE0 = 0;
                 ps = P16(0xA);
                 tot = PS16(0x10);
                 PS16(0x14) = (short)(ps * sdv(PS16(0x14), ps) + (int)i);
@@ -58,23 +59,23 @@ void list_b_window_buttons(void)
             i = (i + 1) & 0xFF;
         } while (i < P16(0xA));
     }
-    if (TB(0x8D6) == 2) {
-        TB(0x8D6) = 0;
-        TB(0) = 0;
+    if (BREC(226, state) == 2) {
+        BREC(226, state) = 0;
+        BREC_BYTE0 = 0;
         ui_windows_reset();
         fb_clear_current();
         ui_windows_open_1_5();
         return;
     }
-    if (TB(0x8E0) == 2) {
-        TB(0x8E0) = 0;
-        TB(0) = 0;
+    if (BREC(227, state) == 2) {
+        BREC(227, state) = 0;
+        BREC_BYTE0 = 0;
         SI(list_mark_mode) = SI(list_mark_mode) == 0;
         list_b_marks_clear();
-    } else if (TB(0x8EA) == 2) {
+    } else if (BREC(228, state) == 2) {
         u32 v;
-        TB(0x8EA) = 0;
-        TB(0) = 0;
+        BREC(228, state) = 0;
+        BREC_BYTE0 = 0;
         v = SYS8(0x84D6 + PS16(0xE));
         if (SI(list_mark_mode) == 0) {
             if (v) {
@@ -89,22 +90,22 @@ void list_b_window_buttons(void)
             SI(list_mark_mode) = 0;
             list_b_marks_clear();
         }
-    } else if (TB(0x8F4) == 2) {
-        TB(0x8F4) = 0;
-        TB(0) = 0;
+    } else if (BREC(229, state) == 2) {
+        BREC(229, state) = 0;
+        BREC_BYTE0 = 0;
         if (SI(list_mark_mode)) {
             list_count_nonzero_40036454();
             ui_window_open(0x19);
         }
         return;
     } else {
-        if (TB(0x8FE) == 2) {
-            TB(0x8FE) = 0;
-            TB(0) = 0;
+        if (BREC(230, state) == 2) {
+            BREC(230, state) = 0;
+            BREC_BYTE0 = 0;
             nv = PS16(0x14) - P16(0xA);
-        } else if (TB(0x908) == 2) {
-            TB(0x908) = 0;
-            TB(0) = 0;
+        } else if (BREC(231, state) == 2) {
+            BREC(231, state) = 0;
+            BREC_BYTE0 = 0;
             nv = P16(0xA) + PS16(0x14);
         } else {
             return;

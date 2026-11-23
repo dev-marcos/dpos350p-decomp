@@ -7,8 +7,8 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "state/levels_block.h"
 
-#define MB8(o) (*(volatile unsigned char *)(0x42E68668u + (o)))
 #define MB32(o) (*(volatile int *)(0x42E68668u + (o)))
 #define SRC (*(volatile short *volatile *)0x42E68CB0u)
 
@@ -27,12 +27,12 @@ void level_stats_61000(void)
     u32 sum = 0;
     volatile short *s;
     volatile unsigned short *d = (volatile unsigned short *)0x42E61000u;
-    if (MB8(2) == 0)
+    if (LEVELS(panel_b_on) == 0)
         return;
     sc = MB32(0xF0);
     n = MB32(0xEC);
     s = SRC;
-    d2 = MB32(0x188);
+    d2 = LEVELS(f_188);
     d1 = MB32(0xC0);
     for (i = 0; i < n; i++) {
         v = sdv(sdv((int)((u32)sc * (u32)(int)*s++), d1), d2);
@@ -48,7 +48,7 @@ void level_stats_61000(void)
             mn = v;
         sum += v;
     }
-    MB32(0x16C) = sdv((int)sum, n);
-    MB32(0x170) = mx;
-    MB32(0x174) = mn;
+    LEVELS(f_16c) = sdv((int)sum, n);
+    LEVELS(f_170) = mx;
+    LEVELS(f_174) = mn;
 }

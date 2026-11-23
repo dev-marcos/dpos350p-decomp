@@ -10,13 +10,13 @@
 #include "ui/input.h"
 #include "ui/screens.h"
 #include "sys_info.h"
+#include "state/ui_windows.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
 u32 func_4002d2d4_d0_raw(u32 a, u32 b, u32 c) __asm__("func_4002d2d4_d0");
 
 #define SYS 0x40544E68u
-#define LAY 0x42E64520u              /* UI layout table */
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
 #define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
@@ -45,7 +45,7 @@ static void wide_button(u32 x, u32 y, u32 w, u32 rec)
 
 void display_menu_draw(void)
 {
-    u32 x = H16(LAY + 0x92), y = H16(LAY + 0x94), w = H16(LAY + 0x96), h = H16(LAY + 0x98);
+    u32 x = WREC(10, x), y = WREC(10, y), w = WREC(10, w), h = WREC(10, h);
     u32 r0 = y + 0x14, r, nw;
 
     word_42e68c74_set(0x42E658D8u);

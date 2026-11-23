@@ -12,6 +12,7 @@
 #include "ui/windows.h"
 #include "usb/core.h"
 #include "sys_info.h"
+#include "state/touch_buttons.h"
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
 void inv_left(u32 id) __asm__("ui_window_invalidate_from");
@@ -20,17 +21,17 @@ void system_settings_buttons(void)
 {
     u32 w, i;
     touch_group_017E();
-    if (TB(0xFC) == 2) {
-        TB(0xFC) = 0;
-        TB(0) = 0;
+    if (BREC(25, state) == 2) {
+        BREC(25, state) = 0;
+        BREC_BYTE0 = 0;
         w = 7;
-    } else if (TB(0x17E) == 2) {
-        TB(0x17E) = 0;
-        TB(0) = 0;
+    } else if (BREC(38, state) == 2) {
+        BREC(38, state) = 0;
+        BREC_BYTE0 = 0;
         w = 0x1D;
-    } else if (TB(0x192) == 2) {
-        TB(0x192) = 0;
-        TB(0) = 0;
+    } else if (BREC(40, state) == 2) {
+        BREC(40, state) = 0;
+        BREC_BYTE0 = 0;
         ui_windows_reset();
         ui_window_open(0x20);
         usb_mode_enter();
@@ -39,24 +40,24 @@ void system_settings_buttons(void)
         for (i = 0; i < 5; i++) {
             if (TB(0x1A6 + 10 * i) == 2) {
                 TB(0x1A6 + 10 * i) = 0;
-                TB(0) = 0;
+                BREC_BYTE0 = 0;
                 SI(auto_off_minutes) = 15 * i;
                 auto_off_arm();
                 settings_b_save();
                 return;
             }
         }
-        if (TB(0x1D8) == 2) {
-            TB(0x1D8) = 0;
-            TB(0) = 0;
+        if (BREC(47, state) == 2) {
+            BREC(47, state) = 0;
+            BREC_BYTE0 = 0;
             w = 9;
-        } else if (TB(0x1E2) == 2) {
-            TB(0x1E2) = 0;
-            TB(0) = 0;
+        } else if (BREC(48, state) == 2) {
+            BREC(48, state) = 0;
+            BREC_BYTE0 = 0;
             w = 0x1E;
-        } else if (TB(0x1F6) == 2) {
-            TB(0x1F6) = 0;
-            TB(0) = 0;
+        } else if (BREC(50, state) == 2) {
+            BREC(50, state) = 0;
+            BREC_BYTE0 = 0;
             w = 0x1F;
         } else {
             return;

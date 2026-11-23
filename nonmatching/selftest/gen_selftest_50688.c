@@ -12,18 +12,17 @@
 #include "selftest.h"
 #include "system.h"
 #include "sys_info.h"
+#include "state/factory_block.h"
+#include "state/gen_block.h"
 
-#define GB8(o) (*(volatile unsigned char *)(0x42E3F984u + (o)))
-#define GB32(o) (*(volatile u32 *)(0x42E3F984u + (o)))
-#define RS8(o) (*(volatile unsigned char *)(0x42E68AE0u + (o)))
 
 /* one generator setting: amplitude word a, range byte b, level c, offset d; measure twice */
 static void st_step(u32 a, u32 b, u32 c, u32 d, int wait)
 {
-    GB8(0x2EFA) = 0xD;
-    GB32(0x2EFC) = 0;
-    GB32(0x2F00) = 0;
-    GB32(0x2F04) = a;
+    GENS(waveform) = 0xD;
+    GENS(frequency) = 0;
+    GENS(amplitude) = 0;
+    GENS(offset) = a;
     SI(timebase_index) = b;
     SI(ch1_vdiv_index) = c;
     SI(ch2_vdiv_index) = c;
@@ -60,7 +59,7 @@ void gen_selftest_50688(void)
             b &= q2 < -1499;
         }
     }
-    RS8(0x2F) = a;
-    RS8(0x30) = b;
-    RS8(0x2E) = b & a;
+    FACT(f_02f) = a;
+    FACT(f_030) = b;
+    FACT(f_02e) = b & a;
 }

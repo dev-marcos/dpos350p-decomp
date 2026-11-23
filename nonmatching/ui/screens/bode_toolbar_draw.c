@@ -9,16 +9,17 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 #include "ui/screens.h"
+#include "state/bode_block.h"
+#include "state/touch_buttons.h"
+#include "state/ui_windows.h"
 
 #define SYS 0x40544E68u
-#define LAY 0x42E64520u              /* UI layout table */
 #define TT (SYS + 0x3DD530)          /* toolbar theme: +0 fill, +4 icon, +8 text, +0x1C pressed */
 #define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
 #define BODE 0x42E180C8u             /* frequency-response view block */
 #define B8(a) (*(volatile unsigned char *)(a))
 #define SB8(a) (*(volatile signed char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define ENT(n) (TXT + 0x1A0 * (n))
 
@@ -45,7 +46,7 @@ static void tool_button(u32 tx, u32 y, u32 c, u32 img, u32 e, u32 rec)
 
 void bode_toolbar_draw(void)
 {
-    u32 x = H16(LAY + 0x1E2), y = H16(LAY + 0x1E4), w = H16(LAY + 0x1E6), h = H16(LAY + 0x1E8);
+    u32 x = WREC(34, x), y = WREC(34, y), w = WREC(34, w), h = WREC(34, h);
     u32 tx;
 
     draw_colour_set(0xFFFFFF);
@@ -68,12 +69,12 @@ void bode_toolbar_draw(void)
     draw_text_shadowed((tx + 0x49) & 0xFFFF, (y + 2) & 0xFFFF, 0x4008BA18u, 2, 2, 0);
     draw_colour_set(W32(TT + 8));
     {
-        u32 e = B8(BODE + 0x44) ? ENT(70) : ENT(71);
+        u32 e = BODES(loop) ? ENT(70) : ENT(71);
         u32 tw = text_width((const char *)W32(e));
         text_shadow_draw((tx + ((0xA6 - tw) >> 1) + SB8(e + 0x194)) & 0xFFFF, (y + SB8(e + 0x195) + 0x19) & 0xFFFF, (const char *)W32(e), 1, 2, 0);
     }
     touch_button_set_rect(tx & 0xFFFF, y, 0xA6, 0x2C, (volatile unsigned char *)(BTN + 0xAF2));
-    if (B8(BTN + 0xAF3)) {
+    if (BREC(280, touch_code)) {
         draw_colour_set(W32(TT + 0x1C));
         rect_fill(tx & 0xFFFF, y, 0xA6, 0x2C);
     }
@@ -82,10 +83,10 @@ void bode_toolbar_draw(void)
     tx += 0xAA;
     draw_colour_set(W32(TT));
     rect_fill(tx & 0xFFFF, y, 0xA6, 0x2C);
-    draw_colour_set(B8(BODE + 0x45) ? 0xFF0000 : 0xFF00);
+    draw_colour_set(BODES(running) ? 0xFF0000 : 0xFF00);
     draw_text_shadowed((tx + 0x47) & 0xFFFF, (y + 8) & 0xFFFF, 0x400857FCu, 2, 2, 0);
     touch_button_set_rect(tx & 0xFFFF, y, 0xA6, 0x2C, (volatile unsigned char *)(BTN + 0xAFC));
-    if (B8(BTN + 0xAFD)) {
+    if (BREC(281, touch_code)) {
         draw_colour_set(W32(TT + 0x1C));
         rect_fill(tx & 0xFFFF, y, 0xA6, 0x2C);
     }

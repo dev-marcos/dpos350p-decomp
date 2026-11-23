@@ -1,7 +1,7 @@
 /*
  * gen_screen_draw -- stock 0x40022958 (5000 bytes, ARM)
  * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
- * Window 18 (layout 0x42E64520 + 0x102), the signal generator. Left: four 390 x 60 tabs (touch buttons 0x42E61FF8 + 0x624 + 10 i, labels entries 46..49), the selected one (G+1, G = 0x42E3F984) in 0x303030 with a triangle marker; the read-outs in font 0x42E66BD8: frequency GN32(0x2EFC) as 8 digits + Hz, amplitude GN32(0x2F00) as d.ddd VPP, offset GN32(0x2F04) as [+-]d.ddd VDC, duty GN32(0x2F08) as dd.d %; a 15 x 3 cursor under digit *GN32(4) of the selected row. Right: the arrow pad (four 20-line triangles, grey when their button +0x656 / +0x660 / +0x66A / +0x674 is pressed) and a 4 x 4 menu icon (+0x67E). Bottom: the waveform preview box (button +0x64C) with the white polyline of the GN16(0xFAE) points GN16(0x10 + 2 i). When G+0xC is set, the 3 x 5 picker of the 15 waveforms (buttons +0x688 + 10 i, labels entries 50..64, the current one G+0x2EFA highlighted) covers the top. Last, a status bar with the current waveform name. Colours come from the palette 0x409223B4 and the theme SYS+0x3DD54C.
+ * Window 18 (layout 0x42E64520 + 0x102), the signal generator. Left: four 390 x 60 tabs (touch buttons 0x42E61FF8 + 0x624 + 10 i, labels entries 46..49), the selected one (G+1, G = 0x42E3F984) in 0x303030 with a triangle marker; the read-outs in font 0x42E66BD8: frequency GN32(0x2EFC) as 8 digits + Hz, amplitude GN32(0x2F00) as d.ddd VPP, offset GN32(0x2F04) as [+-]d.ddd VDC, duty GN32(0x2F08) as dd.d %; a 15 x 3 cursor under digit *GN32(4) of the selected row. Right: the arrow pad (four 20-line triangles, grey when their button +0x656 / +0x660 / +0x66A / +0x674 is pressed) and a 4 x 4 menu icon (+0x67E). Bottom: the waveform preview box (button +0x64C) with the white polyline of the GENS(f_fae) points GN16(0x10 + 2 i). When G+0xC is set, the 3 x 5 picker of the 15 waveforms (buttons +0x688 + 10 i, labels entries 50..64, the current one G+0x2EFA highlighted) covers the top. Last, a status bar with the current waveform name. Colours come from the palette 0x409223B4 and the theme SYS+0x3DD54C.
  */
 #include "hw/platform.h"
 
@@ -9,12 +9,12 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 #include "ui/screens.h"
+#include "state/gen_block.h"
+#include "state/ui_windows.h"
 
 #define U16(v)    ((v) & 0xFFFFu)
-#define LAY16(o)  (*(volatile unsigned short *)(0x42E64520u + (o)))
 #define PAL(i)    (*(volatile u32 *)(0x409223B4u + 4 * (i)))
 #define THEME(o)  (*(volatile u32 *)(0x40544E68u + 0x3DD54Cu + (o)))
-#define GN8(o)     (*(volatile unsigned char *)(0x42E3F984u + (o)))
 #define GN16(o)    (*(volatile unsigned short *)(0x42E3F984u + (o)))
 #define GN32(o)    (*(volatile int *)(0x42E3F984u + (o)))
 #define TREC(o)   ((volatile unsigned char *)(0x42E61FF8u + (o)))
@@ -40,7 +40,7 @@ static u32 gs_arrow_colour(u32 rec)
 
 void gen_screen_draw(void)
 {
-    u32 x = LAY16(0x102), y = LAY16(0x104), w = LAY16(0x106), h = LAY16(0x108);
+    u32 x = WREC(18, x), y = WREC(18, y), w = WREC(18, w), h = WREC(18, h);
     u32 i, j, k, cx, cy, sel, cur, x0, y0;
     unsigned short d[8];
     int v;
@@ -61,7 +61,7 @@ void gen_screen_draw(void)
             draw_colour_set(PAL(1));
         }
     }
-    cy = GN8(1) * 63 + y;                                       /* selected tab */
+    cy = GENS(f_001) * 63 + y;                                       /* selected tab */
     draw_colour_set(0x303030);
     rect_fill(x, U16(cy), 0x186, 0x3C);
     draw_colour_set(PAL(5));
@@ -146,7 +146,7 @@ void gen_screen_draw(void)
 
     byte_42e68be0_set(0);                                      /* edit cursor */
     draw_colour_set(PAL(5));
-    sel = GN8(1);
+    sel = GENS(f_001);
     cur = **(volatile unsigned char *volatile *)(0x42E3F984u + 4);
     cx = cur * 20 + U16(x + 0x9E - 7);
     if (sel == 0) {
@@ -205,8 +205,8 @@ void gen_screen_draw(void)
     rect_fill(x, U16(y + 0xFC), U16(w - 3), 0xBE);
     touch_button_set_rect(x, U16(y + 0xFC), U16(w - 3), 0xBE, TREC(0x64C));
     draw_colour_set(0xFFFFFF);
-    if ((u32)(GN16(0xFAE) - 1) > 1)
-        for (i = 1; i < (u32)(GN16(0xFAE) - 1); i++) {
+    if ((u32)(GENS(f_fae) - 1) > 1)
+        for (i = 1; i < (u32)(GENS(f_fae) - 1); i++) {
             u32 a = GN16(0x10 + 2 * (i - 1)), b = GN16(0x12 + 2 * (i - 1));
             u32 t = U16(y + 0xFC);
             if (a < b)
@@ -215,7 +215,7 @@ void gen_screen_draw(void)
                 vline_draw(U16(x + i + 0x2B), U16(b + t + 0x1E), U16(a + t + 0x1E));
         }
 
-    if (GN8(0xC)) {                                             /* waveform picker */
+    if (GENS(f_00c)) {                                             /* waveform picker */
         word_42e68c74_set(0x42E64A98u);
         draw_colour_set(PAL(1));
         rect_fill(x, y, U16(w - 3), 0xF9);
@@ -242,14 +242,14 @@ void gen_screen_draw(void)
                 gs_text(cx + dw + TDX(e), cy + TDY(e) + 0xF, TXP(e));
             }
         {
-            u32 wv = GN8(0x2EFA), e;
+            u32 wv = GENS(waveform), e;
             int dw;
             cx = 0x79 * (wv % 5) + U16(x + 0x16);
             cy = U16(y + 0x16) + 0x50 * (wv / 5);
             draw_colour_set(THEME(0x14));
             rect_fill(U16(cx), U16(cy), 0x75, 0x2D);
             draw_colour_set(0);
-            e = GN8(0x2EFA) + 0x32;
+            e = GENS(waveform) + 0x32;
             dw = (int)(0x75 - U16(text_width(TXP(e)))) / 2;
             text_draw(U16(cx + dw + TDX(e)), U16(cy + TDY(e) + 0xF), TXP(e));
         }
@@ -262,7 +262,7 @@ void gen_screen_draw(void)
     rect_fill(x, U16(cy - 0x1E), w, 0x1E);
     draw_colour_set(0xBBBBBB);
     {
-        u32 e = GN8(0x2EFA) + 0x32;
+        u32 e = GENS(waveform) + 0x32;
         gs_text(x + TDX(e) + 0x19, cy + TDY(e) - 0x17, TXP(e));
     }
 }

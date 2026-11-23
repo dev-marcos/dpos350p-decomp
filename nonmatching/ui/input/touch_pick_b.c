@@ -7,9 +7,9 @@
 
 #include "hw/fpga.h"
 #include "ui/input.h"
+#include "state/touch_ctl.h"
 
 #define TP      ((volatile short *)0x42E68BB0u)            /* touch block: x0, y0, x1, y1 (s16) */
-#define TS32(o) (*(volatile u32 *)(0x42E68998u + (o)))     /* touch-control state */
 #define TS8     (*(volatile unsigned char *)0x42E68998u)   /* control code of the current touch */
 
 void touch_pick_b(void)
@@ -21,16 +21,16 @@ void touch_pick_b(void)
     }
     if (*(volatile unsigned char *)0x42E22D28u != 0) {
         touch_hit_pair_b();
-        if (TS32(0x64) < 0x7FFFFFFF) {
-            best = TS32(0x64);
+        if (TCS(f_064) < 0x7FFFFFFF) {
+            best = TCS(f_064);
             code = 0x0E;
         }
-        if (TS32(0x68) < best) {
+        if (TCS(f_068) < best) {
             code = 0x0F;
-            best = TS32(0x68);
+            best = TCS(f_068);
         }
     }
-    if (best < TS32(0x60))
+    if (best < TCS(f_060))
         res = code;
     TS8 = res;
 }

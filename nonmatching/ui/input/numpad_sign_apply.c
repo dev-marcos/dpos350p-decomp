@@ -7,6 +7,7 @@
 
 #include "hw/fpga.h"
 #include "ui/input.h"
+#include "state/entry_pad.h"
 
 #define PAD(o)  (*(volatile unsigned char *)(0x42E68A88u + (o)))
 #define WIN21   ((volatile unsigned short *)(0x42E64520u + 0x21u * 14u))
@@ -14,19 +15,19 @@
 void numpad_sign_apply(void)
 {
     int i;
-    int c = (signed char)PAD(3);
-    if (PAD(0x19)) {
+    int c = (signed char)NUMPAD(f_003);
+    if (NUMPAD(has_minus)) {
         if (c == '-')
             return;
         for (i = 0x15; i >= 3; i--)
             PAD(i + 1) = PAD(i);
-        PAD(3) = '-';
-        PAD(0x17) = PAD(0x17) + 1;
+        NUMPAD(f_003) = '-';
+        NUMPAD(len) = NUMPAD(len) + 1;
     } else {
         if (c != '-')
             return;
         for (i = 3; i < 0x16; i++)
             PAD(i) = PAD(i + 1);
-        PAD(0x17) = PAD(0x17) - 1;
+        NUMPAD(len) = NUMPAD(len) - 1;
     }
 }

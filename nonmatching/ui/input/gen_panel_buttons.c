@@ -9,20 +9,18 @@
 #include "generator.h"
 #include "ui/input.h"
 #include "ui/windows.h"
+#include "state/entry_pad.h"
+#include "state/gen_block.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
 void ui_window_invalidate_from_raw(u32 n) __asm__("ui_window_invalidate_from");
 
-#define SYS 0x40544E68u
 #define BTN 0x42E61FF8u              /* touch button records; byte 0 is the pending-touch flag */
 #define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
-#define S16(a) (*(volatile short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 
 #define GEN 0x42E3F984u
-#define PAD 0x42E68A88u              /* number pad state */
 
 static const int step8[8] = { 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1 };
 static const int step4[4] = { 1000, 100, 10, 1 };
@@ -39,12 +37,12 @@ static int take(u32 rec)
 
 static void step(int dir)
 {
-    u32 fld = B8(GEN + 1), p;
+    u32 fld = GENS(f_001), p;
 
     if (fld == 0) {
         p = B8(GEN + 8);
         if (p < 8)
-            W32(GEN + 0x2EFC) += dir * step8[p];
+            GENS(frequency) += dir * step8[p];
     } else if (fld == 1 || fld == 2) {
         p = B8(GEN + 8 + fld);
         if (p < 4)
@@ -52,7 +50,7 @@ static void step(int dir)
     } else if (fld == 3) {
         p = B8(GEN + 0xB);
         if (p < 3)
-            W32(GEN + 0x2F08) += dir * step3[p];
+            GENS(f_2f08) += dir * step3[p];
     }
     B8(BTN) = 0;
     gen_update();
@@ -68,8 +66,8 @@ void gen_panel_buttons(void)
     for (k = 0; k < 4; k++) {
         if (take(0x624 + 0xA * k)) {
             B8(BTN) = 0;
-            B8(GEN + 1) = k;
-            W32(GEN + 4) = GEN + 8 + k;
+            GENS(f_001) = k;
+            GENS(f_004) = GEN + 8 + k;
             return;
         }
     }
@@ -83,23 +81,23 @@ void gen_panel_buttons(void)
     }
     if (take(0x66A)) {
         B8(BTN) = 0;
-        fld = B8(GEN + 1);
+        fld = GENS(f_001);
         if (fld < 4 && B8(GEN + 8 + fld) != 0)
             B8(GEN + 8 + fld) = B8(GEN + 8 + fld) - 1;
         return;
     }
     if (take(0x674)) {
-        fld = B8(GEN + 1);
+        fld = GENS(f_001);
         if (fld < 4 && B8(GEN + 8 + fld) < pos_max[fld])
             B8(GEN + 8 + fld) = B8(GEN + 8 + fld) + 1;
         return;
     }
     if (take(0x67E)) {
         B8(BTN) = 0;
-        fld = B8(GEN + 1);
+        fld = GENS(f_001);
         if (fld > 3)
             return;
-        B8(PAD + 2) = 0;
+        NUMPAD(f_002) = 0;
         if (fld == 0)
             numpad_open_mode1(0x1BD, 0xA8);
         else if (fld == 3)
@@ -107,21 +105,21 @@ void gen_panel_buttons(void)
         else
             numpad_open_mode4(0x1BD, 0xA8);
         ptr = GEN + 0x2EFC + 4 * fld;
-        W32(PAD + 0x30) = ptr;
-        B8(PAD + 0x4C) = 1;
-        W32(PAD + 0x50) = 0x4004D18Cu;          /* gen_update */
+        NUMPAD(target_2) = ptr;
+        NUMPAD(f_04c) = 1;
+        NUMPAD(f_050) = 0x4004D18Cu;          /* gen_update */
         return;
     }
     if (take(0x64C)) {
         B8(BTN) = 0;
-        B8(GEN + 0xC) = B8(GEN + 0xC) == 0;
+        GENS(f_00c) = GENS(f_00c) == 0;
         return;
     }
     for (k = 0; k < 15; k++) {
         if (take(0x688 + 0xA * k)) {
             B8(BTN) = 0;
-            B8(GEN + 0x2EFA) = k;
-            B8(GEN + 0xC) = 0;
+            GENS(waveform) = k;
+            GENS(f_00c) = 0;
             gen_update();
             ui_window_invalidate_from_raw(3);
             return;

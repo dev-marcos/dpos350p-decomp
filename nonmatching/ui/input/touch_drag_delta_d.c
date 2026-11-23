@@ -7,9 +7,9 @@
 
 #include "hw/fpga.h"
 #include "ui/input.h"
+#include "state/touch_ctl.h"
 
 #define TP      ((volatile short *)0x42E68BB0u)            /* touch block: x0, y0, x1, y1 (s16) */
-#define TS32(o) (*(volatile u32 *)(0x42E68998u + (o)))     /* touch-control state */
 #define TS8     (*(volatile unsigned char *)0x42E68998u)   /* control code of the current touch */
 
 void touch_drag_delta_d(void)
@@ -19,6 +19,6 @@ void touch_drag_delta_d(void)
         dx /= 10;
         dy /= 10;
     }
-    TS32(0x34) = dy;
-    TS32(0x30) = dx;
+    TCS(drag_dy) = dy;
+    TCS(drag_dx) = dx;
 }

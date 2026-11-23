@@ -10,27 +10,27 @@
 #include "system.h"
 #include "ui/input.h"
 #include "ui/windows.h"
+#include "state/touch_buttons.h"
 
-#define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
 
 void file_lists_open_buttons(void)
 {
     touch_group_0340();
-    if (TB(0x340) == 2) {
-        TB(0x340) = 0;
-        TB(0) = 0;
+    if (BREC(83, state) == 2) {
+        BREC(83, state) = 0;
+        BREC_BYTE0 = 0;
         ui_windows_reset();
         ui_window_open(0x14);
         list_a_reload();
-    } else if (TB(0x34A) == 2) {
-        TB(0x34A) = 0;
-        TB(0) = 0;
+    } else if (BREC(84, state) == 2) {
+        BREC(84, state) = 0;
+        BREC_BYTE0 = 0;
         ui_windows_reset();
         ui_window_open(0x18);
         reload_chain_40035744();
-    } else if (TB(0x354) == 2) {
-        TB(0x354) = 0;
-        TB(0) = 0;
+    } else if (BREC(85, state) == 2) {
+        BREC(85, state) = 0;
+        BREC_BYTE0 = 0;
         ui_windows_reset();
         ui_window_open(0x1A);
         reload_chain_400378e0();

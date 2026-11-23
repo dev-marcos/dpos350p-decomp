@@ -9,6 +9,7 @@
 #include "bode.h"
 #include "ui/draw.h"
 #include "sys_info.h"
+#include "state/bode_block.h"
 
 #define SYS 0x40544E68u
 #define BB 0x42E180C8u
@@ -70,9 +71,9 @@ void bode_curves_draw(void)
     y += 0x17;
     func_4002ecc4_span(U16(y + 0xC), U16(x + 5), U16(x + 0x14));
     text_draw(U16(x + 0x1E), U16(y + 5), "deg");
-    if (B8(BB + 0xAD19)) {
-        if (B8(BB + 0xAD1A) == 0)
+    if (BODES(f_ad19)) {
+        if (BODES(f_ad1a) == 0)
             message(131);
     } else
-        message(B8(BB + 0xAD1A) ? 130 : 129);
+        message(BODES(f_ad1a) ? 130 : 129);
 }

@@ -9,15 +9,15 @@
 #include "system.h"
 #include "ui/input.h"
 #include "ui/windows.h"
+#include "state/touch_buttons.h"
 
-#define BTN8(o)  (*(volatile unsigned char *)(0x42E61FF8u + (o)))   /* button table */
 
 void touch_btn_01ec_release(void)
 {
     touch_button_update_01EC();
-    if (BTN8(0x1EC) != 2)
+    if (BREC(49, state) != 2)
         return;
-    BTN8(0x1EC) = 0;
-    BTN8(0) = 0;
+    BREC(49, state) = 0;
+    BREC_BYTE0 = 0;
     factory_reset_keep_language();
 }

@@ -9,16 +9,15 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 #include "ui/screens.h"
+#include "state/touch_buttons.h"
+#include "state/ui_windows.h"
 
 #define SYS 0x40544E68u
-#define LAY 0x42E64520u              /* UI layout table */
 #define TT (SYS + 0x3DD530)          /* toolbar theme: +0 fill, +4 icon, +8 text, +0x1C pressed */
 #define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
-#define BODE 0x42E180C8u             /* frequency-response view block */
 #define B8(a) (*(volatile unsigned char *)(a))
 #define SB8(a) (*(volatile signed char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define ENT(n) (TXT + 0x1A0 * (n))
 
@@ -45,7 +44,7 @@ static void tool_button(u32 tx, u32 y, u32 c, u32 img, u32 e, u32 rec)
 
 void levels_toolbar_draw(void)
 {
-    u32 x = H16(LAY + 0x21A), y = H16(LAY + 0x21C), w = H16(LAY + 0x21E), h = H16(LAY + 0x220);
+    u32 x = WREC(38, x), y = WREC(38, y), w = WREC(38, w), h = WREC(38, h);
     u32 tx;
 
     draw_colour_set(0xFFFFFF);
@@ -65,7 +64,7 @@ void levels_toolbar_draw(void)
     draw_colour_set(0x88FF);
     draw_text_shadowed((tx + 0x47) & 0xFFFF, (y + 8) & 0xFFFF, 0x40085AF4u, 2, 2, 0);
     touch_button_set_rect(tx & 0xFFFF, y, 0xA6, 0x2C, (volatile unsigned char *)(BTN + 0xB7E));
-    if (B8(BTN + 0xB7F)) {
+    if (BREC(294, touch_code)) {
         draw_colour_set(W32(TT + 0x1C));
         rect_fill(tx & 0xFFFF, y, 0xA6, 0x2C);
     }
@@ -76,7 +75,7 @@ void levels_toolbar_draw(void)
     draw_colour_set(B8(0x42E68668u) ? 0xFF0000 : 0xFF00);
     draw_text_shadowed((tx + 0x47) & 0xFFFF, (y + 8) & 0xFFFF, 0x400857FCu, 2, 2, 0);
     touch_button_set_rect(tx & 0xFFFF, y, 0xA6, 0x2C, (volatile unsigned char *)(BTN + 0xB88));
-    if (B8(BTN + 0xB89)) {
+    if (BREC(295, touch_code)) {
         draw_colour_set(W32(TT + 0x1C));
         rect_fill(tx & 0xFFFF, y, 0xA7, 0x2C);
     }

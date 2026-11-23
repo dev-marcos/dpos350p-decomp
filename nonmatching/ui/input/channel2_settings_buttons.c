@@ -10,6 +10,7 @@
 #include "ui/input.h"
 #include "ui/windows.h"
 #include "sys_info.h"
+#include "state/touch_buttons.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -26,42 +27,42 @@ static void channel_buttons(u32 b, u32 s)
         SYS8(s) = SYS8(s) == 0;
         if (SI(f_652))
             SYS8(s) = 1;
-        TB(0) = 0;
+        BREC_BYTE0 = 0;
     } else if (TB(b + 0xA) == 2) {
         TB(b + 0xA) = 0;
-        TB(0) = 0;
+        BREC_BYTE0 = 0;
         SYS8(s + 2) = 0;
     } else if (TB(b + 0x14) == 2) {
         TB(b + 0x14) = 0;
-        TB(0) = 0;
+        BREC_BYTE0 = 0;
         SYS8(s + 2) = 1;
     } else if (TB(b + 0x1E) == 2) {
         TB(b + 0x1E) = 0;
-        TB(0) = 0;
+        BREC_BYTE0 = 0;
         SYS8(s + 2) = 2;
     } else if (TB(b + 0x28) == 2) {
         TB(b + 0x28) = 0;
-        TB(0) = 0;
+        BREC_BYTE0 = 0;
         SYS8(s + 1) = 0;
     } else if (TB(b + 0x32) == 2) {
         TB(b + 0x32) = 0;
-        TB(0) = 0;
+        BREC_BYTE0 = 0;
         SYS8(s + 1) = 1;
     } else if (TB(b + 0x3C) == 2) {
         TB(b + 0x3C) = 0;
         SYS8(s + 4) = SYS8(s + 4) == 0;
-        TB(0) = 0;
+        BREC_BYTE0 = 0;
     } else if (TB(b + 0x5A) == 2) {
         TB(b + 0x5A) = 0;
-        TB(0) = 0;
+        BREC_BYTE0 = 0;
         SYS8(s + 8) = 0;
     } else if (TB(b + 0x46) == 2) {
         TB(b + 0x46) = 0;
-        TB(0) = 0;
+        BREC_BYTE0 = 0;
         SYS8(s + 8) = 1;
     } else if (TB(b + 0x50) == 2) {
         TB(b + 0x50) = 0;
-        TB(0) = 0;
+        BREC_BYTE0 = 0;
         SYS8(s + 8) = 2;
     } else {
         return;

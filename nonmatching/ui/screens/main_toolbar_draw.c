@@ -9,15 +9,14 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 #include "ui/screens.h"
+#include "state/ui_windows.h"
 
 #define SYS 0x40544E68u
-#define LAY 0x42E64520u              /* UI layout table */
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
 #define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
 #define B8(a) (*(volatile unsigned char *)(a))
 #define SB8(a) (*(volatile signed char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define ENT(n) (TXT + 0x1A0 * (n))
 
@@ -37,7 +36,7 @@ static u32 icon_colour(int i)
 
 void main_toolbar_draw(void)
 {
-    u32 x = H16(LAY + 0x14), y = H16(LAY + 0x16), bx, e, tw, wd;
+    u32 x = WREC(1, x), y = WREC(1, y), bx, e, tw, wd;
     int i;
 
     draw_colour_set(0xFFFFFF);

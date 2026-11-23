@@ -10,15 +10,14 @@
 #include "ui/input.h"
 #include "ui/screens.h"
 #include "util.h"
+#include "state/ui_windows.h"
 
 #define SYS 0x40544E68u
-#define LAY 0x42E64520u              /* UI layout table */
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
 #define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
 #define B8(a) (*(volatile unsigned char *)(a))
 #define SB8(a) (*(volatile signed char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define ENT(n) (TXT + 0x1A0 * (n))
 
@@ -65,7 +64,7 @@ static void header(u32 x, u32 y, u32 e)
 
 void measure_select_menu_draw(void)
 {
-    u32 x = H16(LAY + 0xA0), y = H16(LAY + 0xA2), w = H16(LAY + 0xA4), h = H16(LAY + 0xA6);
+    u32 x = WREC(11, x), y = WREC(11, y), w = WREC(11, w), h = WREC(11, h);
 
     word_42e68c74_set(0x42E658D8u);
     half_42e68be2_set(1);

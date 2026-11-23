@@ -12,6 +12,8 @@
 #include "ui/input.h"
 #include "ui/windows.h"
 #include "sys_info.h"
+#include "state/touch_buttons.h"
+#include "state/touch_ctl.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -34,36 +36,36 @@ static void press_save(void)
 
     switch (m) {
     case 1:
-        S64(U + 8) = S64(SYS + (SPLIT ? 0x578 : 0x570));
+        TCS(drag_start) = S64(SYS + (SPLIT ? 0x578 : 0x570));
         break;
     case 2:
-        S64(U + 8) = SI(f_578);
+        TCS(drag_start) = SI(f_578);
         break;
     case 3:
     case 4:
-        S64(U + 8) = S64(SYS + (SPLIT ? 0x578 : 0x570));
-        S64(U + 0x10) = (int)W32(SYS + (m == 3 ? 0x60 : 0x120));
+        TCS(drag_start) = S64(SYS + (SPLIT ? 0x578 : 0x570));
+        TCS(f_010) = (int)W32(SYS + (m == 3 ? 0x60 : 0x120));
         if (SI(trigger_channel) == m - 3)
-            S64(U + 0x18) = S16(SYS + 0x27E);
+            TCS(f_018) = S16(SYS + 0x27E);
         break;
     case 5:
     case 6:
-        S64(U + 8) = SI(f_578);
-        S64(U + 0x10) = (int)W32(SYS + (m == 5 ? 0x60 : 0x120));
+        TCS(drag_start) = SI(f_578);
+        TCS(f_010) = (int)W32(SYS + (m == 5 ? 0x60 : 0x120));
         break;
     case 7:
     case 8:
     case 9:
     case 10:
-        S64(U + 8) = (int)W32(SYS + 0x808 + 4 * (m - 7));
+        TCS(drag_start) = (int)W32(SYS + 0x808 + 4 * (m - 7));
         break;
     case 11:
     case 12:
-        S64(U + 8) = (int)W32(SYS + 0x3DA534 + 4 * (m - 11));
+        TCS(drag_start) = (int)W32(SYS + 0x3DA534 + 4 * (m - 11));
         break;
     case 13:
-        S64(U + 8) = (int)SI(ch1_offset);
-        S64(U + 0x10) = (int)SI(ch2_offset);
+        TCS(drag_start) = (int)SI(ch1_offset);
+        TCS(f_010) = (int)SI(ch2_offset);
         break;
     }
 }
@@ -73,15 +75,15 @@ static void h_drag(int dx)
     long long d = (long long)dx * S64(SYS + 0x590);
 
     if (SPLIT)
-        SI(f_578) = S64(U + 8) + d;
+        SI(f_578) = TCS(drag_start) + d;
     else
-        SI(f_570) = S64(U + 8) - d;
+        SI(f_570) = TCS(drag_start) - d;
 }
 
 static void move(void)
 {
-    u32 m = B8(U), lo8 = (u32)S64(U + 8);
-    int dx = (int)W32(U + 0x30), dy = (int)W32(U + 0x34);
+    u32 m = B8(U), lo8 = (u32)TCS(drag_start);
+    int dx = (int)TCS(drag_dx), dy = (int)TCS(drag_dy);
 
     switch (m) {
     case 1:
@@ -90,20 +92,20 @@ static void move(void)
         break;
     case 2:
         if (SI(f_580))
-            SI(f_578) = S64(U + 8) - (long long)dx * SI(f_5a0);
+            SI(f_578) = TCS(drag_start) - (long long)dx * SI(f_5a0);
         break;
     case 3:
     case 4:
         if (SI(f_580))
             h_drag(dx);
-        W32(SYS + (m == 3 ? 0x60 : 0x120)) = dy + (u32)S64(U + 0x10);
+        W32(SYS + (m == 3 ? 0x60 : 0x120)) = dy + (u32)TCS(f_010);
         if (SI(trigger_channel) == m - 3)
-            SI(trigger_level) = dy + (u32)S64(U + 0x18);
+            SI(trigger_level) = dy + (u32)TCS(f_018);
         break;
     case 5:
     case 6:
-        SI(f_578) = S64(U + 8) - (long long)dx * SI(f_5a0);
-        W32(SYS + (m == 5 ? 0x60 : 0x120)) = dy + (u32)S64(U + 0x10);
+        SI(f_578) = TCS(drag_start) - (long long)dx * SI(f_5a0);
+        W32(SYS + (m == 5 ? 0x60 : 0x120)) = dy + (u32)TCS(f_010);
         break;
     case 7:
     case 8:
@@ -122,7 +124,7 @@ static void move(void)
         break;
     case 13:
         SI(ch1_offset) = lo8 - dx;
-        SI(ch2_offset) = dy + (u32)S64(U + 0x10);
+        SI(ch2_offset) = dy + (u32)TCS(f_010);
         break;
     }
 }
@@ -131,23 +133,23 @@ void plot_touch_drag(void)
 {
     int x;
 
-    if (B8(BTN + 0xF2) == 1) {
-        B8(BTN + 0xF2) = 0;
+    if (BREC(24, state) == 1) {
+        BREC(24, state) = 0;
         B8(BTN) = 0;
         ui_window_invalidate_from_raw(3);
         touch_drag_pick();
         press_save();
         W32(0x42E68C78u) = W32(0x42E68CD8u);
     }
-    if (B8(BTN + 0xF3) == 1) {
-        B8(BTN + 0xF3) = 0;
+    if (BREC(24, touch_code) == 1) {
+        BREC(24, touch_code) = 0;
         B8(BTN) = 1;
         touch_drag_delta();
         move();
     }
-    if (B8(BTN + 0xF2) != 2)
+    if (BREC(24, state) != 2)
         return;
-    B8(BTN + 0xF2) = 0;
+    BREC(24, state) = 0;
     B8(BTN) = 0;
     x = S16(TCH + 8);
     if (S16(TCH + 4) != x || S16(TCH + 6) != S16(TCH + 0xA) || W32(0x42E68CD8u) - W32(0x42E68C78u) >= 600)

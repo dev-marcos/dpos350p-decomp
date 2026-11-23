@@ -15,6 +15,8 @@
 #include "ui/screens.h"
 #include "ui/windows.h"
 #include "sys_info.h"
+#include "state/touch_buttons.h"
+#include "state/ui_windows.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -25,21 +27,20 @@ void inv_left(u32 id) __asm__("ui_window_invalidate_from");
 
 #define TX8(o) (*(volatile signed char *)(0x42C2FE74u + (o)))
 #define TX32(o) (*(volatile u32 *)(0x42C2FE74u + (o)))
-#define WR16(o) (*(volatile unsigned short *)(0x42E64520u + (o)))
 
 void settings_slot_buttons(void)
 {
     u32 cx, cy, i, m;
     touch_group_0124();
-    cx = (unsigned short)(WR16(0x76) + (WR16(0x7A) >> 1));
-    cy = (unsigned short)(WR16(0x78) + (WR16(0x7C) >> 1));
+    cx = (unsigned short)(WREC(8, x) + (WREC(8, w) >> 1));
+    cy = (unsigned short)(WREC(8, y) + (WREC(8, h) >> 1));
     for (i = 0; i < 5; i++)
         if (TB(0x124 + 10 * i) == 2)
             break;
     if (i == 5)
         return;
     TB(0x124 + 10 * i) = 0;
-    TB(0) = 0;
+    BREC_BYTE0 = 0;
     SI(f_7c0) = i + 1;
     m = *(volatile unsigned char *)(0x42E64520u + 0x67);
     if (m == 1) {

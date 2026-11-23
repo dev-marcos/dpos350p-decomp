@@ -8,14 +8,14 @@
 #include "hw/fpga.h"
 #include "ui/input.h"
 #include "ui/windows.h"
+#include "state/entry_pad.h"
 
-#define PAD(o)  (*(volatile unsigned char *)(0x42E68A88u + (o)))
 #define WIN21   ((volatile unsigned short *)(0x42E64520u + 0x21u * 14u))
 
 void numpad_open_mode5(u32 x, u32 y)
 {
     numpad_reset();
-    PAD(1) = 5;
+    NUMPAD(mode) = 5;
     WIN21[4] = y;
     WIN21[3] = x;
     ui_window_open(0x21);

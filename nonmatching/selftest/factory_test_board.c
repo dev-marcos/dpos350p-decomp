@@ -13,6 +13,7 @@
 #include "system.h"
 #include "ui/draw.h"
 #include "sys_info.h"
+#include "state/factory_block.h"
 
 #define FT8(o)      (*(volatile unsigned char *)(0x42E68AE0u + (o)))
 #define FT_WHITE    0x00FFFFFFu
@@ -69,26 +70,26 @@ void factory_test_board(void)
     text_draw(15, 15, (const char *)0x4008E8E8u);       /* 磁盘初始化 ... */
     fb_present();
     disk_check_file();
-    if (!FT8(0x10)) {
+    if (!FACT(f_010)) {
         ft_text(FT_RED, 160, 15, FT_FAIL);
         ft_halt();
     }
     ft_ok_next(160, 15, (const char *)0x4008EFDCu);     /* FPGA检测 ... */
     fpga_probe_and_copy_7fc();
-    if (!FT8(0x11)) {
+    if (!FACT(fpga_probe_ok)) {
         ft_text(FT_RED, 160, 40, FT_FAIL);
         ft_halt();
     }
     ft_ok_next(160, 40, (const char *)0x4008E304u);     /* 加密芯片检测 ... */
     security_check_and_copy();
-    if (!FT8(0x12)) {
+    if (!FACT(security_chip_ok)) {
         ft_text(FT_RED, 160, 65, FT_FAIL);
         ft_halt();
     }
     ft_ok_next(160, 65, (const char *)0x4008EFECu);     /* ADC检测 ... */
     table_684_init();
     selftest_4f5e4();
-    if (!FT8(0x18)) {
+    if (!FACT(f_018)) {
         /* one red line "ADCk 异常" per failed lane; names "ADC1".."ADC8" are 8 bytes apart */
         y = 90;
         for (k = 0; k < 8; k++) {
@@ -108,18 +109,18 @@ void factory_test_board(void)
     SI(f_54e) = 1;
     calib_run_4_channels();
     SI(f_54e) = 0;
-    if (!FT8(0x21))
-        ft_fail2(160, 115, FT8(0x22), FT8(0x23));
+    if (!FACT(f_021))
+        ft_fail2(160, 115, FACT(f_022), FACT(f_023));
     ft_ok_next(160, 115, (const char *)0x4008E31Cu);    /* 通道复用检测 ... */
     gen_selftest_4f89c();
-    if (!FT8(0x13)) {
+    if (!FACT(f_013)) {
         ft_text(FT_RED, 160, 140, FT_FAIL);
         ft_halt();
     }
     ft_ok_next(160, 140, (const char *)0x4008DC40u);    /* 150M带宽限制检测 ... */
     gen_selftest_50bac();
-    if (!FT8(0x3F))
-        ft_fail2(160, 165, FT8(0x40), FT8(0x41));
+    if (!FACT(f_03f))
+        ft_fail2(160, 165, FACT(f_040), FACT(f_041));
     ft_text(FT_WHITE, 160, 165, FT_OK);
     SI(f_780) = SI(f_77c);
 }

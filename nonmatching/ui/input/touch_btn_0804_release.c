@@ -8,15 +8,15 @@
 #include "hw/fpga.h"
 #include "ui/input.h"
 #include "ui/windows.h"
+#include "state/touch_buttons.h"
 
-#define BTN8(o)  (*(volatile unsigned char *)(0x42E61FF8u + (o)))   /* button table */
 
 void touch_btn_0804_release(void)
 {
     touch_button_update_0804();
-    if (BTN8(0x804) != 2)
+    if (BREC(205, state) != 2)
         return;
-    BTN8(0x804) = 0;
-    BTN8(0) = 0;
+    BREC(205, state) = 0;
+    BREC_BYTE0 = 0;
     ui_window_open(0x17);
 }

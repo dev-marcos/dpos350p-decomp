@@ -10,16 +10,15 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 #include "ui/screens.h"
+#include "state/levels_block.h"
+#include "state/ui_windows.h"
 
 #define SYS 0x40544E68u
-#define LAY 0x42E64520u              /* UI layout table */
 #define TT (SYS + 0x3DD530)          /* toolbar theme: +0 fill, +4 icon, +8 text, +0x1C pressed */
 #define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
-#define BODE 0x42E180C8u             /* frequency-response view block */
 #define B8(a) (*(volatile unsigned char *)(a))
 #define SB8(a) (*(volatile signed char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define ENT(n) (TXT + 0x1A0 * (n))
 
@@ -68,7 +67,7 @@ static void lp_tail(u32 tx, u32 y, u32 wd, u32 rec)
 
 void levels_param_bar_draw(void)
 {
-    u32 x = H16(LAY + 0x228), y = H16(LAY + 0x22A), w = H16(LAY + 0x22C), h = H16(LAY + 0x22E);
+    u32 x = WREC(39, x), y = WREC(39, y), w = WREC(39, w), h = WREC(39, h);
     u32 tx, e, k;
 
     draw_colour_set(0xFFFFFF);
@@ -90,7 +89,7 @@ void levels_param_bar_draw(void)
         tx = (tx + 0x92) & 0xFFFF;
     }
     lp_head(tx, y, 0x8D, ENT(77));
-    e = B8(BLK + 3) ? ENT(66) : ENT(65);
+    e = LEVELS(move_slow) ? ENT(66) : ENT(65);
     text_shadow_draw((tx + SB8(e + 0x194) + 0xF) & 0xFFFF, (y + SB8(e + 0x195) + 0x19) & 0xFFFF, (const char *)W32(e), 1, 2, 0);
     lp_tail(tx, y, 0x8D, 0xBCE);
 }

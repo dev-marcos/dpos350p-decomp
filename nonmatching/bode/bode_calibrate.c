@@ -12,10 +12,11 @@
 #include "processing.h"
 #include "storage/settings.h"
 #include "sys_info.h"
+#include "state/bode_block.h"
+#include "state/gen_block.h"
 
 #define SYS 0x40544E68u
 #define BB 0x42E180C8u
-#define GEN 0x42E3F984u
 #define DREC 0x42E554B0u
 #define TOUCH 0x42E68BB0u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -34,9 +35,9 @@ static double point_ratio(void)
     double a = BD(0xACF8), b = BD(0xAD00), r;
     r = b / a;
     if (a >= LIM.d)
-        B8(BB + 0xAD19) = 1;
+        BODES(f_ad19) = 1;
     if (b >= LIM.d)
-        B8(BB + 0xAD1A) = 1;
+        BODES(f_ad1a) = 1;
     return r;
 }
 
@@ -44,12 +45,12 @@ void bode_calibrate(void)
 {
     u32 i;
     trace_defaults_37b48();
-    B8(BB + 0xAD18) = 1;
-    B8(BB + 0x47) = 1;
+    BODES(sweep_busy) = 1;
+    BODES(f_047) = 1;
     BW(0x4C) = 1000;
     BW(0x50) = 0;
-    W(GEN + 0x2F00) = 1000;
-    W(GEN + 0x2F04) = 0;
+    GENS(amplitude) = 1000;
+    GENS(offset) = 0;
     B8(TOUCH + 0x16) = 0;
     B8(TOUCH + 0x15) = 0;
     for (i = 0;; ) {
@@ -60,8 +61,8 @@ void bode_calibrate(void)
         if (W(DREC + 0xC) < i)
             break;
     }
-    B8(BB + 0xAD19) = 0;
-    B8(BB + 0xAD1A) = 0;
+    BODES(f_ad19) = 0;
+    BODES(f_ad1a) = 0;
     SI(ch1_vdiv_index) = 11;
     SI(ch2_vdiv_index) = 11;
     for (i = 0;; ) {
@@ -79,7 +80,7 @@ void bode_calibrate(void)
         if (W(DREC + 0xC) < i)
             break;
     }
-    if (B8(BB + 0xAD19) && B8(BB + 0xAD1A))
+    if (BODES(f_ad19) && BODES(f_ad1a))
         settings_d_save();
     B8(TOUCH + 0x16) = 1;
 }

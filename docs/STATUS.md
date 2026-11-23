@@ -31,7 +31,7 @@ keeps `make check` at MATCH, all 1264 functions EQUIVALENT, the self-test comple
 | 1. Files named after their function and grouped by module (`nonmatching/<module>/<name>.c`); tools find a function by its header address (`tools/srcindex.py`); the spec generators retired, so the C files are the source | done |
 | 2. One header per module (`include/<module>.h`, 45 headers) instead of prototypes repeated in each file; prototypes removed from `include/hw/*.h`; 58 files keep an `__asm__` alias where the stock caller uses a different register interface. Object code of every file unchanged (compared byte for byte, three flag sets) | done |
 | 3a. SYS_INFO as `struct sys_info` (`include/sys_info.h`, 423 fields, 102 named with their evidence level) read through `SI(field)`; 2191 of 2280 constant-offset accesses in 317 files rewritten, object code of every file unchanged (three flag sets) | done |
-| 3b. The same for the other blocks: touch button records (0x42E61FF8), layout (0x42E64520), GEN (0x42E3F984), 0x42E68668, 0x42E180C8, 0x42E68AE0 and the smaller ones | to do |
+| 3b. The other blocks (`include/state/`): six flat blocks (generator `GENS`, level view `LEVELS`, Bode view `BODES`, factory state `FACT`, touch control `TCS`, entry pad `NUMPAD`) and two record tables (touch buttons `BREC(k, field)`, UI windows `WREC(id, field)`); 1214 of 1287 constant-offset accesses in 133 files rewritten, object code unchanged | done |
 | 4. Names for the 14 `func_…` wrappers and the mechanical names (`touch_group_0B06`, `half_42e68be2_set`…) | to do |
 
 ### Batches done (Phase 5)

@@ -8,13 +8,13 @@
 #include "hw/fpga.h"
 #include "ui/draw.h"
 #include "sys_info.h"
+#include "state/ui_windows.h"
 
-#define H16(a) (*(volatile unsigned short *)(a))
 
 void battery_icon_draw(void)
 {
-    u32 x = H16(0x42E64520u + 0x3E), y = H16(0x42E64520u + 0x40);
-    u32 w = H16(0x42E64520u + 0x42), h = H16(0x42E64520u + 0x44), lv;
+    u32 x = WREC(4, x), y = WREC(4, y);
+    u32 w = WREC(4, w), h = WREC(4, h), lv;
     draw_colour_set(0);
     rect_fill(x, y, w, h);
     draw_colour_set(0xDDDDDD);

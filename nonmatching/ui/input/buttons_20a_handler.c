@@ -13,25 +13,24 @@
 #include "ui/input.h"
 #include "ui/windows.h"
 #include "sys_info.h"
+#include "state/touch_buttons.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
 void ui_window_close_raw(u32 id) __asm__("ui_window_close");
 
-#define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
 void inv_left(u32 id) __asm__("ui_window_invalidate_from");
 
-#define TH16(o) (*(volatile unsigned short *)(0x42E61FF8u + (o)))
 
 void buttons_20a_handler(void)
 {
     touch_group_020A();
-    if (TB(0x20B)) {
+    if (BREC(52, touch_code)) {
         int x, lo, hi, d, n;
-        TB(0) = 1;
+        BREC_BYTE0 = 1;
         x = *(volatile short *)0x42E68BB0u;
-        lo = TH16(0x20C);
-        hi = TH16(0x210);
+        lo = BREC(52, x0);
+        hi = BREC(52, x1);
         if (x < lo)
             x = lo;
         else if (hi < x)
@@ -41,33 +40,33 @@ void buttons_20a_handler(void)
         SI(f_654) = d == 0 ? 0 : d == -1 ? (int)(0u - (u32)n) : n / d;
         return;
     }
-    if (TB(0x214) == 2) {
-        TB(0) = 0;
-        TB(0x214) = 0;
+    if (BREC(53, state) == 2) {
+        BREC_BYTE0 = 0;
+        BREC(53, state) = 0;
         SI(f_653) = SI(f_653) == 0;
-    } else if (TB(0x21E) == 2) {
-        TB(0) = 0;
-        TB(0x21E) = 0;
+    } else if (BREC(54, state) == 2) {
+        BREC_BYTE0 = 0;
+        BREC(54, state) = 0;
         SI(f_652) = SI(f_652) == 0;
-    } else if (TB(0x228) == 2) {
-        TB(0) = 0;
-        TB(0x228) = 0;
+    } else if (BREC(55, state) == 2) {
+        BREC_BYTE0 = 0;
+        BREC(55, state) = 0;
         SI(f_655) = SI(f_655) == 0;
-    } else if (TB(0x17E) == 2) {
-        TB(0x17E) = 0;
-        TB(0) = 0;
-    } else if (TB(0x232) == 2) {
-        TB(0) = 0;
-        TB(0x232) = 0;
+    } else if (BREC(38, state) == 2) {
+        BREC(38, state) = 0;
+        BREC_BYTE0 = 0;
+    } else if (BREC(56, state) == 2) {
+        BREC_BYTE0 = 0;
+        BREC(56, state) = 0;
         ui_window_close_raw(0xA);
         ui_window_close_raw(5);
         ui_window_close_raw(2);
         ui_window_open(0x1C);
         ui_window_open(5);
         sys_3c_enter();
-    } else if (TB(0x23C) == 2) {
-        TB(0x23C) = 0;
-        TB(0) = 0;
+    } else if (BREC(57, state) == 2) {
+        BREC(57, state) = 0;
+        BREC_BYTE0 = 0;
         sys_info_backup();
         gen_state_backup();
         acq_defaults_reset();
@@ -77,9 +76,9 @@ void buttons_20a_handler(void)
         ui_window_open(0x22);
         ui_window_open(0x23);
         ui_window_open(0x24);
-    } else if (TB(0x246) == 2) {
-        TB(0x246) = 0;
-        TB(0) = 0;
+    } else if (BREC(58, state) == 2) {
+        BREC(58, state) = 0;
+        BREC_BYTE0 = 0;
         sys_info_backup();
         acq_defaults_reset();
         ui_windows_reset();

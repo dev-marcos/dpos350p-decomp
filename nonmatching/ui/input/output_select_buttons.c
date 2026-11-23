@@ -10,6 +10,7 @@
 #include "ui/input.h"
 #include "ui/windows.h"
 #include "sys_info.h"
+#include "state/touch_buttons.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -24,7 +25,7 @@ void output_select_buttons(void)
     for (i = 0; i < 9; i++) {
         if (TB(0x55C + 10 * i) == 2) {
             TB(0x55C + 10 * i) = 0;
-            TB(0) = 0;
+            BREC_BYTE0 = 0;
             SI(f_660) = i;
             outputs_apply();
             ui_window_invalidate_from_raw(3);

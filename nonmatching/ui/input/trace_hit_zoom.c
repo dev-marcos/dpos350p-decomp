@@ -8,6 +8,7 @@
 #include "hw/fpga.h"
 #include "ui/input.h"
 #include "sys_info.h"
+#include "state/touch_ctl.h"
 
 #define SYS 0x40544E68u
 #define U 0x42E68998u                /* drag state */
@@ -38,7 +39,7 @@ static u32 sample_y(u32 s)
 /* smallest distance from (rx, ty) to the trace columns x0 .. x1 - 1 (n samples each) */
 static int trace_dist(u32 buf, int n, int rx, int ty, u32 xlo, u32 xhi)
 {
-    int best = 0x0FFFFFFF, prev = 0x7FFFFFFF, x0, x1, x, j, y, dy, d, r = (int)W32(U + 4);
+    int best = 0x0FFFFFFF, prev = 0x7FFFFFFF, x0, x1, x, j, y, dy, d, r = (int)TCS(cursor_limit);
     volatile unsigned short *p;
 
     x0 = clamp_x(rx - r);
@@ -86,7 +87,7 @@ void trace_hit_zoom(u32 ch)
     best = trace_dist(buf, n, rx, ty, SI(f_016), SI(f_018));
     h = SI(plot_height);
     third = (h * 0xAAABu) >> 17;
-    if (W32(U + 4) < (u32)best) {
+    if (TCS(cursor_limit) < (u32)best) {
         b = third + (2 * (h - W32(rng))) / 3;
         a = third + (2 * (h - W32(rng + 4))) / 3;
         best = band(best, (int)b, (int)a, ty);

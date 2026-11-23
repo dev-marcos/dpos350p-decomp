@@ -9,9 +9,8 @@
 #include "libc.h"
 #include "processing.h"
 #include "stock_asm.h"
+#include "state/levels_block.h"
 
-#define MD(o) (*(volatile double *)(0x42E68668u + (o)))
-#define M64(o) (*(volatile long long *)(0x42E68668u + (o)))
 
 void measure_setup_62e14(void)
 {
@@ -23,13 +22,13 @@ void measure_setup_62e14(void)
     *(volatile unsigned char *)(0x42E68668u + 5) = 1;
     fft_spur_cancel();
     func_40061f10();
-    d = (MD(0x10) - (MD(0x20) + MD(0x28)) * 0.5) / 6.0;
-    MD(0x140) = d;
-    MD(0x148) = MD(0x10) + d * 0.5;
-    v = (long long)MD(0x48);
+    d = (LEVELS(max_level_dbmv) - (LEVELS(f_020) + LEVELS(f_028)) * 0.5) / 6.0;
+    LEVELS(attenuation) = d;
+    LEVELS(reference) = LEVELS(max_level_dbmv) + d * 0.5;
+    v = (long long)LEVELS(f_048);
     t = (long long)((unsigned long long)v * 2u);
-    M64(0x138) = t;
-    M64(0x130) = v;
-    M64(0x120) = (long long)((unsigned long long)v - (unsigned long long)(t / 2));
-    M64(0x128) = (long long)((unsigned long long)v + (unsigned long long)(M64(0x138) / 2));
+    LEVELS(freq_span) = t;
+    LEVELS(center_freq) = v;
+    LEVELS(start_freq) = (long long)((unsigned long long)v - (unsigned long long)(t / 2));
+    LEVELS(stop_freq) = (long long)((unsigned long long)v + (unsigned long long)(LEVELS(freq_span) / 2));
 }

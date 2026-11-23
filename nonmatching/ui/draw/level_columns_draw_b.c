@@ -8,8 +8,8 @@
 #include "hw/fpga.h"
 #include "ui/draw.h"
 #include "util.h"
+#include "state/levels_block.h"
 
-#define MB8(o) (*(volatile unsigned char *)(0x42E68668u + (o)))
 #define MB32(o) (*(volatile u32 *)(0x42E68668u + (o)))
 #define COLOUR16 (*(volatile unsigned short *)0x42E68660u)
 #define SCREEN (*(volatile u32 *)0x40095498u)
@@ -24,22 +24,22 @@ void level_columns_draw_b(void)
     u32 h;
     if (*(volatile unsigned char *)(0x42E68BB0u + 0x17))
         return;
-    if (MB8(2) == 0)
+    if (LEVELS(panel_b_on) == 0)
         return;
-    h = MB32(0xF0);
-    for (col = 0; col < (int)MB32(0xEC); col++) {
+    h = LEVELS(panel_b_rows);
+    for (col = 0; col < (int)LEVELS(f_0ec); col++) {
         int top = TOP16(col), y = (int)h, i = 0;
         double k = 510.0 / (double)(u32)(h - MB32(0x174));
         if (y >= top) {
             do {
                 draw_colour_set(TBL((int)((double)i * k)));
                 i++;
-                BUF[MB32(0xEC) * (u32)y + (u32)col] = COLOUR16;
+                BUF[LEVELS(f_0ec) * (u32)y + (u32)col] = COLOUR16;
                 y--;
             } while (y >= top);
         }
     }
-    for (r = 0; r < (int)MB32(0xF0); r++)
-        copy_u16((unsigned short *)(SCREEN + ((u32)r + MB32(0xE8)) * 2044u + MB32(0xE4) * 2u),
-                 (const unsigned short *)(BUF + MB32(0xEC) * (u32)r), MB32(0xEC));
+    for (r = 0; r < (int)LEVELS(panel_b_rows); r++)
+        copy_u16((unsigned short *)(SCREEN + ((u32)r + LEVELS(panel_b_y)) * 2044u + LEVELS(panel_b_x) * 2u),
+                 (const unsigned short *)(BUF + LEVELS(f_0ec) * (u32)r), LEVELS(f_0ec));
 }

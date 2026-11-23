@@ -7,13 +7,10 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "state/levels_block.h"
 
-#define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 #define F32(a) (*(volatile float *)(a))
-#define D64(a) (*(volatile double *)(a))
 
 #define BLK 0x42E68668u
 #define SPT 0x42E3C000u
@@ -39,8 +36,8 @@ void fft_spur_capture(void)
     double sum = 0.0;
     float v;
     long long a;
-    spur_lists(W32(BLK + 0xF4), &vals, &idxs, &mean, &cntp);
-    half = (int)W32(BLK + 0xF8) / 2;
+    spur_lists(LEVELS(spur_mode), &vals, &idxs, &mean, &cntp);
+    half = (int)LEVELS(fft_points) / 2;
     if ((u32)half >= 3)
         for (i = 2; i < (u32)half; i++)
             sum = (double)F32(SPEC + 4 * i) + sum;

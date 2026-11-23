@@ -8,10 +8,9 @@
 #include "hw/fpga.h"
 #include "ui/draw.h"
 #include "ui/screens.h"
+#include "state/levels_block.h"
 
 #define MI(o) (*(volatile int *)(0x42E68668u + (o)))
-#define MD(o) (*(volatile double *)(0x42E68668u + (o)))
-#define M64(o) (*(volatile long long *)(0x42E68668u + (o)))
 
 void levels_shade_draw(void)
 {
@@ -20,9 +19,9 @@ void levels_shade_draw(void)
     volatile short *lv;
     if (*(volatile unsigned char *)(0x42E68BB0u + 0x17))
         return;
-    k1 = 238.0 / (double)(top - MI(0x160));
-    k2 = 270.0 / (double)(top - MI(0x168));
-    y = MI(0x168);
+    k1 = 238.0 / (double)(top - LEVELS(f_160));
+    k2 = 270.0 / (double)(top - LEVELS(f_168));
+    y = LEVELS(f_168);
     if (y >= top)
         return;
     do {
@@ -31,7 +30,7 @@ void levels_shade_draw(void)
             y = 0;
         d = top - y;
         col = *(volatile u32 *)(0x42E56C30u + 4u * (u32)(int)((double)(d < 0 ? 0 : d) * k2));
-        if (MI(0x160) < y)
+        if (LEVELS(f_160) < y)
             a = (u32)((double)d * k1) + 0x11;
         else
             a = 0xFF;

@@ -14,8 +14,8 @@
 #include "storage/files.h"
 #include "system.h"
 #include "ui/draw.h"
+#include "state/factory_block.h"
 
-#define FT8(o)      (*(volatile unsigned char *)(0x42E68AE0u + (o)))
 #define FT_WHITE    0x00FFFFFFu
 #define FT_RED      0x00FF2222u
 #define FT_FONT     0x42E658D8u
@@ -92,10 +92,10 @@ void factory_test_tester(void)
     gen_output_calibrate();
     bode_calibrate();
     factory_channel_gen_check();
-    if (!FT8(0x24)) {
-        if (!FT8(0x25))
-            ft_text(FT_RED, 220, 15, FT8(0x26) ? FT_CH1_FAIL : (const char *)0x4008DA00u);  /* 通道或信号发生器异常 */
-        else if (!FT8(0x26))
+    if (!FACT(f_024)) {
+        if (!FACT(ch1_checks_ok))
+            ft_text(FT_RED, 220, 15, FACT(ch2_checks_ok) ? FT_CH1_FAIL : (const char *)0x4008DA00u);  /* 通道或信号发生器异常 */
+        else if (!FACT(ch2_checks_ok))
             ft_text(FT_RED, 220, 15, FT_CH2_FAIL);
         else
             fb_present();
@@ -103,23 +103,23 @@ void factory_test_tester(void)
     }
     ft_ok_next(220, 15, (const char *)0x4008E334u);     /* 通道量程检测 ... */
     gen_selftest_50688();
-    if (!FT8(0x2E))
-        ft_fail2(220, 40, FT8(0x2F), FT8(0x30));
+    if (!FACT(f_02e))
+        ft_fail2(220, 40, FACT(f_02f), FACT(f_030));
     ft_ok_next(220, 40, (const char *)0x4008E34Cu);     /* 通道DCAC检测 ... */
     gen_selftest_504b8();
-    if (!FT8(0x27))
-        ft_fail2(220, 65, FT8(0x28), FT8(0x29));
+    if (!FACT(f_027))
+        ft_fail2(220, 65, FACT(f_028), FACT(f_029));
     ft_ok_next(220, 65, (const char *)0x4008DC5Cu);     /* 通道平坦度检测 ... */
     gen_selftest_50898();
-    if (!FT8(0x34))
-        ft_fail2(220, 90, FT8(0x35), FT8(0x36));
+    if (!FACT(f_034))
+        ft_fail2(220, 90, FACT(window_a_ok), FACT(window_b_ok));
     ft_ok_next(220, 90, (const char *)0x4008DC78u);     /* 20M带宽限制检测 ... */
     gen_selftest_50ddc();
-    if (!FT8(0x42))
-        ft_fail2(220, 115, FT8(0x43), FT8(0x44));
+    if (!FACT(f_042))
+        ft_fail2(220, 115, FACT(f_043), FACT(f_044));
     ft_ok_next(220, 115, (const char *)0x4008DC94u);    /* ADC时钟相位校准 ... */
     check_pair_save();
-    if (!FT8(0x45)) {
+    if (!FACT(f_045)) {
         ft_text(FT_RED, 220, 140, FT_FAIL);
         ft_halt();
     }

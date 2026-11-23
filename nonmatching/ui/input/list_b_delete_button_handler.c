@@ -9,20 +9,20 @@
 #include "storage/files.h"
 #include "ui/input.h"
 #include "ui/windows.h"
+#include "state/touch_buttons.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
 void ui_window_close_raw(u32 id) __asm__("ui_window_close");
 
-#define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
 
 void list_b_delete_button_handler(void)
 {
     touch_button_update_0912();
-    if (TB(0x912) != 2)
+    if (BREC(232, state) != 2)
         return;
-    TB(0x912) = 0;
-    TB(0) = 0;
+    BREC(232, state) = 0;
+    BREC_BYTE0 = 0;
     list_b_delete_marked();
     ui_window_close_raw(0x19);
     list_b_page_thumbs();

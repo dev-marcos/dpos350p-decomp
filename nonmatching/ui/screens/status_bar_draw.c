@@ -12,6 +12,8 @@
 #include "ui/screens.h"
 #include "util.h"
 #include "sys_info.h"
+#include "state/gen_block.h"
+#include "state/ui_windows.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -20,11 +22,9 @@ void str_copy_raw(char *d, const char *s) __asm__("str_copy");
 
 #define SYSB      0x40544E68u
 #define U16(v)    ((v) & 0xFFFFu)
-#define LAY16(o)  (*(volatile unsigned short *)(0x42E64520u + (o)))
 #define THEME(i)  (*(volatile u32 *)(SYSB + 0x3DD544u + 4 * (i)))
 #define S8(o)     (*(volatile unsigned char *)(SYSB + (o)))
 #define S64(o)    (*(volatile unsigned long long *)(SYSB + (o)))
-#define GN8(o)     (*(volatile unsigned char *)(0x42E3F984u + (o)))
 #define GN32(o)    (*(volatile int *)(0x42E3F984u + (o)))
 #define TREC(o)   ((volatile unsigned char *)(0x42E61FF8u + (o)))
 #define TXE(k)    (0x42C2FE74u + (k) * 0x1A0u)
@@ -136,7 +136,7 @@ static void sb_time_unit(struct sbc *c)
 
 void status_bar_draw(void)
 {
-    u32 x = LAY16(0x30), y = LAY16(0x32) + 3, y2, y1;
+    u32 x = WREC(3, x), y = WREC(3, y) + 3, y2, y1;
     u32 w, fx, sl, nx;
     const char *s;
     struct sbc st, *c = &st;
@@ -255,8 +255,8 @@ void status_bar_draw(void)
     sb_tile(x, y, 0xFF3388, "GEN");
     draw_colour_set(0x5555FF);
     half_42e68be2_set(1);
-    w = text_width((const char *)(0x40094EF0u + GN8(0x2EFA) * 30u));
-    sb_text(x + 0x7B - w, y + 2, (const char *)(0x40094EF0u + GN8(0x2EFA) * 30u));
+    w = text_width((const char *)(0x40094EF0u + GENS(waveform) * 30u));
+    sb_text(x + 0x7B - w, y + 2, (const char *)(0x40094EF0u + GENS(waveform) * 30u));
     draw_colour_set(THEME(1));
     half_42e68be2_set(2);
     value_si_scale(6, 0, (long long)GN32(0x2F00) * 1000, &c->v, &c->dec, &c->pre);

@@ -10,16 +10,16 @@
 #include "ui/input.h"
 #include "ui/windows.h"
 #include "usb/core.h"
+#include "state/touch_buttons.h"
 
-#define BTN8(o)  (*(volatile unsigned char *)(0x42E61FF8u + (o)))   /* button table */
 
 void touch_btn_019c_release(void)
 {
     touch_button_update_019C();
-    if (BTN8(0x19C) != 2)
+    if (BREC(41, state) != 2)
         return;
-    BTN8(0x19C) = 0;
-    BTN8(0) = 0;
+    BREC(41, state) = 0;
+    BREC_BYTE0 = 0;
     usb_mode_exit();
     fb_target_back();
     ui_windows_reset();

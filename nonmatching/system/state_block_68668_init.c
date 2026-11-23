@@ -7,22 +7,21 @@
 
 #include "hw/fpga.h"
 #include "system.h"
+#include "state/levels_block.h"
 
-#define B(o) (*(volatile unsigned char *)(0x42E68668u + (o)))
 #define H(o) (*(volatile unsigned short *)(0x42E68668u + (o)))
 #define W(o) (*(volatile u32 *)(0x42E68668u + (o)))
-#define D(o) (*(volatile double *)(0x42E68668u + (o)))
 
 void state_block_68668_init(void)
 {
     int v;
     W(0x188) = 2;
-    W(0xF4) = 2;
+    LEVELS(spur_mode) = 2;
     H(0) = 0;
-    B(2) = 0;
-    B(0x190) = 0;
-    D(0x140) = 20.0;
-    D(0x148) = 60.0;
+    LEVELS(panel_b_on) = 0;
+    LEVELS(f_190) = 0;
+    LEVELS(attenuation) = 20.0;
+    LEVELS(reference) = 60.0;
     W(0x120) = 200000;
     W(0x124) = 0;
     W(0x128) = 500000000;
@@ -31,10 +30,10 @@ void state_block_68668_init(void)
     W(0x134) = 0;
     W(0x13C) = 0;
     W(0x138) = W(0x128) - 200000;
-    v = (int)W(0xB8);
-    W(0x18C) = 0;
-    B(4) = 0;
-    W(0x58) = 0;
+    v = (int)LEVELS(plot_w);
+    LEVELS(window_mode) = 0;
+    LEVELS(f_004) = 0;
+    LEVELS(markers_on) = 0;
     W(0x5C) = v / 5;
     W(0x60) = (int)((u32)v * 4u) / 5;
     *(volatile unsigned char *)0x42E68BC6u = 1;

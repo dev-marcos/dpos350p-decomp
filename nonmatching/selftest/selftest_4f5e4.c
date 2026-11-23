@@ -12,6 +12,7 @@
 #include "selftest.h"
 #include "system.h"
 #include "sys_info.h"
+#include "state/factory_block.h"
 
 #define RS8(o) (*(volatile unsigned char *)(0x42E68AE0u + (o)))
 #define LANE8(o) (*(volatile unsigned char *)(0x42E51EB4u + (o)))
@@ -76,8 +77,8 @@ void selftest_4f5e4(void)
             RS8(0x19 + k) = 1;
     ok = 1;
     for (k = 0; k < 8; k++) {
-        RS8(0x18) = ok;
+        FACT(f_018) = ok;
         ok &= RS8(0x19 + k);
     }
-    RS8(0x18) = ok;
+    FACT(f_018) = ok;
 }

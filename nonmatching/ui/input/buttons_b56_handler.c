@@ -12,42 +12,42 @@
 #include "ui/input.h"
 #include "ui/windows.h"
 #include "sys_info.h"
+#include "state/levels_block.h"
+#include "state/touch_buttons.h"
 
-#define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
 
-#define MK(o) (*(volatile u32 *)(0x42E68668u + (o)))
 
 void buttons_b56_handler(void)
 {
     touch_group_0B56();
-    if (TB(0xB56) == 2) {
-        TB(0xB56) = 0;
-        TB(0) = 0;
+    if (BREC(290, state) == 2) {
+        BREC(290, state) = 0;
+        BREC_BYTE0 = 0;
         sys_info_restore();
         ui_windows_reset();
         fb_clear_current();
         ui_windows_open_1_5();
         SI(f_54e) = 0;
         SI(sample_clock_hz) = 100000000;
-    } else if (TB(0xB60) == 2) {
-        TB(0xB60) = 0;
-        TB(0) = 0;
+    } else if (BREC(291, state) == 2) {
+        BREC(291, state) = 0;
+        BREC_BYTE0 = 0;
         ui_window_open(0x29);
-    } else if (TB(0xB6A) == 2) {
-        TB(0xB6A) = 0;
-        TB(0) = 0;
+    } else if (BREC(292, state) == 2) {
+        BREC(292, state) = 0;
+        BREC_BYTE0 = 0;
         list_a_save_new();
-    } else if (TB(0xB74) == 2) {
-        TB(0xB74) = 0;
-        TB(0) = 0;
-        MK(0x58) = MK(0x58) == 0;
-    } else if (TB(0xB7E) == 2) {
-        TB(0xB7E) = 0;
-        TB(0) = 0;
+    } else if (BREC(293, state) == 2) {
+        BREC(293, state) = 0;
+        BREC_BYTE0 = 0;
+        LEVELS(markers_on) = LEVELS(markers_on) == 0;
+    } else if (BREC(294, state) == 2) {
+        BREC(294, state) = 0;
+        BREC_BYTE0 = 0;
         func_40062e14_unless_locked();
-    } else if (TB(0xB88) == 2) {
-        TB(0xB88) = 0;
-        TB(0) = 0;
+    } else if (BREC(295, state) == 2) {
+        BREC(295, state) = 0;
+        BREC_BYTE0 = 0;
         *(volatile unsigned char *)0x42E68668u = *(volatile unsigned char *)0x42E68668u == 0;
     }
 }

@@ -11,10 +11,9 @@
 #include "selftest.h"
 #include "system.h"
 #include "sys_info.h"
+#include "state/factory_block.h"
+#include "state/gen_block.h"
 
-#define GB8(o) (*(volatile unsigned char *)(0x42E3F984u + (o)))
-#define GB32(o) (*(volatile u32 *)(0x42E3F984u + (o)))
-#define RS8(o) (*(volatile unsigned char *)(0x42E68AE0u + (o)))
 
 void gen_selftest_50ddc(void)
 {
@@ -26,10 +25,10 @@ void gen_selftest_50ddc(void)
     SI(f_046) = 2;
     SI(f_10a) = 2;
     *(volatile unsigned char *)(0x42E68BB0u + 0x16) = 0;
-    GB8(0x2EFA) = 0;
-    GB32(0x2EFC) = 0x2160EC0;
-    GB32(0x2F00) = (u32)amp;
-    GB32(0x2F04) = 0;
+    GENS(waveform) = 0;
+    GENS(frequency) = 0x2160EC0;
+    GENS(amplitude) = (u32)amp;
+    GENS(offset) = 0;
     SI(timebase_index) = 0xE;
     SI(ch1_vdiv_index) = 6;
     SI(ch2_vdiv_index) = 6;
@@ -41,7 +40,7 @@ void gen_selftest_50ddc(void)
     q2 = (int)(SI(f_910) / 1000);
     a = (long long)q2 * 5 < (long long)amp * 4;
     b = (long long)q1 * 5 < (long long)amp * 4;
-    RS8(0x43) = a;
-    RS8(0x44) = b;
-    RS8(0x42) = b & a;
+    FACT(f_043) = a;
+    FACT(f_044) = b;
+    FACT(f_042) = b & a;
 }

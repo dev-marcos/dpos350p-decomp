@@ -10,12 +10,12 @@
 #include "ui/input.h"
 #include "ui/windows.h"
 #include "sys_info.h"
+#include "state/touch_buttons.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
 void ui_window_close_raw(u32 id) __asm__("ui_window_close");
 
-#define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
 void inv_left(u32 id) __asm__("ui_window_invalidate_from");
 
 static int sdv(int a, int b)
@@ -31,52 +31,52 @@ void list_a_window_buttons(void)
 {
     u32 b822, b836;
     touch_group_080E();
-    if (TB(0x818) == 1) {
+    if (BREC(207, state) == 1) {
         inv_left(0x16);
-    } else if ((b822 = TB(0x822)) == 1) {
+    } else if ((b822 = BREC(208, state)) == 1) {
         ui_window_invalidate_from(0x16, 1);
-    } else if (TB(0x82C) == 1) {
+    } else if (BREC(209, state) == 1) {
         ui_window_invalidate_from(0x16, b822);
-    } else if ((b836 = TB(0x836)) == 1) {
+    } else if ((b836 = BREC(210, state)) == 1) {
         ui_window_invalidate_from(0x16, 1);
-    } else if (TB(0x80E) == 1) {
+    } else if (BREC(206, state) == 1) {
         ui_window_invalidate_from(0x16, b836);
     }
-    if (TB(0x818) == 2) {
-        TB(0x818) = 0;
-        TB(0) = 0;
+    if (BREC(207, state) == 2) {
+        BREC(207, state) = 0;
+        BREC_BYTE0 = 0;
         ui_window_close_raw(0x17);
         ui_window_close_raw(0x16);
         list_a_page_thumbs();
         ui_window_open(0x14);
         return;
     }
-    if (TB(0x822) == 2) {
-        TB(0x822) = 0;
-        TB(0) = 0;
+    if (BREC(208, state) == 2) {
+        BREC(208, state) = 0;
+        BREC_BYTE0 = 0;
         list_a_marks_clear();
         SYS8(0x5DC6 + (short)SYS16(0xFA4)) = 1;
         list_count_nonzero_400353a8();
         ui_window_open(0x15);
-    } else if (TB(0x82C) == 2 || TB(0x836) == 2) {
+    } else if (BREC(209, state) == 2 || BREC(210, state) == 2) {
         int d;
         short v;
-        if (TB(0x82C) == 2) {
-            TB(0x82C) = 0;
+        if (BREC(209, state) == 2) {
+            BREC(209, state) = 0;
             d = -1;
         } else {
-            TB(0x836) = 0;
+            BREC(210, state) = 0;
             d = 1;
         }
-        TB(0) = 0;
+        BREC_BYTE0 = 0;
         v = (short)((short)SYS16(0xFA4) + d);
         SYS16(0xFA4) = v;
         SYS16(0xF9E) = sdv(v, SI(list_page_size));
         list_cursor_clamp_40035248();
         list_a_current_load();
-    } else if (TB(0x80E) == 2) {
-        TB(0x80E) = 0;
-        TB(0) = 0;
+    } else if (BREC(206, state) == 2) {
+        BREC(206, state) = 0;
+        BREC_BYTE0 = 0;
         ui_window_close_raw(0x17);
     } else {
         return;

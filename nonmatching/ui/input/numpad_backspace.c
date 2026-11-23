@@ -7,6 +7,7 @@
 
 #include "hw/fpga.h"
 #include "ui/input.h"
+#include "state/entry_pad.h"
 
 #define PAD(o)  (*(volatile unsigned char *)(0x42E68A88u + (o)))
 #define WIN21   ((volatile unsigned short *)(0x42E64520u + 0x21u * 14u))
@@ -14,12 +15,12 @@
 void numpad_backspace(void)
 {
     int c;
-    if (PAD(0x17))
-        PAD(0x17) = PAD(0x17) - 1;
-    c = (signed char)PAD(3 + PAD(0x17));
+    if (NUMPAD(len))
+        NUMPAD(len) = NUMPAD(len) - 1;
+    c = (signed char)PAD(3 + NUMPAD(len));
     if (c == '-')
-        PAD(0x19) = 0;
+        NUMPAD(has_minus) = 0;
     else if (c == '.')
-        PAD(0x18) = 0;
-    PAD(3 + PAD(0x17)) = 0;
+        NUMPAD(has_dot) = 0;
+    PAD(3 + NUMPAD(len)) = 0;
 }

@@ -7,6 +7,7 @@
 
 #include "hw/fpga.h"
 #include "system.h"
+#include "state/bode_block.h"
 
 #define B(o) (*(volatile unsigned char *)(0x42E180C8u + (o)))
 #define W(o) (*(volatile u32 *)(0x42E180C8u + (o)))
@@ -14,12 +15,12 @@
 void state_block_180c8_init(void)
 {
     u32 h;
-    W(0x5C) = 20;
+    BODES(freq_count) = 20;
     h = *(volatile unsigned short *)(0x42E180C8u + 4);
     W(0x58) = 50000000;
     W(0x54) = 1000;
     W(0x4C) = 1000;
-    B(0xAC60) = 0;
+    BODES(cursors_on) = 0;
     W(0x50) = 0;
     B(0xAC60 + 0xB8) = 0;
     W(0xAC64) = h / 5u;

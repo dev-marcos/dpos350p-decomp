@@ -8,11 +8,11 @@
 #include "hw/fpga.h"
 #include "ui/input.h"
 #include "ui/windows.h"
+#include "state/levels_block.h"
+#include "state/touch_buttons.h"
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
 
-#define MK8(o) (*(volatile unsigned char *)(0x42E68668u + (o)))
-#define MK32(o) (*(volatile u32 *)(0x42E68668u + (o)))
 
 void buttons_be2_handler(void)
 {
@@ -21,27 +21,27 @@ void buttons_be2_handler(void)
     for (i = 0; i < 4; i++) {
         if (TB(0xBE2 + 10 * i) == 2) {
             TB(0xBE2 + 10 * i) = 0;
-            MK32(0xF4) = i;
-            TB(0) = 0;
+            LEVELS(spur_mode) = i;
+            BREC_BYTE0 = 0;
             return;
         }
     }
-    if (TB(0xC0A) == 2) {
-        TB(0xC0A) = 0;
-        MK8(1) = MK8(1) == 0;
-        TB(0) = 0;
+    if (BREC(308, state) == 2) {
+        BREC(308, state) = 0;
+        LEVELS(panel_a_on) = LEVELS(panel_a_on) == 0;
+        BREC_BYTE0 = 0;
         return;
     }
-    if (TB(0xC14) == 2) {
-        TB(0xC14) = 0;
-        MK8(2) = MK8(2) == 0;
-        TB(0) = 0;
+    if (BREC(309, state) == 2) {
+        BREC(309, state) = 0;
+        LEVELS(panel_b_on) = LEVELS(panel_b_on) == 0;
+        BREC_BYTE0 = 0;
         return;
     }
-    if (TB(0xC1E) == 2) {
-        TB(0xC1E) = 0;
-        TB(0) = 0;
+    if (BREC(310, state) == 2) {
+        BREC(310, state) = 0;
+        BREC_BYTE0 = 0;
         ui_window_open(0x2A);
     }
-    TB(0) = TB(0);
+    BREC_BYTE0 = BREC_BYTE0;
 }

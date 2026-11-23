@@ -10,15 +10,15 @@
 #include "ui/input.h"
 #include "ui/screens.h"
 #include "sys_info.h"
+#include "state/touch_buttons.h"
+#include "state/ui_windows.h"
 
 #define SYS 0x40544E68u
-#define LAY 0x42E64520u              /* UI layout table */
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
 #define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
 #define B8(a) (*(volatile unsigned char *)(a))
 #define SB8(a) (*(volatile signed char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define ENT(n) (TXT + 0x1A0 * (n))
 
@@ -36,7 +36,7 @@ static void option_colours(int i, u32 *txt)
 
 void hires_menu_draw(void)
 {
-    u32 x = H16(LAY + 0xE6), y = H16(LAY + 0xE8), w = H16(LAY + 0xEA), h = H16(LAY + 0xEC);
+    u32 x = WREC(16, x), y = WREC(16, y), w = WREC(16, w), h = WREC(16, h);
     u32 e = ENT(36), e2 = ENT(140), r, txt, tw, xo, yb;
     const char *s;
     int i;
@@ -61,7 +61,7 @@ void hires_menu_draw(void)
     tw = text_width((const char *)0x400903D8u);
     text_draw((x + 0x14 + ((0x19A - tw) >> 1)) & 0xFFFF, (r + 0x19) & 0xFFFF, (const char *)0x400903D8u);
     touch_button_set_rect((x + 0x14) & 0xFFFF, (r - 0xA) & 0xFFFF, 0x19A, 0x41, (volatile unsigned char *)(BTN + 0x55C));
-    if (B8(BTN + 0x55D)) {
+    if (BREC(137, touch_code)) {
         draw_colour_set(W32(TH + 8));
         rect_fill((x + 0x14) & 0xFFFF, r, 0x19A, 0x2D);
     }

@@ -8,6 +8,7 @@
 #include "hw/fpga.h"
 #include "ui/input.h"
 #include "sys_info.h"
+#include "state/touch_ctl.h"
 
 #define SYS 0x40544E68u
 #define U 0x42E68998u                /* drag state */
@@ -20,7 +21,7 @@
 
 static u32 pick(void)
 {
-    u32 m = 0, best = W32(U + 4), o;
+    u32 m = 0, best = TCS(cursor_limit), o;
 
     if (SI(cursor_x_on)) {
         touch_hit_cursor_x();
@@ -51,14 +52,14 @@ static u32 pick(void)
     best = 0x7FFFFFFF;
     if (SI(ch2_enabled)) {
         trace_hit_ch2();
-        if (W32(U + 0x3C) < best) {
-            best = W32(U + 0x3C);
+        if (TCS(trace_dist_1) < best) {
+            best = TCS(trace_dist_1);
             m = 4;
         }
         if (SPLIT) {
             trace_hit_zoom_ch2();
-            if (W32(U + 0x44) < best) {
-                best = W32(U + 0x44);
+            if (TCS(trace_dist_3) < best) {
+                best = TCS(trace_dist_3);
                 m = 6;
             }
         }
@@ -66,22 +67,22 @@ static u32 pick(void)
     if (!SI(ch1_enabled))
         return m;
     trace_hit_ch1();
-    if (W32(U + 0x38) < best) {
-        best = W32(U + 0x38);
+    if (TCS(trace_dist_0) < best) {
+        best = TCS(trace_dist_0);
         m = 3;
     }
     if (SPLIT) {
         trace_hit_zoom_ch1();
-        if (W32(U + 0x40) < best)
+        if (TCS(trace_dist_2) < best)
             m = 5;
     }
     if (!SI(ch1_enabled) || !SI(ch2_enabled))
         return m;
     if (m == 3 || m == 4) {
-        if (W32(U + 0x38) >= 10 || W32(U + 0x3C) >= 10)
+        if (TCS(trace_dist_0) >= 10 || TCS(trace_dist_1) >= 10)
             return m;
     } else if (m == 5 || m == 6) {
-        if (W32(U + 0x40) >= 10 || W32(U + 0x44) >= 10)
+        if (TCS(trace_dist_2) >= 10 || TCS(trace_dist_3) >= 10)
             return m;
     } else
         return m;

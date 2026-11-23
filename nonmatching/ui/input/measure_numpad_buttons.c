@@ -8,77 +8,75 @@
 #include "hw/fpga.h"
 #include "ui/input.h"
 #include "ui/windows.h"
+#include "state/entry_pad.h"
+#include "state/levels_block.h"
+#include "state/touch_buttons.h"
 
-#define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
 void inv_left(u32 id) __asm__("ui_window_invalidate_from");
 
-#define NP8(o) (*(volatile unsigned char *)(0x42E68A88u + (o)))
-#define NP32(o) (*(volatile u32 *)(0x42E68A88u + (o)))
-#define MB8(o) (*(volatile unsigned char *)(0x42E68668u + (o)))
-#define MB32(o) (*(volatile u32 *)(0x42E68668u + (o)))
 #define CB 0x400617ACu
 
 void measure_numpad_buttons(void)
 {
     u32 fl, cb, tgt, mode;
     touch_group_0B92();
-    if (TB(0xB92) == 2) {
-        TB(0xB92) = 0;
-        TB(0) = 0;
-        NP8(2) = 0;
+    if (BREC(296, state) == 2) {
+        BREC(296, state) = 0;
+        BREC_BYTE0 = 0;
+        NUMPAD(f_002) = 0;
         numpad_open_mode3(2, 0xE9);
-        NP32(0x28) = 0x42E68668u + 0x148;
-        NP32(0x50) = CB;
-        NP8(0x4C) = 1;
+        NUMPAD(target_0) = 0x42E68668u + 0x148;
+        NUMPAD(f_050) = CB;
+        NUMPAD(f_04c) = 1;
         return;
     }
-    fl = NP8(0x4C);
-    cb = NP32(0x50);
-    if (TB(0xB9C) == 2) {
-        TB(0xB9C) = 0;
-        TB(0) = 0;
-        NP8(2) = 0;
+    fl = NUMPAD(f_04c);
+    cb = NUMPAD(f_050);
+    if (BREC(297, state) == 2) {
+        BREC(297, state) = 0;
+        BREC_BYTE0 = 0;
+        NUMPAD(f_002) = 0;
         numpad_open_mode3(0x92, 0xE9);
-        NP32(0x28) = 0x42E68668u + 0x140;
-        NP32(0x50) = CB;
-        NP8(0x4C) = 1;
+        NUMPAD(target_0) = 0x42E68668u + 0x140;
+        NUMPAD(f_050) = CB;
+        NUMPAD(f_04c) = 1;
         return;
     }
-    if (TB(0xBA6) == 2) {
-        TB(0xBA6) = 0;
-        TB(0) = 0;
-        NP8(2) = 0;
+    if (BREC(298, state) == 2) {
+        BREC(298, state) = 0;
+        BREC_BYTE0 = 0;
+        NUMPAD(f_002) = 0;
         numpad_open_mode1(0x124, 0xE9);
         tgt = 0x42E68668u + 0x120, fl = 1, cb = CB, mode = 1;
     } else {
-        tgt = NP32(0x2C);
-        mode = MB32(0x18C);
-        if (TB(0xBB0) == 2) {
-            TB(0xBB0) = 0;
-            TB(0) = 0;
-            NP8(2) = 0;
+        tgt = NUMPAD(target_1);
+        mode = LEVELS(window_mode);
+        if (BREC(299, state) == 2) {
+            BREC(299, state) = 0;
+            BREC_BYTE0 = 0;
+            NUMPAD(f_002) = 0;
             numpad_open_mode1(0x1B6, 0xE9);
             tgt = 0x42E68668u + 0x128, fl = 1, cb = CB, mode = 2;
-        } else if (TB(0xBBA) == 2) {
-            TB(0xBBA) = 0;
-            TB(0) = 0;
-            NP8(2) = 0;
+        } else if (BREC(300, state) == 2) {
+            BREC(300, state) = 0;
+            BREC_BYTE0 = 0;
+            NUMPAD(f_002) = 0;
             numpad_open_mode1(0x248, 0xE9);
             tgt = 0x42E68668u + 0x130, fl = 1, cb = CB, mode = 3;
-        } else if (TB(0xBC4) == 2) {
-            TB(0xBC4) = 0;
-            TB(0) = 0;
-            NP8(2) = 0;
+        } else if (BREC(301, state) == 2) {
+            BREC(301, state) = 0;
+            BREC_BYTE0 = 0;
+            NUMPAD(f_002) = 0;
             numpad_open_mode1(0x28B, 0xE9);
             tgt = 0x42E68668u + 0x138, fl = 1, cb = CB, mode = 4;
-        } else if (TB(0xBCE) == 2) {
-            TB(0xBCE) = 0;
-            TB(0) = 0;
-            MB8(3) = MB8(3) == 0;
+        } else if (BREC(302, state) == 2) {
+            BREC(302, state) = 0;
+            BREC_BYTE0 = 0;
+            LEVELS(move_slow) = LEVELS(move_slow) == 0;
         }
     }
-    NP32(0x2C) = tgt;
-    MB32(0x18C) = mode;
-    NP32(0x50) = cb;
-    NP8(0x4C) = fl;
+    NUMPAD(target_1) = tgt;
+    LEVELS(window_mode) = mode;
+    NUMPAD(f_050) = cb;
+    NUMPAD(f_04c) = fl;
 }

@@ -11,11 +11,10 @@
 #include "drivers/sdmmc.h"
 #include "libm.h"
 #include "ui/draw.h"
+#include "state/bode_block.h"
+#include "state/gen_block.h"
 
-#define SYS 0x40544E68u
 #define BB 0x42E180C8u
-#define GEN 0x42E3F984u
-#define DREC 0x42E554B0u
 #define TOUCH 0x42E68BB0u
 #define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
@@ -33,9 +32,9 @@ static double point_ratio(void)
     double a = BD(0xACF8), b = BD(0xAD00), r;
     r = b / a;
     if (a >= LIM.d)
-        B8(BB + 0xAD19) = 1;
+        BODES(f_ad19) = 1;
     if (b >= LIM.d)
-        B8(BB + 0xAD1A) = 1;
+        BODES(f_ad1a) = 1;
     return r;
 }
 
@@ -46,13 +45,13 @@ void bode_sweep_run(void)
     double l0, l1, span, step, r;
     if (B8(TOUCH + 0x17))
         return;
-    B8(BB + 0x47) = 1;
-    B8(BB + 0xAD18) = 0;
+    BODES(f_047) = 1;
+    BODES(sweep_busy) = 0;
     BD(0x60) = (double)(int)(BW(0x58) - BW(0x54)) / (double)(int)BW(0x5C);
-    W(GEN + 0x2F00) = BW(0x4C);
-    W(GEN + 0x2F04) = BW(0x50);
-    B8(BB + 0xAD19) = 0;
-    B8(BB + 0xAD1A) = 0;
+    GENS(amplitude) = BW(0x4C);
+    GENS(offset) = BW(0x50);
+    BODES(f_ad19) = 0;
+    BODES(f_ad1a) = 0;
     l0 = log10((double)(int)BW(0x54));
     l1 = log10((double)(int)BW(0x58));
     span = l1 - l0;
@@ -88,11 +87,11 @@ void bode_sweep_run(void)
         bode_phase_measure(i & 0xFFFF);
         runtime_event_service();
         if (B8(TOUCH + 0x15)) {
-            B8(BB + 0x47) = 0;
+            BODES(f_047) = 0;
             break;
         }
     }
-    if (B8(BB + 0xAD19) == 0 || B8(BB + 0xAD1A) == 0)
+    if (BODES(f_ad19) == 0 || BODES(f_ad1a) == 0)
         for (i = 0;; ) {
             BD(0x68 + 8 * i) = 1.0;
             BD(0x3EE8 + 8 * i) = log10(1.0) * 20.0;

@@ -10,6 +10,7 @@
 #include "processing.h"
 #include "stock_asm.h"
 #include "sys_info.h"
+#include "state/levels_block.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -77,10 +78,10 @@ void fft_radix2(int n, volatile float *x)
             }
             u = cmul(u, w);
         }
-        if (SI(f_54e) && !B8(0x42E68668u + 5)) {
+        if (SI(f_54e) && !LEVELS(f_005)) {
             runtime_event_service();
             if (B8(0x42E68BB0u + 0x15)) {
-                B8(0x42E68668u + 4) = 0;
+                LEVELS(f_004) = 0;
                 return;
             }
         }

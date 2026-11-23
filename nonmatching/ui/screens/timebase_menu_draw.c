@@ -10,15 +10,15 @@
 #include "ui/input.h"
 #include "ui/screens.h"
 #include "sys_info.h"
+#include "state/touch_buttons.h"
+#include "state/ui_windows.h"
 
 #define SYS 0x40544E68u
-#define LAY 0x42E64520u              /* UI layout table */
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
 #define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
 #define B8(a) (*(volatile unsigned char *)(a))
 #define SB8(a) (*(volatile signed char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define ENT(n) (TXT + 0x1A0 * (n))
 
@@ -44,7 +44,7 @@ static u32 fill_colour(u32 sel, u32 v)
 
 void timebase_menu_draw(void)
 {
-    u32 x = H16(LAY + 0xD8), y = H16(LAY + 0xDA), w = H16(LAY + 0xDC), h = H16(LAY + 0xDE);
+    u32 x = WREC(15, x), y = WREC(15, y), w = WREC(15, w), h = WREC(15, h);
     u32 sel, e, txt, tw, xo, r, rec;
     const char *s;
     int i, j;
@@ -70,7 +70,7 @@ void timebase_menu_draw(void)
     tw = text_width(s);
     text_draw((((x + 0x14) & 0xFFFF) + 0x154 + ((0xA5 - tw) >> 1)) & 0xFFFF, (y + 0x1B) & 0xFFFF, s);
     touch_button_set_rect(xo & 0xFFFF, (y + 0xC) & 0xFFFF, 0xA5, 0x2C, (volatile unsigned char *)(BTN + 0x426));
-    if (B8(BTN + 0x427)) {
+    if (BREC(106, touch_code)) {
         draw_colour_set(W32(TH + 8));
         rect_fill(xo & 0xFFFF, r & 0xFFFF, 0xA5, 0x14);
     }

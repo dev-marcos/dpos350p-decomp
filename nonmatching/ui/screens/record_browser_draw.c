@@ -11,6 +11,7 @@
 #include "ui/input.h"
 #include "ui/screens.h"
 #include "util.h"
+#include "state/ui_windows.h"
 
 #define U16(v)    ((v) & 0xFFFFu)
 #define LAY16(o)  (*(volatile unsigned short *)(0x42E64520u + (o)))
@@ -169,7 +170,7 @@ bars:
 
 void record_browser_draw(void)
 {
-    u32 x = LAY16(0x172), y = LAY16(0x174), w = LAY16(0x176), h = LAY16(0x178);
+    u32 x = WREC(26, x), y = WREC(26, y), w = WREC(26, w), h = WREC(26, h);
     u32 row, col, k = 0, idx, cx, cy, j, n;
     volatile unsigned short *item;
     volatile unsigned char *sel;

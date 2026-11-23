@@ -9,29 +9,28 @@
 #include "fpga.h"
 #include "generator.h"
 #include "selftest.h"
+#include "state/gen_block.h"
 
-#define GB8(o) (*(volatile unsigned char *)(0x42E3F984u + (o)))
-#define GB32(o) (*(volatile u32 *)(0x42E3F984u + (o)))
 
 int gen_selftest_64c28(void)
 {
     u32 a, b, c;
-    GB8(0x2EFA) = 0;
-    GB32(0x2EFC) = 0x2D32355;
-    GB32(0x2F04) = 0;
-    GB32(0x2F00) = 1800;
+    GENS(waveform) = 0;
+    GENS(frequency) = 0x2D32355;
+    GENS(offset) = 0;
+    GENS(amplitude) = 1800;
     gen_update();
     a = lane_trim_search8(0xB, 0, 1);
-    GB32(0x2EFC) = 0x2D32355;
-    GB32(0x2F00) = 1800;
+    GENS(frequency) = 0x2D32355;
+    GENS(amplitude) = 1800;
     gen_update();
     a &= lane_trim_search8(0x15, 1, 1);
-    GB32(0x2EFC) = 0x1797D51;
-    GB32(0x2F00) = 1300;
+    GENS(frequency) = 0x1797D51;
+    GENS(amplitude) = 1300;
     gen_update();
     b = lane_trim_search8(0x16, 2, 1);
-    GB32(0x2EFC) = 0xBC84B1;
-    GB32(0x2F00) = 1300;
+    GENS(frequency) = 0xBC84B1;
+    GENS(amplitude) = 1300;
     gen_update();
     c = lane_trim_search8(0x17, 3, 2);
     return c & b & a & 1;

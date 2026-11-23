@@ -10,14 +10,13 @@
 #include "processing.h"
 #include "util.h"
 #include "sys_info.h"
+#include "state/levels_block.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
-#define S64(a) (*(volatile long long *)(a))
 
-#define BLK 0x42E68668u
 #define SB 0x42CC64B4u
 #define PTR 0x42E68CB0u
 #define OUT 0x416431E8u
@@ -32,17 +31,17 @@ void levels_samples_window(void)
     volatile unsigned short *d, *p;
     if (B8(0x42E68BB0u + 0x17))
         return;
-    n = W32(BLK + 0xF8);
-    bin = S64(BLK + 0x100);
-    span = S64(BLK + 0x110);
-    i0 = __aeabi_ldivmod(__aeabi_ldivmod((S64(BLK + 0x120) - bin) * (long long)(int)n, 2), span);
-    i1 = __aeabi_ldivmod(__aeabi_ldivmod((S64(BLK + 0x128) - bin) * (long long)(int)n, 2), span);
+    n = LEVELS(fft_points);
+    bin = LEVELS(bin_width);
+    span = LEVELS(f_110);
+    i0 = __aeabi_ldivmod(__aeabi_ldivmod((LEVELS(start_freq) - bin) * (long long)(int)n, 2), span);
+    i1 = __aeabi_ldivmod(__aeabi_ldivmod((LEVELS(stop_freq) - bin) * (long long)(int)n, 2), span);
     fill_u16((unsigned short *)SB, 0, n + 2);
-    nn = W32(BLK + 0xF8);
+    nn = LEVELS(fft_points);
     fill_u16((unsigned short *)(SB + nn * 2 + (u32)(((int)nn / 2) * 2) - 10), 0, nn);
     c = i1 - i0 + 1;
     src = W32(PTR) + (u32)i0 * 2 + 2;
-    w = (int)W32(BLK + 0xB8);
+    w = (int)LEVELS(plot_w);
     if ((long long)w < c) {
         peak_hold_decimate((volatile short *)src, (u32)w, (double)c / (double)(long long)w);
         copy_u16((unsigned short *)W32(PTR), (const unsigned short *)src, (u32)w);

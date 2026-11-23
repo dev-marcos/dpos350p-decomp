@@ -9,27 +9,26 @@
 #include "ui/input.h"
 #include "ui/windows.h"
 #include "sys_info.h"
+#include "state/touch_buttons.h"
+#include "state/touch_ctl.h"
 
-#define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
 
-#define DG8(o) (*(volatile unsigned char *)(0x42E68998u + (o)))
 #define DG32(o) (*(volatile u32 *)(0x42E68998u + (o)))
-#define DG64(o) (*(volatile long long *)(0x42E68998u + (o)))
 
 void button_71e_drag_handler(void)
 {
     touch_button_update_071E();
-    if (TB(0x71E) == 1) {
-        TB(0x71E) = 0;
-        TB(0) = 0;
+    if (BREC(182, state) == 1) {
+        BREC(182, state) = 0;
+        BREC_BYTE0 = 0;
         touch_moved_flag();
-        if (DG8(0) == 0x12)
-            DG64(8) = (short)SI(trigger_level);
-    } else if (TB(0x71F)) {
-        TB(0x71F) = 0;
-        TB(0) = 1;
+        if (TCS(code) == 0x12)
+            TCS(drag_start) = (short)SI(trigger_level);
+    } else if (BREC(182, touch_code)) {
+        BREC(182, touch_code) = 0;
+        BREC_BYTE0 = 1;
         touch_drag_delta_b();
-        if (DG8(0) == 0x12)
-            SI(trigger_level) = (unsigned short)(DG32(0x34) + DG32(8));
+        if (TCS(code) == 0x12)
+            SI(trigger_level) = (unsigned short)(TCS(drag_dy) + DG32(8));
     }
 }

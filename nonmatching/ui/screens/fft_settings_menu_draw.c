@@ -9,19 +9,18 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 #include "ui/screens.h"
+#include "state/levels_block.h"
+#include "state/ui_windows.h"
 
 #define SYS 0x40544E68u
-#define LAY 0x42E64520u              /* UI layout table */
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed */
 #define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
 #define B8(a) (*(volatile unsigned char *)(a))
 #define SB8(a) (*(volatile signed char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define ENT(n) (TXT + 0x1A0 * (n))
 
-#define SEL 0x42E68668u              /* +0xF4 FFT length index, +1 waterfall, +2 3D */
 
 static void label_row(u32 x, u32 y, u32 img, u32 e)
 {
@@ -47,7 +46,7 @@ static const char *len_text(int i)
 
 void fft_settings_menu_draw(void)
 {
-    u32 x = H16(LAY + 0x244), y = H16(LAY + 0x246), w = H16(LAY + 0x248), h = H16(LAY + 0x24A);
+    u32 x = WREC(41, x), y = WREC(41, y), w = WREC(41, w), h = WREC(41, h);
     u32 r, xo, tw;
     int i;
 
@@ -61,9 +60,9 @@ void fft_settings_menu_draw(void)
     r = y + 0x50;
     for (i = 0; i < 4; i++) {
         xo = x + 0x14 + 0x4F * i;
-        draw_colour_set(W32(SEL + 0xF4) == (u32)i ? W32(TH + 0x10) : W32(TH + 0xC));
+        draw_colour_set(LEVELS(spur_mode) == (u32)i ? W32(TH + 0x10) : W32(TH + 0xC));
         rect_fill(xo & 0xFFFF, r & 0xFFFF, 0x4B, 0x1E);
-        draw_colour_set(W32(SEL + 0xF4) != (u32)i ? W32(TH + 0x14) : 0);
+        draw_colour_set(LEVELS(spur_mode) != (u32)i ? W32(TH + 0x14) : 0);
         tw = text_width(len_text(i));
         text_draw((xo + ((0x4B - tw) >> 1)) & 0xFFFF, (r + 8) & 0xFFFF, len_text(i));
         touch_button_set_rect(xo & 0xFFFF, (r - 0xF) & 0xFFFF, 0x4B, 0x3C, (volatile unsigned char *)(BTN + 0xBE2 + 0xA * i));
@@ -74,11 +73,11 @@ void fft_settings_menu_draw(void)
     }
     r += 0x48;
     label_row(x, r, 0x4008BFD8u, ENT(138));
-    switch_on_off_draw((x + 0x110) & 0xFFFF, r & 0xFFFF, B8(SEL + 1));
+    switch_on_off_draw((x + 0x110) & 0xFFFF, r & 0xFFFF, LEVELS(panel_a_on));
     wide_button(x, r, w, 0xC0A);
     r += 0x3C;
     label_row(x, r, 0x4008C148u, ENT(139));
-    switch_on_off_draw((x + 0x110) & 0xFFFF, r & 0xFFFF, B8(SEL + 2));
+    switch_on_off_draw((x + 0x110) & 0xFFFF, r & 0xFFFF, LEVELS(panel_b_on));
     wide_button(x, r, w, 0xC14);
     word_42e68c74_set(0x42E658D8u);
     r += 0x3C;

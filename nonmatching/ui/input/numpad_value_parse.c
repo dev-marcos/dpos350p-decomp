@@ -8,15 +8,13 @@
 #include "hw/fpga.h"
 #include "libc.h"
 #include "ui/input.h"
+#include "state/entry_pad.h"
 
-#define NP8(o) (*(volatile unsigned char *)(0x42E68A88u + (o)))
 #define NPS8(o) (*(volatile signed char *)(0x42E68A88u + (o)))
-#define NP32(o) (*(volatile u32 *)(0x42E68A88u + (o)))
-#define NPD(o) (*(volatile double *)(0x42E68A88u + (o)))
 
 void numpad_value_parse(u32 unit)
 {
-    double v = NPD(0x20), acc = 0.0, x;
+    double v = NUMPAD(value), acc = 0.0, x;
     unsigned long long scale = 1, f = 1;
     int neg = NPS8(3) == '-', i;
     u32 m;
@@ -35,7 +33,7 @@ void numpad_value_parse(u32 unit)
             acc = acc * 10.0 + (double)(unsigned short)(ch - 0x30);
     }
     x = acc / (double)scale;
-    m = NP8(1);
+    m = NUMPAD(mode);
     if (unit == 0xE && m >= 1 && m <= 5)
         v = x;
     else if (m == 1 && unit == 0xF)
@@ -46,19 +44,19 @@ void numpad_value_parse(u32 unit)
         v = x * 1000.0;
     else if (m == 6 && unit == 0xE)
         v = x * 10.0;
-    NPD(0x20) = v;
+    NUMPAD(value) = v;
     if (NPS8(3)) {
         long long q = (long long)v;
         if (q > 0x7FFFFFFFLL)
             q = 0x7FFFFFFFLL;
         else if (q < -0x7FFFFFFFLL)
             q = -0x7FFFFFFFLL;
-        *(volatile double *)NP32(0x28) = v;
-        *(volatile long long *)NP32(0x2C) = q;
-        *(volatile u32 *)NP32(0x30) = (u32)q;
-        if (NP8(0x4C))
-            ((void (*)(void))NP32(0x50))();
-        v = NPD(0x20);
+        *(volatile double *)NUMPAD(target_0) = v;
+        *(volatile long long *)NUMPAD(target_1) = q;
+        *(volatile u32 *)NUMPAD(target_2) = (u32)q;
+        if (NUMPAD(f_04c))
+            ((void (*)(void))NUMPAD(f_050))();
+        v = NUMPAD(value);
     }
-    NPD(0x20) = v;
+    NUMPAD(value) = v;
 }
