@@ -7,24 +7,25 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 void channel_step_limiter(u32 ch)
 {
     volatile unsigned short *buf = (volatile unsigned short *)SYS32(0x7B4 + 4 * ch);
-    int n = (int)SYS32(0x7BC), lim, passes, j;
+    int n = (int)SI(f_7bc), lim, passes, j;
     u32 vd;
-    if (SYS8(0x70D) == 0)
+    if (SI(f_70d) == 0)
         return;
     if (ch == 0) {
-        if (SYS8(0x3E) == 0)
+        if (SI(ch1_enabled) == 0)
             return;
-        vd = SYS8(0x41);
+        vd = SI(ch1_vdiv_index);
     } else {
-        if (ch == 1 && SYS8(0x102) == 0)
+        if (ch == 1 && SI(ch2_enabled) == 0)
             return;
-        vd = SYS8(0x105);
+        vd = SI(ch2_vdiv_index);
     }
-    lim = (int)(SYS32(0x1C0) * (vd == 12 ? 15u : 5u));
+    lim = (int)(SI(acq_geometry_1c0) * (vd == 12 ? 15u : 5u));
     passes = vd == 12 ? 6 : 3;
     do {
         for (j = 0; j < n; j++) {

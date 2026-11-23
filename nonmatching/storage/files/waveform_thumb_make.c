@@ -8,6 +8,7 @@
 #include "hw/fpga.h"
 #include "storage/files.h"
 #include "util.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define H16(a) (*(volatile unsigned short *)(a))
@@ -36,8 +37,8 @@ void waveform_thumb_make(void)
 {
     volatile unsigned short *fb = (volatile unsigned short *)0x41FB8FE8u;
     volatile unsigned short *dst = (volatile unsigned short *)(SYS + 0x109688u);
-    int x0 = (int)(1000u * H16(SYS + 4)), x1 = x0 + (int)(1000u * H16(SYS + 8));
-    int y0 = (int)(1000u * H16(SYS + 6)), y1 = y0 + (int)(1000u * H16(SYS + 0xA));
+    int x0 = (int)(1000u * SI(plot_x0)), x1 = x0 + (int)(1000u * SI(plot_width));
+    int y0 = (int)(1000u * SI(plot_y0)), y1 = y0 + (int)(1000u * SI(plot_height));
     int x, y, i, j, k = 0;
     W32(TW) = 0;
     if (y1 < y0)

@@ -7,10 +7,11 @@
 
 #include "hw/fpga.h"
 #include "acquisition.h"
+#include "sys_info.h"
 
 void bank_unpack_all(volatile unsigned short *buf, u32 ch)
 {
     u32 i;
     for (i = 0; i < 8; i++)
-        calibration_gain_baseline_clamp_conversion(SYS8(0x6DC + i), ch, buf, 8, 7 - i, SYS8(0x6D4 + i), SYS16(0x6F4));
+        calibration_gain_baseline_clamp_conversion(SYS8(0x6DC + i), ch, buf, 8, 7 - i, SYS8(0x6D4 + i), SI(runtime_field_6f4));
 }

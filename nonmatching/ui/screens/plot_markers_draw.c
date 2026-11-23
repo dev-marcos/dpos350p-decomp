@@ -8,10 +8,9 @@
 #include "hw/fpga.h"
 #include "ui/draw.h"
 #include "ui/screens.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define SH16(a) (*(volatile short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define S64(a) (*(volatile long long *)(a))
@@ -60,9 +59,9 @@ static void small_tag(int p, u32 col, u32 xt, const char *s)
 
 static void channel_tag(u32 offa, u32 col, const char *s, u32 xn, u32 xu, u32 xl)
 {
-    int py = H16(SYS + 6), ph = H16(SYS + 0xA), t;
+    int py = SI(plot_y0), ph = SI(plot_height), t;
 
-    if (!B8(SYS + 0x2AA)) {
+    if (!SI(zoom_on)) {
         big_tag(clamp(ph + py - (int)W32(offa) - 1, py + 8, ph + py - 8), col, xn, s);
         return;
     }
@@ -167,7 +166,7 @@ static void h_down_small(int p, int yt)
 /* trigger position on screen: x + position / scale + width / 2, at least 0 */
 static int h_pos(u32 pos, u32 scale)
 {
-    int px = H16(SYS + 4), pw = H16(SYS + 8);
+    int px = SI(plot_x0), pw = SI(plot_width);
     int p = px + (int)(u32)__aeabi_ldivmod(S64(pos), S64(scale));
 
     p = (int)((u32)p + (u32)__aeabi_ldivmod((long long)pw, 2));
@@ -178,15 +177,15 @@ void plot_markers_draw(void)
 {
     int px, py, pw, ph, p, t;
 
-    if (B8(SYS + 0x3E))
+    if (SI(ch1_enabled))
         channel_tag(SYS + 0x60, 0xFFFF00, "1", 7, 5, 7);
-    if (B8(SYS + 0x102))
+    if (SI(ch2_enabled))
         channel_tag(SYS + 0x120, 0xFFFF, "2", 4, 3, 4);
 
-    if (B8(SYS + 0x275) && B8(SYS + 0x274)) {
-        py = H16(SYS + 6);
-        ph = H16(SYS + 0xA);
-        if (!B8(SYS + 0x2AA)) {
+    if (SI(f_275) && SI(f_274)) {
+        py = SI(plot_y0);
+        ph = SI(plot_height);
+        if (!SI(zoom_on)) {
             trig_big(clamp(ph + py - SH16(SYS + 0x27E), py + 8, ph + py - 8));
         } else {
             trig_small(clamp((ph - SH16(SYS + 0x27E)) / 3 + py, py + 8, py + ph / 3 - 8));
@@ -195,13 +194,13 @@ void plot_markers_draw(void)
         }
     }
 
-    if (!B8(SYS + 0x580))
+    if (!SI(f_580))
         return;
-    px = H16(SYS + 4);
-    pw = H16(SYS + 8);
+    px = SI(plot_x0);
+    pw = SI(plot_width);
     p = h_pos(SYS + 0x570, SYS + 0x590);
-    py = H16(SYS + 6);
-    if (!B8(SYS + 0x2AA)) {
+    py = SI(plot_y0);
+    if (!SI(zoom_on)) {
         if (p > pw - 8)
             h_right(px, pw, py + 8);
         else if (p < 8)
@@ -217,7 +216,7 @@ void plot_markers_draw(void)
     else
         h_down_small(p, py + 1);
     p = h_pos(SYS + 0x578, SYS + 0x5A0);
-    t = H16(SYS + 6) + H16(SYS + 0xA) / 3;
+    t = SI(plot_y0) + SI(plot_height) / 3;
     if (p > pw - 8)
         h_right(px, pw, t + 9);
     else if (p < 8)

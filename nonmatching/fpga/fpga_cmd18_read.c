@@ -8,9 +8,10 @@
 #include "hw/fpga.h"
 #include "drivers/fpga_bus.h"
 #include "fpga.h"
+#include "sys_info.h"
 
 void fpga_cmd18_read(void)
 {
     fpga_selector_command_write(0x18);
-    SYS8(0x279) = fpga_data_byte_read() & 1;
+    SI(f_279) = fpga_data_byte_read() & 1;
 }

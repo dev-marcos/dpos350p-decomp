@@ -7,6 +7,7 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 #define H32(o) (*(volatile u32 *)(0x42E554B0u + (o)))
 
@@ -15,22 +16,22 @@ void trace_defaults_37b48(void)
     u32 i, v;
     if (*(volatile unsigned char *)(0x42E68BB0u + 0x17))
         return;
-    SYS8(0x3E) = 1;
-    SYS8(0x3F) = 1;
-    SYS32(0x60) = 0xFA;
-    SYS8(0x102) = 1;
-    SYS8(0x103) = 1;
-    SYS32(0x120) = 0xFA;
-    SYS8(0x46) = 1;
-    SYS8(0x10A) = 1;
-    SYS8(0x54F) = 1;
+    SI(ch1_enabled) = 1;
+    SI(ch1_coupling) = 1;
+    SI(ch1_offset) = 0xFA;
+    SI(ch2_enabled) = 1;
+    SI(ch2_coupling) = 1;
+    SI(ch2_offset) = 0xFA;
+    SI(f_046) = 1;
+    SI(f_10a) = 1;
+    SI(f_54f) = 1;
     *(volatile unsigned char *)(0x42E68BB0u + 0x16) = 1;
-    SYS8(0x2A9) = 0x21;
-    SYS8(0x70D) = 1;
-    SYS8(0x70D) = 0;
-    SYS8(0x660) = 8;
-    SYS8(0x275) = 1;
-    SYS8(0x274) = 1;
+    SI(f_2a9) = 0x21;
+    SI(f_70d) = 1;
+    SI(f_70d) = 0;
+    SI(f_660) = 8;
+    SI(f_275) = 1;
+    SI(f_274) = 1;
     *(volatile unsigned char *)(0x42E3F984u + 0x2EFA) = 0;
     *(volatile u32 *)(0x42E3F984u + 0x2F08) = 500;
     H32(4) = 50000000;

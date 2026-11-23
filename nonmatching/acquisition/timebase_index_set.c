@@ -7,11 +7,12 @@
 
 #include "hw/fpga.h"
 #include "acquisition.h"
+#include "sys_info.h"
 
 void timebase_index_set(u32 v)
 {
-    SYS8(0x588) = v;
+    SI(timebase_index) = v;
     timebase_index_clamp();
-    SYS16(0x86E) = 1;
-    SYS16(0x870) = 1;
+    SI(ch1_avg_limit) = 1;
+    SI(ch2_avg_limit) = 1;
 }

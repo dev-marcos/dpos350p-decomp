@@ -7,17 +7,18 @@
 
 #include "hw/fpga.h"
 #include "storage/settings.h"
+#include "sys_info.h"
 
 #define SER_IMAGE ((volatile void *)0x408A526Cu)   /* SYS_INFO+0x360404 */
 
 void settings_h_fields(void)
 {
     serializer_set_cursor(0);
-    serializer_process_field(&SYS32(0x75C), 4);
-    serializer_process_field(&SYS32(0x768), 4);
-    serializer_process_field(&SYS32(0x760), 4);
-    serializer_process_field(&SYS32(0x76C), 4);
-    serializer_process_field(&SYS32(0x764), 4);
-    serializer_process_field(&SYS32(0x770), 4);
-    serializer_process_field(&SYS32(0x774), 4);
+    serializer_process_field(&SI(rec_h_start), 4);
+    serializer_process_field(&SI(rec_h_size), 4);
+    serializer_process_field(&SI(rec_i_start), 4);
+    serializer_process_field(&SI(rec_i_size), 4);
+    serializer_process_field(&SI(rec_j_start), 4);
+    serializer_process_field(&SI(rec_j_size), 4);
+    serializer_process_field(&SI(rec_hij_end), 4);
 }

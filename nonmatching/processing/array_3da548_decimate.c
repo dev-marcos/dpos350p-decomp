@@ -7,6 +7,7 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 void array_3da548_decimate(int n)
 {
@@ -15,7 +16,7 @@ void array_3da548_decimate(int n)
     if (n <= 1)
         return;
     d = s = (volatile unsigned short *)(0x40544E68u + 0x3DA548u);
-    c = (int)SYS32(0x3DA53C) / n;
+    c = (int)SI(f_3da53c) / n;
     for (; c >= 1; c--) {
         *d++ = *s;
         s += n;

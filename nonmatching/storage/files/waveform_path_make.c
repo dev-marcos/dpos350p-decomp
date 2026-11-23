@@ -8,6 +8,7 @@
 #include "hw/fpga.h"
 #include "libc.h"
 #include "storage/files.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -44,6 +45,6 @@ static void path_number(u32 p, int n, const char *ext)
 void waveform_path_make(int n)
 {
     __aeabi_memcpy4((void *)(SYS + 0x88C0), (const void *)0x4008FFB4u, 10);
-    B8(SYS + 0x88C9) = '/';
+    SI(f_88c9) = '/';
     path_number(SYS + 0x88C9, n, ".wav");
 }

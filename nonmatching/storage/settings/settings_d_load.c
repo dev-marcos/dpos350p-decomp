@@ -7,12 +7,13 @@
 
 #include "hw/fpga.h"
 #include "storage/settings.h"
+#include "sys_info.h"
 
 #define SER_IMAGE ((volatile void *)0x408A526Cu)   /* SYS_INFO+0x360404 */
 
 void settings_d_load(void)
 {
-    persistence_read(0, SYS32(0x7EC), SER_IMAGE, 0x2000);
+    persistence_read(0, SI(rec_d_flash_addr), SER_IMAGE, 0x2000);
     serializer_set_decode_mode();
     settings_d_fields();
 }

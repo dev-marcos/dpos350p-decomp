@@ -7,10 +7,11 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 void trace_c5cc_window(u32 tr)
 {
-    if (SYS32(0x6FC) < SYS32(0x708))
+    if (SI(runtime_fine_progress) < SI(runtime_progress_threshold))
         return;
-    trace_segments_gather(tr, SYS32(0x700) & 0xFFFF, SYS16(0x6F8));
+    trace_segments_gather(tr, SI(runtime_coarse_progress) & 0xFFFF, SI(runtime_coarse_step));
 }

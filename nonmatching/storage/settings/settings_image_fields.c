@@ -7,12 +7,10 @@
 
 #include "hw/fpga.h"
 #include "storage/settings.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
-#define BLK 0x42E68668u    /* level (spectrum) view block */
-#define BODE 0x42E180C8u   /* frequency-response view block */
 #define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 
 #define FLD(p, s) serializer_process_field((volatile void *)(p), (s))
 
@@ -161,7 +159,7 @@ void settings_image_fields(void)
     for (j = 0; j < 5; j++) {
         FLD(SYS + 0x750 + 0x2 * j, 2);
     }
-    for (j = 0; j < (int)H16(SYS + 0x5D0); j++) {   /* count re-read: decoding may have just set it */
+    for (j = 0; j < (int)SI(f_5d0); j++) {   /* count re-read: decoding may have just set it */
         FLD(SYS + 0x2C4 + 4 * j, 4);
         FLD(SYS + 0x38C + 4 * j, 4);
         FLD(SYS + 0x454 + 4 * j, 4);
@@ -175,6 +173,6 @@ void settings_image_fields(void)
     for (j = 0; j < 24; j++) {
         FLD(SYS + 0x9A8 + 0x8 * j, 8);
     }
-    for (j = 0; j < (int)B8(SYS + 0x8E4); j++)
+    for (j = 0; j < (int)SI(f_8e4); j++)
         FLD(SYS + 0x880 + 2 * j, 2);
 }

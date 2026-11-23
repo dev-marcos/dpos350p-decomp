@@ -9,13 +9,13 @@
 #include "fatfs_app.h"
 #include "storage/files.h"
 #include "util.h"
+#include "sys_info.h"
 
-#define SS16(o) (*(volatile short *)(0x40544E68u + (o)))
 #define PATHBUF ((const char *)0x4054D728u)   /* SYS+0x88C0: path built by the list's path helper */
 
 void cursor_3da534_clamp(int flag)
 {
-    int a = SYS32(0x3DA534), w = SYS32(0x3DA540), b = SYS32(0x3DA538);
+    int a = SI(f_3da534), w = SI(f_3da540), b = SI(f_3da538);
     if (b < (int)((u32)w + (u32)a)) {
         if (flag == 0)
             a = (int)((u32)b - (u32)w);
@@ -24,12 +24,12 @@ void cursor_3da534_clamp(int flag)
     }
     if (a < 12)
         a = 12;
-    else if (SYS16(8) - 12 < a)
-        a = SYS16(8) - 12;
+    else if (SI(plot_width) - 12 < a)
+        a = SI(plot_width) - 12;
     if (b < 12)
         b = 12;
-    else if (SYS16(8) - 12 < b)
-        b = SYS16(8) - 12;
-    SYS32(0x3DA534) = a;
-    SYS32(0x3DA538) = b;
+    else if (SI(plot_width) - 12 < b)
+        b = SI(plot_width) - 12;
+    SI(f_3da534) = a;
+    SI(f_3da538) = b;
 }

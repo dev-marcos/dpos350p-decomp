@@ -11,6 +11,7 @@
 #include "fpga.h"
 #include "selftest.h"
 #include "system.h"
+#include "sys_info.h"
 
 #define RS8(o) (*(volatile unsigned char *)(0x42E68AE0u + (o)))
 #define LANE8(o) (*(volatile unsigned char *)(0x42E51EB4u + (o)))
@@ -25,25 +26,25 @@ void selftest_4f5e4(void)
         RS8(0x19 + k) = 0;
     }
     acq_defaults_reset();
-    SYS8(0x588) = 0x18;
-    SYS8(0x3E) = 1;
-    SYS8(0x102) = 0;
-    SYS8(0x41) = 6;
-    SYS8(0x3A) = 1;
+    SI(timebase_index) = 0x18;
+    SI(ch1_enabled) = 1;
+    SI(ch2_enabled) = 0;
+    SI(ch1_vdiv_index) = 6;
+    SI(fpga_cmd62_value) = 1;
     *(volatile unsigned char *)(0x42E68BB0u + 0x16) = 0;
     outputs_apply();
     *(volatile long long *)(0x40544E68u + 0x30) = 10;
-    SYS16(0x640) = 10;
-    SYS16(0x644) = 1;
+    SI(f_640) = 10;
+    SI(f_644) = 1;
     stream_geometry_fpga_selector_0x22_configuration();
-    SYS16(0x44) = 0xBB8;
+    SI(f_044) = 0xBB8;
     fpga_write_sel_0x2a();
     delay_ms(200);
     for (s = 0; s < 900; s++) {
-        SYS16(0x44) = (int)(3000.0f + (float)s * 7.7777777f);
+        SI(f_044) = (int)(3000.0f + (float)s * 7.7777777f);
         fpga_write_sel_0x2a();
         acquisition_prepare();
-        SYS32(0x63C) = 0;
+        SI(runtime_quotient) = 0;
         trigger_pos_update();
         capture_banks_all();
         for (k = 0; k < 8; k++)

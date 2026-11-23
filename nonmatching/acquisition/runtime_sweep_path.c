@@ -9,6 +9,7 @@
 #include "acquisition.h"
 #include "fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 void runtime_sweep_path(void)
 {
@@ -19,7 +20,7 @@ void runtime_sweep_path(void)
     if (t[0x17] != 0 || t[0x15] != 0 || t[0x0D] != 0)
         return;
     runtime_rearm_setup();
-    while (SYS32(0x700) < SYS16(8)) {
+    while (SI(runtime_coarse_progress) < SI(plot_width)) {
         one_runtime_capture_step();
         runtime_state_commit_copy();
         per_channel_processing();
@@ -28,7 +29,7 @@ void runtime_sweep_path(void)
         pulse_fpga_selector_0x08_0_1();
         runtime_event_service();
         if (t[0x15] != 0) {
-            SYS8(0x38) = 1;
+            SI(acq_done) = 1;
             return;
         }
     }

@@ -7,6 +7,7 @@
 
 #include "hw/fpga.h"
 #include "power.h"
+#include "sys_info.h"
 
 void battery_level_update(void)
 {
@@ -26,5 +27,5 @@ void battery_level_update(void)
     else if (mv >= 3690) lv = 2;
     else if (mv >= 3620 || mv >= 3560) lv = 1;
     else lv = 0;
-    SYS8(0x778) = lv;
+    SI(battery_level) = lv;
 }

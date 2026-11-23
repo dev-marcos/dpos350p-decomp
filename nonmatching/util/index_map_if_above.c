@@ -8,9 +8,10 @@
 #include "hw/fpga.h"
 #include "processing.h"
 #include "util.h"
+#include "sys_info.h"
 
 void index_map_if_above(u32 a, u32 b, u32 c, u32 d, u32 e, u32 g)
 {
-    if (SYS32(0x554) < d)
+    if (SI(f_554) < d)
         simple_integer_index_mapping_nearest_neighbour(a, b, c, d, e, g);
 }

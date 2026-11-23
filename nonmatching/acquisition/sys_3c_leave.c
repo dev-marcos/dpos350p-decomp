@@ -7,10 +7,11 @@
 
 #include "hw/fpga.h"
 #include "acquisition.h"
+#include "sys_info.h"
 
 void sys_3c_leave(void)
 {
-    u32 v = SYS8(0x3D);
-    SYS8(0x3DA52C) = 0;
-    SYS8(0x3C) = v;
+    u32 v = SI(f_03d);
+    SI(f_3da52c) = 0;
+    SI(acq_transition_flag) = v;
 }

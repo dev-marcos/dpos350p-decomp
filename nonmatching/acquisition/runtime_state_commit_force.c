@@ -7,9 +7,10 @@
 
 #include "hw/fpga.h"
 #include "acquisition.h"
+#include "sys_info.h"
 
 void runtime_state_commit_force(void)
 {
-    SYS8(0x38) = 1;
+    SI(acq_done) = 1;
     runtime_state_commit_copy();
 }

@@ -9,15 +9,16 @@
 #include "drivers/wdt.h"
 #include "storage/settings.h"
 #include "system.h"
+#include "sys_info.h"
 
 void factory_reset_keep_language(void)
 {
-    u32 lang = SYS8(0x7AC);
+    u32 lang = SI(menu_language);
     int k;
     factory_defaults();
-    SYS8(0x7AC) = lang;
+    SI(menu_language) = lang;
     for (k = 5; k >= 1; k--) {
-        SYS8(0x7C0) = k;
+        SI(f_7c0) = k;
         settings_f_save();
         settings_slot_save();
     }

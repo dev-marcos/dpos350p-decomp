@@ -7,23 +7,24 @@
 
 #include "hw/fpga.h"
 #include "system.h"
+#include "sys_info.h"
 
 void retained_inside_current_sc1_3_t6(void)
 {
     volatile u32 *o = CAL_OBJ;
-    u32 i1 = SYS8(0x41), i2, a, b, c, row, base, j;
+    u32 i1 = SI(ch1_vdiv_index), i2, a, b, c, row, base, j;
     volatile u32 *p;
     o[0] = o[0x50 / 4 + i1];
     o[2] = o[0xF0 / 4 + i1];
-    i2 = SYS8(0x105);
+    i2 = SI(ch2_vdiv_index);
     o[1] = o[0xA0 / 4 + i2];
     o[3] = o[0x140 / 4 + i2];
-    a = SYS8(0x588);
-    b = SYS8(0x6ED);
-    c = SYS8(0x6EC);
+    a = SI(timebase_index);
+    b = SI(f_6ed);
+    c = SI(f_6ec);
     row = (b >= a) ? a - c : b - c;
     p = (volatile u32 *)((u32)CAL_OBJ + row * 4);
-    base = SYS8(0x100) == 0 ? 16 : 0;
+    base = SI(f_100) == 0 ? 16 : 0;
     for (j = 0; j < 16; j++)
         o[4 + j] = p[(0x190 + (base + j) * 0xC8) / 4];
 }

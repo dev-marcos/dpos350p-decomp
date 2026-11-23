@@ -7,14 +7,15 @@
 
 #include "hw/fpga.h"
 #include "fpga.h"
+#include "sys_info.h"
 
 void fpga_params_push(void)
 {
-    fpga_param_updater(1, 1, SYS32(0x1B8), SYS8(0x1B8));
-    fpga_param_updater(2, 4, SYS32(0x1C0), SYS32(0x1C0));
-    fpga_param_updater(3, 4, SYS32(0x268), SYS32(0x268));
-    fpga_param_updater(4, 4, SYS32(0x270), SYS32(0x270));
-    fpga_param_updater(5, 4, SYS32(0x26C), SYS32(0x26C));
-    fpga_param_updater(6, 2, SYS32(0x08), SYS16(0x08));
-    fpga_param_updater(7, 4, SYS32(0x62C), SYS32(0x62C));
+    fpga_param_updater(1, 1, SYS32(0x1B8), SI(f_1b8));
+    fpga_param_updater(2, 4, SI(acq_geometry_1c0), SI(acq_geometry_1c0));
+    fpga_param_updater(3, 4, SI(acq_geometry_268), SI(acq_geometry_268));
+    fpga_param_updater(4, 4, SI(acq_geometry_270), SI(acq_geometry_270));
+    fpga_param_updater(5, 4, SI(acq_geometry_26c), SI(acq_geometry_26c));
+    fpga_param_updater(6, 2, SYS32(0x08), SI(plot_width));
+    fpga_param_updater(7, 4, SI(acq_geometry_62c), SI(acq_geometry_62c));
 }

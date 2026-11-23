@@ -7,13 +7,14 @@
 
 #include "hw/fpga.h"
 #include "ui/text.h"
+#include "sys_info.h"
 
 #define TXT(k) (0x42C2FE74u + (k) * 0x1A0u)   /* 141 entries of 0x1A0 bytes */
 #define TB(a)   (*(volatile unsigned char *)(a))
 
 void ui_text_language_apply(void)
 {
-    u32 L = SYS8(0x7AC), k, e;
+    u32 L = SI(menu_language), k, e;
     if (L < 1 || L > 4)
         return;
     L -= 1;

@@ -9,24 +9,24 @@
 #include "fatfs_app.h"
 #include "storage/files.h"
 #include "util.h"
+#include "sys_info.h"
 
-#define SS16(o) (*(volatile short *)(0x40544E68u + (o)))
 #define PATHBUF ((const char *)0x4054D728u)   /* SYS+0x88C0: path built by the list's path helper */
 
 void list_a_next_free(void)
 {
     int i, n;
-    for (i = 0; i < SYS16(0x754); i++)
+    for (i = 0; i < SI(f_754); i++)
         SYS16(0x8924 + 2 * i) = 0;
-    for (i = 0; i < SS16(0xFA0); i++) {
+    for (i = 0; i < SI(list_count); i++) {
         u32 e = SYS16(0xFA6 + 2 * i);
         if (e)
             SYS16(0x8924 + 2 * e) = 1;
     }
-    n = SYS16(0x754);
+    n = SI(f_754);
     for (i = 1; i < n; i++) {
         if (SYS16(0x8924 + 2 * i) == 0) {
-            SYS16(0xF9C) = i;
+            SI(f_f9c) = i;
             return;
         }
     }

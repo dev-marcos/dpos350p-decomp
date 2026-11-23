@@ -9,13 +9,10 @@
 #include "acquisition.h"
 #include "processing.h"
 #include "stock_asm.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
-#define S64(a) (*(volatile long long *)(a))
-#define U64(a) (*(volatile unsigned long long *)(a))
 
 typedef struct { float re, im; } cfloat;
 typedef double (*dfn)(double);
@@ -80,7 +77,7 @@ void fft_radix2(int n, volatile float *x)
             }
             u = cmul(u, w);
         }
-        if (B8(SYS + 0x54E) && !B8(0x42E68668u + 5)) {
+        if (SI(f_54e) && !B8(0x42E68668u + 5)) {
             runtime_event_service();
             if (B8(0x42E68BB0u + 0x15)) {
                 B8(0x42E68668u + 4) = 0;

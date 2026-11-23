@@ -9,13 +9,14 @@
 #include "drivers/fpga_bus.h"
 #include "drivers/timer.h"
 #include "fpga.h"
+#include "sys_info.h"
 
 void fpga_channel_mode_apply(void)
 {
-    if (SYS8(0xBCA) == SYS8(0x100))
+    if (SI(f_bca) == SI(f_100))
         return;
-    SYS8(0xBCA) = SYS8(0x100);
+    SI(f_bca) = SI(f_100);
     fpga_selector_command_write(0x2E);
-    fpga_data_byte_write(SYS8(0xBCA));
+    fpga_data_byte_write(SI(f_bca));
     delay_ms(50);
 }

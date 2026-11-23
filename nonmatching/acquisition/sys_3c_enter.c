@@ -7,12 +7,13 @@
 
 #include "hw/fpga.h"
 #include "acquisition.h"
+#include "sys_info.h"
 
 void sys_3c_enter(void)
 {
-    SYS8(0x3D) = SYS8(0x3C);
-    SYS8(0x3DA52C) = 1;
-    SYS8(0x3C) = 1;
-    SYS8(0x652) = 0;
-    SYS8(0x2AA) = 0;
+    SI(f_03d) = SI(acq_transition_flag);
+    SI(f_3da52c) = 1;
+    SI(acq_transition_flag) = 1;
+    SI(f_652) = 0;
+    SI(zoom_on) = 0;
 }

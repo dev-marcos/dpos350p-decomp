@@ -7,9 +7,10 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 void zoom_index_add(u32 d)
 {
-    SYS8(0x598) = SYS8(0x598) + d;
+    SI(f_598) = SI(f_598) + d;
     zoom_index_fit();
 }

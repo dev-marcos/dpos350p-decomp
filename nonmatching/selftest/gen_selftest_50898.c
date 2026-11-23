@@ -10,14 +10,13 @@
 #include "generator.h"
 #include "selftest.h"
 #include "system.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define GEN 0x42E3F984u
 #define TOUCH 0x42E68BB0u
 #define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
-#define D64(a) (*(volatile unsigned long long *)(a))
 
 void gen_selftest_50898(void)
 {
@@ -29,13 +28,13 @@ void gen_selftest_50898(void)
     int mx, mn, v;
     volatile unsigned short *s;
     acq_defaults_reset();
-    B8(SYS + 0x3E) = 1;
-    B8(SYS + 0x102) = 1;
-    B8(SYS + 0x46) = 2;
-    B8(SYS + 0x10A) = 2;
-    B8(SYS + 0x660) = 5;
+    SI(ch1_enabled) = 1;
+    SI(ch2_enabled) = 1;
+    SI(f_046) = 2;
+    SI(f_10a) = 2;
+    SI(f_660) = 5;
     B8(TOUCH + 0x16) = 0;
-    step = W32(SYS + 0x558);
+    step = SI(f_558);
     start = 0x2E68 + 5 * step;
     n = 0x924 - 10 * step;
     for (i = 0; i < 5; i++) {
@@ -43,9 +42,9 @@ void gen_selftest_50898(void)
         W32(GEN + 0x2EFC) = freq[i];
         W32(GEN + 0x2F00) = amp[i];
         W32(GEN + 0x2F04) = 0;
-        B8(SYS + 0x588) = tb[i];
-        B8(SYS + 0x41) = rng[i];
-        B8(SYS + 0x105) = rng[i];
+        SI(timebase_index) = tb[i];
+        SI(ch1_vdiv_index) = rng[i];
+        SI(ch2_vdiv_index) = rng[i];
         outputs_apply();
         gen_update();
         acquisition_dispatcher();
@@ -61,7 +60,7 @@ void gen_selftest_50898(void)
                     mn = v;
             }
         }
-        lim = W32(SYS + 0x1C0) * 10;
+        lim = SI(acq_geometry_1c0) * 10;
         ok_a &= lim >= (u32)(mx - mn) ? 1u : 0u;
         mx = 0;
         mn = 0x0FFFFFFF;
@@ -75,7 +74,7 @@ void gen_selftest_50898(void)
                     mn = v;
             }
         }
-        lim = W32(SYS + 0x1C0) * 10;
+        lim = SI(acq_geometry_1c0) * 10;
         ok_b &= lim >= (u32)(mx - mn) ? 1u : 0u;
     }
     B8(0x42E68AE0u + 0x35) = (unsigned char)ok_a;

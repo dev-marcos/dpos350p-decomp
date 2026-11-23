@@ -7,6 +7,7 @@
 
 #include "hw/fpga.h"
 #include "ui/input.h"
+#include "sys_info.h"
 
 #define TP      ((volatile short *)0x42E68BB0u)            /* touch block: x0, y0, x1, y1 (s16) */
 #define TS32(o) (*(volatile u32 *)(0x42E68998u + (o)))     /* touch-control state */
@@ -15,7 +16,7 @@
 void touch_drag_delta_b(void)
 {
     int dx = TP[2] - TP[0], dy = TP[3] - TP[1];
-    if (SYS8(0x671)) {
+    if (SI(f_671)) {
         dx /= 10;
         dy /= 10;
     }

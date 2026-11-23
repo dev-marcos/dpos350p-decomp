@@ -7,20 +7,21 @@
 
 #include "hw/fpga.h"
 #include "acquisition.h"
+#include "sys_info.h"
 
 void runtime_counter_progress_advance(void)
 {
-    u32 c = SYS32(0x6FC), d, q;
-    if (c >= SYS32(0x708)) {
-        u32 step = SYS16(0x6F8);
-        SYS32(0x700) = SYS32(0x700) + step;
-        SYS32(0x56C) = SYS32(0x56C) + step;
+    u32 c = SI(runtime_fine_progress), d, q;
+    if (c >= SI(runtime_progress_threshold)) {
+        u32 step = SI(runtime_coarse_step);
+        SI(runtime_coarse_progress) = SI(runtime_coarse_progress) + step;
+        SI(f_56c) = SI(f_56c) + step;
     }
-    c += SYS16(0x6F6);
-    d = SYS8(0x1B1);
-    SYS32(0x6FC) = c;
+    c += SI(runtime_step);
+    d = SI(repeat_factor);
+    SI(runtime_fine_progress) = c;
     q = d ? c / d : 0;
-    SYS32(0x63C) = q;
-    SYS32(0x704) = c - d * q;
-    SYS16(0x6F0) = SYS16(0x6F4) + q;
+    SI(runtime_quotient) = q;
+    SI(runtime_field_704) = c - d * q;
+    SI(runtime_fpga_position) = SI(runtime_field_6f4) + q;
 }

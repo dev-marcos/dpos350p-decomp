@@ -10,22 +10,23 @@
 #include "drivers/timer.h"
 #include "fpga.h"
 #include "frontend.h"
+#include "sys_info.h"
 
 void ch1_frontend_apply(void)
 {
     int changed = 0;
-    if (SYS8(0xBC8) != SYS8(0x41)) {
+    if (SI(f_bc8) != SI(ch1_vdiv_index)) {
         u32 v;
-        SYS8(0xBC8) = SYS8(0x41);
+        SI(f_bc8) = SI(ch1_vdiv_index);
         fpga_selector_command_write(0x28);
-        v = SYS8(0xBC8);
+        v = SI(f_bc8);
         changed = 1;
         if (v == 12) v = 11;
         fpga_data_byte_write(v);
     }
     fpga_param_updater(8, 4, CAL_OBJ[0], CAL_OBJ[0]);
     fpga_param_updater(10, 4, CAL_OBJ[2], CAL_OBJ[2]);
-    fpga_param_updater(12, 4, SYS32(0x60), SYS32(0x60));
+    fpga_param_updater(12, 4, SI(ch1_offset), SI(ch1_offset));
     smec_commit(0xB5);
     fpga_write_sel_0x2a();
     if (changed)

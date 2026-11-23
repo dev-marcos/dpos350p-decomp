@@ -9,18 +9,16 @@
 #include "generator.h"
 #include "processing.h"
 #include "util.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
-#define F32(a) (*(volatile float *)(a))
 
 #define OUT16 0x416431E8u
 
 void fixed_point_weighted_or_filtered_resampling(u32 ws, u32 half, u32 len, u32 m, long long shift)
 {
-    u32 k = W32(SYS + 0x554), step, cnt, src, dst, l16, out, ph, acc, o;
+    u32 k = SI(f_554), step, cnt, src, dst, l16, out, ph, acc, o;
     long long t;
     int c, j, ph2, w, r;
     t = (long long)((unsigned long long)len * k) / (long long)m;

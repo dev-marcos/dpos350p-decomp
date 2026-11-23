@@ -8,6 +8,7 @@
 #include "hw/fpga.h"
 #include "fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 #define PB32(o) (*(volatile u32 *)(0x42E53A0Cu + (o)))
 
@@ -15,23 +16,23 @@ void fpga_params_0e_13_write(void)
 {
     u32 a, b, c, d, e, w;
     cursor_27e_clamp();
-    if (SYS8(0x27C) == 0) {
-        a = SYS32(0xE0);
-        b = SYS32(0x60);
+    if (SI(trigger_channel) == 0) {
+        a = SI(f_0e0);
+        b = SI(ch1_offset);
         d = PB32(0x18);
         e = PB32(0x38);
-        c = *(volatile u32 *)(0x40544E68u + 0x1C4 + 4 * SYS8(0x41));
+        c = *(volatile u32 *)(0x40544E68u + 0x1C4 + 4 * SI(ch1_vdiv_index));
     } else {
-        a = SYS32(0x1A0);
-        b = SYS32(0x120);
+        a = SI(f_1a0);
+        b = SI(ch2_offset);
         d = PB32(0x14);
         e = PB32(0x34);
-        c = *(volatile u32 *)(0x40544E68u + 0x1C4 + 4 * SYS8(0x105));
+        c = *(volatile u32 *)(0x40544E68u + 0x1C4 + 4 * SI(ch2_vdiv_index));
     }
     fpga_param_updater(0xE, 4, a, a);
     fpga_param_updater(0xF, 4, b, b);
-    w = SYS16(0x27E) | ((u32)SYS16(0x280) << 16);      /* the stock reads the word at SYS+0x27E unaligned */
-    fpga_param_updater(0x10, 2, w, (u32)(int)(short)SYS16(0x27E));
+    w = SI(trigger_level) | ((u32)SI(f_280) << 16);      /* the stock reads the word at SYS+0x27E unaligned */
+    fpga_param_updater(0x10, 2, w, (u32)(int)(short)SI(trigger_level));
     fpga_param_updater(0x11, 4, c, c);
     fpga_param_updater(0x12, 4, d, d);
     fpga_param_updater(0x13, 4, e, e);

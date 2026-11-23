@@ -9,6 +9,7 @@
 #include "system.h"
 #include "ui/input.h"
 #include "ui/windows.h"
+#include "sys_info.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -23,7 +24,7 @@ static void channel_buttons(u32 b, u32 s)
     if (TB(b) == 2) {
         TB(b) = 0;
         SYS8(s) = SYS8(s) == 0;
-        if (SYS8(0x652))
+        if (SI(f_652))
             SYS8(s) = 1;
         TB(0) = 0;
     } else if (TB(b + 0xA) == 2) {

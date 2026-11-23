@@ -8,6 +8,7 @@
 #include "hw/fpga.h"
 #include "drivers/fpga_bus.h"
 #include "fpga.h"
+#include "sys_info.h"
 
 void perform_fpga_identification_probe(void)
 {
@@ -17,5 +18,5 @@ void perform_fpga_identification_probe(void)
     v = fpga_data_byte_read() | (v << 8);
     v = fpga_data_byte_read() | (v << 8);
     v = fpga_data_byte_read() | (v << 8);
-    SYS8(0x7FC) = v == 0xA5A55A5Au;
+    SI(fpga_probe_result) = v == 0xA5A55A5Au;
 }

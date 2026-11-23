@@ -7,14 +7,15 @@
 
 #include "hw/fpga.h"
 #include "frontend.h"
+#include "sys_info.h"
 
 void vdiv_label(u32 ch, u32 r1, int d, int unit)
 {
     long long v;
     char *s;
     int hd, td, od, n = 0, any = 0;
-    if (ch == 0) { v = (long long)SYS64(0x50); s = (char *)(0x40544E68u + 0x70); }
-    else { v = (long long)SYS64(0x110); s = (char *)(0x40544E68u + 0x130); }
+    if (ch == 0) { v = (long long)SI(ch1_scale); s = (char *)(0x40544E68u + 0x70); }
+    else { v = (long long)SI(ch2_scale); s = (char *)(0x40544E68u + 0x130); }
     if (v >= 1000000000LL) { d = (int)__aeabi_ldivmod(v, 1000000000LL); unit = 0; }
     else if (v >= 1000000LL) { d = (int)__aeabi_ldivmod(v, 1000000LL); unit = 1; }
     else if (v >= 1000LL) { d = (int)__aeabi_ldivmod(v, 1000LL); unit = 2; }

@@ -11,6 +11,7 @@
 #include "ui/screens.h"
 #include "ui/windows.h"
 #include "util.h"
+#include "sys_info.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -20,7 +21,6 @@ void second_conversion_wrapper_raw(u32 dst, u32 ch, u32 n) __asm__("second_conve
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define SEG W32(SYS + 0x2B0)
 #define HIST 0x42AC7CF4u
@@ -47,62 +47,62 @@ static void chunks(u32 ch, u32 base)
 {
     u32 k, s;
 
-    for (k = 0; (int)k < (int)H16(SYS + 0x644); k++) {
-        s = k * H16(SYS + 0x640);
-        W32(SYS + 0x63C) = s + base;
-        if (B8(SYS + 0x100) == 0) {
+    for (k = 0; (int)k < (int)SI(f_644); k++) {
+        s = k * SI(f_640);
+        SI(runtime_quotient) = s + base;
+        if (SI(f_100) == 0) {
             if (ch) {
                 capture_banks_4_7();
-                second_conversion_wrapper_raw(W32(SYS + 0x7B8) + 2 * s, 1, H16(SYS + 0x640));
+                second_conversion_wrapper_raw(SI(ch2_buffer) + 2 * s, 1, SI(f_640));
             } else {
                 capture_banks_0_3();
-                bank_unpack_0_3_n_raw(W32(SYS + 0x7B4) + 2 * s, 0, H16(SYS + 0x640));
+                bank_unpack_0_3_n_raw(SI(ch1_buffer) + 2 * s, 0, SI(f_640));
             }
-        } else if (B8(SYS + 0x100) == ch + 1) {
+        } else if (SI(f_100) == ch + 1) {
             capture_banks_all();
-            first_conversion_wrapper_raw(W32(ch ? SYS + 0x7B8 : SYS + 0x7B4) + 2 * s, ch, H16(SYS + 0x640));
+            first_conversion_wrapper_raw(W32(ch ? SYS + 0x7B8 : SYS + 0x7B4) + 2 * s, ch, SI(f_640));
         }
     }
 }
 
 void full_acquisition_entry(void)
 {
-    u32 i, j, base, lim, mode = B8(SYS + 0x27A);
+    u32 i, j, base, lim, mode = SI(trigger_mode);
     unsigned short c582, n;
 
     if (mode == 1) {
-        B8(SYS + 0x101) = 0;
+        SI(ch1_runtime_state) = 0;
         W32(SYS + 0x584) = 0;
     } else if (mode == 2) {
         roll_shift(HIST);
         roll_shift(HIST + 0x62250u);
-        c582 = H16(SYS + 0x582);
-        H16(SYS + 0x586) = H16(SYS + 0x586) < c582 ? H16(SYS + 0x586) + 1 : c582;
-        n = H16(SYS + 0x584);
-        H16(SYS + 0x584) = c582 < n ? 0 : n + 1;
-        for (j = 0; (int)j < (int)H16(SYS + 0x586); j++)
+        c582 = SI(f_582);
+        SI(f_586) = SI(f_586) < c582 ? SI(f_586) + 1 : c582;
+        n = SI(f_584);
+        SI(f_584) = c582 < n ? 0 : n + 1;
+        for (j = 0; (int)j < (int)SI(f_586); j++)
             table(j);
-        H16(SYS + 0x550) = 1;
+        SI(capture_count) = 1;
     } else
         W32(SYS + 0x584) = 0;
 
-    for (i = 0; (int)i < (int)H16(SYS + 0x550); i++) {
-        acquisition_block_bank_selector((H16(SYS + 0x584) + i) & 0xFF);
+    for (i = 0; (int)i < (int)SI(capture_count); i++) {
+        acquisition_block_bank_selector((SI(f_584) + i) & 0xFF);
         acquisition_prepare();
         acq_wait_done();
-        if (!B8(SYS + 0x38))
+        if (!SI(acq_done))
             break;
         veneer_40063798();
         consumer_translator_of_the_16_bit();
-        base = W32(SYS + 0x63C);
+        base = SI(runtime_quotient);
         table(i);
         W32(SYS + 0x29C) = 0;
         timebase_apply_2b4();
-        if (B8(SYS + 0x3E)) {
+        if (SI(ch1_enabled)) {
             stream_geometry_fpga_selector_0x22_configuration();
             chunks(0, base);
         }
-        if (B8(SYS + 0x102)) {
+        if (SI(ch2_enabled)) {
             stream_geometry_fpga_selector_0x22_configuration();
             chunks(1, base);
         }
@@ -125,28 +125,28 @@ void full_acquisition_entry(void)
         channel_to_display_copy(0, i & 0xFFFF);
         channel_to_display_copy(1, i & 0xFFFF);
         if (B8(0x42E68BB0u + 0x15)) {
-            lim = W32(SYS + 0x540) / B8(SYS + 0x1B0);
-            if (B8(SYS + 0x51C) == 2 || B8(SYS + 0x51D) == 2)
+            lim = SI(f_540) / SI(f_1b0);
+            if (SI(f_51c) == 2 || SI(f_51d) == 2)
                 lim /= 10;
             else
                 lim /= 3;
-            if (lim < (i + 1) * W32(SYS + 0x558)) {
-                H16(SYS + 0x5D0) = (unsigned short)(i + 1);
-                H16(SYS + 0x550) = (unsigned short)(i + 1);
+            if (lim < (i + 1) * SI(f_558)) {
+                SI(f_5d0) = (unsigned short)(i + 1);
+                SI(capture_count) = (unsigned short)(i + 1);
                 break;
             }
         }
     }
-    if (B8(SYS + 0x27A) == 2) {
-        n = H16(SYS + 0x586);
-        H16(SYS + 0x550) = n;
-        H16(SYS + 0x5D0) = n;
+    if (SI(trigger_mode) == 2) {
+        n = SI(f_586);
+        SI(capture_count) = n;
+        SI(f_5d0) = n;
     }
     channel_filters_by_timebase();
     fft_input_prepare();
-    if (B8(SYS + 0x27A) == 1 && B8(SYS + 0x38)) {
-        B8(SYS + 0x101) = 1;
-        B8(SYS + 0x3C) = 1;
+    if (SI(trigger_mode) == 1 && SI(acq_done)) {
+        SI(ch1_runtime_state) = 1;
+        SI(acq_transition_flag) = 1;
         ui_windows_mark_dirty();
     }
 }

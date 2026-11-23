@@ -9,6 +9,7 @@
 #include "generator.h"
 #include "processing.h"
 #include "util.h"
+#include "sys_info.h"
 
 void gen_resample2(void)
 {
@@ -18,7 +19,7 @@ void gen_resample2(void)
     unsigned long long x = D2ULZ((double)per * 1.02);
     u32 step, i;
     unsigned short *w = (unsigned short *)(0x416431E8u + 0x4E20);
-    x = x * SYS32(0x554);
+    x = x * SI(f_554);
     x = x * m;
     step = (u32)__aeabi_uldivmod(x, tot);
     gen_decimate2(m & 0xFF);

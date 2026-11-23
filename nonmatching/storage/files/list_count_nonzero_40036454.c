@@ -7,18 +7,18 @@
 
 #include "hw/fpga.h"
 #include "storage/files.h"
+#include "sys_info.h"
 
-#define SS16(o) (*(volatile short *)(0x40544E68u + (o)))
 
 void list_count_nonzero_40036454(void)
 {
     volatile unsigned char *p = (volatile unsigned char *)(0x40544E68u + 0x5DC6u);
-    int n = SS16(0xFA0);
+    int n = SI(list_count);
     u32 c = 0;
     for (; n >= 1; n--) {
-        SYS16(0x88BE) = c;
+        SI(list_marked_count) = c;
         if (*p++)
             c++;
     }
-    SYS16(0x88BE) = c;
+    SI(list_marked_count) = c;
 }

@@ -8,9 +8,10 @@
 #include "hw/fpga.h"
 #include "acquisition.h"
 #include "drivers/fpga_bus.h"
+#include "sys_info.h"
 
 void acq_done_read(void)
 {
     fpga_selector_command_write(0x0A);
-    SYS8(0x38) = fpga_data_byte_read() & 1;
+    SI(acq_done) = fpga_data_byte_read() & 1;
 }

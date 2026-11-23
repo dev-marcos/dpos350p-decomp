@@ -7,23 +7,24 @@
 
 #include "hw/fpga.h"
 #include "acquisition.h"
+#include "sys_info.h"
 
 void runtime_state_commit_copy(void)
 {
-    if (SYS8(0x38) == 0)
+    if (SI(acq_done) == 0)
         return;
-    SYS8(0x29) = SYS8(0x28);
-    SYS16(0x5D0) = SYS16(0x550);
-    SYS8(0x5B0) = SYS8(0x588);
-    SYS32(0x5D4) = SYS32(0x558);
-    SYS32(0x5D8) = SYS32(0x55C);
-    SYS64(0x5B8) = SYS64(0x590);
-    SYS64(0x5A8) = SYS64(0x530);
+    SI(acq_path_mode_shadow) = SI(acq_path_mode);
+    SI(f_5d0) = SI(capture_count);
+    SI(f_5b0) = SI(timebase_index);
+    SI(f_5d4) = SI(f_558);
+    SI(f_5d8) = SI(f_55c);
+    SI(f_5b8) = SI(f_590);
+    SI(f_5a8) = SI(f_530);
     SYS64(0x5E0) = SYS64(0x570);
-    SYS32(0x5E8) = SYS32(0x568);
-    SYS32(0x5EC) = SYS32(0x56C);
-    SYS64(0x58) = SYS64(0x50);
-    SYS32(0x64) = SYS32(0x60);
-    SYS64(0x118) = SYS64(0x110);
-    SYS32(0x124) = SYS32(0x120);
+    SI(f_5e8) = SI(f_568);
+    SI(f_5ec) = SI(f_56c);
+    SYS64(0x58) = SI(ch1_scale);
+    SI(f_064) = SI(ch1_offset);
+    SYS64(0x118) = SI(ch2_scale);
+    SI(f_124) = SI(ch2_offset);
 }

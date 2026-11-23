@@ -7,10 +7,10 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define S64(a) (*(volatile long long *)(a))
 
@@ -79,8 +79,8 @@ void levels_view_layout(void)
     W32(BLK + 0xC0) = c0;
     W32(BLK + 0xC4) = c4;
     W32(BLK + 0xC8) = c8;
-    B8(SYS + 0x3C) = 0;
-    B8(SYS + 0x54E) = 1;
+    SI(acq_transition_flag) = 0;
+    SI(f_54e) = 1;
     W32(0x42E68CB0u) = 0x42CC64B4u + n * 2;
     W32(BLK + 0xF8) = n;
     W32(BLK + 0xB8) = w;

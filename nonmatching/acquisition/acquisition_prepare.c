@@ -8,6 +8,7 @@
 #include "hw/fpga.h"
 #include "acquisition.h"
 #include "drivers/fpga_bus.h"
+#include "sys_info.h"
 
 void acquisition_prepare(void)
 {
@@ -16,6 +17,6 @@ void acquisition_prepare(void)
     fpga_selector_command_write(0x01); fpga_data_byte_write(0);
     fpga_selector_command_write(0x11); fpga_data_byte_write(0);
     fpga_selector_command_write(0x11); fpga_data_byte_write(1);
-    fpga_selector_command_write(0x02); fpga_data_byte_write(SYS8(0xBB3));
+    fpga_selector_command_write(0x02); fpga_data_byte_write(SI(f_bb3));
     fpga_selector_command_write(0x0F); fpga_data_byte_write(1);
 }

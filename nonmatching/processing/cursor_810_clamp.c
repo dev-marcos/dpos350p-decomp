@@ -7,24 +7,25 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 void cursor_810_clamp(void)
 {
-    int v = (int)SYS32(0x810), m;
+    int v = (int)SI(cursor_y1), m;
     if (v < 12) {
         v = 12;
     } else {
-        m = SYS16(0xA) - 15;
+        m = SI(plot_height) - 15;
         if (m < v)
             v = m;
     }
-    SYS32(0x810) = v;
-    v = (int)SYS32(0x814);
+    SI(cursor_y1) = v;
+    v = (int)SI(cursor_y2);
     if (v < 12) {
-        SYS32(0x814) = 12;
+        SI(cursor_y2) = 12;
     } else {
-        m = SYS16(0xA) - 15;
+        m = SI(plot_height) - 15;
         if (m < v)
-            SYS32(0x814) = m;
+            SI(cursor_y2) = m;
     }
 }

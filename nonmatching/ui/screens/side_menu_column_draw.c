@@ -9,6 +9,7 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 #include "ui/screens.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define LAY 0x42E64520u              /* UI layout table */
@@ -16,7 +17,6 @@
 #define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
 #define B8(a) (*(volatile unsigned char *)(a))
-#define SB8(a) (*(volatile signed char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define ENT(n) (TXT + 0x1A0 * (n))
@@ -46,7 +46,7 @@ void side_menu_column_draw(void)
     rect_fill(x & 0xFFFF, y, 0x40, 0x47);
     draw_colour_set(W32(TB));
     rect_fill(x & 0xFFFF, y, 0x40, 0x258);
-    draw_colour_set(B8(SYS + 0x3C) ? 0xFF0000 : 0xFF00);
+    draw_colour_set(SI(acq_transition_flag) ? 0xFF0000 : 0xFF00);
     icon_rec(x, y, y + 0x14, 0x400857FCu, 0x5C);
     pressed(x & 0xFFFF, y, 0x5C, 0x47);
 
@@ -75,7 +75,7 @@ void side_menu_column_draw(void)
     draw_colour_set(0x282828);
     rect_fill(x & 0xFFFF, (y + 0x127) & 0xFFFF, 0x40, 0x4E);
     draw_colour_set(0xAAAAAA);
-    if (!B8(SYS + 0x664)) {
+    if (!SI(f_664)) {
         draw_colour_set(0xFFAA33);
         draw_text_shadowed((x + 0x14) & 0xFFFF, (y + 0x140) & 0xFFFF, 0x400866D4u, 2, 2, 0);
     } else {

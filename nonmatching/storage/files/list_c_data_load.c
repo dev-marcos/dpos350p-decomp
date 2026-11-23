@@ -8,8 +8,8 @@
 #include "hw/fpga.h"
 #include "fatfs_app.h"
 #include "storage/files.h"
+#include "sys_info.h"
 
-#define SS16(o) (*(volatile short *)(0x40544E68u + (o)))
 #define PATHBUF ((const char *)0x4054D728u)   /* SYS+0x88C0: path built by the list's path helper */
 
 void list_c_data_load(void)
@@ -20,6 +20,6 @@ void list_c_data_load(void)
         return;
     }
     f_lseek(fil, 0);
-    f_read(fil, (void *)(0x40544E68u + 0xD744u), SYS32(0x3DA544) * SYS16(0x758), 0);
+    f_read(fil, (void *)(0x40544E68u + 0xD744u), SI(f_3da544) * SI(f_758), 0);
     f_close(fil);
 }

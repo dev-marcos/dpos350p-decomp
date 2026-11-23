@@ -1,7 +1,7 @@
 /*
  * screenshot_browser_draw -- stock 0x400250DC (3104 bytes, ARM)
  * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
- * Window 20 (layout 0x42E64520 + 0x11E): the saved-screenshot browser. Light grey (0xDDDDDD) body and a dark right edge; a 5 x 3 grid from page SYS16(0xF9E) x per-page SYS16(0xF9A): for each non-zero file number at SYS16(0xFA6 + 2 i) (a zero ends the grid), screenshot_path_make(n) (name at SYS+0x88C1), the THUMB_W x THUMB_H thumbnail k (SYS+0x12ED60 + 0x256D8 k, size u16 SYS+0x109684 / +0x109686) copied into the frame buffer, touch button 0x42E61FF8 + 0x728 + 10 k (203 x 138), a 9-line gradient, the centred name, and in selection mode (SYS+0xF90) a dark veil with a check box filled when SYS+0x5DC6 + i is set. Title bar (0x202020, 30 high): image 0x4008A038, text entry 110, then entries 119 / 120 / 121 / 122 / 123 with the counts SYS16(0xFA0), SYS16(0xFA2) and the page SYS16(0xF9E) + 1. Bottom bar at y = 540 - window y: six 170 x 60 touch buttons (+0x7BE + 10 i, pressed ones in theme colour SYS+0x3DD54C) labelled by entries 67, 113..117.
+ * Window 20 (layout 0x42E64520 + 0x11E): the saved-screenshot browser. Light grey (0xDDDDDD) body and a dark right edge; a 5 x 3 grid from page SYS16(0xF9E) x per-page SI(list_page_size): for each non-zero file number at SYS16(0xFA6 + 2 i) (a zero ends the grid), screenshot_path_make(n) (name at SYS+0x88C1), the THUMB_W x THUMB_H thumbnail k (SYS+0x12ED60 + 0x256D8 k, size u16 SYS+0x109684 / +0x109686) copied into the frame buffer, touch button 0x42E61FF8 + 0x728 + 10 k (203 x 138), a 9-line gradient, the centred name, and in selection mode (SYS+0xF90) a dark veil with a check box filled when SYS+0x5DC6 + i is set. Title bar (0x202020, 30 high): image 0x4008A038, text entry 110, then entries 119 / 120 / 121 / 122 / 123 with the counts SYS16(0xFA0), SYS16(0xFA2) and the page SYS16(0xF9E) + 1. Bottom bar at y = 540 - window y: six 170 x 60 touch buttons (+0x7BE + 10 i, pressed ones in theme colour SYS+0x3DD54C) labelled by entries 67, 113..117.
  */
 #include "hw/platform.h"
 
@@ -11,6 +11,7 @@
 #include "ui/input.h"
 #include "ui/screens.h"
 #include "util.h"
+#include "sys_info.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */

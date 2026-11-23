@@ -7,6 +7,7 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 static u32 shr(u32 v, u32 s)
 {
@@ -19,8 +20,8 @@ void fft_input_prepare_b(void)
     u32 n = *(volatile u32 *)(0x42E68668u + 0xF8), i;
     volatile float *d = (volatile float *)0x42D164B4u;
     if (n) {
-        volatile unsigned short *s = (volatile unsigned short *)0x42AC7CF4u + ((SYS32(0x454) - n) >> 1);
-        u32 sh = SYS32(0x264);
+        volatile unsigned short *s = (volatile unsigned short *)0x42AC7CF4u + ((SI(f_454) - n) >> 1);
+        u32 sh = SI(f_264);
         for (i = 0; i < n; i++)
             d[i] = (float)(int)shr(s[i], sh);
     }

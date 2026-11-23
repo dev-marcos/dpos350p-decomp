@@ -7,6 +7,7 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 #define SB 0x40544E68u
 
@@ -18,22 +19,22 @@ void channel_freq_measure(u32 ch)
     int thr, cnt = 0, first = 0, k, end;
     u32 f0 = 0, f1 = 0, e;
     if (ch == 0) {
-        if (SYS8(0x3E) == 0)
+        if (SI(ch1_enabled) == 0)
             return;
-        thr = (int)SYS32(0xB6C);
+        thr = (int)SI(f_b6c);
         fo = (volatile u32 *)(SB + 0xB70);
         o2 = (volatile unsigned long long *)(SB + 0xB78);
         o1 = (volatile unsigned long long *)(SB + 0xB80);
     } else {
-        if (ch == 1 && SYS8(0x102) == 0)
+        if (ch == 1 && SI(ch2_enabled) == 0)
             return;
-        thr = (int)SYS32(0xB94);
+        thr = (int)SI(f_b94);
         fo = (volatile u32 *)(SB + 0xB98);
         o2 = (volatile unsigned long long *)(SB + 0xBA0);
         o1 = (volatile unsigned long long *)(SB + 0xBA8);
     }
-    e = SYS32(0x2B4);
-    k = (int)((e - SYS32(0x2B0)) >> 1);
+    e = SI(f_2b4);
+    k = (int)((e - SI(f_2b0)) >> 1);
     end = (int)(e - (u32)k);
     if (k < end) {
         volatile unsigned short *q = p + k;
@@ -55,16 +56,16 @@ void channel_freq_measure(u32 ch)
         }
         if (cnt >= 2) {
             u32 diff = f1 - f0;
-            if (diff >= (u32)(SYS16(8) * SYS32(0x558)) / 3u) {
+            if (diff >= (u32)(SI(plot_width) * SI(f_558)) / 3u) {
                 int c = cnt - 1;
                 unsigned long long t;
                 union { float f; u32 u; } fu;
                 fu.f = (float)(int)diff / (float)c;
                 *fo = fu.u;
                 t = (unsigned long long)(long long)(int)diff * *(volatile unsigned long long *)(SB + 0x590);
-                t = t / SYS16(0x1C);
-                t = t * SYS32(0x55C);
-                t = t / SYS32(0x554);
+                t = t / SI(f_01c);
+                t = t * SI(f_55c);
+                t = t / SI(f_554);
                 t = t / (unsigned long long)(long long)c;
                 *o1 = t * 2u;
                 *o2 = 1000000000000ull / *o1;

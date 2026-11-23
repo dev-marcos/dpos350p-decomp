@@ -10,6 +10,7 @@
 #include "drivers/timer.h"
 #include "fpga.h"
 #include "system.h"
+#include "sys_info.h"
 
 #define LCAL_BUF ((unsigned char *)0x429D3AB4u)
 #define LCAL_ROWS 50
@@ -18,7 +19,7 @@ static void lcal_measure(int n, u32 ch_hi, int v[8][LCAL_ROWS])
 {
     int i, k;
     for (i = 0; i < n; i++) {
-        SYS8(0x588) = (unsigned char)(i + SYS8(0x6EC));
+        SI(timebase_index) = (unsigned char)(i + SI(f_6ec));
         outputs_apply();
         delay_ms(20);
         v[0][i] = (int)lane_level_mean(1, 0, 0, 2000, LCAL_BUF);
@@ -29,18 +30,18 @@ static void lcal_measure(int n, u32 ch_hi, int v[8][LCAL_ROWS])
 
 static u32 lcal_level(u32 pass, u32 level)
 {
-    SYS8(0x3E) = 1;
-    SYS8(0x102) = pass;
-    SYS32(0x60) = level;
-    SYS32(0x120) = level;
+    SI(ch1_enabled) = 1;
+    SI(ch2_enabled) = pass;
+    SI(ch1_offset) = level;
+    SI(ch2_offset) = level;
     outputs_apply();
     delay_ms(100);
-    return SYS32(0x60) * SYS32(0x1C0) * SYS32(0x26C);
+    return SI(ch1_offset) * SI(acq_geometry_1c0) * SI(acq_geometry_26c);
 }
 
 static void lcal_fit(int n, u32 hi, u32 lo, int h[8][LCAL_ROWS], int l[8][LCAL_ROWS], volatile int *t)
 {
-    u32 s = SYS32(0x268);
+    u32 s = SI(acq_geometry_268);
     int j, k;
     for (j = 0; j < n; j++) {
         long long d = (long long)(int)(hi - lo) * (long long)s;
@@ -49,7 +50,7 @@ static void lcal_fit(int n, u32 hi, u32 lo, int h[8][LCAL_ROWS], int l[8][LCAL_R
         for (k = 0; k < 8; k++)
             t[k * LCAL_ROWS + j] = (int)__aeabi_ldivmod(d, (long long)(h[k][j] - l[k][j]));
         e = (long long)(int)hi * (long long)s;
-        y = SYS32(0x26C);
+        y = SI(acq_geometry_26c);
         for (k = 0; k < 8; k++)
             t[8 * LCAL_ROWS + k * LCAL_ROWS + j] =
                 (int)__aeabi_ldivmod(e - (long long)t[k * LCAL_ROWS + j] * h[k][j], (long long)y);
@@ -62,27 +63,27 @@ void lane_gain_calibrate(void)
     u32 hi, lo;
     int n;
     acq_defaults_reset();
-    SYS8(0x3C) = 0;
-    SYS8(0x41) = 6;
-    SYS8(0x105) = 6;
-    SYS8(0x40) = 0;
-    SYS8(0x3F) = 0;
-    SYS8(0x46) = 0;
-    SYS8(0x104) = 0;
-    SYS8(0x103) = 0;
-    SYS8(0x10A) = 0;
-    SYS8(0x275) = 0;
-    SYS8(0x660) = 0;
+    SI(acq_transition_flag) = 0;
+    SI(ch1_vdiv_index) = 6;
+    SI(ch2_vdiv_index) = 6;
+    SI(ch1_probe) = 0;
+    SI(ch1_coupling) = 0;
+    SI(f_046) = 0;
+    SI(ch2_probe) = 0;
+    SI(ch2_coupling) = 0;
+    SI(f_10a) = 0;
+    SI(f_275) = 0;
+    SI(f_660) = 0;
     g_touch->enabled = 0;
-    SYS8(0x102) = 0;
-    SYS8(0x3E) = 1;
-    SYS32(0x60) = 450;
-    SYS32(0x120) = 450;
+    SI(ch2_enabled) = 0;
+    SI(ch1_enabled) = 1;
+    SI(ch1_offset) = 450;
+    SI(ch2_offset) = 450;
     outputs_apply();
     acquisition_dispatcher();
     delay_ms(100);
-    hi = SYS32(0x60) * SYS32(0x1C0) * SYS32(0x26C);
-    n = (int)SYS8(0x6ED) - (int)SYS8(0x6EC) + 1;
+    hi = SI(ch1_offset) * SI(acq_geometry_1c0) * SI(acq_geometry_26c);
+    n = (int)SI(f_6ed) - (int)SI(f_6ec) + 1;
     lcal_measure(n, 0, h);
     lo = lcal_level(0, 50);
     if (n > 0) {

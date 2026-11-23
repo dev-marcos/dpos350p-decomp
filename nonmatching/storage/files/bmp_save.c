@@ -10,9 +10,9 @@
 #include "storage/files.h"
 #include "ui/draw.h"
 #include "util.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
-#define H16(a) (*(volatile unsigned short *)(a))
 #define BMP ((volatile unsigned char *)0x41D3E3A8u)
 
 static const unsigned char bmp_header[0x46] = {
@@ -29,10 +29,10 @@ int bmp_save(const char *path)
     int ok = 0;
     for (i = 0; i < sizeof bmp_header; i++)
         BMP[i] = bmp_header[i];
-    w = H16(SYS + 0x109684);
+    w = SI(bmp_width);
     BMP[0x47] = (unsigned char)(w >> 8);
     BMP[0x46] = (unsigned char)w;
-    h = H16(SYS + 0x109686);
+    h = SI(bmp_height);
     BMP[0x48] = (unsigned char)h;
     BMP[0x49] = (unsigned char)(h >> 8);
     memcpy((void *)(BMP + 0x4A), (const void *)(SYS + 0x109688), 2 * (h * w) + 10);

@@ -8,26 +8,27 @@
 #include "hw/fpga.h"
 #include "drivers/fpga_bus.h"
 #include "fpga.h"
+#include "sys_info.h"
 
 void fpga_position_290_update(void)
 {
     u32 r;
     fpga_cmd18_read();
-    if (SYS8(0x279)) {
+    if (SI(f_279)) {
         u32 a, v;
         fpga_selector_command_write(0x14);
         a = fpga_data_byte_read();
         v = fpga_data_byte_read() | (a << 8);
-        r = (v & 0x1FFF) - SYS32(0x28C);
+        r = (v & 0x1FFF) - SI(f_28c);
         if ((int)r < 0)
-            r += SYS32(0x520);
+            r += SI(f_520);
     } else {
         unsigned long long t = *(volatile unsigned long long *)(0x40544E68u + 0x30);
-        u32 x = SYS32(0x28C);
+        u32 x = SI(f_28c);
         if (t < x)
             r = 0;
         else
-            r = (u32)((t - x) % SYS32(0x520));
+            r = (u32)((t - x) % SI(f_520));
     }
-    SYS32(0x290) = r;
+    SI(f_290) = r;
 }

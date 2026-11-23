@@ -7,10 +7,11 @@
 
 #include "hw/fpga.h"
 #include "ui/screens.h"
+#include "sys_info.h"
 
 void func_4002c7ac_or_4002c5f8(void)
 {
-    if (SYS8(0x652) == 0)
+    if (SI(f_652) == 0)
         plot_grid_draw();
     else
         xy_grid_draw();

@@ -9,13 +9,12 @@
 #include "bode.h"
 #include "processing.h"
 #include "util.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
-#define S64(a) (*(volatile long long *)(a))
-#define U64(a) (*(volatile unsigned long long *)(a))
 
 #define BB 0x42E180C8u
 #define WS 0x416431E8u
@@ -30,7 +29,7 @@ static void zoom_one(u32 off)
     fill_u16((unsigned short *)(MID - 200 - 2 * (u32)(c / 2)), H16(BB + off), 100);
     c = (int)W32(BB + 0x5C);
     fill_u16((unsigned short *)(MID + 2 * (u32)(c / 2)), H16(BB + 2 * (u32)c + off - 2), 100);
-    if (W32(BB + 0x40) < 3 * W32(SYS + 0x554))
+    if (W32(BB + 0x40) < 3 * SI(f_554))
         simple_integer_index_mapping_nearest_neighbour(WS, 10000, H16(BB + 4), W32(BB + 0x40), 0, 0);
     else
         floating_point_interpolation_resampling(WS, 10000, H16(BB + 4), W32(BB + 0x40), 0LL);
@@ -63,7 +62,7 @@ void bode_curves_zoom(void)
 {
     if (B8(0x42E68BB0u + 0x17))
         return;
-    W32(BB + 0x40) = H16(BB + 4) * W32(SYS + 0x554) / W32(BB + 0x5C);
+    W32(BB + 0x40) = H16(BB + 4) * SI(f_554) / W32(BB + 0x5C);
     zoom_one(0x8D20);
     zoom_one(0x9CC0);
     clamp_flip(0x8D20);

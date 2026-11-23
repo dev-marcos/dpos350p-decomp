@@ -8,17 +8,17 @@
 #include "hw/fpga.h"
 #include "fatfs_app.h"
 #include "storage/files.h"
+#include "sys_info.h"
 
-#define SS16(o) (*(volatile short *)(0x40544E68u + (o)))
 #define PATHBUF ((const char *)0x4054D728u)   /* SYS+0x88C0: path built by the list's path helper */
 
 void list_b_page_validate(void)
 {
     volatile unsigned short *p;
     int i;
-    SS16(0xF9E) = SS16(0xFA4) / (int)SYS16(0xF9A);
-    p = (volatile unsigned short *)(0x40544E68u + 0xFA6u + 2u * (u32)(SYS16(0xF9A) * SS16(0xF9E)));
-    for (i = 0; i < SYS16(0xF9A); i++) {
+    SI(list_page_index) = SI(list_selected) / (int)SI(list_page_size);
+    p = (volatile unsigned short *)(0x40544E68u + 0xFA6u + 2u * (u32)(SI(list_page_size) * SI(list_page_index)));
+    for (i = 0; i < SI(list_page_size); i++) {
         u32 v = *p++;
         if (v == 0)
             break;

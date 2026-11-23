@@ -8,11 +8,10 @@
 #include "hw/fpga.h"
 #include "bode.h"
 #include "ui/draw.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define BB 0x42E180C8u
-#define GEN 0x42E3F984u
-#define DREC 0x42E554B0u
 #define TOUCH 0x42E68BB0u
 #define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
@@ -44,9 +43,9 @@ static void message(u32 e)
     u32 tw = text_width(*(const char *volatile *)t), x, y;
     x = BH(0) + ((u32)(BH(4) - tw - 0x28) >> 1);
     y = BH(2) + ((int)BH(6) - 0x28) / 2;
-    draw_colour_set(W(SYS + 0x3DD550));
+    draw_colour_set(SI(f_3dd550));
     rect_fill(U16(x), U16(y), U16(tw + 0x28), 0x28);
-    draw_colour_set(W(SYS + 0x3DD554));
+    draw_colour_set(SI(f_3dd554));
     text_draw(U16(x + (signed char)t[0x194] + 0x14), U16(y + (signed char)t[0x195] + 0xD),
               *(const char *volatile *)t);
 }

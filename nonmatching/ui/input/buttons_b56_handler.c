@@ -11,6 +11,7 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 #include "ui/windows.h"
+#include "sys_info.h"
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
 
@@ -26,8 +27,8 @@ void buttons_b56_handler(void)
         ui_windows_reset();
         fb_clear_current();
         ui_windows_open_1_5();
-        SYS8(0x54E) = 0;
-        SYS32(0x5F0) = 100000000;
+        SI(f_54e) = 0;
+        SI(sample_clock_hz) = 100000000;
     } else if (TB(0xB60) == 2) {
         TB(0xB60) = 0;
         TB(0) = 0;

@@ -8,12 +8,11 @@
 #include "hw/fpga.h"
 #include "ui/draw.h"
 #include "ui/screens.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
-#define SB8(a) (*(volatile signed char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 
 #define H3 ((H16(SYS + 0xA) * 0xAAABu) >> 17)    /* a third of the plot height */
 #define VL(col, x) do { draw_colour_set(col); vline_draw((u32)(x) & 0xFFFF, (H16(SYS + 6) + 1) & 0xFFFF, (H16(SYS + 6) + H3) & 0xFFFF); } while (0)
@@ -24,13 +23,13 @@ void split_window_marker_draw(void)
 
     if (B8(0x42E68BB0u + 0x17))
         return;
-    if (B8(SYS + 0x2AA) == 0)
+    if (SI(zoom_on) == 0)
         return;
-    half = H16(SYS + 0x24) >> 1;
-    c = H16(SYS + 0x26);
+    half = SI(f_024) >> 1;
+    c = SI(f_026);
     lo = c - half;
     hi = c + half;
-    w = H16(SYS + 8);
+    w = SI(plot_width);
     if (lo <= 0)
         lo = 1;
     if (w - 2 < lo)
@@ -40,11 +39,11 @@ void split_window_marker_draw(void)
     if (hi < 0)
         hi = 0;
     draw_colour_set(0xCCFFFFFFu);
-    rect_fill((H16(SYS + 4) + 1) & 0xFFFF, (H16(SYS + 6) + 1) & 0xFFFF, (u32)lo & 0xFFFF, H3);
-    rect_fill((u32)(hi + H16(SYS + 4)) & 0xFFFF, (H16(SYS + 6) + 1) & 0xFFFF, (u32)(H16(SYS + 8) - hi) & 0xFFFF, H3);
+    rect_fill((SI(plot_x0) + 1) & 0xFFFF, (SI(plot_y0) + 1) & 0xFFFF, (u32)lo & 0xFFFF, H3);
+    rect_fill((u32)(hi + SI(plot_x0)) & 0xFFFF, (SI(plot_y0) + 1) & 0xFFFF, (u32)(SI(plot_width) - hi) & 0xFFFF, H3);
 
-    x4 = H16(SYS + 4);
-    w = H16(SYS + 8);
+    x4 = SI(plot_x0);
+    w = SI(plot_width);
     lo2 = x4 + lo;
     if (lo2 < x4 + 2)
         lo2 = x4 + 2;

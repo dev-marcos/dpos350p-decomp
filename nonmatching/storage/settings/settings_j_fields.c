@@ -7,14 +7,15 @@
 
 #include "hw/fpga.h"
 #include "storage/settings.h"
+#include "sys_info.h"
 
 void settings_j_fields(void)
 {
     u32 i;
-    if (SYS8(0x3E))
-        for (i = 0; i < SYS32(0x2B0); i++)
+    if (SI(ch1_enabled))
+        for (i = 0; i < SI(f_2b0); i++)
             serializer_process_field((volatile void *)(0x42AC7CF4u + 2 * i), 2);
-    if (SYS8(0x102))
-        for (i = 0; i < SYS32(0x2B0); i++)
+    if (SI(ch2_enabled))
+        for (i = 0; i < SI(f_2b0); i++)
             serializer_process_field((volatile void *)(0x42B29F44u + 2 * i), 2);
 }

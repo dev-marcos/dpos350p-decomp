@@ -7,13 +7,9 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
-#define S64(a) (*(volatile long long *)(a))
-#define U64(a) (*(volatile unsigned long long *)(a))
 
 typedef struct { float re, im; } cfloat;
 typedef double (*dfn)(double);
@@ -23,7 +19,7 @@ typedef double (*dfn)(double);
 static void hann_one(u32 in, u32 x, u32 out)
 {
     volatile float *src = (volatile float *)in, *dst = (volatile float *)x;
-    u32 n = W32(SYS + 0x7F8), i;
+    u32 n = SI(fft_size), i;
     double dn, v;
     if (n != 0) {
         dn = (double)(n - 1);
@@ -36,13 +32,13 @@ static void hann_one(u32 in, u32 x, u32 out)
         } while (i < n);
     }
     fft_radix2((int)n, dst);
-    cvec_magnitude(dst, (volatile float *)out, (int)(W32(SYS + 0x7F8) >> 1));
+    cvec_magnitude(dst, (volatile float *)out, (int)(SI(fft_size) >> 1));
 }
 
 void fft_hann_spectrum(void)
 {
-    if (B8(SYS + 0x3E) && B8(SYS + 0x42))
+    if (SI(ch1_enabled) && SI(ch1_fft_enabled))
         hann_one(0x42E49EB4u, 0x42E2DB08u, 0x42E4BEB4u);
-    if (B8(SYS + 0x102) && B8(SYS + 0x106))
+    if (SI(ch2_enabled) && SI(ch2_fft_enabled))
         hann_one(0x42E4DEB4u, 0x42E31B08u, 0x42E4FEB4u);
 }

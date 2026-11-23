@@ -10,6 +10,7 @@
 #include "drivers/csi.h"
 #include "drivers/timer.h"
 #include "fpga.h"
+#include "sys_info.h"
 
 void capture_block(u32 v, u32 buf)
 {
@@ -20,7 +21,7 @@ void capture_block(u32 v, u32 buf)
     timer_stop(0);
     enable_csi_capture();
     pe0_set();
-    while (SYS8(0x70E) == 0)
+    while (SI(f_70e) == 0)
         ;
     pe0_clr();
     timer_start(0);

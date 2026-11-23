@@ -9,6 +9,7 @@
 #include "acquisition.h"
 #include "fpga.h"
 #include "system.h"
+#include "sys_info.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -42,8 +43,8 @@ static void lph_scan(const volatile unsigned short *s, int end, int nl, u32 *sum
 
 static void lph_capture_setup(void)
 {
-    SYS32(0x63C) = 20;
-    SYS16(0x640) = 5000;
+    SI(runtime_quotient) = 20;
+    SI(f_640) = 5000;
     trigger_pos_update();
     stream_geometry_fpga_selector_0x22_configuration();
 }
@@ -78,10 +79,10 @@ void lane_phase_measure4x2(int *m1, int *m2)
         acq_wait_done();
         lph_capture_setup();
         capture_banks_0_3();
-        bank_unpack_0_3_n_raw(0x42C62AF4u, 0, SYS16(0x640));
+        bank_unpack_0_3_n_raw(0x42C62AF4u, 0, SI(f_640));
         lph_capture_setup();
         capture_banks_4_7();
-        second_conversion_wrapper_raw(0x42C7B964u, 1, SYS16(0x640));
+        second_conversion_wrapper_raw(0x42C7B964u, 1, SI(f_640));
         lph_scan((const volatile unsigned short *)0x42C62B58u, 0x4DEE, 4, sum1, cnt1);
         lph_scan((const volatile unsigned short *)0x42C7B9C8u, 0x4DEE, 4, sum2, cnt2);
         lph_out4(m1, sum1, cnt1);

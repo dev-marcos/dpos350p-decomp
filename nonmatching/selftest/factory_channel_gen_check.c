@@ -10,6 +10,7 @@
 #include "generator.h"
 #include "selftest.h"
 #include "system.h"
+#include "sys_info.h"
 
 #define FT8(o)   (*(volatile unsigned char *)(0x42E68AE0u + (o)))
 #define GEN8(o)  (*(volatile unsigned char *)(0x42E42880u + (o)))
@@ -37,9 +38,9 @@ static u32 cg_point(int freq, int amp, int offs, u32 tb, u32 vdiv, int t, u32 wh
     GEN32(0) = freq;
     GEN32(4) = amp;
     GEN32(8) = offs;
-    SYS8(0x588) = tb;
-    SYS8(0x41) = vdiv;
-    SYS8(0x105) = vdiv;
+    SI(timebase_index) = tb;
+    SI(ch1_vdiv_index) = vdiv;
+    SI(ch2_vdiv_index) = vdiv;
     outputs_apply();
     gen_update();
     acquisition_dispatcher();
@@ -63,9 +64,9 @@ void factory_channel_gen_check(void)
 {
     u32 r = 3;
     acq_defaults_reset();
-    SYS8(0x3E) = 1;
-    SYS8(0x102) = 1;
-    SYS8(0x660) = 5;
+    SI(ch1_enabled) = 1;
+    SI(ch2_enabled) = 1;
+    SI(f_660) = 5;
     *(volatile unsigned char *)0x42E68BC6u = 0;
     r &= cg_point(10000, 1250, 1000, 24, 5, 15, CG_FREQ | CG_AMP | CG_MEAN);
     r &= cg_point(10000, 1250, -1000, 24, 5, 15, CG_FREQ | CG_AMP | CG_MEAN);

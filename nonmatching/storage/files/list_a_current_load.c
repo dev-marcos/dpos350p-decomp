@@ -9,14 +9,14 @@
 #include "fatfs_app.h"
 #include "storage/files.h"
 #include "util.h"
+#include "sys_info.h"
 
-#define SS16(o) (*(volatile short *)(0x40544E68u + (o)))
 #define PATHBUF ((const char *)0x4054D728u)   /* SYS+0x88C0: path built by the list's path helper */
 
 void list_a_current_load(void)
 {
     unsigned char fil[0x250];
-    screenshot_path_make(SYS16(0xFA6 + 2 * SS16(0xFA4)));
+    screenshot_path_make(SYS16(0xFA6 + 2 * SI(list_selected)));
     if (f_open(fil, PATHBUF, 1) != 0)
         return;
     f_lseek(fil, 0xDEA8);

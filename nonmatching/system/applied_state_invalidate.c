@@ -8,21 +8,22 @@
 #include "hw/fpga.h"
 #include "fpga.h"
 #include "system.h"
+#include "sys_info.h"
 
 void applied_state_invalidate(void)
 {
-    SYS8(0xBB0) = ~SYS8(0x6E4);
-    SYS8(0xBB1) = ~SYS8(0x6E5);
-    SYS8(0xBB2) = ~SYS8(0x6E6);
-    SYS8(0xBB3) = ~SYS8(0x6E7);
-    SYS32(0xBB4) = ~SYS32(0x6E8);
-    SYS32(0xBB8) = 0;
-    SYS32(0xBBC) = 0;
-    SYS32(0xBC0) = 0;
-    SYS32(0xBC4) = 0;
-    SYS8(0xBC9) = ~SYS8(0x105);
-    SYS8(0xBC8) = ~SYS8(0x41);
-    SYS8(0xBCA) = ~SYS8(0x100);
+    SI(f_bb0) = ~SI(f_6e4);
+    SI(f_bb1) = ~SI(f_6e5);
+    SI(f_bb2) = ~SI(f_6e6);
+    SI(f_bb3) = ~SI(f_6e7);
+    SI(f_bb4) = ~SI(f_6e8);
+    SI(f_bb8) = 0;
+    SI(f_bbc) = 0;
+    SI(f_bc0) = 0;
+    SI(f_bc4) = 0;
+    SI(f_bc9) = ~SI(ch2_vdiv_index);
+    SI(f_bc8) = ~SI(ch1_vdiv_index);
+    SI(f_bca) = ~SI(f_100);
     fpga_counters_init();
     outputs_apply();
 }

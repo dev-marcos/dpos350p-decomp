@@ -12,6 +12,7 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 #include "ui/windows.h"
+#include "sys_info.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -37,21 +38,21 @@ void buttons_20a_handler(void)
             x = hi;
         n = (int)((u32)(x - lo) * 100u);
         d = hi - lo;
-        SYS8(0x654) = d == 0 ? 0 : d == -1 ? (int)(0u - (u32)n) : n / d;
+        SI(f_654) = d == 0 ? 0 : d == -1 ? (int)(0u - (u32)n) : n / d;
         return;
     }
     if (TB(0x214) == 2) {
         TB(0) = 0;
         TB(0x214) = 0;
-        SYS8(0x653) = SYS8(0x653) == 0;
+        SI(f_653) = SI(f_653) == 0;
     } else if (TB(0x21E) == 2) {
         TB(0) = 0;
         TB(0x21E) = 0;
-        SYS8(0x652) = SYS8(0x652) == 0;
+        SI(f_652) = SI(f_652) == 0;
     } else if (TB(0x228) == 2) {
         TB(0) = 0;
         TB(0x228) = 0;
-        SYS8(0x655) = SYS8(0x655) == 0;
+        SI(f_655) = SI(f_655) == 0;
     } else if (TB(0x17E) == 2) {
         TB(0x17E) = 0;
         TB(0) = 0;
@@ -86,6 +87,6 @@ void buttons_20a_handler(void)
         ui_window_open(0x26);
         ui_window_open(0x27);
         ui_window_open(0x28);
-        SYS8(0x54E) = 1;
+        SI(f_54e) = 1;
     }
 }

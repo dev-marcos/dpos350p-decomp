@@ -7,11 +7,10 @@
 
 #include "hw/fpga.h"
 #include "fpga.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 #define U64(a) (*(volatile unsigned long long *)(a))
 
 #define R_1000 0xE8D4A51000ULL
@@ -23,14 +22,14 @@
 
 static void masks(u32 m0, u32 m1, u32 m2, u32 m3, u32 m4, u32 m5, u32 m6, u32 m7)
 {
-    B8(SYS + 0x674) = (unsigned char)m0;
-    B8(SYS + 0x675) = (unsigned char)m1;
-    B8(SYS + 0x676) = (unsigned char)m2;
-    B8(SYS + 0x677) = (unsigned char)m3;
-    B8(SYS + 0x678) = (unsigned char)m4;
-    B8(SYS + 0x679) = (unsigned char)m5;
-    B8(SYS + 0x67A) = (unsigned char)m6;
-    B8(SYS + 0x67B) = (unsigned char)m7;
+    SI(f_674) = (unsigned char)m0;
+    SI(f_675) = (unsigned char)m1;
+    SI(f_676) = (unsigned char)m2;
+    SI(f_677) = (unsigned char)m3;
+    SI(f_678) = (unsigned char)m4;
+    SI(f_679) = (unsigned char)m5;
+    SI(f_67a) = (unsigned char)m6;
+    SI(f_67b) = (unsigned char)m7;
 }
 
 static void delays(u32 grp)
@@ -42,23 +41,23 @@ static void delays(u32 grp)
 
 static void banks(u32 b0, u32 b1, u32 b2, u32 b3, u32 b4, u32 b5, u32 b6, u32 b7)
 {
-    W32(SYS + 0x6D4) = 0;
-    W32(SYS + 0x6D8) = 0;
-    B8(SYS + 0x6DC) = (unsigned char)b0;
-    B8(SYS + 0x6DD) = (unsigned char)b1;
-    B8(SYS + 0x6DE) = (unsigned char)b2;
-    B8(SYS + 0x6DF) = (unsigned char)b3;
-    B8(SYS + 0x6E0) = (unsigned char)b4;
-    B8(SYS + 0x6E1) = (unsigned char)b5;
-    B8(SYS + 0x6E2) = (unsigned char)b6;
-    B8(SYS + 0x6E3) = (unsigned char)b7;
+    SI(f_6d4) = 0;
+    SI(f_6d8) = 0;
+    SI(f_6dc) = (unsigned char)b0;
+    SI(f_6dd) = (unsigned char)b1;
+    SI(f_6de) = (unsigned char)b2;
+    SI(f_6df) = (unsigned char)b3;
+    SI(f_6e0) = (unsigned char)b4;
+    SI(f_6e1) = (unsigned char)b5;
+    SI(f_6e2) = (unsigned char)b6;
+    SI(f_6e3) = (unsigned char)b7;
 }
 
 void adc_lanes_config_for_rate(void)
 {
-    unsigned long long rate = U64(SYS + 0x538);
+    unsigned long long rate = SI(f_538);
     u32 i;
-    if (B8(SYS + 0x1B0) == 1) {
+    if (SI(f_1b0) == 1) {
         if (rate == R_1000 || rate == R_950) {
             masks(0xF0, 0x3C, 0x0F, 0xC3, 0x78, 0x1E, 0x87, 0xE1);
             delays(rate == R_1000 ? 0 : 1);

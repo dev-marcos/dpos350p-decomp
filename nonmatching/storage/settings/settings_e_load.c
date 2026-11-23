@@ -8,24 +8,25 @@
 #include "hw/fpga.h"
 #include "storage/settings.h"
 #include "system.h"
+#include "sys_info.h"
 
 #define SER_IMAGE ((volatile void *)0x408A526Cu)   /* SYS_INFO+0x360404 */
 
 void settings_e_load(void)
 {
     u32 i;
-    persistence_read(0, SYS32(0x7DC), SER_IMAGE, 0x1000);
+    persistence_read(0, SI(rec_e_flash_addr), SER_IMAGE, 0x1000);
     serializer_set_decode_mode();
     settings_e_fields();
     if (*(volatile u32 *)0x42E68AE0u == 0x5A5555A5u)
         return;
     factory_defaults();
     for (i = 1; i <= 5; i++) {
-        SYS8(0x7C0) = i;
+        SI(f_7c0) = i;
         settings_slot_save();
     }
-    SYS8(0x7C0) = 1;
+    SI(f_7c0) = 1;
     settings_f_save();
-    SYS8(0x7AC) = 2;
+    SI(menu_language) = 2;
     settings_b_save();
 }

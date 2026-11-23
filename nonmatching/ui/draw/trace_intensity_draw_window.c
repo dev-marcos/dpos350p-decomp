@@ -9,12 +9,10 @@
 #include "acquisition.h"
 #include "stock_asm.h"
 #include "ui/draw.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
-#define F32(a) (*(volatile float *)(a))
 
 #define HITS(tr) (0x400954A4u + (tr) * 0x12BE70u)
 #define FBP (*(volatile u32 *)0x40095498u)
@@ -25,21 +23,21 @@ void trace_intensity_draw_window(u32 tr)
 {
     u32 w700, x0, y0, rows, pal, out, c0, c1, n, off, src, dst, row, v, q, ax, bx, cy;
     int po;
-    if (W32(SYS + 0x6FC) < W32(SYS + 0x708))
+    if (SI(runtime_fine_progress) < SI(runtime_progress_threshold))
         return;
-    w700 = W32(SYS + 0x700);
-    x0 = H16(SYS + 4);
-    c1 = H16(SYS + 0x6F8) + w700;
+    w700 = SI(runtime_coarse_progress);
+    x0 = SI(plot_x0);
+    c1 = SI(runtime_coarse_step) + w700;
     ax = w700 + x0 + 1;
-    bx = H16(SYS + 0x6F8) + ax;
-    y0 = H16(SYS + 6);
-    rows = H16(SYS + 0xA);
+    bx = SI(runtime_coarse_step) + ax;
+    y0 = SI(plot_y0);
+    rows = SI(plot_height);
     cy = rows + y0;
-    if (B8(SYS + 0x652)) {
-        pal = (B8(SYS + 0x653) ? PAL_B : PAL_A) + 6000;
+    if (SI(f_652)) {
+        pal = (SI(f_653) ? PAL_B : PAL_A) + 6000;
     } else {
         po = (int)(short)3000 * (int)(short)mode_not_0_or_2(tr);
-        pal = (B8(SYS + 0x653) ? PAL_B : PAL_A) + (u32)po;
+        pal = (SI(f_653) ? PAL_B : PAL_A) + (u32)po;
     }
     out = FBP + (x0 + 1) * 2 + y0 * 1022 * 2;
     c0 = w700;
@@ -55,7 +53,7 @@ void trace_intensity_draw_window(u32 tr)
                 v = H16(src);
                 if (v == 0)
                     continue;
-                q = v / W32(SYS + 0x7B0) * 1000;
+                q = v / SI(f_7b0) * 1000;
                 H16(dst) = H16(pal + ((u32)(((unsigned long long)q * 0xC4A83BECu) >> 32) >> 10) * 2 + 0x20);
             }
         }

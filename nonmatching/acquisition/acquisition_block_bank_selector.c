@@ -8,21 +8,20 @@
 #include "hw/fpga.h"
 #include "acquisition.h"
 #include "drivers/fpga_bus.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 
 void acquisition_block_bank_selector(u32 i)
 {
     u32 q = i - ((i + (i >> 31)) & ~3u), v;
 
-    if (W32(SYS + 0x554) >= W32(SYS + 0x55C))
+    if (SI(f_554) >= SI(f_55c))
         return;
     fpga_selector_command_write(0x15);
-    if (B8(SYS + 0x1B0) == 1)
+    if (SI(f_1b0) == 1)
         v = i & 7;
-    else if (B8(SYS + 0x27C) == 0)
+    else if (SI(trigger_channel) == 0)
         v = (q & 0x7F) << 1;
     else
         v = 1 + 2 * q;

@@ -8,6 +8,7 @@
 #include "hw/fpga.h"
 #include "ui/input.h"
 #include "ui/windows.h"
+#include "sys_info.h"
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
 
@@ -27,7 +28,7 @@ void buttons_ac_open_windows(void)
         return;
     TB(0xE8) = 0;
     TB(0) = 0;
-    v = SYS8(0x671) == 0;
-    SYS8(0x671) = v;
+    v = SI(f_671) == 0;
+    SI(f_671) = v;
     ui_window_invalidate_from(3, v);
 }

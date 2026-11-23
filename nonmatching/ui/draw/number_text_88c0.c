@@ -7,6 +7,7 @@
 
 #include "hw/fpga.h"
 #include "ui/draw.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -15,8 +16,8 @@ void number_text_88c0(int n)
 {
     int nd, i;
     if (n < 10) {
-        B8(SYS + 0x88C0) = (unsigned char)(n + '0');
-        B8(SYS + 0x88C1) = 0;
+        SI(f_88c0) = (unsigned char)(n + '0');
+        SI(f_88c1) = 0;
         return;
     }
     if (n < 100)

@@ -7,6 +7,7 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 void channel_minmax_stats(u32 ch)
 {
@@ -14,16 +15,16 @@ void channel_minmax_stats(u32 ch)
     u32 omax, omin, omid, orng;
     int h, end, i, mx = 0, mn = 0xFFFFFF;
     if (ch == 0) {
-        if (SYS8(0x3E) == 0)
+        if (SI(ch1_enabled) == 0)
             return;
         omax = 0xB60; omin = 0xB64; omid = 0xB6C; orng = 0xB68;
     } else {
-        if (ch == 1 && SYS8(0x102) == 0)
+        if (ch == 1 && SI(ch2_enabled) == 0)
             return;
         omax = 0xB88; omin = 0xB8C; omid = 0xB94; orng = 0xB90;
     }
-    h = (u32)(SYS32(0x2B4) - SYS32(0x2B0)) >> 1;
-    end = SYS32(0x2B4) - h;
+    h = (u32)(SI(f_2b4) - SI(f_2b0)) >> 1;
+    end = SI(f_2b4) - h;
     for (i = h; i < end; i++) {
         int v = p[i];
         if (v >= mx)

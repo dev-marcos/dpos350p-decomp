@@ -11,29 +11,30 @@
 #include "fpga.h"
 #include "system.h"
 #include "util.h"
+#include "sys_info.h"
 
 typedef struct { u32 neg[8], pos[8], dn[8], dp[8], tn[8], tp[8]; } ltrim_t;
 
 static void ltrim_setup(u32 row, u32 pass)
 {
     acq_defaults_reset();
-    SYS8(0x588) = row;
-    SYS8(0x3E) = 1;
-    SYS8(0x41) = 7;
-    SYS8(0x3F) = 0;
-    SYS8(0x40) = 0;
-    SYS8(0x46) = 1;
-    SYS32(0x60) = 250;
-    SYS8(0x102) = pass;
-    SYS8(0x105) = 7;
-    SYS8(0x104) = 0;
-    SYS16(0x27E) = 250;
-    SYS32(0x120) = 250;
-    SYS8(0x103) = 0;
-    SYS8(0x10A) = 1;
-    SYS8(0x27A) = 0;
-    SYS8(0x275) = 0;
-    SYS8(0x274) = 0;
+    SI(timebase_index) = row;
+    SI(ch1_enabled) = 1;
+    SI(ch1_vdiv_index) = 7;
+    SI(ch1_coupling) = 0;
+    SI(ch1_probe) = 0;
+    SI(f_046) = 1;
+    SI(ch1_offset) = 250;
+    SI(ch2_enabled) = pass;
+    SI(ch2_vdiv_index) = 7;
+    SI(ch2_probe) = 0;
+    SI(trigger_level) = 250;
+    SI(ch2_offset) = 250;
+    SI(ch2_coupling) = 0;
+    SI(f_10a) = 1;
+    SI(trigger_mode) = 0;
+    SI(f_275) = 0;
+    SI(f_274) = 0;
     outputs_apply();
     delay_ms(5);
 }

@@ -7,13 +7,10 @@
 
 #include "hw/fpga.h"
 #include "bode.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define BB 0x42E180C8u
-#define GEN 0x42E3F984u
-#define DREC 0x42E554B0u
-#define TOUCH 0x42E68BB0u
-#define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W(a) (*(volatile u32 *)(a))
 #define DD(a) (*(volatile double *)(a))
@@ -29,13 +26,13 @@ static int sdiv0(int a, int b)
 
 void bode_phase_measure(u32 idx)
 {
-    u32 step = W(SYS + 0x558), start = 50 * step, end, pos, sh, a, b, prev_a = 0, prev_b = 0;
-    int level = H16(SYS + 0xE);
+    u32 step = SI(f_558), start = 50 * step, end, pos, sh, a, b, prev_a = 0, prev_b = 0;
+    int level = SI(level_default);
     volatile unsigned short *p = (volatile unsigned short *)(0x42AC7CF4u + 2 * start);
     int na = 0, nb = 0, count = 0, sum = 0, first_a = 0, last_a = 0, first_b = 0, last_b = 0;
     int got_a = 0, got_b = 0, fl_a = 0, fl_b = 0, cnt_a = 8, cnt_b = 8, k = 0, avg, pa, pb, ph, v;
-    end = W(SYS + 0x2B0) - start;
-    sh = W(SYS + 0x1BC);
+    end = SI(f_2b0) - start;
+    sh = SI(f_1bc);
     if (start >= end) {
         na = 2;
         nb = 2;
@@ -80,7 +77,7 @@ void bode_phase_measure(u32 idx)
             }
             prev_b = b;
             prev_a = a;
-            step = W(SYS + 0x558);
+            step = SI(f_558);
             k++;
             pos += step;
             p += step;

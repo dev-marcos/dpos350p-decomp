@@ -7,14 +7,15 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 void traces_update(void)
 {
     if (*(volatile unsigned char *)0x42E68BC7u)
         return;
-    if (SYS8(0x27A) == 1 && SYS8(0x3C) == 0 && SYS8(0x38) == 0)
+    if (SI(trigger_mode) == 1 && SI(acq_transition_flag) == 0 && SI(acq_done) == 0)
         return;
-    if (SYS8(0x652) == 0)
+    if (SI(f_652) == 0)
         channels_process_full();
     else
         traces_process_single();

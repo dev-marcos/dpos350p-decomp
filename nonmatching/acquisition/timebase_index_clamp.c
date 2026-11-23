@@ -8,34 +8,35 @@
 #include "hw/fpga.h"
 #include "acquisition.h"
 #include "ui/windows.h"
+#include "sys_info.h"
 
 void timebase_index_clamp(void)
 {
-    u32 en = SYS8(0x3C), v, c;
+    u32 en = SI(acq_transition_flag), v, c;
     unsigned long long q;
-    v = SYS8(0x2A8);
-    if (v < SYS8(0x588))
-        v = SYS8(0x588);
-    SYS8(0x588) = v;
-    v = SYS8(0x2A7);
-    if (v > SYS8(0x588))
-        v = SYS8(0x588);
-    SYS8(0x588) = v;
+    v = SI(timebase_index_min);
+    if (v < SI(timebase_index))
+        v = SI(timebase_index);
+    SI(timebase_index) = v;
+    v = SI(timebase_index_max);
+    if (v > SI(timebase_index))
+        v = SI(timebase_index);
+    SI(timebase_index) = v;
     if (en == 0)
         return;
-    c = SYS8(0x5B0);
+    c = SI(f_5b0);
     if ((int)(c + 3) < (int)v)
-        SYS8(0x588) = c + 3;
+        SI(timebase_index) = c + 3;
     for (;;) {
         u32 lim;
         timebase_period_load();
-        q = SYS64(0x5B8) / SYS64(0x590);
-        lim = SYS16(0x2AC);
-        q /= (u32)SYS32(0x5D4);
+        q = SI(f_5b8) / SI(f_590);
+        lim = SI(f_2ac);
+        q /= (u32)SI(f_5d4);
         if (q < lim)
             return;
-        c = SYS8(0x588);
-        SYS8(0x588) = c + 1;
+        c = SI(timebase_index);
+        SI(timebase_index) = c + 1;
         ui_window_invalidate_from(3, c);
     }
 }

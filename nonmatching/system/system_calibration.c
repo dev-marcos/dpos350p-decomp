@@ -11,6 +11,7 @@
 #include "storage/settings.h"
 #include "system.h"
 #include "util.h"
+#include "sys_info.h"
 
 int system_calibration(void)
 {
@@ -18,10 +19,10 @@ int system_calibration(void)
     int res;
     state_backup_all();
     memset_w((void *)CAL_OBJ, 0, 0x1A90);
-    for (i = 0; i < SYS8(0x1B9); )
+    for (i = 0; i < SI(f_1b9); )
         frontend_offset_calibrate(i++ & 0xFF);
     {
-        u32 b = SYS8(0x1B9), a = SYS8(0x1BA);
+        u32 b = SI(f_1b9), a = SI(f_1ba);
         if (b < a) {
             volatile u32 *src = (volatile u32 *)((u32)CAL_OBJ + b * 4);
             volatile u32 *dst = (volatile u32 *)((u32)CAL_OBJ + b * 4 + 0x50);

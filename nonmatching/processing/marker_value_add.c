@@ -7,6 +7,7 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 void marker_value_add(u32 mode, int v)
 {
@@ -18,9 +19,9 @@ void marker_value_add(u32 mode, int v)
         if (t[i] == v)
             return;
     if (mode == 0)
-        SYS8(0x800)++;
+        SI(f_800)++;
     else
-        SYS8(0x801)++;
+        SI(f_801)++;
     for (i = 0; i < 24; i++) {
         if (t[i] == 0) {
             t[i] = v;

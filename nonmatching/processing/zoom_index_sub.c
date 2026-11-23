@@ -7,14 +7,15 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 void zoom_index_sub(u32 d)
 {
     u32 b;
-    if (SYS32(0x614) < SYS16(0x2AC) * SYS32(0x554)) {
-        b = SYS8(0x598);
+    if (SI(f_614) < SI(f_2ac) * SI(f_554)) {
+        b = SI(f_598);
         if (d < b)
-            SYS8(0x598) = b - d;
+            SI(f_598) = b - d;
     }
     zoom_index_fit();
 }

@@ -9,6 +9,7 @@
 #include "storage/files.h"
 #include "ui/input.h"
 #include "ui/windows.h"
+#include "sys_info.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -70,7 +71,7 @@ void list_a_window_buttons(void)
         TB(0) = 0;
         v = (short)((short)SYS16(0xFA4) + d);
         SYS16(0xFA4) = v;
-        SYS16(0xF9E) = sdv(v, SYS16(0xF9A));
+        SYS16(0xF9E) = sdv(v, SI(list_page_size));
         list_cursor_clamp_40035248();
         list_a_current_load();
     } else if (TB(0x80E) == 2) {

@@ -11,11 +11,11 @@
 #include "generator.h"
 #include "selftest.h"
 #include "system.h"
+#include "sys_info.h"
 
 #define GB8(o) (*(volatile unsigned char *)(0x42E3F984u + (o)))
 #define GB32(o) (*(volatile u32 *)(0x42E3F984u + (o)))
 #define RS8(o) (*(volatile unsigned char *)(0x42E68AE0u + (o)))
-#define S64(o) (*(volatile long long *)(0x40544E68u + (o)))
 
 /* one generator setting: amplitude word a, range byte b, level c, offset d; measure twice */
 static void st_step(u32 a, u32 b, u32 c, u32 d, int wait)
@@ -24,11 +24,11 @@ static void st_step(u32 a, u32 b, u32 c, u32 d, int wait)
     GB32(0x2EFC) = 0;
     GB32(0x2F00) = 0;
     GB32(0x2F04) = a;
-    SYS8(0x588) = b;
-    SYS8(0x41) = c;
-    SYS8(0x105) = c;
-    SYS32(0x60) = d;
-    SYS32(0x120) = d;
+    SI(timebase_index) = b;
+    SI(ch1_vdiv_index) = c;
+    SI(ch2_vdiv_index) = c;
+    SI(ch1_offset) = d;
+    SI(ch2_offset) = d;
     outputs_apply();
     gen_update();
     if (wait)
@@ -41,17 +41,17 @@ void gen_selftest_50688(void)
 {
     u32 a = 1, b = 1, i, off;
     acq_defaults_reset();
-    off = SYS16(0xA);
-    SYS8(0x3E) = 1;
-    SYS8(0x102) = 1;
-    SYS8(0x660) = 5;
+    off = SI(plot_height);
+    SI(ch1_enabled) = 1;
+    SI(ch2_enabled) = 1;
+    SI(f_660) = 5;
     *(volatile unsigned char *)(0x42E68BB0u + 0x16) = 0;
     for (i = 0; i < 2; i++) {
         int amp = i ? -2500 : 2500;
         int q1, q2;
         st_step((u32)amp, 0x18, 6, i ? off : 0, 0);
-        q1 = (int)(S64(0x8F8) / 1000);
-        q2 = (int)(S64(0x958) / 1000);
+        q1 = (int)(SI(f_8f8) / 1000);
+        q2 = (int)(SI(f_958) / 1000);
         if (amp > 0) {
             a &= q1 >= 1500;
             b &= q2 >= 1500;

@@ -7,20 +7,21 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 void channel_traces_process_full(u32 ch)
 {
     if (ch == 0) {
-        if (SYS8(0x3E) == 0)
+        if (SI(ch1_enabled) == 0)
             return;
         trace_process_full(0);
-        if (SYS8(0x2AA))
+        if (SI(zoom_on))
             trace_process_full(2);
     } else if (ch == 1) {
-        if (SYS8(0x102) == 0)
+        if (SI(ch2_enabled) == 0)
             return;
         trace_process_full(1);
-        if (SYS8(0x2AA))
+        if (SI(zoom_on))
             trace_process_full(3);
     }
 }

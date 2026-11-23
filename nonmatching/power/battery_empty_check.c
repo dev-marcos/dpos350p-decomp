@@ -11,12 +11,13 @@
 #include "stock_asm.h"
 #include "ui/draw.h"
 #include "ui/screens.h"
+#include "sys_info.h"
 
 void battery_empty_check(void)
 {
-    u32 cx = SYS16(4) + (SYS16(8) >> 1);
-    u32 cy = SYS16(6) + (SYS16(0x0A) >> 1);
-    if (SYS8(0x778) == 0) {
+    u32 cx = SI(plot_x0) + (SI(plot_width) >> 1);
+    u32 cy = SI(plot_y0) + (SI(plot_height) >> 1);
+    if (SI(battery_level) == 0) {
         unsigned char *p = (unsigned char *)(0x42C2FE74u + 0xDD00);
         timer_stop(0);
         draw_target_default();

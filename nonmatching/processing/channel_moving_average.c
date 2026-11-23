@@ -7,21 +7,22 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 void channel_moving_average(u32 ch)
 {
     volatile unsigned short *buf = (volatile unsigned short *)SYS32(0x7B4 + 4 * ch);
-    int n = (int)SYS32(0x7BC), w, i, acc = 0;
+    int n = (int)SI(f_7bc), w, i, acc = 0;
 
     if (ch == 0) {
-        if (SYS8(0x3E) == 0)
+        if (SI(ch1_enabled) == 0)
             return;
     } else if (ch == 1) {
-        if (SYS8(0x102) == 0)
+        if (SI(ch2_enabled) == 0)
             return;
     }
 
-    w = SYS16(0x662);
+    w = SI(f_662);
     if (w < 2)
         return;
     for (i = 0; i < n; i++) {

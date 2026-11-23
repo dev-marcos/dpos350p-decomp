@@ -7,8 +7,9 @@
 
 #include "hw/fpga.h"
 #include "power.h"
+#include "sys_info.h"
 
 void auto_off_arm(void)
 {
-    SYS32(0x65C) = g_tick_count + 60000u * SYS32(0x658);
+    SI(auto_off_deadline) = g_tick_count + 60000u * SI(auto_off_minutes);
 }

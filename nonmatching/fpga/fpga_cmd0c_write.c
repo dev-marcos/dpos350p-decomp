@@ -8,10 +8,11 @@
 #include "hw/fpga.h"
 #include "drivers/fpga_bus.h"
 #include "fpga.h"
+#include "sys_info.h"
 
 void fpga_cmd0c_write(void)
 {
     fpga_selector_command_write(0x0C);
-    fpga_data_byte_write(SYS16(0x276) >> 8);
-    fpga_data_byte_write(SYS16(0x276) & 0xFF);
+    fpga_data_byte_write(SI(f_276) >> 8);
+    fpga_data_byte_write(SI(f_276) & 0xFF);
 }

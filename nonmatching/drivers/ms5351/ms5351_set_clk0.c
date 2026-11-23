@@ -9,11 +9,12 @@
 
 #include "hw/ms5351_calc.h"
 #include "drivers/ms5351.h"
+#include "sys_info.h"
 
 void ms5351_set_clk0(u32 freq)
 {
     ms_plan p;
-    REG32(SYS_INFO_ADDR + 0x5F0) = freq;
+    SI(sample_clock_hz) = freq;
     ms5351_plan(freq, &p);
     ms5351_write_pll(0x1A, p.a, p.b, 0xFFFFF);
     if (!p.high) ms5351_write_ms_int(0x2A, p.ms_div, p.rdiv_bits);

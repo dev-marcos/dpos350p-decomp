@@ -7,8 +7,9 @@
 
 #include "hw/fpga.h"
 #include "acquisition.h"
+#include "sys_info.h"
 
 void timebase_apply_2b4(void)
 {
-    trace_buffer_pointers_setup(SYS32(0x2B4));
+    trace_buffer_pointers_setup(SI(f_2b4));
 }

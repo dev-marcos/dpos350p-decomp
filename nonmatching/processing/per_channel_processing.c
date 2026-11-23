@@ -7,11 +7,12 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 void per_channel_processing(void)
 {
-    if (SYS8(0x3E))
+    if (SI(ch1_enabled))
         trace_process_window(0);
-    if (SYS8(0x102))
+    if (SI(ch2_enabled))
         trace_process_window(1);
 }

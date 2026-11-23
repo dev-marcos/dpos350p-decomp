@@ -8,43 +8,44 @@
 #include "hw/fpga.h"
 #include "acquisition.h"
 #include "ui/draw.h"
+#include "sys_info.h"
 
 void trace_scale_segment(u32 tr, u32 start, u32 len)
 {
     int end = (int)(len + start + 1);
     u32 sel = mode_not_0_or_2(tr);
-    u32 k = SYS32(0x1C0), gain, pos, off, mul;
+    u32 k = SI(acq_geometry_1c0), gain, pos, off, mul;
     int mx, mn, base;
     if (sel == 0) {
-        gain = SYS32(0xE4);
-        pos = SYS32(0xE8);
-        off = SYS32(0x60);
+        gain = SI(f_0e4);
+        pos = SI(f_0e8);
+        off = SI(ch1_offset);
     } else {
-        gain = SYS32(0x1A4);
-        pos = SYS32(0x1A8);
-        off = SYS32(0x120);
+        gain = SI(f_1a4);
+        pos = SI(f_1a8);
+        off = SI(ch2_offset);
     }
     off = k * off;
-    if (SYS8(0x2AA) == 0) {
-        mx = (int)SYS16(0xA) - 5;
+    if (SI(zoom_on) == 0) {
+        mx = (int)SI(plot_height) - 5;
         mul = 0x1000;
         base = 0;
         mn = 4;
     } else if (mode_not_0_or_1(tr) == 0) {
-        u32 v = SYS16(0xA);
+        u32 v = SI(plot_height);
         int t = (int)(2 * v) / 3;
         mx = t + (int)(v / 3) - 5;
         mn = t + 4;
         mul = 0x555;
         base = t;
     } else {
-        u32 v = SYS16(0xA);
+        u32 v = SI(plot_height);
         mx = (int)(2 * v) / 3 - 5;
         mul = 0xAAB;
         base = 0;
         mn = 4;
     }
-    k = SYS32(0x1C0);
+    k = SI(acq_geometry_1c0);
     mx = (int)((u32)mx * k);
     mn = (int)((u32)mn * k);
     base = (int)((u32)base * k);

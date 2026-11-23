@@ -7,15 +7,16 @@
 
 #include "hw/fpga.h"
 #include "acquisition.h"
+#include "sys_info.h"
 
 void timebase_index_step_down(u32 d)
 {
-    u32 lim = SYS16(0x2AC) * SYS32(0x554);
-    if (SYS32(0x55C) < lim && SYS32(0x5FC) < lim) {
-        u32 c = SYS8(0x588);
-        SYS8(0x588) = c >= d ? c - d : 0;
+    u32 lim = SI(f_2ac) * SI(f_554);
+    if (SI(f_55c) < lim && SI(f_5fc) < lim) {
+        u32 c = SI(timebase_index);
+        SI(timebase_index) = c >= d ? c - d : 0;
     }
     timebase_index_clamp();
-    SYS16(0x86E) = 1;
-    SYS16(0x870) = 1;
+    SI(ch1_avg_limit) = 1;
+    SI(ch2_avg_limit) = 1;
 }

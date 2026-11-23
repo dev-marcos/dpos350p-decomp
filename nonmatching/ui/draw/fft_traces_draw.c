@@ -7,11 +7,12 @@
 
 #include "hw/fpga.h"
 #include "ui/draw.h"
+#include "sys_info.h"
 
 static void trace(volatile short *p, u32 x0, u32 y0)
 {
     u32 i;
-    for (i = 0; i < SYS16(8) - 1u; i++, p++) {
+    for (i = 0; i < SI(plot_width) - 1u; i++, p++) {
         int a = p[0], b = p[1];
         u32 x = (unsigned short)(i + x0);
         if (b < a)
@@ -23,13 +24,13 @@ static void trace(volatile short *p, u32 x0, u32 y0)
 
 void fft_traces_draw(void)
 {
-    if (SYS8(0x3E) && SYS8(0x42)) {
-        u32 x0 = SYS16(4), y0 = SYS16(6);
+    if (SI(ch1_enabled) && SI(ch1_fft_enabled)) {
+        u32 x0 = SI(plot_x0), y0 = SI(plot_y0);
         draw_colour_set(0xFF8800);
         trace((volatile short *)0x42E5B014u, x0, y0);
     }
-    if (SYS8(0x102) && SYS8(0x106)) {
-        u32 y0 = SYS16(6) + (SYS16(0xA) >> 1), x0 = SYS16(4);
+    if (SI(ch2_enabled) && SI(ch2_fft_enabled)) {
+        u32 y0 = SI(plot_y0) + (SI(plot_height) >> 1), x0 = SI(plot_x0);
         draw_colour_set(0x88FF);
         trace((volatile short *)0x42E5C014u, x0, y0);
     }

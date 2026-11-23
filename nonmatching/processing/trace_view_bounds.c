@@ -8,12 +8,10 @@
 #include "hw/fpga.h"
 #include "acquisition.h"
 #include "processing.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 #define I32(a) (*(volatile int *)(a))
-#define S64(a) (*(volatile long long *)(a))
 #define P(o) (SYS + 0x5F4 + (o))
 #define TRBUF(ch) (0x411AF3E8u + (ch) * 0x927C0u)
 
@@ -26,34 +24,34 @@ void trace_view_bounds(u32 tr)
         view_bounds_update();
         return;
     }
-    c = H16(SYS + 0xC);
+    c = SI(plot_x_mid);
     t = (long long)I32(SYS + 0x608) + c;
     if (t < 0)
         lo = 0;
     else {
-        lo = H16(SYS + 8);
+        lo = SI(plot_width);
         if (t < (long long)lo)
             lo = (u32)t;
     }
-    H16(SYS + 0x10) = (unsigned short)lo;
+    SI(f_010) = (unsigned short)lo;
     t = (long long)I32(SYS + 0x60C) + c;
     if (t < 1)
         hi = 0;
     else {
-        w = H16(SYS + 8);
+        w = SI(plot_width);
         if (t < (long long)w - 1)
             hi = (u32)t + 0xFFFF;
         else
             hi = w + 0xFFFF;
     }
-    a = W32(SYS + 0x5F8);
-    b = W32(SYS + 0x5D4);
+    a = SI(f_5f8);
+    b = SI(f_5d4);
     top = (unsigned short)lo;
     if (top < (unsigned short)hi)
         top = (unsigned short)hi;
     hi = top - lo;
     if (b < a) {
-        w = H16(SYS + 8);
+        w = SI(plot_width);
         q = (int)((long long)((unsigned long long)w * b) / (long long)a);
         half = (int)(w / 2);
         qh = q / 2;
@@ -65,7 +63,7 @@ void trace_view_bounds(u32 tr)
             top = (u32)h1;
         hi = top - lo;
     }
-    H16(SYS + 0x14) = (unsigned short)hi;
-    H16(SYS + 0x12) = (unsigned short)top;
-    H16(SYS + 0x10) = (unsigned short)lo;
+    SI(f_014) = (unsigned short)hi;
+    SI(f_012) = (unsigned short)top;
+    SI(f_010) = (unsigned short)lo;
 }

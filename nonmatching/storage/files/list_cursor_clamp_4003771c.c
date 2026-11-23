@@ -7,26 +7,26 @@
 
 #include "hw/fpga.h"
 #include "storage/files.h"
+#include "sys_info.h"
 
-#define SS16(o) (*(volatile short *)(0x40544E68u + (o)))
 
 void list_cursor_clamp_4003771c(void)
 {
-    int v = SS16(0xFA4), m;
+    int v = SI(list_selected), m;
     if (v < 0) {
         v = 0;
     } else {
-        m = SS16(0xFA0) - 1;
+        m = SI(list_count) - 1;
         if (m < v)
             v = m;
     }
-    SS16(0xFA4) = v;
-    v = SS16(0xF9E);
+    SI(list_selected) = v;
+    v = SI(list_page_index);
     if (v < 0) {
-        SS16(0xF9E) = 0;
+        SI(list_page_index) = 0;
     } else {
-        m = SS16(0xFA2) - 1;
+        m = SI(list_page_count) - 1;
         if (m < v)
-            SS16(0xF9E) = m;
+            SI(list_page_index) = m;
     }
 }

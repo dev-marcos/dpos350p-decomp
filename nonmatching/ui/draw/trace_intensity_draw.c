@@ -9,12 +9,10 @@
 #include "acquisition.h"
 #include "stock_asm.h"
 #include "ui/draw.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
-#define F32(a) (*(volatile float *)(a))
 
 #define HITS(tr) (0x400954A4u + (tr) * 0x12BE70u)
 #define FBP (*(volatile u32 *)0x40095498u)
@@ -26,20 +24,20 @@ typedef double (*sqrt_fn)(double);
 
 void trace_intensity_draw(u32 tr)
 {
-    u32 x1 = H16(SYS + 4) + 1, y0 = H16(SYS + 6), cols = H16(SYS + 8), rows = H16(SYS + 0xA), pal, k, base, out,
+    u32 x1 = SI(plot_x0) + 1, y0 = SI(plot_y0), cols = SI(plot_width), rows = SI(plot_height), pal, k, base, out,
         col, row, off, src, dst, v, q, idx;
     int po;
-    if (B8(SYS + 0x652)) {
-        pal = (B8(SYS + 0x653) ? PAL_B : PAL_A) + 6000;
+    if (SI(f_652)) {
+        pal = (SI(f_653) ? PAL_B : PAL_A) + 6000;
     } else {
         po = (int)(short)3000 * (int)(short)mode_not_0_or_2(tr);
-        if (B8(SYS + 0x653)) {
+        if (SI(f_653)) {
             pal = PAL_B + (u32)po;
-            W32(SYS + 0x7B0) = W32(SYS + 0x7B0) / 3;
+            SI(f_7b0) = SI(f_7b0) / 3;
         } else
             pal = PAL_A + (u32)po;
     }
-    k = B8(SYS + 0x654);
+    k = SI(f_654);
     base = 2 + (u32)SQRT_T((double)k) * k * 22 / 1000;
     dcache_clean_inv_all();
     out = FBP + x1 * 2 + y0 * 1022 * 2;
@@ -53,7 +51,7 @@ void trace_intensity_draw(u32 tr)
             v = H16(src);
             if (v == 0)
                 continue;
-            q = v / W32(SYS + 0x7B0) * 100;
+            q = v / SI(f_7b0) * 100;
             idx = base + ((u32)(((unsigned long long)q * 0x94F2094Fu + 0x94F2094Fu) >> 32) >> 6);
             H16(dst) = H16(pal + idx * 2);
         }

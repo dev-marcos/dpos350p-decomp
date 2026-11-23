@@ -10,26 +10,27 @@
 #include "drivers/timer.h"
 #include "frontend.h"
 #include "system.h"
+#include "sys_info.h"
 
 int post_channel_mux_check(u32 vdiv)
 {
     u32 tol = vdiv == 12 ? 6 : 3;
     unsigned char ok_hi1 = 0, ok_hi2 = 0, ok_lo1 = 0, ok_lo2 = 0;
     u32 a, m;
-    SYS8(0x588) = 0x18; SYS8(0x41) = vdiv; SYS8(0x105) = vdiv;
-    SYS8(0x3C) = 0; SYS8(0x3E) = 1; SYS8(0x40) = 0; SYS8(0x3F) = 0; SYS8(0x46) = 2;
-    SYS8(0x102) = 1; SYS8(0x104) = 0; SYS8(0x103) = 0; SYS8(0x10A) = 2; SYS8(0x275) = 0; SYS8(0x660) = 0;
-    SYS32(0x60) = 0xAA; SYS32(0x120) = 0xAA;
+    SI(timebase_index) = 0x18; SI(ch1_vdiv_index) = vdiv; SI(ch2_vdiv_index) = vdiv;
+    SI(acq_transition_flag) = 0; SI(ch1_enabled) = 1; SI(ch1_probe) = 0; SI(ch1_coupling) = 0; SI(f_046) = 2;
+    SI(ch2_enabled) = 1; SI(ch2_probe) = 0; SI(ch2_coupling) = 0; SI(f_10a) = 2; SI(f_275) = 0; SI(f_660) = 0;
+    SI(ch1_offset) = 0xAA; SI(ch2_offset) = 0xAA;
     outputs_apply(); delay_ms(100); acquisition_dispatcher();
-    a = SYS32(0x60); m = SYS32(0xB34);
+    a = SI(ch1_offset); m = SI(f_b34);
     if (a - tol < m && m < tol + a) ok_hi1 = 1;
-    a = SYS32(0x120); m = SYS32(0xB50);
+    a = SI(ch2_offset); m = SI(f_b50);
     if (a - tol < m && m < tol + a) ok_hi2 = 1;
-    SYS32(0x60) = 0x1E; SYS32(0x120) = 0x1E;
+    SI(ch1_offset) = 0x1E; SI(ch2_offset) = 0x1E;
     outputs_apply(); delay_ms(100); acquisition_dispatcher();
-    a = SYS32(0x60); m = SYS32(0xB34);
+    a = SI(ch1_offset); m = SI(f_b34);
     if (a - tol < m && m < tol + a) ok_lo1 = 1;
-    a = SYS32(0x120); m = SYS32(0xB50);
+    a = SI(ch2_offset); m = SI(f_b50);
     if (a - tol < m && m < tol + a) ok_lo2 = 1;
     {
         int c1 = (ok_lo1 & ok_hi1) != 0, c2 = (ok_lo2 & ok_hi2) != 0;

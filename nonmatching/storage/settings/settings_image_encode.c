@@ -7,20 +7,21 @@
 
 #include "hw/fpga.h"
 #include "storage/settings.h"
+#include "sys_info.h"
 
 void settings_image_encode(void)
 {
     serializer_set_encode_mode();
-    SYS32(0x75C) = 0x32;
+    SI(rec_h_start) = 0x32;
     serializer_set_cursor(0x32);
     settings_image_fields();
-    SYS32(0x768) = serializer_get_cursor() - SYS32(0x75C);
-    SYS32(0x760) = serializer_get_cursor();
+    SI(rec_h_size) = serializer_get_cursor() - SI(rec_h_start);
+    SI(rec_i_start) = serializer_get_cursor();
     settings_i_fields();
-    SYS32(0x76C) = serializer_get_cursor() - SYS32(0x760);
-    SYS32(0x764) = serializer_get_cursor();
+    SI(rec_i_size) = serializer_get_cursor() - SI(rec_i_start);
+    SI(rec_j_start) = serializer_get_cursor();
     settings_j_fields();
-    SYS32(0x770) = serializer_get_cursor() - SYS32(0x764);
-    SYS32(0x774) = serializer_get_cursor();
+    SI(rec_j_size) = serializer_get_cursor() - SI(rec_j_start);
+    SI(rec_hij_end) = serializer_get_cursor();
     settings_h_fields();
 }

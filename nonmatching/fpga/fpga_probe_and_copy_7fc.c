@@ -7,9 +7,10 @@
 
 #include "hw/fpga.h"
 #include "fpga.h"
+#include "sys_info.h"
 
 void fpga_probe_and_copy_7fc(void)
 {
     perform_fpga_identification_probe();
-    *(volatile unsigned char *)0x42E68AF1u = SYS8(0x7FC);
+    *(volatile unsigned char *)0x42E68AF1u = SI(fpga_probe_result);
 }

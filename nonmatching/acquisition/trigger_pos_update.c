@@ -8,10 +8,11 @@
 #include "hw/fpga.h"
 #include "acquisition.h"
 #include "fpga.h"
+#include "sys_info.h"
 
 void trigger_pos_update(void)
 {
-    u32 L = SYS32(0x520);
-    u32 v = L + SYS32(0x63C) - SYS16(0x6F2);
+    u32 L = SI(f_520);
+    u32 v = L + SI(runtime_quotient) - SI(runtime_position_base);
     fpga_trigger_pos_write(v - (v / L) * L);
 }

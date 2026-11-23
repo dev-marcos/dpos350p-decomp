@@ -7,12 +7,11 @@
 
 #include "hw/fpga.h"
 #include "ui/input.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define U 0x42E68998u                /* drag state */
 #define TCH 0x42E68BB0u              /* touch point: +4 / +6 now */
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define S16(a) (*(volatile short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 
@@ -22,7 +21,7 @@ typedef double (*sqrt_fn)(double);
 
 static int clamp_x(int v)
 {
-    int w = H16(SYS + 8);
+    int w = SI(plot_width);
 
     if (v < 0)
         return 0;
@@ -31,9 +30,9 @@ static int clamp_x(int v)
 
 static u32 sample_y(u32 s)
 {
-    u32 sh = W32(SYS + 0x1BC) & 0xFF;
+    u32 sh = SI(f_1bc) & 0xFF;
 
-    return H16(SYS + 0xA) - (sh >= 32 ? 0 : s >> sh);
+    return SI(plot_height) - (sh >= 32 ? 0 : s >> sh);
 }
 
 /* smallest distance from (rx, ty) to the trace columns x0 .. x1 - 1 (n samples each) */
@@ -81,21 +80,21 @@ void trace_hit_main(u32 ch)
     u32 out = ch == 0 ? U + 0x38 : U + 0x3C;
     u32 buf = ch == 0 ? TRACES : TRACES + 0x927C0u;
     u32 rng = ch == 0 ? 0x40545990u : 0x405459ACu, h, a, b;
-    int n = 1 + 2 * (int)(H16(SYS + 0x550) * W32(SYS + 0x5F8));
-    int rx = S16(TCH + 4) - H16(SYS + 4), ty = S16(TCH + 6) - H16(SYS + 6), best;
+    int n = 1 + 2 * (int)(SI(capture_count) * SI(f_5f8));
+    int rx = S16(TCH + 4) - SI(plot_x0), ty = S16(TCH + 6) - SI(plot_y0), best;
 
-    best = trace_dist(buf, n, rx, ty, H16(SYS + 0x10), H16(SYS + 0x12));
+    best = trace_dist(buf, n, rx, ty, SI(f_010), SI(f_012));
     if (W32(U + 4) < (u32)best) {
-        h = H16(SYS + 0xA);
+        h = SI(plot_height);
         a = h - W32(rng + 4);
         b = h - W32(rng);
-        if (B8(SYS + 0x2AA)) {
+        if (SI(zoom_on)) {
             b /= 3;
             a /= 3;
         }
         best = band(best, (int)b, (int)a, ty);
     }
-    if (B8(SYS + 0x2AA) && (int)((H16(SYS + 0xA) * 0xAAABu) >> 17) < ty)
+    if (SI(zoom_on) && (int)((SI(plot_height) * 0xAAABu) >> 17) < ty)
         best = 0x7FFFFFFF;
     W32(out) = best;
 }

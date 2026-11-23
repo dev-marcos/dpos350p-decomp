@@ -8,6 +8,7 @@
 #include "hw/fpga.h"
 #include "ui/input.h"
 #include "ui/windows.h"
+#include "sys_info.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -24,38 +25,38 @@ void trigger_option_buttons(void)
         TB(0x5B6) = 0;
         TB(0) = 0;
         ui_window_invalidate_from(3, 0x5B6);
-        SYS8(0x27A) = 0;
+        SI(trigger_mode) = 0;
     } else if (TB(0x5C0) == 2) {
         TB(0x5C0) = 0;
         TB(0) = 0;
         ui_window_close_raw(0x11);
         inv_left(3);
-        SYS8(0x27A) = 1;
+        SI(trigger_mode) = 1;
     } else if (TB(0x5CA) == 2) {
         TB(0x5CA) = 0;
         TB(0) = 0;
         ui_window_invalidate_from(3, 0);
-        SYS8(0x27A) = 2;
+        SI(trigger_mode) = 2;
     } else if (TB(0x5D4) == 2) {
         TB(0x5D4) = 0;
         TB(0) = 0;
         ui_window_invalidate_from(3, 0x5D4);
-        SYS8(0x27B) = 0;
+        SI(trigger_edge) = 0;
     } else if (TB(0x5DE) == 2) {
         TB(0x5DE) = 0;
         TB(0) = 0;
         ui_window_invalidate_from(3, 0);
-        SYS8(0x27B) = 1;
+        SI(trigger_edge) = 1;
     } else if (TB(0x5E8) == 2) {
         TB(0x5E8) = 0;
         TB(0) = 0;
         ui_window_invalidate_from(3, 0x5E8);
-        SYS8(0x27C) = 0;
+        SI(trigger_channel) = 0;
     } else if (TB(0x5F2) == 2) {
         TB(0x5F2) = 0;
         TB(0) = 0;
         ui_window_invalidate_from(3, 0);
-        SYS8(0x27C) = 1;
+        SI(trigger_channel) = 1;
     } else {
         if (TB(0x5FC) == 2) {
             TB(0x5FC) = 0;
@@ -63,7 +64,7 @@ void trigger_option_buttons(void)
             ui_window_invalidate_from(3, 0);
             v = 0;
         } else {
-            v = SYS8(0x284);
+            v = SI(f_284);
             if (TB(0x606) == 2) {
                 TB(0x606) = 0;
                 TB(0) = 0;
@@ -81,6 +82,6 @@ void trigger_option_buttons(void)
                 v = 3;
             }
         }
-        SYS8(0x284) = v;
+        SI(f_284) = v;
     }
 }

@@ -8,16 +8,17 @@
 #include "hw/fpga.h"
 #include "acquisition.h"
 #include "fpga.h"
+#include "sys_info.h"
 
 u32 lane_level_sum(u32 start, u32 lane, u32 ch, u32 n, unsigned char *buf)
 {
     u32 gain, q, base, sum = 0, i;
-    if (ch == 0) gain = SYS32(0x1C4 + 4 * SYS8(0x41));
-    else if (ch == 1) gain = SYS32(0x214 + 4 * SYS8(0x105));
+    if (ch == 0) gain = SYS32(0x1C4 + 4 * SI(ch1_vdiv_index));
+    else if (ch == 1) gain = SYS32(0x214 + 4 * SI(ch2_vdiv_index));
     else gain = lane;
-    SYS32(0x63C) = n / 10;
-    q = (gain * SYS32(0x26C)) / 1000;
-    base = q * SYS8(0x1B8);
+    SI(runtime_quotient) = n / 10;
+    q = (gain * SI(acq_geometry_26c)) / 1000;
+    base = q * SI(f_1b8);
     if (start) {
         SYS32(0x30) = (n * 12) / 10;
         SYS32(0x34) = 0;

@@ -7,13 +7,12 @@
 
 #include "hw/fpga.h"
 #include "acquisition.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define S64(a) (*(volatile long long *)(a))
-#define U64(a) (*(volatile unsigned long long *)(a))
 
 #define T16(b, k) ((int)H16((b) + 2u * (u32)(k)))
 
@@ -27,20 +26,20 @@ static int crossing(u32 b, int k, int lvl, u32 edge)
 
 void trigger_window_crossing(u32 ch)
 {
-    int lvl = (int)(W32(SYS + 0x1C0) * (u32)(int)(short)H16(SYS + 0x27E));
+    int lvl = (int)(SI(acq_geometry_1c0) * (u32)(int)(short)SI(trigger_level));
     u32 buf = W32(SYS + 0x7B4 + 4 * ch), w, edge;
     int found = 0, c, lo, hi, l, r, k, v;
     long long q;
-    if (!B8(SYS + 0x275))
+    if (!SI(f_275))
         return;
-    if (ch != B8(SYS + 0x27C))
+    if (ch != SI(trigger_channel))
         return;
-    q = S64(SYS + 0x570) / S64(SYS + 0x590);
-    c = (int)((u32)q + (W32(SYS + 0x7BC) >> 1));
-    w = (W32(SYS + 0x55C) * 6) / W32(SYS + 0x554);
+    q = SI(f_570) / S64(SYS + 0x590);
+    c = (int)((u32)q + (SI(f_7bc) >> 1));
+    w = (SI(f_55c) * 6) / SI(f_554);
     lo = (int)((u32)c - w);
     hi = (int)(w + (u32)c);
-    edge = B8(SYS + 0x27B);
+    edge = SI(trigger_edge);
     l = lo;
     r = hi;
     for (k = c; lo < k; k--)
@@ -60,5 +59,5 @@ done:
     v = r - c;
     if (c - l < v)
         v = l - c;
-    H16(SYS + 0x29E) = (unsigned short)v;
+    SI(f_29e) = (unsigned short)v;
 }

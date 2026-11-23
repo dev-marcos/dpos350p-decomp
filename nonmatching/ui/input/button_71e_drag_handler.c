@@ -8,6 +8,7 @@
 #include "hw/fpga.h"
 #include "ui/input.h"
 #include "ui/windows.h"
+#include "sys_info.h"
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
 
@@ -23,12 +24,12 @@ void button_71e_drag_handler(void)
         TB(0) = 0;
         touch_moved_flag();
         if (DG8(0) == 0x12)
-            DG64(8) = (short)SYS16(0x27E);
+            DG64(8) = (short)SI(trigger_level);
     } else if (TB(0x71F)) {
         TB(0x71F) = 0;
         TB(0) = 1;
         touch_drag_delta_b();
         if (DG8(0) == 0x12)
-            SYS16(0x27E) = (unsigned short)(DG32(0x34) + DG32(8));
+            SI(trigger_level) = (unsigned short)(DG32(0x34) + DG32(8));
     }
 }

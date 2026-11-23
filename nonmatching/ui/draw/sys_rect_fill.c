@@ -7,9 +7,10 @@
 
 #include "hw/fpga.h"
 #include "ui/draw.h"
+#include "sys_info.h"
 
 void sys_rect_fill(void)
 {
     draw_colour_set(0);
-    rect_fill(SYS16(4), SYS16(6), SYS16(8), SYS16(0xA));
+    rect_fill(SI(plot_x0), SI(plot_y0), SI(plot_width), SI(plot_height));
 }

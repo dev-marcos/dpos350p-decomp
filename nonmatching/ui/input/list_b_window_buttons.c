@@ -10,6 +10,7 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 #include "ui/windows.h"
+#include "sys_info.h"
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
 void inv_left(u32 id) __asm__("ui_window_invalidate_from");
@@ -43,7 +44,7 @@ void list_b_window_buttons(void)
                 PS16(0x14) = (short)(ps * sdv(PS16(0x14), ps) + (int)i);
                 c = PS16(0x14);
                 if (tot >= c + 1) {
-                    if (SYS8(0xF90)) {
+                    if (SI(list_mark_mode)) {
                         volatile unsigned char *m = (volatile unsigned char *)(0x40544E68u + 0x5DC6 + c);
                         *m = *m == 0;
                     } else {
@@ -68,30 +69,30 @@ void list_b_window_buttons(void)
     if (TB(0x8E0) == 2) {
         TB(0x8E0) = 0;
         TB(0) = 0;
-        SYS8(0xF90) = SYS8(0xF90) == 0;
+        SI(list_mark_mode) = SI(list_mark_mode) == 0;
         list_b_marks_clear();
     } else if (TB(0x8EA) == 2) {
         u32 v;
         TB(0x8EA) = 0;
         TB(0) = 0;
         v = SYS8(0x84D6 + PS16(0xE));
-        if (SYS8(0xF90) == 0) {
+        if (SI(list_mark_mode) == 0) {
             if (v) {
                 ui_window_invalidate_from(0x18, v);
                 return;
             }
-            SYS8(0xF90) = 1;
+            SI(list_mark_mode) = 1;
             list_b_page_mark();
         } else if (v == 0) {
             list_b_page_mark();
         } else {
-            SYS8(0xF90) = 0;
+            SI(list_mark_mode) = 0;
             list_b_marks_clear();
         }
     } else if (TB(0x8F4) == 2) {
         TB(0x8F4) = 0;
         TB(0) = 0;
-        if (SYS8(0xF90)) {
+        if (SI(list_mark_mode)) {
             list_count_nonzero_40036454();
             ui_window_open(0x19);
         }

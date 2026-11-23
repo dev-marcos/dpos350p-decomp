@@ -9,6 +9,7 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 #include "ui/screens.h"
+#include "sys_info.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -54,23 +55,23 @@ void display_menu_draw(void)
     label_row(x, r0, 0x40089628u, ENT(16));
     text_shadow_draw((x + w - 0x1C) & 0xFFFF, (r0 + 3) & 0xFFFF, "%", 1, 2, 0);
     half_42e68be2_set(3);
-    nw = func_4002d2d4_d0_raw(B8(SYS + 0x654), 0, 0);
-    text_d6f8_shadow_draw((x + w - 0x20 - nw) & 0xFFFF, (r0 + 3) & 0xFFFF, B8(SYS + 0x654), 0, 0, 1, 2, 0);
+    nw = func_4002d2d4_d0_raw(SI(f_654), 0, 0);
+    text_d6f8_shadow_draw((x + w - 0x20 - nw) & 0xFFFF, (r0 + 3) & 0xFFFF, SI(f_654), 0, 0, 1, 2, 0);
     half_42e68be2_set(1);
-    slider_draw((x + 0x14) & 0xFFFF, (r0 + 0x3C) & 0xFFFF, B8(SYS + 0x654));
+    slider_draw((x + 0x14) & 0xFFFF, (r0 + 0x3C) & 0xFFFF, SI(f_654));
     touch_button_set_rect(x, (r0 + 0x3C - 0x16) & 0xFFFF, w, 0x3C, (volatile unsigned char *)(BTN + 0x20A));
 
     r = (r0 + 0x3C + 0x3D) & 0xFFFF;
     label_row(x, r, 0x40089798u, ENT(17));
-    switch_on_off_draw((x + 0x172) & 0xFFFF, (r - 5) & 0xFFFF, B8(SYS + 0x653));
+    switch_on_off_draw((x + 0x172) & 0xFFFF, (r - 5) & 0xFFFF, SI(f_653));
     wide_button(x, r, w, 0x214);
     r = (r + 0x3C) & 0xFFFF;
     label_row(x, r, 0x40089908u, ENT(18));
-    switch_on_off_draw((x + 0x172) & 0xFFFF, (r - 5) & 0xFFFF, B8(SYS + 0x652));
+    switch_on_off_draw((x + 0x172) & 0xFFFF, (r - 5) & 0xFFFF, SI(f_652));
     wide_button(x, r, w, 0x21E);
     r = (r + 0x3C) & 0xFFFF;
     label_row(x, r, 0x40089A78u, ENT(19));
-    switch_on_off_draw((x + 0x172) & 0xFFFF, (r - 5) & 0xFFFF, B8(SYS + 0x655));
+    switch_on_off_draw((x + 0x172) & 0xFFFF, (r - 5) & 0xFFFF, SI(f_655));
     wide_button(x, r, w, 0x228);
 
     r += 0x3C;

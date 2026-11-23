@@ -7,8 +7,8 @@
 
 #include "hw/fpga.h"
 #include "ui/draw.h"
+#include "sys_info.h"
 
-#define W32(a) (*(volatile u32 *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
 
 void battery_icon_draw(void)
@@ -21,9 +21,9 @@ void battery_icon_draw(void)
     rect_outline_draw(x, (unsigned short)(y + 2), 13, 24);
     rect_fill((unsigned short)(x + 4), y, 5, 2);
     draw_colour_set(0x88FF);
-    lv = SYS8(0x778);
+    lv = SI(battery_level);
     rect_fill((unsigned short)(x + 2), (unsigned short)(y + 24 - 2 * lv), 9, 2 * lv);
-    if (SYS8(0x779) == 0)
+    if (SI(charging) == 0)
         return;
     draw_colour_set(0xFFFFFF);
     rect_fill((unsigned short)(x + 5), (unsigned short)(y + 8), 3, 10);

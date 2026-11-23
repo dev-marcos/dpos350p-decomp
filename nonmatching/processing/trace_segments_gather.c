@@ -8,25 +8,24 @@
 #include "hw/fpga.h"
 #include "acquisition.h"
 #include "processing.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
-#define I32(a) (*(volatile int *)(a))
-#define S64(a) (*(volatile long long *)(a))
 #define P(o) (SYS + 0x5F4 + (o))
 #define TRBUF(ch) (0x411AF3E8u + (ch) * 0x927C0u)
 
 void trace_segments_gather(u32 tr, u32 start, u32 n)
 {
     int off[101];
-    u32 segs = H16(P(0)), rec = W32(SYS + 0x2B0), rl = W32(SYS + 0x5D4), end = start + n + 1, z, c;
+    u32 segs = H16(P(0)), rec = SI(f_2b0), rl = SI(f_5d4), end = start + n + 1, z, c;
     volatile unsigned short *src, *dst;
     int i, k, j, half, si;
     z = mode_not_0_or_1(tr) ? W32(P(0x1C)) : W32(P(4));
     c = 1 + 2 * z;
     if ((int)segs > 0) {
-        half = (int)(z * H16(SYS + 8));
+        half = (int)(z * SI(plot_width));
         half /= 2;
         for (k = 0; k < (int)segs; k++)
             off[k] = (int)(W32(SYS + 0x38C + 4 * k) - W32(SYS + 0x2C4 + 4 * k)) - half;

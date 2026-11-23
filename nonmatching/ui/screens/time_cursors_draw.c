@@ -8,8 +8,8 @@
 #include "hw/fpga.h"
 #include "ui/draw.h"
 #include "ui/screens.h"
+#include "sys_info.h"
 
-#define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define B8(a) (*(volatile unsigned char *)(a))
 #define SYS 0x40544E68u
@@ -39,9 +39,9 @@ void time_cursors_draw(void)
     const char *s;
     if (B8(CUR) == 0)
         return;
-    left1 = H16(SYS + 4) + 1;
-    top = H16(SYS + 6) + 2;
-    bottom = H16(SYS + 6) + H16(SYS + 0xA);
+    left1 = SI(plot_x0) + 1;
+    top = SI(plot_y0) + 2;
+    bottom = SI(plot_y0) + SI(plot_height);
     c1 = W32(CUR + 8);
     c2 = W32(CUR + 0xC);
     if (B8(CUR + 4) == 0) {
@@ -63,8 +63,8 @@ void time_cursors_draw(void)
             vline_draw(U16(xb), U16(top + 4 * i), U16(top + 4 * i + 2));
     }
     r5 = top + 10;
-    marker(c1 + H16(SYS + 4), top, "1", U16(r5 - 0xB), U16(r5 + 0xFFFE), light, 1);
-    marker(c2 + H16(SYS + 4), top, "2", U16(r5 - 0xB), U16(r5 + 0xFFFE), light, 2);
+    marker(c1 + SI(plot_x0), top, "1", U16(r5 - 0xB), U16(r5 + 0xFFFE), light, 1);
+    marker(c2 + SI(plot_x0), top, "2", U16(r5 - 0xB), U16(r5 + 0xFFFE), light, 2);
     half = (int)(c2 - c1 - 0x3C) / 2;
     draw_colour_set(dark);
     half_42e68be2_set(2);

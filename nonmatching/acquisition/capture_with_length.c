@@ -7,10 +7,11 @@
 
 #include "hw/fpga.h"
 #include "acquisition.h"
+#include "sys_info.h"
 
 void capture_with_length(u32 v, u32 len, u32 buf)
 {
-    SYS32(0x63C) = 0x14;
-    SYS16(0x640) = len + 0x14;
+    SI(runtime_quotient) = 0x14;
+    SI(f_640) = len + 0x14;
     capture_block(v, buf);
 }

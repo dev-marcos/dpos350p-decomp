@@ -7,8 +7,9 @@
 
 #include "hw/fpga.h"
 #include "acquisition.h"
+#include "sys_info.h"
 
 void timebase_slow_flag_update(void)
 {
-    SYS8(0x28) = SYS8(0x588) >= SYS8(0x2A9) ? 1 : 0;
+    SI(acq_path_mode) = SI(timebase_index) >= SI(f_2a9) ? 1 : 0;
 }

@@ -9,16 +9,11 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 #include "ui/screens.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
-#define LAY 0x42E64520u              /* UI layout table */
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed */
 #define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
-#define BTN 0x42E61FF8u              /* touch button records */
-#define B8(a) (*(volatile unsigned char *)(a))
-#define SB8(a) (*(volatile signed char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 #define ENT(n) (TXT + 0x1A0 * (n))
 
 /* grid lines and centre ticks of one part (ya..yb, horizontal centre line at cy) */
@@ -51,12 +46,12 @@ static void frame(int x0, int x1, int ya, int yb)
 
 void plot_grid_draw(void)
 {
-    int x0 = H16(SYS + 4), w = H16(SYS + 8);
+    int x0 = SI(plot_x0), w = SI(plot_width);
     int cx = x0 + (w >> 1), x1 = x0 + w;
-    u32 xs = H16(SYS + 0x1C);
-    int split = B8(SYS + 0x2AA), grid = B8(SYS + 0x655);
-    u32 ys = H16(SYS + 0x20);
-    int y0 = H16(SYS + 6), h = H16(SYS + 0xA);
+    u32 xs = SI(f_01c);
+    int split = SI(zoom_on), grid = SI(f_655);
+    u32 ys = SI(f_020);
+    int y0 = SI(plot_y0), h = SI(plot_height);
     int ya, yb, t;
 
     if (!split) {
@@ -72,11 +67,11 @@ void plot_grid_draw(void)
     vline_draw(x0, y0, yb & 0xFFFF);
     vline_draw(x1 & 0xFFFF, y0, yb & 0xFFFF);
     func_4002ecc4_span(y0, x0, x1 & 0xFFFF);
-    h = H16(SYS + 0xA);
-    ya = H16(SYS + 6) + h / 3 + 1;
+    h = SI(plot_height);
+    ya = SI(plot_y0) + h / 3 + 1;
     t = (2 * h) / 3;
     yb = ya + t + 1;
-    if (B8(SYS + 0x655))
-        grid_part(x0, x1, cx, ya, yb, ya + t / 2, xs, (2 * (u32)H16(SYS + 0x20)) / 3, 0x1.0ccccep+3f);    /* 8.4, bits 0x41066667 */
+    if (SI(f_655))
+        grid_part(x0, x1, cx, ya, yb, ya + t / 2, xs, (2 * (u32)SI(f_020)) / 3, 0x1.0ccccep+3f);    /* 8.4, bits 0x41066667 */
     frame(x0, x1, ya, yb);
 }

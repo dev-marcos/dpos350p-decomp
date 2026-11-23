@@ -7,15 +7,15 @@
 
 #include "hw/fpga.h"
 #include "storage/files.h"
+#include "sys_info.h"
 
-#define SS16(o) (*(volatile short *)(0x40544E68u + (o)))
 
 void list_current_advance(int i)
 {
-    if (SYS16(0xFA6 + 2 * i) != SYS16(0x3DA52E))
+    if (SYS16(0xFA6 + 2 * i) != SI(list_current))
         return;
-    if (i < SS16(0xFA0) - 1)
-        SYS16(0x3DA52E) = SYS16(0xFA8 + 2 * i);
+    if (i < SI(list_count) - 1)
+        SI(list_current) = SYS16(0xFA8 + 2 * i);
     else
-        SYS16(0x3DA52E) = SYS16(0xFA4 + 2 * i);
+        SI(list_current) = SYS16(0xFA4 + 2 * i);
 }

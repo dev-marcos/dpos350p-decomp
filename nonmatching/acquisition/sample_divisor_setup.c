@@ -7,15 +7,16 @@
 
 #include "hw/fpga.h"
 #include "acquisition.h"
+#include "sys_info.h"
 
 void sample_divisor_setup(void)
 {
     u32 mode, div, flag;
-    if (SYS8(0x3E) == 0) {
+    if (SI(ch1_enabled) == 0) {
         mode = 2;
         div = 1;
         flag = 0;
-    } else if (SYS8(0x102) == 0) {
+    } else if (SI(ch2_enabled) == 0) {
         mode = 1;
         div = 1;
         flag = 0;
@@ -24,8 +25,8 @@ void sample_divisor_setup(void)
         div = 2;
         flag = 1;
     }
-    SYS8(0x100) = mode;
-    SYS8(0x1B0) = div;
-    SYS8(0x1AC) = flag;
-    SYS8(0x1B1) = SYS32(0x524) / div;
+    SI(f_100) = mode;
+    SI(f_1b0) = div;
+    SI(f_1ac) = flag;
+    SI(repeat_factor) = SI(f_524) / div;
 }

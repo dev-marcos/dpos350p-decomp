@@ -1,7 +1,7 @@
 /*
  * factory_test_board -- stock 0x40050FE0 (1416 bytes, ARM)
  * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
- * First factory step (board test). On a cleared back buffer, in white with font 0x42E658D8 and spacing 1, each line prints a label at x = 15 (y = 15, 40, .. step 25), runs a test and prints 成功 (white) or a red failure at x = 160; any failure parks in for (;;): disk_check_file (flag 0x42E68AF0), fpga_probe_and_copy_7fc (+0x11), security_check_and_copy (+0x12), table_684_init + selftest_4f5e4 (+0x18; on failure ADC1..ADC8 for each clear flag +0x19..+0x20, one line each), calibration_result_flags + acq_defaults_reset + calib_run_4_channels with SYS+0x54E = 1 (+0x21, else channel 1 / 2 from +0x22 / +0x23), gen_selftest_4f89c (+0x13), gen_selftest_50bac (+0x3F, else +0x40 / +0x41). On success SYS32(0x780) = SYS32(0x77C).
+ * First factory step (board test). On a cleared back buffer, in white with font 0x42E658D8 and spacing 1, each line prints a label at x = 15 (y = 15, 40, .. step 25), runs a test and prints 成功 (white) or a red failure at x = 160; any failure parks in for (;;): disk_check_file (flag 0x42E68AF0), fpga_probe_and_copy_7fc (+0x11), security_check_and_copy (+0x12), table_684_init + selftest_4f5e4 (+0x18; on failure ADC1..ADC8 for each clear flag +0x19..+0x20, one line each), calibration_result_flags + acq_defaults_reset + calib_run_4_channels with SYS+0x54E = 1 (+0x21, else channel 1 / 2 from +0x22 / +0x23), gen_selftest_4f89c (+0x13), gen_selftest_50bac (+0x3F, else +0x40 / +0x41). On success SI(f_780) = SI(f_77c).
  */
 #include "hw/platform.h"
 
@@ -12,6 +12,7 @@
 #include "storage/diskio.h"
 #include "system.h"
 #include "ui/draw.h"
+#include "sys_info.h"
 
 #define FT8(o)      (*(volatile unsigned char *)(0x42E68AE0u + (o)))
 #define FT_WHITE    0x00FFFFFFu
@@ -104,9 +105,9 @@ void factory_test_board(void)
     ft_ok_next(160, 90, (const char *)0x4008E8FCu);     /* 系统校准 ... */
     calibration_result_flags();
     acq_defaults_reset();
-    SYS8(0x54E) = 1;
+    SI(f_54e) = 1;
     calib_run_4_channels();
-    SYS8(0x54E) = 0;
+    SI(f_54e) = 0;
     if (!FT8(0x21))
         ft_fail2(160, 115, FT8(0x22), FT8(0x23));
     ft_ok_next(160, 115, (const char *)0x4008E31Cu);    /* 通道复用检测 ... */
@@ -120,5 +121,5 @@ void factory_test_board(void)
     if (!FT8(0x3F))
         ft_fail2(160, 165, FT8(0x40), FT8(0x41));
     ft_text(FT_WHITE, 160, 165, FT_OK);
-    SYS32(0x780) = SYS32(0x77C);
+    SI(f_780) = SI(f_77c);
 }

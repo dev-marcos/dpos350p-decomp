@@ -8,11 +8,10 @@
 #include "hw/fpga.h"
 #include "processing.h"
 #include "util.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 #define F32(a) (*(volatile float *)(a))
 
 #define FY 0x42DBCD54u
@@ -23,7 +22,7 @@
 
 void floating_point_interpolation_resampling(u32 ws, u32 half, u32 len, u32 m, long long shift)
 {
-    u32 k = W32(SYS + 0x554), lv = W32(SYS + 0x1C0), sb = lv << 7, cnt, src, dst, i;
+    u32 k = SI(f_554), lv = SI(acq_geometry_1c0), sb = lv << 7, cnt, src, dst, i;
     float ratio = (float)m / (float)k, scale, inv;
     long long t;
     int c, j, v;

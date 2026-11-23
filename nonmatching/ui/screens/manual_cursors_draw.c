@@ -8,9 +8,8 @@
 #include "hw/fpga.h"
 #include "ui/draw.h"
 #include "ui/screens.h"
+#include "sys_info.h"
 
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 #define B8(a) (*(volatile unsigned char *)(a))
 #define SYS 0x40544E68u
 #define U16(v) ((unsigned short)(v))
@@ -32,7 +31,7 @@ static void hmark(u32 xc, u32 top, const char *digit, unsigned short ty1, unsign
 
 static int clamp_y(int y)
 {
-    int lo = (int)H16(SYS + 6) + 8, hi = (int)(H16(SYS + 6) + H16(SYS + 0xA)) - 8;
+    int lo = (int)SI(plot_y0) + 8, hi = (int)(SI(plot_y0) + SI(plot_height)) - 8;
     if (y < lo)
         return lo;
     return hi > y ? y : hi;
@@ -55,22 +54,22 @@ void manual_cursors_draw(void)
     int nx, ny, p;
     if (B8(0x42E68BB0u + 0x17))
         return;
-    if (B8(SYS + 0x652))
+    if (SI(f_652))
         return;
-    if (B8(SYS + 0x28) && B8(SYS + 0x3C) == 0)
+    if (SI(acq_path_mode) && SI(acq_transition_flag) == 0)
         return;
-    if (B8(SYS + 0x802) == 0 && B8(SYS + 0x803) == 0)
+    if (SI(cursor_x_on) == 0 && SI(cursor_y_on) == 0)
         return;
-    x0 = H16(SYS + 4);
-    y0 = H16(SYS + 6);
-    h = H16(SYS + 0xA);
-    right = x0 + H16(SYS + 8);
+    x0 = SI(plot_x0);
+    y0 = SI(plot_y0);
+    h = SI(plot_height);
+    right = x0 + SI(plot_width);
     bottom = y0 + h;
-    h1 = W32(SYS + 0x808);
-    h2 = W32(SYS + 0x80C);
-    v1 = W32(SYS + 0x810);
-    v2 = W32(SYS + 0x814);
-    if (B8(SYS + 0x2AA) == 0) {
+    h1 = SI(cursor_x1);
+    h2 = SI(cursor_x2);
+    v1 = SI(cursor_y1);
+    v2 = SI(cursor_y2);
+    if (SI(zoom_on) == 0) {
         x0 += 1;
         y0 += 2;
     } else {
@@ -82,26 +81,26 @@ void manual_cursors_draw(void)
     nx = (int)(right - x0 + 1) / 4;
     ny = (int)(bottom - y0 + 1) / 4;
     draw_colour_set(0x888888);
-    if (B8(SYS + 0x802) && ny > 0) {
+    if (SI(cursor_x_on) && ny > 0) {
         u32 xa = U16(h1 + x0 + 0xFFFF), xb = h2 + x0 + 0xFFFF;
         for (i = 0; (int)i < ny; i++)
             vline_draw(xa, U16(y0 + 4 * i), U16(y0 + 4 * i + 2));
         for (i = 0; (int)i < ny; i++)
             vline_draw(U16(xb), U16(y0 + 4 * i), U16(y0 + 4 * i + 2));
     }
-    if (B8(SYS + 0x803) && nx > 0) {
+    if (SI(cursor_y_on) && nx > 0) {
         u32 ya = U16(v1 + y0 + 0xFFFF), yb = v2 + y0 + 0xFFFF;
         for (i = 0; (int)i < nx; i++)
             func_4002ecc4_span(ya, U16(x0 + 4 * i), U16(x0 + 4 * i + 2));
         for (i = 0; (int)i < nx; i++)
             func_4002ecc4_span(U16(yb), U16(x0 + 4 * i), U16(x0 + 4 * i + 2));
     }
-    if (B8(SYS + 0x802)) {
+    if (SI(cursor_x_on)) {
         u32 r7 = y0 - 1 + 0xB;
-        hmark(h1 + H16(SYS + 4), y0 - 1, "1", U16(r7 - 0xB), U16(r7 + 0xFFFE), 1);
-        hmark(h2 + H16(SYS + 4), y0 - 1, "2", U16(r7 - 0xB), U16(r7 + 0xFFFE), 2);
+        hmark(h1 + SI(plot_x0), y0 - 1, "1", U16(r7 - 0xB), U16(r7 + 0xFFFE), 1);
+        hmark(h2 + SI(plot_x0), y0 - 1, "2", U16(r7 - 0xB), U16(r7 + 0xFFFE), 2);
     }
-    if (B8(SYS + 0x803)) {
+    if (SI(cursor_y_on)) {
         p = clamp_y((int)(v1 + y0 - 1));
         vmark(p);
         half_42e68be2_set(2);

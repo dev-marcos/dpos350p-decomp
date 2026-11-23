@@ -7,17 +7,18 @@
 
 #include "hw/fpga.h"
 #include "acquisition.h"
+#include "sys_info.h"
 
 void acquisition_dispatcher(void)
 {
     volatile unsigned char *t = (volatile unsigned char *)0x42E68BB0u;
     if (t[0x17] != 0)
         return;
-    if (SYS8(0x3C) != 0) {
-        SYS8(0x38) = 0;
+    if (SI(acq_transition_flag) != 0) {
+        SI(acq_done) = 0;
         return;
     }
-    if (SYS8(0x28) == 0)
+    if (SI(acq_path_mode) == 0)
         full_acquisition_veneer();
     else
         runtime_sweep_path();

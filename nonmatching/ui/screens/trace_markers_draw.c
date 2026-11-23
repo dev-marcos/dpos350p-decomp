@@ -8,17 +8,16 @@
 #include "hw/fpga.h"
 #include "ui/draw.h"
 #include "ui/screens.h"
+#include "sys_info.h"
 
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 #define SYS 0x40544E68u
 #define U16(v) ((unsigned short)(v))
 
 void trace_markers_draw(void)
 {
-    int x = (int)(H16(SYS + 4) + (H16(SYS + 8) >> 1)) - (int)(H16(SYS + 0xA) >> 1);
-    int bot = (int)(H16(SYS + 6) + H16(SYS + 0xA));
-    int lo = (int)H16(SYS + 6) + 8, y = bot - (int)W32(SYS + 0x120) - 1, i, k;
+    int x = (int)(SI(plot_x0) + (SI(plot_width) >> 1)) - (int)(SI(plot_height) >> 1);
+    int bot = (int)(SI(plot_y0) + SI(plot_height));
+    int lo = (int)SI(plot_y0) + 8, y = bot - (int)SI(ch2_offset) - 1, i, k;
     if (y >= lo)
         lo = (bot - 8 > y) ? y : bot - 8;
     draw_colour_set(0xFFFF);
@@ -32,8 +31,8 @@ void trace_markers_draw(void)
         func_4002ecc4_span(U16(lo - i), U16(x), U16(x + 7 - i));
         func_4002ecc4_span(U16(lo + i), U16(x), U16(x + 7 - i));
     }
-    x = (int)W32(SYS + 0x60) + ((int)(H16(SYS + 4) + (H16(SYS + 8) >> 1)) - (int)(H16(SYS + 0xA) >> 1)) + 1;
-    k = (int)H16(SYS + 6) + 1;
+    x = (int)SI(ch1_offset) + ((int)(SI(plot_x0) + (SI(plot_width) >> 1)) - (int)(SI(plot_height) >> 1)) + 1;
+    k = (int)SI(plot_y0) + 1;
     draw_colour_set(0xFFFF00);
     rect_fill(U16(x - 7), U16(k), 0xF, 0xB);
     word_42e68c74_set(0x42E658D8u);

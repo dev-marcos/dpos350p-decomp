@@ -7,6 +7,7 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 static u32 shr(u32 v, u32 s)
 {
@@ -16,22 +17,22 @@ static u32 shr(u32 v, u32 s)
 
 void fft_input_prepare(void)
 {
-    u32 n = SYS32(0x7F8), q = n ? SYS32(0x454) / n : 0, off, i;
+    u32 n = SI(fft_size), q = n ? SI(f_454) / n : 0, off, i;
     int st = (int)q <= 0 ? 1 : (int)q;
-    off = (SYS32(0x454) - st * n) >> 1;
-    if (SYS8(0x3E) && SYS8(0x42)) {
+    off = (SI(f_454) - st * n) >> 1;
+    if (SI(ch1_enabled) && SI(ch1_fft_enabled)) {
         volatile unsigned short *s = (volatile unsigned short *)0x42AC7CF4u + off;
         volatile float *d = (volatile float *)0x42E49EB4u;
-        u32 sh = SYS32(0x264);
+        u32 sh = SI(f_264);
         for (i = 0; i < n; i++, s += st)
             d[i] = (float)(int)shr(*s, sh);
         for (i = n; i < 2 * n; i++)
             d[i] = 0.0f;
     }
-    if (SYS8(0x102) && SYS8(0x106)) {
+    if (SI(ch2_enabled) && SI(ch2_fft_enabled)) {
         volatile unsigned short *s = (volatile unsigned short *)(0x42AC7CF4u + off * 2u + 0x62250u);
         volatile float *d = (volatile float *)0x42E4DEB4u;
-        u32 sh = SYS32(0x264);
+        u32 sh = SI(f_264);
         for (i = 0; i < n; i++, s += st)
             d[i] = (float)(int)shr(*s, sh);
         for (i = n; i < 2 * n; i++)

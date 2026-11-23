@@ -12,6 +12,7 @@
 #include "generator.h"
 #include "libc.h"
 #include "system.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define BB 0x42E180C8u
@@ -32,7 +33,7 @@ void bode_point_measure(u32 f)
     u32 hmax, hmin, f2, n, e, a, bv, g;
     int i, done_a = 0, done_b = 0;
     unsigned long long q8;
-    double h = (double)H16(SYS + 0xA);
+    double h = (double)SI(plot_height);
     hmax = (u32)(h * 0.8);
     hmin = (u32)(h * 0.3);
     W(GEN + 0x2EFC) = f;
@@ -40,18 +41,18 @@ void bode_point_measure(u32 f)
     delay_ms(1);
     f2 = W(GEN + 0x2EFC);
     if ((int)f2 < 5000000) {
-        B8(SYS + 0x46) = 2;
-        B8(SYS + 0x10A) = 2;
+        SI(f_046) = 2;
+        SI(f_10a) = 2;
     } else {
-        B8(SYS + 0x46) = 1;
-        B8(SYS + 0x10A) = 1;
+        SI(f_046) = 1;
+        SI(f_10a) = 1;
     }
     q8 = __aeabi_uldivmod(1000000000000ULL, (unsigned long long)(long long)(int)f2) << 3;
-    n = H16(SYS + 0x1E);
-    B8(SYS + 0x588) = 0x21;
+    n = SI(f_01e);
+    SI(timebase_index) = 0x21;
     for (i = 14; i < 0x22; i++)
         if (*(volatile unsigned long long *)(SYS + 0xC40 + 8 * (i - 14)) * n >= q8) {
-            B8(SYS + 0x588) = (unsigned char)i;
+            SI(timebase_index) = (unsigned char)i;
             break;
         }
     if (W(DREC) >= f) {
@@ -83,25 +84,25 @@ measure:
         }
         outputs_apply();
         acquisition_dispatcher();
-        a = W(SYS + 0xB30);
-        bv = W(SYS + 0xB4C);
+        a = SI(f_b30);
+        bv = SI(f_b4c);
         if (!done_a) {
-            g = B8(SYS + 0x41);
+            g = SI(ch1_vdiv_index);
             if (a > hmax && g != 0)
-                B8(SYS + 0x41) = (unsigned char)(g - 1);
+                SI(ch1_vdiv_index) = (unsigned char)(g - 1);
             else if (a <= hmax && a < hmin && g <= 10)
-                B8(SYS + 0x41) = (unsigned char)(g + 1);
+                SI(ch1_vdiv_index) = (unsigned char)(g + 1);
             else {
                 done_a = 1;
                 BD(0xACF8) = (double)*(volatile long long *)(SYS + 0x910);
             }
         }
         if (!done_b) {
-            g = B8(SYS + 0x105);
+            g = SI(ch2_vdiv_index);
             if (bv > hmax && g != 0)
-                B8(SYS + 0x105) = (unsigned char)(g - 1);
+                SI(ch2_vdiv_index) = (unsigned char)(g - 1);
             else if (bv <= hmax && bv < hmin && g <= 10)
-                B8(SYS + 0x105) = (unsigned char)(g + 1);
+                SI(ch2_vdiv_index) = (unsigned char)(g + 1);
             else {
                 done_b = 1;
                 BD(0xAD00) = (double)*(volatile long long *)(SYS + 0x970);

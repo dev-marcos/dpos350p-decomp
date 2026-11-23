@@ -8,27 +8,25 @@
 #include "hw/fpga.h"
 #include "processing.h"
 #include "util.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
-#define S64(a) (*(volatile long long *)(a))
-#define U64(a) (*(volatile unsigned long long *)(a))
 
 #define AVG 0x416431E8u
 
 void moving_average_and_crossing_alignment_search(void)
 {
-    u32 ch = B8(SYS + 0x27C), buf = W32(SYS + 0x7B4 + 4 * ch), h, s, t, lvl, n, sum, l, lim, old;
+    u32 ch = SI(trigger_channel), buf = W32(SYS + 0x7B4 + 4 * ch), h, s, t, lvl, n, sum, l, lim, old;
     int mid, k, fl = 0, fr = 0, dl = 0, dr = 0, off = 0;
-    if (!B8(SYS + 0x274) || !B8(SYS + 0x275) || !B8(SYS + 0x279))
+    if (!SI(f_274) || !SI(f_275) || !SI(f_279))
         return;
-    h = H16(SYS + 0x282);
-    s = W32(SYS + 0x558) * h * 3;
-    lvl = W32(SYS + 0x1C0) * (u32)(int)(short)H16(SYS + 0x27E);
-    t = B8(SYS + 0x1B1) * (W32(SYS + 0x62C) * h);
-    l = W32(SYS + 0x2A0) - t - s;
+    h = SI(f_282);
+    s = SI(f_558) * h * 3;
+    lvl = SI(acq_geometry_1c0) * (u32)(int)(short)SI(trigger_level);
+    t = SI(repeat_factor) * (SI(acq_geometry_62c) * h);
+    l = SI(f_2a0) - t - s;
     n = 2 * s + 2 * t + 1;
     copy_u16((unsigned short *)AVG, (const unsigned short *)(buf + 2 * l), n);
     if (s != 0 && (int)n > 0) {
@@ -43,7 +41,7 @@ void moving_average_and_crossing_alignment_search(void)
         }
     }
     mid = (int)n / 2 - (int)s / 2;
-    if (B8(SYS + 0x27B) == 0) {
+    if (SI(trigger_edge) == 0) {
         for (k = mid; k > 0; k--)
             if ((int)H16(AVG + 2 * k) < (int)lvl && (int)H16(AVG + 2 * k + 2) >= (int)lvl) {
                 fl = 1;
@@ -70,7 +68,7 @@ void moving_average_and_crossing_alignment_search(void)
                 break;
             }
     }
-    lim = W32(SYS + 0x298);
+    lim = SI(f_298);
     if (lim < (u32)dl)
         dl = (int)lim;
     if (lim < (u32)dr)
@@ -81,5 +79,5 @@ void moving_average_and_crossing_alignment_search(void)
         off = -dl;
     else if (fr)
         off = dr;
-    H16(SYS + 0x29C) = (unsigned short)off;
+    SI(f_29c) = (unsigned short)off;
 }

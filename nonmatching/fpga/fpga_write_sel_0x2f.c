@@ -8,9 +8,10 @@
 #include "hw/fpga.h"
 #include "drivers/fpga_bus.h"
 #include "fpga.h"
+#include "sys_info.h"
 
 void fpga_write_sel_0x2f(void)
 {
     fpga_selector_command_write(0x2F);
-    fpga_data_byte_write(SYS8(0x3F));
+    fpga_data_byte_write(SI(ch1_coupling));
 }

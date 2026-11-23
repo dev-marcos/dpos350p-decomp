@@ -11,6 +11,7 @@
 #include "libm.h"
 #include "processing.h"
 #include "storage/settings.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define BB 0x42E180C8u
@@ -61,8 +62,8 @@ void bode_calibrate(void)
     }
     B8(BB + 0xAD19) = 0;
     B8(BB + 0xAD1A) = 0;
-    B8(SYS + 0x41) = 11;
-    B8(SYS + 0x105) = 11;
+    SI(ch1_vdiv_index) = 11;
+    SI(ch2_vdiv_index) = 11;
     for (i = 0;; ) {
         bode_point_measure(W(DREC + 0x10 + 4 * i));
         BD(0x68 + 8 * i) = point_ratio();

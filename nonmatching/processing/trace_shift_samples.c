@@ -8,29 +8,29 @@
 #include "hw/fpga.h"
 #include "acquisition.h"
 #include "processing.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
-#define I32(a) (*(volatile int *)(a))
 #define S64(a) (*(volatile long long *)(a))
 #define P(o) (SYS + 0x5F4 + (o))
 #define TRBUF(ch) (0x411AF3E8u + (ch) * 0x927C0u)
 
 void trace_shift_samples(u32 tr)
 {
-    long long d = S64(SYS + 0x5E0), q, s;
+    long long d = SI(f_5e0), q, s;
     volatile unsigned short *buf, *src, *dst;
     u32 n, k, st, ln;
     int cnt;
     if (!mode_not_0_or_1(tr)) {
-        q = (long long)((unsigned long long)(d - S64(SYS + 0x570)) * W32(P(0xC))) / S64(SYS + 0x590);
+        q = (long long)((unsigned long long)(d - SI(f_570)) * W32(P(0xC))) / S64(SYS + 0x590);
         q = q / (long long)W32(P(0x10));
         W32(P(0x14)) -= (u32)q;
         W32(P(0x18)) -= (u32)q;
         s = (long long)((unsigned long long)q * W32(P(4)));
     } else {
-        q = (long long)((unsigned long long)(d - S64(SYS + 0x578)) * W32(P(0x24))) / S64(SYS + 0x5A0);
+        q = (long long)((unsigned long long)(d - SI(f_578)) * W32(P(0x24))) / SI(f_5a0);
         q = q / (long long)W32(P(0x28));
         W32(P(0x2C)) -= (u32)q;
         W32(P(0x30)) -= (u32)q;

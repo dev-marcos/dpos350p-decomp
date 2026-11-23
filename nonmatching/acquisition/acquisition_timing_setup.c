@@ -11,10 +11,9 @@
 #include "processing.h"
 #include "stock_asm.h"
 #include "system.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define Q64(a) (*(volatile unsigned long long *)(a))
 #define S64(a) (*(volatile long long *)(a))
@@ -119,173 +118,173 @@ void acquisition_timing_setup(void)
     long long q, pos;
     const struct tb_row *e;
 
-    if (B8(SYS + 0x652) && B8(SYS + 0x588) > 0x20)
-        B8(SYS + 0x588) = 0x20;
+    if (SI(f_652) && SI(timebase_index) > 0x20)
+        SI(timebase_index) = 0x20;
     timebase_period_load();
     zoom_entry_select();
-    B8(SYS + 0x101) = 1;
-    if (B8(SYS + 0x3C))
+    SI(ch1_runtime_state) = 1;
+    if (SI(acq_transition_flag))
         return;
 
-    tb = B8(SYS + 0x588);
+    tb = SI(timebase_index);
     idx = tb - 11;
     if (idx < 32) {
-        e = (B8(SYS + 0x1B0) == 1 ? TB1 : TB2) + idx;
-        Q64(SYS + 0x538) = e->period;
-        H16(SYS + 0x550) = e->n;
-        W32(SYS + 0x558) = e->w;
-        W32(SYS + 0x55C) = W32(SYS + 0x554) * e->k;
+        e = (SI(f_1b0) == 1 ? TB1 : TB2) + idx;
+        SI(f_538) = e->period;
+        SI(capture_count) = e->n;
+        SI(f_558) = e->w;
+        SI(f_55c) = SI(f_554) * e->k;
     }
     clk = tb == 11 ? 100000000u : 0x05A92F37u;
-    if (W32(SYS + 0x5F0) != clk) {
-        ms5351m_b(clk, W32(SYS + 0x5F0));
+    if (SI(sample_clock_hz) != clk) {
+        ms5351m_b(clk, SI(sample_clock_hz));
         delay_ms(5);
     }
 
-    x = Q64(SYS + 0x538);
-    Q64(SYS + 0x530) = __aeabi_uldivmod(x * W32(SYS + 0x55C), W32(SYS + 0x554));
-    Q64(SYS + 0x528) = __aeabi_uldivmod(x, B8(SYS + 0x1B1));
-    if (B8(SYS + 0x27A) == 2) {
-        n = H16(SYS + 0x550) >> 2;
+    x = SI(f_538);
+    SI(f_530) = __aeabi_uldivmod(x * SI(f_55c), SI(f_554));
+    SI(f_528) = __aeabi_uldivmod(x, SI(repeat_factor));
+    if (SI(trigger_mode) == 2) {
+        n = SI(capture_count) >> 2;
         if (n == 0)
             n = 1;
-        H16(SYS + 0x550) = (unsigned short)n;
-        H16(SYS + 0x582) = (unsigned short)n;
+        SI(capture_count) = (unsigned short)n;
+        SI(f_582) = (unsigned short)n;
     }
-    if (B8(SYS + 0x28) || B8(SYS + 0x27A) == 1 || B8(SYS + 0x54F))
-        H16(SYS + 0x550) = 1;
+    if (SI(acq_path_mode) || SI(trigger_mode) == 1 || SI(f_54f))
+        SI(capture_count) = 1;
 
-    fpv = W32(SYS + 0x55C);
+    fpv = SI(f_55c);
     k = 1;
-    if (fpv == W32(SYS + 0x554))
+    if (fpv == SI(f_554))
         q = 1;
     else {
-        while ((long long)(fpv * k) % (long long)W32(SYS + 0x554) != 0)
+        while ((long long)(fpv * k) % (long long)SI(f_554) != 0)
             k++;
-        q = (long long)(fpv * k) / (long long)W32(SYS + 0x554);
+        q = (long long)(fpv * k) / (long long)SI(f_554);
     }
-    W32(SYS + 0x564) = (u32)q;
-    W32(SYS + 0x560) = (u32)k;
+    SI(f_564) = (u32)q;
+    SI(f_560) = (u32)k;
 
-    d = B8(SYS + 0x1B1);
-    n = H16(SYS + 8) * W32(SYS + 0x558) / d + 1;
-    m = W32(SYS + 0x62C) + n;
-    W32(SYS + 0x2B0) = d * n;
-    W32(SYS + 0x2BC) = m;
-    W32(SYS + 0x2B8) = n;
-    W32(SYS + 0x2B4) = d * m;
-    W32(SYS + 0x2C0) = H16(SYS + 0x550) * W32(SYS + 0x2B0);
+    d = SI(repeat_factor);
+    n = SI(plot_width) * SI(f_558) / d + 1;
+    m = SI(acq_geometry_62c) + n;
+    SI(f_2b0) = d * n;
+    SI(f_2bc) = m;
+    SI(f_2b8) = n;
+    SI(f_2b4) = d * m;
+    SI(f_2c0) = SI(capture_count) * SI(f_2b0);
 
-    x = __aeabi_uldivmod(10000000000ULL, Q64(SYS + 0x590));
-    x = x * H16(SYS + 0x1C) * W32(SYS + 0x558);
-    x = __aeabi_uldivmod(x, H16(SYS + 0x550));
-    x = __aeabi_uldivmod(x * W32(SYS + 0x554), W32(SYS + 0x55C));
-    x = __aeabi_uldivmod(x, B8(SYS + 0x1B1));
-    Q64(SYS + 0x30) = x;
+    x = __aeabi_uldivmod(10000000000ULL, SI(f_590));
+    x = x * SI(f_01c) * SI(f_558);
+    x = __aeabi_uldivmod(x, SI(capture_count));
+    x = __aeabi_uldivmod(x * SI(f_554), SI(f_55c));
+    x = __aeabi_uldivmod(x, SI(repeat_factor));
+    SI(f_030) = x;
 
-    fpv = W32(SYS + 0x2BC);
-    if (B8(SYS + 0x275)) {
+    fpv = SI(f_2bc);
+    if (SI(f_275)) {
         if ((x >> 32) == 0 && (u32)x < (fpv << 1))
             x = fpv << 1;
     } else
         x = D2ULZ((double)fpv * 1.2);
     t = x;
-    B8(SYS + 0x274) = 1;
-    if (B8(SYS + 0x28)) {
-        Q64(SYS + 0x30) = t;
-        t = W32(SYS + 0x520);
-        B8(SYS + 0x274) = 0;
-    } else if (B8(SYS + 0x652)) {
-        B8(SYS + 0x27A) = 0;
-        t = D2ULZ((double)W32(SYS + 0x2B8) * 1.2);
+    SI(f_274) = 1;
+    if (SI(acq_path_mode)) {
+        SI(f_030) = t;
+        t = SI(f_520);
+        SI(f_274) = 0;
+    } else if (SI(f_652)) {
+        SI(trigger_mode) = 0;
+        t = D2ULZ((double)SI(f_2b8) * 1.2);
         Q64(SYS + 0x570) = 0;
-        B8(SYS + 0x3E) = 1;
-        B8(SYS + 0x102) = 1;
+        SI(ch1_enabled) = 1;
+        SI(ch2_enabled) = 1;
     }
 
-    m = H16(SYS + 0x642);
+    m = SI(f_642);
     k = 1;
     if (m < fpv) {
         do
             k++;
         while ((long long)fpv / (long long)k > (long long)m);
     }
-    Q64(SYS + 0x30) = t;
-    H16(SYS + 0x644) = (unsigned short)k;
-    H16(SYS + 0x640) = (unsigned short)((long long)W32(SYS + 0x2BC) / (long long)k);
+    SI(f_030) = t;
+    SI(f_644) = (unsigned short)k;
+    SI(f_640) = (unsigned short)((long long)SI(f_2bc) / (long long)k);
 
-    pos = S64(SYS + 0x570);
+    pos = SI(f_570);
     q = pos / S64(SYS + 0x590);
-    h = H16(SYS + 0xC);
+    h = SI(plot_x_mid);
     if (q > (long long)h)
-        pos = (long long)(h * Q64(SYS + 0x590));
+        pos = (long long)(h * SI(f_590));
     else if (q < -(long long)h)
-        pos = -(long long)(h * Q64(SYS + 0x590));
-    S64(SYS + 0x570) = pos;
+        pos = -(long long)(h * SI(f_590));
+    SI(f_570) = pos;
 
-    switch (B8(SYS + 0x284)) {
+    switch (SI(f_284)) {
     case 0: m = 1; break;
     case 1: m = 2; break;
     case 2: m = 3; break;
     case 3: m = 6; break;
-    default: m = H16(SYS + 0x282); break;
+    default: m = SI(f_282); break;
     }
-    d = B8(SYS + 0x1B1);
-    iv = (int)((double)(d * (W32(SYS + 0x62C) >> 1)) * 0.95);
-    W32(SYS + 0x294) = W32(SYS + 0x524) * (m * (u32)iv - (u32)iv) / d / W32(SYS + 0x540);
-    H16(SYS + 0x282) = (unsigned short)m;
-    W32(SYS + 0x298) = m * (u32)iv;
-    H16(SYS + 0x276) = (unsigned short)(W32(SYS + 0x524) * (H16(SYS + 0x282) * (W32(SYS + 0x558) * (W32(SYS + 0x62C) >> 2) /
-                                        W32(SYS + 0x540))) / B8(SYS + 0x1B1) - 1);
+    d = SI(repeat_factor);
+    iv = (int)((double)(d * (SI(acq_geometry_62c) >> 1)) * 0.95);
+    SI(f_294) = SI(f_524) * (m * (u32)iv - (u32)iv) / d / SI(f_540);
+    SI(f_282) = (unsigned short)m;
+    SI(f_298) = m * (u32)iv;
+    SI(f_276) = (unsigned short)(SI(f_524) * (SI(f_282) * (SI(f_558) * (SI(acq_geometry_62c) >> 2) /
+                                        SI(f_540))) / SI(repeat_factor) - 1);
 
-    pos = S64(SYS + 0x570);
-    if (!B8(SYS + 0x28)) {
-        h = H16(SYS + 0xC);
-        p = W32(SYS + 0x294);
+    pos = SI(f_570);
+    if (!SI(acq_path_mode)) {
+        h = SI(plot_x_mid);
+        p = SI(f_294);
         lo = (int)(p - h);
         s = (int)(h - p);
-        b = B8(SYS + 0x660);
+        b = SI(f_660);
         if (b >= 6) {
             double v = (double)s, pw = POW(2.0, (double)(int)(b - 6));
 
-            v = v + pw * (B8(SYS + 0x1B0) == 2 ? -3.0 : -1.5);
+            v = v + pw * (SI(f_1b0) == 2 ? -3.0 : -1.5);
             s = (int)v;
         }
-        W32(SYS + 0x568) = (u32)lo;
+        SI(f_568) = (u32)lo;
         q = pos / S64(SYS + 0x590);
         if ((long long)s < q)
             pos = (long long)s * S64(SYS + 0x590);
         else if (q < (long long)lo)
             pos = (long long)lo * S64(SYS + 0x590);
-        W32(SYS + 0x56C) = (u32)s;
+        SI(f_56c) = (u32)s;
     }
-    S64(SYS + 0x570) = pos;
+    SI(f_570) = pos;
 
     retained_inside_current_sc1_3_t6();
-    W32(SYS + 0xE0) = ratio32(0xD8, 0x50);
-    W32(SYS + 0x1A0) = ratio32(0x198, 0x110);
+    SI(f_0e0) = ratio32(0xD8, 0x50);
+    SI(f_1a0) = ratio32(0x198, 0x110);
 
-    if (!B8(SYS + 0x28)) {
-        c1 = B8(SYS + 0x46);
-        c2 = B8(SYS + 0x10A);
+    if (!SI(acq_path_mode)) {
+        c1 = SI(f_046);
+        c2 = SI(f_10a);
     } else {
-        c1 = B8(SYS + 0x48);
-        c2 = B8(SYS + 0x10C);
+        c1 = SI(f_048);
+        c2 = SI(f_10c);
     }
-    B8(SYS + 0x47) = (unsigned char)c1;
-    if (c1 < B8(SYS + 0x1AC))
-        c1 = B8(SYS + 0x1AC);
-    if (c2 < B8(SYS + 0x1AC))
-        c2 = B8(SYS + 0x1AC);
-    lim1 = c1 < 3 ? BW[c1] : Q64(SYS + 0x68);
-    lim2 = c2 < 3 ? BW[c2] : Q64(SYS + 0x128);
+    SI(ch1_bandwidth_filter) = (unsigned char)c1;
+    if (c1 < SI(f_1ac))
+        c1 = SI(f_1ac);
+    if (c2 < SI(f_1ac))
+        c2 = SI(f_1ac);
+    lim1 = c1 < 3 ? BW[c1] : SI(f_068);
+    lim2 = c2 < 3 ? BW[c2] : SI(f_128);
 
-    b = B8(SYS + 0x660);
+    b = SI(f_660);
     n = (b != 0 && b < 32) ? (1u << b) & 0xFFFF : 0;
-    lim = B8(SYS + 0x1B0) * (W32(SYS + 0x558) * n) / W32(SYS + 0x540);
-    if (B8(SYS + 0x28))
+    lim = SI(f_1b0) * (SI(f_558) * n) / SI(f_540);
+    if (SI(acq_path_mode))
         lim = 1;
-    x = __aeabi_uldivmod(Q64(SYS + 0x530), lim & 0xFFFF);
+    x = __aeabi_uldivmod(SI(f_530), lim & 0xFFFF);
     x = __aeabi_uldivmod(x, 1000);
     u = D2ULZ(UL2D(x) / 2.24);
     if (b) {
@@ -295,16 +294,16 @@ void acquisition_timing_setup(void)
             lim2 = u;
     }
 
-    if (B8(SYS + 0x3E)) {
-        if (!B8(SYS + 0x102))
-            B8(SYS + 0x27C) = 0;
-    } else if (B8(SYS + 0x102))
-        B8(SYS + 0x27C) = 1;
+    if (SI(ch1_enabled)) {
+        if (!SI(ch2_enabled))
+            SI(trigger_channel) = 0;
+    } else if (SI(ch2_enabled))
+        SI(trigger_channel) = 1;
     W32(SYS + 0x128) = (u32)lim2;
     W32(SYS + 0x12C) = (u32)(lim2 >> 32);
-    Q64(SYS + 0x68) = lim1;
-    Q64(SYS + 0xF8) = u;
-    H16(SYS + 0x662) = (unsigned short)lim;
-    B8(SYS + 0x10B) = (unsigned char)c2;
-    B8(SYS + 0x47) = (unsigned char)c1;
+    SI(f_068) = lim1;
+    SI(f_0f8) = u;
+    SI(f_662) = (unsigned short)lim;
+    SI(ch2_bandwidth_filter) = (unsigned char)c2;
+    SI(ch1_bandwidth_filter) = (unsigned char)c1;
 }

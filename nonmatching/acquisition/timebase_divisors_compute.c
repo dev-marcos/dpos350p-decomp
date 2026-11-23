@@ -7,13 +7,11 @@
 
 #include "hw/fpga.h"
 #include "acquisition.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 #define S64(a) (*(volatile long long *)(a))
-#define U64(a) (*(volatile unsigned long long *)(a))
 
 static u32 ceil_div10(long long v)
 {
@@ -29,17 +27,17 @@ void timebase_divisors_compute(void)
     u32 n, d, k, c, sl, q, h, g1, g2;
     long long v;
     timebase_period_load();
-    n = H16(SYS + 0x1C);
-    p = (1000000000000000ULL / U64(SYS + 0x590)) * n;
+    n = SI(f_01c);
+    p = (1000000000000000ULL / SI(f_590)) * n;
     d = W32(0x405453BCu);
-    W32(SYS + 0x5FC) = d;
-    a = U64(SYS + 0x5A8);
+    SI(f_5fc) = d;
+    a = SI(f_5a8);
     k = (u32)(a / p);
     if (a % p)
         k++;
     sl = (u32)((long long)((unsigned long long)k * d * p) / (long long)a);
-    c = W32(SYS + 0x5D4) * 10;
-    W32(SYS + 0x5F8) = c < k ? c : k;
+    c = SI(f_5d4) * 10;
+    SI(f_5f8) = c < k ? c : k;
     j = 1;
     if (sl == d) {
         q = 1;
@@ -52,34 +50,34 @@ void timebase_divisors_compute(void)
         }
         q = (u32)((long long)pr / (long long)(unsigned long long)W32(0x405453BCu));
     }
-    W32(SYS + 0x604) = q;
-    W32(SYS + 0x5FC) = sl;
-    W32(SYS + 0x600) = (u32)j;
-    h = H16(SYS + 0x5D0);
-    if (B8(SYS + 0x3C) || B8(SYS + 0x665))
+    SI(f_604) = q;
+    SI(f_5fc) = sl;
+    SI(f_600) = (u32)j;
+    h = SI(f_5d0);
+    if (SI(acq_transition_flag) || SI(f_665))
         h = 1;
-    H16(SYS + 0x5F4) = (unsigned short)h;
-    H16(SYS + 0x544) = (unsigned short)(W32(SYS + 0x5F8) * h);
-    W32(SYS + 0xE4) = (u32)((long long)((unsigned long long)S64(SYS + 0x58) << 10) / S64(SYS + 0x50));
-    W32(SYS + 0xE8) = W32(SYS + 0x64) - W32(SYS + 0x60);
-    W32(SYS + 0x1A4) = (u32)((long long)((unsigned long long)S64(SYS + 0x118) << 10) / S64(SYS + 0x110));
-    W32(SYS + 0x1A8) = W32(SYS + 0x124) - W32(SYS + 0x120);
-    v = (long long)((unsigned long long)S64(SYS + 0x58) * 10) / S64(SYS + 0x50);
+    SI(f_5f4) = (unsigned short)h;
+    SI(f_544) = (unsigned short)(SI(f_5f8) * h);
+    SI(f_0e4) = (u32)((long long)((unsigned long long)SI(f_058) << 10) / S64(SYS + 0x50));
+    SI(f_0e8) = SI(f_064) - SI(ch1_offset);
+    SI(f_1a4) = (u32)((long long)((unsigned long long)SI(f_118) << 10) / S64(SYS + 0x110));
+    SI(f_1a8) = SI(f_124) - SI(ch2_offset);
+    v = (long long)((unsigned long long)SI(f_058) * 10) / S64(SYS + 0x50);
     g1 = ceil_div10(v);
-    v = (long long)((unsigned long long)S64(SYS + 0x118) * 10) / S64(SYS + 0x110);
+    v = (long long)((unsigned long long)SI(f_118) * 10) / S64(SYS + 0x110);
     g2 = ceil_div10(v);
-    B8(SYS + 0x650) = (unsigned char)g1;
-    B8(SYS + 0x651) = (unsigned char)g2;
+    SI(f_650) = (unsigned char)g1;
+    SI(f_651) = (unsigned char)g2;
     if ((unsigned char)g1 == 0)
-        B8(SYS + 0x650) = 1;
+        SI(f_650) = 1;
     if ((unsigned char)g2 == 0)
-        B8(SYS + 0x651) = 1;
-    if (B8(SYS + 0x28) && !B8(SYS + 0x3C)) {
-        B8(SYS + 0x580) = 0;
+        SI(f_651) = 1;
+    if (SI(acq_path_mode) && !SI(acq_transition_flag)) {
+        SI(f_580) = 0;
         W32(SYS + 0x570) = 0;
         W32(SYS + 0x574) = 0;
-        S64(SYS + 0x578) = 0;
+        SI(f_578) = 0;
     } else {
-        B8(SYS + 0x580) = 1;
+        SI(f_580) = 1;
     }
 }

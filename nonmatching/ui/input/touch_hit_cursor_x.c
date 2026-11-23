@@ -7,6 +7,7 @@
 
 #include "hw/fpga.h"
 #include "ui/input.h"
+#include "sys_info.h"
 
 #define TP      ((volatile short *)0x42E68BB0u)            /* touch block: x0, y0, x1, y1 (s16) */
 #define TS32(o) (*(volatile u32 *)(0x42E68998u + (o)))     /* touch-control state */
@@ -15,14 +16,14 @@
 void touch_hit_cursor_x(void)
 {
     int x = TP[2];
-    u32 o = SYS16(4);
-    int a = (unsigned short)(SYS32(0x808) + o);
-    int c = (unsigned short)(SYS32(0x80C) + o);
+    u32 o = SI(plot_x0);
+    int a = (unsigned short)(SI(cursor_x1) + o);
+    int c = (unsigned short)(SI(cursor_x2) + o);
     u32 d0 = x >= a ? (u32)(x - a) : (u32)(a - x);
     u32 d1 = x >= c ? (u32)(x - c) : (u32)(c - x);
     if (TS32(4) < d0) d0 = 0xFFFF;
     if (TS32(4) < d1) d1 = 0xFFFF;
-    if (SYS8(0x2AA) && TP[3] < (int)(SYS16(6) + ((SYS16(0xA) * 0xAAABu) >> 17)))
+    if (SI(zoom_on) && TP[3] < (int)(SI(plot_y0) + ((SI(plot_height) * 0xAAABu) >> 17)))
         d0 = d1 = 0xFFFF;
     TS32(0x4C) = d1;
     TS32(0x48) = d0;

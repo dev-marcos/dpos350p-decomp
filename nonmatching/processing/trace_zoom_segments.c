@@ -9,6 +9,7 @@
 #include "acquisition.h"
 #include "processing.h"
 #include "util.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define H16(a) (*(volatile unsigned short *)(a))
@@ -25,12 +26,12 @@ void trace_zoom_segments(u32 tr)
     long long x;
     u32 m = mode_not_0_or_1(tr);
     mode_not_0_or_2(tr & 0xFF);
-    k = W32(SYS + 0x554);
+    k = SI(f_554);
     if (m == 0) {
         wn = W32(P(8));
         if (k >= wn)
             return;
-        x = (long long)((unsigned long long)(S64(SYS + 0x570) - S64(SYS + 0x5E0)) * (unsigned long long)(long long)I32(P(4)));
+        x = (long long)((unsigned long long)(SI(f_570) - SI(f_5e0)) * (unsigned long long)(long long)I32(P(4)));
         x = x / S64(SYS + 0x590);
         rem = (int)(x % (long long)W32(P(0x10)));
         {
@@ -43,8 +44,8 @@ void trace_zoom_segments(u32 tr)
         wn = W32(P(0x20));
         if (k >= wn)
             return;
-        x = (long long)((unsigned long long)(S64(SYS + 0x578) - S64(SYS + 0x5E0)) * (unsigned long long)(long long)I32(P(0x1C)));
-        x = x / S64(SYS + 0x5A0);
+        x = (long long)((unsigned long long)(SI(f_578) - SI(f_5e0)) * (unsigned long long)(long long)I32(P(0x1C)));
+        x = x / SI(f_5a0);
         rem = (int)(x % (long long)W32(P(0x28)));
         {
             int a = (int)((long long)((unsigned long long)(long long)I32(P(0x30)) * W32(P(0x20))) / (long long)k);

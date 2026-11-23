@@ -9,8 +9,8 @@
 #include "fatfs_app.h"
 #include "storage/files.h"
 #include "util.h"
+#include "sys_info.h"
 
-#define SS16(o) (*(volatile short *)(0x40544E68u + (o)))
 #define PATHBUF ((const char *)0x4054D728u)   /* SYS+0x88C0: path built by the list's path helper */
 
 u32 file_write_360404(const char *path)
@@ -19,7 +19,7 @@ u32 file_write_360404(const char *path)
     u32 r = 0;
     if (f_open(fil, path, 0xB) == 0) {
         f_lseek(fil, 0);
-        if (f_write(fil, (void *)(0x40544E68u + 0x360404u), SYS32(0x774), 0) == 0)
+        if (f_write(fil, (void *)(0x40544E68u + 0x360404u), SI(rec_hij_end), 0) == 0)
             r = 1;
         f_close(fil);
     }

@@ -7,12 +7,11 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
-#define S64(a) (*(volatile long long *)(a))
 #define U64(a) (*(volatile unsigned long long *)(a))
 
 void final_per_channel_normalization(u32 ch)
@@ -21,20 +20,20 @@ void final_per_channel_normalization(u32 ch)
     int mid, a, b, a3, b3, mx, mn, v, up, dn, cnt, avg;
     unsigned long long d, lim;
     if (ch == 0) {
-        top = W32(SYS + 0xB60);
-        bot = W32(SYS + 0xB64);
-        mid = (int)W32(SYS + 0xB6C);
-        d = (unsigned long long)W32(SYS + 0xB78) | ((unsigned long long)W32(SYS + 0xB7C) << 32);
+        top = SI(f_b60);
+        bot = SI(f_b64);
+        mid = (int)SI(f_b6c);
+        d = (unsigned long long)SI(f_b78) | ((unsigned long long)SI(f_b7c) << 32);
     } else {
-        top = W32(SYS + 0xB88);
-        bot = W32(SYS + 0xB8C);
-        mid = (int)W32(SYS + 0xB94);
+        top = SI(f_b88);
+        bot = SI(f_b8c);
+        mid = (int)SI(f_b94);
         d = U64(SYS + 0xBA0);
     }
-    lim = (unsigned long long)(0x8D7F250u / W32(SYS + 0x524)) * B8(SYS + 0x1B1);
+    lim = (unsigned long long)(0x8D7F250u / SI(f_524)) * SI(repeat_factor);
     if (d < lim)
         return;
-    end = W32(SYS + 0x7BC) - 10;
+    end = SI(f_7bc) - 10;
     a = (int)(top - (u32)mid);
     b = (int)((u32)mid - bot);
     if ((int)end <= 10)

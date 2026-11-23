@@ -8,9 +8,10 @@
 #include "hw/fpga.h"
 #include "drivers/fpga_bus.h"
 #include "power.h"
+#include "sys_info.h"
 
 void charge_status_read(void)
 {
     fpga_selector_command_write(2);
-    SYS8(0x779) = fpga_data_byte_read() & 1;
+    SI(charging) = fpga_data_byte_read() & 1;
 }

@@ -7,28 +7,29 @@
 
 #include "hw/fpga.h"
 #include "ui/input.h"
+#include "sys_info.h"
 
 #define TICK (*(volatile u32 *)0x42E68CD8u)
 
 void key_repeat_update(void)
 {
-    int c = SYS16(0x86E), d;
-    if (SYS8(0x872)) {
-        SYS8(0x872) = 0;
-        if (TICK - SYS32(0x874) < SYS32(0x87C))
+    int c = SI(ch1_avg_limit), d;
+    if (SI(ch1_avg_ready)) {
+        SI(ch1_avg_ready) = 0;
+        if (TICK - SI(f_874) < SI(f_87c))
             c++;
         else if (c >= 2)
             c--;
-        SYS32(0x874) = TICK;
+        SI(f_874) = TICK;
     }
-    SYS16(0x86E) = c;
-    if (SYS8(0x873)) {
-        SYS8(0x873) = 0;
-        d = SYS16(0x870);
-        if (TICK - SYS32(0x878) < SYS32(0x87C))
-            SYS16(0x870) = d + 1;
+    SI(ch1_avg_limit) = c;
+    if (SI(ch2_avg_ready)) {
+        SI(ch2_avg_ready) = 0;
+        d = SI(ch2_avg_limit);
+        if (TICK - SI(f_878) < SI(f_87c))
+            SI(ch2_avg_limit) = d + 1;
         else if (d >= 2)
-            SYS16(0x870) = d - 1;
-        SYS32(0x878) = TICK;
+            SI(ch2_avg_limit) = d - 1;
+        SI(f_878) = TICK;
     }
 }

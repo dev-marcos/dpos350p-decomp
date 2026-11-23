@@ -7,12 +7,13 @@
 
 #include "hw/fpga.h"
 #include "storage/settings.h"
+#include "sys_info.h"
 
 #define SER_IMAGE ((volatile void *)0x408A526Cu)   /* SYS_INFO+0x360404 */
 
 static u32 slot_addr(void)
 {
-    u32 s = SYS8(0x7C0) - 1;
+    u32 s = SI(f_7c0) - 1;
     return s <= 4 ? SYS32(0x7C8 + 4 * s) : 0;
 }
 

@@ -9,13 +9,13 @@
 #include "fatfs_app.h"
 #include "storage/files.h"
 #include "util.h"
+#include "sys_info.h"
 
-#define SS16(o) (*(volatile short *)(0x40544E68u + (o)))
 #define PATHBUF ((const char *)0x4054D728u)   /* SYS+0x88C0: path built by the list's path helper */
 
 void list_b_page_thumbs(void)
 {
-    int k = SYS16(0xF9A) * SS16(0xF9E), n = 0, row, col;
+    int k = SI(list_page_size) * SI(list_page_index), n = 0, row, col;
     for (row = 0; row < 3; row++) {
         for (col = 0; col < 5; col++) {
             u32 v = SYS16(0xFA6 + 2 * k);
@@ -25,7 +25,7 @@ void list_b_page_thumbs(void)
             list_b_file_load();
             k++;
             copy_u16((unsigned short *)(0x40544E68u + 0x12ED5Cu + (u32)(unsigned short)n * 0x256D8u),
-                     (const unsigned short *)(0x40544E68u + 0x109684u), SYS16(0x109684) * SYS16(0x109686));
+                     (const unsigned short *)(0x40544E68u + 0x109684u), SI(bmp_width) * SI(bmp_height));
             n++;
         }
     }

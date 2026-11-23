@@ -9,6 +9,7 @@
 #include "libc.h"
 #include "processing.h"
 #include "util.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -47,7 +48,7 @@ void levels_samples_window(void)
         copy_u16((unsigned short *)W32(PTR), (const unsigned short *)src, (u32)w);
         return;
     }
-    m = (u32)__aeabi_uldivmod((unsigned long long)(long long)w * (unsigned long long)W32(SYS + 0x554),
+    m = (u32)__aeabi_uldivmod((unsigned long long)(long long)w * (unsigned long long)SI(f_554),
                               (unsigned long long)c);
     h2 = (u32)__aeabi_ldivmod(c, 2);
     if (c >= 1) {
@@ -60,7 +61,7 @@ void levels_samples_window(void)
     }
     fill_u16((unsigned short *)(MID - 2 * h2 - 200), H16(MID - 2 * h2), 100);
     fill_u16((unsigned short *)(MID + 2 * h2), H16(MID + 2 * h2 - 2), 100);
-    if (m < 3 * W32(SYS + 0x554))
+    if (m < 3 * SI(f_554))
         simple_integer_index_mapping_nearest_neighbour(OUT, 500000, (u32)w & 0xFFFF, m, 0, 0);
     else
         floating_point_interpolation_resampling(OUT, 500000, (u32)w & 0xFFFF, m, 0LL);

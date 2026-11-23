@@ -9,13 +9,14 @@
 #include "acquisition.h"
 #include "processing.h"
 #include "ui/draw.h"
+#include "sys_info.h"
 
 void trace_process_full(u32 tr)
 {
     u32 k = mode_not_0_or_1(tr);
-    if (SYS8(0x101) == 0)
+    if (SI(ch1_runtime_state) == 0)
         return;
-    if (k == 1 && SYS8(0x2AA) == 0)
+    if (k == 1 && SI(zoom_on) == 0)
         return;
     trace_span_full_veneer(tr);
     scaled_pair_update(tr);

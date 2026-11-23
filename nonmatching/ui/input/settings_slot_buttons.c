@@ -14,6 +14,7 @@
 #include "ui/input.h"
 #include "ui/screens.h"
 #include "ui/windows.h"
+#include "sys_info.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -39,7 +40,7 @@ void settings_slot_buttons(void)
         return;
     TB(0x124 + 10 * i) = 0;
     TB(0) = 0;
-    SYS8(0x7C0) = i + 1;
+    SI(f_7c0) = i + 1;
     m = *(volatile unsigned char *)(0x42E64520u + 0x67);
     if (m == 1) {
         settings_slot_save();

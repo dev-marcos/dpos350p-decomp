@@ -7,14 +7,14 @@
 
 #include "hw/fpga.h"
 #include "storage/files.h"
+#include "sys_info.h"
 
-#define SS16(o) (*(volatile short *)(0x40544E68u + (o)))
 
 void list_fa4_insert_758(u32 v)
 {
     int k;
-    for (k = (int)SYS16(0x758) - 1; k >= 1; k--)
+    for (k = (int)SI(f_758) - 1; k >= 1; k--)
         SYS16(0xFA6 + 2 * k) = SYS16(0xFA4 + 2 * k);
-    SYS16(0xFA6) = v;
-    SS16(0xFA0) = SS16(0xFA0) + 1;
+    SI(f_fa6) = v;
+    SI(list_count) = SI(list_count) + 1;
 }

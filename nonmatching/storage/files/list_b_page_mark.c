@@ -9,18 +9,18 @@
 #include "fatfs_app.h"
 #include "stock_asm.h"
 #include "storage/files.h"
+#include "sys_info.h"
 
-#define SS16(o) (*(volatile short *)(0x40544E68u + (o)))
 #define PATHBUF ((const char *)0x4054D728u)   /* SYS+0x88C0: path built by the list's path helper */
 
 void list_b_page_mark(void)
 {
     int ps, start, end, lim;
-    SYS8(0x84D6 + SS16(0xF9E)) = 1;
-    ps = SYS16(0xF9A);
-    start = ps * SS16(0xF9E);
+    SYS8(0x84D6 + SI(list_page_index)) = 1;
+    ps = SI(list_page_size);
+    start = ps * SI(list_page_index);
     end = ps + start;
-    lim = SS16(0xFA0);
+    lim = SI(list_count);
     if (lim > end)
         lim = end;
     if (start < lim)

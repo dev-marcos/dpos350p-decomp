@@ -8,9 +8,10 @@
 #include "hw/fpga.h"
 #include "drivers/fpga_bus.h"
 #include "fpga.h"
+#include "sys_info.h"
 
 void fpga_cmd16_write(void)
 {
     fpga_selector_command_write(0x16);
-    fpga_data_byte_write(SYS8(0x27B));
+    fpga_data_byte_write(SI(trigger_edge));
 }

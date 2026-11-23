@@ -8,12 +8,13 @@
 #include "hw/fpga.h"
 #include "acquisition.h"
 #include "ui/screens.h"
+#include "sys_info.h"
 
 void acquisition_rearm(void)
 {
     if ((*(volatile unsigned char *)0x42E68BC7u))
         return;
     timebase_divisors_compute();
-    if (SYS8(0x2AA))
+    if (SI(zoom_on))
         zoom_ratio_window_update();
 }

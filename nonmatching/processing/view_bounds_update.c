@@ -7,28 +7,29 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 void view_bounds_update(void)
 {
-    long long c = SYS16(0xC), a = (long long)(int)SYS32(0x620) + c, b = (long long)(int)SYS32(0x624) + c;
+    long long c = SI(plot_x_mid), a = (long long)(int)SI(f_620) + c, b = (long long)(int)SI(f_624) + c;
     u32 lo, hi, m;
     if (a < 0) {
         lo = 0;
     } else {
-        u32 w = SYS16(8);
+        u32 w = SI(plot_width);
         lo = a < (long long)w ? (u32)a : w;
     }
-    SYS16(0x16) = lo;
+    SI(f_016) = lo;
     if (b < 1) {
         hi = 0;
     } else {
-        u32 w = SYS16(8);
+        u32 w = SI(plot_width);
         hi = b < (long long)w - 1 ? 0xFFFF + (u32)b : 0xFFFF + w;
     }
     hi = (unsigned short)hi;
-    m = SYS16(0x16);
+    m = SI(f_016);
     if (m < hi)
         m = hi;
-    SYS16(0x18) = m;
-    SYS16(0x1A) = m - SYS16(0x16);
+    SI(f_018) = m;
+    SI(f_01a) = m - SI(f_016);
 }

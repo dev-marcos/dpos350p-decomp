@@ -7,12 +7,11 @@
 
 #include "hw/fpga.h"
 #include "ui/input.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define U 0x42E68998u                /* drag state */
 #define TCH 0x42E68BB0u              /* touch point: +4 / +6 now */
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define S16(a) (*(volatile short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 
@@ -22,7 +21,7 @@ typedef double (*sqrt_fn)(double);
 
 static int clamp_x(int v)
 {
-    int w = H16(SYS + 8);
+    int w = SI(plot_width);
 
     if (v < 0)
         return 0;
@@ -31,9 +30,9 @@ static int clamp_x(int v)
 
 static u32 sample_y(u32 s)
 {
-    u32 sh = W32(SYS + 0x1BC) & 0xFF;
+    u32 sh = SI(f_1bc) & 0xFF;
 
-    return H16(SYS + 0xA) - (sh >= 32 ? 0 : s >> sh);
+    return SI(plot_height) - (sh >= 32 ? 0 : s >> sh);
 }
 
 /* smallest distance from (rx, ty) to the trace columns x0 .. x1 - 1 (n samples each) */
@@ -81,11 +80,11 @@ void trace_hit_zoom(u32 ch)
     u32 out = ch == 2 ? U + 0x40 : U + 0x44;
     u32 buf = ch == 2 ? TRACES + 0x124F80u : TRACES + 0x1B7740u;
     u32 rng = ch == 2 ? 0x40545990u : 0x405459ACu, h, third, a, b;
-    int n = 1 + 2 * (int)(H16(SYS + 0x550) * W32(SYS + 0x610));
-    int rx = S16(TCH + 4) - H16(SYS + 4), ty = S16(TCH + 6) - H16(SYS + 6), best;
+    int n = 1 + 2 * (int)(SI(capture_count) * SI(f_610));
+    int rx = S16(TCH + 4) - SI(plot_x0), ty = S16(TCH + 6) - SI(plot_y0), best;
 
-    best = trace_dist(buf, n, rx, ty, H16(SYS + 0x16), H16(SYS + 0x18));
-    h = H16(SYS + 0xA);
+    best = trace_dist(buf, n, rx, ty, SI(f_016), SI(f_018));
+    h = SI(plot_height);
     third = (h * 0xAAABu) >> 17;
     if (W32(U + 4) < (u32)best) {
         b = third + (2 * (h - W32(rng))) / 3;

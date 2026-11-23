@@ -10,12 +10,12 @@
 #include "processing.h"
 #include "stock_asm.h"
 #include "util.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
-#define S64(a) (*(volatile long long *)(a))
 
 #define HITS(tr) (0x400954A4u + (tr) * 0x12BE70u)
 #define SMP(tr) (0x413F92E8u + (tr) * 0x927C0u)
@@ -36,7 +36,7 @@ static u32 shl(u32 v, int n)
    three cells by the fraction of L) and marks the covered rows; returns the sum of (max - min). */
 static int cols_stamp(u32 tr, int x0, int lim, u32 h, int ymax, u32 nseg, u32 k, u32 lh)
 {
-    u32 l = W32(SYS + 0x1C0), sh = W32(SYS + 0x1BC), base = HITS(tr), coloff, colbuf, pt, s, v, frac, cell;
+    u32 l = SI(acq_geometry_1c0), sh = SI(f_1bc), base = HITS(tr), coloff, colbuf, pt, s, v, frac, cell;
     int x, mx, mn, hi, lo, row, r, n, tot = 0;
     volatile unsigned short *ip;
     if (x0 >= lim)
@@ -141,26 +141,26 @@ void trace_intensity_accumulate_lines(u32 tr)
     int x0, x1, lim, ymax, tot, shift, x, lo1, hi1, half, s, a, b;
     volatile unsigned short *p;
     tr &= 0xFF;
-    h = H16(SYS + 0xA);
-    lh = W32(SYS + 0x1C0) * h;
+    h = SI(plot_height);
+    lh = SI(acq_geometry_1c0) * h;
     m = mode_not_0_or_1(tr);
-    nseg = H16(SYS + 0x5F4);
+    nseg = SI(f_5f4);
     fill_u16((unsigned short *)COLB, 0, 0x95B50);
-    h = H16(SYS + 0xA);
-    if (B8(SYS + 0x2AA) && m == 0)
+    h = SI(plot_height);
+    if (SI(zoom_on) && m == 0)
         ymax = (int)(h >> 1) - 3;
     else
         ymax = (int)h - 3;
     if (m) {
-        np = W32(SYS + 0x610);
-        x0 = H16(SYS + 0x16);
-        x1 = H16(SYS + 0x18);
-        on = H16(SYS + 0x1A);
+        np = SI(f_610);
+        x0 = SI(f_016);
+        x1 = SI(f_018);
+        on = SI(f_01a);
     } else {
-        x0 = H16(SYS + 0x10);
-        x1 = H16(SYS + 0x12);
-        np = W32(SYS + 0x5F8);
-        on = H16(SYS + 0x14);
+        x0 = SI(f_010);
+        x1 = SI(f_012);
+        np = SI(f_5f8);
+        on = SI(f_014);
     }
     if (on == 0)
         return;
@@ -168,11 +168,11 @@ void trace_intensity_accumulate_lines(u32 tr)
     lim = x1 - 1;
     tot = cols_stamp(tr, x0, lim, h, ymax, nseg, k, lh);
     dcache_clean_inv_all();
-    W32(SYS + 0x7B0) = 0;
+    SI(f_7b0) = 0;
     add = 5 * nseg + 20;
     shift = 4;
     if (B8(0x42E68BB0u + 0x15) && B8(0x42E61FF8u) == 1) {
-        if (B8(SYS + 0x1B0) == 2)
+        if (SI(f_1b0) == 2)
             shift = tot ? 0x927C0 / tot : 0;
         else
             shift = tot ? 0x124F80 / tot : 0;
@@ -180,7 +180,7 @@ void trace_intensity_accumulate_lines(u32 tr)
             shift = 4;
     }
     if (x0 < lim) {
-        hh = H16(SYS + 0xA);
+        hh = SI(plot_height);
         coloff = hh * (u32)x0;
         colbuf = COLB + 0x4B0 * (u32)x0;
         base = HITS(tr);
@@ -202,7 +202,7 @@ void trace_intensity_accumulate_lines(u32 tr)
     a = x0 + 2;
     b = x1 - 2;
     if (a < b) {
-        hh = H16(SYS + 0xA);
+        hh = SI(plot_height);
         coloff = hh * (u32)a;
         for (x = a; x < b; x++) {
             if (H16(MINL + 2 * (u32)x) < H16(MAXL + 2 * (u32)x)) {
@@ -217,5 +217,5 @@ void trace_intensity_accumulate_lines(u32 tr)
             coloff += hh;
         }
     }
-    W32(SYS + 0x7B0) = mx / 75;
+    SI(f_7b0) = mx / 75;
 }

@@ -8,6 +8,7 @@
 #include "hw/fpga.h"
 #include "libc.h"
 #include "storage/files.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -44,6 +45,6 @@ static void path_number(u32 p, int n, const char *ext)
 void screenshot_path_make(int n)
 {
     __aeabi_memcpy4((void *)(SYS + 0x88C0), (const void *)0x4008F82Cu, 13);
-    B8(SYS + 0x88CC) = '/';
+    SI(f_88cc) = '/';
     path_number(SYS + 0x88CC, n, ".bmp");
 }

@@ -10,16 +10,10 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 #include "ui/screens.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
-#define LAY 0x42E64520u              /* UI layout table */
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed */
-#define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
-#define BTN 0x42E61FF8u              /* touch button records */
-#define B8(a) (*(volatile unsigned char *)(a))
-#define SB8(a) (*(volatile signed char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 
 #define U64(a) (*(volatile unsigned long long *)(a))
 #define S64(a) (*(volatile long long *)(a))
@@ -33,18 +27,18 @@ void zoom_ratio_window_update(void)
     if (zoom_mode_check())
         return;
     zoom_entry_select();
-    p = (1000000000000000ULL / U64(SYS + 0x5A0)) * H16(SYS + 0x1C);
+    p = (1000000000000000ULL / U64(SYS + 0x5A0)) * SI(f_01c);
     a = S64(SYS + 0x5A8);
-    den = W32(SYS + 0x554);
-    W32(SYS + 0x614) = den;
+    den = SI(f_554);
+    SI(f_614) = den;
     n = (u32)(a / (long long)p);
     if (a % (long long)p != 0)
         n++;
     m = n;
     t = (unsigned long long)n * den * p;
     q = (u32)((long long)t / a);
-    if (W32(SYS + 0x5D4) * 10 < n)
-        m = W32(SYS + 0x5D4) * 10;
+    if (SI(f_5d4) * 10 < n)
+        m = SI(f_5d4) * 10;
     if (q == den) {
         k = 1;
         num = 1;
@@ -53,28 +47,28 @@ void zoom_ratio_window_update(void)
             ;
         num = (u32)((long long)((unsigned long long)q * k) / (long long)den);
     }
-    W32(SYS + 0x61C) = num;
-    W32(SYS + 0x618) = (u32)k;
-    W32(SYS + 0x610) = m;
-    W32(SYS + 0x614) = q;
-    H16(SYS + 0x54A) = (unsigned short)(m * H16(SYS + 0x5F4));
+    SI(f_61c) = num;
+    SI(f_618) = (u32)k;
+    SI(f_610) = m;
+    SI(f_614) = q;
+    SI(f_54a) = (unsigned short)(m * SI(f_5f4));
 
-    wd = H16(SYS + 8);
+    wd = SI(plot_width);
     half = wd >> 1;
     b = S64(SYS + 0x590);
-    c = S64(SYS + 0x5A0);
+    c = SI(f_5a0);
     lo = (long long)half * (c - b);
     hi = (long long)half * (b - c);
-    d = S64(SYS + 0x578) - S64(SYS + 0x570);
-    r8 = S64(SYS + 0x578);
+    d = SI(f_578) - SI(f_570);
+    r8 = SI(f_578);
     if (d < lo)
-        r8 = lo + S64(SYS + 0x570);
+        r8 = lo + SI(f_570);
     else if (hi < d)
-        r8 = hi + S64(SYS + 0x570);
-    S64(SYS + 0x578) = r8;
-    H16(SYS + 0x26) = (unsigned short)((u32)((S64(SYS + 0x570) - r8) / S64(SYS + 0x590)) + (u32)((long long)wd / 2));
-    n = (u32)((U64(SYS + 0x5A0) * wd) / U64(SYS + 0x590));
+        r8 = hi + SI(f_570);
+    SI(f_578) = r8;
+    SI(f_026) = (unsigned short)((u32)((SI(f_570) - r8) / S64(SYS + 0x590)) + (u32)((long long)wd / 2));
+    n = (u32)((U64(SYS + 0x5A0) * wd) / SI(f_590));
     if ((n & 0xFFFF) < 6)
         n = 6;
-    H16(SYS + 0x24) = (unsigned short)n;
+    SI(f_024) = (unsigned short)n;
 }

@@ -8,19 +8,19 @@
 #include "hw/fpga.h"
 #include "ui/draw.h"
 #include "ui/screens.h"
+#include "sys_info.h"
 
-#define H16(a) (*(volatile unsigned short *)(a))
 #define SYS 0x40544E68u
 #define U16(v) ((unsigned short)(v))
 
 void xy_grid_draw(void)
 {
-    u32 side = H16(SYS + 0xA), top = H16(SYS + 6), step;
-    int left = (int)H16(SYS + 4) + ((int)(H16(SYS + 8) - side) / 2);
+    u32 side = SI(plot_height), top = SI(plot_y0), step;
+    int left = (int)SI(plot_x0) + ((int)(SI(plot_width) - side) / 2);
     int right = (int)side + left, bottom = (int)(side + top), cy = (int)(top + (side >> 1));
     int cx = left + (int)(side >> 1) + 1, p, i;
     float base;
-    step = H16(SYS + 0x20);
+    step = SI(f_020);
     if (*(volatile unsigned char *)(SYS + 0x655)) {
         draw_colour_set(0x303030);
         for (p = left; p <= right; p += step)

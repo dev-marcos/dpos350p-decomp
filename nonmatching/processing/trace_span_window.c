@@ -8,8 +8,9 @@
 #include "hw/fpga.h"
 #include "processing.h"
 #include "ui/draw.h"
+#include "sys_info.h"
 
 void trace_span_window(u32 tr)
 {
-    trace_scale_segment(tr, SYS32(0x6FC), SYS16(0x6F6));
+    trace_scale_segment(tr, SI(runtime_fine_progress), SI(runtime_step));
 }

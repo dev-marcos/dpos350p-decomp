@@ -9,6 +9,7 @@
 #include "acquisition.h"
 #include "selftest.h"
 #include "system.h"
+#include "sys_info.h"
 
 #define RS8(o) (*(volatile unsigned char *)(0x42E68AE0u + (o)))
 #define CAP8(o) (*(volatile unsigned char *)(0x42DF76D4u + (o)))
@@ -38,26 +39,26 @@ void gen_selftest_50bac(void)
     int end, a, b, c, d;
     u32 p1, p2;
     acq_defaults_reset();
-    SYS8(0x54F) = 1;
-    SYS8(0x588) = 0x10;
-    SYS8(0x41) = 0xB;
-    SYS8(0x105) = 0xB;
-    SYS8(0x3E) = 1;
-    SYS8(0x102) = 0;
-    SYS8(0x46) = 0;
+    SI(f_54f) = 1;
+    SI(timebase_index) = 0x10;
+    SI(ch1_vdiv_index) = 0xB;
+    SI(ch2_vdiv_index) = 0xB;
+    SI(ch1_enabled) = 1;
+    SI(ch2_enabled) = 0;
+    SI(f_046) = 0;
     *(volatile unsigned char *)(0x42E68BB0u + 0x16) = 0;
     outputs_apply();
-    end = (int)SYS16(0x640) - 0x28;
+    end = (int)SI(f_640) - 0x28;
     a = (int)spread_sum(end);
-    SYS8(0x46) = 1;
+    SI(f_046) = 1;
     outputs_apply();
     b = (int)spread_sum(end);
-    SYS8(0x3E) = 0;
-    SYS8(0x102) = 1;
-    SYS8(0x10A) = 0;
+    SI(ch1_enabled) = 0;
+    SI(ch2_enabled) = 1;
+    SI(f_10a) = 0;
     outputs_apply();
     c = (int)spread_sum(end);
-    SYS8(0x10A) = 1;
+    SI(f_10a) = 1;
     outputs_apply();
     d = (int)spread_sum(end);
     p1 = b < (int)((float)a * 0.9f);

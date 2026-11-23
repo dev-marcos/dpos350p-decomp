@@ -11,6 +11,7 @@
 #include "storage/files.h"
 #include "ui/input.h"
 #include "ui/windows.h"
+#include "sys_info.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -19,7 +20,6 @@ void ui_window_invalidate_from_raw(u32 n) __asm__("ui_window_invalidate_from");
 #define SYS 0x40544E68u
 #define BTN 0x42E61FF8u              /* touch button records; byte 0 is the pending-touch flag */
 #define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define S16(a) (*(volatile short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 
@@ -37,18 +37,18 @@ static void press_save(void)
         S64(U + 8) = S64(SYS + (SPLIT ? 0x578 : 0x570));
         break;
     case 2:
-        S64(U + 8) = S64(SYS + 0x578);
+        S64(U + 8) = SI(f_578);
         break;
     case 3:
     case 4:
         S64(U + 8) = S64(SYS + (SPLIT ? 0x578 : 0x570));
         S64(U + 0x10) = (int)W32(SYS + (m == 3 ? 0x60 : 0x120));
-        if (B8(SYS + 0x27C) == m - 3)
+        if (SI(trigger_channel) == m - 3)
             S64(U + 0x18) = S16(SYS + 0x27E);
         break;
     case 5:
     case 6:
-        S64(U + 8) = S64(SYS + 0x578);
+        S64(U + 8) = SI(f_578);
         S64(U + 0x10) = (int)W32(SYS + (m == 5 ? 0x60 : 0x120));
         break;
     case 7:
@@ -62,8 +62,8 @@ static void press_save(void)
         S64(U + 8) = (int)W32(SYS + 0x3DA534 + 4 * (m - 11));
         break;
     case 13:
-        S64(U + 8) = (int)W32(SYS + 0x60);
-        S64(U + 0x10) = (int)W32(SYS + 0x120);
+        S64(U + 8) = (int)SI(ch1_offset);
+        S64(U + 0x10) = (int)SI(ch2_offset);
         break;
     }
 }
@@ -73,9 +73,9 @@ static void h_drag(int dx)
     long long d = (long long)dx * S64(SYS + 0x590);
 
     if (SPLIT)
-        S64(SYS + 0x578) = S64(U + 8) + d;
+        SI(f_578) = S64(U + 8) + d;
     else
-        S64(SYS + 0x570) = S64(U + 8) - d;
+        SI(f_570) = S64(U + 8) - d;
 }
 
 static void move(void)
@@ -85,24 +85,24 @@ static void move(void)
 
     switch (m) {
     case 1:
-        if (B8(SYS + 0x580))
+        if (SI(f_580))
             h_drag(dx);
         break;
     case 2:
-        if (B8(SYS + 0x580))
-            S64(SYS + 0x578) = S64(U + 8) - (long long)dx * S64(SYS + 0x5A0);
+        if (SI(f_580))
+            SI(f_578) = S64(U + 8) - (long long)dx * SI(f_5a0);
         break;
     case 3:
     case 4:
-        if (B8(SYS + 0x580))
+        if (SI(f_580))
             h_drag(dx);
         W32(SYS + (m == 3 ? 0x60 : 0x120)) = dy + (u32)S64(U + 0x10);
-        if (B8(SYS + 0x27C) == m - 3)
-            H16(SYS + 0x27E) = dy + (u32)S64(U + 0x18);
+        if (SI(trigger_channel) == m - 3)
+            SI(trigger_level) = dy + (u32)S64(U + 0x18);
         break;
     case 5:
     case 6:
-        S64(SYS + 0x578) = S64(U + 8) - (long long)dx * S64(SYS + 0x5A0);
+        SI(f_578) = S64(U + 8) - (long long)dx * SI(f_5a0);
         W32(SYS + (m == 5 ? 0x60 : 0x120)) = dy + (u32)S64(U + 0x10);
         break;
     case 7:
@@ -121,8 +121,8 @@ static void move(void)
         cursor_3da534_clamp(m - 11);
         break;
     case 13:
-        W32(SYS + 0x60) = lo8 - dx;
-        W32(SYS + 0x120) = dy + (u32)S64(U + 0x10);
+        SI(ch1_offset) = lo8 - dx;
+        SI(ch2_offset) = dy + (u32)S64(U + 0x10);
         break;
     }
 }
@@ -152,7 +152,7 @@ void plot_touch_drag(void)
     x = S16(TCH + 8);
     if (S16(TCH + 4) != x || S16(TCH + 6) != S16(TCH + 0xA) || W32(0x42E68CD8u) - W32(0x42E68C78u) >= 600)
         return;
-    if (x >= (int)(H16(SYS + 4) + (H16(SYS + 8) >> 1))) {
+    if (x >= (int)(SI(plot_x0) + (SI(plot_width) >> 1))) {
         if (!SPLIT)
             timebase_index_step_down(1);
         else
@@ -163,7 +163,7 @@ void plot_touch_drag(void)
         else
             zoom_index_add(1);
     }
-    H16(SYS + 0x586) = 0;
+    SI(f_586) = 0;
     acquisition_apply();
     ui_window_invalidate_from_raw(3);
 }

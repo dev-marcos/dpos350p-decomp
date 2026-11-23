@@ -7,12 +7,12 @@
 
 #include "hw/fpga.h"
 #include "ui/input.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define U 0x42E68998u                /* drag state */
 #define TCH 0x42E68BB0u              /* touch point: +4 / +6 now */
 #define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define S16(a) (*(volatile short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
 
@@ -22,7 +22,7 @@ static u32 pick(void)
 {
     u32 m = 0, best = W32(U + 4), o;
 
-    if (B8(SYS + 0x802)) {
+    if (SI(cursor_x_on)) {
         touch_hit_cursor_x();
         for (o = 0; o < 2; o++)
             if (W32(U + 0x48 + 4 * o) < best) {
@@ -30,7 +30,7 @@ static u32 pick(void)
                 m = 7 + o;
             }
     }
-    if (B8(SYS + 0x803)) {
+    if (SI(cursor_y_on)) {
         touch_hit_cursor_y();
         for (o = 0; o < 2; o++)
             if (W32(U + 0x50 + 4 * o) < best) {
@@ -38,7 +38,7 @@ static u32 pick(void)
                 m = 9 + o;
             }
     }
-    if (B8(SYS + 0x3DA52C)) {
+    if (SI(f_3da52c)) {
         touch_hit_x_b();
         for (o = 0; o < 2; o++)
             if (W32(U + 0x58 + 4 * o) < best) {
@@ -49,7 +49,7 @@ static u32 pick(void)
     if (m)
         return m;
     best = 0x7FFFFFFF;
-    if (B8(SYS + 0x102)) {
+    if (SI(ch2_enabled)) {
         trace_hit_ch2();
         if (W32(U + 0x3C) < best) {
             best = W32(U + 0x3C);
@@ -63,7 +63,7 @@ static u32 pick(void)
             }
         }
     }
-    if (!B8(SYS + 0x3E))
+    if (!SI(ch1_enabled))
         return m;
     trace_hit_ch1();
     if (W32(U + 0x38) < best) {
@@ -75,7 +75,7 @@ static u32 pick(void)
         if (W32(U + 0x40) < best)
             m = 5;
     }
-    if (!B8(SYS + 0x3E) || !B8(SYS + 0x102))
+    if (!SI(ch1_enabled) || !SI(ch2_enabled))
         return m;
     if (m == 3 || m == 4) {
         if (W32(U + 0x38) >= 10 || W32(U + 0x3C) >= 10)
@@ -85,7 +85,7 @@ static u32 pick(void)
             return m;
     } else
         return m;
-    return W32(SYS + 0xB30) < W32(SYS + 0xB4C) ? 3 : 4;
+    return SI(f_b30) < SI(f_b4c) ? 3 : 4;
 }
 
 void touch_drag_pick(void)
@@ -94,5 +94,5 @@ void touch_drag_pick(void)
         B8(U) = 0;
         return;
     }
-    B8(U) = B8(SYS + 0x652) ? 13 : pick();
+    B8(U) = SI(f_652) ? 13 : pick();
 }

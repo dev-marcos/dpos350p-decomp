@@ -10,6 +10,7 @@
 #include "processing.h"
 #include "ui/input.h"
 #include "ui/windows.h"
+#include "sys_info.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -32,7 +33,7 @@ void timebase_menu_buttons(void)
             B8(BTN + rec) = 0;
             v = 0x29 - k;
             B8(BTN) = 0;
-            if (!B8(SYS + 0x2AA))
+            if (!SI(zoom_on))
                 timebase_index_set(v);
             else
                 zoom_index_set(v);

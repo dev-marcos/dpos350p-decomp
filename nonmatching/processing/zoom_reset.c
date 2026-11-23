@@ -8,12 +8,13 @@
 #include "hw/fpga.h"
 #include "acquisition.h"
 #include "processing.h"
+#include "sys_info.h"
 
 void zoom_reset(void)
 {
     u32 lo, hi;
-    timebase_index_set(SYS8(0x5B0));
-    zoom_index_set((SYS8(0x5B0) - 1) & 0xFF);
+    timebase_index_set(SI(f_5b0));
+    zoom_index_set((SI(f_5b0) - 1) & 0xFF);
     sys_word_pair_570_set(SYS32(0x5E0), SYS32(0x5E4));
     lo = SYS32(0x570);
     hi = SYS32(0x574);

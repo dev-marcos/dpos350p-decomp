@@ -7,6 +7,7 @@
 
 #include "hw/fpga.h"
 #include "acquisition.h"
+#include "sys_info.h"
 
 #define CAL_W(o) (*(volatile int *)(0x42E53A0Cu + (o)))
 
@@ -21,19 +22,19 @@ void calibration_gain_baseline_clamp_conversion(u32 b, u32 ch, volatile unsigned
         c2 = CAL_W(0x30 + 4 * b);
     }
     if (ch == 0) {
-        gain = SYS32(0x1C4 + 4 * SYS8(0x41));
-        base = SYS32(0x1C0) * SYS32(0x60);
-        k = SYS32(0xE0);
+        gain = SYS32(0x1C4 + 4 * SI(ch1_vdiv_index));
+        base = SI(acq_geometry_1c0) * SI(ch1_offset);
+        k = SI(f_0e0);
     } else if (ch == 1) {
-        gain = SYS32(0x214 + 4 * SYS8(0x105));
-        base = SYS32(0x1C0) * SYS32(0x120);
-        k = SYS32(0x1A0);
+        gain = SYS32(0x214 + 4 * SI(ch2_vdiv_index));
+        base = SI(acq_geometry_1c0) * SI(ch2_offset);
+        k = SI(f_1a0);
     }
     q = (int)((u32)gain * (u32)cg) / 1000;
-    off = (int)((u32)c2 - (u32)q * SYS8(0x1B8));
-    top = (int)(SYS32(0x1C0) * SYS16(0xA));
-    sh = SYS32(0x264);
-    src = (const volatile unsigned char *)(0x42DF76D4u + (int)(short)b * 0x2134 + SYS16(0x6F2) + (phase & 0xFFFF));
+    off = (int)((u32)c2 - (u32)q * SI(f_1b8));
+    top = (int)(SI(acq_geometry_1c0) * SI(plot_height));
+    sh = SI(f_264);
+    src = (const volatile unsigned char *)(0x42DF76D4u + (int)(short)b * 0x2134 + SI(runtime_position_base) + (phase & 0xFFFF));
     buf += slot & 0xFFFF;
     for (; n != 0; n--) {
         v = (int)((u32)q * *src + (u32)off);

@@ -9,23 +9,23 @@
 #include "fatfs_app.h"
 #include "storage/files.h"
 #include "util.h"
+#include "sys_info.h"
 
-#define SS16(o) (*(volatile short *)(0x40544E68u + (o)))
 #define PATHBUF ((const char *)0x4054D728u)   /* SYS+0x88C0: path built by the list's path helper */
 
 void list_c_record_select(u32 v)
 {
     volatile unsigned short *p = (volatile unsigned short *)(0x40544E68u + 0xD744u);
-    int st = SYS32(0x3DA544), n = st * SYS16(0x758), i;
+    int st = SI(f_3da544), n = st * SI(f_758), i;
     for (i = 0; i < n; i += st, p += st) {
         if (((u32)((p[0] << 8) & 0xFF00) | (p[1] & 0xFF)) == v) {
             u32 k = (u32)(short)p[0] << 8, c;
-            SYS16(0xF9C) = k;
-            SYS16(0xF9C) = (p[1] & 0xFF) | k;
+            SI(f_f9c) = k;
+            SI(f_f9c) = (p[1] & 0xFF) | k;
             c = (p[2] << 8) & 0xFF00;
-            SYS32(0x3DA53C) = c;
+            SI(f_3da53c) = c;
             c |= p[3] & 0xFF;
-            SYS32(0x3DA53C) = c;
+            SI(f_3da53c) = c;
             copy_u16((unsigned short *)(0x40544E68u + 0x3DA548u), (const unsigned short *)(p + 4), c);
             return;
         }

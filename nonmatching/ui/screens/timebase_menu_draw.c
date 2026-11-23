@@ -9,6 +9,7 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 #include "ui/screens.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define LAY 0x42E64520u              /* UI layout table */
@@ -52,11 +53,11 @@ void timebase_menu_draw(void)
     half_42e68be2_set(1);
     draw_colour_set(W32(TH));
     rect_fill(x & 0xFFFF, y, w, h);
-    sel = B8(SYS + 0x2AA) ? B8(SYS + 0x598) : B8(SYS + 0x588);
+    sel = SI(zoom_on) ? SI(f_598) : SI(timebase_index);
     draw_colour_set(W32(TH + 4));
     draw_text_shadowed((x + 0x14) & 0xFFFF, (y + 0x17) & 0xFFFF, 0x4008B178u, 2, 2, 0);
     draw_colour_set(W32(TH + 4));
-    e = B8(SYS + 0x2AA) ? ENT(35) : ENT(34);
+    e = SI(zoom_on) ? ENT(35) : ENT(34);
     text_shadow_draw((x + SB8(e + 0x194) + 0x41) & 0xFFFF, (y + 0x17 + SB8(e + 0x195) + 3) & 0xFFFF, (const char *)W32(e), 1, 2, 0);
     half_42e68be2_set(2);
 

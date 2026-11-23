@@ -12,6 +12,7 @@
 #include "system.h"
 #include "ui/draw.h"
 #include "util.h"
+#include "sys_info.h"
 
 #define MB8(o) (*(volatile unsigned char *)(0x42E68668u + (o)))
 #define MB32(o) (*(volatile u32 *)(0x42E68668u + (o)))
@@ -36,34 +37,34 @@ void auto_level_search(void)
     u32 h, hi, lo, v, l;
     if (*(volatile unsigned char *)(0x42E68BB0u + 0x17))
         return;
-    SYS8(0x3E) = 1;
-    SYS8(0x102) = 0;
-    SYS8(0x3F) = 1;
-    SYS32(0x60) = 0xFA;
-    SYS8(0x46) = 0;
-    SYS8(0x54F) = 1;
+    SI(ch1_enabled) = 1;
+    SI(ch2_enabled) = 0;
+    SI(ch1_coupling) = 1;
+    SI(ch1_offset) = 0xFA;
+    SI(f_046) = 0;
+    SI(f_54f) = 1;
     *(volatile unsigned char *)(0x42E68BB0u + 0x16) = 1;
-    SYS8(0x275) = 1;
-    h = SYS16(0xA);
-    SYS8(0x70D) = 0;
-    SYS8(0x660) = 0;
-    SYS8(0x588) = 0xB;
+    SI(f_275) = 1;
+    h = SI(plot_height);
+    SI(f_70d) = 0;
+    SI(f_660) = 0;
+    SI(timebase_index) = 0xB;
     hi = (u32)((double)h * 0.9);
     lo = (u32)((double)h * 0.2);
     for (;;) {
         outputs_apply();
         acquisition_dispatcher();
-        v = SYS32(0xB30);
+        v = SI(f_b30);
         if (hi < v) {
-            l = SYS8(0x41);
+            l = SI(ch1_vdiv_index);
             if (l == 0)
                 break;
-            SYS8(0x41) = l - 1;
+            SI(ch1_vdiv_index) = l - 1;
         } else if (v < lo) {
-            l = SYS8(0x41);
+            l = SI(ch1_vdiv_index);
             if ((int)l >= 7)
                 break;
-            SYS8(0x41) = l + 1;
+            SI(ch1_vdiv_index) = l + 1;
         } else {
             break;
         }

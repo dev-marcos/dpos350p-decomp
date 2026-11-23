@@ -9,8 +9,8 @@
 #include "fatfs_app.h"
 #include "storage/files.h"
 #include "util.h"
+#include "sys_info.h"
 
-#define SS16(o) (*(volatile short *)(0x40544E68u + (o)))
 #define PATHBUF ((const char *)0x4054D728u)   /* SYS+0x88C0: path built by the list's path helper */
 
 void list_c_index_create(void)
@@ -22,21 +22,21 @@ void list_c_index_create(void)
     f_open(fil, (const char *)0x4008E2ECu, 0xB);
     f_chmod((const char *)0x4008E2ECu, 2, 2);
     f_chmod((const char *)0x4008E2ECu, 4, 4);
-    fill_u16((unsigned short *)(0x40544E68u + 0xFA6u), 0, SYS16(0x758));
-    SYS16(0x3DA52E) = 1;
-    SS16(0xFA0) = 0;
+    fill_u16((unsigned short *)(0x40544E68u + 0xFA6u), 0, SI(f_758));
+    SI(list_current) = 1;
+    SI(list_count) = 0;
     f_lseek(fil, 0);
     f_write(fil, (void *)(0x40544E68u + 0xFA0u), 2, 0);
     f_lseek(fil, 2);
     f_write(fil, (void *)(0x40544E68u + 0x3DA52Eu), 2, 0);
     f_lseek(fil, 4);
-    f_write(fil, (void *)(0x40544E68u + 0xFA6u), SYS16(0x758) * 2u, 0);
+    f_write(fil, (void *)(0x40544E68u + 0xFA6u), SI(f_758) * 2u, 0);
     f_close(fil);
     f_open(fil, (const char *)0x4008E8D4u, 0xB);
     f_chmod((const char *)0x4008E8D4u, 2, 2);
     f_chmod((const char *)0x4008E8D4u, 4, 4);
-    copy_u16((unsigned short *)(0x40544E68u + 0xD744u), 0, SYS16(0x758) * SYS32(0x3DA544));
+    copy_u16((unsigned short *)(0x40544E68u + 0xD744u), 0, SI(f_758) * SI(f_3da544));
     f_lseek(fil, 0);
-    f_write(fil, (void *)(0x40544E68u + 0xD744u), SYS16(0x758) * SYS32(0x3DA544), 0);
+    f_write(fil, (void *)(0x40544E68u + 0xD744u), SI(f_758) * SI(f_3da544), 0);
     f_close(fil);
 }

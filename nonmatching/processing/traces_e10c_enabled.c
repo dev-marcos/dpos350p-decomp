@@ -8,21 +8,22 @@
 #include "hw/fpga.h"
 #include "processing.h"
 #include "ui/draw.h"
+#include "sys_info.h"
 
 void traces_e10c_enabled(void)
 {
-    if (SYS8(0x652)) {
+    if (SI(f_652)) {
         layer_clear(0);
         return;
     }
-    if (SYS8(0x3E)) {
+    if (SI(ch1_enabled)) {
         layer_clear(0);
-        if (SYS8(0x2AA))
+        if (SI(zoom_on))
             layer_clear(2);
     }
-    if (SYS8(0x102)) {
+    if (SI(ch2_enabled)) {
         layer_clear(1);
-        if (SYS8(0x2AA))
+        if (SI(zoom_on))
             layer_clear(3);
     }
 }

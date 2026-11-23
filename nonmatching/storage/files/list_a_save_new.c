@@ -11,22 +11,22 @@
 #include "ui/draw.h"
 #include "ui/screens.h"
 #include "util.h"
+#include "sys_info.h"
 
-#define SS16(o) (*(volatile short *)(0x40544E68u + (o)))
 #define PATHBUF ((const char *)0x4054D728u)   /* SYS+0x88C0: path built by the list's path helper */
 
 void list_a_save_new(void)
 {
     const signed char *t = (const signed char *)(0x42C2FE74u + 0xCB14u);
-    int x = SYS16(4) + (SYS16(8) >> 1);
-    int y = SYS16(6) + (SYS16(0xA) >> 1);
+    int x = SI(plot_x0) + (SI(plot_width) >> 1);
+    int y = SI(plot_y0) + (SI(plot_height) >> 1);
     screenshot_thumb_make();
     message_box_draw(x + t[0], y + t[1], *(const u32 *)(t + 0xC), 0);
     list_a_index_load();
     list_a_next_free();
-    screenshot_path_make(SYS16(0xF9C));
+    screenshot_path_make(SI(f_f9c));
     if (bmp_save(PATHBUF)) {
-        list_fa4_insert_754(SYS16(0xF9C));
+        list_fa4_insert_754(SI(f_f9c));
         list_a_index_save();
     }
     rect_42e68c38_draw();

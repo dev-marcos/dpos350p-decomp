@@ -8,15 +8,15 @@
 #include "hw/fpga.h"
 #include "fatfs_app.h"
 #include "storage/files.h"
+#include "sys_info.h"
 
-#define SS16(o) (*(volatile short *)(0x40544E68u + (o)))
 #define PATHBUF ((const char *)0x4054D728u)   /* SYS+0x88C0: path built by the list's path helper */
 
 void list_b_prune_missing(void)
 {
     unsigned char fil[0x250];
     int i;
-    for (i = SS16(0xFA0) - 1; i >= 0; i--) {
+    for (i = SI(list_count) - 1; i >= 0; i--) {
         u32 v = SYS16(0xFA6 + 2 * i);
         waveform_path_make(v);
         if (f_open(fil, PATHBUF, 1) == 0)

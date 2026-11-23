@@ -7,8 +7,9 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 void trace_c5cc_full(u32 tr)
 {
-    trace_segments_gather(tr, 0, SYS16(8));
+    trace_segments_gather(tr, 0, SI(plot_width));
 }

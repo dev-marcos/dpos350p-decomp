@@ -9,12 +9,11 @@
 #include "acquisition.h"
 #include "processing.h"
 #include "util.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
-#define S64(a) (*(volatile long long *)(a))
 
 #define HITS(tr) (0x400954A4u + (tr) * 0x12BE70u)
 #define SMP(tr) (0x413F92E8u + (tr) * 0x927C0u)
@@ -35,7 +34,7 @@ static u32 shl(u32 v, int n)
    three cells by the fraction of L) and marks the covered rows; returns the sum of (max - min). */
 static int cols_stamp(u32 tr, int x0, int lim, u32 h, int ymax, u32 nseg, u32 k, u32 lh)
 {
-    u32 l = W32(SYS + 0x1C0), sh = W32(SYS + 0x1BC), base = HITS(tr), coloff, colbuf, pt, s, v, frac, cell;
+    u32 l = SI(acq_geometry_1c0), sh = SI(f_1bc), base = HITS(tr), coloff, colbuf, pt, s, v, frac, cell;
     int x, mx, mn, hi, lo, row, r, n, tot = 0;
     volatile unsigned short *ip;
     if (x0 >= lim)
@@ -138,32 +137,32 @@ void trace_intensity_accumulate_window(u32 tr)
 {
     u32 c0, h, lh, m, nseg, np, on, k, coloff, colbuf, base, add, hh;
     int lim, ymax, x, s;
-    if (W32(SYS + 0x6FC) < W32(SYS + 0x708))
+    if (SI(runtime_fine_progress) < SI(runtime_progress_threshold))
         return;
-    c0 = W32(SYS + 0x700);
-    lim = (int)(c0 + H16(SYS + 0x6F8));
-    h = H16(SYS + 0xA);
-    lh = W32(SYS + 0x1C0) * h;
+    c0 = SI(runtime_coarse_progress);
+    lim = (int)(c0 + SI(runtime_coarse_step));
+    h = SI(plot_height);
+    lh = SI(acq_geometry_1c0) * h;
     m = mode_not_0_or_1(tr);
-    nseg = H16(SYS + 0x5F4);
-    fill_u16((unsigned short *)(COLB + 2 * W32(SYS + 0x700)), 0, H16(SYS + 0x6F8));
-    h = H16(SYS + 0xA);
-    if (B8(SYS + 0x2AA) && m == 0)
+    nseg = SI(f_5f4);
+    fill_u16((unsigned short *)(COLB + 2 * SI(runtime_coarse_progress)), 0, SI(runtime_coarse_step));
+    h = SI(plot_height);
+    if (SI(zoom_on) && m == 0)
         ymax = (int)(h >> 1) - 3;
     else
         ymax = (int)h - 3;
     if (m) {
-        on = H16(SYS + 0x1A);
-        np = W32(SYS + 0x610);
+        on = SI(f_01a);
+        np = SI(f_610);
     } else {
-        on = H16(SYS + 0x14);
-        np = W32(SYS + 0x5F8);
+        on = SI(f_014);
+        np = SI(f_5f8);
     }
     if (on == 0)
         return;
     k = 1 + 2 * np;
     cols_stamp(tr, (int)c0, lim, h, ymax, nseg, k, lh);
-    W32(SYS + 0x7B0) = 0;
+    SI(f_7b0) = 0;
     add = 5 * nseg + 20;
     if ((int)c0 < lim) {
         hh = h;
@@ -178,5 +177,5 @@ void trace_intensity_accumulate_window(u32 tr)
             coloff += hh;
         }
     }
-    W32(SYS + 0x7B0) = 45 * W32(SYS + 0x5F8) / 50;
+    SI(f_7b0) = 45 * SI(f_5f8) / 50;
 }

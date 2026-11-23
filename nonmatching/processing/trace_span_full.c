@@ -8,8 +8,9 @@
 #include "hw/fpga.h"
 #include "processing.h"
 #include "ui/draw.h"
+#include "sys_info.h"
 
 void trace_span_full(u32 tr)
 {
-    trace_scale_segment(tr, 0, SYS32(0x2C0));
+    trace_scale_segment(tr, 0, SI(f_2c0));
 }

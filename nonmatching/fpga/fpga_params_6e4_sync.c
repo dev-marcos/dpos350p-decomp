@@ -9,14 +9,10 @@
 #include "drivers/fpga_bus.h"
 #include "drivers/timer.h"
 #include "fpga.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
-#define GEN 0x42E3F984u
-#define TOUCH 0x42E68BB0u
 #define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
-#define D64(a) (*(volatile unsigned long long *)(a))
 
 typedef u32 u32_unaligned __attribute__((aligned(1)));
 #define WU(a) (*(volatile u32_unaligned *)(a))
@@ -36,21 +32,21 @@ void fpga_params_6e4_sync(void)
             fpga_data_byte_write(B8(SYS + 0xBB0 + i));
         }
     }
-    v = B8(SYS + 0x6E7);
-    if (B8(SYS + 0xBB3) != v) {
-        B8(SYS + 0xBB3) = (unsigned char)v;
+    v = SI(f_6e7);
+    if (SI(f_bb3) != v) {
+        SI(f_bb3) = (unsigned char)v;
         fpga_selector_command_write(2);
         sent = 1;
-        fpga_data_byte_write(B8(SYS + 0xBB3));
+        fpga_data_byte_write(SI(f_bb3));
     }
-    v = W32(SYS + 0x6E8);
-    if (W32(SYS + 0xBB4) != v) {
-        W32(SYS + 0xBB4) = v;
+    v = SI(f_6e8);
+    if (SI(f_bb4) != v) {
+        SI(f_bb4) = v;
         fpga_selector_command_write(0xD);
-        fpga_data_byte_write(W32(SYS + 0xBB4) >> 24);
-        fpga_data_byte_write((W32(SYS + 0xBB4) << 8) >> 24);
-        fpga_data_byte_write((W32(SYS + 0xBB4) << 16) >> 24);
-        fpga_data_byte_write(W32(SYS + 0xBB4) & 0xFF);
+        fpga_data_byte_write(SI(f_bb4) >> 24);
+        fpga_data_byte_write((SI(f_bb4) << 8) >> 24);
+        fpga_data_byte_write((SI(f_bb4) << 16) >> 24);
+        fpga_data_byte_write(SI(f_bb4) & 0xFF);
     } else if (!sent)
         return;
     fpga_selector_command_write(7);

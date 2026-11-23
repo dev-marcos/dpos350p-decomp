@@ -7,13 +7,14 @@
 
 #include "hw/fpga.h"
 #include "ui/input.h"
+#include "sys_info.h"
 
 #define TBU(o) touch_button_update((volatile unsigned char *)(0x42E61FF8u + (o)))
 
 void touch_buttons_91c_update(void)
 {
     unsigned char i;
-    for (i = 0; i < SYS16(0xF9A); i++)
+    for (i = 0; i < SI(list_page_size); i++)
         TBU(0x91C + i * 10);
     TBU(0x9B2);
     TBU(0x9BC);

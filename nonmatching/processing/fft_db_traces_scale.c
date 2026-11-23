@@ -8,6 +8,7 @@
 #include "hw/fpga.h"
 #include "libm.h"
 #include "processing.h"
+#include "sys_info.h"
 
 static void scale(volatile float *s, volatile unsigned short *d, u32 n, int h)
 {
@@ -23,9 +24,9 @@ static void scale(volatile float *s, volatile unsigned short *d, u32 n, int h)
 
 void fft_db_traces_scale(void)
 {
-    int h = SYS16(0xA) >> 1;
-    if (SYS8(0x3E) && SYS8(0x42) && SYS32(0x7F8))
-        scale((volatile float *)0x42E4BEB4u, (volatile unsigned short *)0x42E5B010u, SYS32(0x7F8), h);
-    if (SYS8(0x102) && SYS8(0x106) && SYS32(0x7F8))
-        scale((volatile float *)0x42E4FEB4u, (volatile unsigned short *)0x42E5C010u, SYS32(0x7F8), h);
+    int h = SI(plot_height) >> 1;
+    if (SI(ch1_enabled) && SI(ch1_fft_enabled) && SI(fft_size))
+        scale((volatile float *)0x42E4BEB4u, (volatile unsigned short *)0x42E5B010u, SI(fft_size), h);
+    if (SI(ch2_enabled) && SI(ch2_fft_enabled) && SI(fft_size))
+        scale((volatile float *)0x42E4FEB4u, (volatile unsigned short *)0x42E5C010u, SI(fft_size), h);
 }

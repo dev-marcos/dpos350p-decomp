@@ -7,12 +7,13 @@
 
 #include "hw/fpga.h"
 #include "storage/files.h"
+#include "sys_info.h"
 
 void list_a_reload(void)
 {
     list_a_index_load();
     list_a_marks_clear();
-    SYS8(0xF90) = 0;
+    SI(list_mark_mode) = 0;
     SYS16(0xFA4) = 0;
     SYS16(0xF9E) = 0;
     list_cursor_clamp_40035248();

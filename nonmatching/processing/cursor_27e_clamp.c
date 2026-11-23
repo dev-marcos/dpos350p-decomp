@@ -7,11 +7,12 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 void cursor_27e_clamp(void)
 {
-    int m = SYS16(0x1AE), h = SYS16(0xA), v = (short)SYS16(0x27E);
-    if (SYS8(0x2AA) == 0) {
+    int m = SI(f_1ae), h = SI(plot_height), v = (short)SI(trigger_level);
+    if (SI(zoom_on) == 0) {
         if (h - m < v)
             v = h - m;
         else if (v < m)
@@ -22,5 +23,5 @@ void cursor_27e_clamp(void)
         else if (v < 2 * m)
             v = 2 * m;
     }
-    SYS16(0x27E) = v;
+    SI(trigger_level) = v;
 }

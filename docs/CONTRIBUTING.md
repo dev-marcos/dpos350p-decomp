@@ -117,6 +117,32 @@ The headers were introduced on the `readability` branch without changing a singl
 every file's object code (code, data and relocations, with the nmbuild `-O2` flags and the
 testiso `-O2` and `-Os` flags) was compared with the one built before the change.
 
+### State blocks
+
+`include/sys_info.h` describes SYS_INFO, the main state block at 0x40544E68, as
+`struct sys_info`. It lists the 423 fields the C reaches with a constant offset; the gaps are
+padding, and a `_Static_assert` pins each field to its offset. A named field has a comment with
+its offset, its evidence level and its source (the Hack map
+`third_party/FNIRSI-DPOS350P-Hack/docs/SYS_INFO.md` or the project's own analysis). A field
+without evidence keeps the offset as its name (`f_598`). To rename one, change the name in the
+header and in the files that use it, and say what the evidence is.
+
+Read and write a field with `SI(field)`:
+
+```c
+SI(ch1_enabled) = 1;
+if (SI(trigger_mode) == 2) ...
+```
+
+`SI` is a volatile access at `0x40544E68 + offsetof(struct sys_info, field)`. GCC emits the same
+instructions as the raw `SYS8/16/32/64(off)` and `B8(SYS + off)` accessors. Member syntax on a
+volatile struct pointer is not used, because GCC then picks a different base and offset split
+and the code changes. Some accesses stay raw:
+
+- computed offsets (`SYS32(0x808 + 4 * i)`) and addresses taken (`SYS + 0x872`);
+- accesses whose type differs from the field's type, for example an s64 read of a field that is
+  u64 in most places, or a 32-bit read of half of a 64-bit field.
+
 ## TEST image for the emulator
 
 `make testiso` builds `build/test/DPOS350P_TEST.iso`: the stock image with every EQUIVALENT C

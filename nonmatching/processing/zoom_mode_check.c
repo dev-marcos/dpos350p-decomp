@@ -7,25 +7,26 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 u32 zoom_mode_check(void)
 {
     u32 ret = 0, lim, cur;
-    if (SYS8(0x28) && SYS8(0x3C) == 0) {
-        SYS8(0x2AA) = 0;
+    if (SI(acq_path_mode) && SI(acq_transition_flag) == 0) {
+        SI(zoom_on) = 0;
         ret = 1;
     }
-    cur = SYS8(0x598);
-    if (SYS8(0x652)) {
-        SYS8(0x2AA) = 0;
+    cur = SI(f_598);
+    if (SI(f_652)) {
+        SI(zoom_on) = 0;
         ret = 1;
     }
-    lim = SYS8(0x5B0);
-    if (lim == SYS8(0x2A8)) {
-        SYS8(0x2AA) = 0;
+    lim = SI(f_5b0);
+    if (lim == SI(timebase_index_min)) {
+        SI(zoom_on) = 0;
         ret = 1;
     }
     if ((int)(lim - 1) < (int)cur)
-        SYS8(0x598) = lim - 1;
+        SI(f_598) = lim - 1;
     return ret;
 }

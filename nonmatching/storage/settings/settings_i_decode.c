@@ -7,10 +7,11 @@
 
 #include "hw/fpga.h"
 #include "storage/settings.h"
+#include "sys_info.h"
 
 void settings_i_decode(void)
 {
     serializer_set_decode_mode();
-    serializer_set_cursor(SYS32(0x760));
+    serializer_set_cursor(SI(rec_i_start));
     settings_i_fields();
 }

@@ -7,12 +7,10 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
-#define F32(a) (*(volatile float *)(a))
 
 #define WS 0x41A13AE8u
 
@@ -20,13 +18,13 @@ void workspace_copy_and_resampling(u32 ch, u32 src, u32 half, u32 len, u32 n)
 {
     int lo, hi, e, i;
     u32 mode, tail = 0;
-    if (W32(SYS + 0x554) >= n)
+    if (SI(f_554) >= n)
         return;
     lo = (int)(half - (len >> 1));
-    mode = ch == 0 ? B8(SYS + 0x51C) : B8(SYS + 0x51D);
+    mode = ch == 0 ? SI(f_51c) : SI(f_51d);
     hi = lo + (int)len;
     if (ch == 1)
-        switch (B8(SYS + 0x588)) {
+        switch (SI(timebase_index)) {
         case 12: tail = 15; break;
         case 13: tail = 7; break;
         case 14: tail = 4; break;

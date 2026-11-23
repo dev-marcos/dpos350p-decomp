@@ -11,6 +11,7 @@
 #include "ui/input.h"
 #include "ui/windows.h"
 #include "usb/core.h"
+#include "sys_info.h"
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
 void inv_left(u32 id) __asm__("ui_window_invalidate_from");
@@ -39,7 +40,7 @@ void system_settings_buttons(void)
             if (TB(0x1A6 + 10 * i) == 2) {
                 TB(0x1A6 + 10 * i) = 0;
                 TB(0) = 0;
-                SYS32(0x658) = 15 * i;
+                SI(auto_off_minutes) = 15 * i;
                 auto_off_arm();
                 settings_b_save();
                 return;

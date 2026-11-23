@@ -9,6 +9,7 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 #include "ui/screens.h"
+#include "sys_info.h"
 
 #define LAY 0x42E64520u              /* UI layout table */
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
@@ -68,9 +69,9 @@ void system_menu_draw(void)
     for (k = 0; k < 5; k++) {
         xo = x + 0x14 + 0x45 * k;
         rec = 0x1A6 + 0xA * k;
-        draw_colour_set(W32(SYS + 0x658) == (u32)(15 * k) ? W32(TH + 0x10) : W32(TH + 0xC));
+        draw_colour_set(SI(auto_off_minutes) == (u32)(15 * k) ? W32(TH + 0x10) : W32(TH + 0xC));
         rect_fill(xo & 0xFFFF, r & 0xFFFF, 0x41, 0x1E);
-        draw_colour_set(W32(SYS + 0x658) != (u32)(15 * k) ? W32(TH + 0x14) : 0);
+        draw_colour_set(SI(auto_off_minutes) != (u32)(15 * k) ? W32(TH + 0x14) : 0);
         s = k == 0 ? "OFF" : (const char *)(0x400902F8u + 8 * (k - 1));
         tw = text_width(s);
         text_draw((xo + ((0x41 - tw) >> 1)) & 0xFFFF, (r + 8) & 0xFFFF, s);

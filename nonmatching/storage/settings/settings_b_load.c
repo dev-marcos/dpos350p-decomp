@@ -8,17 +8,18 @@
 #include "hw/fpga.h"
 #include "storage/settings.h"
 #include "system.h"
+#include "sys_info.h"
 
 #define SER_IMAGE ((volatile void *)0x408A526Cu)   /* SYS_INFO+0x360404 */
 
 void settings_b_load(void)
 {
-    u32 old = SYS32(0);
-    persistence_read(0, SYS32(0x7E4), SER_IMAGE, 0x1000);
+    u32 old = SI(f_000);
+    persistence_read(0, SI(rec_b_flash_addr), SER_IMAGE, 0x1000);
     serializer_set_decode_mode();
     settings_b_fields();
-    if (SYS32(0) != old) {
-        SYS8(0x7AC) = 2;
+    if (SI(f_000) != old) {
+        SI(menu_language) = 2;
         factory_reset_keep_language();
     }
 }

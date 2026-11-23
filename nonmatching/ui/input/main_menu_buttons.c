@@ -10,6 +10,7 @@
 #include "storage/files.h"
 #include "ui/input.h"
 #include "ui/windows.h"
+#include "sys_info.h"
 
 #define TB(o) (*(volatile unsigned char *)(0x42E61FF8u + (o)))
 
@@ -28,11 +29,11 @@ void main_menu_buttons(void)
     if (TB(0x2A) == 2) {
         TB(0x2A) = 0;
         TB(0) = 0;
-        SYS8(0x802) = SYS8(0x802) == 0;
+        SI(cursor_x_on) = SI(cursor_x_on) == 0;
     } else if (TB(0x34) == 2) {
         TB(0x34) = 0;
         TB(0) = 0;
-        SYS8(0x803) = SYS8(0x803) == 0;
+        SI(cursor_y_on) = SI(cursor_y_on) == 0;
     } else if (TB(0x48) == 2) {
         TB(0x48) = 0;
         TB(0) = 0;
@@ -43,9 +44,9 @@ void main_menu_buttons(void)
     } else if (TB(0x52) == 2) {
         TB(0x52) = 0;
         TB(0) = 0;
-        if (SYS8(0x588) > 12) {
+        if (SI(timebase_index) > 12) {
             zoom_reset();
-            SYS8(0x2AA) = SYS8(0x2AA) == 0;
+            SI(zoom_on) = SI(zoom_on) == 0;
         }
     }
 }

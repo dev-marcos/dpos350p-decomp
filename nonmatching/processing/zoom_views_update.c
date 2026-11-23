@@ -8,12 +8,13 @@
 #include "hw/fpga.h"
 #include "processing.h"
 #include "ui/draw.h"
+#include "sys_info.h"
 
 void zoom_views_update(void)
 {
     if (*(volatile unsigned char *)0x42E68BC7u)
         return;
-    if (SYS8(0x2AA) || SYS8(0x28) || SYS8(0x652))
+    if (SI(zoom_on) || SI(acq_path_mode) || SI(f_652))
         return;
     fft_hann_spectrum();
     fft_db_traces_scale();

@@ -8,9 +8,10 @@
 #include "hw/fpga.h"
 #include "acquisition.h"
 #include "drivers/fpga_bus.h"
+#include "sys_info.h"
 
 void runtime_ready_read(void)
 {
     fpga_selector_command_write(0x0B);
-    SYS8(0x6EE) = fpga_data_byte_read() & 1;
+    SI(runtime_ready) = fpga_data_byte_read() & 1;
 }

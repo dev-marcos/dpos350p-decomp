@@ -7,14 +7,15 @@
 
 #include "hw/fpga.h"
 #include "acquisition.h"
+#include "sys_info.h"
 
 void acq_wait_done(void)
 {
     int n = 0;
-    SYS8(0x38) = 0;
+    SI(acq_done) = 0;
     for (;;) {
         acq_done_read();
-        if (SYS8(0x38) != 0)
+        if (SI(acq_done) != 0)
             return;
         if (++n < 2500)
             continue;

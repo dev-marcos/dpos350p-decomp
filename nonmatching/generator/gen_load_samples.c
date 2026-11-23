@@ -8,9 +8,10 @@
 #include "hw/fpga.h"
 #include "generator.h"
 #include "util.h"
+#include "sys_info.h"
 
 void gen_load_samples(void)
 {
-    G16(0x2EF8) = SYS32(0x3DA53C);
+    G16(0x2EF8) = SI(f_3da53c);
     copy_u16((unsigned short *)(GEN_G + 0x1F56), (const unsigned short *)(0x40544E68u + 0x3DA548), G16(0x2EF8));
 }

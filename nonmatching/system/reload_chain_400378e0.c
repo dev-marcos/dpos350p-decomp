@@ -8,6 +8,7 @@
 #include "hw/fpga.h"
 #include "storage/files.h"
 #include "system.h"
+#include "sys_info.h"
 
 void reload_chain_400378e0(void)
 {
@@ -15,7 +16,7 @@ void reload_chain_400378e0(void)
     list_c_data_load();
     list_c_marks_clear();
     list_cursor_clamp_4003771c();
-    SYS8(0xF90) = 0;
+    SI(list_mark_mode) = 0;
     SYS16(0xFA4) = 0;
     SYS16(0xF9E) = 0;
 }

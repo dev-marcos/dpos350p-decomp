@@ -9,6 +9,7 @@
 #include "acquisition.h"
 #include "selftest.h"
 #include "system.h"
+#include "sys_info.h"
 
 static void apply2(void)
 {
@@ -21,48 +22,48 @@ void gen_selftest_4f89c(void)
 {
     u32 e, h, v, p1, p2, p3, p4;
     acq_defaults_reset();
-    e = SYS16(0xE);
-    SYS8(0x588) = 0x18;
-    SYS8(0x41) = 6;
-    SYS8(0x105) = 6;
-    h = SYS16(0x20);
-    SYS8(0x3E) = 1;
-    SYS8(0x102) = 1;
-    SYS32(0x120) = e - 2 * h;
-    SYS32(0x60) = e + 2 * h;
-    SYS8(0x660) = 5;
+    e = SI(level_default);
+    SI(timebase_index) = 0x18;
+    SI(ch1_vdiv_index) = 6;
+    SI(ch2_vdiv_index) = 6;
+    h = SI(f_020);
+    SI(ch1_enabled) = 1;
+    SI(ch2_enabled) = 1;
+    SI(ch2_offset) = e - 2 * h;
+    SI(ch1_offset) = e + 2 * h;
+    SI(f_660) = 5;
     *(volatile unsigned char *)(0x42E68BB0u + 0x16) = 0;
     apply2();
 
-    e = SYS16(0xE);
-    p1 = (double)e * 1.3 < (double)SYS32(0xB34) && (double)SYS32(0xB50) < (double)e * 0.7;
-    h = SYS16(0x20);
-    SYS8(0x3E) = 1;
-    SYS8(0x102) = 1;
-    SYS32(0x60) = e - 2 * h;
-    SYS32(0x120) = e + 2 * h;
+    e = SI(level_default);
+    p1 = (double)e * 1.3 < (double)SI(f_b34) && (double)SI(f_b50) < (double)e * 0.7;
+    h = SI(f_020);
+    SI(ch1_enabled) = 1;
+    SI(ch2_enabled) = 1;
+    SI(ch1_offset) = e - 2 * h;
+    SI(ch2_offset) = e + 2 * h;
     apply2();
 
-    e = SYS16(0xE);
-    p2 = (double)e * 1.3 < (double)SYS32(0xB50) && (double)SYS32(0xB34) < (double)e * 0.7;
-    h = SYS16(0x20);
-    SYS8(0x3E) = 1;
-    SYS8(0x102) = 0;
-    SYS32(0x60) = e + 2 * h;
-    SYS32(0x120) = e - 2 * h;
+    e = SI(level_default);
+    p2 = (double)e * 1.3 < (double)SI(f_b50) && (double)SI(f_b34) < (double)e * 0.7;
+    h = SI(f_020);
+    SI(ch1_enabled) = 1;
+    SI(ch2_enabled) = 0;
+    SI(ch1_offset) = e + 2 * h;
+    SI(ch2_offset) = e - 2 * h;
     apply2();
 
-    e = SYS16(0xE);
-    v = SYS32(0xB34);
-    h = SYS16(0x20);
-    SYS8(0x3E) = 0;
-    SYS8(0x102) = 1;
-    SYS32(0x60) = e + 2 * h;
-    SYS32(0x120) = e - 2 * h;
+    e = SI(level_default);
+    v = SI(f_b34);
+    h = SI(f_020);
+    SI(ch1_enabled) = 0;
+    SI(ch2_enabled) = 1;
+    SI(ch1_offset) = e + 2 * h;
+    SI(ch2_offset) = e - 2 * h;
     p3 = (double)e * 1.3 < (double)v;
     apply2();
 
-    e = SYS16(0xE);
-    p4 = (double)SYS32(0xB50) < (double)e * 0.7;
+    e = SI(level_default);
+    p4 = (double)SI(f_b50) < (double)e * 0.7;
     *(volatile unsigned char *)(0x42E68AE0u + 0x13) = p4 & (p3 & (p2 & p1));
 }

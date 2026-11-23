@@ -8,12 +8,13 @@
 #include "hw/fpga.h"
 #include "drivers/fpga_bus.h"
 #include "fpga.h"
+#include "sys_info.h"
 
 void fpga_cmd1c_write(void)
 {
-    u32 v = SYS32(0x28C);
+    u32 v = SI(f_28c);
     fpga_selector_command_write(0x1C);
-    if (SYS8(0x275) && SYS8(0x274)) {
+    if (SI(f_275) && SI(f_274)) {
         fpga_data_byte_write((v >> 8) & 0xFF);
         fpga_data_byte_write(v & 0xFF);
     } else {

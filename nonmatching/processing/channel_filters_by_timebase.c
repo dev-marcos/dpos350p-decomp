@@ -7,19 +7,20 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "sys_info.h"
 
 void channel_filters_by_timebase(void)
 {
-    u32 tb = SYS8(0x588);
+    u32 tb = SI(timebase_index);
     if (tb < 16) {
-        if (SYS8(0x3E))
+        if (SI(ch1_enabled))
             frame_deviation_blend(0, 0x28, 0.8f);
-        if (SYS8(0x102))
+        if (SI(ch2_enabled))
             frame_deviation_blend(1, 0x28, 0.8f);
     } else if (tb < 21) {
-        if (SYS8(0x3E))
+        if (SI(ch1_enabled))
             frame_deviation_blend(0, 8, 0.7f);
-        if (SYS8(0x102))
+        if (SI(ch2_enabled))
             frame_deviation_blend(1, 8, 0.7f);
     }
 }

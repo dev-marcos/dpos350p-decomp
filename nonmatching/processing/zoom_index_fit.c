@@ -8,6 +8,7 @@
 #include "hw/fpga.h"
 #include "processing.h"
 #include "ui/windows.h"
+#include "sys_info.h"
 
 #define Z64(o) (*(volatile unsigned long long *)(0x40544E68u + 0x590u + (o)))
 #define Z8(o) (*(volatile unsigned char *)(0x40544E68u + 0x590u + (o)))
@@ -16,22 +17,22 @@ void zoom_index_fit(void)
 {
     unsigned long long q;
     u32 k, lo, hi;
-    if (Z8(8) >= SYS8(0x588))
-        Z8(8) = SYS8(0x588) - 1;
+    if (Z8(8) >= SI(timebase_index))
+        Z8(8) = SI(timebase_index) - 1;
     for (;;) {
         zoom_entry_select();
         q = Z64(0) / Z64(0x10);
         q = q / *(volatile u32 *)(0x40544E68u + 0x590u + 0x44);
         k = Z8(8);
-        if ((u32)(q >> 32) == 0 && (u32)q < SYS16(0x2AC))
+        if ((u32)(q >> 32) == 0 && (u32)q < SI(f_2ac))
             break;
         Z8(8) = k + 1;
         ui_window_invalidate_from(3, (u32)(q >> 32));
     }
-    lo = SYS8(0x2A8);
+    lo = SI(timebase_index_min);
     if (k < lo)
         k = lo;
-    hi = SYS8(0x2A7);
+    hi = SI(timebase_index_max);
     if (hi > k)
         hi = k;
     Z8(8) = hi;

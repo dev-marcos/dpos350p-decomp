@@ -9,6 +9,7 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 #include "ui/screens.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define LAY 0x42E64520u              /* UI layout table */
@@ -24,7 +25,7 @@
 /* fill and text colour of option i */
 static void option_colours(int i, u32 *txt)
 {
-    if (B8(SYS + 0x660) == i) {
+    if (SI(f_660) == i) {
         draw_colour_set(W32(TH + 0x10));
         *txt = 0;
     } else {

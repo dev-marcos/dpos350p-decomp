@@ -8,14 +8,15 @@
 #include "hw/fpga.h"
 #include "processing.h"
 #include "util.h"
+#include "sys_info.h"
 
 void channel_to_display_copy(u32 ch, u32 k)
 {
     if (ch == 0) {
-        if (SYS8(0x3E) == 0)
+        if (SI(ch1_enabled) == 0)
             return;
     } else if (ch == 1) {
-        if (SYS8(0x102) == 0)
+        if (SI(ch2_enabled) == 0)
             return;
     }
 

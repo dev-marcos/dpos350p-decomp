@@ -7,8 +7,9 @@
 
 #include "hw/fpga.h"
 #include "acquisition.h"
+#include "sys_info.h"
 
 void timebase_period_load(void)
 {
-    SYS64(0x590) = SYS64(0xBD0 + 8u * SYS8(0x588));
+    SI(f_590) = SYS64(0xBD0 + 8u * SI(timebase_index));
 }

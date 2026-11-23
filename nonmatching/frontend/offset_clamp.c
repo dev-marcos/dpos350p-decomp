@@ -7,17 +7,18 @@
 
 #include "hw/fpga.h"
 #include "frontend.h"
+#include "sys_info.h"
 
 void offset_clamp(void)
 {
-    int m = SYS16(0x1AE);
-    int a = SYS32(0x60), b = SYS32(0x120), hgt = SYS16(0x0A);
-    if (SYS8(0x2AA) == 0) {
+    int m = SI(f_1ae);
+    int a = SI(ch1_offset), b = SI(ch2_offset), hgt = SI(plot_height);
+    if (SI(zoom_on) == 0) {
         int hi = hgt - m;
         if (hi < a) a = hi;
-        else if ((int)SYS16(0x1AE) >= a) a = SYS16(0x1AE);
+        else if ((int)SI(f_1ae) >= a) a = SI(f_1ae);
         if (hi < b) b = hi;
-        else if (!((int)SYS16(0x1AE) < b)) b = SYS16(0x1AE);
+        else if (!((int)SI(f_1ae) < b)) b = SI(f_1ae);
     } else {
         int lo = m * 2, hi = hgt - lo;
         if (hi < a) a = hi;
@@ -25,6 +26,6 @@ void offset_clamp(void)
         if (hi < b) b = hi;
         else if (b < lo) b = lo;
     }
-    SYS32(0x60) = a;
-    SYS32(0x120) = b;
+    SI(ch1_offset) = a;
+    SI(ch2_offset) = b;
 }

@@ -7,9 +7,9 @@
 
 #include "hw/fpga.h"
 #include "acquisition.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
-#define GEN 0x42E3F984u
 #define TOUCH 0x42E68BB0u
 #define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
@@ -18,84 +18,84 @@
 
 void acq_defaults_reset(void)
 {
-    u32 lvl = H16(SYS + 0xE), w8, wa, t;
-    W32(SYS + 0x5F0) = 0;
-    B8(SYS + 0x588) = 0x17;
-    B8(SYS + 0x598) = 0x16;
+    u32 lvl = SI(level_default), w8, wa, t;
+    SI(sample_clock_hz) = 0;
+    SI(timebase_index) = 0x17;
+    SI(f_598) = 0x16;
     W32(SYS + 0x570) = 0;
     W32(SYS + 0x574) = 0;
     D64(SYS + 0x578) = 0;
-    B8(SYS + 0x3C) = 0;
-    B8(SYS + 0x2AA) = 0;
-    B8(SYS + 0x3E) = 1;
-    H16(SYS + 0x27E) = (unsigned short)lvl;
-    B8(SYS + 0x42) = 0;
-    B8(SYS + 0x46) = 0;
-    B8(SYS + 0x3F) = 0;
-    B8(SYS + 0x41) = 6;
-    W32(SYS + 0x60) = lvl;
-    B8(SYS + 0x102) = 0;
-    B8(SYS + 0x106) = 0;
-    B8(SYS + 0x10A) = 0;
-    B8(SYS + 0x103) = 0;
-    B8(SYS + 0x105) = 6;
-    W32(SYS + 0x120) = lvl;
-    B8(SYS + 0x274) = 1;
-    B8(SYS + 0x275) = 1;
-    B8(SYS + 0x27A) = 0;
-    B8(SYS + 0x27C) = 0;
-    B8(SYS + 0x27B) = 0;
-    B8(SYS + 0x284) = 0;
-    W32(SYS + 0x64C) = 0;
-    B8(SYS + 0x70E) = 0;
-    B8(SYS + 0x54F) = 0;
-    B8(SYS + 0x54E) = 0;
-    B8(SYS + 0x654) = 0x32;
-    B8(SYS + 0x672) = 0x14;
-    B8(SYS + 0x656) = 0x1E;
-    w8 = H16(SYS + 8);
-    B8(SYS + 0x673) = 2;
-    B8(SYS + 0x3DA52C) = 0;
-    H16(SYS + 0x3DA530) = 0;
-    W32(SYS + 0x3DA534) = (w8 * 0xAAABu) >> 17;
-    W32(SYS + 0x3DA538) = (u32)(((long long)(int)(w8 * 2) * 0x55555556LL) >> 32);
-    B8(SYS + 0x2A) = 0;
-    B8(SYS + 0x28) = 0;
-    B8(SYS + 0x101) = 1;
+    SI(acq_transition_flag) = 0;
+    SI(zoom_on) = 0;
+    SI(ch1_enabled) = 1;
+    SI(trigger_level) = (unsigned short)lvl;
+    SI(ch1_fft_enabled) = 0;
+    SI(f_046) = 0;
+    SI(ch1_coupling) = 0;
+    SI(ch1_vdiv_index) = 6;
+    SI(ch1_offset) = lvl;
+    SI(ch2_enabled) = 0;
+    SI(ch2_fft_enabled) = 0;
+    SI(f_10a) = 0;
+    SI(ch2_coupling) = 0;
+    SI(ch2_vdiv_index) = 6;
+    SI(ch2_offset) = lvl;
+    SI(f_274) = 1;
+    SI(f_275) = 1;
+    SI(trigger_mode) = 0;
+    SI(trigger_channel) = 0;
+    SI(trigger_edge) = 0;
+    SI(f_284) = 0;
+    SI(f_64c) = 0;
+    SI(f_70e) = 0;
+    SI(f_54f) = 0;
+    SI(f_54e) = 0;
+    SI(f_654) = 0x32;
+    SI(f_672) = 0x14;
+    SI(f_656) = 0x1E;
+    w8 = SI(plot_width);
+    SI(f_673) = 2;
+    SI(f_3da52c) = 0;
+    SI(f_3da530) = 0;
+    SI(f_3da534) = (w8 * 0xAAABu) >> 17;
+    SI(f_3da538) = (u32)(((long long)(int)(w8 * 2) * 0x55555556LL) >> 32);
+    SI(f_02a) = 0;
+    SI(acq_path_mode) = 0;
+    SI(ch1_runtime_state) = 1;
     H16(SYS + 0x3A) = 0;
-    W32(SYS + 0x808) = (w8 * 0xCCCDu) >> 18;
-    wa = H16(SYS + 0xA);
-    W32(SYS + 0x710) = 0;
-    B8(SYS + 0x653) = 0;
-    B8(SYS + 0x655) = 1;
-    B8(SYS + 0x660) = 0;
-    W32(SYS + 0x810) = wa >> 2;
-    B8(SYS + 0x650) = 1;
-    B8(SYS + 0x651) = 1;
+    SI(cursor_x1) = (w8 * 0xCCCDu) >> 18;
+    wa = SI(plot_height);
+    SI(f_710) = 0;
+    SI(f_653) = 0;
+    SI(f_655) = 1;
+    SI(f_660) = 0;
+    SI(cursor_y1) = wa >> 2;
+    SI(f_650) = 1;
+    SI(f_651) = 1;
     t = 3 * wa;
-    H16(SYS + 0x86A) = 0;
-    H16(SYS + 0x86C) = 0;
-    H16(SYS + 0x86E) = 1;
-    H16(SYS + 0x870) = 1;
-    W32(SYS + 0x874) = 0;
-    B8(SYS + 0x580) = 1;
-    B8(SYS + 0x70D) = 1;
-    H16(SYS + 0x586) = 0;
+    SI(ch1_avg_count) = 0;
+    SI(ch2_avg_count) = 0;
+    SI(ch1_avg_limit) = 1;
+    SI(ch2_avg_limit) = 1;
+    SI(f_874) = 0;
+    SI(f_580) = 1;
+    SI(f_70d) = 1;
+    SI(f_586) = 0;
     H16(SYS + 0x664) = 0;
-    H16(SYS + 0x666) = 0;
-    B8(SYS + 0x671) = 0;
-    B8(SYS + 0x652) = 0;
-    B8(SYS + 0x77A) = 1;
-    W32(SYS + 0x658) = 0;
-    W32(SYS + 0x780) = 0;
-    W32(SYS + 0x784) = 0;
-    W32(SYS + 0x788) = 0;
-    B8(SYS + 0x802) = 0;
-    B8(SYS + 0x803) = 0;
-    W32(SYS + 0x80C) = (u32)(((long long)(int)(w8 * 4) * 0x66666667LL) >> 32) >> 1;
-    W32(SYS + 0x814) = (t + ((t >> 1) >> 30)) >> 2;
-    B8(SYS + 0x804) = 0;
-    W32(SYS + 0x878) = 0;
+    SI(f_666) = 0;
+    SI(f_671) = 0;
+    SI(f_652) = 0;
+    SI(f_77a) = 1;
+    SI(auto_off_minutes) = 0;
+    SI(f_780) = 0;
+    SI(f_784) = 0;
+    SI(f_788) = 0;
+    SI(cursor_x_on) = 0;
+    SI(cursor_y_on) = 0;
+    SI(cursor_x2) = (u32)(((long long)(int)(w8 * 4) * 0x66666667LL) >> 32) >> 1;
+    SI(cursor_y2) = (t + ((t >> 1) >> 30)) >> 2;
+    SI(f_804) = 0;
+    SI(f_878) = 0;
     B8(TOUCH + 0x16) = 1;
     runtime_state_commit_force();
 }

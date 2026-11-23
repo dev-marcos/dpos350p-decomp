@@ -7,10 +7,11 @@
 
 #include "hw/fpga.h"
 #include "ui/screens.h"
+#include "sys_info.h"
 
 void func_40023ea4_or_40024c60(void)
 {
-    if (SYS8(0x652) == 0)
+    if (SI(f_652) == 0)
         func_40023ea4_unless_t17();
     else
         func_40024c60_unless_t17();

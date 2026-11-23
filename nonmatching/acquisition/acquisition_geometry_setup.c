@@ -7,29 +7,30 @@
 
 #include "hw/fpga.h"
 #include "acquisition.h"
+#include "sys_info.h"
 
 void acquisition_geometry_setup(void)
 {
     u32 d, q, prod, L;
     int b;
-    SYS8(0x38) = 1;
-    d = SYS8(0x1B1);
-    SYS16(0x6F8) = SYS8(0x588) == 0x21 ? 2 : 1;
-    prod = (SYS32(0x558) * SYS16(0x6F8)) & 0xFFFF;
-    SYS16(0x6F6) = prod;
+    SI(acq_done) = 1;
+    d = SI(repeat_factor);
+    SI(runtime_coarse_step) = SI(timebase_index) == 0x21 ? 2 : 1;
+    prod = (SI(f_558) * SI(runtime_coarse_step)) & 0xFFFF;
+    SI(runtime_step) = prod;
     b = (int)d;
     q = b ? (u32)((int)prod / b) : 0;
-    SYS16(0x6F4) = q + 2;
-    SYS32(0x6FC) = 0;
-    SYS32(0x700) = 0;
-    SYS16(0x640) = SYS16(0x6F4);
-    SYS16(0x6F0) = SYS16(0x6F4);
-    L = SYS32(0x2B0);
-    SYS32(0x2C4) = 0;
-    SYS32(0x63C) = 0;
-    SYS32(0x708) = SYS16(0x6F6) + 1;
-    SYS32(0x454) = L;
-    SYS32(0x38C) = L >> 1;
-    SYS32(0x568) = -(u32)SYS16(0xC);
-    SYS32(0x56C) = -(u32)SYS16(0xC);
+    SI(runtime_field_6f4) = q + 2;
+    SI(runtime_fine_progress) = 0;
+    SI(runtime_coarse_progress) = 0;
+    SI(f_640) = SI(runtime_field_6f4);
+    SI(runtime_fpga_position) = SI(runtime_field_6f4);
+    L = SI(f_2b0);
+    SI(f_2c4) = 0;
+    SI(runtime_quotient) = 0;
+    SI(runtime_progress_threshold) = SI(runtime_step) + 1;
+    SI(f_454) = L;
+    SI(f_38c) = L >> 1;
+    SI(f_568) = -(u32)SI(plot_x_mid);
+    SI(f_56c) = -(u32)SI(plot_x_mid);
 }

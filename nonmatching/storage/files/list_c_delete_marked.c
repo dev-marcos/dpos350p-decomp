@@ -9,18 +9,18 @@
 #include "fatfs_app.h"
 #include "storage/files.h"
 #include "util.h"
+#include "sys_info.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
 void record_clear_raw(u32 v) __asm__("record_clear");
 
-#define SS16(o) (*(volatile short *)(0x40544E68u + (o)))
 #define PATHBUF ((const char *)0x4054D728u)   /* SYS+0x88C0: path built by the list's path helper */
 
 void list_c_delete_marked(void)
 {
     int i;
-    for (i = SS16(0xFA0) - 1; i >= 0; i--) {
+    for (i = SI(list_count) - 1; i >= 0; i--) {
         if (SYS8(0x5DC6 + i)) {
             u32 v = SYS16(0xFA6 + 2 * i);
             list_current_advance((unsigned short)i);
@@ -33,5 +33,5 @@ void list_c_delete_marked(void)
     list_c_data_save();
     list_c_index_load();
     list_c_data_load();
-    SYS8(0xF90) = 0;
+    SI(list_mark_mode) = 0;
 }

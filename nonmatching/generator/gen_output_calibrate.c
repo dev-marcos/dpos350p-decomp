@@ -13,6 +13,7 @@
 #include "storage/settings.h"
 #include "system.h"
 #include "util.h"
+#include "sys_info.h"
 
 #define SYS 0x40544E68u
 #define GEN 0x42E3F984u
@@ -20,7 +21,6 @@
 #define B8(a) (*(volatile unsigned char *)(a))
 #define H16(a) (*(volatile unsigned short *)(a))
 #define W32(a) (*(volatile u32 *)(a))
-#define D64(a) (*(volatile unsigned long long *)(a))
 
 #define F32(a) (*(volatile float *)(a))
 
@@ -28,7 +28,7 @@ static double measure(u32 a, u32 b, u32 range)
 {
     W32(GEN + 0x2F38) = a;
     W32(GEN + 0x2F3C) = b;
-    B8(SYS + 0x41) = (unsigned char)range;
+    SI(ch1_vdiv_index) = (unsigned char)range;
     outputs_apply();
     gen_fpga_settings_write();
     delay_ms(100);
@@ -44,8 +44,8 @@ void gen_output_calibrate(void)
     state_block_3f984_init();
     W32(GEN + 0x2EFC) = 1000;
     H16(GEN + 0x2EF6) = 2000;
-    B8(SYS + 0x588) = 0x18;
-    B8(SYS + 0x54F) = 1;
+    SI(timebase_index) = 0x18;
+    SI(f_54f) = 1;
     B8(GEN + 0x2F60) = 1;
     B8(TOUCH + 0x16) = 0;
     fpga_cmd63_write();
