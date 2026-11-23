@@ -73,10 +73,13 @@ def compile_at(src, orig, syms, opt):
     undef = sorted({l.split()[-1] for l in nm.splitlines() if re.match(r"^\s+U ", l)})
     lds += [f"{k} = 0x{syms[k]:08X};" for k in undef if k in syms]   # only what the object uses
     Path(str(stem) + ".ld").write_text("\n".join(lds) + "\n")
-    subprocess.run(["arm-none-eabi-ld", "-T", str(stem) + ".ld", "-o", str(stem) + ".elf", str(stem) + ".o"],
+    subprocess.run(["arm-none-eabi-ld", "-q", "-T", str(stem) + ".ld", "-o", str(stem) + ".elf", str(stem) + ".o"],
                    check=True, capture_output=True)
     subprocess.run(["arm-none-eabi-objcopy", "-O", "binary", "-j", ".text", str(stem) + ".elf", str(stem) + ".bin"],
                    check=True)
+    bad = nmbuild.fix_thumb_calls(str(stem) + ".elf", str(stem) + ".bin", orig, syms)
+    if bad:
+        raise subprocess.CalledProcessError(1, "link", stderr=("B/BL<cond> into Thumb code: " + ", ".join(bad)).encode())
     st = subprocess.run(["arm-none-eabi-nm", str(stem) + ".elf"], capture_output=True, text=True).stdout
     entry = int(next(l.split()[0] for l in st.splitlines() if l.split()[-1] == name), 16)
     return Path(str(stem) + ".bin").read_bytes(), entry, own_vars, name

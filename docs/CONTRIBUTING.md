@@ -62,6 +62,17 @@ function compiled in place (`tools/testiso.py`). **Emulator only, never write it
   emulator: one NEON instruction made the first attempt stop.
 - Every chosen build is therefore run again through its `tools/emu` cases, and used only if it
   is EQUIVALENT.
+- Calls into stock **Thumb** code (`sin`, `exp`, `sqrt`, `__aeabi_l2d`, `__aeabi_d2lz`…, including
+  the helpers GCC calls on its own for `long long` ↔ `double`) must switch state, as the stock
+  BLX does. The stock symbols are absolute values in the link script, so ld does not know they are
+  Thumb and links a plain BL. `nmbuild.fix_thumb_calls` rewrites each such BL as BLX, using the
+  relocations kept by `ld -q`. A B or BL<cond> straight into Thumb code cannot switch state: that
+  function is left out of the image. The emulator tests cannot catch this, because they stub
+  those routines by address and the scratch build at 0x48000000 reaches them through an
+  interworking veneer. Before this fix, 46 calls in 12 functions ran Thumb code in ARM state, and
+  the TEST image stopped at boot (undefined instruction at 0x4003A5E0). After the fix, the
+  headless boot (`node tools/sim/tests/boot.mjs --image build/test/app_TEST.bin`) gives a screen
+  identical to the stock image's.
 - Left out:
   - functions that do not fit;
   - functions whose stock code is Thumb (callers enter them in Thumb state);
