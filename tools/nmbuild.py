@@ -78,6 +78,43 @@ def link_key(okey, undef, syms):
     return hashlib.sha256((okey + "|" + ";".join(f"{n}={syms.get(n)}" for n in sorted(undef))).encode()).hexdigest()
 
 
+def fix_thumb_calls(elf, binf, base, syms):
+    """Make ARM calls into stock Thumb code switch state, as the stock BLX does.
+
+    The stock symbols are absolute linker-script values, so ld does not know which ones are Thumb
+    and links every call as BL: the callee would then run in ARM state. Using the relocations kept
+    by `ld -q`, each R_ARM_CALL to a symbol with an odd address (Thumb) is rewritten as BLX imm.
+    A B or BL<cond> (R_ARM_JUMP24) to Thumb code cannot switch state: such names are returned."""
+    thumb = {n for n, a in syms.items() if a & 1}
+    out = subprocess.run(["arm-none-eabi-readelf", "-rW", str(elf)], capture_output=True, text=True,
+                         check=True).stdout
+    code = bytearray(Path(binf).read_bytes())
+    bad, fixed = set(), 0
+    for l in out.splitlines():
+        f = l.split()
+        if len(f) < 5 or f[2] not in ("R_ARM_CALL", "R_ARM_JUMP24") or f[4] not in thumb:
+            continue
+        p, n = int(f[0], 16), f[4]
+        o = p - base
+        if not 0 <= o < len(code):
+            continue
+        w = int.from_bytes(code[o:o + 4], "little")
+        if (w & 0x0E000000) != 0x0A000000 or (w >> 28) == 0xF:
+            continue                                  # not B/BL (already BLX)
+        imm = w & 0xFFFFFF
+        d = (syms[n] & ~1) - (p + 8)
+        if (imm - (0x1000000 if imm & 0x800000 else 0)) * 4 != d:
+            continue                                  # goes through a veneer (out of range): it interworks
+        if f[2] == "R_ARM_JUMP24" or (w & 0xFF000000) != 0xEB000000:
+            bad.add(n)                                # B or BL<cond> straight into Thumb code
+            continue
+        code[o:o + 4] = (0xFA000000 | (((d >> 1) & 1) << 24) | ((d >> 2) & 0xFFFFFF)).to_bytes(4, "little")
+        fixed += 1
+    if fixed:
+        Path(binf).write_bytes(bytes(code))
+    return sorted(bad)
+
+
 def build(src, syms, force=False):
     orig = srcindex.orig_of(src)
     stem = OUT / f"func_{orig:08x}"
@@ -106,13 +143,16 @@ def build(src, syms, force=False):
     # only the symbols the object needs: the others cannot change the image
     lds += [f"{k} = 0x{syms[k]:08X};" for k in undef if k in syms]
     (Path(str(stem) + ".ld")).write_text("\n".join(lds) + "\n")
-    subprocess.run(["arm-none-eabi-ld", "-T", str(stem) + ".ld", "-o", str(stem) + ".elf", str(stem) + ".o"],
+    subprocess.run(["arm-none-eabi-ld", "-q", "-T", str(stem) + ".ld", "-o", str(stem) + ".elf", str(stem) + ".o"],
                    check=True)
     subprocess.run(["arm-none-eabi-objcopy", "-O", "binary", str(stem) + ".elf", str(stem) + ".bin"], check=True)
+    thumb_jumps = fix_thumb_calls(str(stem) + ".elf", str(stem) + ".bin", SCRATCH, syms)
     st = subprocess.run(["arm-none-eabi-nm", str(stem) + ".elf"], capture_output=True, text=True).stdout
     entry = int(next(l.split()[0] for l in st.splitlines() if l.split()[-1] == name), 16)
     info = {"orig": orig, "name": name, "entry": entry, "thumb": bool(entry & 1), "src": str(src.relative_to(ROOT)),
             "okey": okey, "undef": undef, "key": link_key(okey, undef, syms)}
+    if thumb_jumps:
+        info["thumb_jumps"] = thumb_jumps
     js.write_text(json.dumps(info))
     return info
 
