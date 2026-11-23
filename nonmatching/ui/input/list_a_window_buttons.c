@@ -30,7 +30,7 @@ static int sdv(int a, int b)
 void list_a_window_buttons(void)
 {
     u32 b822, b836;
-    touch_group_080E();
+    list_a_window_buttons_update();
     if (BREC(207, state) == 1) {
         inv_left(0x16);
     } else if ((b822 = BREC(208, state)) == 1) {

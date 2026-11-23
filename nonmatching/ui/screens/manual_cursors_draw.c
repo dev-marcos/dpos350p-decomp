@@ -42,8 +42,8 @@ static void vmark(int pos)
     int j;
     draw_colour_set(0xDDDDDD);
     for (j = 0; j <= 8; j++) {
-        func_4002ecc4_span(U16(pos - j), U16(0x39E + j), 0x3AA);
-        func_4002ecc4_span(U16(pos + j), U16(0x39E + j), 0x3AA);
+        hspan_fill(U16(pos - j), U16(0x39E + j), 0x3AA);
+        hspan_fill(U16(pos + j), U16(0x39E + j), 0x3AA);
     }
     rect_fill(0x3AB, U16(pos - 8), 0xB, 0x11);
 }
@@ -91,9 +91,9 @@ void manual_cursors_draw(void)
     if (SI(cursor_y_on) && nx > 0) {
         u32 ya = U16(v1 + y0 + 0xFFFF), yb = v2 + y0 + 0xFFFF;
         for (i = 0; (int)i < nx; i++)
-            func_4002ecc4_span(ya, U16(x0 + 4 * i), U16(x0 + 4 * i + 2));
+            hspan_fill(ya, U16(x0 + 4 * i), U16(x0 + 4 * i + 2));
         for (i = 0; (int)i < nx; i++)
-            func_4002ecc4_span(U16(yb), U16(x0 + 4 * i), U16(x0 + 4 * i + 2));
+            hspan_fill(U16(yb), U16(x0 + 4 * i), U16(x0 + 4 * i + 2));
     }
     if (SI(cursor_x_on)) {
         u32 r7 = y0 - 1 + 0xB;

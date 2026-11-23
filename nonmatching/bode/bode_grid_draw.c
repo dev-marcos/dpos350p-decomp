@@ -52,7 +52,7 @@ void bode_grid_draw(void)
     y = BH(2);
     for (i = 1; i < BH(0xE); i++) {
         y += BH(0xC);
-        func_4002ecc4_span(U16(y), U16(x), U16(BH(4) + x + 0xFFFD));
+        hspan_fill(U16(y), U16(x), U16(BH(4) + x + 0xFFFD));
     }
     draw_colour_set(0x888888);
     step = (BD(0x10) - BD(0x18)) / (double)BH(0xE);

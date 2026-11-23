@@ -25,7 +25,7 @@ void ui_window_close_raw(u32 id) __asm__("ui_window_close");
 void format_button_handler(void)
 {
     u32 cx, cy;
-    touch_button_update_0200();
+    format_button_update();
     cy = WREC(31, y) + (WREC(31, h) >> 1);
     cx = WREC(31, x) + (WREC(31, w) >> 1);
     if (BREC(51, state) != 2)

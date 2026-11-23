@@ -621,7 +621,7 @@ Spec: `tools/platform_spec/q_trace_windows.py`, 18 functions.
     - otherwise runs `channels_process_full`, or `traces_process_single` when SYS+0x652 is set.
   - `channels_process_full` processes CH2 first unless SYS+0x664 is set.
   - `trace_process_full` runs only when SYS+0x101 is set.
-  - `trace_c5cc_window` runs 0x4003C5CC over the capture window, and only when SYS+0x6FC ≥
+  - `trace_segments_gather_window` runs 0x4003C5CC over the capture window, and only when SYS+0x6FC ≥
     SYS+0x708.
 - **`runtime_rearm_setup`** (Hack name): a fixed list of eight re-arm calls, ending with the
   FPGA selector pulse.
@@ -757,7 +757,7 @@ the code does. The meaning of most SYS_INFO fields is still OPEN.
 - **UI glue**:
   - `ui_windows_invalidate_1_5` invalidates windows 1..5. The stock code chains the hidden r1
     from one call to the next, and the C models that value.
-  - `ui_cf88_then_579c` calls 0x4003CF88, whose role is OPEN, then `ui_text_init` (batch 26).
+  - `ui_layout_and_text_init` calls 0x4003CF88, whose role is OPEN, then `ui_text_init` (batch 26).
 - **SPI flash page program** (`spi_flash_page_program`, 0x4004372C):
   - the command is 0x02 with a 3-byte address, or 0x12 with a 4-byte address;
   - the data follows in the same `sys_spi_write_then_write`;
@@ -820,9 +820,9 @@ Spec: `tools/platform_spec/v_touch_buttons.py`, 59 functions. 36 of them are gen
   - `touch_button_set_rect` sets the rectangle, and `touch_button_disable` moves it to x/y 10000.
   - Byte +0 of the table is cleared together with a released button.
 - **Group updaters**: 36 functions call `touch_button_update` for a fixed list of records, from 1
-  to 31 of them. They are named after the first record offset (`touch_group_0250`,
-  `touch_button_update_0804`, ...). The list probably follows the screens; which screen uses
-  which list is OPEN.
+  to 31 of them. Each is named after the handler that calls it (`main_menu_buttons_update` for
+  `main_menu_buttons`, DERIVED); the ones whose handler has no descriptive name yet keep the first
+  record offset (`touch_group_005C`, `touch_button_update_0804`, ...).
 - **Release handlers**:
   - each one updates its button and acts on state 2;
   - button +0x804 opens window 0x17;
@@ -875,8 +875,9 @@ new suite (see CONTRIBUTING.md).
     `fb_clear_all`.
   - `ui_window_05_draw` (0x4001C348, the draw function of window 5) puts the button record
     0x42E620EA on the rectangle of window record 5, then calls 0x400346C0.
-- **Gates**: four functions run a screen routine only while touch byte 0x42E68BB0+0x17 is clear.
-  Two more choose between screen routines by SYS+0x652. What +0x17 and +0x652 mean is OPEN.
+- **Gates** (`*_gated`): four functions run a screen routine only while touch byte 0x42E68BB0+0x17
+  is clear (`plot_markers_draw_gated`, ...). Two more choose between screen routines by SYS+0x652
+  (`plot_or_trace_markers_draw`, `plot_or_xy_grid_draw`). What +0x17 and +0x652 mean is OPEN.
 - **One-byte FPGA commands**: each writes a selector and then one or two data bytes from SYS:
   - 0x61 ← SYS+0x3B; 0x16 ← SYS+0x27B; 0x63 ← byte 0x42E428E4;
   - 0x15 ← 1 or 2 from SYS+0x27C; 0x0C ← the u16 SYS+0x276, high byte first;
@@ -1197,9 +1198,9 @@ Spec: `tools/platform_spec/zd_buttons_levels.py`, 19 functions. Tests: `tools/em
 Spec: `tools/platform_spec/ze_buttons_more.py`, 12 functions. Tests: `tools/emu/tests/sweep.py`.
 
 - **Drags.**
-  - `cursor_drag_buttons_b42` moves the two cursor words 0x42E22D2C / +4 in drag modes 0xE / 0xF.
+  - `bode_cursor_drag_buttons` moves the two cursor words 0x42E22D2C / +4 in drag modes 0xE / 0xF.
     These are the cursor positions read by `trace_cursor_values` (batch 34);
-  - `marker_drag_buttons_bd8` moves the words +0x5C / +0x60 of block 0x42E68668 in modes
+  - `levels_marker_drag_buttons` moves the words +0x5C / +0x60 of block 0x42E68668 in modes
     0x10 / 0x11.
 
   Both keep the 64-bit start in the drag block 0x42E68998 on press (state 1). They set
@@ -1212,11 +1213,11 @@ Spec: `tools/platform_spec/ze_buttons_more.py`, 12 functions. Tests: `tools/emu/
 - **Window and file buttons.**
   - `buttons_ac_open_windows` opens windows 0xD..0x12. Its last button toggles SYS+0x671 and
     passes the new value as r1 to `ui_window_invalidate_from`;
-  - `buttons_b56_handler` and `buttons_ac0_handler` restore SYS_INFO and reopen windows 1 and 5.
+  - `levels_toolbar_buttons` and `bode_toolbar_buttons` restore SYS_INFO and reopen windows 1 and 5.
     They also save a screenshot and toggle several flags;
-  - `buttons_be2_handler` sets word +0xF4 of block 0x42E68668 to 0..3 and toggles its bytes +1
+  - `levels_options_buttons` sets word +0xF4 of block 0x42E68668 to 0..3 and toggles its bytes +1
     and +2. Byte +1 is the gate of `level_stats_60008`.
-- **Numpad fields.** `numpad_buttons_b06` opens the numpad for one of five fields. It sets the
+- **Numpad fields.** `bode_settings_numpad_buttons` opens the numpad for one of five fields. It sets the
   target in the block 0x42E68A88: a pointer to word 0x42E18114 + 4k, the field number in
   0x42E18110, and two cleared words. The four target words are rewritten even when no button
   fired.
@@ -1499,7 +1500,7 @@ put text and numbers on the screen is in C.
   - Sign mode: 0 prints '-' only, 1 prints '-' or '+', any other value prints no sign.
   - Example: v = -12345, dec = 2, mode 0 gives "-123.45".
   - `dec` must be 0..15: the digit array has 16 entries.
-  - The wrappers `func_4002d82c_flag0/1` and `func_4002d2d4_d0` fix the sign mode.
+  - The wrappers `number_draw_mode0/1` and `number_text_width_mode0` fix the sign mode.
 - **Alpha glyphs.** `glyph_alpha_draw` reads u16 big-endian width and height, then one coverage
   byte per pixel. Coverage >= 0xF6 stores the solid colour u16 0x42E68660, coverage < 3 is
   skipped, and anything else blends the colour bytes 0x42E6865D..F into the screen pixel. The
@@ -1595,7 +1596,7 @@ These are complete screens, so they show how a screen is put together.
   - `time_cursors_draw`: the time cursors C1 / C2. The state is at SYS+0x3DA52C: enable byte
     +0, channel byte +4, positions +8 and +0xC. It draws dotted lines, the 'C1' / 'C2' markers
     and a 'T-CH1' / 'T-CH2' label between them.
-- **Generated gates.** `func_40024c60_unless_t17` and `func_40028364_unless_t17`
+- **Generated gates.** `trace_markers_draw_gated` and `time_cursors_draw_gated`
   (`w_small_sweep.py`) now call the new names.
 
 ## Automatic measurements, SI scaling, measurement panel, manual cursors (batch 47)
@@ -2664,13 +2665,13 @@ DERIVED. The menu meanings come from the English labels of the text table (`buil
 
 - **`measure_select_buttons`** (0x400529F0) is the touch handler of the measurement selection
   menu (batch 68).
-  - `touch_group_0250` updates the 24 records 0x42E61FF8 + 0x250 + 0xA x i.
+  - `measure_select_buttons_update` updates the 24 records 0x42E61FF8 + 0x250 + 0xA x i.
   - The first record in state 2 (released) is reset to 0, together with the pending flag
     0x42E61FF8. Then measurement k = i % 12 + 1 of channel c = i / 12 is toggled.
   - It is removed with `func_400300e8(c, k)` when `value_in_table_405456e8(c, k)` says it is shown.
     Otherwise it is added with `marker_value_add(c, k)`.
 - **`timebase_menu_buttons`** (0x400533A0) is the touch handler of the time-base menu.
-  - `touch_group_0426` updates the records. The first record in state 2 is handled: + 0x426 gives
+  - `timebase_menu_buttons_update` updates the records. The first record in state 2 is handled: + 0x426 gives
     setting 0x2A (50 s), and + 0x430 + 0xA x k gives setting 0x29 - k.
   - The setting goes to `timebase_index_set`, or to `zoom_index_set` when the split-screen byte
     SYS+0x2AA is set.
@@ -3158,7 +3159,7 @@ text, edit the row or the string at the listed address.
 |---:|---|
 | 1 | `sys_clock_init(0x44AA2000)`, `sys_mmu_init`, `timers_init`, word 0x40095490 = 1 |
 | 2 | `factory_defaults`, `spi0_init(0)`, `settings_load_all`, `ui_text_init` |
-| 3 | `FPGA_Start`, `display_start`, `touch_init`, `ui_cf88_then_579c`, `colour_table_3dd530_init` |
+| 3 | `FPGA_Start`, `display_start`, `touch_init`, `ui_layout_and_text_init`, `colour_table_3dd530_init` |
 | 4 | `disk_mount`, `SMEC_Init`, `power_monitor_init`, `acquisition_reconfigure`, `rate_table_init_entry`, `applied_state_invalidate` |
 | 5 | `Gen_Init`, `sd_update_check`, `factory_steps_run`, `outputs_apply`, `ui_windows_open_1_5` |
 | loop | `touch_service`, `window_touch_poll`, `ui_frame_update`, SYS32(0x64C) += 1 (pass counter) |

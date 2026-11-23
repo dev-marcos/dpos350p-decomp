@@ -18,7 +18,7 @@ void ui_window_close_raw(u32 id) __asm__("ui_window_close");
 
 void list_c_delete_button_handler(void)
 {
-    touch_button_update_09EE();
+    list_c_delete_button_update();
     if (BREC(254, state) != 2)
         return;
     BREC(254, state) = 0;

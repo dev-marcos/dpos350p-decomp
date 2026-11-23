@@ -26,10 +26,10 @@ static void grid_part(int x0, int x1, int cx, int ya, int yb, int cy, u32 xs, u3
     for (p = x0; p <= x1; p += xs)
         vline_draw(p & 0xFFFF, ya & 0xFFFF, yb & 0xFFFF);
     for (p = ya; p <= yb; p += ys)
-        func_4002ecc4_span(p & 0xFFFF, x0, x1 & 0xFFFF);
+        hspan_fill(p & 0xFFFF, x0, x1 & 0xFFFF);
     f = (float)ya;
     for (k = 0; k < 40; k++)
-        func_4002ecc4_span((int)(f + (float)k * st) & 0xFFFF, (cx - 2) & 0xFFFF, (cx + 2) & 0xFFFF);
+        hspan_fill((int)(f + (float)k * st) & 0xFFFF, (cx - 2) & 0xFFFF, (cx + 2) & 0xFFFF);
     f = (float)x0;
     for (k = 0; k < 50; k++)
         vline_draw((int)(f + (float)k * 19.0f) & 0xFFFF, (cy + 0xFFFF) & 0xFFFF, (cy + 3) & 0xFFFF);
@@ -40,8 +40,8 @@ static void frame(int x0, int x1, int ya, int yb)
     draw_colour_set(0x505050);
     vline_draw(x0, ya & 0xFFFF, yb & 0xFFFF);
     vline_draw(x1 & 0xFFFF, ya & 0xFFFF, yb & 0xFFFF);
-    func_4002ecc4_span(ya & 0xFFFF, x0, x1 & 0xFFFF);
-    func_4002ecc4_span(yb & 0xFFFF, x0, x1 & 0xFFFF);
+    hspan_fill(ya & 0xFFFF, x0, x1 & 0xFFFF);
+    hspan_fill(yb & 0xFFFF, x0, x1 & 0xFFFF);
 }
 
 void plot_grid_draw(void)
@@ -66,7 +66,7 @@ void plot_grid_draw(void)
     draw_colour_set(0x505050);
     vline_draw(x0, y0, yb & 0xFFFF);
     vline_draw(x1 & 0xFFFF, y0, yb & 0xFFFF);
-    func_4002ecc4_span(y0, x0, x1 & 0xFFFF);
+    hspan_fill(y0, x0, x1 & 0xFFFF);
     h = SI(plot_height);
     ya = SI(plot_y0) + h / 3 + 1;
     t = (2 * h) / 3;

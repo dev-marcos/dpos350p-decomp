@@ -17,7 +17,7 @@
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
-u32 func_4002d2d4_d0_raw(u32 lo, u32 hi, u32 dec) __asm__("func_4002d2d4_d0");
+u32 number_text_width_mode0_raw(u32 lo, u32 hi, u32 dec) __asm__("number_text_width_mode0");
 void str_copy_raw(char *d, const char *s) __asm__("str_copy");
 
 #define SYSB      0x40544E68u
@@ -51,7 +51,7 @@ static void sb_num(struct sbc *c, u32 x, u32 y)
 
 static u32 sb_numw(struct sbc *c)
 {
-    return func_4002d2d4_d0_raw((u32)c->v, (u32)((unsigned long long)c->v >> 32), (unsigned char)c->dec);
+    return number_text_width_mode0_raw((u32)c->v, (u32)((unsigned long long)c->v >> 32), (unsigned char)c->dec);
 }
 
 /* drop one decimal (the values are scaled by 1000 before value_si_scale) */
@@ -198,7 +198,7 @@ void status_bar_draw(void)
     sb_num(c, x + 7, y1);
     sb_text(w + x + 0xA, y1, c->buf);
     fx = text_width("bit");
-    w = func_4002d2d4_d0_raw(S8(0x660) + 8, 0, 0);
+    w = number_text_width_mode0_raw(S8(0x660) + 8, 0, 0);
     text_d6f8_shadow_draw(U16(x + 0x77 - fx - w), U16(y1), S8(0x660) + 8, 0, 0, 1, 2, 0);
     sb_text(x + 0x7B - text_width("bit"), y1, "bit");
     sb_button(x, y, 0xCA);
@@ -226,18 +226,18 @@ void status_bar_draw(void)
     y2 = y + 0x25;
     if (S8(0x27B) == 0) {                                     /* rising edge */
         vline_draw(U16(fx), U16(y + 0x1A), U16(y2));
-        func_4002ecc4_span(U16(y + 0x1A), U16(fx), U16(x + 0x4D));
-        func_4002ecc4_span(U16(y2), U16(x + 0x45), U16(fx));
-        func_4002ecc4_span(U16(y + 0x1E), U16(x + 0x48), U16(x + 0x4A));
-        func_4002ecc4_span(U16(y + 0x1F), U16(x + 0x47), U16(x + 0x4B));
-        func_4002ecc4_span(U16(y + 0x20), U16(x + 0x46), U16(x + 0x4C));
+        hspan_fill(U16(y + 0x1A), U16(fx), U16(x + 0x4D));
+        hspan_fill(U16(y2), U16(x + 0x45), U16(fx));
+        hspan_fill(U16(y + 0x1E), U16(x + 0x48), U16(x + 0x4A));
+        hspan_fill(U16(y + 0x1F), U16(x + 0x47), U16(x + 0x4B));
+        hspan_fill(U16(y + 0x20), U16(x + 0x46), U16(x + 0x4C));
     } else {                                                  /* falling edge */
         vline_draw(U16(fx), U16(y + 0x1A), U16(y2));
-        func_4002ecc4_span(U16(y + 0x1A), U16(x + 0x45), U16(fx));
-        func_4002ecc4_span(U16(y2), U16(fx), U16(x + 0x4D));
-        func_4002ecc4_span(U16(y + 0x1F), U16(x + 0x46), U16(x + 0x4C));
-        func_4002ecc4_span(U16(y + 0x20), U16(x + 0x47), U16(x + 0x4B));
-        func_4002ecc4_span(U16(y + 0x21), U16(x + 0x48), U16(x + 0x4A));
+        hspan_fill(U16(y + 0x1A), U16(x + 0x45), U16(fx));
+        hspan_fill(U16(y2), U16(fx), U16(x + 0x4D));
+        hspan_fill(U16(y + 0x1F), U16(x + 0x46), U16(x + 0x4C));
+        hspan_fill(U16(y + 0x20), U16(x + 0x47), U16(x + 0x4B));
+        hspan_fill(U16(y + 0x21), U16(x + 0x48), U16(x + 0x4A));
     }
     s = 0;
     if (S8(0x284) == 1)

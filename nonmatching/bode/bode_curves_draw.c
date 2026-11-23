@@ -65,11 +65,11 @@ void bode_curves_draw(void)
     draw_colour_set(0x55000000);
     rect_fill(U16(x), U16(y), 0x3E, 0x30);
     draw_colour_set(0xFF8800);
-    func_4002ecc4_span(U16(y + 0xC), U16(x + 5), U16(x + 0x14));
+    hspan_fill(U16(y + 0xC), U16(x + 5), U16(x + 0x14));
     text_draw(U16(x + 0x1E), U16(y + 5), "dB");
     draw_colour_set(0x88FF);
     y += 0x17;
-    func_4002ecc4_span(U16(y + 0xC), U16(x + 5), U16(x + 0x14));
+    hspan_fill(U16(y + 0xC), U16(x + 5), U16(x + 0x14));
     text_draw(U16(x + 0x1E), U16(y + 5), "deg");
     if (BODES(f_ad19)) {
         if (BODES(f_ad1a) == 0)

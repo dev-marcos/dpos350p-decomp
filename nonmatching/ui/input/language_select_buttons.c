@@ -16,7 +16,7 @@
 
 void language_select_buttons(void)
 {
-    touch_group_0156();
+    language_select_buttons_update();
     if (BREC(34, state) == 2) {
         BREC(34, state) = 0;
         BREC_BYTE0 = 0;

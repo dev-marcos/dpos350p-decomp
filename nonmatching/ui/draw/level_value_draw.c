@@ -14,9 +14,9 @@
 static void num(u32 x, u32 y, u32 sg, long long v, u32 dec)
 {
     if (sg)
-        func_4002d82c_flag1(x, y, (u32)v, (u32)((unsigned long long)v >> 32), dec);
+        number_draw_mode1(x, y, (u32)v, (u32)((unsigned long long)v >> 32), dec);
     else
-        func_4002d82c_flag0(x, y, (u32)v, (u32)((unsigned long long)v >> 32), dec);
+        number_draw_mode0(x, y, (u32)v, (u32)((unsigned long long)v >> 32), dec);
 }
 
 void level_value_draw(u32 x, u32 y, u32 sg, double d)

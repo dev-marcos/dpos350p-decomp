@@ -1,7 +1,7 @@
 /*
  * trace_update_chain -- stock 0x40037AB8 (144 bytes, ARM)
  * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
- * trace_cursor_limits and trace_defaults_37b48, then (depending on the bytes 0x42E1810C/0D/0F) bode_sweep_run, bode_grid_draw, bode_autoscale + bode_curves_zoom, and bode_curves_draw unless +0x44 is set while +0x47 is clear; when +0x44 is 1 and +0x47 is set, +0x45 = 1 and window 0x22 is invalidated. Ends with trace_cursor_values and func_40037c3c_unless_t17.
+ * trace_cursor_limits and trace_defaults_37b48, then (depending on the bytes 0x42E1810C/0D/0F) bode_sweep_run, bode_grid_draw, bode_autoscale + bode_curves_zoom, and bode_curves_draw unless +0x44 is set while +0x47 is clear; when +0x44 is 1 and +0x47 is set, +0x45 = 1 and window 0x22 is invalidated. Ends with trace_cursor_values and bode_cursors_draw_gated.
  */
 #include "hw/platform.h"
 
@@ -39,5 +39,5 @@ redraw:
     }
 done:
     trace_cursor_values();
-    func_40037c3c_unless_t17();
+    bode_cursors_draw_gated();
 }

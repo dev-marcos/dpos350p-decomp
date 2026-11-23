@@ -31,7 +31,7 @@ void inv_left(u32 id) __asm__("ui_window_invalidate_from");
 void settings_slot_buttons(void)
 {
     u32 cx, cy, i, m;
-    touch_group_0124();
+    settings_slot_buttons_update();
     cx = (unsigned short)(WREC(8, x) + (WREC(8, w) >> 1));
     cy = (unsigned short)(WREC(8, y) + (WREC(8, h) >> 1));
     for (i = 0; i < 5; i++)

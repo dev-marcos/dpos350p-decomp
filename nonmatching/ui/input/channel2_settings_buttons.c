@@ -73,6 +73,6 @@ static void channel_buttons(u32 b, u32 s)
 
 void channel2_settings_buttons(void)
 {
-    touch_group_03C2();
+    channel2_settings_buttons_update();
     channel_buttons(0x3C2, 0x102);
 }

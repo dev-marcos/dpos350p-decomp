@@ -93,7 +93,7 @@ void bode_sweep_bar_draw(void)
         tx += 0xAA;
     }
     param_head(tx, y, ENT(76));
-    func_4002d82c_flag0((tx + 0xF) & 0xFFFF, (y + 0x19) & 0xFFFF, BODES(freq_count), (u32)(S32(BODE + 0x5C) >> 31), 0);
+    number_draw_mode0((tx + 0xF) & 0xFFFF, (y + 0x19) & 0xFFFF, BODES(freq_count), (u32)(S32(BODE + 0x5C) >> 31), 0);
     param_tail(tx, y, 0xB2E);
     tx += 0xAA;
     param_head(tx, y, ENT(77));

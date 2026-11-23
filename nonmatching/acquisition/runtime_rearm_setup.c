@@ -15,7 +15,7 @@ void runtime_rearm_setup(void)
 {
     runtime_state_commit_force();
     acquisition_rearm();
-    func_40023ea4_or_40024c60();
+    plot_or_trace_markers_draw();
     acquisition_geometry_setup();
     fb_present();
     write_sys_info_0x6f0_to_fpga();

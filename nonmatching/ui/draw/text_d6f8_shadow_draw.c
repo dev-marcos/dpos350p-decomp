@@ -18,10 +18,10 @@ void text_d6f8_shadow_draw(u32 x, u32 y, u32 a, u32 b, unsigned char e, unsigned
         for (i = n; i; i--, xx++) {
             yy = (unsigned short)y + 1;
             for (j = m; j; j--, yy++)
-                func_4002d82c_flag0((unsigned short)xx, (unsigned short)yy, a, b, e);
+                number_draw_mode0((unsigned short)xx, (unsigned short)yy, a, b, e);
         }
         y = (unsigned short)y;
     }
     draw_colour_set(saved);
-    func_4002d82c_flag0((unsigned short)x, y, a, b, e);
+    number_draw_mode0((unsigned short)x, y, a, b, e);
 }

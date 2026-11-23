@@ -62,7 +62,7 @@ void fpga_cmd18_read(void);                                                     
 void fpga_position_290_update(void);                                                             /* 0x40063798 */
 void fpga_counters_init(void);                                                                   /* 0x40063BC0 */
 void fpga_counter_step(u32 ch);                                                                  /* 0x40063C34 */
-void func_40063c34_all8(void);                                                                   /* 0x40063CB0 */
+void fpga_counter_step_all(void);                                                                   /* 0x40063CB0 */
 void smec_byte_params_sync(void);                                                                /* 0x40063CD0 */
 void adc_lanes_config_for_rate(void);                                                            /* 0x40063F04 */
 int lane_trim_search8(u32 row, u32 bank, u32 step);                                              /* 0x4006453C */

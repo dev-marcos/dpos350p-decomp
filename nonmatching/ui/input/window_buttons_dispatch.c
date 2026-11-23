@@ -21,7 +21,7 @@ void window_buttons_dispatch(u32 id)
         buttons_ac_open_windows();
         break;
     case 5:
-        touch_00f2_then_400545f8();
+        plot_touch_handle();
         break;
     case 6:
         system_settings_buttons();
@@ -96,40 +96,40 @@ void window_buttons_dispatch(u32 id)
         system_calibration_button_handler();
         break;
     case 30:
-        touch_btn_01ec_release();
+        factory_reset_button();
         break;
     case 31:
         format_button_handler();
         break;
     case 32:
-        touch_btn_019c_release();
+        usb_mode_exit_button();
         break;
     case 33:
         numpad_key_buttons();
         break;
     case 34:
-        buttons_ac0_handler();
+        bode_toolbar_buttons();
         break;
     case 35:
-        numpad_buttons_b06();
+        bode_settings_numpad_buttons();
         break;
     case 36:
-        cursor_drag_buttons_b42();
+        bode_cursor_drag_buttons();
         break;
     case 37:
         calibration_b4c_button_handler();
         break;
     case 38:
-        buttons_b56_handler();
+        levels_toolbar_buttons();
         break;
     case 39:
         measure_numpad_buttons();
         break;
     case 40:
-        marker_drag_buttons_bd8();
+        levels_marker_drag_buttons();
         break;
     case 41:
-        buttons_be2_handler();
+        levels_options_buttons();
         break;
     case 42:
         calibration_button_handler();

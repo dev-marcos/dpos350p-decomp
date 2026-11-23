@@ -20,7 +20,7 @@ void inv_left(u32 id) __asm__("ui_window_invalidate_from");
 void trigger_option_buttons(void)
 {
     u32 v;
-    touch_group_05B6();
+    trigger_option_buttons_update();
     if (BREC(146, state) == 2) {
         BREC(146, state) = 0;
         BREC_BYTE0 = 0;

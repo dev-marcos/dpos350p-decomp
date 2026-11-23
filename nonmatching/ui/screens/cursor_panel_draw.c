@@ -101,10 +101,10 @@ static void cp_row(struct cpc *c, u32 kind, u32 off, u32 x8, u32 top, u32 rh, co
             S32(0x828) = 0;
             S32(0x82C) = 0;
         }
-        func_4002d82c_flag0(U16(numx), U16(ny), (u32)c->v, (u32)((unsigned long long)c->v >> 32),
+        number_draw_mode0(U16(numx), U16(ny), (u32)c->v, (u32)((unsigned long long)c->v >> 32),
                             (unsigned char)c->dec);
     } else {
-        func_4002d82c_flag1(U16(numx), U16(ny), (u32)c->v, (u32)((unsigned long long)c->v >> 32),
+        number_draw_mode1(U16(numx), U16(ny), (u32)c->v, (u32)((unsigned long long)c->v >> 32),
                             (unsigned char)c->dec);
     }
     half_42e68be2_set(2);

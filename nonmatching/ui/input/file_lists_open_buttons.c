@@ -15,7 +15,7 @@
 
 void file_lists_open_buttons(void)
 {
-    touch_group_0340();
+    file_lists_open_buttons_update();
     if (BREC(83, state) == 2) {
         BREC(83, state) = 0;
         BREC_BYTE0 = 0;

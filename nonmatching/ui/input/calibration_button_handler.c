@@ -24,7 +24,7 @@ void ui_window_close_raw(u32 id) __asm__("ui_window_close");
 void calibration_button_handler(void)
 {
     u32 cx, cy;
-    touch_button_update_0C28();
+    calibration_button_update();
     cx = (unsigned short)(WREC(42, x) + (WREC(42, w) >> 1));
     cy = (unsigned short)(WREC(42, y) + (WREC(42, h) >> 1));
     if (BREC(311, state) != 2)

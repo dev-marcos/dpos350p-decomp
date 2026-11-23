@@ -36,8 +36,8 @@ static void big_tag(int p, u32 col, u32 xt, const char *s)
     text_draw(xt, (p - 6) & 0xFFFF, s);
     draw_colour_set(col);
     for (i = 0; i < 8; i++) {
-        func_4002ecc4_span((p - i) & 0xFFFF, 0xC, (0x13 - i) & 0xFFFF);
-        func_4002ecc4_span((p + i) & 0xFFFF, 0xC, (0x13 - i) & 0xFFFF);
+        hspan_fill((p - i) & 0xFFFF, 0xC, (0x13 - i) & 0xFFFF);
+        hspan_fill((p + i) & 0xFFFF, 0xC, (0x13 - i) & 0xFFFF);
     }
 }
 
@@ -50,8 +50,8 @@ static void small_tag(int p, u32 col, u32 xt, const char *s)
     word_42e68c74_set(FONT_S);
     draw_colour_set(col);
     for (i = 0; i <= 6; i++) {
-        func_4002ecc4_span((p - i) & 0xFFFF, 7, (0xE - i) & 0xFFFF);
-        func_4002ecc4_span((p + i) & 0xFFFF, 7, (0xE - i) & 0xFFFF);
+        hspan_fill((p - i) & 0xFFFF, 7, (0xE - i) & 0xFFFF);
+        hspan_fill((p + i) & 0xFFFF, 7, (0xE - i) & 0xFFFF);
     }
     draw_colour_set(0);
     text_draw(xt, (p - 6) & 0xFFFF, s);
@@ -76,8 +76,8 @@ static void trig_big(int p)
 
     draw_colour_set(0x8800FF);
     for (i = 0; i < 8; i++) {
-        func_4002ecc4_span((p - i) & 0xFFFF, 0x3A3 + i, 0x3AA);
-        func_4002ecc4_span((p + i) & 0xFFFF, 0x3A3 + i, 0x3AA);
+        hspan_fill((p - i) & 0xFFFF, 0x3A3 + i, 0x3AA);
+        hspan_fill((p + i) & 0xFFFF, 0x3A3 + i, 0x3AA);
     }
     rect_fill(0x3AB, (p - 7) & 0xFFFF, 0xB, 0xF);
     word_42e68c74_set(FONT);
@@ -91,8 +91,8 @@ static void trig_small(int p)
 
     draw_colour_set(0x8800FF);
     for (i = 0; i <= 6; i++) {
-        func_4002ecc4_span((p - i) & 0xFFFF, 0x3A8 + i, 0x3AF);
-        func_4002ecc4_span((p + i) & 0xFFFF, 0x3A8 + i, 0x3AF);
+        hspan_fill((p - i) & 0xFFFF, 0x3A8 + i, 0x3AF);
+        hspan_fill((p + i) & 0xFFFF, 0x3A8 + i, 0x3AF);
     }
     rect_fill(0x3B0, (p - 6) & 0xFFFF, 6, 0xD);
     word_42e68c74_set(FONT_S);
@@ -109,8 +109,8 @@ static void h_right(int px, int pw, int yc)
     rect_fill(xr & 0xFFFF, (yc - 7) & 0xFFFF, 0xB, 0xF);
     word_42e68c74_set(FONT);
     for (i = 0; i < 8; i++) {
-        func_4002ecc4_span((yc - i) & 0xFFFF, x6 & 0xFFFF, (x6 + 7 - i) & 0xFFFF);
-        func_4002ecc4_span((yc + i) & 0xFFFF, x6 & 0xFFFF, (x6 + 7 - i) & 0xFFFF);
+        hspan_fill((yc - i) & 0xFFFF, x6 & 0xFFFF, (x6 + 7 - i) & 0xFFFF);
+        hspan_fill((yc + i) & 0xFFFF, x6 & 0xFFFF, (x6 + 7 - i) & 0xFFFF);
     }
     word_42e68c74_set(FONT);
     draw_colour_set(0);
@@ -123,8 +123,8 @@ static void h_left(int yc)
 
     draw_colour_set(0xFF00);
     for (i = 0; i < 8; i++) {
-        func_4002ecc4_span((yc - i) & 0xFFFF, i + 1, 8);
-        func_4002ecc4_span((yc + i) & 0xFFFF, i + 1, 8);
+        hspan_fill((yc - i) & 0xFFFF, i + 1, 8);
+        hspan_fill((yc + i) & 0xFFFF, i + 1, 8);
     }
     rect_fill(9, (yc - 7) & 0xFFFF, 0xB, 0xF);
     word_42e68c74_set(FONT);

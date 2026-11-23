@@ -28,8 +28,8 @@ void trace_markers_draw(void)
     draw_colour_set(0xFFFF);
     x += 0xB;
     for (i = 0; i < 8; i++) {
-        func_4002ecc4_span(U16(lo - i), U16(x), U16(x + 7 - i));
-        func_4002ecc4_span(U16(lo + i), U16(x), U16(x + 7 - i));
+        hspan_fill(U16(lo - i), U16(x), U16(x + 7 - i));
+        hspan_fill(U16(lo + i), U16(x), U16(x + 7 - i));
     }
     x = (int)SI(ch1_offset) + ((int)(SI(plot_x0) + (SI(plot_width) >> 1)) - (int)(SI(plot_height) >> 1)) + 1;
     k = (int)SI(plot_y0) + 1;

@@ -19,7 +19,7 @@ void inv_left(u32 id) __asm__("ui_window_invalidate_from");
 void measure_numpad_buttons(void)
 {
     u32 fl, cb, tgt, mode;
-    touch_group_0B92();
+    measure_numpad_buttons_update();
     if (BREC(296, state) == 2) {
         BREC(296, state) = 0;
         BREC_BYTE0 = 0;

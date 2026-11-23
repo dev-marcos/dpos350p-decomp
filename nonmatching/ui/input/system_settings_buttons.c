@@ -20,7 +20,7 @@ void inv_left(u32 id) __asm__("ui_window_invalidate_from");
 void system_settings_buttons(void)
 {
     u32 w, i;
-    touch_group_017E();
+    system_settings_buttons_update();
     if (BREC(25, state) == 2) {
         BREC(25, state) = 0;
         BREC_BYTE0 = 0;

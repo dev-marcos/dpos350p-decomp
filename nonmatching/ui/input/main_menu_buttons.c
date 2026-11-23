@@ -18,7 +18,7 @@
 void main_menu_buttons(void)
 {
     u32 i;
-    touch_group_0002();
+    main_menu_buttons_update();
     for (i = 0; i < 4; i++) {
         if (TB(2 + 10 * i) == 2) {
             TB(2 + 10 * i) = 0;

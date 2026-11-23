@@ -92,7 +92,7 @@ int lane_trim_search4x2(u32 row, u32 bank, u32 step)
         ltrim_clear(&s2, 4);
         it = 0;
         for (;;) {
-            func_40063c34_all8();
+            fpga_counter_step_all();
             lane_phase_measure4x2(m1, m2);
             for (k = 1; k < 4; k++)
                 ltrim_lane(&s1, k, m1[k], p, SYS8(0x6DF - k), st);
@@ -108,6 +108,6 @@ int lane_trim_search4x2(u32 row, u32 bank, u32 step)
                 break;
         }
     }
-    func_40063c34_all8();
+    fpga_counter_step_all();
     return ok;
 }

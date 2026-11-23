@@ -14,17 +14,17 @@ void cursor_808_clamp(void);                                                    
 void cursor_810_clamp(void);                                                                     /* 0x400340D4 */
 void array_3da548_decimate(int n);                                                               /* 0x400374EC */
 void trace_cursor_limits(void);                                                                  /* 0x40037944 */
-void cursor_ac64_clamp(void);                                                                    /* 0x40037A60 */
+void bode_cursors_clamp(void);                                                                    /* 0x40037A60 */
 void trace_update_chain(void);                                                                   /* 0x40037AB8 */
 void trace_defaults_37b48(void);                                                                 /* 0x40037B48 */
 void trace_cursor_values(void);                                                                  /* 0x400381E8 */
 void trace_view_bounds(u32 tr);                                                                  /* 0x4003BB6C */
 void trace_shift_samples(u32 tr);                                                                /* 0x4003C158 */
 void trace_zoom_segments(u32 tr);                                                                /* 0x4003C314 */
-void traces_e10c_enabled(void);                                                                  /* 0x4003C550 */
+void enabled_trace_layers_clear(void);                                                                  /* 0x4003C550 */
 void trace_segments_gather(u32 tr, u32 start, u32 n);                                            /* 0x4003C5CC */
-void trace_c5cc_full(u32 tr);                                                                    /* 0x4003C790 */
-void trace_c5cc_window(u32 tr);                                                                  /* 0x4003C7A0 */
+void trace_segments_gather_full(u32 tr);                                                                    /* 0x4003C790 */
+void trace_segments_gather_window(u32 tr);                                                                  /* 0x4003C7A0 */
 void trace_process_full(u32 tr);                                                                 /* 0x4003C7E4 */
 void channel_traces_process_full(u32 ch);                                                        /* 0x4003C85C */
 void channels_process_full(void);                                                                /* 0x4003C8D0 */

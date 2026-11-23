@@ -12,7 +12,7 @@
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
-u32 func_4002d2d4_d0_raw(u32 lo, u32 hi, u32 dec) __asm__("func_4002d2d4_d0");
+u32 number_text_width_mode0_raw(u32 lo, u32 hi, u32 dec) __asm__("number_text_width_mode0");
 void glyph_alpha_draw_raw(u32 x, u32 y, u32 s) __asm__("glyph_alpha_draw");
 
 #define B8(a) (*(volatile unsigned char *)(a))
@@ -77,8 +77,8 @@ void numpad_draw(void)
             }
             draw_colour_set(0xCCCCCC);
             if (lb <= 9) {
-                tw = func_4002d2d4_d0_raw(lb, 0, 0);
-                func_4002d82c_flag0((x + ((0x5A - tw) >> 1)) & 0xFFFF, (ry + 0x12) & 0xFFFF, lb, 0, 0);
+                tw = number_text_width_mode0_raw(lb, 0, 0);
+                number_draw_mode0((x + ((0x5A - tw) >> 1)) & 0xFFFF, (ry + 0x12) & 0xFFFF, lb, 0, 0);
                 continue;
             }
             gs = 0;

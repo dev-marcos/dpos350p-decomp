@@ -26,10 +26,10 @@ void xy_grid_draw(void)
         for (p = left; p <= right; p += step)
             vline_draw(U16(p), top, U16(bottom));
         for (p = (int)top; p <= bottom; p += step)
-            func_4002ecc4_span(U16(p), U16(left), U16(right));
+            hspan_fill(U16(p), U16(left), U16(right));
         base = (float)(int)top;
         for (i = 0; i < 40; i++)
-            func_4002ecc4_span(U16((int)(base + (float)i * 12.6f)), U16(cx - 2), U16(cx + 2));
+            hspan_fill(U16((int)(base + (float)i * 12.6f)), U16(cx - 2), U16(cx + 2));
         base = (float)left;
         for (i = 0; i < 40; i++)
             vline_draw(U16((int)(base + (float)i * 12.6f)), U16(cy - 1), U16(cy + 3));
@@ -37,6 +37,6 @@ void xy_grid_draw(void)
     draw_colour_set(0x505050);
     vline_draw(U16(left), top, U16(bottom));
     vline_draw(U16(right), top, U16(bottom));
-    func_4002ecc4_span(top, U16(left), U16(right));
-    func_4002ecc4_span(U16(bottom), U16(left), U16(right));
+    hspan_fill(top, U16(left), U16(right));
+    hspan_fill(U16(bottom), U16(left), U16(right));
 }

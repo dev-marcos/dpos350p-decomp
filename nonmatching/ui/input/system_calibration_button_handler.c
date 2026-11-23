@@ -28,7 +28,7 @@ void system_calibration_button_handler(void)
 {
     u32 cx, cy, t, p;
     int rc;
-    touch_button_update_0188();
+    system_calibration_button_update();
     cx = (unsigned short)(WREC(29, x) + (WREC(29, w) >> 1));
     cy = (unsigned short)(WREC(29, y) + (WREC(29, h) >> 1));
     if (BREC(39, state) != 2)

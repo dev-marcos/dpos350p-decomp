@@ -36,7 +36,7 @@ void screenshot_view_frame_draw(void)
     rect_fill(x, y, w, 0x1E);
     for (k = 1; k < 8; k++) {
         draw_colour_set(k << 29);
-        func_4002ecc4_span((y + 0x1E + k - 1) & 0xFFFF, x, (w + x) & 0xFFFF);
+        hspan_fill((y + 0x1E + k - 1) & 0xFFFF, x, (w + x) & 0xFFFF);
     }
     draw_colour_set(0xDDDDDD);
     draw_text_shadowed((x + 5) & 0xFFFF, (y + 5) & 0xFFFF, 0x4008A038u, 2, 2, 0);
@@ -57,7 +57,7 @@ void screenshot_view_frame_draw(void)
     rect_fill(x, by, w, 0x3C);
     for (k = 1; k < 8; k++) {
         draw_colour_set(k << 29);
-        func_4002ecc4_span((by - k) & 0xFFFF, x, (w + x) & 0xFFFF);
+        hspan_fill((by - k) & 0xFFFF, x, (w + x) & 0xFFFF);
     }
     ny = 0x21C - y;
     draw_colour_set(0);

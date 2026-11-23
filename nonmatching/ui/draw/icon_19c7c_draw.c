@@ -17,7 +17,7 @@ void icon_19c7c_draw(u32 x, u32 y)
     draw_colour_set(W32(0x409223ECu));
     rect_fill(x, (unsigned short)(y + 3), 10, 15);
     for (k = 0; k < 8; k++) {
-        func_4002ecc4_span((unsigned short)(y + 10 + k), (unsigned short)(x + 10), (unsigned short)(x + 20 - k));
-        func_4002ecc4_span((unsigned short)(y + 10 - k), (unsigned short)(x + 10), (unsigned short)(x + 20 - k));
+        hspan_fill((unsigned short)(y + 10 + k), (unsigned short)(x + 10), (unsigned short)(x + 20 - k));
+        hspan_fill((unsigned short)(y + 10 - k), (unsigned short)(x + 10), (unsigned short)(x + 20 - k));
     }
 }

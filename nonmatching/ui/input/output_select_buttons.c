@@ -21,7 +21,7 @@ void ui_window_invalidate_from_raw(u32 id) __asm__("ui_window_invalidate_from");
 void output_select_buttons(void)
 {
     u32 i;
-    touch_group_055C();
+    output_select_buttons_update();
     for (i = 0; i < 9; i++) {
         if (TB(0x55C + 10 * i) == 2) {
             TB(0x55C + 10 * i) = 0;

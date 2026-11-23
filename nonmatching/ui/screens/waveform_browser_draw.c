@@ -146,7 +146,7 @@ static void tb_draw(u32 lay, void (*path)(u32), u32 grid_rec, u32 img, u32 title
             touch_button_set_rect(U16(cx), U16(cy), 0xCB, 0x8A, TREC(10 * U16(k) + grid_rec));
             for (i = 1; i < 10; i++) {
                 draw_colour_set(0x111111 * i);
-                func_4002ecc4_span(U16(cy + 0x8A + i - 1), U16(cx), U16(cx + 0xCA));
+                hspan_fill(U16(cy + 0x8A + i - 1), U16(cx), U16(cx + 0xCA));
             }
             draw_colour_set(0);
             text_draw(U16(cx + ((0xCB - text_width(NAME)) >> 1)), U16(cy + 0x91), NAME);

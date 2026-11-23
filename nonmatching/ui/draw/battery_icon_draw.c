@@ -27,8 +27,8 @@ void battery_icon_draw(void)
         return;
     draw_colour_set(0xFFFFFF);
     rect_fill((unsigned short)(x + 5), (unsigned short)(y + 8), 3, 10);
-    func_4002ecc4_span((unsigned short)(y + 0x11), (unsigned short)(x + 3), (unsigned short)(x + 9));
-    func_4002ecc4_span((unsigned short)(y + 0x12), (unsigned short)(x + 4), (unsigned short)(x + 8));
-    func_4002ecc4_span((unsigned short)(y + 0x13), (unsigned short)(x + 5), (unsigned short)(x + 7));
-    func_4002ecc4_span((unsigned short)(y + 0x14), (unsigned short)(x + 6), (unsigned short)(x + 6));
+    hspan_fill((unsigned short)(y + 0x11), (unsigned short)(x + 3), (unsigned short)(x + 9));
+    hspan_fill((unsigned short)(y + 0x12), (unsigned short)(x + 4), (unsigned short)(x + 8));
+    hspan_fill((unsigned short)(y + 0x13), (unsigned short)(x + 5), (unsigned short)(x + 7));
+    hspan_fill((unsigned short)(y + 0x14), (unsigned short)(x + 6), (unsigned short)(x + 6));
 }

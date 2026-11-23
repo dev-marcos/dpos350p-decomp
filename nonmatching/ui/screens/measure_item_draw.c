@@ -59,7 +59,7 @@ void measure_item_draw(u32 x, u32 y, u32 ch, u32 kind)
     half_42e68be2_set(2);
     xn = H16(0x42E68BE4u) + x2;
     word_42e68c74_set(0x42E66718u);
-    func_4002d82c_flag0(U16(xn), U16(yy - 2), (u32)v, (u32)((unsigned long long)v >> 32), (unsigned char)dec);
+    number_draw_mode0(U16(xn), U16(yy - 2), (u32)v, (u32)((unsigned long long)v >> 32), (unsigned char)dec);
     xu = H16(0x42E68BE4u) + xn + 3;
     half_42e68be2_set(1);
     draw_colour_set(0x888888);

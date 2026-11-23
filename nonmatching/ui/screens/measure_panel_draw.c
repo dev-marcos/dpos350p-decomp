@@ -39,7 +39,7 @@ void measure_panel_draw(void)
             u32 x1 = U16(x + 0x95), x2 = x1;
             rect_fill(U16(x), U16(y), 0x95, 0x18);
             for (k = 0; k < 24; k++, y++, x2++)
-                func_4002ecc4_span(U16(y), x1, U16(x2));
+                hspan_fill(U16(y), x1, U16(x2));
         } else {
             rect_fill(U16(x), U16(y), 0x9B, 0x18);
         }

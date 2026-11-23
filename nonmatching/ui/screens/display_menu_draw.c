@@ -14,7 +14,7 @@
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
-u32 func_4002d2d4_d0_raw(u32 a, u32 b, u32 c) __asm__("func_4002d2d4_d0");
+u32 number_text_width_mode0_raw(u32 a, u32 b, u32 c) __asm__("number_text_width_mode0");
 
 #define SYS 0x40544E68u
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
@@ -55,7 +55,7 @@ void display_menu_draw(void)
     label_row(x, r0, 0x40089628u, ENT(16));
     text_shadow_draw((x + w - 0x1C) & 0xFFFF, (r0 + 3) & 0xFFFF, "%", 1, 2, 0);
     half_42e68be2_set(3);
-    nw = func_4002d2d4_d0_raw(SI(f_654), 0, 0);
+    nw = number_text_width_mode0_raw(SI(f_654), 0, 0);
     text_d6f8_shadow_draw((x + w - 0x20 - nw) & 0xFFFF, (r0 + 3) & 0xFFFF, SI(f_654), 0, 0, 1, 2, 0);
     half_42e68be2_set(1);
     slider_draw((x + 0x14) & 0xFFFF, (r0 + 0x3C) & 0xFFFF, SI(f_654));

@@ -121,7 +121,7 @@ void full_acquisition_entry(void)
         trigger_window_crossing(0);
         trigger_window_crossing(1);
         timebase_apply_2b0();
-        func_40032e0c_both();
+        key_repeat_and_measure_channels();
         channel_to_display_copy(0, i & 0xFFFF);
         channel_to_display_copy(1, i & 0xFFFF);
         if (B8(0x42E68BB0u + 0x15)) {

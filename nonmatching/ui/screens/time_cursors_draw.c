@@ -69,9 +69,9 @@ void time_cursors_draw(void)
     draw_colour_set(dark);
     half_42e68be2_set(2);
     word_42e68c74_set(0x42E658D8u);
-    func_4002ecc4_span(U16(mid), U16(c1 + left1), U16(half + c1 + left1));
+    hspan_fill(U16(mid), U16(c1 + left1), U16(half + c1 + left1));
     xb = U16(c2 + left1 - 1);
-    func_4002ecc4_span(U16(mid), U16(xb - half), xb);
+    hspan_fill(U16(mid), U16(xb - half), xb);
     draw_colour_set(dark);
     rect_fill(U16(half + c1 + left1), U16(mid - 0xC), 0x3C, 0x18);
     draw_colour_set(0);

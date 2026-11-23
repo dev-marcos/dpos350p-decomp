@@ -66,7 +66,7 @@ void gen_screen_draw(void)
     rect_fill(x, U16(cy), 0x186, 0x3C);
     draw_colour_set(PAL(5));
     for (i = 0; i < 0x23; i++)
-        func_4002ecc4_span(U16(cy + 0x22 - i), x, U16(x + i));
+        hspan_fill(U16(cy + 0x22 - i), x, U16(x + i));
     word_42e68c74_set(0x42E64A98u);
     draw_colour_set(0xC0C0C0);
     for (i = 0; i < 4; i++)
@@ -175,19 +175,19 @@ void gen_screen_draw(void)
     y0 = U16(y + 0x7D);
     draw_colour_set(gs_arrow_colour(0x656));
     for (i = 0; i < 20; i++)
-        func_4002ecc4_span(U16(y0 - 0x54 + i), U16(x0 - i), U16(x0 + i));
+        hspan_fill(U16(y0 - 0x54 + i), U16(x0 - i), U16(x0 + i));
     draw_colour_set(gs_arrow_colour(0x660));
     for (i = 0; i < 20; i++)
-        func_4002ecc4_span(U16(y0 + 0x54 - i), U16(x0 - i), U16(x0 + i));
+        hspan_fill(U16(y0 + 0x54 - i), U16(x0 - i), U16(x0 + i));
     draw_colour_set(gs_arrow_colour(0x66A));
     for (i = 0; i < 20; i++) {
-        func_4002ecc4_span(U16(y0 - i), U16(x0 - 0x54 + i), U16(x0 - 0x41));
-        func_4002ecc4_span(U16(y0 + i), U16(x0 - 0x54 + i), U16(x0 - 0x41));
+        hspan_fill(U16(y0 - i), U16(x0 - 0x54 + i), U16(x0 - 0x41));
+        hspan_fill(U16(y0 + i), U16(x0 - 0x54 + i), U16(x0 - 0x41));
     }
     draw_colour_set(gs_arrow_colour(0x674));
     for (i = 0; i < 20; i++) {
-        func_4002ecc4_span(U16(y0 - i), U16(x0 + 0x41), U16(x0 + 0x54 - i));
-        func_4002ecc4_span(U16(y0 + i), U16(x0 + 0x41), U16(x0 + 0x54 - i));
+        hspan_fill(U16(y0 - i), U16(x0 + 0x41), U16(x0 + 0x54 - i));
+        hspan_fill(U16(y0 + i), U16(x0 + 0x41), U16(x0 + 0x54 - i));
     }
     draw_colour_set(TREC(0x67E)[1] ? 0x666666 : 0x333333);
     for (i = 0, cy = y + 0xF; i < 4; i++, cy += 0xB)

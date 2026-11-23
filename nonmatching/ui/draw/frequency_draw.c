@@ -11,7 +11,7 @@
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
-u32 func_4002d2d4_d0_raw(u32 lo, u32 hi, u32 dec) __asm__("func_4002d2d4_d0");
+u32 number_text_width_mode0_raw(u32 lo, u32 hi, u32 dec) __asm__("number_text_width_mode0");
 
 #define TW (*(volatile unsigned short *)0x42E68BE4u)
 
@@ -60,8 +60,8 @@ u32 frequency_draw(u32 x, u32 y, u32 measure, double d)
             q++;
     }
     if (measure)
-        return func_4002d2d4_d0_raw((u32)q, (u32)((unsigned long long)q >> 32), dec) + text_width(u) + 4;
-    func_4002d82c_flag0(x, y, (u32)q, (u32)((unsigned long long)q >> 32), dec);
+        return number_text_width_mode0_raw((u32)q, (u32)((unsigned long long)q >> 32), dec) + text_width(u) + 4;
+    number_draw_mode0(x, y, (u32)q, (u32)((unsigned long long)q >> 32), dec);
     text_draw((unsigned short)(x + TW + 4), y, u);
     return 0;
 }

@@ -51,7 +51,7 @@ static u32 colour_bar(u32 x8, u32 noff, u32 yoff, u32 tab, double top)
             y = j + W32(BLK + yoff);
             draw_colour_set(W32(tab + 4 * (u32)(top - (double)j * k)));
             j++;
-            func_4002ecc4_span(y & 0xFFFF, 10, 0x28);
+            hspan_fill(y & 0xFFFF, 10, 0x28);
         } while (j < W32(BLK + noff));
     }
     return x8;
@@ -92,7 +92,7 @@ void levels_graph_draw(void)
         do {
             i++;
             y += LEVELS(grid_y_step);
-            func_4002ecc4_span(y & 0xFFFF, x & 0xFFFF, (0xFFFF + LEVELS(plot_w) + x) & 0xFFFF);
+            hspan_fill(y & 0xFFFF, x & 0xFFFF, (0xFFFF + LEVELS(plot_w) + x) & 0xFFFF);
         } while (i < LEVELS(grid_y_div));
     }
     x8 = 5;
