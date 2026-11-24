@@ -21,9 +21,9 @@ void text_draw(u32 x, u32 y, const char *s);                                    
 void text_shadow_draw(u32 x, u32 y, const char *s, u32 n, unsigned char m, unsigned char alpha); /* 0x4002D0D4 */
 u32 text_width(const char *s);                                                                   /* 0x4002D164 */
 u32 number_text_width(long long v, u32 dec, u32 mode);                                           /* 0x4002D2D4 */
-void number_draw_mode1(u32 a, u32 b, u32 c, u32 d, u32 e);                                     /* 0x4002D6D4 */
-void number_draw_mode0(u32 a, u32 b, u32 c, u32 d, u32 e);                                     /* 0x4002D6F8 */
-void number_text_width_mode0(u32 a, u32 b, u32 c);                                                      /* 0x4002D71C */
+void number_draw_mode1(u32 x, u32 y, u32 v_lo, u32 v_hi, u32 dec);                                     /* 0x4002D6D4 */
+void number_draw_mode0(u32 x, u32 y, u32 v_lo, u32 v_hi, u32 dec);                                     /* 0x4002D6F8 */
+void number_text_width_mode0(u32 v_lo, u32 v_hi, u32 dec);                                                      /* 0x4002D71C */
 void text_d6f8_shadow_draw(u32 x, u32 y, u32 a, u32 b, unsigned char e, unsigned char n, unsigned char m, unsigned char alpha); /* 0x4002D724 */
 void number_draw(u32 x, u32 y, long long v, unsigned char dec, signed char mode);                /* 0x4002D82C */
 void half_42e68be2_set(u32 a);                                                                   /* 0x4002DC40 */
@@ -37,7 +37,7 @@ void font_char_tint_draw(u32 x, u32 y, u32 ch);                                 
 void draw_colour_set(u32 c);                                                                     /* 0x4002EA38 */
 void pixel_blend(u32 x, u32 y);                                                                  /* 0x4002EA88 */
 void pixel_put(u32 x, u32 y);                                                                    /* 0x4002EB70 */
-void hspan_fill(u32 a, u32 b, u32 c);                                                    /* 0x4002EBA8 */
+void hspan_fill(u32 y, u32 x0, u32 x1);                                                    /* 0x4002EBA8 */
 void vline_draw(u32 x, u32 y0, u32 y1);                                                          /* 0x4002EBC8 */
 void rect_outline_draw(u32 x, u32 y, u32 w, u32 h);                                              /* 0x4002EC4C */
 void rect_fill(u32 x, u32 y, u32 w, u32 h);                                                      /* 0x4002ECC4 */

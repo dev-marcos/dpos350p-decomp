@@ -1,7 +1,8 @@
 /*
  * number_draw_mode0 -- stock 0x4002D6F8 (36 bytes, ARM)
  * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
- * 0x4002D82C(a, b, c, d, the low byte of the fifth (stack) argument, 0).
+ * number_draw(x, y, v, dec, 0): v is passed as two words (r2 low, r3 high), dec is the low
+ * byte of the fifth (stack) argument.
  */
 #include "hw/platform.h"
 
@@ -10,9 +11,9 @@
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
-void number_draw_raw(u32 a, u32 b, u32 c, u32 d, u32 e, u32 g) __asm__("number_draw");
+void number_draw_raw(u32 x, u32 y, u32 v_lo, u32 v_hi, u32 dec, u32 mode) __asm__("number_draw");
 
-void number_draw_mode0(u32 a, u32 b, u32 c, u32 d, u32 e)
+void number_draw_mode0(u32 x, u32 y, u32 v_lo, u32 v_hi, u32 dec)
 {
-    number_draw_raw(a, b, c, d, e & 0xFF, 0);
+    number_draw_raw(x, y, v_lo, v_hi, dec & 0xFF, 0);
 }

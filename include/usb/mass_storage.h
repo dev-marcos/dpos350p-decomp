@@ -8,8 +8,8 @@
 void usb_disk_hook(void);                                                                        /* 0x4006A734 */
 u32 usb_disk_sd_read(u32 a, u32 lba, u32 count, u32 d);                                          /* 0x4006A738 */
 u32 usb_disk_sd_write(u32 a, u32 lba, u32 count, u32 d);                                         /* 0x4006A868 */
-u32 usb_mass_disk_read(u32 a, u32 b, u32 c);                                                     /* 0x4006A964 */
-u32 usb_mass_disk_write(u32 a, u32 b, u32 c);                                                    /* 0x4006A978 */
+u32 usb_mass_disk_read(u32 lun, u32 lba, u32 count);                                                     /* 0x4006A964 */
+u32 usb_mass_disk_write(u32 lun, u32 lba, u32 count);                                                    /* 0x4006A978 */
 void usb_disk_geometry_update(void);                                                             /* 0x4006A98C */
 int usb_mass_write(int unused, unsigned char *buf, int len);                                     /* 0x4006B95C */
 unsigned char *usb_mass_max_lun_ptr(void);                                                       /* 0x4006B978 */

@@ -1,14 +1,14 @@
 /*
  * hspan_fill -- stock 0x4002EBA8 (32 bytes, ARM)
  * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
- * (a, b, c): 0x4002ECC4(b, a, (u16)(c - b + 1), 1).
+ * One-pixel-high span on row y from x0 to x1 inclusive: rect_fill(x0, y, (u16)(x1 - x0 + 1), 1).
  */
 #include "hw/platform.h"
 
 #include "hw/fpga.h"
 #include "ui/draw.h"
 
-void hspan_fill(u32 a, u32 b, u32 c)
+void hspan_fill(u32 y, u32 x0, u32 x1)
 {
-    rect_fill(b, a, (c - b + 1) & 0xFFFF, 1);
+    rect_fill(x0, y, (x1 - x0 + 1) & 0xFFFF, 1);
 }

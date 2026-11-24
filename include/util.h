@@ -14,7 +14,7 @@ void *memcpy(void *d, const void *s, unsigned int n);                           
 void copy_u16(unsigned short *d, const unsigned short *s, u32 n);                                /* 0x40035728 */
 int str_find_char_next(const signed char *s, int ch);                                            /* 0x40056BE4 */
 int str_find_char(const signed char *s, int ch);                                                 /* 0x40056BE8 */
-void index_map_if_above(u32 a, u32 b, u32 c, u32 d, u32 e, u32 g);                               /* 0x4005C918 */
+void index_map_if_above(u32 src_a, u32 center_a, u32 w, u32 m, u32 shift_a, u32 unused);                               /* 0x4005C918 */
 void mem_clear(void *d, unsigned int n);                                                         /* 0x4005F914 */
 int strcmp(const char *a, const char *b);                                                        /* 0x40068F78 */
 u32 strlen(const char *str);                                                                     /* 0x4006A6A8 */

@@ -182,7 +182,7 @@ MUTANTS = [
     (0x40069DF4, "if (oem < 0x80)", "if ((u32)oem < 0x80)"),
     (0x40069E38, "case 8: uc -= 0x1C60; break;", "case 8: uc -= 0x1C50; break;"),
     (0x40069E38, "if (cmd == 0)", "if (cmd != 1)"),
-    (0x4006A964, "return a;", "return 0;"),
+    (0x4006A964, "return lun;", "return 0;"),
     (0x40069CF8, "dx /= 10;", "dx /= 8;"),
     # batch 14: acquisition control
     (0x4003F948, "u32 v = n - 2;", "u32 v = n - 1;"),                                  # sample count bias
@@ -277,13 +277,13 @@ MUTANTS = [
     (0x40060D68, 'LEVELS(spur_mode) = old & 0xFF;', 'LEVELS(spur_mode) = old;'),
     # batch 28: small leftovers (setters, gates, FPGA commands, drawing wrappers)
     (0x4002EB70, 'y * 1022u', 'y * 1023u'),
-    (0x4002EBA8, '(c - b + 1) & 0xFFFF', '(c - b) & 0xFFFF'),
+    (0x4002EBA8, '(x1 - x0 + 1) & 0xFFFF', '(x1 - x0) & 0xFFFF'),
     (0x400301A8, 'if (mode == 1)', 'if (mode != 0)'),
     (0x400301A8, 'for (n = 24; n; n--)', 'for (n = 23; n; n--)'),
     (0x4006366C, 'SI(f_275) && SI(f_274) && SI(trigger_mode)', 'SI(f_275) && SI(trigger_mode)'),
     (0x400636BC, '(SI(trigger_offset_1b) >> 8) & 0xFF', '(SI(trigger_offset_1b) >> 16) & 0xFF'),
     (0x40064DC0, 'r = gen_selftest_64cf0() & a & 1;', 'r = gen_selftest_64cf0() & 1;'),
-    (0x4002D6D4, 'e & 0xFF, 1)', 'e, 1)'),
+    (0x4002D6D4, 'dec & 0xFF, 1)', 'dec, 1)'),
     (0x40024E14, 'if (SI(f_652) == 0)', 'if (SI(f_652) != 1)'),
     (0x40034284, '(h[3] + y + 1)', '(h[3] + x + 1)'),
     # batch 29: colour, buffer copy, list at SYS+0xFA0, clamps, labels, file checks

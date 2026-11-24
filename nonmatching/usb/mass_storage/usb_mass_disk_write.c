@@ -8,9 +8,9 @@
 #include "hw/fpga.h"
 #include "usb/mass_storage.h"
 
-u32 usb_mass_disk_write(u32 a, u32 b, u32 c)
+u32 usb_mass_disk_write(u32 lun, u32 lba, u32 count)
 {
     if (*(volatile u32 *)0x40095490u == 1)
-        return usb_disk_sd_write(a, b, c, 0x40095490u);   /* r3 still holds the state address */
-    return a;
+        return usb_disk_sd_write(lun, lba, count, 0x40095490u);   /* r3 still holds the state address */
+    return lun;
 }
