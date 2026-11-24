@@ -13,8 +13,8 @@
 void zoom_reset(void)
 {
     u32 lo, hi;
-    timebase_index_set(SI(f_5b0));
-    zoom_index_set((SI(f_5b0) - 1) & 0xFF);
+    timebase_index_set(SI(committed_timebase_index));
+    zoom_index_set((SI(committed_timebase_index) - 1) & 0xFF);
     sys_word_pair_570_set(SYS32(0x5E0), SYS32(0x5E4));
     lo = SYS32(0x570);
     hi = SYS32(0x574);

@@ -16,8 +16,8 @@ void touch_hit_x_b(void)
 {
     int x = g_touch->down_x;
     u32 o = SI(plot_x0);
-    int a = (unsigned short)(SI(f_3da534) + o);
-    int c = (unsigned short)(SI(f_3da538) + o);
+    int a = (unsigned short)(SI(cursor_a) + o);
+    int c = (unsigned short)(SI(cursor_b) + o);
     u32 d0 = x >= a ? (u32)(x - a) : (u32)(a - x);
     u32 d1 = x >= c ? (u32)(x - c) : (u32)(c - x);
     if (TCS(cursor_limit) < d0) d0 = 0xFFFF;

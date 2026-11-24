@@ -12,7 +12,7 @@
 
 void applied_state_invalidate(void)
 {
-    SI(f_bb0) = ~SI(f_6e4);
+    SI(outputs_applied) = ~SI(f_6e4);
     SI(f_bb1) = ~SI(f_6e5);
     SI(f_bb2) = ~SI(f_6e6);
     SI(f_bb3) = ~SI(f_6e7);
@@ -23,7 +23,7 @@ void applied_state_invalidate(void)
     SI(f_bc4) = 0;
     SI(f_bc9) = ~SI(ch2_vdiv_index);
     SI(f_bc8) = ~SI(ch1_vdiv_index);
-    SI(f_bca) = ~SI(f_100);
+    SI(f_bca) = ~SI(bank_mode);
     fpga_counters_init();
     outputs_apply();
 }

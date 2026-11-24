@@ -29,7 +29,7 @@ void trace_zoom_segments(u32 tr)
         wn = W32(P(8));
         if (k >= wn)
             return;
-        x = (long long)((unsigned long long)(SI(f_570) - SI(f_5e0)) * (unsigned long long)(long long)I32(P(4)));
+        x = (long long)((unsigned long long)(SI(position_ref) - SI(f_5e0)) * (unsigned long long)(long long)I32(P(4)));
         x = x / S64(SYS + 0x590);
         rem = (int)(x % (long long)W32(P(0x10)));
         {
@@ -42,8 +42,8 @@ void trace_zoom_segments(u32 tr)
         wn = W32(P(0x20));
         if (k >= wn)
             return;
-        x = (long long)((unsigned long long)(SI(f_578) - SI(f_5e0)) * (unsigned long long)(long long)I32(P(0x1C)));
-        x = x / SI(f_5a0);
+        x = (long long)((unsigned long long)(SI(view_position) - SI(f_5e0)) * (unsigned long long)(long long)I32(P(0x1C)));
+        x = x / SI(zoom_period);
         rem = (int)(x % (long long)W32(P(0x28)));
         {
             int a = (int)((long long)((unsigned long long)(long long)I32(P(0x30)) * W32(P(0x20))) / (long long)k);

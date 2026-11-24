@@ -13,7 +13,7 @@ void trace_buffer_pointers_setup(u32 n)
 {
     u32 a = (u32)(int)(short)SI(f_29c), b = (u32)(int)(short)SI(f_29e);
     u32 p;
-    SI(f_7bc) = n;
+    SI(capture_samples) = n;
     p = 0x42C62AF4u + 2u * a + 2u * b + 2u * ((0xC738u - n) >> 1);
     SI(ch1_buffer) = p;
     SI(ch2_buffer) = p + 2u * 0xC738u;

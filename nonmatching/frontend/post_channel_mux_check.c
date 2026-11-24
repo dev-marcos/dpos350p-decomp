@@ -19,18 +19,18 @@ int post_channel_mux_check(u32 vdiv)
     u32 a, m;
     SI(timebase_index) = 0x18; SI(ch1_vdiv_index) = vdiv; SI(ch2_vdiv_index) = vdiv;
     SI(acq_transition_flag) = 0; SI(ch1_enabled) = 1; SI(ch1_probe) = 0; SI(ch1_coupling) = 0; SI(f_046) = 2;
-    SI(ch2_enabled) = 1; SI(ch2_probe) = 0; SI(ch2_coupling) = 0; SI(f_10a) = 2; SI(f_275) = 0; SI(f_660) = 0;
+    SI(ch2_enabled) = 1; SI(ch2_probe) = 0; SI(ch2_coupling) = 0; SI(f_10a) = 2; SI(f_275) = 0; SI(hires_option) = 0;
     SI(ch1_offset) = 0xAA; SI(ch2_offset) = 0xAA;
     outputs_apply(); delay_ms(100); acquisition_dispatcher();
-    a = SI(ch1_offset); m = SI(f_b34);
+    a = SI(ch1_offset); m = SI(ch1_mean_pos);
     if (a - tol < m && m < tol + a) ok_hi1 = 1;
-    a = SI(ch2_offset); m = SI(f_b50);
+    a = SI(ch2_offset); m = SI(ch2_mean_pos);
     if (a - tol < m && m < tol + a) ok_hi2 = 1;
     SI(ch1_offset) = 0x1E; SI(ch2_offset) = 0x1E;
     outputs_apply(); delay_ms(100); acquisition_dispatcher();
-    a = SI(ch1_offset); m = SI(f_b34);
+    a = SI(ch1_offset); m = SI(ch1_mean_pos);
     if (a - tol < m && m < tol + a) ok_lo1 = 1;
-    a = SI(ch2_offset); m = SI(f_b50);
+    a = SI(ch2_offset); m = SI(ch2_mean_pos);
     if (a - tol < m && m < tol + a) ok_lo2 = 1;
     {
         int c1 = (ok_lo1 & ok_hi1) != 0, c2 = (ok_lo2 & ok_hi2) != 0;

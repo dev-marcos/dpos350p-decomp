@@ -42,9 +42,9 @@ static void message(u32 e)
     u32 tw = text_width(*(const char *volatile *)t), x, y;
     x = BH(0) + ((u32)(BH(4) - tw - 0x28) >> 1);
     y = BH(2) + ((int)BH(6) - 0x28) / 2;
-    draw_colour_set(SI(f_3dd550));
+    draw_colour_set(SI(theme_background));
     rect_fill(U16(x), U16(y), U16(tw + 0x28), 0x28);
-    draw_colour_set(SI(f_3dd554));
+    draw_colour_set(SI(theme_text));
     text_draw(U16(x + (signed char)t[0x194] + 0x14), U16(y + (signed char)t[0x195] + 0xD),
               *(const char *volatile *)t);
 }

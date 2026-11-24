@@ -12,7 +12,7 @@
 
 void fpga_cmd1c_write(void)
 {
-    u32 v = SI(f_28c);
+    u32 v = SI(trigger_offset_1c);
     fpga_selector_command_write(0x1C);
     if (SI(f_275) && SI(f_274)) {
         fpga_data_byte_write((v >> 8) & 0xFF);

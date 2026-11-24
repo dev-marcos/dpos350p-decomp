@@ -11,7 +11,7 @@
 
 void zoom_entry_select(void)
 {
-    volatile u32 *s = &SYS32(0xBD0 + 8 * SI(f_598));
+    volatile u32 *s = &SYS32(0xBD0 + 8 * SI(zoom_index));
     u32 lo = s[0], hi = s[1];
     SYS32(0x5A0) = lo;
     SYS32(0x5A4) = hi;

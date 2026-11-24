@@ -1,7 +1,7 @@
 /*
  * saved_wave_trace_build -- stock 0x40036864 (244 bytes, ARM)
  * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
- * Rebuilds the trace of a saved waveform. State at SYS+0x3DA530: byte +0 buffer index (buffers of 0x927C0 bytes from 0x411AF3E8), word +4 first column, word +8 end column, word +0xC set to end - first. For each column x in [first, end): the mean of n = SI(f_5f8) u16 samples starting at SI(f_38c) + n * (x - u16 SYS+8 / 2), divided by SI(acq_geometry_1c0); u16 SYS+0xA minus that goes to u16 SYS+0x3DA548 + 2 * (x - first).
+ * Rebuilds the trace of a saved waveform. State at SYS+0x3DA530: byte +0 buffer index (buffers of 0x927C0 bytes from 0x411AF3E8), word +4 first column, word +8 end column, word +0xC set to end - first. For each column x in [first, end): the mean of n = SI(samples_per_column) u16 samples starting at SI(block_base) + n * (x - u16 SYS+8 / 2), divided by SI(acq_geometry_1c0); u16 SYS+0xA minus that goes to u16 SYS+0x3DA548 + 2 * (x - first).
  */
 #include "hw/platform.h"
 
@@ -19,8 +19,8 @@ void saved_wave_trace_build(void)
     int x = (int)W32(ST + 4);
     W32(ST + 0xC) = W32(ST + 8) - W32(ST + 4);
     for (; x < (int)W32(ST + 8); x++) {
-        u32 n = SI(f_5f8), i;
-        volatile unsigned short *p = (volatile unsigned short *)(base + 2 * (SI(f_38c) + n * ((u32)x - (SI(plot_width) >> 1))));
+        u32 n = SI(samples_per_column), i;
+        volatile unsigned short *p = (volatile unsigned short *)(base + 2 * (SI(block_base) + n * ((u32)x - (SI(plot_width) >> 1))));
         unsigned long long sum = 0;
         long long v;
         for (i = 0; i < n; i++)

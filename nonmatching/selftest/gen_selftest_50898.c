@@ -31,9 +31,9 @@ void gen_selftest_50898(void)
     SI(ch2_enabled) = 1;
     SI(f_046) = 2;
     SI(f_10a) = 2;
-    SI(f_660) = 5;
+    SI(hires_option) = 5;
     g_touch->enabled = 0;
-    step = SI(f_558);
+    step = SI(bank_count);
     start = 0x2E68 + 5 * step;
     n = 0x924 - 10 * step;
     for (i = 0; i < 5; i++) {

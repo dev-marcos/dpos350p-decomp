@@ -25,8 +25,8 @@ void sample_divisor_setup(void)
         div = 2;
         flag = 1;
     }
-    SI(f_100) = mode;
-    SI(f_1b0) = div;
+    SI(bank_mode) = mode;
+    SI(sample_divisor) = div;
     SI(f_1ac) = flag;
-    SI(repeat_factor) = SI(f_524) / div;
+    SI(repeat_factor) = SI(sample_rate) / div;
 }

@@ -11,6 +11,6 @@
 
 void zoom_index_set(u32 v)
 {
-    SI(f_598) = v;
+    SI(zoom_index) = v;
     zoom_index_fit();
 }

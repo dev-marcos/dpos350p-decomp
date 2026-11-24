@@ -66,7 +66,7 @@ void measure_channel(u32 ch_arg)
     static const unsigned char order[12] = {0, 1, 2, 3, 5, 4, 6, 7, 8, 9, 10, 11};
     unsigned char ch = (unsigned char)ch_arg;   /* the stock code reads the byte back from the stack */
     u32 th = (u32)(int)S16(SYS + 0x27E);
-    u32 buf = W32(SYS + 0x7B4 + 4 * ch), n = (unsigned short)SI(f_7bc);
+    u32 buf = W32(SYS + 0x7B4 + 4 * ch), n = (unsigned short)SI(capture_samples);
     u32 cntp, flagp, avg, out, acc, mb, limit, mx, mn, d, maxs, mins, k;
     volatile u32 *mr;
     volatile long long *o, *a, *v;
@@ -99,7 +99,7 @@ void measure_channel(u32 ch_arg)
         acc = SYS + 0xAC8;
         mb = SYS + 0xB44;
     }
-    banks = (int)SI(f_558);
+    banks = (int)SI(bank_count);
     mr = (volatile u32 *)mb;
     o = (volatile long long *)out;
     a = (volatile long long *)acc;
@@ -132,9 +132,9 @@ void measure_channel(u32 ch_arg)
         mr[2] = (mx - mn) / SI(acq_geometry_1c0);
         mr[3] = mid / SI(acq_geometry_1c0);
     }
-    vmax = LDIV(MUL64((long long)maxs - off, scale), (long long)SI(f_020));
+    vmax = LDIV(MUL64((long long)maxs - off, scale), (long long)SI(grid_step));
     o[0] = vmax;
-    vmin = LDIV(MUL64((long long)mins - off, scale), (long long)SI(f_020));
+    vmin = LDIV(MUL64((long long)mins - off, scale), (long long)SI(grid_step));
     o[1] = vmin;
     o[5] = vmax - vmin;
     if (SI(trigger_channel) != ch)
@@ -147,7 +147,7 @@ void measure_channel(u32 ch_arg)
 
     seg = (unsigned short)((int)(n - 20) / banks);
     for (b = 0; b < banks; b++) {
-        u32 base = (u32)b + 10, shift = SI(f_1bc);
+        u32 base = (u32)b + 10, shift = SI(sample_shift);
         int hia = 0, loa = 0xFFFF, hib = 0, lob = 0xFFFF, fa = 0, fb = 0;
         int na = 0, nb = 0, firsta = 0, lasta = 0, firstb = 0, lastb = 0;
         int suma = 0, sumb = 0, cnta = 0, cntb = 0, usea = 0, from, to, cnt, sq, sm;
@@ -236,7 +236,7 @@ rms_part:
         sm = 0;
         p = (volatile unsigned short *)(buf + 2 * ((u32)banks * (u32)from + base));
         if (to >= from) {
-            u32 sh = SI(f_1bc);
+            u32 sh = SI(sample_shift);
             int j = from;
             do {
                 int x = (int)(*p >> sh) - (int)(u32)off;
@@ -251,8 +251,8 @@ rms_part:
         mean += (long long)(100 * sm / cnt);
     }
     mr[4] = (u32)(glitch / banks);
-    o[3] = LDIV(LDIV(LDIV(MUL64(rms, scale), (long long)SI(f_020)), 100), (long long)banks);
-    o[2] = LDIV(LDIV(LDIV(MUL64(mean, scale), (long long)SI(f_020)), 100), (long long)banks);
+    o[3] = LDIV(LDIV(LDIV(MUL64(rms, scale), (long long)SI(grid_step)), 100), (long long)banks);
+    o[2] = LDIV(LDIV(LDIV(MUL64(mean, scale), (long long)SI(grid_step)), 100), (long long)banks);
 
     t = to_time(&per, &k1, &m1, banks);
     o[7] = t;

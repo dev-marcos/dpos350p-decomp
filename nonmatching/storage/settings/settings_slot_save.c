@@ -12,7 +12,7 @@
 
 static u32 slot_addr(void)
 {
-    u32 s = SI(f_7c0) - 1;
+    u32 s = SI(settings_slot) - 1;
     return s <= 4 ? SYS32(0x7C8 + 4 * s) : 0;
 }
 

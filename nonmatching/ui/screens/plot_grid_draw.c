@@ -49,8 +49,8 @@ void plot_grid_draw(void)
     int x0 = SI(plot_x0), w = SI(plot_width);
     int cx = x0 + (w >> 1), x1 = x0 + w;
     u32 xs = SI(f_01c);
-    int split = SI(zoom_on), grid = SI(f_655);
-    u32 ys = SI(f_020);
+    int split = SI(zoom_on), grid = SI(grid_on);
+    u32 ys = SI(grid_step);
     int y0 = SI(plot_y0), h = SI(plot_height);
     int ya, yb, t;
 
@@ -71,7 +71,7 @@ void plot_grid_draw(void)
     ya = SI(plot_y0) + h / 3 + 1;
     t = (2 * h) / 3;
     yb = ya + t + 1;
-    if (SI(f_655))
-        grid_part(x0, x1, cx, ya, yb, ya + t / 2, xs, (2 * (u32)SI(f_020)) / 3, 0x1.0ccccep+3f);    /* 8.4, bits 0x41066667 */
+    if (SI(grid_on))
+        grid_part(x0, x1, cx, ya, yb, ya + t / 2, xs, (2 * (u32)SI(grid_step)) / 3, 0x1.0ccccep+3f);    /* 8.4, bits 0x41066667 */
     frame(x0, x1, ya, yb);
 }

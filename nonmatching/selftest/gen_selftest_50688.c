@@ -42,7 +42,7 @@ void gen_selftest_50688(void)
     off = SI(plot_height);
     SI(ch1_enabled) = 1;
     SI(ch2_enabled) = 1;
-    SI(f_660) = 5;
+    SI(hires_option) = 5;
     g_touch->enabled = 0;
     for (i = 0; i < 2; i++) {
         int amp = i ? -2500 : 2500;

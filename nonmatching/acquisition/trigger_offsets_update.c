@@ -14,16 +14,16 @@ void trigger_offsets_update(void)
     u32 r4 = SI(f_2bc), L, a, b;
     long long t;
     u32 half = (u32)__aeabi_ldivmod((long long)r4, 2);
-    t = __aeabi_ldivmod((long long)SYS64(0x570), (long long)SI(f_590));
+    t = __aeabi_ldivmod((long long)SYS64(0x570), (long long)SI(timebase_period));
     t = __aeabi_ldivmod(t, (long long)SI(f_564));
     t = (long long)((unsigned long long)t * SI(f_560));
-    t = (long long)((unsigned long long)t * SI(f_558));
+    t = (long long)((unsigned long long)t * SI(bank_count));
     t = __aeabi_ldivmod(t, (long long)SI(repeat_factor));
-    L = SI(f_520);
+    L = SI(record_length);
     a = (u32)t + half;
     b = r4 - a;
-    SI(f_288) = a - (a / L) * L;
-    SI(f_28c) = b - (b / L) * L;
+    SI(trigger_offset_1b) = a - (a / L) * L;
+    SI(trigger_offset_1c) = b - (b / L) * L;
     veneer_400636bc();
     veneer_40063714();
 }

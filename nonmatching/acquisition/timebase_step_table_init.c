@@ -13,7 +13,7 @@
 
 void timebase_step_table_init(void)
 {
-    SI(f_bd0) = 1LL;
+    SI(timebase_steps) = 1LL;
     SI(f_bd8) = 2LL;
     SI(f_be0) = 5LL;
     SI(f_be8) = 10LL;

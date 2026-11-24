@@ -36,13 +36,13 @@ void buttons_20a_handler(void)
             x = hi;
         n = (int)((u32)(x - lo) * 100u);
         d = hi - lo;
-        SI(f_654) = d == 0 ? 0 : d == -1 ? (int)(0u - (u32)n) : n / d;
+        SI(waveform_light) = d == 0 ? 0 : d == -1 ? (int)(0u - (u32)n) : n / d;
         return;
     }
     if (BREC(53, state) == 2) {
         BREC_BYTE0 = 0;
         BREC(53, state) = 0;
-        SI(f_653) = SI(f_653) == 0;
+        SI(palette_alt) = SI(palette_alt) == 0;
     } else if (BREC(54, state) == 2) {
         BREC_BYTE0 = 0;
         BREC(54, state) = 0;
@@ -50,7 +50,7 @@ void buttons_20a_handler(void)
     } else if (BREC(55, state) == 2) {
         BREC_BYTE0 = 0;
         BREC(55, state) = 0;
-        SI(f_655) = SI(f_655) == 0;
+        SI(grid_on) = SI(grid_on) == 0;
     } else if (BREC(38, state) == 2) {
         BREC(38, state) = 0;
         BREC_BYTE0 = 0;

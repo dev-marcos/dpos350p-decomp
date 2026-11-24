@@ -13,7 +13,7 @@ void touch_drag_delta(void)
 {
     volatile short *t = (volatile short *)0x42E68BB0u;
     int dx = t[2] - t[0], dy = t[3] - t[1];
-    if (SI(f_671)) {
+    if (SI(fine_move)) {
         dx /= 10;
         dy /= 10;
     }

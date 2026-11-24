@@ -14,16 +14,16 @@
 
 void list_c_entry_remove(u32 v)
 {
-    int n = SI(f_758), i, k = 0, c;
+    int n = SI(capture_slot_count), i, k = 0, c;
     for (i = 0; i < n; i++) {
         if (SYS16(0xFA6 + 2 * i) == v) {
             k = i;
             break;
         }
     }
-    for (; k < SI(f_758) - 1; k++)
+    for (; k < SI(capture_slot_count) - 1; k++)
         SYS16(0xFA6 + 2 * k) = SYS16(0xFA8 + 2 * k);
-    SYS16(0xFA4 + 2 * SI(f_758)) = 0;
+    SYS16(0xFA4 + 2 * SI(capture_slot_count)) = 0;
     c = SI(list_count);
     if (c)
         SI(list_count) = c - 1;

@@ -12,7 +12,7 @@
 void timebase_index_step_down(u32 d)
 {
     u32 lim = SI(f_2ac) * SI(f_554);
-    if (SI(f_55c) < lim && SI(f_5fc) < lim) {
+    if (SI(f_55c) < lim && SI(sample_limit) < lim) {
         u32 c = SI(timebase_index);
         SI(timebase_index) = c >= d ? c - d : 0;
     }

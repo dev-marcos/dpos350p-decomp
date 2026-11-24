@@ -12,7 +12,7 @@
 void channel_moving_average(u32 ch)
 {
     volatile unsigned short *buf = (volatile unsigned short *)SYS32(0x7B4 + 4 * ch);
-    int n = (int)SI(f_7bc), w, i, acc = 0;
+    int n = (int)SI(capture_samples), w, i, acc = 0;
 
     if (ch == 0) {
         if (SI(ch1_enabled) == 0)
@@ -22,7 +22,7 @@ void channel_moving_average(u32 ch)
             return;
     }
 
-    w = SI(f_662);
+    w = SI(moving_avg_width);
     if (w < 2)
         return;
     for (i = 0; i < n; i++) {

@@ -23,7 +23,7 @@
 /* fill and text colour of option i */
 static void option_colours(int i, u32 *txt)
 {
-    if (SI(f_660) == i) {
+    if (SI(hires_option) == i) {
         draw_colour_set(W32(TH + 0x10));
         *txt = 0;
     } else {

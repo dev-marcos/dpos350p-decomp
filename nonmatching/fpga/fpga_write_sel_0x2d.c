@@ -13,6 +13,6 @@
 void fpga_write_sel_0x2d(void)
 {
     fpga_selector_command_write(0x2D);
-    fpga_data_byte_write(SI(f_108) >> 8);
-    fpga_data_byte_write(SI(f_108) & 0xFF);
+    fpga_data_byte_write(SI(ch2_fpga_2d) >> 8);
+    fpga_data_byte_write(SI(ch2_fpga_2d) & 0xFF);
 }

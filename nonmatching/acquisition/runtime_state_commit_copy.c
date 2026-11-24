@@ -15,10 +15,10 @@ void runtime_state_commit_copy(void)
         return;
     SI(acq_path_mode_shadow) = SI(acq_path_mode);
     SI(f_5d0) = SI(capture_count);
-    SI(f_5b0) = SI(timebase_index);
-    SI(f_5d4) = SI(f_558);
+    SI(committed_timebase_index) = SI(timebase_index);
+    SI(f_5d4) = SI(bank_count);
     SI(f_5d8) = SI(f_55c);
-    SI(f_5b8) = SI(f_590);
+    SI(f_5b8) = SI(timebase_period);
     SI(f_5a8) = SI(f_530);
     SYS64(0x5E0) = SYS64(0x570);
     SI(f_5e8) = SI(f_568);

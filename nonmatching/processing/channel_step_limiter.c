@@ -12,9 +12,9 @@
 void channel_step_limiter(u32 ch)
 {
     volatile unsigned short *buf = (volatile unsigned short *)SYS32(0x7B4 + 4 * ch);
-    int n = (int)SI(f_7bc), lim, passes, j;
+    int n = (int)SI(capture_samples), lim, passes, j;
     u32 vd;
-    if (SI(f_70d) == 0)
+    if (SI(step_limiter_on) == 0)
         return;
     if (ch == 0) {
         if (SI(ch1_enabled) == 0)

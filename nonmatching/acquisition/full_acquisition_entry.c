@@ -49,7 +49,7 @@ static void chunks(u32 ch, u32 base)
     for (k = 0; (int)k < (int)SI(f_644); k++) {
         s = k * SI(f_640);
         SI(runtime_quotient) = s + base;
-        if (SI(f_100) == 0) {
+        if (SI(bank_mode) == 0) {
             if (ch) {
                 capture_banks_4_7();
                 second_conversion_wrapper_raw(SI(ch2_buffer) + 2 * s, 1, SI(f_640));
@@ -57,7 +57,7 @@ static void chunks(u32 ch, u32 base)
                 capture_banks_0_3();
                 bank_unpack_0_3_n_raw(SI(ch1_buffer) + 2 * s, 0, SI(f_640));
             }
-        } else if (SI(f_100) == ch + 1) {
+        } else if (SI(bank_mode) == ch + 1) {
             capture_banks_all();
             first_conversion_wrapper_raw(W32(ch ? SYS + 0x7B8 : SYS + 0x7B4) + 2 * s, ch, SI(f_640));
         }
@@ -124,12 +124,12 @@ void full_acquisition_entry(void)
         channel_to_display_copy(0, i & 0xFFFF);
         channel_to_display_copy(1, i & 0xFFFF);
         if (g_touch->busy2) {
-            lim = SI(f_540) / SI(f_1b0);
+            lim = SI(f_540) / SI(sample_divisor);
             if (SI(f_51c) == 2 || SI(f_51d) == 2)
                 lim /= 10;
             else
                 lim /= 3;
-            if (lim < (i + 1) * SI(f_558)) {
+            if (lim < (i + 1) * SI(bank_count)) {
                 SI(f_5d0) = (unsigned short)(i + 1);
                 SI(capture_count) = (unsigned short)(i + 1);
                 break;

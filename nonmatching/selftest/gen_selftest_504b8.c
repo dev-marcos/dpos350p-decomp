@@ -43,7 +43,7 @@ void gen_selftest_504b8(void)
     SI(ch2_enabled) = 1;
     SI(ch1_coupling) = 1;
     SI(ch2_coupling) = 1;
-    SI(f_660) = 5;
+    SI(hires_option) = 5;
     g_touch->enabled = 0;
     st_step(1000, 0x18, 6, 0, 1);
     {

@@ -18,7 +18,7 @@
 void trace_segments_gather(u32 tr, u32 start, u32 n)
 {
     int off[101];
-    u32 segs = H16(P(0)), rec = SI(f_2b0), rl = SI(f_5d4), end = start + n + 1, z, c;
+    u32 segs = H16(P(0)), rec = SI(block_points), rl = SI(f_5d4), end = start + n + 1, z, c;
     volatile unsigned short *src, *dst;
     int i, k, j, half, si;
     z = mode_not_0_or_1(tr) ? W32(P(0x1C)) : W32(P(4));

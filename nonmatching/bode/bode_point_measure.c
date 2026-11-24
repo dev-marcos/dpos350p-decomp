@@ -83,8 +83,8 @@ measure:
         }
         outputs_apply();
         acquisition_dispatcher();
-        a = SI(f_b30);
-        bv = SI(f_b4c);
+        a = SI(ch1_amplitude);
+        bv = SI(ch2_amplitude);
         if (!done_a) {
             g = SI(ch1_vdiv_index);
             if (a > hmax && g != 0)

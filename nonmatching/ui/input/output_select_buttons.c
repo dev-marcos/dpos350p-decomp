@@ -26,7 +26,7 @@ void output_select_buttons(void)
         if (TB(0x55C + 10 * i) == 2) {
             TB(0x55C + 10 * i) = 0;
             BREC_BYTE0 = 0;
-            SI(f_660) = i;
+            SI(hires_option) = i;
             outputs_apply();
             ui_window_invalidate_from_raw(3);
             return;

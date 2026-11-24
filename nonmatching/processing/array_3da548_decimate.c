@@ -16,7 +16,7 @@ void array_3da548_decimate(int n)
     if (n <= 1)
         return;
     d = s = (volatile unsigned short *)(0x40544E68u + 0x3DA548u);
-    c = (int)SI(f_3da53c) / n;
+    c = (int)SI(capture_len) / n;
     for (; c >= 1; c--) {
         *d++ = *s;
         s += n;

@@ -24,19 +24,19 @@ void trace_intensity_accumulate(u32 tr)
     volatile unsigned short *p;
     lh = SI(acq_geometry_1c0) * h;
     off = ((int)SI(plot_width) - (int)h) / 2;
-    y1 = SI(f_012);
-    y0 = SI(f_010);
-    if (SI(f_014) == 0)
+    y1 = SI(window_hi);
+    y0 = SI(window_lo);
+    if (SI(window_span) == 0)
         return;
     tr &= 0xFF;
-    nseg = SI(f_5f4);
+    nseg = SI(segment_count);
     if (nseg) {
         base = HITS(tr);
-        lim = SI(f_2b0) - 10;
-        sh = (int)SI(f_1bc);
+        lim = SI(block_points) - 10;
+        sh = (int)SI(sample_shift);
         o = 0;
         do {
-            u32 step = SI(f_2b0);
+            u32 step = SI(block_points);
             if (lim >= 11) {
                 p = (volatile unsigned short *)(PTS + 2 * o + 0x14);
                 j = 10;
@@ -81,5 +81,5 @@ void trace_intensity_accumulate(u32 tr)
             col += h;
         } while (--cnt);
     }
-    SI(f_7b0) = mx / 200;
+    SI(intensity_divisor) = mx / 200;
 }

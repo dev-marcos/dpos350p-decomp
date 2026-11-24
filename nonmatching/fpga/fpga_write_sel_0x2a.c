@@ -13,6 +13,6 @@
 void fpga_write_sel_0x2a(void)
 {
     fpga_selector_command_write(0x2A);
-    fpga_data_byte_write(SI(f_044) >> 8);
-    fpga_data_byte_write(SI(f_044) & 0xFF);
+    fpga_data_byte_write(SI(ch1_fpga_2a) >> 8);
+    fpga_data_byte_write(SI(ch1_fpga_2a) & 0xFF);
 }

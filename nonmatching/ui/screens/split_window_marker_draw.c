@@ -24,8 +24,8 @@ void split_window_marker_draw(void)
         return;
     if (SI(zoom_on) == 0)
         return;
-    half = SI(f_024) >> 1;
-    c = SI(f_026);
+    half = SI(view_window_width) >> 1;
+    c = SI(view_window_centre);
     lo = c - half;
     hi = c + half;
     w = SI(plot_width);

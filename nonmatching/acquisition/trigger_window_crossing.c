@@ -32,8 +32,8 @@ void trigger_window_crossing(u32 ch)
         return;
     if (ch != SI(trigger_channel))
         return;
-    q = SI(f_570) / S64(SYS + 0x590);
-    c = (int)((u32)q + (SI(f_7bc) >> 1));
+    q = SI(position_ref) / S64(SYS + 0x590);
+    c = (int)((u32)q + (SI(capture_samples) >> 1));
     w = (SI(f_55c) * 6) / SI(f_554);
     lo = (int)((u32)c - w);
     hi = (int)(w + (u32)c);

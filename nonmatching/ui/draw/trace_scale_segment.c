@@ -17,11 +17,11 @@ void trace_scale_segment(u32 tr, u32 start, u32 len)
     u32 k = SI(acq_geometry_1c0), gain, pos, off, mul;
     int mx, mn, base;
     if (sel == 0) {
-        gain = SI(f_0e4);
+        gain = SI(ch1_scale_q10);
         pos = SI(f_0e8);
         off = SI(ch1_offset);
     } else {
-        gain = SI(f_1a4);
+        gain = SI(ch2_scale_q10);
         pos = SI(f_1a8);
         off = SI(ch2_offset);
     }

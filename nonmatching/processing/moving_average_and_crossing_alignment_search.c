@@ -21,8 +21,8 @@ void moving_average_and_crossing_alignment_search(void)
     int mid, k, fl = 0, fr = 0, dl = 0, dr = 0, off = 0;
     if (!SI(f_274) || !SI(f_275) || !SI(f_279))
         return;
-    h = SI(f_282);
-    s = SI(f_558) * h * 3;
+    h = SI(trigger_multiplier);
+    s = SI(bank_count) * h * 3;
     lvl = SI(acq_geometry_1c0) * (u32)(int)(short)SI(trigger_level);
     t = SI(repeat_factor) * (SI(acq_geometry_62c) * h);
     l = SI(f_2a0) - t - s;

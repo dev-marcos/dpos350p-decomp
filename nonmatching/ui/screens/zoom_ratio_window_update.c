@@ -30,7 +30,7 @@ void zoom_ratio_window_update(void)
     p = (1000000000000000ULL / U64(SYS + 0x5A0)) * SI(f_01c);
     a = S64(SYS + 0x5A8);
     den = SI(f_554);
-    SI(f_614) = den;
+    SI(zoom_sample_limit) = den;
     n = (u32)(a / (long long)p);
     if (a % (long long)p != 0)
         n++;
@@ -47,28 +47,28 @@ void zoom_ratio_window_update(void)
             ;
         num = (u32)((long long)((unsigned long long)q * k) / (long long)den);
     }
-    SI(f_61c) = num;
-    SI(f_618) = (u32)k;
-    SI(f_610) = m;
-    SI(f_614) = q;
-    SI(f_54a) = (unsigned short)(m * SI(f_5f4));
+    SI(zoom_step) = num;
+    SI(zoom_scale) = (u32)k;
+    SI(zoom_samples_per_column) = m;
+    SI(zoom_sample_limit) = q;
+    SI(f_54a) = (unsigned short)(m * SI(segment_count));
 
     wd = SI(plot_width);
     half = wd >> 1;
     b = S64(SYS + 0x590);
-    c = SI(f_5a0);
+    c = SI(zoom_period);
     lo = (long long)half * (c - b);
     hi = (long long)half * (b - c);
-    d = SI(f_578) - SI(f_570);
-    r8 = SI(f_578);
+    d = SI(view_position) - SI(position_ref);
+    r8 = SI(view_position);
     if (d < lo)
-        r8 = lo + SI(f_570);
+        r8 = lo + SI(position_ref);
     else if (hi < d)
-        r8 = hi + SI(f_570);
-    SI(f_578) = r8;
-    SI(f_026) = (unsigned short)((u32)((SI(f_570) - r8) / S64(SYS + 0x590)) + (u32)((long long)wd / 2));
-    n = (u32)((U64(SYS + 0x5A0) * wd) / SI(f_590));
+        r8 = hi + SI(position_ref);
+    SI(view_position) = r8;
+    SI(view_window_centre) = (unsigned short)((u32)((SI(position_ref) - r8) / S64(SYS + 0x590)) + (u32)((long long)wd / 2));
+    n = (u32)((U64(SYS + 0x5A0) * wd) / SI(timebase_period));
     if ((n & 0xFFFF) < 6)
         n = 6;
-    SI(f_024) = (unsigned short)n;
+    SI(view_window_width) = (unsigned short)n;
 }

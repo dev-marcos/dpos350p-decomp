@@ -19,6 +19,6 @@ void list_c_data_save(void)
         return;
     }
     f_lseek(fil, 0);
-    f_write(fil, (void *)(0x40544E68u + 0xD744u), SI(f_3da544) * SI(f_758), 0);
+    f_write(fil, (void *)(0x40544E68u + 0xD744u), SI(capture_cells) * SI(capture_slot_count), 0);
     f_close(fil);
 }

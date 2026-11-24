@@ -24,7 +24,7 @@ void retained_inside_current_sc1_3_t6(void)
     c = SI(f_6ec);
     row = (b >= a) ? a - c : b - c;
     p = (volatile u32 *)((u32)CAL_OBJ + row * 4);
-    base = SI(f_100) == 0 ? 16 : 0;
+    base = SI(bank_mode) == 0 ? 16 : 0;
     for (j = 0; j < 16; j++)
         o[4 + j] = p[(0x190 + (base + j) * 0xC8) / 4];
 }

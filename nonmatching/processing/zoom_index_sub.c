@@ -12,10 +12,10 @@
 void zoom_index_sub(u32 d)
 {
     u32 b;
-    if (SI(f_614) < SI(f_2ac) * SI(f_554)) {
-        b = SI(f_598);
+    if (SI(zoom_sample_limit) < SI(f_2ac) * SI(f_554)) {
+        b = SI(zoom_index);
         if (d < b)
-            SI(f_598) = b - d;
+            SI(zoom_index) = b - d;
     }
     zoom_index_fit();
 }

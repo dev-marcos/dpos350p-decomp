@@ -21,7 +21,7 @@ void channel_freq_measure(u32 ch)
     if (ch == 0) {
         if (SI(ch1_enabled) == 0)
             return;
-        thr = (int)SI(f_b6c);
+        thr = (int)SI(ch1_mid_level);
         fo = (volatile u32 *)(SB + 0xB70);
         o2 = (volatile unsigned long long *)(SB + 0xB78);
         o1 = (volatile unsigned long long *)(SB + 0xB80);
@@ -34,7 +34,7 @@ void channel_freq_measure(u32 ch)
         o1 = (volatile unsigned long long *)(SB + 0xBA8);
     }
     e = SI(f_2b4);
-    k = (int)((e - SI(f_2b0)) >> 1);
+    k = (int)((e - SI(block_points)) >> 1);
     end = (int)(e - (u32)k);
     if (k < end) {
         volatile unsigned short *q = p + k;
@@ -56,7 +56,7 @@ void channel_freq_measure(u32 ch)
         }
         if (cnt >= 2) {
             u32 diff = f1 - f0;
-            if (diff >= (u32)(SI(plot_width) * SI(f_558)) / 3u) {
+            if (diff >= (u32)(SI(plot_width) * SI(bank_count)) / 3u) {
                 int c = cnt - 1;
                 unsigned long long t;
                 union { float f; u32 u; } fu;

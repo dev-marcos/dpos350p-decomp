@@ -26,10 +26,10 @@ void trace_defaults_37b48(void)
     SI(f_10a) = 1;
     SI(f_54f) = 1;
     g_touch->enabled = 1;
-    SI(f_2a9) = 0x21;
-    SI(f_70d) = 1;
-    SI(f_70d) = 0;
-    SI(f_660) = 8;
+    SI(slow_timebase_index) = 0x21;
+    SI(step_limiter_on) = 1;
+    SI(step_limiter_on) = 0;
+    SI(hires_option) = 8;
     SI(f_275) = 1;
     SI(f_274) = 1;
     *(volatile unsigned char *)(0x42E3F984u + 0x2EFA) = 0;

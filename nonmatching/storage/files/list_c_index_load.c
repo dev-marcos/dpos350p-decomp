@@ -24,7 +24,7 @@ void list_c_index_load(void)
         f_lseek(fil, 2);
         f_read(fil, (void *)(0x40544E68u + 0x3DA52Eu), 2, 0);
         f_lseek(fil, 4);
-        f_read(fil, (void *)(0x40544E68u + 0xFA6u), SI(f_758) * 2u, 0);
+        f_read(fil, (void *)(0x40544E68u + 0xFA6u), SI(capture_slot_count) * 2u, 0);
         f_close(fil);
     }
     c = SI(list_count);

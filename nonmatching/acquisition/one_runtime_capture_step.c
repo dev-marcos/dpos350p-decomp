@@ -32,7 +32,7 @@ void one_runtime_capture_step(void)
     timebase_apply_2b0();
     if (SI(ch1_enabled) != 0) {
         stream_geometry_fpga_selector_0x22_configuration();
-        m = SI(f_100);
+        m = SI(bank_mode);
         if (m == 0) {
             capture_banks_0_3();
             bank_unpack_0_3_raw(SI(ch1_buffer), 0);
@@ -43,7 +43,7 @@ void one_runtime_capture_step(void)
     }
     if (SI(ch2_enabled) != 0) {
         stream_geometry_fpga_selector_0x22_configuration();
-        m = SI(f_100);
+        m = SI(bank_mode);
         if (m == 0) {
             capture_banks_4_7();
             bank_unpack_4_7_raw(SI(ch2_buffer), 1);

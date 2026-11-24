@@ -52,15 +52,15 @@ void display_menu_draw(void)
     label_row(x, r0, 0x40089628u, ENT(16));
     text_shadow_draw((x + w - 0x1C) & 0xFFFF, (r0 + 3) & 0xFFFF, "%", 1, 2, 0);
     half_42e68be2_set(3);
-    nw = number_text_width_mode0_raw(SI(f_654), 0, 0);
-    text_d6f8_shadow_draw((x + w - 0x20 - nw) & 0xFFFF, (r0 + 3) & 0xFFFF, SI(f_654), 0, 0, 1, 2, 0);
+    nw = number_text_width_mode0_raw(SI(waveform_light), 0, 0);
+    text_d6f8_shadow_draw((x + w - 0x20 - nw) & 0xFFFF, (r0 + 3) & 0xFFFF, SI(waveform_light), 0, 0, 1, 2, 0);
     half_42e68be2_set(1);
-    slider_draw((x + 0x14) & 0xFFFF, (r0 + 0x3C) & 0xFFFF, SI(f_654));
+    slider_draw((x + 0x14) & 0xFFFF, (r0 + 0x3C) & 0xFFFF, SI(waveform_light));
     touch_button_set_rect(x, (r0 + 0x3C - 0x16) & 0xFFFF, w, 0x3C, (volatile unsigned char *)(BTN + 0x20A));
 
     r = (r0 + 0x3C + 0x3D) & 0xFFFF;
     label_row(x, r, 0x40089798u, ENT(17));
-    switch_on_off_draw((x + 0x172) & 0xFFFF, (r - 5) & 0xFFFF, SI(f_653));
+    switch_on_off_draw((x + 0x172) & 0xFFFF, (r - 5) & 0xFFFF, SI(palette_alt));
     wide_button(x, r, w, 0x214);
     r = (r + 0x3C) & 0xFFFF;
     label_row(x, r, 0x40089908u, ENT(18));
@@ -68,7 +68,7 @@ void display_menu_draw(void)
     wide_button(x, r, w, 0x21E);
     r = (r + 0x3C) & 0xFFFF;
     label_row(x, r, 0x40089A78u, ENT(19));
-    switch_on_off_draw((x + 0x172) & 0xFFFF, (r - 5) & 0xFFFF, SI(f_655));
+    switch_on_off_draw((x + 0x172) & 0xFFFF, (r - 5) & 0xFFFF, SI(grid_on));
     wide_button(x, r, w, 0x228);
 
     r += 0x3C;

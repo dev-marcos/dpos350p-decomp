@@ -27,7 +27,7 @@ void amplitude_statistical_normalization(u32 ch)
         lo = SI(f_ba0); hi = SI(f_ba4);
     }
     s0 = (float)SI(f_55c) * s0;
-    rate = SI(f_524);
+    rate = SI(sample_rate);
     s2 = (float)SI(f_554);
     p = (unsigned long long)(22000000u / rate) * SI(repeat_factor);
     s2 = s0 / s2;

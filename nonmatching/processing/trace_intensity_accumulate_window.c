@@ -33,7 +33,7 @@ static u32 shl(u32 v, int n)
    three cells by the fraction of L) and marks the covered rows; returns the sum of (max - min). */
 static int cols_stamp(u32 tr, int x0, int lim, u32 h, int ymax, u32 nseg, u32 k, u32 lh)
 {
-    u32 l = SI(acq_geometry_1c0), sh = SI(f_1bc), base = HITS(tr), coloff, colbuf, pt, s, v, frac, cell;
+    u32 l = SI(acq_geometry_1c0), sh = SI(sample_shift), base = HITS(tr), coloff, colbuf, pt, s, v, frac, cell;
     int x, mx, mn, hi, lo, row, r, n, tot = 0;
     volatile unsigned short *ip;
     if (x0 >= lim)
@@ -143,7 +143,7 @@ void trace_intensity_accumulate_window(u32 tr)
     h = SI(plot_height);
     lh = SI(acq_geometry_1c0) * h;
     m = mode_not_0_or_1(tr);
-    nseg = SI(f_5f4);
+    nseg = SI(segment_count);
     fill_u16((unsigned short *)(COLB + 2 * SI(runtime_coarse_progress)), 0, SI(runtime_coarse_step));
     h = SI(plot_height);
     if (SI(zoom_on) && m == 0)
@@ -152,16 +152,16 @@ void trace_intensity_accumulate_window(u32 tr)
         ymax = (int)h - 3;
     if (m) {
         on = SI(f_01a);
-        np = SI(f_610);
+        np = SI(zoom_samples_per_column);
     } else {
-        on = SI(f_014);
-        np = SI(f_5f8);
+        on = SI(window_span);
+        np = SI(samples_per_column);
     }
     if (on == 0)
         return;
     k = 1 + 2 * np;
     cols_stamp(tr, (int)c0, lim, h, ymax, nseg, k, lh);
-    SI(f_7b0) = 0;
+    SI(intensity_divisor) = 0;
     add = 5 * nseg + 20;
     if ((int)c0 < lim) {
         hh = h;
@@ -176,5 +176,5 @@ void trace_intensity_accumulate_window(u32 tr)
             coloff += hh;
         }
     }
-    SI(f_7b0) = 45 * SI(f_5f8) / 50;
+    SI(intensity_divisor) = 45 * SI(samples_per_column) / 50;
 }

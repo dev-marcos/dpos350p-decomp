@@ -51,7 +51,7 @@ void timebase_menu_draw(void)
     half_42e68be2_set(1);
     draw_colour_set(W32(TH));
     rect_fill(x & 0xFFFF, y, w, h);
-    sel = SI(zoom_on) ? SI(f_598) : SI(timebase_index);
+    sel = SI(zoom_on) ? SI(zoom_index) : SI(timebase_index);
     draw_colour_set(W32(TH + 4));
     draw_text_shadowed((x + 0x14) & 0xFFFF, (y + 0x17) & 0xFFFF, 0x4008B178u, 2, 2, 0);
     draw_colour_set(W32(TH + 4));

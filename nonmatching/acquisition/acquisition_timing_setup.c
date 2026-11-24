@@ -128,10 +128,10 @@ void acquisition_timing_setup(void)
     tb = SI(timebase_index);
     idx = tb - 11;
     if (idx < 32) {
-        e = (SI(f_1b0) == 1 ? TB1 : TB2) + idx;
+        e = (SI(sample_divisor) == 1 ? TB1 : TB2) + idx;
         SI(f_538) = e->period;
         SI(capture_count) = e->n;
-        SI(f_558) = e->w;
+        SI(bank_count) = e->w;
         SI(f_55c) = SI(f_554) * e->k;
     }
     clk = tb == 11 ? 100000000u : 0x05A92F37u;
@@ -166,16 +166,16 @@ void acquisition_timing_setup(void)
     SI(f_560) = (u32)k;
 
     d = SI(repeat_factor);
-    n = SI(plot_width) * SI(f_558) / d + 1;
+    n = SI(plot_width) * SI(bank_count) / d + 1;
     m = SI(acq_geometry_62c) + n;
-    SI(f_2b0) = d * n;
+    SI(block_points) = d * n;
     SI(f_2bc) = m;
     SI(f_2b8) = n;
     SI(f_2b4) = d * m;
-    SI(f_2c0) = SI(capture_count) * SI(f_2b0);
+    SI(f_2c0) = SI(capture_count) * SI(block_points);
 
-    x = __aeabi_uldivmod(10000000000ULL, SI(f_590));
-    x = x * SI(f_01c) * SI(f_558);
+    x = __aeabi_uldivmod(10000000000ULL, SI(timebase_period));
+    x = x * SI(f_01c) * SI(bank_count);
     x = __aeabi_uldivmod(x, SI(capture_count));
     x = __aeabi_uldivmod(x * SI(f_554), SI(f_55c));
     x = __aeabi_uldivmod(x, SI(repeat_factor));
@@ -191,7 +191,7 @@ void acquisition_timing_setup(void)
     SI(f_274) = 1;
     if (SI(acq_path_mode)) {
         SI(f_030) = t;
-        t = SI(f_520);
+        t = SI(record_length);
         SI(f_274) = 0;
     } else if (SI(f_652)) {
         SI(trigger_mode) = 0;
@@ -212,41 +212,41 @@ void acquisition_timing_setup(void)
     SI(f_644) = (unsigned short)k;
     SI(f_640) = (unsigned short)((long long)SI(f_2bc) / (long long)k);
 
-    pos = SI(f_570);
+    pos = SI(position_ref);
     q = pos / S64(SYS + 0x590);
     h = SI(plot_x_mid);
     if (q > (long long)h)
-        pos = (long long)(h * SI(f_590));
+        pos = (long long)(h * SI(timebase_period));
     else if (q < -(long long)h)
-        pos = -(long long)(h * SI(f_590));
-    SI(f_570) = pos;
+        pos = -(long long)(h * SI(timebase_period));
+    SI(position_ref) = pos;
 
-    switch (SI(f_284)) {
+    switch (SI(trigger_hf_mode)) {
     case 0: m = 1; break;
     case 1: m = 2; break;
     case 2: m = 3; break;
     case 3: m = 6; break;
-    default: m = SI(f_282); break;
+    default: m = SI(trigger_multiplier); break;
     }
     d = SI(repeat_factor);
     iv = (int)((double)(d * (SI(acq_geometry_62c) >> 1)) * 0.95);
-    SI(f_294) = SI(f_524) * (m * (u32)iv - (u32)iv) / d / SI(f_540);
-    SI(f_282) = (unsigned short)m;
+    SI(f_294) = SI(sample_rate) * (m * (u32)iv - (u32)iv) / d / SI(f_540);
+    SI(trigger_multiplier) = (unsigned short)m;
     SI(f_298) = m * (u32)iv;
-    SI(f_276) = (unsigned short)(SI(f_524) * (SI(f_282) * (SI(f_558) * (SI(acq_geometry_62c) >> 2) /
+    SI(f_276) = (unsigned short)(SI(sample_rate) * (SI(trigger_multiplier) * (SI(bank_count) * (SI(acq_geometry_62c) >> 2) /
                                         SI(f_540))) / SI(repeat_factor) - 1);
 
-    pos = SI(f_570);
+    pos = SI(position_ref);
     if (!SI(acq_path_mode)) {
         h = SI(plot_x_mid);
         p = SI(f_294);
         lo = (int)(p - h);
         s = (int)(h - p);
-        b = SI(f_660);
+        b = SI(hires_option);
         if (b >= 6) {
             double v = (double)s, pw = POW(2.0, (double)(int)(b - 6));
 
-            v = v + pw * (SI(f_1b0) == 2 ? -3.0 : -1.5);
+            v = v + pw * (SI(sample_divisor) == 2 ? -3.0 : -1.5);
             s = (int)v;
         }
         SI(f_568) = (u32)lo;
@@ -257,7 +257,7 @@ void acquisition_timing_setup(void)
             pos = (long long)lo * S64(SYS + 0x590);
         SI(f_56c) = (u32)s;
     }
-    SI(f_570) = pos;
+    SI(position_ref) = pos;
 
     retained_inside_current_sc1_3_t6();
     SI(f_0e0) = ratio32(0xD8, 0x50);
@@ -275,12 +275,12 @@ void acquisition_timing_setup(void)
         c1 = SI(f_1ac);
     if (c2 < SI(f_1ac))
         c2 = SI(f_1ac);
-    lim1 = c1 < 3 ? BW[c1] : SI(f_068);
+    lim1 = c1 < 3 ? BW[c1] : SI(ch1_bw_limit);
     lim2 = c2 < 3 ? BW[c2] : SI(f_128);
 
-    b = SI(f_660);
+    b = SI(hires_option);
     n = (b != 0 && b < 32) ? (1u << b) & 0xFFFF : 0;
-    lim = SI(f_1b0) * (SI(f_558) * n) / SI(f_540);
+    lim = SI(sample_divisor) * (SI(bank_count) * n) / SI(f_540);
     if (SI(acq_path_mode))
         lim = 1;
     x = __aeabi_uldivmod(SI(f_530), lim & 0xFFFF);
@@ -300,9 +300,9 @@ void acquisition_timing_setup(void)
         SI(trigger_channel) = 1;
     W32(SYS + 0x128) = (u32)lim2;
     W32(SYS + 0x12C) = (u32)(lim2 >> 32);
-    SI(f_068) = lim1;
+    SI(ch1_bw_limit) = lim1;
     SI(f_0f8) = u;
-    SI(f_662) = (unsigned short)lim;
+    SI(moving_avg_width) = (unsigned short)lim;
     SI(ch2_bandwidth_filter) = (unsigned char)c2;
     SI(ch1_bandwidth_filter) = (unsigned char)c1;
 }

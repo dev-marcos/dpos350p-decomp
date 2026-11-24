@@ -11,5 +11,5 @@
 
 void timebase_slow_flag_update(void)
 {
-    SI(acq_path_mode) = SI(timebase_index) >= SI(f_2a9) ? 1 : 0;
+    SI(acq_path_mode) = SI(timebase_index) >= SI(slow_timebase_index) ? 1 : 0;
 }

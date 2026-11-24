@@ -64,7 +64,7 @@ void screenshot_view_frame_draw(void)
         bx = k ? x + 0xFF * k + 2 : x;
         touch_button_set_rect(bx & 0xFFFF, ny & 0xFFFF, k ? 0xFD : 0xFF, 0x3C, (volatile unsigned char *)(BTN + 0x818 + 0xA * k));
         if (B8(BTN + 0x818 + 0xA * k + 1)) {
-            draw_colour_set(SI(f_3dd54c));
+            draw_colour_set(SI(theme_pressed));
             rect_fill(bx & 0xFFFF, ny & 0xFFFF, k ? 0xFD : 0xFF, 0x3C);
         }
     }

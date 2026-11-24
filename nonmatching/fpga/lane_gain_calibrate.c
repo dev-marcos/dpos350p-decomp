@@ -73,7 +73,7 @@ void lane_gain_calibrate(void)
     SI(ch2_coupling) = 0;
     SI(f_10a) = 0;
     SI(f_275) = 0;
-    SI(f_660) = 0;
+    SI(hires_option) = 0;
     g_touch->enabled = 0;
     SI(ch2_enabled) = 0;
     SI(ch1_enabled) = 1;

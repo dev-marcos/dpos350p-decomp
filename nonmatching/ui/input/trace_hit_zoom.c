@@ -29,7 +29,7 @@ static int clamp_x(int v)
 
 static u32 sample_y(u32 s)
 {
-    u32 sh = SI(f_1bc) & 0xFF;
+    u32 sh = SI(sample_shift) & 0xFF;
 
     return SI(plot_height) - (sh >= 32 ? 0 : s >> sh);
 }
@@ -79,7 +79,7 @@ void trace_hit_zoom(u32 ch)
     u32 out = ch == 2 ? U + 0x40 : U + 0x44;
     u32 buf = ch == 2 ? TRACES + 0x124F80u : TRACES + 0x1B7740u;
     u32 rng = ch == 2 ? 0x40545990u : 0x405459ACu, h, third, a, b;
-    int n = 1 + 2 * (int)(SI(capture_count) * SI(f_610));
+    int n = 1 + 2 * (int)(SI(capture_count) * SI(zoom_samples_per_column));
     int rx = g_touch->down_x - SI(plot_x0), ty = g_touch->down_y - SI(plot_y0), best;
 
     best = trace_dist(buf, n, rx, ty, SI(f_016), SI(f_018));

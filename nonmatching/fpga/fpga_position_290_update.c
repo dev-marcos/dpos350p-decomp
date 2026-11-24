@@ -19,16 +19,16 @@ void fpga_position_290_update(void)
         fpga_selector_command_write(0x14);
         a = fpga_data_byte_read();
         v = fpga_data_byte_read() | (a << 8);
-        r = (v & 0x1FFF) - SI(f_28c);
+        r = (v & 0x1FFF) - SI(trigger_offset_1c);
         if ((int)r < 0)
-            r += SI(f_520);
+            r += SI(record_length);
     } else {
         unsigned long long t = *(volatile unsigned long long *)(0x40544E68u + 0x30);
-        u32 x = SI(f_28c);
+        u32 x = SI(trigger_offset_1c);
         if (t < x)
             r = 0;
         else
-            r = (u32)((t - x) % SI(f_520));
+            r = (u32)((t - x) % SI(record_length));
     }
-    SI(f_290) = r;
+    SI(fpga_position) = r;
 }

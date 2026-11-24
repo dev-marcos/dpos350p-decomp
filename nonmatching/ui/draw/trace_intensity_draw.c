@@ -28,16 +28,16 @@ void trace_intensity_draw(u32 tr)
         col, row, off, src, dst, v, q, idx;
     int po;
     if (SI(f_652)) {
-        pal = (SI(f_653) ? PAL_B : PAL_A) + 6000;
+        pal = (SI(palette_alt) ? PAL_B : PAL_A) + 6000;
     } else {
         po = (int)(short)3000 * (int)(short)mode_not_0_or_2(tr);
-        if (SI(f_653)) {
+        if (SI(palette_alt)) {
             pal = PAL_B + (u32)po;
-            SI(f_7b0) = SI(f_7b0) / 3;
+            SI(intensity_divisor) = SI(intensity_divisor) / 3;
         } else
             pal = PAL_A + (u32)po;
     }
-    k = SI(f_654);
+    k = SI(waveform_light);
     base = 2 + (u32)SQRT_T((double)k) * k * 22 / 1000;
     dcache_clean_inv_all();
     out = FBP + x1 * 2 + y0 * 1022 * 2;
@@ -51,7 +51,7 @@ void trace_intensity_draw(u32 tr)
             v = H16(src);
             if (v == 0)
                 continue;
-            q = v / SI(f_7b0) * 100;
+            q = v / SI(intensity_divisor) * 100;
             idx = base + ((u32)(((unsigned long long)q * 0x94F2094Fu + 0x94F2094Fu) >> 32) >> 6);
             H16(dst) = H16(pal + idx * 2);
         }

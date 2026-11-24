@@ -18,22 +18,22 @@ void consumer_translator_of_the_16_bit(void)
         return;
     }
     t = __aeabi_ldivmod((long long)SI(f_2bc), 2);
-    d = (long long)SI(f_290) - t;
-    t = __aeabi_ldivmod((long long)SYS64(0x570), (long long)SI(f_590));
+    d = (long long)SI(fpga_position) - t;
+    t = __aeabi_ldivmod((long long)SYS64(0x570), (long long)SI(timebase_period));
     t = __aeabi_ldivmod(t, (long long)SI(f_564));
     t = (long long)((unsigned long long)t * SI(f_560));
-    t = (long long)((unsigned long long)t * SI(f_558));
+    t = (long long)((unsigned long long)t * SI(bank_count));
     t = __aeabi_ldivmod(t, (long long)SI(repeat_factor));
     d = d - t;
-    L = SI(f_520);
+    L = SI(record_length);
     while (d < 1)
         d += L;
     SI(runtime_quotient) = (u32)d;
     trigger_pos_update();
     h2 = (u32)__aeabi_ldivmod((long long)SI(f_2b4), 2);
-    t = __aeabi_ldivmod((long long)SYS64(0x570), (long long)SI(f_590));
+    t = __aeabi_ldivmod((long long)SYS64(0x570), (long long)SI(timebase_period));
     t = __aeabi_ldivmod(t, (long long)SI(f_564));
     k2 = (u32)t * SI(f_560);
-    k2 = k2 * SI(f_558);
+    k2 = k2 * SI(bank_count);
     SI(f_2a0) = h2 + k2;
 }

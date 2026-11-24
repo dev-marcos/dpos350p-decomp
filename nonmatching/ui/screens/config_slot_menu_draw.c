@@ -40,7 +40,7 @@ void config_slot_menu_draw(void)
         draw_colour_set(W32(TH + 4));
         text_shadow_draw((x2 + 0x41 + SB8(e + 0x194)) & 0xFFFF, (ys + 3 + SB8(e + 0x195)) & 0xFFFF, (const char *)W32(e), 1, 2, 0);
         touch_button_set_rect(x2 & 0xFFFF, (ys - 0x14) & 0xFFFF, w2 & 0xFFFF, 0x3C, (volatile unsigned char *)(BTN + 0x124 + 0xA * i));
-        if (B8(BTN + 0x125 + 0xA * i) || (SI(f_7c0) == i + 1 && WREC(7, f_5) == 3)) {
+        if (B8(BTN + 0x125 + 0xA * i) || (SI(settings_slot) == i + 1 && WREC(7, f_5) == 3)) {
             draw_colour_set(W32(TH + 8));
             rect_fill(x2 & 0xFFFF, (ys - 0x14) & 0xFFFF, w2 & 0xFFFF, 0x3C);
         }

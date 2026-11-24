@@ -64,7 +64,7 @@ void trigger_option_buttons(void)
             ui_window_invalidate_from(3, 0);
             v = 0;
         } else {
-            v = SI(f_284);
+            v = SI(trigger_hf_mode);
             if (BREC(154, state) == 2) {
                 BREC(154, state) = 0;
                 BREC_BYTE0 = 0;
@@ -82,6 +82,6 @@ void trigger_option_buttons(void)
                 v = 3;
             }
         }
-        SI(f_284) = v;
+        SI(trigger_hf_mode) = v;
     }
 }

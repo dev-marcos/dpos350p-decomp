@@ -13,9 +13,9 @@ void settings_j_fields(void)
 {
     u32 i;
     if (SI(ch1_enabled))
-        for (i = 0; i < SI(f_2b0); i++)
+        for (i = 0; i < SI(block_points); i++)
             serializer_process_field((volatile void *)(0x42AC7CF4u + 2 * i), 2);
     if (SI(ch2_enabled))
-        for (i = 0; i < SI(f_2b0); i++)
+        for (i = 0; i < SI(block_points); i++)
             serializer_process_field((volatile void *)(0x42B29F44u + 2 * i), 2);
 }

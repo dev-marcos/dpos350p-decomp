@@ -41,7 +41,7 @@ void settings_slot_buttons(void)
         return;
     TB(0x124 + 10 * i) = 0;
     BREC_BYTE0 = 0;
-    SI(f_7c0) = i + 1;
+    SI(settings_slot) = i + 1;
     m = *(volatile unsigned char *)(0x42E64520u + 0x67);
     if (m == 1) {
         settings_slot_save();

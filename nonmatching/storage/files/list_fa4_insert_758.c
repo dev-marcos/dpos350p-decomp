@@ -13,7 +13,7 @@
 void list_fa4_insert_758(u32 v)
 {
     int k;
-    for (k = (int)SI(f_758) - 1; k >= 1; k--)
+    for (k = (int)SI(capture_slot_count) - 1; k >= 1; k--)
         SYS16(0xFA6 + 2 * k) = SYS16(0xFA4 + 2 * k);
     SI(f_fa6) = v;
     SI(list_count) = SI(list_count) + 1;

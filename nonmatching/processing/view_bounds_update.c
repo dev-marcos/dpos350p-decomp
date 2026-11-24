@@ -11,7 +11,7 @@
 
 void view_bounds_update(void)
 {
-    long long c = SI(plot_x_mid), a = (long long)(int)SI(f_620) + c, b = (long long)(int)SI(f_624) + c;
+    long long c = SI(plot_x_mid), a = (long long)(int)SI(zoom_offset_left) + c, b = (long long)(int)SI(zoom_offset_right) + c;
     u32 lo, hi, m;
     if (a < 0) {
         lo = 0;

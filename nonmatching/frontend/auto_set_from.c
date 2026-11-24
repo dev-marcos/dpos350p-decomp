@@ -108,16 +108,16 @@ void auto_set_from(u32 box_base)
     SI(trigger_mode) = 0;
     SI(f_275) = 0;
     SI(f_665) = 0;
-    SI(f_660) = 0;
+    SI(hires_option) = 0;
     g_touch->busy2 = 0;
     g_touch->enabled = 0;
     tb = SI(timebase_index_min);
-    tb_end = SI(f_2a9) - 1;
+    tb_end = SI(slow_timebase_index) - 1;
     o1 = (int)SI(ch1_offset);
     o2 = (int)SI(ch2_offset);
-    if (SI(f_1b0) == 1) {
+    if (SI(sample_divisor) == 1) {
         t1 = t2 = SI(plot_height) >> 1;
-    } else if (SI(f_1b0) == 2) {
+    } else if (SI(sample_divisor) == 2) {
         h = SI(plot_height);
         t2 = h >> 2;
         t1 = (h * 3) >> 2;
@@ -148,12 +148,12 @@ void auto_set_from(u32 box_base)
             break;
     }
     if (SI(ch1_enabled)) {
-        if (SI(f_b30) >= 0x33)
+        if (SI(ch1_amplitude) >= 0x33)
             f1 = 1;
         centre(SYS + 0x60, SYS + 0xB34, t1, SYS + 0xB28, SYS + 0xB2C);
     }
     if (SI(ch2_enabled)) {
-        if (SI(f_b4c) >= 0x33)
+        if (SI(ch2_amplitude) >= 0x33)
             f2 = 1;
         centre(SYS + 0x120, SYS + 0xB50, t2, SYS + 0xB44, SYS + 0xB48);
     }
@@ -182,7 +182,7 @@ void auto_set_from(u32 box_base)
     }
     B8(SAVED + 0x3C) = SI(acq_transition_flag);
     B8(SAVED + 0x665) = SI(f_665);
-    B8(SAVED + 0x660) = SI(f_660);
+    B8(SAVED + 0x660) = SI(hires_option);
     B8(SAVED + 0x27A) = 0;
     g_touch->enabled = 1;
     if (any) {

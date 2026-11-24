@@ -15,16 +15,16 @@
 void list_c_record_select(u32 v)
 {
     volatile unsigned short *p = (volatile unsigned short *)(0x40544E68u + 0xD744u);
-    int st = SI(f_3da544), n = st * SI(f_758), i;
+    int st = SI(capture_cells), n = st * SI(capture_slot_count), i;
     for (i = 0; i < n; i += st, p += st) {
         if (((u32)((p[0] << 8) & 0xFF00) | (p[1] & 0xFF)) == v) {
             u32 k = (u32)(short)p[0] << 8, c;
             SI(f_f9c) = k;
             SI(f_f9c) = (p[1] & 0xFF) | k;
             c = (p[2] << 8) & 0xFF00;
-            SI(f_3da53c) = c;
+            SI(capture_len) = c;
             c |= p[3] & 0xFF;
-            SI(f_3da53c) = c;
+            SI(capture_len) = c;
             copy_u16((unsigned short *)(0x40544E68u + 0x3DA548u), (const unsigned short *)(p + 4), c);
             return;
         }

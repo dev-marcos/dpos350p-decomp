@@ -20,7 +20,7 @@ void xy_grid_draw(void)
     int right = (int)side + left, bottom = (int)(side + top), cy = (int)(top + (side >> 1));
     int cx = left + (int)(side >> 1) + 1, p, i;
     float base;
-    step = SI(f_020);
+    step = SI(grid_step);
     if (*(volatile unsigned char *)(SYS + 0x655)) {
         draw_colour_set(0x303030);
         for (p = left; p <= right; p += step)

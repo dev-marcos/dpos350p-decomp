@@ -23,7 +23,7 @@ void channel_minmax_stats(u32 ch)
             return;
         omax = 0xB88; omin = 0xB8C; omid = 0xB94; orng = 0xB90;
     }
-    h = (u32)(SI(f_2b4) - SI(f_2b0)) >> 1;
+    h = (u32)(SI(f_2b4) - SI(block_points)) >> 1;
     end = SI(f_2b4) - h;
     for (i = h; i < end; i++) {
         int v = p[i];

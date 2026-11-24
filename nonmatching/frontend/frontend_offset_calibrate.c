@@ -27,7 +27,7 @@ u32 channel_level_mean_raw(u32 a, u32 ch, u32 n, u32 p) __asm__("channel_level_m
 
 static u32 mean(u32 ch)
 {
-    SI(f_100) = ch + 1;
+    SI(bank_mode) = ch + 1;
     fpga_channel_mode_apply();
     return channel_level_mean_raw(1, ch, 2000, K);
 }
@@ -60,12 +60,12 @@ static void search(int k, int lo_ok, int hi_ok)
     for (;;) {
         if (!d1) {
             m1 = (lo1 + hi1) / 2;
-            SI(f_044) = (unsigned short)m1;
+            SI(ch1_fpga_2a) = (unsigned short)m1;
             fpga_write_sel_0x2a();
         }
         if (!d2) {
             m2 = (lo2 + hi2) / 2;
-            SI(f_108) = (unsigned short)m2;
+            SI(ch2_fpga_2d) = (unsigned short)m2;
             fpga_write_sel_0x2d();
         }
         delay_ms(100);
@@ -107,7 +107,7 @@ void frontend_offset_calibrate(u32 r)
     SI(ch2_probe) = 0;
     SI(f_10a) = 0;
     SI(f_275) = 0;
-    SI(f_660) = 0;
+    SI(hires_option) = 0;
     SI(fpga_cmd62_value) = 1;
     g_touch->enabled = 0;
     outputs_apply();
@@ -119,13 +119,13 @@ void frontend_offset_calibrate(u32 r)
     } while (w >= p);
 
     search(k, 0x1A4, 0x1E0);
-    dh1 = SI(f_044);
-    dh2 = SI(f_108);
+    dh1 = SI(ch1_fpga_2a);
+    dh2 = SI(ch2_fpga_2d);
     vh1 = mean(0);
     vh2 = mean(1);
     search(k, 0x14, 0x50);
-    dl1 = SI(f_044);
-    dl2 = SI(f_108);
+    dl1 = SI(ch1_fpga_2a);
+    dl2 = SI(ch2_fpga_2d);
     vl1 = mean(0);
     vl2 = mean(1);
     g1 = gain(dh1, dl1, vh1, vl1);

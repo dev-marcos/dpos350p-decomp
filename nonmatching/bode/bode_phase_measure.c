@@ -26,13 +26,13 @@ static int sdiv0(int a, int b)
 
 void bode_phase_measure(u32 idx)
 {
-    u32 step = SI(f_558), start = 50 * step, end, pos, sh, a, b, prev_a = 0, prev_b = 0;
+    u32 step = SI(bank_count), start = 50 * step, end, pos, sh, a, b, prev_a = 0, prev_b = 0;
     int level = SI(level_default);
     volatile unsigned short *p = (volatile unsigned short *)(0x42AC7CF4u + 2 * start);
     int na = 0, nb = 0, count = 0, sum = 0, first_a = 0, last_a = 0, first_b = 0, last_b = 0;
     int got_a = 0, got_b = 0, fl_a = 0, fl_b = 0, cnt_a = 8, cnt_b = 8, k = 0, avg, pa, pb, ph, v;
-    end = SI(f_2b0) - start;
-    sh = SI(f_1bc);
+    end = SI(block_points) - start;
+    sh = SI(sample_shift);
     if (start >= end) {
         na = 2;
         nb = 2;
@@ -77,7 +77,7 @@ void bode_phase_measure(u32 idx)
             }
             prev_b = b;
             prev_a = a;
-            step = SI(f_558);
+            step = SI(bank_count);
             k++;
             pos += step;
             p += step;

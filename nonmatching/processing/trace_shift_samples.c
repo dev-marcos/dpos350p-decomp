@@ -22,13 +22,13 @@ void trace_shift_samples(u32 tr)
     u32 n, k, st, ln;
     int cnt;
     if (!mode_not_0_or_1(tr)) {
-        q = (long long)((unsigned long long)(d - SI(f_570)) * W32(P(0xC))) / S64(SYS + 0x590);
+        q = (long long)((unsigned long long)(d - SI(position_ref)) * W32(P(0xC))) / S64(SYS + 0x590);
         q = q / (long long)W32(P(0x10));
         W32(P(0x14)) -= (u32)q;
         W32(P(0x18)) -= (u32)q;
         s = (long long)((unsigned long long)q * W32(P(4)));
     } else {
-        q = (long long)((unsigned long long)(d - SI(f_578)) * W32(P(0x24))) / SI(f_5a0);
+        q = (long long)((unsigned long long)(d - SI(view_position)) * W32(P(0x24))) / SI(zoom_period);
         q = q / (long long)W32(P(0x28));
         W32(P(0x2C)) -= (u32)q;
         W32(P(0x30)) -= (u32)q;

@@ -26,8 +26,8 @@ void trigger_level_auto(void)
     u32 st, n, base, lvb, seg, k, L, i, sh, idx, mn, c;
     int prev, cur, lv;
     volatile unsigned short *p, *q;
-    st = SI(f_558);
-    n = SI(f_7bc) & 0xFFFF;
+    st = SI(bank_count);
+    n = SI(capture_samples) & 0xFFFF;
     if (SI(trigger_channel)) {
         base = SI(ch2_buffer);
         lvb = SYS + 0xB44;
@@ -39,7 +39,7 @@ void trigger_level_auto(void)
     seg = (u32)(((int)n - 0x14) / (int)st) & 0xFFFF;
     for (k = 0; (int)k < (int)st; k++) {
         p = (volatile unsigned short *)(base + 0x14 + 2 * k);
-        sh = SI(f_1bc);
+        sh = SI(sample_shift);
         prev = (int)shr(*p, sh);
         if ((int)seg <= 1)
             continue;

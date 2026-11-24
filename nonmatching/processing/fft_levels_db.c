@@ -27,7 +27,7 @@ void fft_levels_db(void)
     dst = *(volatile short *volatile *)0x42E68CB0u;
     for (i = 0; i < n; i++) {
         float v = m[i] / (float)n;
-        double g = (double)SI(f_020);
+        double g = (double)SI(grid_step);
         double fr = (double)*(volatile unsigned long long *)(0x40544E68u + 0x50);
         double t = (double)v * 6.916 / g * fr / 1000.0 * 80.0 / g;
         double r = log10(t) * 20.0 + (double)MI(0xD0) * LEVELS(attenuation);

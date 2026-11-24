@@ -22,7 +22,7 @@
 
 static void masks(u32 m0, u32 m1, u32 m2, u32 m3, u32 m4, u32 m5, u32 m6, u32 m7)
 {
-    SI(f_674) = (unsigned char)m0;
+    SI(lane_masks) = (unsigned char)m0;
     SI(f_675) = (unsigned char)m1;
     SI(f_676) = (unsigned char)m2;
     SI(f_677) = (unsigned char)m3;
@@ -41,9 +41,9 @@ static void delays(u32 grp)
 
 static void banks(u32 b0, u32 b1, u32 b2, u32 b3, u32 b4, u32 b5, u32 b6, u32 b7)
 {
-    SI(f_6d4) = 0;
+    SI(lane_phase) = 0;
     SI(f_6d8) = 0;
-    SI(f_6dc) = (unsigned char)b0;
+    SI(lane_bank_map) = (unsigned char)b0;
     SI(f_6dd) = (unsigned char)b1;
     SI(f_6de) = (unsigned char)b2;
     SI(f_6df) = (unsigned char)b3;
@@ -57,7 +57,7 @@ void adc_lanes_config_for_rate(void)
 {
     unsigned long long rate = SI(f_538);
     u32 i;
-    if (SI(f_1b0) == 1) {
+    if (SI(sample_divisor) == 1) {
         if (rate == R_1000 || rate == R_950) {
             masks(0xF0, 0x3C, 0x0F, 0xC3, 0x78, 0x1E, 0x87, 0xE1);
             delays(rate == R_1000 ? 0 : 1);

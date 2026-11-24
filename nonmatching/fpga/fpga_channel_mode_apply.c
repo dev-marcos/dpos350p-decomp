@@ -13,9 +13,9 @@
 
 void fpga_channel_mode_apply(void)
 {
-    if (SI(f_bca) == SI(f_100))
+    if (SI(f_bca) == SI(bank_mode))
         return;
-    SI(f_bca) = SI(f_100);
+    SI(f_bca) = SI(bank_mode);
     fpga_selector_command_write(0x2E);
     fpga_data_byte_write(SI(f_bca));
     delay_ms(50);

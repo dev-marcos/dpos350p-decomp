@@ -21,7 +21,7 @@ void frame_deviation_blend(u32 ch, u32 n, float fr)
     volatile u32 *off = (volatile u32 *)(0x40544E68u + 0x2C4);
     int dev[100];
     int lim = (int)(SI(acq_geometry_1c0) * n), init;
-    u32 L = SI(f_2b0), F, j, k;
+    u32 L = SI(block_points), F, j, k;
     init = (int)((1.0 - (double)fr) * (double)(float)lim);
     if (L != 0) {
         F = SI(capture_count);
@@ -34,7 +34,7 @@ void frame_deviation_blend(u32 ch, u32 n, float fr)
     }
     fill_u32_raw((volatile u32 *)dev, (u32)init, 100);
     F = SI(capture_count);
-    L = SI(f_2b0);
+    L = SI(block_points);
     for (j = 0; j < L; j++) {
         u32 m;
         if (F == 0)
@@ -50,7 +50,7 @@ void frame_deviation_blend(u32 ch, u32 n, float fr)
     for (k = 0; k < SI(capture_count); k++)
         if (lim <= dev[k])
             dev[k] = lim;
-    for (j = 0; j < SI(f_2b0); j++) {
+    for (j = 0; j < SI(block_points); j++) {
         u32 m = mean[j];
         for (k = 0; k < SI(capture_count); k++) {
             int w = lim ? (int)((u32)dev[k] * 100u) / lim : 0;

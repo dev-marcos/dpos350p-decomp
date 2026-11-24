@@ -16,7 +16,7 @@ void acquisition_geometry_setup(void)
     SI(acq_done) = 1;
     d = SI(repeat_factor);
     SI(runtime_coarse_step) = SI(timebase_index) == 0x21 ? 2 : 1;
-    prod = (SI(f_558) * SI(runtime_coarse_step)) & 0xFFFF;
+    prod = (SI(bank_count) * SI(runtime_coarse_step)) & 0xFFFF;
     SI(runtime_step) = prod;
     b = (int)d;
     q = b ? (u32)((int)prod / b) : 0;
@@ -25,12 +25,12 @@ void acquisition_geometry_setup(void)
     SI(runtime_coarse_progress) = 0;
     SI(f_640) = SI(runtime_field_6f4);
     SI(runtime_fpga_position) = SI(runtime_field_6f4);
-    L = SI(f_2b0);
-    SI(f_2c4) = 0;
+    L = SI(block_points);
+    SI(block_start) = 0;
     SI(runtime_quotient) = 0;
     SI(runtime_progress_threshold) = SI(runtime_step) + 1;
-    SI(f_454) = L;
-    SI(f_38c) = L >> 1;
+    SI(block_len) = L;
+    SI(block_base) = L >> 1;
     SI(f_568) = -(u32)SI(plot_x_mid);
     SI(f_56c) = -(u32)SI(plot_x_mid);
 }

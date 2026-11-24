@@ -12,7 +12,7 @@
 void sys_3c_enter(void)
 {
     SI(f_03d) = SI(acq_transition_flag);
-    SI(f_3da52c) = 1;
+    SI(time_cursors_on) = 1;
     SI(acq_transition_flag) = 1;
     SI(f_652) = 0;
     SI(zoom_on) = 0;

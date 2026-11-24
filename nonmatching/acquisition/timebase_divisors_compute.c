@@ -27,16 +27,16 @@ void timebase_divisors_compute(void)
     long long v;
     timebase_period_load();
     n = SI(f_01c);
-    p = (1000000000000000ULL / SI(f_590)) * n;
+    p = (1000000000000000ULL / SI(timebase_period)) * n;
     d = W32(0x405453BCu);
-    SI(f_5fc) = d;
+    SI(sample_limit) = d;
     a = SI(f_5a8);
     k = (u32)(a / p);
     if (a % p)
         k++;
     sl = (u32)((long long)((unsigned long long)k * d * p) / (long long)a);
     c = SI(f_5d4) * 10;
-    SI(f_5f8) = c < k ? c : k;
+    SI(samples_per_column) = c < k ? c : k;
     j = 1;
     if (sl == d) {
         q = 1;
@@ -49,17 +49,17 @@ void timebase_divisors_compute(void)
         }
         q = (u32)((long long)pr / (long long)(unsigned long long)W32(0x405453BCu));
     }
-    SI(f_604) = q;
-    SI(f_5fc) = sl;
-    SI(f_600) = (u32)j;
+    SI(view_step) = q;
+    SI(sample_limit) = sl;
+    SI(view_scale) = (u32)j;
     h = SI(f_5d0);
     if (SI(acq_transition_flag) || SI(f_665))
         h = 1;
-    SI(f_5f4) = (unsigned short)h;
-    SI(f_544) = (unsigned short)(SI(f_5f8) * h);
-    SI(f_0e4) = (u32)((long long)((unsigned long long)SI(f_058) << 10) / S64(SYS + 0x50));
+    SI(segment_count) = (unsigned short)h;
+    SI(f_544) = (unsigned short)(SI(samples_per_column) * h);
+    SI(ch1_scale_q10) = (u32)((long long)((unsigned long long)SI(f_058) << 10) / S64(SYS + 0x50));
     SI(f_0e8) = SI(f_064) - SI(ch1_offset);
-    SI(f_1a4) = (u32)((long long)((unsigned long long)SI(f_118) << 10) / S64(SYS + 0x110));
+    SI(ch2_scale_q10) = (u32)((long long)((unsigned long long)SI(f_118) << 10) / S64(SYS + 0x110));
     SI(f_1a8) = SI(f_124) - SI(ch2_offset);
     v = (long long)((unsigned long long)SI(f_058) * 10) / S64(SYS + 0x50);
     g1 = ceil_div10(v);
@@ -75,7 +75,7 @@ void timebase_divisors_compute(void)
         SI(f_580) = 0;
         W32(SYS + 0x570) = 0;
         W32(SYS + 0x574) = 0;
-        SI(f_578) = 0;
+        SI(view_position) = 0;
     } else {
         SI(f_580) = 1;
     }

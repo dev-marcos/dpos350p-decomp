@@ -16,8 +16,8 @@ void number_text_88c0(int n)
 {
     int nd, i;
     if (n < 10) {
-        SI(f_88c0) = (unsigned char)(n + '0');
-        SI(f_88c1) = 0;
+        SI(path_buf) = (unsigned char)(n + '0');
+        SI(path_name) = 0;
         return;
     }
     if (n < 100)

@@ -15,14 +15,14 @@
 void list_c_next_free(void)
 {
     int i, n;
-    for (i = 0; i < SI(f_758); i++)
+    for (i = 0; i < SI(capture_slot_count); i++)
         SYS16(0x8924 + 2 * i) = 0;
     for (i = 0; i < SI(list_count); i++) {
         u32 e = SYS16(0xFA6 + 2 * i);
         if (e)
             SYS16(0x8924 + 2 * e) = 1;
     }
-    n = SI(f_758);
+    n = SI(capture_slot_count);
     for (i = 1; i < n; i++) {
         if (SYS16(0x8924 + 2 * i) == 0) {
             SI(f_f9c) = i;

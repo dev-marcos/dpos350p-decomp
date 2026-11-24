@@ -12,6 +12,6 @@
 
 void gen_load_samples(void)
 {
-    G16(0x2EF8) = SI(f_3da53c);
+    G16(0x2EF8) = SI(capture_len);
     copy_u16((unsigned short *)(GEN_G + 0x1F56), (const unsigned short *)(0x40544E68u + 0x3DA548), G16(0x2EF8));
 }

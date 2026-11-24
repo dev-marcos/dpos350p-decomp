@@ -16,17 +16,17 @@ u32 zoom_mode_check(void)
         SI(zoom_on) = 0;
         ret = 1;
     }
-    cur = SI(f_598);
+    cur = SI(zoom_index);
     if (SI(f_652)) {
         SI(zoom_on) = 0;
         ret = 1;
     }
-    lim = SI(f_5b0);
+    lim = SI(committed_timebase_index);
     if (lim == SI(timebase_index_min)) {
         SI(zoom_on) = 0;
         ret = 1;
     }
     if ((int)(lim - 1) < (int)cur)
-        SI(f_598) = lim - 1;
+        SI(zoom_index) = lim - 1;
     return ret;
 }

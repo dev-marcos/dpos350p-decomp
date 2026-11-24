@@ -19,7 +19,7 @@ void acquisition_block_bank_selector(u32 i)
     if (SI(f_554) >= SI(f_55c))
         return;
     fpga_selector_command_write(0x15);
-    if (SI(f_1b0) == 1)
+    if (SI(sample_divisor) == 1)
         v = i & 7;
     else if (SI(trigger_channel) == 0)
         v = (q & 0x7F) << 1;

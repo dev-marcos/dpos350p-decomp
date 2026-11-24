@@ -24,13 +24,13 @@ void timebase_index_clamp(void)
     SI(timebase_index) = v;
     if (en == 0)
         return;
-    c = SI(f_5b0);
+    c = SI(committed_timebase_index);
     if ((int)(c + 3) < (int)v)
         SI(timebase_index) = c + 3;
     for (;;) {
         u32 lim;
         timebase_period_load();
-        q = SI(f_5b8) / SI(f_590);
+        q = SI(f_5b8) / SI(timebase_period);
         lim = SI(f_2ac);
         q /= (u32)SI(f_5d4);
         if (q < lim)

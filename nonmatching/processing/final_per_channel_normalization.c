@@ -19,9 +19,9 @@ void final_per_channel_normalization(u32 ch)
     int mid, a, b, a3, b3, mx, mn, v, up, dn, cnt, avg;
     unsigned long long d, lim;
     if (ch == 0) {
-        top = SI(f_b60);
-        bot = SI(f_b64);
-        mid = (int)SI(f_b6c);
+        top = SI(ch1_top_ref);
+        bot = SI(ch1_bottom_ref);
+        mid = (int)SI(ch1_mid_level);
         d = (unsigned long long)SI(f_b78) | ((unsigned long long)SI(f_b7c) << 32);
     } else {
         top = SI(f_b88);
@@ -29,10 +29,10 @@ void final_per_channel_normalization(u32 ch)
         mid = (int)SI(f_b94);
         d = U64(SYS + 0xBA0);
     }
-    lim = (unsigned long long)(0x8D7F250u / SI(f_524)) * SI(repeat_factor);
+    lim = (unsigned long long)(0x8D7F250u / SI(sample_rate)) * SI(repeat_factor);
     if (d < lim)
         return;
-    end = SI(f_7bc) - 10;
+    end = SI(capture_samples) - 10;
     a = (int)(top - (u32)mid);
     b = (int)((u32)mid - bot);
     if ((int)end <= 10)

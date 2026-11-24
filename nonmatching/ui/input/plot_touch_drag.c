@@ -36,7 +36,7 @@ static void press_save(void)
         TCS(drag_start) = S64(SYS + (SPLIT ? 0x578 : 0x570));
         break;
     case 2:
-        TCS(drag_start) = SI(f_578);
+        TCS(drag_start) = SI(view_position);
         break;
     case 3:
     case 4:
@@ -47,7 +47,7 @@ static void press_save(void)
         break;
     case 5:
     case 6:
-        TCS(drag_start) = SI(f_578);
+        TCS(drag_start) = SI(view_position);
         TCS(f_010) = (int)W32(SYS + (m == 5 ? 0x60 : 0x120));
         break;
     case 7:
@@ -72,9 +72,9 @@ static void h_drag(int dx)
     long long d = (long long)dx * S64(SYS + 0x590);
 
     if (SPLIT)
-        SI(f_578) = TCS(drag_start) + d;
+        SI(view_position) = TCS(drag_start) + d;
     else
-        SI(f_570) = TCS(drag_start) - d;
+        SI(position_ref) = TCS(drag_start) - d;
 }
 
 static void move(void)
@@ -89,7 +89,7 @@ static void move(void)
         break;
     case 2:
         if (SI(f_580))
-            SI(f_578) = TCS(drag_start) - (long long)dx * SI(f_5a0);
+            SI(view_position) = TCS(drag_start) - (long long)dx * SI(zoom_period);
         break;
     case 3:
     case 4:
@@ -101,7 +101,7 @@ static void move(void)
         break;
     case 5:
     case 6:
-        SI(f_578) = TCS(drag_start) - (long long)dx * SI(f_5a0);
+        SI(view_position) = TCS(drag_start) - (long long)dx * SI(zoom_period);
         W32(SYS + (m == 5 ? 0x60 : 0x120)) = dy + (u32)TCS(f_010);
         break;
     case 7:

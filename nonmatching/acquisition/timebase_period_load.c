@@ -11,5 +11,5 @@
 
 void timebase_period_load(void)
 {
-    SI(f_590) = SYS64(0xBD0 + 8u * SI(timebase_index));
+    SI(timebase_period) = SYS64(0xBD0 + 8u * SI(timebase_index));
 }

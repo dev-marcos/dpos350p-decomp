@@ -21,10 +21,10 @@ void settings_e_load(void)
         return;
     factory_defaults();
     for (i = 1; i <= 5; i++) {
-        SI(f_7c0) = i;
+        SI(settings_slot) = i;
         settings_slot_save();
     }
-    SI(f_7c0) = 1;
+    SI(settings_slot) = 1;
     settings_f_save();
     SI(menu_language) = 2;
     settings_b_save();

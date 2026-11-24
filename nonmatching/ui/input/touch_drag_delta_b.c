@@ -15,7 +15,7 @@
 void touch_drag_delta_b(void)
 {
     int dx = g_touch->down_x - g_touch->x, dy = g_touch->down_y - g_touch->y;
-    if (SI(f_671)) {
+    if (SI(fine_move)) {
         dx /= 10;
         dy /= 10;
     }

@@ -21,7 +21,7 @@ void list_c_index_create(void)
     f_open(fil, (const char *)0x4008E2ECu, 0xB);
     f_chmod((const char *)0x4008E2ECu, 2, 2);
     f_chmod((const char *)0x4008E2ECu, 4, 4);
-    fill_u16((unsigned short *)(0x40544E68u + 0xFA6u), 0, SI(f_758));
+    fill_u16((unsigned short *)(0x40544E68u + 0xFA6u), 0, SI(capture_slot_count));
     SI(list_current) = 1;
     SI(list_count) = 0;
     f_lseek(fil, 0);
@@ -29,13 +29,13 @@ void list_c_index_create(void)
     f_lseek(fil, 2);
     f_write(fil, (void *)(0x40544E68u + 0x3DA52Eu), 2, 0);
     f_lseek(fil, 4);
-    f_write(fil, (void *)(0x40544E68u + 0xFA6u), SI(f_758) * 2u, 0);
+    f_write(fil, (void *)(0x40544E68u + 0xFA6u), SI(capture_slot_count) * 2u, 0);
     f_close(fil);
     f_open(fil, (const char *)0x4008E8D4u, 0xB);
     f_chmod((const char *)0x4008E8D4u, 2, 2);
     f_chmod((const char *)0x4008E8D4u, 4, 4);
-    copy_u16((unsigned short *)(0x40544E68u + 0xD744u), 0, SI(f_758) * SI(f_3da544));
+    copy_u16((unsigned short *)(0x40544E68u + 0xD744u), 0, SI(capture_slot_count) * SI(capture_cells));
     f_lseek(fil, 0);
-    f_write(fil, (void *)(0x40544E68u + 0xD744u), SI(f_758) * SI(f_3da544), 0);
+    f_write(fil, (void *)(0x40544E68u + 0xD744u), SI(capture_slot_count) * SI(capture_cells), 0);
     f_close(fil);
 }

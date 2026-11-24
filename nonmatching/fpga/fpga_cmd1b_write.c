@@ -14,8 +14,8 @@ void fpga_cmd1b_write(void)
 {
     fpga_selector_command_write(0x1B);
     if (SI(f_275) && SI(f_274)) {
-        fpga_data_byte_write((SI(f_288) >> 8) & 0xFF);
-        fpga_data_byte_write(SI(f_288) & 0xFF);
+        fpga_data_byte_write((SI(trigger_offset_1b) >> 8) & 0xFF);
+        fpga_data_byte_write(SI(trigger_offset_1b) & 0xFF);
     } else {
         fpga_data_byte_write(0);
         fpga_data_byte_write(0);

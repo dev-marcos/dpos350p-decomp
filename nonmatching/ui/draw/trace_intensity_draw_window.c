@@ -34,10 +34,10 @@ void trace_intensity_draw_window(u32 tr)
     rows = SI(plot_height);
     cy = rows + y0;
     if (SI(f_652)) {
-        pal = (SI(f_653) ? PAL_B : PAL_A) + 6000;
+        pal = (SI(palette_alt) ? PAL_B : PAL_A) + 6000;
     } else {
         po = (int)(short)3000 * (int)(short)mode_not_0_or_2(tr);
-        pal = (SI(f_653) ? PAL_B : PAL_A) + (u32)po;
+        pal = (SI(palette_alt) ? PAL_B : PAL_A) + (u32)po;
     }
     out = FBP + (x0 + 1) * 2 + y0 * 1022 * 2;
     c0 = w700;
@@ -53,7 +53,7 @@ void trace_intensity_draw_window(u32 tr)
                 v = H16(src);
                 if (v == 0)
                     continue;
-                q = v / SI(f_7b0) * 1000;
+                q = v / SI(intensity_divisor) * 1000;
                 H16(dst) = H16(pal + ((u32)(((unsigned long long)q * 0xC4A83BECu) >> 32) >> 10) * 2 + 0x20);
             }
         }

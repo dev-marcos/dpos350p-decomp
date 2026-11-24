@@ -29,7 +29,7 @@ void buttons_ac_open_windows(void)
         return;
     BREC(23, state) = 0;
     BREC_BYTE0 = 0;
-    v = SI(f_671) == 0;
-    SI(f_671) = v;
+    v = SI(fine_move) == 0;
+    SI(fine_move) = v;
     ui_window_invalidate_from(3, v);
 }

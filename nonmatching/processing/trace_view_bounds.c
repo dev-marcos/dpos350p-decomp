@@ -33,7 +33,7 @@ void trace_view_bounds(u32 tr)
         if (t < (long long)lo)
             lo = (u32)t;
     }
-    SI(f_010) = (unsigned short)lo;
+    SI(window_lo) = (unsigned short)lo;
     t = (long long)I32(SYS + 0x60C) + c;
     if (t < 1)
         hi = 0;
@@ -44,7 +44,7 @@ void trace_view_bounds(u32 tr)
         else
             hi = w + 0xFFFF;
     }
-    a = SI(f_5f8);
+    a = SI(samples_per_column);
     b = SI(f_5d4);
     top = (unsigned short)lo;
     if (top < (unsigned short)hi)
@@ -63,7 +63,7 @@ void trace_view_bounds(u32 tr)
             top = (u32)h1;
         hi = top - lo;
     }
-    SI(f_014) = (unsigned short)hi;
-    SI(f_012) = (unsigned short)top;
-    SI(f_010) = (unsigned short)lo;
+    SI(window_span) = (unsigned short)hi;
+    SI(window_hi) = (unsigned short)top;
+    SI(window_lo) = (unsigned short)lo;
 }

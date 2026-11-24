@@ -38,11 +38,11 @@ void selftest_4f5e4(void)
     SI(f_640) = 10;
     SI(f_644) = 1;
     stream_geometry_fpga_selector_0x22_configuration();
-    SI(f_044) = 0xBB8;
+    SI(ch1_fpga_2a) = 0xBB8;
     fpga_write_sel_0x2a();
     delay_ms(200);
     for (s = 0; s < 900; s++) {
-        SI(f_044) = (int)(3000.0f + (float)s * 7.7777777f);
+        SI(ch1_fpga_2a) = (int)(3000.0f + (float)s * 7.7777777f);
         fpga_write_sel_0x2a();
         acquisition_prepare();
         SI(runtime_quotient) = 0;

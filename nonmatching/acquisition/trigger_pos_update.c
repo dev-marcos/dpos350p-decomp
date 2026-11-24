@@ -12,7 +12,7 @@
 
 void trigger_pos_update(void)
 {
-    u32 L = SI(f_520);
+    u32 L = SI(record_length);
     u32 v = L + SI(runtime_quotient) - SI(runtime_position_base);
     fpga_trigger_pos_write(v - (v / L) * L);
 }

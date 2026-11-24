@@ -17,13 +17,13 @@ static u32 shr(u32 v, u32 s)
 
 void fft_input_prepare(void)
 {
-    u32 n = SI(fft_size), q = n ? SI(f_454) / n : 0, off, i;
+    u32 n = SI(fft_size), q = n ? SI(block_len) / n : 0, off, i;
     int st = (int)q <= 0 ? 1 : (int)q;
-    off = (SI(f_454) - st * n) >> 1;
+    off = (SI(block_len) - st * n) >> 1;
     if (SI(ch1_enabled) && SI(ch1_fft_enabled)) {
         volatile unsigned short *s = (volatile unsigned short *)0x42AC7CF4u + off;
         volatile float *d = (volatile float *)0x42E49EB4u;
-        u32 sh = SI(f_264);
+        u32 sh = SI(raw_shift);
         for (i = 0; i < n; i++, s += st)
             d[i] = (float)(int)shr(*s, sh);
         for (i = n; i < 2 * n; i++)
@@ -32,7 +32,7 @@ void fft_input_prepare(void)
     if (SI(ch2_enabled) && SI(ch2_fft_enabled)) {
         volatile unsigned short *s = (volatile unsigned short *)(0x42AC7CF4u + off * 2u + 0x62250u);
         volatile float *d = (volatile float *)0x42E4DEB4u;
-        u32 sh = SI(f_264);
+        u32 sh = SI(raw_shift);
         for (i = 0; i < n; i++, s += st)
             d[i] = (float)(int)shr(*s, sh);
         for (i = n; i < 2 * n; i++)

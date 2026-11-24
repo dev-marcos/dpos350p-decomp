@@ -33,7 +33,7 @@ void calibration_gain_baseline_clamp_conversion(u32 b, u32 ch, volatile unsigned
     q = (int)((u32)gain * (u32)cg) / 1000;
     off = (int)((u32)c2 - (u32)q * SI(f_1b8));
     top = (int)(SI(acq_geometry_1c0) * SI(plot_height));
-    sh = SI(f_264);
+    sh = SI(raw_shift);
     src = (const volatile unsigned char *)(0x42DF76D4u + (int)(short)b * 0x2134 + SI(runtime_position_base) + (phase & 0xFFFF));
     buf += slot & 0xFFFF;
     for (; n != 0; n--) {

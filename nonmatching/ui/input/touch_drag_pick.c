@@ -36,7 +36,7 @@ static u32 pick(void)
                 m = 9 + o;
             }
     }
-    if (SI(f_3da52c)) {
+    if (SI(time_cursors_on)) {
         touch_hit_x_b();
         for (o = 0; o < 2; o++)
             if (W32(U + 0x58 + 4 * o) < best) {
@@ -83,7 +83,7 @@ static u32 pick(void)
             return m;
     } else
         return m;
-    return SI(f_b30) < SI(f_b4c) ? 3 : 4;
+    return SI(ch1_amplitude) < SI(ch2_amplitude) ? 3 : 4;
 }
 
 void touch_drag_pick(void)

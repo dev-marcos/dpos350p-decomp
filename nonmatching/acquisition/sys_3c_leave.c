@@ -12,6 +12,6 @@
 void sys_3c_leave(void)
 {
     u32 v = SI(f_03d);
-    SI(f_3da52c) = 0;
+    SI(time_cursors_on) = 0;
     SI(acq_transition_flag) = v;
 }

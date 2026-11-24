@@ -18,7 +18,7 @@ void factory_reset_keep_language(void)
     factory_defaults();
     SI(menu_language) = lang;
     for (k = 5; k >= 1; k--) {
-        SI(f_7c0) = k;
+        SI(settings_slot) = k;
         settings_f_save();
         settings_slot_save();
     }

@@ -26,18 +26,18 @@ void gen_selftest_4f89c(void)
     SI(timebase_index) = 0x18;
     SI(ch1_vdiv_index) = 6;
     SI(ch2_vdiv_index) = 6;
-    h = SI(f_020);
+    h = SI(grid_step);
     SI(ch1_enabled) = 1;
     SI(ch2_enabled) = 1;
     SI(ch2_offset) = e - 2 * h;
     SI(ch1_offset) = e + 2 * h;
-    SI(f_660) = 5;
+    SI(hires_option) = 5;
     g_touch->enabled = 0;
     apply2();
 
     e = SI(level_default);
-    p1 = (double)e * 1.3 < (double)SI(f_b34) && (double)SI(f_b50) < (double)e * 0.7;
-    h = SI(f_020);
+    p1 = (double)e * 1.3 < (double)SI(ch1_mean_pos) && (double)SI(ch2_mean_pos) < (double)e * 0.7;
+    h = SI(grid_step);
     SI(ch1_enabled) = 1;
     SI(ch2_enabled) = 1;
     SI(ch1_offset) = e - 2 * h;
@@ -45,8 +45,8 @@ void gen_selftest_4f89c(void)
     apply2();
 
     e = SI(level_default);
-    p2 = (double)e * 1.3 < (double)SI(f_b50) && (double)SI(f_b34) < (double)e * 0.7;
-    h = SI(f_020);
+    p2 = (double)e * 1.3 < (double)SI(ch2_mean_pos) && (double)SI(ch1_mean_pos) < (double)e * 0.7;
+    h = SI(grid_step);
     SI(ch1_enabled) = 1;
     SI(ch2_enabled) = 0;
     SI(ch1_offset) = e + 2 * h;
@@ -54,8 +54,8 @@ void gen_selftest_4f89c(void)
     apply2();
 
     e = SI(level_default);
-    v = SI(f_b34);
-    h = SI(f_020);
+    v = SI(ch1_mean_pos);
+    h = SI(grid_step);
     SI(ch1_enabled) = 0;
     SI(ch2_enabled) = 1;
     SI(ch1_offset) = e + 2 * h;
@@ -64,6 +64,6 @@ void gen_selftest_4f89c(void)
     apply2();
 
     e = SI(level_default);
-    p4 = (double)SI(f_b50) < (double)e * 0.7;
+    p4 = (double)SI(ch2_mean_pos) < (double)e * 0.7;
     *(volatile unsigned char *)(0x42E68AE0u + 0x13) = p4 & (p3 & (p2 & p1));
 }

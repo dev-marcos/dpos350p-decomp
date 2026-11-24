@@ -11,5 +11,5 @@
 
 void timebase_apply_2b0(void)
 {
-    trace_buffer_pointers_setup(SI(f_2b0));
+    trace_buffer_pointers_setup(SI(block_points));
 }

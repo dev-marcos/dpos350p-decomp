@@ -14,7 +14,7 @@
 
 void cursor_3da534_clamp(int flag)
 {
-    int a = SI(f_3da534), w = SI(f_3da540), b = SI(f_3da538);
+    int a = SI(cursor_a), w = SI(cursor_gap), b = SI(cursor_b);
     if (b < (int)((u32)w + (u32)a)) {
         if (flag == 0)
             a = (int)((u32)b - (u32)w);
@@ -29,6 +29,6 @@ void cursor_3da534_clamp(int flag)
         b = 12;
     else if (SI(plot_width) - 12 < b)
         b = SI(plot_width) - 12;
-    SI(f_3da534) = a;
-    SI(f_3da538) = b;
+    SI(cursor_a) = a;
+    SI(cursor_b) = b;
 }

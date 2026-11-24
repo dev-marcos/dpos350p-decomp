@@ -46,15 +46,15 @@ void auto_level_search(void)
     g_touch->enabled = 1;
     SI(f_275) = 1;
     h = SI(plot_height);
-    SI(f_70d) = 0;
-    SI(f_660) = 0;
+    SI(step_limiter_on) = 0;
+    SI(hires_option) = 0;
     SI(timebase_index) = 0xB;
     hi = (u32)((double)h * 0.9);
     lo = (u32)((double)h * 0.2);
     for (;;) {
         outputs_apply();
         acquisition_dispatcher();
-        v = SI(f_b30);
+        v = SI(ch1_amplitude);
         if (hi < v) {
             l = SI(ch1_vdiv_index);
             if (l == 0)

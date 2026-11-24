@@ -34,7 +34,7 @@ static u32 shl(u32 v, int n)
    three cells by the fraction of L) and marks the covered rows; returns the sum of (max - min). */
 static int cols_stamp(u32 tr, int x0, int lim, u32 h, int ymax, u32 nseg, u32 k, u32 lh)
 {
-    u32 l = SI(acq_geometry_1c0), sh = SI(f_1bc), base = HITS(tr), coloff, colbuf, pt, s, v, frac, cell;
+    u32 l = SI(acq_geometry_1c0), sh = SI(sample_shift), base = HITS(tr), coloff, colbuf, pt, s, v, frac, cell;
     int x, mx, mn, hi, lo, row, r, n, tot = 0;
     volatile unsigned short *ip;
     if (x0 >= lim)
@@ -142,7 +142,7 @@ void trace_intensity_accumulate_lines(u32 tr)
     h = SI(plot_height);
     lh = SI(acq_geometry_1c0) * h;
     m = mode_not_0_or_1(tr);
-    nseg = SI(f_5f4);
+    nseg = SI(segment_count);
     fill_u16((unsigned short *)COLB, 0, 0x95B50);
     h = SI(plot_height);
     if (SI(zoom_on) && m == 0)
@@ -150,15 +150,15 @@ void trace_intensity_accumulate_lines(u32 tr)
     else
         ymax = (int)h - 3;
     if (m) {
-        np = SI(f_610);
+        np = SI(zoom_samples_per_column);
         x0 = SI(f_016);
         x1 = SI(f_018);
         on = SI(f_01a);
     } else {
-        x0 = SI(f_010);
-        x1 = SI(f_012);
-        np = SI(f_5f8);
-        on = SI(f_014);
+        x0 = SI(window_lo);
+        x1 = SI(window_hi);
+        np = SI(samples_per_column);
+        on = SI(window_span);
     }
     if (on == 0)
         return;
@@ -166,11 +166,11 @@ void trace_intensity_accumulate_lines(u32 tr)
     lim = x1 - 1;
     tot = cols_stamp(tr, x0, lim, h, ymax, nseg, k, lh);
     dcache_clean_inv_all();
-    SI(f_7b0) = 0;
+    SI(intensity_divisor) = 0;
     add = 5 * nseg + 20;
     shift = 4;
     if (g_touch->busy2 && B8(0x42E61FF8u) == 1) {
-        if (SI(f_1b0) == 2)
+        if (SI(sample_divisor) == 2)
             shift = tot ? 0x927C0 / tot : 0;
         else
             shift = tot ? 0x124F80 / tot : 0;
@@ -215,5 +215,5 @@ void trace_intensity_accumulate_lines(u32 tr)
             coloff += hh;
         }
     }
-    SI(f_7b0) = mx / 75;
+    SI(intensity_divisor) = mx / 75;
 }

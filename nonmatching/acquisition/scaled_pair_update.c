@@ -14,16 +14,16 @@ void scaled_pair_update(u32 mode)
     long long p = (long long)(int)(SI(f_5e8) + 1) * (long long)(u32)SI(f_5d4);
     long long k;
     if (mode_not_0_or_1(mode) == 0) {
-        long long d = (long long)(u32)SI(f_5f8);
+        long long d = (long long)(u32)SI(samples_per_column);
         k = (long long)(u32)SI(f_5d4);
-        SI(f_608) = (u32)(p / d);
+        SI(view_offset_left) = (u32)(p / d);
         p = (long long)(int)(SI(f_5ec) - 1) * k;
-        SI(f_60c) = (u32)(p / (long long)(u32)SI(f_5f8));
+        SI(f_60c) = (u32)(p / (long long)(u32)SI(samples_per_column));
     } else {
-        long long d = (long long)(u32)SI(f_610);
+        long long d = (long long)(u32)SI(zoom_samples_per_column);
         k = (long long)(u32)SI(f_5d4);
-        SI(f_620) = (u32)(p / d);
+        SI(zoom_offset_left) = (u32)(p / d);
         p = (long long)(int)(SI(f_5ec) - 1) * k;
-        SI(f_624) = (u32)(p / (long long)(u32)SI(f_610));
+        SI(zoom_offset_right) = (u32)(p / (long long)(u32)SI(zoom_samples_per_column));
     }
 }
