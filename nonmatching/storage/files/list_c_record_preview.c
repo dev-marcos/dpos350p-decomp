@@ -10,10 +10,9 @@
 #include "storage/files.h"
 #include "util.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 #define LEN W32(SYS + 0x3DA53Cu)
 #define CELLS (SYS + 0x3DA548u)
 #define ZBUF 0x416431E8u

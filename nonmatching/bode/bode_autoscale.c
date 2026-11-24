@@ -7,14 +7,13 @@
 
 #include "hw/fpga.h"
 #include "bode.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
 #define BB 0x42E180C8u
 #define GEN 0x42E3F984u
 #define DREC 0x42E554B0u
 #define TOUCH 0x42E68BB0u
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define W(a) (*(volatile u32 *)(a))
 #define DD(a) (*(volatile double *)(a))
 #define BH(o) H16(BB + (o))

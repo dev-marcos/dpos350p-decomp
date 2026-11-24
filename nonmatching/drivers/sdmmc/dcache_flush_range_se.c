@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 #include "drivers/mmio.h"
 #include "drivers/sdmmc.h"
-
-#define mmc_capacity (*(u32 *)0x42E68CC0u)
+#include "shared/drivers.h"
 
 void dcache_flush_range_se(u32 start, u32 end)
 {

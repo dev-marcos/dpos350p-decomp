@@ -7,7 +7,6 @@
 #include "drivers/mmio.h"
 #include "drivers/sdmmc.h"
 #include "drivers/timer.h"
-
-#define mmc_capacity (*(u32 *)0x42E68CC0u)
+#include "shared/drivers.h"
 
 void mmc_delay_ms(u32 ms) { delay_ms(ms); }

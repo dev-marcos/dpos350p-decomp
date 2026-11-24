@@ -12,14 +12,12 @@
 #include "ui/screens.h"
 #include "state/levels_block.h"
 #include "state/ui_windows.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
 #define TT (SYS + 0x3DD530)          /* toolbar theme: +0 fill, +4 icon, +8 text, +0x1C pressed */
 #define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
-#define B8(a) (*(volatile unsigned char *)(a))
-#define SB8(a) (*(volatile signed char *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 #define ENT(n) (TXT + 0x1A0 * (n))
 
 /* one toolbar button: background, icon (colour c is set and at once replaced by the theme
@@ -44,8 +42,6 @@ static void tool_button(u32 tx, u32 y, u32 c, u32 img, u32 e, u32 rec)
 }
 
 #define BLK 0x42E68668u
-#define D64(a) (*(volatile double *)(a))
-#define S64(a) (*(volatile long long *)(a))
 
 static void lp_head(u32 tx, u32 y, u32 wd, u32 e)
 {

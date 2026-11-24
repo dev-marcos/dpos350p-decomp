@@ -7,12 +7,9 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
-#define F32(a) (*(volatile float *)(a))
 
 #define SPL_B 0x42D6EB54u
 #define SPL_C 0x42D823D4u

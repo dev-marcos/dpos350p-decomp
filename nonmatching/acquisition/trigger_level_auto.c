@@ -9,9 +9,9 @@
 #include "acquisition.h"
 #include "util.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define W32(a) (*(volatile u32 *)(a))
 
 /* register shift as the core does it: the low byte of n, 32 and more give 0 */
 static u32 shr(u32 v, u32 n)

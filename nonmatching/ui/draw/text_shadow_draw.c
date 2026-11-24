@@ -7,9 +7,7 @@
 
 #include "hw/fpga.h"
 #include "ui/draw.h"
-
-#define W32(a) (*(volatile u32 *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
+#include "shared/access.h"
 
 void text_shadow_draw(u32 x, u32 y, const char *s, u32 n, unsigned char m, unsigned char alpha)
 {

@@ -7,8 +7,7 @@
 #include "drivers/ccu.h"
 #include "drivers/csi.h"
 #include "stock_asm.h"
-
-#define csi_base_tbl ((u32 *)0x42E68C50u)
+#include "shared/drivers.h"
 
 void csi_clk_init(void)
 {

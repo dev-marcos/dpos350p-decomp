@@ -6,9 +6,7 @@
 #include "hw/drivers.h"
 #include "drivers/ccu.h"
 #include "drivers/mmio.h"
-
-#define CCU 0x01C20000u
-#define PLL_LOCK 0x10000000u
+#include "shared/drivers.h"
 
 s32 periph0_freq(void)
 {

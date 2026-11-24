@@ -9,10 +9,9 @@
 #include "storage/files.h"
 #include "util.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 #define TW (SYS + 0x109684u)     /* u16 width, u16 height, then the RGB565 pixels */
 
 /* (1e6 * sum) / a / b with the stock reciprocal multiplications */

@@ -8,9 +8,6 @@
 #include "stock_asm.h"
 #include "ui/draw.h"
 #include "util.h"
-
-#define FB_PIXELS 0x95B50u                     /* 1022 * 600 */
-#define fb_front  ((unsigned short *)0x41FB8FE8u)
-#define fb_back   ((unsigned short *)0x41BFBF68u)
+#include "shared/framebuffer.h"
 
 void fb_clear_current(void) { fill_u16(*(unsigned short **)0x40095498u, 0, FB_PIXELS); }

@@ -7,8 +7,7 @@
 #include "drivers/gt911.h"
 #include "drivers/pio.h"
 #include "drivers/timer.h"
-
-#define PE ((pio_port_t *)PIO_PE)
+#include "shared/drivers.h"
 
 void gt911_reset_seq(void)
 {

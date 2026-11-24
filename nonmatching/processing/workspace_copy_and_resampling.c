@@ -8,9 +8,9 @@
 #include "hw/fpga.h"
 #include "processing.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define H16(a) (*(volatile unsigned short *)(a))
 
 #define WS 0x41A13AE8u
 

@@ -5,10 +5,9 @@
  */
 #include "hw/drivers.h"
 
-#define PE ((pio_port_t *)PIO_PE)
-
 #include "hw/ms5351_calc.h"
 #include "drivers/ms5351.h"
+#include "shared/drivers.h"
 
 void ms5351_set_clk1(u32 freq)
 {

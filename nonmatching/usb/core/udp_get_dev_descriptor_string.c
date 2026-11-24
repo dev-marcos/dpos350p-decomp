@@ -7,10 +7,7 @@
 #include "drivers/uart.h"
 #include "usb/core.h"
 #include "usb/mass_storage.h"
-
-#define setup_req      ((unsigned char *)0x42E68C58u)   /* copy of the last setup packet */
-#define line_coding    ((unsigned char *)0x40095484u)   /* 7 bytes */
-#define line_coding_rx (*(u32 *)0x42E68CECu)
+#include "shared/usb.h"
 
 void udp_get_dev_descriptor_string(unsigned char *req)
 {

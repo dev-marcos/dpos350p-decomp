@@ -11,14 +11,13 @@
 #include "ui/windows.h"
 #include "state/entry_pad.h"
 #include "state/gen_block.h"
+#include "shared/access.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
 void ui_window_invalidate_from_raw(u32 n) __asm__("ui_window_invalidate_from");
 
 #define BTN 0x42E61FF8u              /* touch button records; byte 0 is the pending-touch flag */
-#define B8(a) (*(volatile unsigned char *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 
 #define GEN 0x42E3F984u
 

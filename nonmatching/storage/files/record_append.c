@@ -9,11 +9,9 @@
 #include "storage/files.h"
 #include "util.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
-#define B8(a) (*(volatile unsigned char *)(a))
 #define RECS (SYS + 0xD744u)                /* u16 cells, one byte per cell */
 #define RSIZE W32(SYS + 0x3DA544u)          /* record size in cells */
 #define RCOUNT H16(SYS + 0x758)             /* number of records */

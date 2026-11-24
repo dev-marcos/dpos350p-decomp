@@ -10,12 +10,10 @@
 #include "libm.h"
 #include "processing.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define H16(a) (*(volatile unsigned short *)(a))
 #define S16(a) (*(volatile short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
-#define B8(a) (*(volatile unsigned char *)(a))
 #define Q64(a) (*(volatile long long *)(a))
 #define LDIV(a, b) __aeabi_ldivmod((long long)(a), (long long)(b))
 #define MUL64(a, b) ((long long)((unsigned long long)(a) * (unsigned long long)(b)))

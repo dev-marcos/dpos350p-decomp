@@ -7,9 +7,7 @@
 
 #include "hw/fpga.h"
 #include "ui/draw.h"
-
-#define W32(a) (*(volatile u32 *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
+#include "shared/access.h"
 
 #define FONT (*(volatile u32 *)0x42E68C74u)
 

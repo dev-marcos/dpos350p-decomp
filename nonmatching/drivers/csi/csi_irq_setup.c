@@ -7,8 +7,7 @@
 #include "drivers/csi.h"
 #include "drivers/gic.h"
 #include "stock_asm.h"
-
-#define csi_base_tbl ((u32 *)0x42E68C50u)
+#include "shared/drivers.h"
 
 void csi_irq_setup(void)
 {

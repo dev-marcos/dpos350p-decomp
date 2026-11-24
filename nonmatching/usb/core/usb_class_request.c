@@ -10,11 +10,7 @@
 #include "usb/core.h"
 #include "usb/mass_storage.h"
 #include "usb/usbc.h"
-
-#define setup_req      ((unsigned char *)0x42E68C58u)   /* copy of the last setup packet */
-#define line_coding    ((unsigned char *)0x40095484u)   /* 7 bytes */
-#define line_coding_rx (*(u32 *)0x42E68CECu)
-#define max_lun_rsp (*(unsigned char *)0x42E68D1Eu)
+#include "shared/usb.h"
 
 void usb_class_request(unsigned char *req)
 {

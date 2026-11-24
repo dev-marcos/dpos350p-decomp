@@ -8,10 +8,7 @@
 #include "hw/fpga.h"
 #include "processing.h"
 #include "state/levels_block.h"
-
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
-#define F32(a) (*(volatile float *)(a))
+#include "shared/access.h"
 
 #define BLK 0x42E68668u
 #define SPT 0x42E3C000u

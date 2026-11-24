@@ -7,12 +7,11 @@
 
 #include "hw/fpga.h"
 #include "storage/settings.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
 #define BLK 0x42E68668u    /* level (spectrum) view block */
 #define BODE 0x42E180C8u   /* frequency-response view block */
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 
 #define FLD(p, s) serializer_process_field((volatile void *)(p), (s))
 

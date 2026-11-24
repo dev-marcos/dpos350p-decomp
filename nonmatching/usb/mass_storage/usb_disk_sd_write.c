@@ -9,15 +9,13 @@
 #include "drivers/sdmmc.h"
 #include "usb/mass_storage.h"
 #include "util.h"
+#include "shared/access.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
 int mmc_write_blocks_raw(int, u32, u32, const void *) __asm__("mmc_write_blocks");
 u32 usb_mass_send_csw_raw(u32 a, u32 b) __asm__("usb_mass_send_csw");
 
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 #define ST 0x42E68D1Bu               /* data stage state: 0 idle, 1 busy */
 #define ERR 0x42E68D1Cu              /* error bits: 8 read, 4 write */
 #define CSWST 0x42E68D1Du            /* command state: 3 send status, 4 host ended the data */

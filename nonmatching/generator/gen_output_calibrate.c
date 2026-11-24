@@ -15,13 +15,11 @@
 #include "util.h"
 #include "sys_info.h"
 #include "state/gen_block.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
 #define GEN 0x42E3F984u
 #define TOUCH 0x42E68BB0u
-#define B8(a) (*(volatile unsigned char *)(a))
-
-#define F32(a) (*(volatile float *)(a))
 
 static double measure(u32 a, u32 b, u32 range)
 {

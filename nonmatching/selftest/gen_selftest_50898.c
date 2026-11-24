@@ -13,10 +13,10 @@
 #include "sys_info.h"
 #include "state/factory_block.h"
 #include "state/gen_block.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
 #define TOUCH 0x42E68BB0u
-#define B8(a) (*(volatile unsigned char *)(a))
 
 void gen_selftest_50898(void)
 {

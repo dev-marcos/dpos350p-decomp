@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 #include "drivers/csi.h"
 #include "stock_asm.h"
-
-#define csi_base_tbl ((u32 *)0x42E68C50u)
+#include "shared/drivers.h"
 
 void csi_set_size(u32 sel, u32 ch, u32 hor_len, u32 ver_len, u32 buf_len_y, u32 buf_len_c)
 {

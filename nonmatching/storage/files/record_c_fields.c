@@ -8,11 +8,9 @@
 #include "hw/fpga.h"
 #include "storage/files.h"
 #include "storage/settings.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 
 #define SPUR 0x42E3C000u
 

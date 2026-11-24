@@ -11,9 +11,9 @@
 #include "stock_asm.h"
 #include "sys_info.h"
 #include "state/levels_block.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
 
 typedef struct { float re, im; } cfloat;
 typedef double (*dfn)(double);

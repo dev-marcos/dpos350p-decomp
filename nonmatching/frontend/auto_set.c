@@ -7,13 +7,11 @@
 
 #include "hw/fpga.h"
 #include "frontend.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
 #define TCH 0x42E68BB0u
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define S8(a) (*(volatile signed char *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 
 void auto_set(void)
 {

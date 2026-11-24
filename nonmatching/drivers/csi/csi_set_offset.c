@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 #include "drivers/csi.h"
 #include "stock_asm.h"
-
-#define csi_base_tbl ((u32 *)0x42E68C50u)
+#include "shared/drivers.h"
 
 void csi_set_offset(u32 sel, u32 ch, u32 hor_start, u32 ver_start)
 {

@@ -12,15 +12,13 @@
 #include "state/bode_block.h"
 #include "state/touch_buttons.h"
 #include "state/ui_windows.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
 #define TT (SYS + 0x3DD530)          /* toolbar theme: +0 fill, +4 icon, +8 text, +0x1C pressed */
 #define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
 #define BODE 0x42E180C8u             /* frequency-response view block */
-#define B8(a) (*(volatile unsigned char *)(a))
-#define SB8(a) (*(volatile signed char *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 #define ENT(n) (TXT + 0x1A0 * (n))
 
 /* one toolbar button: background, icon (colour c is set and at once replaced by the theme

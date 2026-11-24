@@ -9,10 +9,7 @@
 #include "ui/draw.h"
 #include "ui/screens.h"
 #include "state/levels_block.h"
-
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
+#include "shared/access.h"
 
 #define ADV 0x42E68BE4u
 

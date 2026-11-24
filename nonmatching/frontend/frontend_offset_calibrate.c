@@ -13,6 +13,7 @@
 #include "processing.h"
 #include "system.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -20,8 +21,6 @@ u32 channel_level_mean_raw(u32 a, u32 ch, u32 n, u32 p) __asm__("channel_level_m
 
 #define SYS 0x40544E68u
 #define TCH 0x42E68BB0u
-#define B8(a) (*(volatile unsigned char *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 
 #define K 0x429D3AB4u
 #define DIV W32(SYS + 0x26C)

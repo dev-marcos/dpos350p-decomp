@@ -9,8 +9,7 @@
 #include "fatfs_app.h"
 #include "storage/files.h"
 #include "sys_info.h"
-
-#define PATHBUF ((const char *)0x4054D728u)   /* SYS+0x88C0: path built by the list's path helper */
+#include "shared/storage.h"
 
 void list_a_index_load(void)
 {

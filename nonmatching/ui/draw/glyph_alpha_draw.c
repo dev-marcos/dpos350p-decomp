@@ -7,8 +7,7 @@
 
 #include "hw/fpga.h"
 #include "ui/draw.h"
-
-#define H16(a) (*(volatile unsigned short *)(a))
+#include "shared/access.h"
 
 void glyph_alpha_draw(u32 x, u32 y, const unsigned char *g)
 {

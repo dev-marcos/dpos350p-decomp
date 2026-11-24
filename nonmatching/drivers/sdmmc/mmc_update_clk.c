@@ -7,8 +7,7 @@
 #include "drivers/mmio.h"
 #include "drivers/sdmmc.h"
 #include "drivers/uart.h"
-
-#define mmc_capacity (*(u32 *)0x42E68CC0u)
+#include "shared/drivers.h"
 
 int mmc_update_clk(u32 n)
 {

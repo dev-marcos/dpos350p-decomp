@@ -6,8 +6,7 @@
 #include "hw/drivers.h"
 #include "drivers/gt911.h"
 #include "drivers/pio.h"
-
-#define PG ((pio_port_t *)PIO_PG)
+#include "shared/drivers.h"
 
 void gt911_i2c_pins_init(void)
 {

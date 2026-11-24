@@ -11,12 +11,12 @@
 #include "ui/input.h"
 #include "ui/screens.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed */
 
 #define U64(a) (*(volatile unsigned long long *)(a))
-#define S64(a) (*(volatile long long *)(a))
 
 void zoom_ratio_window_update(void)
 {

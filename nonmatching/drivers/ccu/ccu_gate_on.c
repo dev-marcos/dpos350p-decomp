@@ -7,9 +7,7 @@
 #include "drivers/ccu.h"
 #include "drivers/mmio.h"
 #include "drivers/timer.h"
-
-#define CCU 0x01C20000u
-#define PLL_LOCK 0x10000000u
+#include "shared/drivers.h"
 
 void ccu_gate_on(s32 code)
 {

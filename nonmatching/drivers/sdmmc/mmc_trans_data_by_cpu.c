@@ -7,8 +7,7 @@
 #include "drivers/mmio.h"
 #include "drivers/sdmmc.h"
 #include "drivers/uart.h"
-
-#define mmc_capacity (*(u32 *)0x42E68CC0u)
+#include "shared/drivers.h"
 
 typedef struct { u32 *buf; unsigned char flags; unsigned char pad[3]; u32 blksz, blocks; } mmc_data_t;
 

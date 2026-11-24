@@ -11,11 +11,9 @@
 #include "stock_asm.h"
 #include "util.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 
 #define HITS(tr) (0x400954A4u + (tr) * 0x12BE70u)
 #define SMP(tr) (0x413F92E8u + (tr) * 0x927C0u)

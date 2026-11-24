@@ -10,10 +10,10 @@
 #include "stock_asm.h"
 #include "ui/input.h"
 #include "util.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
 #define BTN 0x42E61FF8u              /* touch button records; byte 0 is the pending-touch flag */
-#define B8(a) (*(volatile unsigned char *)(a))
 
 void measure_select_buttons(void)
 {

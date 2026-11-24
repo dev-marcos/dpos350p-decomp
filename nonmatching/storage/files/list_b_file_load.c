@@ -11,8 +11,7 @@
 #include "storage/settings.h"
 #include "util.h"
 #include "sys_info.h"
-
-#define PATHBUF ((const char *)0x4054D728u)   /* SYS+0x88C0: path built by the list's path helper */
+#include "shared/storage.h"
 
 void list_b_file_load(void)
 {

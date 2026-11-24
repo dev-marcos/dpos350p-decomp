@@ -7,11 +7,9 @@
 
 #include "hw/fpga.h"
 #include "ui/windows.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 #define U64(a) (*(volatile unsigned long long *)(a))
 
 void ui_layout_init(void)

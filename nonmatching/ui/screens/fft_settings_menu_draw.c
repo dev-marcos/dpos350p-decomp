@@ -11,16 +11,13 @@
 #include "ui/screens.h"
 #include "state/levels_block.h"
 #include "state/ui_windows.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed */
 #define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
-#define B8(a) (*(volatile unsigned char *)(a))
-#define SB8(a) (*(volatile signed char *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 #define ENT(n) (TXT + 0x1A0 * (n))
-
 
 static void label_row(u32 x, u32 y, u32 img, u32 e)
 {

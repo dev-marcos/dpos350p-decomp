@@ -10,12 +10,10 @@
 #include "processing.h"
 #include "util.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 #define I32(a) (*(volatile int *)(a))
-#define S64(a) (*(volatile long long *)(a))
 #define P(o) (SYS + 0x5F4 + (o))
 #define TRBUF(ch) (0x411AF3E8u + (ch) * 0x927C0u)
 

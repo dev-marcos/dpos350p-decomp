@@ -8,10 +8,10 @@
 #include "hw/fpga.h"
 #include "bode.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
 #define BB 0x42E180C8u
-#define H16(a) (*(volatile unsigned short *)(a))
 #define W(a) (*(volatile u32 *)(a))
 #define DD(a) (*(volatile double *)(a))
 #define BH(o) H16(BB + (o))

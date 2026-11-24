@@ -9,11 +9,10 @@
 #include "ui/draw.h"
 #include "ui/screens.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
 #define SH16(a) (*(volatile short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
-#define S64(a) (*(volatile long long *)(a))
 #define FONT 0x42E658D8u             /* normal font */
 #define FONT_S 0x42E64F58u           /* small font */
 

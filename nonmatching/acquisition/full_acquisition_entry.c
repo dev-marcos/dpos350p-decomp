@@ -12,6 +12,7 @@
 #include "ui/windows.h"
 #include "util.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -20,8 +21,6 @@ void first_conversion_wrapper_raw(u32 dst, u32 ch, u32 n) __asm__("first_convers
 void second_conversion_wrapper_raw(u32 dst, u32 ch, u32 n) __asm__("second_conversion_wrapper");
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 #define SEG W32(SYS + 0x2B0)
 #define HIST 0x42AC7CF4u
 #define TMP 0x416431E8u

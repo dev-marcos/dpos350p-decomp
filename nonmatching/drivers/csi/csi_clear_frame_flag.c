@@ -6,7 +6,6 @@
 #include "hw/platform.h"
 #include "drivers/csi.h"
 #include "stock_asm.h"
-
-#define csi_base_tbl ((u32 *)0x42E68C50u)
+#include "shared/drivers.h"
 
 void csi_clear_frame_flag(void) { csi_set_frame_flag(0); }

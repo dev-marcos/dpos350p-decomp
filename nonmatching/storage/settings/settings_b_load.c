@@ -9,8 +9,7 @@
 #include "storage/settings.h"
 #include "system.h"
 #include "sys_info.h"
-
-#define SER_IMAGE ((volatile void *)0x408A526Cu)   /* SYS_INFO+0x360404 */
+#include "shared/storage.h"
 
 void settings_b_load(void)
 {

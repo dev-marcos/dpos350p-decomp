@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 #include "drivers/csi.h"
 #include "stock_asm.h"
-
-#define csi_base_tbl ((u32 *)0x42E68C50u)
+#include "shared/drivers.h"
 
 int csi_init_cfg(u32 sel, const signed char *cfg)
 {

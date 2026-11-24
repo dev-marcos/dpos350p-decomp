@@ -10,12 +10,11 @@
 #include "storage/files.h"
 #include "util.h"
 #include "sys_info.h"
+#include "shared/storage.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
 void record_clear_raw(u32 v) __asm__("record_clear");
-
-#define PATHBUF ((const char *)0x4054D728u)   /* SYS+0x88C0: path built by the list's path helper */
 
 void list_c_delete_marked(void)
 {

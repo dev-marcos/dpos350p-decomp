@@ -8,9 +8,7 @@
 #include "hw/fpga.h"
 #include "ui/draw.h"
 #include "ui/input.h"
-
-#define W32(a) (*(volatile u32 *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
+#include "shared/access.h"
 
 void window_frame_23d04_draw(void)
 {

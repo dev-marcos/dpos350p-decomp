@@ -6,7 +6,6 @@
 #include "hw/platform.h"
 #include "drivers/csi.h"
 #include "stock_asm.h"
-
-#define csi_base_tbl ((u32 *)0x42E68C50u)
+#include "shared/drivers.h"
 
 void csi_writel_t(u32 addr, u32 v) { csi_writel(addr, v); }

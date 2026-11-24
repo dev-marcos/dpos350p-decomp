@@ -9,12 +9,12 @@
 #include "ui/input.h"
 #include "sys_info.h"
 #include "state/touch_ctl.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
 #define U 0x42E68998u                /* drag state */
 #define TCH 0x42E68BB0u              /* touch point: +4 / +6 now */
 #define S16(a) (*(volatile short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 
 #define TRACES 0x413F92E8u           /* trace sample buffers */
 typedef double (*sqrt_fn)(double);

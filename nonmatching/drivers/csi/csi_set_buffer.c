@@ -6,7 +6,6 @@
 #include "hw/platform.h"
 #include "drivers/csi.h"
 #include "stock_asm.h"
-
-#define csi_base_tbl ((u32 *)0x42E68C50u)
+#include "shared/drivers.h"
 
 void csi_set_buffer(u32 addr) { csi_set_buffer_address(0, 0, 0, (u64)addr); }

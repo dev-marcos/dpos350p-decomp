@@ -9,13 +9,10 @@
 #include "ui/draw.h"
 #include "ui/screens.h"
 #include "ui/windows.h"
+#include "shared/framebuffer.h"
 
 #define WIN(id)  ((volatile unsigned char *)(0x42E64520u + (id) * 14u))
 #define WSTK     ((volatile unsigned char *)0x42E68BC8u)
-#define FB_W     1022u
-#define fb_front ((unsigned short *)0x41FB8FE8u)
-#define fb_back  ((unsigned short *)0x41BFBF68u)
-#define fb_off   ((unsigned short *)0x4233CBBCu)
 
 void ui_window_15_redraw(u32 anim)
 {

@@ -11,11 +11,9 @@
 #include "util.h"
 #include "sys_info.h"
 #include "state/bode_block.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 
 #define BB 0x42E180C8u
 #define WS 0x416431E8u

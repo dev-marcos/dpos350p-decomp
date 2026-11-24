@@ -8,9 +8,9 @@
 #include "hw/fpga.h"
 #include "fpga.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
 #define U64(a) (*(volatile unsigned long long *)(a))
 
 #define R_1000 0xE8D4A51000ULL

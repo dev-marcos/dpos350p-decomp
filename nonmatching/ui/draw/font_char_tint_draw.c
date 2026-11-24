@@ -7,13 +7,13 @@
 
 #include "hw/fpga.h"
 #include "ui/draw.h"
+#include "shared/access.h"
 
 #define CB8(o) (*(volatile unsigned char *)(0x42E6865Cu + (o)))
 #define CB16(o) (*(volatile unsigned short *)(0x42E6865Cu + (o)))
 #define FBP (*(volatile u32 *)0x40095498u)
 
 #define FONT (*(volatile u32 *)0x42E68C74u)
-#define H16(a) (*(volatile unsigned short *)(a))
 
 void font_char_tint_draw(u32 x, u32 y, u32 ch)
 {

@@ -8,9 +8,8 @@
 #include "hw/fpga.h"
 #include "ui/draw.h"
 #include "ui/input.h"
+#include "shared/access.h"
 
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 #define WR16(o) H16(0x42E64520u + (o))
 #define BTN ((volatile unsigned char *)0x42E61FF8u)
 #define TXE(k) (0x42C2FE74u + 0x1A0u * (k))

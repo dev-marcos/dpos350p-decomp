@@ -9,9 +9,9 @@
 #include "libc.h"
 #include "storage/files.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
 
 /* p points at the '/' before the number; n < 10 is written as one character, also when it is
    negative; 10..65535 as 2..5 decimal digits; from 65536 on only the '/' is there */

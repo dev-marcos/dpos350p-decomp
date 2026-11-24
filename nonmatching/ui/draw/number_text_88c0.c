@@ -8,9 +8,9 @@
 #include "hw/fpga.h"
 #include "ui/draw.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
 
 void number_text_88c0(int n)
 {

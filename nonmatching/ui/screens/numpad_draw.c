@@ -9,17 +9,13 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 #include "ui/screens.h"
+#include "shared/access.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
 u32 number_text_width_mode0_raw(u32 lo, u32 hi, u32 dec) __asm__("number_text_width_mode0");
 void glyph_alpha_draw_raw(u32 x, u32 y, u32 s) __asm__("glyph_alpha_draw");
 
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
-#define S64(a) (*(volatile long long *)(a))
-#define D64(a) (*(volatile double *)(a))
 #define BLK 0x42E68668u
 #define ADV 0x42E68BE4u
 

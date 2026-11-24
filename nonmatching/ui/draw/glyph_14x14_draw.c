@@ -7,9 +7,7 @@
 
 #include "hw/fpga.h"
 #include "ui/draw.h"
-
-#define W32(a) (*(volatile u32 *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
+#include "shared/access.h"
 
 void glyph_14x14_draw(u32 x, u32 y, unsigned short code)
 {

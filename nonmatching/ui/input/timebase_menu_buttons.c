@@ -11,6 +11,7 @@
 #include "ui/input.h"
 #include "ui/windows.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -19,7 +20,6 @@ void ui_window_invalidate_from_raw(u32 n) __asm__("ui_window_invalidate_from");
 
 #define SYS 0x40544E68u
 #define BTN 0x42E61FF8u              /* touch button records; byte 0 is the pending-touch flag */
-#define B8(a) (*(volatile unsigned char *)(a))
 
 void timebase_menu_buttons(void)
 {

@@ -6,8 +6,7 @@
 #include "hw/platform.h"
 #include "drivers/mmio.h"
 #include "drivers/sdmmc.h"
-
-#define mmc_capacity (*(u32 *)0x42E68CC0u)
+#include "shared/drivers.h"
 
 void dcache_clean_inv_mva(u32 addr)
 {

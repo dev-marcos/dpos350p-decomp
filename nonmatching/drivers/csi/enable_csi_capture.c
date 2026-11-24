@@ -6,7 +6,6 @@
 #include "hw/platform.h"
 #include "drivers/csi.h"
 #include "stock_asm.h"
-
-#define csi_base_tbl ((u32 *)0x42E68C50u)
+#include "shared/drivers.h"
 
 void enable_csi_capture(void) { csi_capture_start_t(0, *(u32 *)(0x42E5549Cu + 0x10), 1); }

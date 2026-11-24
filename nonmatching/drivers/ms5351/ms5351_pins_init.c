@@ -6,8 +6,7 @@
 #include "hw/drivers.h"
 #include "drivers/ms5351.h"
 #include "drivers/pio.h"
-
-#define PE ((pio_port_t *)PIO_PE)
+#include "shared/drivers.h"
 
 void ms5351_pins_init(void)
 {

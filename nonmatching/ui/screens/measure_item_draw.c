@@ -9,8 +9,8 @@
 #include "processing.h"
 #include "ui/draw.h"
 #include "ui/screens.h"
+#include "shared/access.h"
 
-#define H16(a) (*(volatile unsigned short *)(a))
 #define SYS 0x40544E68u
 #define U16(v) ((unsigned short)(v))
 

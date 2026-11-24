@@ -10,9 +10,9 @@
 #include "drivers/timer.h"
 #include "fpga.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
 
 typedef u32 u32_unaligned __attribute__((aligned(1)));
 #define WU(a) (*(volatile u32_unaligned *)(a))

@@ -10,9 +10,9 @@
 #include "processing.h"
 #include "util.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define H16(a) (*(volatile unsigned short *)(a))
 
 #define OUT16 0x416431E8u
 

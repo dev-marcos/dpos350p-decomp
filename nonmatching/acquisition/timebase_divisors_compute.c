@@ -8,10 +8,9 @@
 #include "hw/fpga.h"
 #include "acquisition.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define W32(a) (*(volatile u32 *)(a))
-#define S64(a) (*(volatile long long *)(a))
 
 static u32 ceil_div10(long long v)
 {

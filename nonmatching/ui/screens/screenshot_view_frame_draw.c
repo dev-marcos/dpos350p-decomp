@@ -12,12 +12,9 @@
 #include "ui/screens.h"
 #include "sys_info.h"
 #include "state/ui_windows.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
-#define SB8(a) (*(volatile signed char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 
 #define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */

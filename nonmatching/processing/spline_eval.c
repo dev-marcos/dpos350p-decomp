@@ -7,12 +7,9 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
-#define F32(a) (*(volatile float *)(a))
 
 float spline_eval(u32 unused, int n, const volatile float *xk, const volatile float *a, const volatile float *b,
                   const volatile float *c, const volatile float *d, volatile int *idx, float x)

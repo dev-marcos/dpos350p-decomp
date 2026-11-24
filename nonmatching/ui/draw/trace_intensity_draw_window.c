@@ -10,9 +10,9 @@
 #include "stock_asm.h"
 #include "ui/draw.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define H16(a) (*(volatile unsigned short *)(a))
 
 #define HITS(tr) (0x400954A4u + (tr) * 0x12BE70u)
 #define FBP (*(volatile u32 *)0x40095498u)

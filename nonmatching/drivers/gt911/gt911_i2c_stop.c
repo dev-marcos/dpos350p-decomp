@@ -7,8 +7,7 @@
 #include "drivers/gt911.h"
 #include "drivers/pio.h"
 #include "drivers/timer.h"
-
-#define PG ((pio_port_t *)PIO_PG)
+#include "shared/drivers.h"
 
 void gt911_i2c_stop(void)
 {

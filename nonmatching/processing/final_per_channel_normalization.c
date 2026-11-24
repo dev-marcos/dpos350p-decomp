@@ -8,10 +8,9 @@
 #include "hw/fpga.h"
 #include "processing.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 #define U64(a) (*(volatile unsigned long long *)(a))
 
 void final_per_channel_normalization(u32 ch)

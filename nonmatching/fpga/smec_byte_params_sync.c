@@ -8,11 +8,9 @@
 #include "hw/fpga.h"
 #include "drivers/fpga_bus.h"
 #include "fpga.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 
 void smec_byte_params_sync(void)
 {

@@ -10,10 +10,9 @@
 #include "ui/input.h"
 #include "ui/screens.h"
 #include "state/ui_windows.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define SB8(a) (*(volatile signed char *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed */
 #define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */

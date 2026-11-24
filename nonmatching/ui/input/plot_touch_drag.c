@@ -14,6 +14,7 @@
 #include "sys_info.h"
 #include "state/touch_buttons.h"
 #include "state/touch_ctl.h"
+#include "shared/access.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -21,13 +22,10 @@ void ui_window_invalidate_from_raw(u32 n) __asm__("ui_window_invalidate_from");
 
 #define SYS 0x40544E68u
 #define BTN 0x42E61FF8u              /* touch button records; byte 0 is the pending-touch flag */
-#define B8(a) (*(volatile unsigned char *)(a))
 #define S16(a) (*(volatile short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 
 #define U 0x42E68998u                /* drag state */
 #define TCH 0x42E68BB0u              /* touch point: +4 / +6 now, +8 / +0xA at press */
-#define S64(a) (*(volatile long long *)(a))
 #define SPLIT B8(SYS + 0x2AA)
 
 static void press_save(void)

@@ -8,13 +8,9 @@
 #include "hw/fpga.h"
 #include "ui/draw.h"
 #include "util.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
-#define F32(a) (*(volatile float *)(a))
-#define D64(a) (*(volatile double *)(a))
 
 #define PAL_A 0x42E45864u
 #define PAL_B 0x42E47B8Cu

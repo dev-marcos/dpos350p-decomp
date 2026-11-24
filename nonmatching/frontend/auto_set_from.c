@@ -13,6 +13,7 @@
 #include "ui/screens.h"
 #include "ui/windows.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -21,10 +22,7 @@ void ui_window_05_redraw_raw(u32 a) __asm__("ui_window_05_redraw");
 
 #define SYS 0x40544E68u
 #define TCH 0x42E68BB0u
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 #define S8(a) (*(volatile signed char *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 
 #define SAVED 0x409223F0u            /* backup copy of the settings block (state_backup_all) */
 #define TBL 0x42C3D834u              /* message table: +0 text, +0x194 / +0x195 x / y offsets */

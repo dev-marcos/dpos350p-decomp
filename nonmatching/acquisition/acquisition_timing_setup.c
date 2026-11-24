@@ -12,11 +12,10 @@
 #include "stock_asm.h"
 #include "system.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define W32(a) (*(volatile u32 *)(a))
 #define Q64(a) (*(volatile unsigned long long *)(a))
-#define S64(a) (*(volatile long long *)(a))
 
 /* Thumb runtime helpers, called through their Thumb addresses like the stock BLX */
 typedef double (*ul2d_fn)(unsigned long long) __attribute__((pcs("aapcs")));

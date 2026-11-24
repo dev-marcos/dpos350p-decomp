@@ -9,9 +9,8 @@
 #include "ui/draw.h"
 #include "ui/screens.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
-#define W32(a) (*(volatile u32 *)(a))
-#define B8(a) (*(volatile unsigned char *)(a))
 #define SYS 0x40544E68u
 #define CUR (SYS + 0x3DA52Cu)
 #define U16(v) ((unsigned short)(v))

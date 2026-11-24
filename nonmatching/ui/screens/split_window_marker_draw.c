@@ -9,10 +9,9 @@
 #include "ui/draw.h"
 #include "ui/screens.h"
 #include "sys_info.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
 
 #define H3 ((H16(SYS + 0xA) * 0xAAABu) >> 17)    /* a third of the plot height */
 #define VL(col, x) do { draw_colour_set(col); vline_draw((u32)(x) & 0xFFFF, (H16(SYS + 6) + 1) & 0xFFFF, (H16(SYS + 6) + H3) & 0xFFFF); } while (0)

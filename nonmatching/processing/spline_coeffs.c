@@ -7,13 +7,9 @@
 
 #include "hw/fpga.h"
 #include "processing.h"
+#include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
-#define F32(a) (*(volatile float *)(a))
-#define D64(a) (*(volatile double *)(a))
 
 void spline_coeffs(int n, int end1, int end2, const volatile float *x, const volatile float *y, volatile float *b,
                    volatile float *c, volatile float *d, volatile u32 *iflag, float slope1, float slope2)

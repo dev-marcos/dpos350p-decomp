@@ -7,10 +7,8 @@
 
 #include "hw/fpga.h"
 #include "usb/mass_storage.h"
+#include "shared/access.h"
 
-#define B8(a) (*(volatile unsigned char *)(a))
-#define H16(a) (*(volatile unsigned short *)(a))
-#define W32(a) (*(volatile u32 *)(a))
 #define ST 0x42E68D1Bu               /* data stage state: 0 idle, 1 busy */
 #define ERR 0x42E68D1Cu              /* error bits: 8 read, 4 write */
 #define CSWST 0x42E68D1Du            /* command state: 3 send status, 4 host ended the data */
