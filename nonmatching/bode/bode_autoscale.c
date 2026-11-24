@@ -8,13 +8,8 @@
 #include "hw/fpga.h"
 #include "bode.h"
 #include "shared/access.h"
+#include "state/bode_block.h"
 
-#define BB 0x42E180C8u
-#define W(a) (*(volatile u32 *)(a))
-#define DD(a) (*(volatile double *)(a))
-#define BH(o) H16(BB + (o))
-#define BW(o) W(BB + (o))
-#define BD(o) DD(BB + (o))
 #define U16(v) ((unsigned short)(v))
 
 static int clamp_row(int p)
@@ -22,7 +17,7 @@ static int clamp_row(int p)
     int h;
     if (p <= 2)
         return 3;
-    h = BH(6);
+    h = BODES(plot_h);
     return h > p ? p : h;
 }
 
@@ -33,14 +28,14 @@ void bode_autoscale(void)
     double base, sc, hd;
     if (g_touch->serviced)
         return;
-    H = BH(6);
+    H = BODES(plot_h);
     half = H >> 1;
     hh = (int)((double)H * 0.8);
-    n = BW(0x5C);
+    n = BODES(freq_count);
     mx = (int)0xC0000001u;
     mn = 0x3FFFFFFF;
     for (k = 0; k < n; k++) {
-        v = (int)(BD(0x3EE8 + 8 * k) * 10000.0);
+        v = (int)(BODES(gain_db[k]) * 10000.0);
         if (v >= mx)
             mx = v;
         if (v <= mn)
@@ -52,18 +47,18 @@ void bode_autoscale(void)
         sc = 25.0;
     c = (int)((double)(int)((u32)mn + (u32)mx) * sc / 20000.0);
     for (k = 0; k < n; k++)
-        BH(0x8D20 + 2 * k) = (unsigned short)clamp_row((int)((u32)(int)(BD(0x3EE8 + 8 * k) * sc) + (half - (u32)c)));
-    BD(0x18) = 0.0;
+        BODES(gain_rows[k]) = (unsigned short)clamp_row((int)((u32)(int)(BODES(gain_db[k]) * sc) + (half - (u32)c)));
+    BODES(gain_bottom) = 0.0;
     hd = (double)(int)half;
     {
-        double Hd = (double)BH(6), cd = (double)c, lo = (cd - hd) / sc, hi = (Hd - hd + cd) / sc;
-        BD(0x18) = lo;
-        BD(0x10) = hi;
+        double Hd = (double)BODES(plot_h), cd = (double)c, lo = (cd - hd) / sc, hi = (Hd - hd + cd) / sc;
+        BODES(gain_bottom) = lo;
+        BODES(gain_top) = hi;
     }
     mx = (int)0xC0000001u;
     mn = 0x3FFFFFFF;
     for (k = 0; k < n; k++) {
-        v = (short)BH(0x7D68 + 2 * k) * 10000;
+        v = (short)BODES(phase_deg[k]) * 10000;
         if (v >= mx)
             mx = v;
         if (v <= mn)
@@ -77,11 +72,11 @@ void bode_autoscale(void)
         sc = 3.0;
     c = (int)((double)(int)((u32)mn + (u32)mx) * sc / 20000.0);
     for (k = 0; k < n; k++)
-        BH(0x9CC0 + 2 * k) = (unsigned short)clamp_row((int)((u32)(int)((double)(short)BH(0x7D68 + 2 * k) * sc) + (half - (u32)c)));
-    BD(0x28) = 0.0;
+        BODES(phase_rows[k]) = (unsigned short)clamp_row((int)((u32)(int)((double)(short)BODES(phase_deg[k]) * sc) + (half - (u32)c)));
+    BODES(phase_bottom) = 0.0;
     {
-        double Hd = (double)BH(6), cd = (double)c, lo = (cd - hd) / sc, hi = (Hd - hd + cd) / sc;
-        BD(0x28) = lo;
-        BD(0x20) = hi;
+        double Hd = (double)BODES(plot_h), cd = (double)c, lo = (cd - hd) / sc, hi = (Hd - hd + cd) / sc;
+        BODES(phase_bottom) = lo;
+        BODES(phase_top) = hi;
     }
 }

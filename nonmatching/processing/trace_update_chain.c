@@ -12,7 +12,6 @@
 #include "ui/windows.h"
 #include "state/bode_block.h"
 
-
 void trace_update_chain(void)
 {
     trace_cursor_limits();
@@ -20,18 +19,18 @@ void trace_update_chain(void)
     if (BODES(running) == 0)
         bode_sweep_run();
     bode_grid_draw();
-    if (BODES(f_047)) {
+    if (BODES(sweep_running)) {
         if (BODES(running))
             goto redraw;
         bode_autoscale();
         bode_curves_zoom();
     }
-    if (BODES(loop) && BODES(f_047) == 0)
+    if (BODES(loop) && BODES(sweep_running) == 0)
         goto done;
 redraw:
     bode_curves_draw();
     if (BODES(loop) == 1) {
-        u32 k = BODES(f_047);
+        u32 k = BODES(sweep_running);
         if (k) {
             BODES(running) = 1;
             ui_window_invalidate_from(0x22, k);

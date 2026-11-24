@@ -8,17 +8,15 @@
 #include "hw/fpga.h"
 #include "ui/draw.h"
 #include "ui/screens.h"
+#include "state/bode_block.h"
 
 #define BB 0x42E180C8u
-#define BH(o) (*(volatile unsigned short *)(BB + (o)))
-#define BW(o) (*(volatile int *)(BB + (o)))
-#define BD(o) (*(volatile double *)(BB + (o)))
 #define U16(v) ((unsigned short)(v))
 #define TW (*(volatile unsigned short *)0x42E68BE4u)
 
 static void row(u32 y, const char *lab, u32 sz, double f, double g, double ph, u32 sg)
 {
-    u32 x = BH(0) + 0xA;
+    u32 x = BODES(plot_x) + 0xA;
     draw_colour_set(0xBBBBBB);
     half_42e68be2_set(sz);
     text_draw(U16(x), U16(y), lab);
@@ -56,11 +54,11 @@ void bode_cursors_draw(void)
     int c1, c2, n;
     if (*(volatile unsigned char *)(BB + 0xAC60) == 0)
         return;
-    x1 = BH(0) + 1;
-    top = BH(2) + 2;
-    c1 = BW(0xAC64);
-    c2 = BW(0xAC68);
-    n = ((int)(BH(2) + BH(6)) - (int)top + 1) / 4;
+    x1 = BODES(plot_x) + 1;
+    top = BODES(plot_y) + 2;
+    c1 = BODES(cursor1);
+    c2 = BODES(cursor2);
+    n = ((int)(BODES(plot_y) + BODES(plot_h)) - (int)top + 1) / 4;
     word_42e68c74_set(0x42E65418u);
     draw_colour_set(0xBBBBBB);
     if (n != 0) {
@@ -71,13 +69,13 @@ void bode_cursors_draw(void)
         for (i = 0; i < (u32)n; i++)
             vline_draw(U16(x), U16(top + 4 * i), U16(top + 4 * i + 2));
     }
-    x = (u32)c1 + BH(0);
+    x = (u32)c1 + BODES(plot_x);
     tag(x, top);
     draw_colour_set(0);
     half_42e68be2_set(2);
     text_draw(U16(x - 3), U16(top), "C");
     text_draw(U16(x - 1), U16(top + 9), "1");
-    x = (u32)c2 + BH(0);
+    x = (u32)c2 + BODES(plot_x);
     tag(x, top);
     half_42e68be2_set(1);
     draw_colour_set(0);
@@ -85,8 +83,8 @@ void bode_cursors_draw(void)
     text_draw(U16(x - 2), U16(top + 9), "2");
     half_42e68be2_set(1);
     word_42e68c74_set(0x42E658D8u);
-    y = BH(6) + BH(2) - 0x37;
-    row(y, "C1 ", 4, BD(0xAC70), BD(0xAC88), BD(0xACA0), 1);
-    row(y + 0x11, "C2 ", 3, BD(0xAC78), BD(0xAC90), BD(0xACA8), 1);
-    row(y + 0x22, "DC ", 3, BD(0xAC80), BD(0xAC98), BD(0xACB0), 0);
+    y = BODES(plot_h) + BODES(plot_y) - 0x37;
+    row(y, "C1 ", 4, BODES(c1_freq), BODES(c1_gain), BODES(c1_phase), 1);
+    row(y + 0x11, "C2 ", 3, BODES(c2_freq), BODES(c2_gain), BODES(c2_phase), 1);
+    row(y + 0x22, "DC ", 3, BODES(dc_freq), BODES(dc_gain), BODES(dc_phase), 0);
 }

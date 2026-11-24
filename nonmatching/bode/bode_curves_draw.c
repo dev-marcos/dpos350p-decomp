@@ -14,19 +14,14 @@
 
 #define SYS 0x40544E68u
 #define BB 0x42E180C8u
-#define W(a) (*(volatile u32 *)(a))
-#define DD(a) (*(volatile double *)(a))
-#define BH(o) H16(BB + (o))
-#define BW(o) W(BB + (o))
-#define BD(o) DD(BB + (o))
 #define U16(v) ((unsigned short)(v))
 
 static void curve(u32 tab, u32 colour)
 {
-    u32 x0 = BH(0), y0 = BH(2), a, b;
+    u32 x0 = BODES(plot_x), y0 = BODES(plot_y), a, b;
     int i;
     draw_colour_set(colour);
-    for (i = 3; i < (int)BH(4) - 2; i++) {
+    for (i = 3; i < (int)BODES(plot_w) - 2; i++) {
         a = H16(BB + tab + 2 * i);
         b = H16(BB + tab + 2 * i + 2);
         if (a >= b)
@@ -40,8 +35,8 @@ static void message(u32 e)
 {
     volatile unsigned char *t = (volatile unsigned char *)(0x42C2FE74u + e * 0x1A0u);
     u32 tw = text_width(*(const char *volatile *)t), x, y;
-    x = BH(0) + ((u32)(BH(4) - tw - 0x28) >> 1);
-    y = BH(2) + ((int)BH(6) - 0x28) / 2;
+    x = BODES(plot_x) + ((u32)(BODES(plot_w) - tw - 0x28) >> 1);
+    y = BODES(plot_y) + ((int)BODES(plot_h) - 0x28) / 2;
     draw_colour_set(SI(theme_background));
     rect_fill(U16(x), U16(y), U16(tw + 0x28), 0x28);
     draw_colour_set(SI(theme_text));
@@ -58,8 +53,8 @@ void bode_curves_draw(void)
     curve(0x9CC0, 0x88FF);
     half_42e68be2_set(2);
     word_42e68c74_set(0x42E658D8u);
-    x = BH(0) + BH(4) - 0x40;
-    y = BH(2) + 2;
+    x = BODES(plot_x) + BODES(plot_w) - 0x40;
+    y = BODES(plot_y) + 2;
     draw_colour_set(0x55000000);
     rect_fill(U16(x), U16(y), 0x3E, 0x30);
     draw_colour_set(0xFF8800);
@@ -69,9 +64,9 @@ void bode_curves_draw(void)
     y += 0x17;
     hspan_fill(U16(y + 0xC), U16(x + 5), U16(x + 0x14));
     text_draw(U16(x + 0x1E), U16(y + 5), "deg");
-    if (BODES(f_ad19)) {
-        if (BODES(f_ad1a) == 0)
+    if (BODES(a_reached)) {
+        if (BODES(b_reached) == 0)
             message(131);
     } else
-        message(BODES(f_ad1a) ? 130 : 129);
+        message(BODES(b_reached) ? 130 : 129);
 }

@@ -28,11 +28,11 @@ static void zoom_one(u32 off)
     fill_u16((unsigned short *)(MID - 200 - 2 * (u32)(c / 2)), H16(BB + off), 100);
     c = (int)BODES(freq_count);
     fill_u16((unsigned short *)(MID + 2 * (u32)(c / 2)), H16(BB + 2 * (u32)c + off - 2), 100);
-    if (BODES(f_040) < 3 * SI(f_554))
-        simple_integer_index_mapping_nearest_neighbour(WS, 10000, BODES(f_004), BODES(f_040), 0, 0);
+    if (BODES(zoom_factor) < 3 * SI(f_554))
+        simple_integer_index_mapping_nearest_neighbour(WS, 10000, BODES(plot_w), BODES(zoom_factor), 0, 0);
     else
-        floating_point_interpolation_resampling(WS, 10000, BODES(f_004), BODES(f_040), 0LL);
-    n = BODES(f_004);
+        floating_point_interpolation_resampling(WS, 10000, BODES(plot_w), BODES(zoom_factor), 0LL);
+    n = BODES(plot_w);
     copy_u16((unsigned short *)(BB + off), (const unsigned short *)(MID - (n & ~1u)), n);
 }
 
@@ -40,28 +40,28 @@ static void clamp_flip(u32 off)
 {
     volatile unsigned short *p = (volatile unsigned short *)(BB + off);
     u32 i, h;
-    if (BODES(f_004) == 0)
+    if (BODES(plot_w) == 0)
         return;
     i = 0;
     do {
         if ((short)*p < 3) {
             *p = 3;
         } else {
-            h = BODES(f_006);
+            h = BODES(plot_h);
             if ((int)(short)h - 3 < (int)(short)*p)
                 *p = (unsigned short)(0xFFFD + h);
         }
-        *p = (unsigned short)(BODES(f_006) - *p);
+        *p = (unsigned short)(BODES(plot_h) - *p);
         p++;
         i++;
-    } while (i < BODES(f_004));
+    } while (i < BODES(plot_w));
 }
 
 void bode_curves_zoom(void)
 {
     if (g_touch->serviced)
         return;
-    BODES(f_040) = BODES(f_004) * SI(f_554) / BODES(freq_count);
+    BODES(zoom_factor) = BODES(plot_w) * SI(f_554) / BODES(freq_count);
     zoom_one(0x8D20);
     zoom_one(0x9CC0);
     clamp_flip(0x8D20);

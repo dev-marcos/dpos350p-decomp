@@ -17,25 +17,21 @@
 #include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define BB 0x42E180C8u
 #define DREC 0x42E554B0u
 #define W(a) (*(volatile u32 *)(a))
 #define DD(a) (*(volatile double *)(a))
-#define BH(o) H16(BB + (o))
-#define BW(o) W(BB + (o))
-#define BD(o) DD(BB + (o))
 #define U16(v) ((unsigned short)(v))
 
 static const union { unsigned long long u; double d; } LIM = { 0x40B3880000000001ULL };   /* 5000.000000000001 */
 
 static double point_ratio(void)
 {
-    double a = BD(0xACF8), b = BD(0xAD00), r;
+    double a = BODES(amp_a), b = BODES(amp_b), r;
     r = b / a;
     if (a >= LIM.d)
-        BODES(f_ad19) = 1;
+        BODES(a_reached) = 1;
     if (b >= LIM.d)
-        BODES(f_ad1a) = 1;
+        BODES(b_reached) = 1;
     return r;
 }
 
@@ -44,9 +40,9 @@ void bode_calibrate(void)
     u32 i;
     trace_defaults_37b48();
     BODES(sweep_busy) = 1;
-    BODES(f_047) = 1;
-    BW(0x4C) = 1000;
-    BW(0x50) = 0;
+    BODES(sweep_running) = 1;
+    BODES(amplitude) = 1000;
+    BODES(offset) = 0;
     GENS(amplitude) = 1000;
     GENS(offset) = 0;
     g_touch->enabled = 0;
@@ -59,26 +55,26 @@ void bode_calibrate(void)
         if (W(DREC + 0xC) < i)
             break;
     }
-    BODES(f_ad19) = 0;
-    BODES(f_ad1a) = 0;
+    BODES(a_reached) = 0;
+    BODES(b_reached) = 0;
     SI(ch1_vdiv_index) = 11;
     SI(ch2_vdiv_index) = 11;
     for (i = 0;; ) {
         bode_point_measure(W(DREC + 0x10 + 4 * i));
-        BD(0x68 + 8 * i) = point_ratio();
+        BODES(gain_ratio[i]) = point_ratio();
         bode_phase_measure(i & 0xFFFF);
         i++;
         if (W(DREC + 0xC) < i)
             break;
     }
     for (i = 0;; ) {
-        DD(DREC + 0x4C0 + 8 * i) = BD(0x68 + 8 * i);
-        DD(DREC + 0xE20 + 8 * i) = (double)(short)BH(0x7D68 + 2 * i);
+        DD(DREC + 0x4C0 + 8 * i) = BODES(gain_ratio[i]);
+        DD(DREC + 0xE20 + 8 * i) = (double)(short)BODES(phase_deg[i]);
         i++;
         if (W(DREC + 0xC) < i)
             break;
     }
-    if (BODES(f_ad19) && BODES(f_ad1a))
+    if (BODES(a_reached) && BODES(b_reached))
         settings_d_save();
     g_touch->enabled = 1;
 }

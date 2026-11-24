@@ -15,8 +15,6 @@
 #include "state/bode_block.h"
 #include "state/touch_buttons.h"
 
-
-
 void bode_toolbar_buttons(void)
 {
     u32 v;
@@ -50,6 +48,6 @@ void bode_toolbar_buttons(void)
         BREC_BYTE0 = 0;
         v = BODES(running) == 0;
         BODES(running) = v;
-        BODES(f_047) = v;
+        BODES(sweep_running) = v;
     }
 }

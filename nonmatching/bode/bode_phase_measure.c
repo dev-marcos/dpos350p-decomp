@@ -9,14 +9,9 @@
 #include "bode.h"
 #include "sys_info.h"
 #include "shared/access.h"
+#include "state/bode_block.h"
 
 #define SYS 0x40544E68u
-#define BB 0x42E180C8u
-#define W(a) (*(volatile u32 *)(a))
-#define DD(a) (*(volatile double *)(a))
-#define BH(o) H16(BB + (o))
-#define BW(o) W(BB + (o))
-#define BD(o) DD(BB + (o))
 #define U16(v) ((unsigned short)(v))
 
 static int sdiv0(int a, int b)
@@ -91,10 +86,10 @@ void bode_phase_measure(u32 idx)
     pa = sdiv0(last_a - first_a + 1, na - 1);
     pb = sdiv0(last_b - first_b + 1, nb - 1);
     ph = sdiv0((int)(360u * (u32)avg), (pa + pb) / 2);
-    v = (int)((double)ph - BD(0xAD10));
+    v = (int)((double)ph - BODES(cal_phase));
     if (v >= 181)
         v -= 360;
     else if (v < -180)
         v += 360;
-    BH(0x7D68 + 2 * (idx & 0xFFFF)) = (unsigned short)v;
+    BODES(phase_deg[idx & 0xFFFF]) = (unsigned short)v;
 }

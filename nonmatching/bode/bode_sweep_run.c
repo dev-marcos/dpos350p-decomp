@@ -15,24 +15,18 @@
 #include "state/gen_block.h"
 #include "shared/access.h"
 
-#define BB 0x42E180C8u
-#define W(a) (*(volatile u32 *)(a))
-#define DD(a) (*(volatile double *)(a))
-#define BH(o) H16(BB + (o))
-#define BW(o) W(BB + (o))
-#define BD(o) DD(BB + (o))
 #define U16(v) ((unsigned short)(v))
 
 static const union { unsigned long long u; double d; } LIM = { 0x40B3880000000001ULL };   /* 5000.000000000001 */
 
 static double point_ratio(void)
 {
-    double a = BD(0xACF8), b = BD(0xAD00), r;
+    double a = BODES(amp_a), b = BODES(amp_b), r;
     r = b / a;
     if (a >= LIM.d)
-        BODES(f_ad19) = 1;
+        BODES(a_reached) = 1;
     if (b >= LIM.d)
-        BODES(f_ad1a) = 1;
+        BODES(b_reached) = 1;
     return r;
 }
 
@@ -43,23 +37,23 @@ void bode_sweep_run(void)
     double l0, l1, span, step, r;
     if (g_touch->serviced)
         return;
-    BODES(f_047) = 1;
+    BODES(sweep_running) = 1;
     BODES(sweep_busy) = 0;
-    BD(0x60) = (double)(int)(BW(0x58) - BW(0x54)) / (double)(int)BW(0x5C);
-    GENS(amplitude) = BW(0x4C);
-    GENS(offset) = BW(0x50);
-    BODES(f_ad19) = 0;
-    BODES(f_ad1a) = 0;
-    l0 = log10((double)(int)BW(0x54));
-    l1 = log10((double)(int)BW(0x58));
+    BODES(freq_step) = (double)(int)(BODES(stop_freq) - BODES(start_freq)) / (double)(int)BODES(freq_count);
+    GENS(amplitude) = BODES(amplitude);
+    GENS(offset) = BODES(offset);
+    BODES(a_reached) = 0;
+    BODES(b_reached) = 0;
+    l0 = log10((double)(int)BODES(start_freq));
+    l1 = log10((double)(int)BODES(stop_freq));
     span = l1 - l0;
-    BD(0x8D10) = l1;
-    BD(0x8D08) = l0;
-    BD(0x8D18) = span;
-    step = span / (double)(int)BW(0x5C);
+    BODES(log_end) = l1;
+    BODES(log_start) = l0;
+    BODES(log_span) = span;
+    step = span / (double)(int)BODES(freq_count);
     word_42e68c74_set(0x42E658D8u);
     half_42e68be2_set(1);
-    for (i = 0; (n = BW(0x5C)) >= i; i++) {
+    for (i = 0; (n = BODES(freq_count)) >= i; i++) {
         pct = n ? 100 * i / n : 0;
         if ((int)pct < 10) {
             buf[0] = (char)('0' + pct);
@@ -78,24 +72,24 @@ void bode_sweep_run(void)
         text_draw(0x387, 0x1FE, buf);
         fb_target_back();
         dcache_clean_inv_all_t();
-        bode_point_measure((u32)pow(10.0, BD(0x8D08) + (double)i * step));
+        bode_point_measure((u32)pow(10.0, BODES(log_start) + (double)i * step));
         r = point_ratio();
-        BD(0x68 + 8 * i) = r;
-        BD(0x3EE8 + 8 * i) = log10(r) * 20.0;
+        BODES(gain_ratio[i]) = r;
+        BODES(gain_db[i]) = log10(r) * 20.0;
         bode_phase_measure(i & 0xFFFF);
         runtime_event_service();
         if (g_touch->busy2) {
-            BODES(f_047) = 0;
+            BODES(sweep_running) = 0;
             break;
         }
     }
-    if (BODES(f_ad19) == 0 || BODES(f_ad1a) == 0)
+    if (BODES(a_reached) == 0 || BODES(b_reached) == 0)
         for (i = 0;; ) {
-            BD(0x68 + 8 * i) = 1.0;
-            BD(0x3EE8 + 8 * i) = log10(1.0) * 20.0;
-            BH(0x7D68 + 2 * i) = 0;
+            BODES(gain_ratio[i]) = 1.0;
+            BODES(gain_db[i]) = log10(1.0) * 20.0;
+            BODES(phase_deg[i]) = 0;
             i++;
-            if (BW(0x5C) < i)
+            if (BODES(freq_count) < i)
                 break;
         }
 }

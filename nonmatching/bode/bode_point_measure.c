@@ -18,13 +18,9 @@
 #include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define BB 0x42E180C8u
 #define DREC 0x42E554B0u
 #define W(a) (*(volatile u32 *)(a))
 #define DD(a) (*(volatile double *)(a))
-#define BH(o) H16(BB + (o))
-#define BW(o) W(BB + (o))
-#define BD(o) DD(BB + (o))
 #define U16(v) ((unsigned short)(v))
 
 void bode_point_measure(u32 f)
@@ -55,8 +51,8 @@ void bode_point_measure(u32 f)
             break;
         }
     if (W(DREC) >= f) {
-        BD(0xAD08) = 1.0;
-        BD(0xAD10) = 0.0;
+        BODES(cal_ratio) = 1.0;
+        BODES(cal_phase) = 0.0;
     } else {
         n = W(DREC + 0xC);
         for (i = 0;;) {
@@ -69,15 +65,15 @@ void bode_point_measure(u32 f)
         e = W(DREC + 0x10 + 4 * i);
         if (f - e < e - f)
             i--;
-        BD(0xAD08) = DD(DREC + 0x4C0 + 8 * i);
-        BD(0xAD10) = DD(DREC + 0xE20 + 8 * i);
+        BODES(cal_ratio) = DD(DREC + 0x4C0 + 8 * i);
+        BODES(cal_phase) = DD(DREC + 0xE20 + 8 * i);
     }
 measure:
     for (;;) {
         if (BODES(sweep_busy) == 0) {
             runtime_event_service();
             if (g_touch->busy2) {
-                BODES(f_047) = 0;
+                BODES(sweep_running) = 0;
                 break;
             }
         }
@@ -93,7 +89,7 @@ measure:
                 SI(ch1_vdiv_index) = (unsigned char)(g + 1);
             else {
                 done_a = 1;
-                BD(0xACF8) = (double)*(volatile long long *)(SYS + 0x910);
+                BODES(amp_a) = (double)*(volatile long long *)(SYS + 0x910);
             }
         }
         if (!done_b) {
@@ -104,11 +100,11 @@ measure:
                 SI(ch2_vdiv_index) = (unsigned char)(g + 1);
             else {
                 done_b = 1;
-                BD(0xAD00) = (double)*(volatile long long *)(SYS + 0x970);
+                BODES(amp_b) = (double)*(volatile long long *)(SYS + 0x970);
             }
         }
         if (done_a && done_b)
             break;
     }
-    BD(0xAD00) = BD(0xAD00) / BD(0xAD08);
+    BODES(amp_b) = BODES(amp_b) / BODES(cal_ratio);
 }

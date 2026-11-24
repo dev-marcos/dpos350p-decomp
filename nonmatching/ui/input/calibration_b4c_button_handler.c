@@ -23,7 +23,6 @@ void ui_window_close_raw(u32 id) __asm__("ui_window_close");
 #define TX32(o) (*(volatile u32 *)(0x42C2FE74u + (o)))
 #define MSG(cx, cy, b) message_box_draw((int)(cx) + TX8((b) + 0x194), (int)(cy) + TX8((b) + 0x195), TX32(b), 0)
 
-
 void calibration_b4c_button_handler(void)
 {
     u32 cx, cy;
@@ -36,7 +35,7 @@ void calibration_b4c_button_handler(void)
     BREC_BYTE0 = 0;
     MSG(cx, cy, 0x9C00);
     bode_calibrate();
-    if (BODES(f_ad19) == 0 || BODES(f_ad1a) == 0)
+    if (BODES(a_reached) == 0 || BODES(b_reached) == 0)
         MSG(cx, cy, 0xD680);
     else
         message_box_draw((int)cx + TX8(0x9C00 + 0x334), (int)cy + TX8(0x9C00 + 0x335), TX32(0x9C00 + 0x1A0), 0);
