@@ -12,10 +12,9 @@
 #include "state/ui_windows.h"
 #include "shared/access.h"
 #include "state/ui_texts.h"
+#include "state/theme.h"
 
 #define SYS 0x40544E68u
-
-#define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed */
 
 void menu_three_rows_draw(void)
 {
@@ -27,20 +26,20 @@ void menu_three_rows_draw(void)
 
     word_42e68c74_set(0x42E658D8u);
     half_42e68be2_set(1);
-    draw_colour_set(W32(TH));
+    draw_colour_set(THEME_MENU_BG);
     rect_fill(x, y, w, h);
     for (i = 0; i < 3; i++) {
         sl = y + 0x14 + 0x3C * i;
         e = UI_TEXT(110 + i);
         rec = (volatile unsigned char *)(0x42E61FF8u + 0x340 + 0xA * i);
-        draw_colour_set(W32(TH + 4));
+        draw_colour_set(THEME_MENU_TEXT);
         draw_text_shadowed((x + 0x14) & 0xFFFF, sl & 0xFFFF, 0x4008A038u + 0x170 * i, 2, 2, 0);
-        draw_colour_set(W32(TH + 4));
+        draw_colour_set(THEME_MENU_TEXT);
         text_shadow_draw((x + 0x41 + TEXT_DX(e)) & 0xFFFF, (sl + 3 + TEXT_DY(e)) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
         icon_19c7c_draw((x + 0x14A) & 0xFFFF, sl & 0xFFFF);
         touch_button_set_rect(x, (sl - 0x14) & 0xFFFF, w, 0x3C, rec);
         if (rec[1]) {
-            draw_colour_set(W32(TH + 8));
+            draw_colour_set(THEME_MENU_ROW_PRESSED);
             rect_fill(x, (sl - 0x14) & 0xFFFF, w, 0x3C);
         }
     }

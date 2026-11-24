@@ -10,6 +10,7 @@
 #include "ui/input.h"
 #include "ui/screens.h"
 #include "shared/access.h"
+#include "state/theme.h"
 
 #define WR16(o) H16(0x42E64520u + (o))
 #define BTN ((volatile unsigned char *)0x42E61FF8u)
@@ -19,26 +20,24 @@
 #define DY(k) (*(volatile signed char *)(TXE(k) + 0x195))
 #define U16(v) ((unsigned short)(v))
 
-#define COL(i) W32(0x40544E68u + 0x3DD550u + 4 * (i))
-
 void ui_language_menu_draw(void)
 {
     static const u32 name[4] = {0x40090430u, 0x40090438u, 0x4008E7B4u, 0x4008FF6Cu};
     u32 x = WR16(0x84), y = WR16(0x86), w = WR16(0x88), h = WR16(0x8A), bx = x + 2, row, i;
     word_42e68c74_set(0x42E658D8u);
     half_42e68be2_set(1);
-    draw_colour_set(COL(0));
+    draw_colour_set(THEME_MENU_BG);
     rect_fill(x, y, w, h);
     draw_colour_set(0);
     rect_fill(x, y, 2, h);
     for (i = 0, row = y + 0x14; i < 4; i++, row += 0x3C) {
-        draw_colour_set(COL(1));
+        draw_colour_set(THEME_MENU_TEXT);
         draw_text_shadowed(U16(bx + 0x14), U16(row), 0x400891D8u, 2, 2, 0);
-        draw_colour_set(COL(1));
+        draw_colour_set(THEME_MENU_TEXT);
         text_shadow_draw(U16(bx + 0x41), U16(row + 3), (const char *)name[i], 1, 2, 0);
         touch_button_set_rect(U16(bx), U16(row - 0x14), w, 0x3C, BTN + 0x156 + 10 * i);
         if (BTN[0x157 + 10 * i] || *(volatile unsigned char *)(0x40544E68u + 0x7AC) == i + 1) {
-            draw_colour_set(COL(2));
+            draw_colour_set(THEME_MENU_ROW_PRESSED);
             rect_fill(U16(bx), U16(row - 0x14), w, 0x3C);
         }
     }

@@ -13,20 +13,20 @@
 #include "state/ui_windows.h"
 #include "shared/access.h"
 #include "state/ui_texts.h"
+#include "state/theme.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
 u32 number_text_width_mode0_raw(u32 a, u32 b, u32 c) __asm__("number_text_width_mode0");
 
 #define SYS 0x40544E68u
-#define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
 #define BTN 0x42E61FF8u              /* touch button records */
 
 static void label_row(u32 x, u32 y, u32 img, u32 e)
 {
-    draw_colour_set(W32(TH + 4));
+    draw_colour_set(THEME_MENU_TEXT);
     draw_text_shadowed((x + 0x14) & 0xFFFF, y & 0xFFFF, img, 2, 2, 0);
-    draw_colour_set(W32(TH + 4));
+    draw_colour_set(THEME_MENU_TEXT);
     text_shadow_draw((x + 0x41 + TEXT_DX(e)) & 0xFFFF, (y + TEXT_DY(e) + 3) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
 }
 
@@ -34,7 +34,7 @@ static void wide_button(u32 x, u32 y, u32 w, u32 rec)
 {
     touch_button_set_rect(x, (y - 0x14) & 0xFFFF, w, 0x3C, (volatile unsigned char *)(BTN + rec));
     if (B8(BTN + rec + 1)) {
-        draw_colour_set(W32(TH + 8));
+        draw_colour_set(THEME_MENU_ROW_PRESSED);
         rect_fill(x, (y - 0x14) & 0xFFFF, w, 0x3C);
     }
 }
@@ -46,7 +46,7 @@ void display_menu_draw(void)
 
     word_42e68c74_set(0x42E658D8u);
     half_42e68be2_set(1);
-    draw_colour_set(W32(TH));
+    draw_colour_set(THEME_MENU_BG);
     rect_fill(x, y, w, h);
     label_row(x, r0, 0x40089628u, UI_TEXT(16));
     text_shadow_draw((x + w - 0x1C) & 0xFFFF, (r0 + 3) & 0xFFFF, "%", 1, 2, 0);

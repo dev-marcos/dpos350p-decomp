@@ -12,12 +12,10 @@
 #include "state/ui_windows.h"
 #include "shared/access.h"
 #include "state/ui_texts.h"
+#include "state/theme.h"
 
 #define SYS 0x40544E68u
-#define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
 #define BTN 0x42E61FF8u              /* touch button records */
-
-#define TT (SYS + 0x3DD530)          /* toolbar theme: +0 fill, +4 icon, +8 text, +0x1C pressed */
 
 static u32 icon_colour(int i)
 {
@@ -45,17 +43,17 @@ void main_toolbar_draw(void)
         bx = x + 0x6A * i;
         wd = i == 8 ? 0x67 : 0x66;
         e = UI_TEXT(i);
-        draw_colour_set(W32(TT));
+        draw_colour_set(THEME_TOOLBAR_FILL);
         rect_fill(bx & 0xFFFF, y, wd, 0x2C);
         draw_colour_set(icon_colour(i));
-        draw_colour_set(W32(TT + 4));
+        draw_colour_set(THEME_TOOLBAR_ICON);
         draw_text_shadowed((bx + 0x2A) & 0xFFFF, (y + 2) & 0xFFFF, 0x40088208u + 0x170 * i, 2, 2, 0);
-        draw_colour_set(W32(TT + 8));
+        draw_colour_set(THEME_TOOLBAR_TEXT);
         tw = text_width(TEXT_STR(e));
         text_shadow_draw((bx + ((0x66 - tw) >> 1) + TEXT_DX(e)) & 0xFFFF, (y + TEXT_DY(e) + 0x19) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
         touch_button_set_rect(bx & 0xFFFF, y, 0x66, 0x2C, (volatile unsigned char *)(BTN + 2 + 0xA * i));
         if (B8(BTN + 3 + 0xA * i)) {
-            draw_colour_set(W32(TT + 0x1C));
+            draw_colour_set(THEME_PRESSED);
             rect_fill(bx & 0xFFFF, y, wd, 0x2C);
         }
     }

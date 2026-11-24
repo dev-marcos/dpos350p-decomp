@@ -11,11 +11,11 @@
 #include "ui/screens.h"
 #include "shared/access.h"
 #include "state/ui_texts.h"
+#include "state/theme.h"
 
 #define WR16(o) H16(0x42E64520u + (o))
 #define BTN ((volatile unsigned char *)0x42E61FF8u)
 #define U16(v) ((unsigned short)(v))
-#define COL(i) W32(0x40544E68u + 0x3DD54Cu + 4 * (i))
 
 /* "Delete selected" <count SYS+0x88BE> "items" " ?" over a box at rectangle roff of the window
    table 0x42E64520, then a 240 x 50 button labelled "Confirm" (text 95) with touch slot boff. */
@@ -23,9 +23,9 @@ static void delete_dialog(u32 roff, u32 boff, int dx_in_x2)
 {
     u32 x = WR16(roff), y = WR16(roff + 2), w = WR16(roff + 4), h = WR16(roff + 6);
     u32 cx = x + (w >> 1), ty = y + 0x14, x1, x2, x3, bx, by, tw;
-    draw_colour_set(COL(1));
+    draw_colour_set(THEME_MENU_BG);
     rect_fill(x, y, w, h);
-    draw_colour_set(COL(2));
+    draw_colour_set(THEME_MENU_TEXT);
     half_42e68be2_set(1);
     word_42e68c74_set(0x42E658D8u);
     x1 = U16(x + 0x38);
@@ -37,14 +37,14 @@ static void delete_dialog(u32 roff, u32 boff, int dx_in_x2)
     text_shadow_draw(U16(H16(0x42E68BE4u) + x3), U16(ty), " ?", 1, 2, 0);
     bx = cx - 0x78;
     by = y + 0x50;
-    draw_colour_set(COL(4));
+    draw_colour_set(THEME_OPTION);
     rect_fill(U16(bx), U16(by), 0xF0, 0x32);
     touch_button_set_rect(U16(bx), U16(by - 10), 0xF0, 0x46, BTN + boff);
     if (BTN[boff + 1]) {
-        draw_colour_set(COL(0));
+        draw_colour_set(THEME_PRESSED);
         rect_fill(U16(bx), U16(by), 0xF0, 0x32);
     }
-    draw_colour_set(COL(2));
+    draw_colour_set(THEME_MENU_TEXT);
     tw = text_width(TEXT_STR(UI_TEXT(95)));
     text_shadow_draw(U16(x + ((w - tw) >> 1) + TEXT_DX(UI_TEXT(95))), U16(by + TEXT_DY(UI_TEXT(95)) + 0x14), TEXT_STR(UI_TEXT(95)), 1, 2, 0);
 }

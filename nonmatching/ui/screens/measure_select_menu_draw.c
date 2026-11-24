@@ -13,9 +13,9 @@
 #include "state/ui_windows.h"
 #include "shared/access.h"
 #include "state/ui_texts.h"
+#include "state/theme.h"
 
 #define SYS 0x40544E68u
-#define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
 #define BTN 0x42E61FF8u              /* touch button records */
 
 /* the stock code measures "Dt+" / "Dt-" but draws "Du+" / "Du-" (the centring uses the other text) */
@@ -33,11 +33,11 @@ static void measure_rows(u32 x0, u32 r, u32 c)
         xo = (x0 + 0x55 * (k % 6)) & 0xFFFF;
         rec = 0x250 + 0xA * (12 * c + k);
         if (value_in_table_405456e8(c, k + 1)) {
-            draw_colour_set(W32(TH + 0x10));
+            draw_colour_set(THEME_OPTION_SELECTED);
             txt = 0;
         } else {
-            draw_colour_set(W32(TH + 0xC));
-            txt = W32(TH + 0x14);
+            draw_colour_set(THEME_OPTION);
+            txt = THEME_OPTION_TEXT;
         }
         rect_fill(xo, r & 0xFFFF, 0x50, 0x28);
         draw_colour_set(txt);
@@ -45,7 +45,7 @@ static void measure_rows(u32 x0, u32 r, u32 c)
         text_draw((xo + ((0x50 - tw) >> 1)) & 0xFFFF, (r + 0xC) & 0xFFFF, k < 10 ? ms_text[k] : ms_draw[k - 10]);
         touch_button_set_rect(xo, (r - 0xF) & 0xFFFF, 0x50, 0x46, (volatile unsigned char *)(BTN + rec));
         if (B8(BTN + rec + 1)) {
-            draw_colour_set(W32(TH + 8));
+            draw_colour_set(THEME_MENU_ROW_PRESSED);
             rect_fill(xo, r & 0xFFFF, 0x50, 0x28);
         }
     }
@@ -53,9 +53,9 @@ static void measure_rows(u32 x0, u32 r, u32 c)
 
 static void header(u32 x, u32 y, u32 e)
 {
-    draw_colour_set(W32(TH + 4));
+    draw_colour_set(THEME_MENU_TEXT);
     draw_text_shadowed((x + 0x14) & 0xFFFF, y & 0xFFFF, 0x40089EC8u, 2, 2, 0);
-    draw_colour_set(W32(TH + 4));
+    draw_colour_set(THEME_MENU_TEXT);
     text_shadow_draw((x + TEXT_DX(e) + 0x41) & 0xFFFF, (y + TEXT_DY(e) + 3) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
 }
 
@@ -65,7 +65,7 @@ void measure_select_menu_draw(void)
 
     word_42e68c74_set(0x42E658D8u);
     half_42e68be2_set(1);
-    draw_colour_set(W32(TH));
+    draw_colour_set(THEME_MENU_BG);
     rect_fill(x & 0xFFFF, y, w, h);
     header(x, y + 0x14, UI_TEXT(23));
     half_42e68be2_set(2);

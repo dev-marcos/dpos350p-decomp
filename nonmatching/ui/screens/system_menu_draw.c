@@ -13,17 +13,16 @@
 #include "state/ui_windows.h"
 #include "shared/access.h"
 #include "state/ui_texts.h"
-
-#define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
+#include "state/theme.h"
 
 #define SYS 0x40544E68u
 #define BTN 0x42E61FF8u              /* touch button records; byte 0 is the pending-touch flag */
 
 static void label_row(u32 x, u32 y, u32 img, u32 e)
 {
-    draw_colour_set(W32(TH + 4));
+    draw_colour_set(THEME_MENU_TEXT);
     draw_text_shadowed((x + 0x14) & 0xFFFF, y & 0xFFFF, img, 2, 2, 0);
-    draw_colour_set(W32(TH + 4));
+    draw_colour_set(THEME_MENU_TEXT);
     text_shadow_draw((x + 0x41 + TEXT_DX(e)) & 0xFFFF, (y + TEXT_DY(e) + 3) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
 }
 
@@ -33,7 +32,7 @@ static void arrow_row(u32 x, u32 y, u32 w, u32 img, u32 e, u32 rec, u32 n)
     label_row(x, y, img, e);
     icon_19c7c_draw((x + 0x145) & 0xFFFF, y & 0xFFFF);
     touch_button_set_rect(x, (y - 0x14) & 0xFFFF, w, 0x3C, (volatile unsigned char *)(BTN + rec));
-    draw_colour_set(W32(TH + 8));
+    draw_colour_set(THEME_MENU_ROW_PRESSED);
     if (B8(BTN + rec + 1)) {
         WREC(6, f_5) = n;
         rect_fill(x, (y - 0x14) & 0xFFFF, w, 0x3C);
@@ -49,7 +48,7 @@ void system_menu_draw(void)
 
     word_42e68c74_set(0x42E658D8u);
     half_42e68be2_set(1);
-    draw_colour_set(W32(TH));
+    draw_colour_set(THEME_MENU_BG);
     rect_fill(x, y, w, h);
     r = y + 0x14;
     arrow_row(x, r, w, 0x4008B8A8u, UI_TEXT(9), 0xFC, 1);
@@ -58,23 +57,23 @@ void system_menu_draw(void)
     r += 0x3C;
     arrow_row(x, r, w, 0x40088EF8u, UI_TEXT(11), 0x192, 3);
     r += 0x3C;
-    draw_colour_set(W32(TH));
+    draw_colour_set(THEME_MENU_BG);
     rect_fill((x + 0xA) & 0xFFFF, (r - 0x10) & 0xFFFF, (w - 0x1E) & 0xFFFF, 0x78);
     label_row(x, r, 0x40089068u, UI_TEXT(12));
     r += 0x3C;
     for (k = 0; k < 5; k++) {
         xo = x + 0x14 + 0x45 * k;
         rec = 0x1A6 + 0xA * k;
-        draw_colour_set(SI(auto_off_minutes) == (u32)(15 * k) ? W32(TH + 0x10) : W32(TH + 0xC));
+        draw_colour_set(SI(auto_off_minutes) == (u32)(15 * k) ? THEME_OPTION_SELECTED : THEME_OPTION);
         rect_fill(xo & 0xFFFF, r & 0xFFFF, 0x41, 0x1E);
-        draw_colour_set(SI(auto_off_minutes) != (u32)(15 * k) ? W32(TH + 0x14) : 0);
+        draw_colour_set(SI(auto_off_minutes) != (u32)(15 * k) ? THEME_OPTION_TEXT : 0);
         s = k == 0 ? "OFF" : (const char *)(0x400902F8u + 8 * (k - 1));
         tw = text_width(s);
         text_draw((xo + ((0x41 - tw) >> 1)) & 0xFFFF, (r + 8) & 0xFFFF, s);
         touch_button_set_rect(xo & 0xFFFF, (r - 0xF) & 0xFFFF, 0x41, 0x3C, (volatile unsigned char *)(BTN + rec));
         if (B8(BTN + rec + 1)) {
             WREC(6, f_5) = k;
-            draw_colour_set(W32(TH + 8));
+            draw_colour_set(THEME_MENU_ROW_PRESSED);
             rect_fill(xo & 0xFFFF, r & 0xFFFF, 0x41, 0x1E);
         }
     }

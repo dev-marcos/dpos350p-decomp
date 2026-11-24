@@ -12,10 +12,10 @@
 #include "state/gen_block.h"
 #include "state/ui_windows.h"
 #include "state/ui_texts.h"
+#include "state/theme.h"
 
 #define U16(v)    ((v) & 0xFFFFu)
 #define PAL(i)    (*(volatile u32 *)(0x409223B4u + 4 * (i)))
-#define THEME(o)  (*(volatile u32 *)(0x40544E68u + 0x3DD54Cu + (o)))
 #define GN16(o)    (*(volatile unsigned short *)(0x42E3F984u + (o)))
 #define GN32(o)    (*(volatile int *)(0x42E3F984u + (o)))
 #define TREC(o)   ((volatile unsigned char *)(0x42E61FF8u + (o)))
@@ -223,13 +223,13 @@ void gen_screen_draw(void)
         for (i = 0, cy = U16(y + 0x16); i < 3; i++, cy += 0x50)
             for (j = 0, cx = U16(x + 0x16); j < 5; j++, cx += 0x79, k++) {
                 volatile unsigned char *b = TREC(k < 14 ? 0x688 + 10 * k : 0x714);
-                draw_colour_set(k < 14 ? THEME(0x10) : 0x444444);
+                draw_colour_set(k < 14 ? THEME_OPTION : 0x444444);
                 rect_fill(U16(cx), U16(cy), 0x75, 0x2D);
                 touch_button_set_rect(U16(cx - 2), U16(cy - 0x11), 0x79, 0x4F, b);
                 if (b[1]) {
-                    draw_colour_set(THEME(0));
+                    draw_colour_set(THEME_PRESSED);
                     rect_fill(U16(cx), U16(cy), 0x75, 0x2D);
-                    draw_colour_set(THEME(0x10));
+                    draw_colour_set(THEME_OPTION);
                 }
             }
         draw_colour_set(0xAAAAAA);
@@ -245,7 +245,7 @@ void gen_screen_draw(void)
             int dw;
             cx = 0x79 * (wv % 5) + U16(x + 0x16);
             cy = U16(y + 0x16) + 0x50 * (wv / 5);
-            draw_colour_set(THEME(0x14));
+            draw_colour_set(THEME_OPTION_SELECTED);
             rect_fill(U16(cx), U16(cy), 0x75, 0x2D);
             draw_colour_set(0);
             e = GENS(waveform) + 0x32;

@@ -11,12 +11,11 @@
 #include "ui/screens.h"
 #include "shared/access.h"
 #include "state/ui_texts.h"
+#include "state/theme.h"
 
 #define WR16(o) H16(0x42E64520u + (o))
 #define BTN ((volatile unsigned char *)0x42E61FF8u)
 #define U16(v) ((unsigned short)(v))
-
-#define COL(i) W32(0x40544E68u + 0x3DD54Cu + 4 * (i))
 
 void ui_usb_connect_screen(void)
 {
@@ -27,22 +26,22 @@ void ui_usb_connect_screen(void)
     rect_fill(x, y, w, h);
     half_42e68be2_set(2);
     word_42e68c74_set(0x42E658D8u);
-    draw_colour_set(COL(1));
+    draw_colour_set(THEME_MENU_BG);
     draw_colour_set(0x252525);
     rect_fill(x, y, w, 0x1E);
-    draw_colour_set(COL(2));
+    draw_colour_set(THEME_MENU_TEXT);
     draw_text_shadowed(U16(x + 5), U16(y + 5), 0x40088EF8u, 2, 2, 0);
     text_shadow_draw(U16(x + TEXT_DX(UI_TEXT(11)) + 0x23), U16(y + TEXT_DY(UI_TEXT(11)) + 8), TEXT_STR(UI_TEXT(11)), 1, 2, 0);
     by = y + h - 0x32;
-    draw_colour_set(COL(1));
+    draw_colour_set(THEME_MENU_BG);
     draw_colour_set(0x252525);
     rect_fill(x, U16(by), w, 0x32);
-    draw_colour_set(COL(2));
+    draw_colour_set(THEME_MENU_TEXT);
     tw = text_width(TEXT_STR(UI_TEXT(67)));
     text_shadow_draw(U16(x + ((w - tw) >> 1) + TEXT_DX(UI_TEXT(67))), U16(by + TEXT_DY(UI_TEXT(67)) + 0xF), TEXT_STR(UI_TEXT(67)), 1, 2, 0);
     touch_button_set_rect(x, U16(by), w, 0x32, BTN + 0x19C);
     if (BTN[0x19D]) {
-        draw_colour_set(COL(0));
+        draw_colour_set(THEME_PRESSED);
         rect_fill(x, U16(by), w, 0x32);
     }
     draw_colour_set(0xBBBBBB);

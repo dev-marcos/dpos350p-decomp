@@ -13,9 +13,9 @@
 #include "state/ui_windows.h"
 #include "shared/access.h"
 #include "state/ui_texts.h"
+#include "state/theme.h"
 
 #define SYS 0x40544E68u
-#define TT (SYS + 0x3DD530)          /* toolbar theme: +0 fill, +4 icon, +8 text, +0x1C pressed */
 #define BTN 0x42E61FF8u              /* touch button records */
 
 /* one toolbar button: background, icon (colour c is set and at once replaced by the theme
@@ -24,17 +24,17 @@ static void tool_button(u32 tx, u32 y, u32 c, u32 img, u32 e, u32 rec)
 {
     u32 tw;
 
-    draw_colour_set(W32(TT));
+    draw_colour_set(THEME_TOOLBAR_FILL);
     rect_fill(tx & 0xFFFF, y, 0xA6, 0x2C);
     draw_colour_set(c);
-    draw_colour_set(W32(TT + 4));
+    draw_colour_set(THEME_TOOLBAR_ICON);
     draw_text_shadowed((tx + 0x49) & 0xFFFF, (y + 2) & 0xFFFF, img, 2, 2, 0);
-    draw_colour_set(W32(TT + 8));
+    draw_colour_set(THEME_TOOLBAR_TEXT);
     tw = text_width(TEXT_STR(e));
     text_shadow_draw((tx + ((0xA6 - tw) >> 1) + TEXT_DX(e)) & 0xFFFF, (y + TEXT_DY(e) + 0x19) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
     touch_button_set_rect(tx & 0xFFFF, y, 0xA6, 0x2C, (volatile unsigned char *)(BTN + rec));
     if (B8(BTN + rec + 1)) {
-        draw_colour_set(W32(TT + 0x1C));
+        draw_colour_set(THEME_PRESSED);
         rect_fill(tx & 0xFFFF, y, 0xA6, 0x2C);
     }
 }
@@ -56,24 +56,24 @@ void levels_toolbar_draw(void)
     tool_button(tx + 0xAA * 3, y, 0x55AA88, 0x400887C8u, UI_TEXT(69), 0xB74);
 
     tx += 0xAA * 4;
-    draw_colour_set(W32(TT));
+    draw_colour_set(THEME_TOOLBAR_FILL);
     rect_fill(tx & 0xFFFF, y, 0xA6, 0x2C);
     draw_colour_set(0x88FF);
     draw_text_shadowed((tx + 0x47) & 0xFFFF, (y + 8) & 0xFFFF, 0x40085AF4u, 2, 2, 0);
     touch_button_set_rect(tx & 0xFFFF, y, 0xA6, 0x2C, (volatile unsigned char *)(BTN + 0xB7E));
     if (BREC(294, touch_code)) {
-        draw_colour_set(W32(TT + 0x1C));
+        draw_colour_set(THEME_PRESSED);
         rect_fill(tx & 0xFFFF, y, 0xA6, 0x2C);
     }
 
     tx += 0xAA;
-    draw_colour_set(W32(TT));
+    draw_colour_set(THEME_TOOLBAR_FILL);
     rect_fill(tx & 0xFFFF, y, 0xA7, 0x2C);
     draw_colour_set(B8(0x42E68668u) ? 0xFF0000 : 0xFF00);
     draw_text_shadowed((tx + 0x47) & 0xFFFF, (y + 8) & 0xFFFF, 0x400857FCu, 2, 2, 0);
     touch_button_set_rect(tx & 0xFFFF, y, 0xA6, 0x2C, (volatile unsigned char *)(BTN + 0xB88));
     if (BREC(295, touch_code)) {
-        draw_colour_set(W32(TT + 0x1C));
+        draw_colour_set(THEME_PRESSED);
         rect_fill(tx & 0xFFFF, y, 0xA7, 0x2C);
     }
 }

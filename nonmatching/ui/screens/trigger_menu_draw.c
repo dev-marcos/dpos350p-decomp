@@ -12,16 +12,16 @@
 #include "state/ui_windows.h"
 #include "shared/access.h"
 #include "state/ui_texts.h"
+#include "state/theme.h"
 
 #define SYS 0x40544E68u
-#define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
 #define BTN 0x42E61FF8u              /* touch button records */
 
 static void label_row(u32 x, u32 y, u32 img, u32 e)
 {
-    draw_colour_set(W32(TH + 4));
+    draw_colour_set(THEME_MENU_TEXT);
     draw_text_shadowed((x + 0x14) & 0xFFFF, y & 0xFFFF, img, 2, 2, 0);
-    draw_colour_set(W32(TH + 4));
+    draw_colour_set(THEME_MENU_TEXT);
     text_shadow_draw((x + 0x41 + TEXT_DX(e)) & 0xFFFF, (y + TEXT_DY(e) + 3) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
 }
 
@@ -32,11 +32,11 @@ static void option(u32 xo, u32 r, u32 wd, u32 sel, u32 v, const char *s, int dx,
     u32 txt, tw;
 
     if (B8(sel) == v) {
-        draw_colour_set(W32(TH + 0x10));
+        draw_colour_set(THEME_OPTION_SELECTED);
         txt = 0;
     } else {
-        draw_colour_set(W32(TH + 0xC));
-        txt = W32(TH + 0x14);
+        draw_colour_set(THEME_OPTION);
+        txt = THEME_OPTION_TEXT;
     }
     rect_fill(xo & 0xFFFF, r & 0xFFFF, wd, 0x1E);
     draw_colour_set(txt);
@@ -44,7 +44,7 @@ static void option(u32 xo, u32 r, u32 wd, u32 sel, u32 v, const char *s, int dx,
     text_draw((xo + ((wd - tw) >> 1) + dx) & 0xFFFF, (r + dy + 8) & 0xFFFF, s);
     touch_button_set_rect(xo & 0xFFFF, (r - 0xF) & 0xFFFF, wd, 0x3C, (volatile unsigned char *)(BTN + rec));
     if (B8(BTN + rec + 1)) {
-        draw_colour_set(W32(TH + 8));
+        draw_colour_set(THEME_MENU_ROW_PRESSED);
         rect_fill(xo & 0xFFFF, r & 0xFFFF, wd, 0x1E);
     }
 }
@@ -61,7 +61,7 @@ void trigger_menu_draw(void)
 
     word_42e68c74_set(0x42E658D8u);
     half_42e68be2_set(1);
-    draw_colour_set(W32(TH));
+    draw_colour_set(THEME_MENU_BG);
     rect_fill(x, y, w, h);
 
     r = y + 0x19;

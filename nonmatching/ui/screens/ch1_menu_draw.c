@@ -11,17 +11,17 @@
 #include "ui/screens.h"
 #include "shared/access.h"
 #include "state/ui_texts.h"
+#include "state/theme.h"
 
 #define SYS 0x40544E68u
 #define LAY 0x42E64520u              /* UI layout table */
-#define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
 #define BTN 0x42E61FF8u              /* touch button records */
 
 static void label_row(u32 x, u32 y, u32 img, u32 e)
 {
-    draw_colour_set(W32(TH + 4));
+    draw_colour_set(THEME_MENU_TEXT);
     draw_text_shadowed((x + 0x14) & 0xFFFF, y & 0xFFFF, img, 2, 2, 0);
-    draw_colour_set(W32(TH + 4));
+    draw_colour_set(THEME_MENU_TEXT);
     text_shadow_draw((x + 0x41 + TEXT_DX(e)) & 0xFFFF, (y + TEXT_DY(e) + 3) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
 }
 
@@ -31,7 +31,7 @@ static void switch_row(u32 x, u32 y, u32 w, u32 on, u32 rec)
     switch_on_off_draw((x + 0x172) & 0xFFFF, (y - 5) & 0xFFFF, on);
     touch_button_set_rect(x, (y - 0x14) & 0xFFFF, w, 0x3C, (volatile unsigned char *)(BTN + rec));
     if (B8(BTN + rec + 1)) {
-        draw_colour_set(W32(TH + 8));
+        draw_colour_set(THEME_MENU_ROW_PRESSED);
         rect_fill(x, (y - 0x14) & 0xFFFF, w, 0x3C);
     }
 }
@@ -43,11 +43,11 @@ static u32 option_fill(u32 sel, int k, u32 xo, u32 y, u32 wd)
     u32 txt;
 
     if (sel == (u32)k) {
-        draw_colour_set(W32(TH + 0x10));
+        draw_colour_set(THEME_OPTION_SELECTED);
         txt = 0;
     } else {
-        draw_colour_set(W32(TH + 0xC));
-        txt = W32(TH + 0x14);
+        draw_colour_set(THEME_OPTION);
+        txt = THEME_OPTION_TEXT;
     }
     rect_fill(xo & 0xFFFF, y & 0xFFFF, wd, 0x1E);
     return txt;
@@ -57,7 +57,7 @@ static void option_button(u32 xo, u32 y, u32 wd, u32 rec)
 {
     touch_button_set_rect(xo & 0xFFFF, (y - 0xF) & 0xFFFF, wd, 0x3C, (volatile unsigned char *)(BTN + rec));
     if (B8(BTN + rec + 1)) {
-        draw_colour_set(W32(TH + 8));
+        draw_colour_set(THEME_MENU_ROW_PRESSED);
         rect_fill(xo & 0xFFFF, y & 0xFFFF, wd, 0x1E);
     }
 }
@@ -73,7 +73,7 @@ static void channel_menu(u32 lay, u32 so, u32 ro, u32 en)
 
     word_42e68c74_set(0x42E658D8u);
     half_42e68be2_set(1);
-    draw_colour_set(W32(TH));
+    draw_colour_set(THEME_MENU_BG);
     rect_fill(x, y, w, h);
 
     r = y + 0x19;

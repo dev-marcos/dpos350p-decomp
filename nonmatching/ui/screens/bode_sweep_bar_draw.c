@@ -14,9 +14,9 @@
 #include "state/ui_windows.h"
 #include "shared/access.h"
 #include "state/ui_texts.h"
+#include "state/theme.h"
 
 #define SYS 0x40544E68u
-#define TT (SYS + 0x3DD530)          /* toolbar theme: +0 fill, +4 icon, +8 text, +0x1C pressed */
 #define BTN 0x42E61FF8u              /* touch button records */
 #define BODE 0x42E180C8u             /* frequency-response view block */
 
@@ -26,17 +26,17 @@ static void tool_button(u32 tx, u32 y, u32 c, u32 img, u32 e, u32 rec)
 {
     u32 tw;
 
-    draw_colour_set(W32(TT));
+    draw_colour_set(THEME_TOOLBAR_FILL);
     rect_fill(tx & 0xFFFF, y, 0xA6, 0x2C);
     draw_colour_set(c);
-    draw_colour_set(W32(TT + 4));
+    draw_colour_set(THEME_TOOLBAR_ICON);
     draw_text_shadowed((tx + 0x49) & 0xFFFF, (y + 2) & 0xFFFF, img, 2, 2, 0);
-    draw_colour_set(W32(TT + 8));
+    draw_colour_set(THEME_TOOLBAR_TEXT);
     tw = text_width(TEXT_STR(e));
     text_shadow_draw((tx + ((0xA6 - tw) >> 1) + TEXT_DX(e)) & 0xFFFF, (y + TEXT_DY(e) + 0x19) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
     touch_button_set_rect(tx & 0xFFFF, y, 0xA6, 0x2C, (volatile unsigned char *)(BTN + rec));
     if (B8(BTN + rec + 1)) {
-        draw_colour_set(W32(TT + 0x1C));
+        draw_colour_set(THEME_PRESSED);
         rect_fill(tx & 0xFFFF, y, 0xA6, 0x2C);
     }
 }
@@ -46,7 +46,7 @@ static void tool_button(u32 tx, u32 y, u32 c, u32 img, u32 e, u32 rec)
 /* background and grey label (text entry e at +0xF + dx, +5 + dy); the value colour is set after */
 static void param_head(u32 tx, u32 y, u32 e)
 {
-    draw_colour_set(W32(TT));
+    draw_colour_set(THEME_TOOLBAR_FILL);
     rect_fill(tx & 0xFFFF, y, 0xA6, 0x2C);
     draw_colour_set(0xAAAAAA);
     text_shadow_draw((tx + TEXT_DX(e) + 0xF) & 0xFFFF, (y + TEXT_DY(e) + 5) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
@@ -57,7 +57,7 @@ static void param_tail(u32 tx, u32 y, u32 rec)
 {
     touch_button_set_rect(tx & 0xFFFF, y, 0xA6, 0x2C, (volatile unsigned char *)(BTN + rec));
     if (B8(BTN + rec + 1)) {
-        draw_colour_set(W32(TT + 0x1C));
+        draw_colour_set(THEME_PRESSED);
         rect_fill(tx & 0xFFFF, y, 0xA6, 0x2C);
     }
 }

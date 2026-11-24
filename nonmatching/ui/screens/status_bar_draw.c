@@ -15,6 +15,7 @@
 #include "state/gen_block.h"
 #include "state/ui_windows.h"
 #include "state/ui_texts.h"
+#include "state/theme.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -23,7 +24,6 @@ void str_copy_raw(char *d, const char *s) __asm__("str_copy");
 
 #define SYSB      0x40544E68u
 #define U16(v)    ((v) & 0xFFFFu)
-#define THEME(i)  (*(volatile u32 *)(SYSB + 0x3DD544u + 4 * (i)))
 #define S8(o)     (*(volatile unsigned char *)(SYSB + (o)))
 #define S64(o)    (*(volatile unsigned long long *)(SYSB + (o)))
 #define GN32(o)    (*(volatile int *)(0x42E3F984u + (o)))
@@ -65,7 +65,7 @@ static void sb_drop(struct sbc *c)
 /* background, the coloured name tag and the black name */
 static void sb_tile(u32 x, u32 y, u32 tag, const char *name)
 {
-    draw_colour_set(THEME(0));
+    draw_colour_set(THEME_WORD(0x14));
     rect_fill(U16(x), U16(y), 0x82, 0x2C);
     draw_colour_set(tag);
     rect_fill(U16(x), U16(y), 0x28, 0x12);
@@ -77,7 +77,7 @@ static void sb_button(u32 x, u32 y, u32 rec)
 {
     touch_button_set_rect(U16(x), U16(y), 0x82, 0x2C, TREC(rec));
     if (TREC(rec)[1] == 1) {
-        draw_colour_set(THEME(2));
+        draw_colour_set(THEME_PRESSED);
         rect_fill(U16(x), U16(y), 0x82, 0x2C);
     }
 }
@@ -86,13 +86,13 @@ static void sb_channel(struct sbc *c, u32 x, u32 y, u32 base, u32 bw, u32 on_col
 {
     u32 tw, r8;
 
-    draw_colour_set(THEME(0));
+    draw_colour_set(THEME_WORD(0x14));
     rect_fill(U16(x), U16(y), 0x82, 0x2C);
     draw_colour_set(S8(base) ? on_colour : 0x888888);
     rect_fill(U16(x), U16(y), 0x28, 0x12);
     draw_colour_set(0);
     text_draw(U16(x + 7), U16(y + 2), name);
-    draw_colour_set(THEME(1));
+    draw_colour_set(THEME_WORD(0x18));
     if (S8(base)) {                                           /* bandwidth limit */
         value_si_scale(7, 0, (long long)(S64(bw) * 1000u), &c->v, &c->dec, &c->pre);
         if (c->pre == 1)
@@ -108,7 +108,7 @@ static void sb_channel(struct sbc *c, u32 x, u32 y, u32 base, u32 bw, u32 on_col
         sb_num(c, r8, y + 2);
         sb_text(x + 0x7B - text_width(c->buf), y + 2, c->buf);
     }
-    draw_colour_set(THEME(1));
+    draw_colour_set(THEME_WORD(0x18));
     sb_text(x + 7, y + 0x19, (const char *)(SYSB + bw + 8));          /* volts / div */
     str_copy_raw(c->buf, S8(base + 1) == 0 ? "DC" : "AC");
     sb_text(x + 0x45, y + 0x19, c->buf);
@@ -151,7 +151,7 @@ void status_bar_draw(void)
     /* horizontal: time base, zoomed time base */
     x = U16(x + 0x86);
     sb_tile(x, y, 0x3388FF, "HOR");
-    draw_colour_set(THEME(1));
+    draw_colour_set(THEME_WORD(0x18));
     value_si_scale(8, 0, (long long)S64(0x590), &c->v, &c->dec, &c->pre);
     sb_time_unit(c);
     sl = sb_numw(c) + x;
@@ -179,13 +179,13 @@ void status_bar_draw(void)
     sb_tile(x, y, 0xFF8833, "ACQ");
     if (S8(0x3C) == 0) {
         s = "Run";
-        draw_colour_set(THEME(1));
+        draw_colour_set(THEME_WORD(0x18));
     } else {
         draw_colour_set(0xFF0000);
         s = "Stop";
     }
     sb_text(x + 0x7B - text_width(s), y + 2, s);
-    draw_colour_set(THEME(1));
+    draw_colour_set(THEME_WORD(0x18));
     value_si_scale(8, 0, (long long)(S64(0x538) * S8(0x1B0) * 100u / 0x5Fu), &c->v, &c->dec, &c->pre);
     switch (c->pre) {
     case 1: str_copy_raw(c->buf, "S/s"); break;
@@ -213,7 +213,7 @@ void status_bar_draw(void)
         s = "CH2";
     }
     sb_text(x + 0x7B - text_width(s), y + 2, s);
-    draw_colour_set(THEME(1));
+    draw_colour_set(THEME_WORD(0x18));
     if (S8(0x27A) == 0)
         str_copy_raw(c->buf, "Auto");
     else if (S8(0x27A) == 1)
@@ -256,7 +256,7 @@ void status_bar_draw(void)
     half_42e68be2_set(1);
     w = text_width((const char *)(0x40094EF0u + GENS(waveform) * 30u));
     sb_text(x + 0x7B - w, y + 2, (const char *)(0x40094EF0u + GENS(waveform) * 30u));
-    draw_colour_set(THEME(1));
+    draw_colour_set(THEME_WORD(0x18));
     half_42e68be2_set(2);
     value_si_scale(6, 0, (long long)GN32(0x2F00) * 1000, &c->v, &c->dec, &c->pre);
     switch (c->pre) {
@@ -285,7 +285,7 @@ void status_bar_draw(void)
     /* movement / persistence label */
     x = x + 0x86;
     sb_tile(x, y, 0x33FF88, "MOV");
-    draw_colour_set(THEME(1));
+    draw_colour_set(THEME_WORD(0x18));
     if (S8(0x671) == 0)
         sb_text(x + TEXT_DX(UI_TEXT(65)) + 7, y + TEXT_DY(UI_TEXT(65)) + 0x19, TXP(65));
     else

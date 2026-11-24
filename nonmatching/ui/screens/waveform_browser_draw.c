@@ -12,6 +12,7 @@
 #include "ui/screens.h"
 #include "util.h"
 #include "state/ui_texts.h"
+#include "state/theme.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -26,7 +27,6 @@ void waveform_path_make_raw(u32 v) __asm__("waveform_path_make");
 #define TXP(k)    (*(const char *volatile *)TXE(k))
 #define TEXT_W    (*(volatile unsigned short *)0x42E68BE4u)
 #define TREC(o)   ((volatile unsigned char *)(0x42E61FF8u + (o)))
-#define THEME(o)  (*(volatile u32 *)(0x40544E68u + 0x3DD54Cu + (o)))
 #define NAME      ((const char *)(0x40544E68u + 0x88C1u))
 #define THUMB_W   (*(volatile unsigned short *)(0x40544E68u + 0x109684u))
 #define THUMB_H   (*(volatile unsigned short *)(0x40544E68u + 0x109686u))
@@ -102,7 +102,7 @@ static void tb_bars(u32 x, u32 y, u32 w, u32 img, u32 title, u32 bar_rec)
         cx = x + 0xAA * i;
         touch_button_set_rect(U16(cx), U16(cy), 0xAA, 0x3C, TREC(bar_rec + 10 * i));
         if (TREC(bar_rec + 10 * i)[1]) {
-            draw_colour_set(THEME(0));
+            draw_colour_set(THEME_PRESSED);
             if (i == 0)
                 rect_fill(U16(cx), U16(cy), 0xAA, 0x3C);
             else
@@ -156,7 +156,7 @@ static void tb_draw(u32 lay, void (*path)(u32), u32 grid_rec, u32 img, u32 title
                 rect_outline_draw(U16(cx + 0x56), U16(cy + 0x36), 0x1E, 0x1E);
                 rect_outline_draw(U16(cx + 0x55), U16(cy + 0x35), 0x20, 0x20);
                 if (sel[col]) {
-                    draw_colour_set(THEME(0x14));
+                    draw_colour_set(THEME_OPTION_SELECTED);
                     rect_fill(U16(cx + 0x5A), U16(cy + 0x3A), 0x16, 0x16);
                 }
             }

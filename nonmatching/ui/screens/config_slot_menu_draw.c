@@ -13,9 +13,9 @@
 #include "state/ui_windows.h"
 #include "shared/access.h"
 #include "state/ui_texts.h"
+#include "state/theme.h"
 
 #define SYS 0x40544E68u
-#define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed */
 #define BTN 0x42E61FF8u              /* touch button records */
 
 void config_slot_menu_draw(void)
@@ -26,7 +26,7 @@ void config_slot_menu_draw(void)
 
     word_42e68c74_set(0x42E658D8u);
     half_42e68be2_set(1);
-    draw_colour_set(W32(TH));
+    draw_colour_set(THEME_MENU_BG);
     rect_fill(x, y, w, h);
     draw_colour_set(0);
     rect_fill(x, y, 2, h);
@@ -35,13 +35,13 @@ void config_slot_menu_draw(void)
     for (i = 0; i < 5; i++) {
         ys = (y + 0x14 + 0x3C * i) & 0xFFFF;
         e = UI_TEXT(86 + i);
-        draw_colour_set(W32(TH + 4));
+        draw_colour_set(THEME_MENU_TEXT);
         draw_text_shadowed((x2 + 0x14) & 0xFFFF, ys, 0x4008B738u, 2, 2, 0);
-        draw_colour_set(W32(TH + 4));
+        draw_colour_set(THEME_MENU_TEXT);
         text_shadow_draw((x2 + 0x41 + TEXT_DX(e)) & 0xFFFF, (ys + 3 + TEXT_DY(e)) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
         touch_button_set_rect(x2 & 0xFFFF, (ys - 0x14) & 0xFFFF, w2 & 0xFFFF, 0x3C, (volatile unsigned char *)(BTN + 0x124 + 0xA * i));
         if (B8(BTN + 0x125 + 0xA * i) || (SI(settings_slot) == i + 1 && WREC(7, f_5) == 3)) {
-            draw_colour_set(W32(TH + 8));
+            draw_colour_set(THEME_MENU_ROW_PRESSED);
             rect_fill(x2 & 0xFFFF, (ys - 0x14) & 0xFFFF, w2 & 0xFFFF, 0x3C);
         }
     }

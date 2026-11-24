@@ -11,11 +11,11 @@
 #include "ui/screens.h"
 #include "shared/access.h"
 #include "state/ui_texts.h"
+#include "state/theme.h"
 
 #define WR16(o) H16(0x42E64520u + (o))
 #define BTN ((volatile unsigned char *)0x42E61FF8u)
 #define U16(v) ((unsigned short)(v))
-#define COL(i) W32(0x40544E68u + 0x3DD550u + 4 * (i))
 
 /* Message box at rectangle roff: title text t centred, three lines b..b+2 at x offset xo, and a
    'Confirm' button (text 95) bd pixels lower than usual, touch slot boff. */
@@ -25,14 +25,14 @@ static void msgbox(u32 roff, u32 t, u32 b, u32 xo, u32 bd, u32 boff)
     u32 iw, x2, y2, bx, bw, by, tw;
     word_42e68c74_set(0x42E658D8u);
     half_42e68be2_set(2);
-    draw_colour_set(COL(0));
+    draw_colour_set(THEME_MENU_BG);
     rect_fill(x, y, w, h);
     draw_colour_set(0);
     rect_fill(x, y, 2, h);
     iw = U16(w - 2);
     x2 = x + 2;
     y2 = y + 0x14;
-    draw_colour_set(COL(1));
+    draw_colour_set(THEME_MENU_TEXT);
     tw = text_width(TEXT_STR(UI_TEXT(t)));
     text_shadow_draw(U16(x2 + ((iw - tw) >> 1) + TEXT_DX(UI_TEXT(t))), U16(y2 + TEXT_DY(UI_TEXT(t)) + 3), TEXT_STR(UI_TEXT(t)), 1, 2, 0);
     text_shadow_draw(U16(x2 + TEXT_DX(UI_TEXT(b)) + xo), U16(y2 + TEXT_DY(UI_TEXT(b)) + 0x23), TEXT_STR(UI_TEXT(b)), 1, 2, 0);
@@ -41,14 +41,14 @@ static void msgbox(u32 roff, u32 t, u32 b, u32 xo, u32 bd, u32 boff)
     bx = x2 + 0x14;
     bw = U16(iw - 0x28);
     by = y2 + 0x6E + bd;
-    draw_colour_set(COL(3));
+    draw_colour_set(THEME_OPTION);
     rect_fill(U16(bx), U16(by), bw, 0x28);
-    draw_colour_set(COL(1));
+    draw_colour_set(THEME_MENU_TEXT);
     tw = text_width(TEXT_STR(UI_TEXT(95)));
     text_shadow_draw(U16(x2 + ((iw - tw) >> 1) + TEXT_DX(UI_TEXT(95))), U16(y2 + TEXT_DY(UI_TEXT(95)) + 0x7A + bd), TEXT_STR(UI_TEXT(95)), 1, 2, 0);
     touch_button_set_rect(U16(bx), U16(y2 + 0x64 + bd), bw, 0x3C, BTN + boff);
     if (BTN[boff + 1]) {
-        draw_colour_set(COL(2));
+        draw_colour_set(THEME_MENU_ROW_PRESSED);
         rect_fill(U16(bx), U16(by), bw, 0x28);
     }
 }

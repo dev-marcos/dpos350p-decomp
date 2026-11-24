@@ -14,9 +14,9 @@
 #include "state/ui_windows.h"
 #include "shared/access.h"
 #include "state/ui_texts.h"
+#include "state/theme.h"
 
 #define SYS 0x40544E68u
-#define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
 #define BTN 0x42E61FF8u              /* touch button records */
 
 static const char tb_text[30][6] = {
@@ -32,11 +32,11 @@ static const char tb_text[30][6] = {
 static u32 fill_colour(u32 sel, u32 v)
 {
     if (sel == v) {
-        draw_colour_set(W32(TH + 0x10));
+        draw_colour_set(THEME_OPTION_SELECTED);
         return 0;
     }
-    draw_colour_set(W32(TH + 0xC));
-    return W32(TH + 0x14);
+    draw_colour_set(THEME_OPTION);
+    return THEME_OPTION_TEXT;
 }
 
 void timebase_menu_draw(void)
@@ -48,12 +48,12 @@ void timebase_menu_draw(void)
 
     word_42e68c74_set(0x42E658D8u);
     half_42e68be2_set(1);
-    draw_colour_set(W32(TH));
+    draw_colour_set(THEME_MENU_BG);
     rect_fill(x & 0xFFFF, y, w, h);
     sel = SI(zoom_on) ? SI(zoom_index) : SI(timebase_index);
-    draw_colour_set(W32(TH + 4));
+    draw_colour_set(THEME_MENU_TEXT);
     draw_text_shadowed((x + 0x14) & 0xFFFF, (y + 0x17) & 0xFFFF, 0x4008B178u, 2, 2, 0);
-    draw_colour_set(W32(TH + 4));
+    draw_colour_set(THEME_MENU_TEXT);
     e = SI(zoom_on) ? UI_TEXT(35) : UI_TEXT(34);
     text_shadow_draw((x + TEXT_DX(e) + 0x41) & 0xFFFF, (y + 0x17 + TEXT_DY(e) + 3) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
     half_42e68be2_set(2);
@@ -68,7 +68,7 @@ void timebase_menu_draw(void)
     text_draw((((x + 0x14) & 0xFFFF) + 0x154 + ((0xA5 - tw) >> 1)) & 0xFFFF, (y + 0x1B) & 0xFFFF, s);
     touch_button_set_rect(xo & 0xFFFF, (y + 0xC) & 0xFFFF, 0xA5, 0x2C, (volatile unsigned char *)(BTN + 0x426));
     if (BREC(106, touch_code)) {
-        draw_colour_set(W32(TH + 8));
+        draw_colour_set(THEME_MENU_ROW_PRESSED);
         rect_fill(xo & 0xFFFF, r & 0xFFFF, 0xA5, 0x14);
     }
 
@@ -85,7 +85,7 @@ void timebase_menu_draw(void)
             text_draw((((0x50 - tw) >> 1) + (xo & 0xFFFF)) & 0xFFFF, (r + 0xC) & 0xFFFF, tb_text[k]);
             touch_button_set_rect(xo & 0xFFFF, (r - 0xF) & 0xFFFF, 0x50, 0x46, (volatile unsigned char *)(BTN + rec));
             if (B8(BTN + rec + 1)) {
-                draw_colour_set(W32(TH + 8));
+                draw_colour_set(THEME_MENU_ROW_PRESSED);
                 rect_fill(xo & 0xFFFF, r & 0xFFFF, 0x50, 0x28);
             }
         }

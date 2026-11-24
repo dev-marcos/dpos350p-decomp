@@ -9,6 +9,7 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 #include "shared/access.h"
+#include "state/theme.h"
 
 #define WR16(o) H16(0x42E64520u + (o))
 #define BTN ((volatile unsigned char *)0x42E61FF8u)
@@ -18,26 +19,24 @@
 #define DY(k) (*(volatile signed char *)(TXE(k) + 0x195))
 #define U16(v) ((unsigned short)(v))
 
-#define COL(i) W32(0x40544E68u + 0x3DD53Cu + 4 * (i))
-
 void ui_colour_buttons_draw(void)
 {
     static const u32 img[4] = {0x400860E4u, 0x400863DCu, 0x400866D4u, 0x400869CCu};
     static const u32 ink[4] = {0xFF2288u, 0x88FF22u, 0xFF8822u, 0x2288FFu};
     u32 x = U16(WR16(0x18E) + 2), y = WR16(0x190), w = WR16(0x192), h = WR16(0x194), i;
     u32 tx = x + 0x14;
-    draw_colour_set(COL(0));
+    draw_colour_set(THEME_WORD(0x0C));
     rect_fill(x, y, w, h);
     for (i = 0; i < 4; i++) {
         if (i >= 2) {
-            draw_colour_set(COL(0));
+            draw_colour_set(THEME_WORD(0x0C));
             rect_fill(x, U16(y), 0x40, 0x97);
         }
         draw_colour_set(ink[i]);
         draw_text_shadowed(U16(tx), U16(y + 0x3D), img[i], 2, 2, 0);
         touch_button_set_rect(x, U16(y), 0x40, 0x96, BTN + 0x9F8 + 10 * i);
         if (BTN[0x9F9 + 10 * i] == 1) {
-            draw_colour_set(COL(4));
+            draw_colour_set(THEME_PRESSED);
             rect_fill(x, U16(y), 0x40, 0x96);
         }
         y += 0x96;

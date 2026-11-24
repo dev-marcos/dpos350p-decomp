@@ -12,20 +12,18 @@
 #include "sys_info.h"
 #include "state/ui_windows.h"
 #include "shared/access.h"
+#include "state/theme.h"
 
 #define SYS 0x40544E68u
-#define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed */
 #define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
 #define ENT(n) (TXT + 0x1A0 * (n))
-
-#define TB (SYS + 0x3DD53C)
 
 /* the pressed shade of one button */
 static void pressed(u32 x, u32 y, u32 rec, u32 hp)
 {
     if (B8(BTN + rec + 1) == 1) {
-        draw_colour_set(W32(TB + 0x10));
+        draw_colour_set(THEME_PRESSED);
         rect_fill(x, y & 0xFFFF, 0x40, hp);
     }
 }
@@ -40,33 +38,33 @@ void side_menu_column_draw(void)
 {
     u32 x = WREC(2, x) + 2, y = WREC(2, y);
 
-    draw_colour_set(W32(TB));
+    draw_colour_set(THEME_WORD(0x0C));
     rect_fill(x & 0xFFFF, y, 0x40, 0x47);
-    draw_colour_set(W32(TB));
+    draw_colour_set(THEME_WORD(0x0C));
     rect_fill(x & 0xFFFF, y, 0x40, 0x258);
     draw_colour_set(SI(acq_transition_flag) ? 0xFF0000 : 0xFF00);
     icon_rec(x, y, y + 0x14, 0x400857FCu, 0x5C);
     pressed(x & 0xFFFF, y, 0x5C, 0x47);
 
-    draw_colour_set(W32(TB));
+    draw_colour_set(THEME_WORD(0x0C));
     rect_fill(x & 0xFFFF, (y + 0x4B) & 0xFFFF, 0x40, 0x47);
     draw_colour_set(0x2288FF);
-    draw_colour_set(W32(TB + 4));
+    draw_colour_set(THEME_WORD(0x10));
     draw_colour_set(0x88FF);
     icon_rec(x, y + 0x4B, y + 0x5F, 0x40085AF4u, 0x66);
     pressed(x & 0xFFFF, y + 0x4B, 0x66, 0x47);
 
-    draw_colour_set(W32(TB));
+    draw_colour_set(THEME_WORD(0x0C));
     rect_fill(x & 0xFFFF, (y + 0x96) & 0xFFFF, 0x40, 0x47);
     draw_colour_set(0x22CC66);
-    draw_colour_set(W32(TB + 4));
+    draw_colour_set(THEME_WORD(0x10));
     icon_rec(x, y + 0x96, y + 0xAA, 0x40085DECu, 0x70);
     pressed(x & 0xFFFF, y + 0x96, 0x70, 0x47);
 
     draw_colour_set(0x282828);
     rect_fill(x & 0xFFFF, (y + 0xE1) & 0xFFFF, 0x40, 0x46);
     draw_colour_set(0x22CC66);
-    draw_colour_set(W32(TB + 4));
+    draw_colour_set(THEME_WORD(0x10));
     icon_rec(x, y + 0xE1, y + 0xF5, 0x40086CC4u, 0x7A);
     pressed(x & 0xFFFF, y + 0xE1, 0x7A, 0x46);
 
@@ -86,21 +84,21 @@ void side_menu_column_draw(void)
     draw_colour_set(0x282828);
     rect_fill(x & 0xFFFF, (y + 0x175) & 0xFFFF, 0x40, 0x46);
     draw_colour_set(0x22CC66);
-    draw_colour_set(W32(TB + 4));
+    draw_colour_set(THEME_WORD(0x10));
     icon_rec(x, y + 0x175, y + 0x189, 0x40086FBCu, 0x8E);
     pressed(x & 0xFFFF, y + 0x174, 0x8E, 0x47);
 
-    draw_colour_set(W32(TB));
+    draw_colour_set(THEME_WORD(0x0C));
     rect_fill(x & 0xFFFF, (y + 0x1BF) & 0xFFFF, 0x40, 0x47);
     draw_colour_set(0x88FF22);
-    draw_colour_set(W32(TB + 4));
+    draw_colour_set(THEME_WORD(0x10));
     icon_rec(x, y + 0x1BF, y + 0x1D6, 0x400851D4u, 0x98);
     pressed(x & 0xFFFF, y + 0x1BF, 0x98, 0x47);
 
-    draw_colour_set(W32(TB));
+    draw_colour_set(THEME_WORD(0x0C));
     rect_fill(x & 0xFFFF, (y + 0x20A) & 0xFFFF, 0x40, 0x48);
     draw_colour_set(0x8822FF);
-    draw_colour_set(W32(TB + 4));
+    draw_colour_set(THEME_WORD(0x10));
     draw_colour_set(0x8800FF);
     icon_rec(x, y + 0x20A, y + 0x221, 0x400854E8u, 0xA2);
     pressed(x & 0xFFFF, y + 0x20A, 0xA2, 0x48);
