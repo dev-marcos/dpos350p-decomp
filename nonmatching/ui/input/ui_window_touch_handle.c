@@ -9,33 +9,30 @@
 #include "ui/input.h"
 #include "ui/windows.h"
 
-#define TCH8(o)  (*(volatile unsigned char *)(0x42E68BB0u + (o)))   /* touch block */
-#define TCH16(o) (*(volatile short *)(0x42E68BB0u + (o)))
 #define WIN(id)  ((volatile unsigned char *)(0x42E64520u + (id) * 14u))
 #define WH(p, o) (*(volatile unsigned short *)((p) + (o)))
-#define WSTK     ((volatile unsigned char *)0x42E68BC8u)
 
 void ui_window_touch_handle(u32 id)
 {
-    u32 st = TCH8(0xC);
+    u32 st = g_touch->event;
     volatile unsigned char *p;
     int x, y, a;
     if (st == 0)
         return;
     p = WIN(id);
-    x = TCH16(4);
+    x = g_touch->down_x;
     a = WH(p, 6);
     if (a < x && x < a + WH(p, 0xA)) {
         a = WH(p, 8);
-        y = TCH16(6);
+        y = g_touch->down_y;
         if (a < y && y < a + WH(p, 0xC)) {
             ui_window_invalidate_from(id, st);
-            TCH8(0xC) = 0;
+            g_touch->event = 0;
             return;
         }
     }
     if (st == 2 && p[2] == 0) {
         ui_windows_close_untouched();
-        TCH8(0xC) = 0;
+        g_touch->event = 0;
     }
 }

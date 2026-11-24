@@ -20,7 +20,6 @@
 #define SYS 0x40544E68u
 #define BB 0x42E180C8u
 #define DREC 0x42E554B0u
-#define TOUCH 0x42E68BB0u
 #define W(a) (*(volatile u32 *)(a))
 #define DD(a) (*(volatile double *)(a))
 #define BH(o) H16(BB + (o))
@@ -77,7 +76,7 @@ measure:
     for (;;) {
         if (BODES(sweep_busy) == 0) {
             runtime_event_service();
-            if (B8(TOUCH + 0x15)) {
+            if (g_touch->busy2) {
                 BODES(f_047) = 0;
                 break;
             }

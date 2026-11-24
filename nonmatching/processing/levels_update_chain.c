@@ -10,7 +10,7 @@
 
 void levels_update_chain(void)
 {
-    if (*(volatile unsigned char *)(0x42E68BB0u + 0x17))
+    if (g_touch->serviced)
         return;
     if (*(volatile unsigned char *)(0x42E68668u + 4)) {
         fft_levels_db();

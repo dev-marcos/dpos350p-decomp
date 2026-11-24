@@ -123,7 +123,7 @@ void full_acquisition_entry(void)
         key_repeat_and_measure_channels();
         channel_to_display_copy(0, i & 0xFFFF);
         channel_to_display_copy(1, i & 0xFFFF);
-        if (B8(0x42E68BB0u + 0x15)) {
+        if (g_touch->busy2) {
             lim = SI(f_540) / SI(f_1b0);
             if (SI(f_51c) == 2 || SI(f_51d) == 2)
                 lim /= 10;

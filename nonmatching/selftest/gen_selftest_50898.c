@@ -16,7 +16,6 @@
 #include "shared/access.h"
 
 #define SYS 0x40544E68u
-#define TOUCH 0x42E68BB0u
 
 void gen_selftest_50898(void)
 {
@@ -33,7 +32,7 @@ void gen_selftest_50898(void)
     SI(f_046) = 2;
     SI(f_10a) = 2;
     SI(f_660) = 5;
-    B8(TOUCH + 0x16) = 0;
+    g_touch->enabled = 0;
     step = SI(f_558);
     start = 0x2E68 + 5 * step;
     n = 0x924 - 10 * step;

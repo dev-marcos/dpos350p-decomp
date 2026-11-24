@@ -9,13 +9,12 @@
 #include "ui/input.h"
 #include "state/touch_ctl.h"
 
-#define TP      ((volatile short *)0x42E68BB0u)            /* touch block: x0, y0, x1, y1 (s16) */
 #define TS8     (*(volatile unsigned char *)0x42E68998u)   /* control code of the current touch */
 
 void touch_pick_a(void)
 {
     u32 code = 0, best = 0x7FFFFFFF, res = 0;
-    if (TP[2] == 0 && TP[3] == 0) {
+    if (g_touch->down_x == 0 && g_touch->down_y == 0) {
         TS8 = 0;
         return;
     }

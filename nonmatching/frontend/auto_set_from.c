@@ -21,7 +21,6 @@ void ui_window_03_redraw_raw(u32 a) __asm__("ui_window_03_redraw");
 void ui_window_05_redraw_raw(u32 a) __asm__("ui_window_05_redraw");
 
 #define SYS 0x40544E68u
-#define TCH 0x42E68BB0u
 #define S8(a) (*(volatile signed char *)(a))
 
 #define SAVED 0x409223F0u            /* backup copy of the settings block (state_backup_all) */
@@ -110,8 +109,8 @@ void auto_set_from(u32 box_base)
     SI(f_275) = 0;
     SI(f_665) = 0;
     SI(f_660) = 0;
-    B8(TCH + 0x15) = 0;
-    B8(TCH + 0x16) = 0;
+    g_touch->busy2 = 0;
+    g_touch->enabled = 0;
     tb = SI(timebase_index_min);
     tb_end = SI(f_2a9) - 1;
     o1 = (int)SI(ch1_offset);
@@ -185,7 +184,7 @@ void auto_set_from(u32 box_base)
     B8(SAVED + 0x665) = SI(f_665);
     B8(SAVED + 0x660) = SI(f_660);
     B8(SAVED + 0x27A) = 0;
-    B8(TCH + 0x16) = 1;
+    g_touch->enabled = 1;
     if (any) {
         a = W32(SYS + 0x570);
         b = W32(SYS + 0x574);

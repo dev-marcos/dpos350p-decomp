@@ -16,7 +16,7 @@
 void trace_cursor_limits(void)
 {
     int a = BODES(start_freq), b = BODES(stop_freq), v, c, m;
-    if (*(volatile unsigned char *)(0x42E68BB0u + 0x17))
+    if (g_touch->serviced)
         return;
     v = Q32(0x18);
     c = BODES(amplitude);

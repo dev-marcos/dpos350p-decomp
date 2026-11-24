@@ -9,13 +9,12 @@
 #include "ui/input.h"
 #include "state/touch_ctl.h"
 
-#define TP      ((volatile short *)0x42E68BB0u)            /* touch block: x0, y0, x1, y1 (s16) */
 #define TS8     (*(volatile unsigned char *)0x42E68998u)   /* control code of the current touch */
 
 void touch_hit_pair_b(void)
 {
     volatile unsigned char *b = (volatile unsigned char *)0x42E180C8u;
-    int x = TP[2];
+    int x = g_touch->down_x;
     u32 o = *(volatile unsigned short *)b;
     int a = (int)(*(volatile u32 *)(b + 0xAC64) + o);
     int c = (int)(*(volatile u32 *)(b + 0xAC68) + o);

@@ -9,7 +9,6 @@
 #include "system.h"
 #include "state/gen_block.h"
 
-
 void state_block_3f984_init(void)
 {
     GENS(f_001) = 0;
@@ -22,5 +21,5 @@ void state_block_3f984_init(void)
     GENS(f_00c) = 0;
     GENS(f_2f60) = 0;
     GENS(f_2f08) = 500;
-    *(volatile unsigned char *)0x42E68BC6u = 1;
+    g_touch->enabled = 1;
 }

@@ -19,7 +19,6 @@
 
 #define SYS 0x40544E68u
 #define GEN 0x42E3F984u
-#define TOUCH 0x42E68BB0u
 
 static double measure(u32 a, u32 b, u32 range)
 {
@@ -44,7 +43,7 @@ void gen_output_calibrate(void)
     SI(timebase_index) = 0x18;
     SI(f_54f) = 1;
     GENS(f_2f60) = 1;
-    B8(TOUCH + 0x16) = 0;
+    g_touch->enabled = 0;
     fpga_cmd63_write();
     fill_u16((unsigned short *)(GEN + 0xFB6), 0x1FFE, GENS(period_len));
     a = measure(0x206C, 0x22C4, 4);
@@ -67,5 +66,5 @@ void gen_output_calibrate(void)
     settings_g_save();
     state_restore_all();
     gen_update();
-    B8(TOUCH + 0x16) = 1;
+    g_touch->enabled = 1;
 }

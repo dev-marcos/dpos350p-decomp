@@ -22,7 +22,7 @@ void level_columns_draw(void)
     u32 h0 = LEVELS(panel_a_rows);
     double k;
     int col, r;
-    if (*(volatile unsigned char *)(0x42E68BB0u + 0x17))
+    if (g_touch->serviced)
         return;
     if (LEVELS(panel_a_on) == 0)
         return;

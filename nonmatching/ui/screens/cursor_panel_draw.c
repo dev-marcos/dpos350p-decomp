@@ -130,7 +130,7 @@ void cursor_panel_draw(void)
     long long a, t, b, m, q1, q2, q3, q4, tm, t1, t2, dt;
     struct cpc st, *c = &st;
 
-    if (*(volatile unsigned char *)(0x42E68BB0u + 0x17))
+    if (g_touch->serviced)
         return;
     if (S8(0x652))
         return;

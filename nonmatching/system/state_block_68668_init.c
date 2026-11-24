@@ -36,5 +36,5 @@ void state_block_68668_init(void)
     LEVELS(markers_on) = 0;
     W(0x5C) = v / 5;
     W(0x60) = (int)((u32)v * 4u) / 5;
-    *(volatile unsigned char *)0x42E68BC6u = 1;
+    g_touch->enabled = 1;
 }

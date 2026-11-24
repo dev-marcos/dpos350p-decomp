@@ -14,7 +14,7 @@ void ui_frame_update(void)
 {
     ui_window_redraw_dirty();
     battery_service();
-    if (*(volatile unsigned char *)0x42E68BC7u)
+    if (g_touch->serviced)
         return;
     fb_present();
     *(volatile unsigned short *)0x42E68BC4u = 0;

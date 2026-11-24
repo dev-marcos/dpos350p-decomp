@@ -25,5 +25,5 @@ void state_block_180c8_init(void)
     B(0xAC60 + 0xB8) = 0;
     W(0xAC64) = h / 5u;
     W(0xAC68) = (u32)((int)(h * 4) / 5);
-    *(volatile unsigned char *)0x42E68BC6u = 1;
+    g_touch->enabled = 1;
 }

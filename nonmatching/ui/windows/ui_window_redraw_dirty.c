@@ -15,7 +15,7 @@
 void ui_window_redraw_dirty(void)
 {
     u32 acc = 0, slot;
-    if (*(volatile unsigned char *)(0x42E68BB0u + 0x17))
+    if (g_touch->serviced)
         return;
     for (slot = 0; slot < 20; slot++) {
         u32 id = WSTK[2 + slot];

@@ -16,7 +16,7 @@ void measure_panel_draw(void)
 {
     volatile short *list = (volatile short *)(SYS + 0x880);
     int last = 0x17, i, k;
-    if (*(volatile unsigned char *)(0x42E68BB0u + 0x17))
+    if (g_touch->serviced)
         return;
     if (*(volatile unsigned char *)(SYS + 0x29))
         return;

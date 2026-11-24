@@ -17,7 +17,7 @@ void levels_view_layout(void)
 {
     u32 n, f1, f2, x, y, w, c0, c4, c8, cc, d0;
     long long rate, bin, top;
-    if (B8(0x42E68BB0u + 0x17))
+    if (g_touch->serviced)
         return;
     n = LEVELS(fft_points);
     switch (LEVELS(spur_mode)) {

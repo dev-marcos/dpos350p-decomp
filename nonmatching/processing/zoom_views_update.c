@@ -12,7 +12,7 @@
 
 void zoom_views_update(void)
 {
-    if (*(volatile unsigned char *)0x42E68BC7u)
+    if (g_touch->serviced)
         return;
     if (SI(zoom_on) || SI(acq_path_mode) || SI(f_652))
         return;

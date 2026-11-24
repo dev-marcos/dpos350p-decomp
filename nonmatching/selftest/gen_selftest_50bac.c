@@ -46,7 +46,7 @@ void gen_selftest_50bac(void)
     SI(ch1_enabled) = 1;
     SI(ch2_enabled) = 0;
     SI(f_046) = 0;
-    *(volatile unsigned char *)(0x42E68BB0u + 0x16) = 0;
+    g_touch->enabled = 0;
     outputs_apply();
     end = (int)SI(f_640) - 0x28;
     a = (int)spread_sum(end);

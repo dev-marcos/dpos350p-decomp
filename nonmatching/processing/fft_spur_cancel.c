@@ -38,7 +38,7 @@ void fft_spur_cancel(void)
     double dn, v;
     float s, m;
     long long a;
-    if (B8(0x42E68BB0u + 0x17))
+    if (g_touch->serviced)
         return;
     i = 0;
     if (LEVELS(fft_points) != 0) {

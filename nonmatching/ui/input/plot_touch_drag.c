@@ -25,7 +25,6 @@ void ui_window_invalidate_from_raw(u32 n) __asm__("ui_window_invalidate_from");
 #define S16(a) (*(volatile short *)(a))
 
 #define U 0x42E68998u                /* drag state */
-#define TCH 0x42E68BB0u              /* touch point: +4 / +6 now, +8 / +0xA at press */
 #define SPLIT B8(SYS + 0x2AA)
 
 static void press_save(void)
@@ -149,8 +148,8 @@ void plot_touch_drag(void)
         return;
     BREC(24, state) = 0;
     B8(BTN) = 0;
-    x = S16(TCH + 8);
-    if (S16(TCH + 4) != x || S16(TCH + 6) != S16(TCH + 0xA) || W32(0x42E68CD8u) - W32(0x42E68C78u) >= 600)
+    x = g_touch->up_x;
+    if (g_touch->down_x != x || g_touch->down_y != g_touch->up_y || W32(0x42E68CD8u) - W32(0x42E68C78u) >= 600)
         return;
     if (x >= (int)(SI(plot_x0) + (SI(plot_width) >> 1))) {
         if (!SPLIT)

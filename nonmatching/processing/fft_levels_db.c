@@ -19,7 +19,7 @@ void fft_levels_db(void)
     int n, i;
     volatile float *m = (volatile float *)0x42D364B4u;
     volatile short *dst;
-    if (*(volatile unsigned char *)(0x42E68BB0u + 0x17))
+    if (g_touch->serviced)
         return;
     n = MI(0xF8);
     if (n < 1)

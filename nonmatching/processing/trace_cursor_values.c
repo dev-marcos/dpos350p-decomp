@@ -16,7 +16,7 @@ void trace_cursor_values(void)
 {
     double sc, w, base, p1, p2, top, bot, h, s5, a1, a2, r, b1, b2;
     int c1, c2;
-    if (*(volatile unsigned char *)(0x42E68BB0u + 0x17))
+    if (g_touch->serviced)
         return;
     sc = BODES(f_8d18);
     w = (double)BODES(f_004);

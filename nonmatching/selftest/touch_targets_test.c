@@ -11,8 +11,6 @@
 #include "ui/draw.h"
 #include "ui/input.h"
 
-#define TS8(o) (*(volatile unsigned char *)(0x42E68BB0u + (o)))
-#define TS16(o) (*(volatile short *)(0x42E68BB0u + (o)))
 #define IN(v, lo) ((u32)((v) - (lo)) < 0x4Fu)
 
 void touch_targets_test(void)
@@ -32,18 +30,18 @@ void touch_targets_test(void)
     fb_present();
     do {
         gt911_poll();
-        if (TS8(0xC) == 2) {
-            int x = TS16(4);
+        if (g_touch->event == 2) {
+            int x = g_touch->down_x;
             u32 bit = 0, rx = 0, ry = 0;
-            if (IN(x, 0x15) && IN(TS16(6), 0x15))
+            if (IN(x, 0x15) && IN(g_touch->down_y, 0x15))
                 bit = 1, rx = 0x14, ry = 0x14;
-            else if (IN(x, 0x39D) && IN(TS16(6), 0x15))
+            else if (IN(x, 0x39D) && IN(g_touch->down_y, 0x15))
                 bit = 2, rx = 0x39C, ry = 0x14;
-            else if (IN(x, 0x15) && IN(TS16(6), 0x1F5))
+            else if (IN(x, 0x15) && IN(g_touch->down_y, 0x1F5))
                 bit = 4, rx = 0x14, ry = 0x1F4;
-            else if (IN(x, 0x39D) && IN(TS16(6), 0x1F5))
+            else if (IN(x, 0x39D) && IN(g_touch->down_y, 0x1F5))
                 bit = 8, rx = 0x39C, ry = 0x1F4;
-            else if (IN(x, 0x1D9) && IN(TS16(6), 0x105))
+            else if (IN(x, 0x1D9) && IN(g_touch->down_y, 0x105))
                 bit = 0x10, rx = 0x1D8, ry = 0x104;
             if (bit) {
                 got |= bit;

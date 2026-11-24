@@ -9,11 +9,7 @@
 #include "bode.h"
 #include "shared/access.h"
 
-#define SYS 0x40544E68u
 #define BB 0x42E180C8u
-#define GEN 0x42E3F984u
-#define DREC 0x42E554B0u
-#define TOUCH 0x42E68BB0u
 #define W(a) (*(volatile u32 *)(a))
 #define DD(a) (*(volatile double *)(a))
 #define BH(o) H16(BB + (o))
@@ -35,7 +31,7 @@ void bode_autoscale(void)
     u32 H, half, n, k;
     int hh, mx, mn, v, c, lim;
     double base, sc, hd;
-    if (B8(TOUCH + 0x17))
+    if (g_touch->serviced)
         return;
     H = BH(6);
     half = H >> 1;

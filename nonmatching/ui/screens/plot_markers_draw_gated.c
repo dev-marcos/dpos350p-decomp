@@ -8,10 +8,8 @@
 #include "hw/fpga.h"
 #include "ui/screens.h"
 
-#define TCH8(o)  (*(volatile unsigned char *)(0x42E68BB0u + (o)))   /* touch block */
-
 void plot_markers_draw_gated(void)
 {
-    if (TCH8(0x17) == 0)
+    if (g_touch->serviced == 0)
         plot_markers_draw();
 }

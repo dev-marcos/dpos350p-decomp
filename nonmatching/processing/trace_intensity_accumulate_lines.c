@@ -169,7 +169,7 @@ void trace_intensity_accumulate_lines(u32 tr)
     SI(f_7b0) = 0;
     add = 5 * nseg + 20;
     shift = 4;
-    if (B8(0x42E68BB0u + 0x15) && B8(0x42E61FF8u) == 1) {
+    if (g_touch->busy2 && B8(0x42E61FF8u) == 1) {
         if (SI(f_1b0) == 2)
             shift = tot ? 0x927C0 / tot : 0;
         else

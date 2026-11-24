@@ -59,7 +59,7 @@ static void clamp_flip(u32 off)
 
 void bode_curves_zoom(void)
 {
-    if (B8(0x42E68BB0u + 0x17))
+    if (g_touch->serviced)
         return;
     BODES(f_040) = BODES(f_004) * SI(f_554) / BODES(freq_count);
     zoom_one(0x8D20);

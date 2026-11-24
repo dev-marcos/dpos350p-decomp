@@ -20,7 +20,6 @@
 u32 channel_level_mean_raw(u32 a, u32 ch, u32 n, u32 p) __asm__("channel_level_mean");
 
 #define SYS 0x40544E68u
-#define TCH 0x42E68BB0u
 
 #define K 0x429D3AB4u
 #define DIV W32(SYS + 0x26C)
@@ -110,7 +109,7 @@ void frontend_offset_calibrate(u32 r)
     SI(f_275) = 0;
     SI(f_660) = 0;
     SI(fpga_cmd62_value) = 1;
-    B8(TCH + 0x16) = 0;
+    g_touch->enabled = 0;
     outputs_apply();
     acquisition_dispatcher();
     w = (int)SI(f_1b4) - (int)SI(f_1b6);

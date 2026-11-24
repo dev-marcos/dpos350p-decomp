@@ -10,11 +10,9 @@
 #include "ui/draw.h"
 #include "ui/screens.h"
 
-#define TCH8(o)  (*(volatile unsigned char *)(0x42E68BB0u + (o)))   /* touch block */
-
 void sys_rect_redraw_gated(void)
 {
-    if (TCH8(0x17))
+    if (g_touch->serviced)
         return;
     enabled_trace_layers_clear();
     sys_rect_fill();

@@ -12,12 +12,11 @@
 #include "generator.h"
 #include "state/gen_block.h"
 
-
 void gen_fpga_settings_write(void)
 {
     u32 f, c, i;
     volatile unsigned short *smp;
-    if (*(volatile unsigned char *)(0x42E68BB0u + 0x17))
+    if (g_touch->serviced)
         return;
     f = GENS(period_len) * GENS(frequency);
     c = GENS(f_2f5c);

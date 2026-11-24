@@ -13,8 +13,6 @@
 
 #define SYS 0x40544E68u
 #define U 0x42E68998u                /* drag state */
-#define TCH 0x42E68BB0u              /* touch point: +4 / +6 now */
-#define S16(a) (*(volatile short *)(a))
 
 #define TRACES 0x413F92E8u           /* trace sample buffers */
 typedef double (*sqrt_fn)(double);
@@ -82,7 +80,7 @@ void trace_hit_main(u32 ch)
     u32 buf = ch == 0 ? TRACES : TRACES + 0x927C0u;
     u32 rng = ch == 0 ? 0x40545990u : 0x405459ACu, h, a, b;
     int n = 1 + 2 * (int)(SI(capture_count) * SI(f_5f8));
-    int rx = S16(TCH + 4) - SI(plot_x0), ty = S16(TCH + 6) - SI(plot_y0), best;
+    int rx = g_touch->down_x - SI(plot_x0), ty = g_touch->down_y - SI(plot_y0), best;
 
     best = trace_dist(buf, n, rx, ty, SI(f_010), SI(f_012));
     if (TCS(cursor_limit) < (u32)best) {

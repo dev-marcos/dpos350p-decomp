@@ -10,12 +10,11 @@
 #include "sys_info.h"
 #include "state/touch_ctl.h"
 
-#define TP      ((volatile short *)0x42E68BB0u)            /* touch block: x0, y0, x1, y1 (s16) */
 #define TS8     (*(volatile unsigned char *)0x42E68998u)   /* control code of the current touch */
 
 void touch_drag_delta_b(void)
 {
-    int dx = TP[2] - TP[0], dy = TP[3] - TP[1];
+    int dx = g_touch->down_x - g_touch->x, dy = g_touch->down_y - g_touch->y;
     if (SI(f_671)) {
         dx /= 10;
         dy /= 10;

@@ -13,7 +13,7 @@
 void window_touch_poll(void)
 {
     int i;
-    if (*(volatile unsigned char *)(0x42E68BB0u + 0x17))
+    if (g_touch->serviced)
         return;
     screenshot_button_poll();
     for (i = WS8(1); i >= 0; i--) {
@@ -22,5 +22,5 @@ void window_touch_poll(void)
         if (*(volatile unsigned char *)(0x42E64520u + id * 14 + 2) == 0)
             break;
     }
-    *(volatile unsigned char *)(0x42E68BB0u + 0xC) = 0;
+    g_touch->event = 0;
 }

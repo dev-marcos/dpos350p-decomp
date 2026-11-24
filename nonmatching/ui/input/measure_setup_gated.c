@@ -11,7 +11,7 @@
 
 void measure_setup_gated(void)
 {
-    if (*(volatile unsigned char *)0x42E68BC7u)
+    if (g_touch->serviced)
         return;
     measure_setup_62e14();
 }

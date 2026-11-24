@@ -11,7 +11,7 @@
 
 void levels_markers_draw_gated(void)
 {
-    if (*(volatile unsigned char *)0x42E68BC7u)
+    if (g_touch->serviced)
         return;
     levels_markers_draw();
 }

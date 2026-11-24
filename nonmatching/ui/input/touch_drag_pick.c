@@ -13,8 +13,6 @@
 
 #define SYS 0x40544E68u
 #define U 0x42E68998u                /* drag state */
-#define TCH 0x42E68BB0u              /* touch point: +4 / +6 now */
-#define S16(a) (*(volatile short *)(a))
 
 #define SPLIT B8(SYS + 0x2AA)
 
@@ -90,7 +88,7 @@ static u32 pick(void)
 
 void touch_drag_pick(void)
 {
-    if (S16(TCH + 4) == 0 && S16(TCH + 6) == 0) {
+    if (g_touch->down_x == 0 && g_touch->down_y == 0) {
         B8(U) = 0;
         return;
     }

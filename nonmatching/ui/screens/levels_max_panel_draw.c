@@ -16,7 +16,7 @@
 void levels_max_panel_draw(void)
 {
     u32 x, y, w;
-    if (B8(0x42E68BB0u + 0x17))
+    if (g_touch->serviced)
         return;
     x = LEVELS(plot_x) + 8;
     y = LEVELS(plot_y) + 8;

@@ -14,7 +14,7 @@
 void trace_defaults_37b48(void)
 {
     u32 i, v;
-    if (*(volatile unsigned char *)(0x42E68BB0u + 0x17))
+    if (g_touch->serviced)
         return;
     SI(ch1_enabled) = 1;
     SI(ch1_coupling) = 1;
@@ -25,7 +25,7 @@ void trace_defaults_37b48(void)
     SI(f_046) = 1;
     SI(f_10a) = 1;
     SI(f_54f) = 1;
-    *(volatile unsigned char *)(0x42E68BB0u + 0x16) = 1;
+    g_touch->enabled = 1;
     SI(f_2a9) = 0x21;
     SI(f_70d) = 1;
     SI(f_70d) = 0;

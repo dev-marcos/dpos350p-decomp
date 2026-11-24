@@ -16,7 +16,6 @@
 #include "shared/access.h"
 
 #define BB 0x42E180C8u
-#define TOUCH 0x42E68BB0u
 #define W(a) (*(volatile u32 *)(a))
 #define DD(a) (*(volatile double *)(a))
 #define BH(o) H16(BB + (o))
@@ -42,7 +41,7 @@ void bode_sweep_run(void)
     char buf[4];
     u32 i, n, pct;
     double l0, l1, span, step, r;
-    if (B8(TOUCH + 0x17))
+    if (g_touch->serviced)
         return;
     BODES(f_047) = 1;
     BODES(sweep_busy) = 0;
@@ -85,7 +84,7 @@ void bode_sweep_run(void)
         BD(0x3EE8 + 8 * i) = log10(r) * 20.0;
         bode_phase_measure(i & 0xFFFF);
         runtime_event_service();
-        if (B8(TOUCH + 0x15)) {
+        if (g_touch->busy2) {
             BODES(f_047) = 0;
             break;
         }

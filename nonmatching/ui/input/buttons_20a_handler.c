@@ -21,14 +21,13 @@ void ui_window_close_raw(u32 id) __asm__("ui_window_close");
 
 void inv_left(u32 id) __asm__("ui_window_invalidate_from");
 
-
 void buttons_20a_handler(void)
 {
     touch_group_020A();
     if (BREC(52, touch_code)) {
         int x, lo, hi, d, n;
         BREC_BYTE0 = 1;
-        x = *(volatile short *)0x42E68BB0u;
+        x = g_touch->x;
         lo = BREC(52, x0);
         hi = BREC(52, x1);
         if (x < lo)

@@ -8,8 +8,6 @@
 #include "hw/fpga.h"
 #include "ui/windows.h"
 
-#define TCH8(o)  (*(volatile unsigned char *)(0x42E68BB0u + (o)))   /* touch block */
-#define TCH16(o) (*(volatile short *)(0x42E68BB0u + (o)))
 #define WIN(id)  ((volatile unsigned char *)(0x42E64520u + (id) * 14u))
 #define WH(p, o) (*(volatile unsigned short *)((p) + (o)))
 #define WSTK     ((volatile unsigned char *)0x42E68BC8u)
@@ -20,7 +18,7 @@ void ui_windows_close_untouched(void)
     for (i = WSTK[1]; i >= 0; i--) {
         u32 id = WSTK[2 + i];
         volatile unsigned char *p = WIN(id);
-        int x = TCH16(4), y, a, r2;
+        int x = g_touch->down_x, y, a, r2;
         a = WH(p, 6);
         r2 = a;
         if (x >= a) {
@@ -28,7 +26,7 @@ void ui_windows_close_untouched(void)
             r2 = a;
             if (a >= x) {
                 a = WH(p, 8);
-                y = TCH16(6);
+                y = g_touch->down_y;
                 r2 = a;
                 if (y >= a) {
                     a = a + WH(p, 0xC);

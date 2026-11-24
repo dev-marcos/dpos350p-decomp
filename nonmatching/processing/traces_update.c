@@ -11,7 +11,7 @@
 
 void traces_update(void)
 {
-    if (*(volatile unsigned char *)0x42E68BC7u)
+    if (g_touch->serviced)
         return;
     if (SI(trigger_mode) == 1 && SI(acq_transition_flag) == 0 && SI(acq_done) == 0)
         return;

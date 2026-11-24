@@ -17,7 +17,7 @@ void levels_shade_draw(void)
     int top = MI(0xC0), y, x, d;
     double k1, k2;
     volatile short *lv;
-    if (*(volatile unsigned char *)(0x42E68BB0u + 0x17))
+    if (g_touch->serviced)
         return;
     k1 = 238.0 / (double)(top - LEVELS(f_160));
     k2 = 270.0 / (double)(top - LEVELS(f_168));

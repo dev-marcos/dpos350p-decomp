@@ -67,7 +67,7 @@ void factory_channel_gen_check(void)
     SI(ch1_enabled) = 1;
     SI(ch2_enabled) = 1;
     SI(f_660) = 5;
-    *(volatile unsigned char *)0x42E68BC6u = 0;
+    g_touch->enabled = 0;
     r &= cg_point(10000, 1250, 1000, 24, 5, 15, CG_FREQ | CG_AMP | CG_MEAN);
     r &= cg_point(10000, 1250, -1000, 24, 5, 15, CG_FREQ | CG_AMP | CG_MEAN);
     r &= cg_point(10000, 500, 400, 24, 6, 15, CG_FREQ | CG_AMP | CG_MEAN);

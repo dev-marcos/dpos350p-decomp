@@ -8,24 +8,21 @@
 #include "hw/fpga.h"
 #include "ui/input.h"
 
-#define TCH8(o)  (*(volatile unsigned char *)(0x42E68BB0u + (o)))   /* touch block */
-#define TCH16(o) (*(volatile short *)(0x42E68BB0u + (o)))
-
 void touch_button_update(volatile unsigned char *b)
 {
-    int x = TCH16(4), y;
+    int x = g_touch->down_x, y;
     if (!((int)*(volatile unsigned short *)(b + 2) < x))
         return;
     if (!(x < (int)*(volatile unsigned short *)(b + 6)))
         return;
-    y = TCH16(6);
+    y = g_touch->down_y;
     if (!((int)*(volatile unsigned short *)(b + 4) < y))
         return;
     if (!(y < (int)*(volatile unsigned short *)(b + 8)))
         return;
-    b[1] = TCH8(0xD);
-    if (TCH8(0xC) == 1)
+    b[1] = g_touch->touched;
+    if (g_touch->event == 1)
         b[0] = 1;
-    if (TCH8(0xC) == 2)
+    if (g_touch->event == 2)
         b[0] = 2;
 }

@@ -57,9 +57,6 @@ static void ft_fail2(u32 x, u32 y, u32 ok1, u32 ok2)
     ft_halt();
 }
 
-#define TS8(o)  (*(volatile unsigned char *)(0x42E68BB0u + (o)))
-#define TS16(o) (*(volatile short *)(0x42E68BB0u + (o)))
-
 void factory_test_tester(void)
 {
     fb_target_back();
@@ -79,7 +76,7 @@ void factory_test_tester(void)
     fb_present();
     do
         gt911_poll();
-    while (TS8(0xC) != 2 || (u32)(TS16(4) - 453) >= 0x77 || (u32)(TS16(6) - 241) >= 0x77);
+    while (g_touch->event != 2 || (u32)(g_touch->down_x - 453) >= 0x77 || (u32)(g_touch->down_y - 241) >= 0x77);
 
     fb_clear_current();
     text_draw(15, 15, (const char *)0x4008D7B0u);       /* 通道和信号发生器检测 ... */

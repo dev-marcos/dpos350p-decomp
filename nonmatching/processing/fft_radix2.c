@@ -80,7 +80,7 @@ void fft_radix2(int n, volatile float *x)
         }
         if (SI(f_54e) && !LEVELS(f_005)) {
             runtime_event_service();
-            if (B8(0x42E68BB0u + 0x15)) {
+            if (g_touch->busy2) {
                 LEVELS(f_004) = 0;
                 return;
             }

@@ -13,7 +13,7 @@
 
 void outputs_apply(void)
 {
-    if ((*(volatile unsigned char *)0x42E68BC7u))
+    if ((g_touch->serviced))
         return;
     acquisition_apply();
     frontend_apply_all();

@@ -12,7 +12,7 @@
 
 void acquisition_rearm(void)
 {
-    if ((*(volatile unsigned char *)0x42E68BC7u))
+    if ((g_touch->serviced))
         return;
     timebase_divisors_compute();
     if (SI(zoom_on))

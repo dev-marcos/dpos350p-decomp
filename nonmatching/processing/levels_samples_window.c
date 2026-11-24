@@ -27,7 +27,7 @@ void levels_samples_window(void)
     u32 n, nn, src, m, h2, wh;
     int w;
     volatile unsigned short *d, *p;
-    if (B8(0x42E68BB0u + 0x17))
+    if (g_touch->serviced)
         return;
     n = LEVELS(fft_points);
     bin = LEVELS(bin_width);

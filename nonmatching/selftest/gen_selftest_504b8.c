@@ -15,7 +15,6 @@
 #include "state/factory_block.h"
 #include "state/gen_block.h"
 
-
 /* one generator setting: amplitude word a, range byte b, level c, offset d; measure twice */
 static void st_step(u32 a, u32 b, u32 c, u32 d, int wait)
 {
@@ -45,7 +44,7 @@ void gen_selftest_504b8(void)
     SI(ch1_coupling) = 1;
     SI(ch2_coupling) = 1;
     SI(f_660) = 5;
-    *(volatile unsigned char *)(0x42E68BB0u + 0x16) = 0;
+    g_touch->enabled = 0;
     st_step(1000, 0x18, 6, 0, 1);
     {
         int q1 = (int)(SI(f_958) / 1000);

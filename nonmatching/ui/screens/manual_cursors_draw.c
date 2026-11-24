@@ -52,7 +52,7 @@ void manual_cursors_draw(void)
 {
     u32 x0, y0, right, bottom, h, h1, h2, v1, v2, i;
     int nx, ny, p;
-    if (B8(0x42E68BB0u + 0x17))
+    if (g_touch->serviced)
         return;
     if (SI(f_652))
         return;

@@ -35,7 +35,7 @@ static void scroll_rows(u32 buf, u32 ow, u32 oh)
 void auto_level_search(void)
 {
     u32 h, hi, lo, v, l;
-    if (*(volatile unsigned char *)(0x42E68BB0u + 0x17))
+    if (g_touch->serviced)
         return;
     SI(ch1_enabled) = 1;
     SI(ch2_enabled) = 0;
@@ -43,7 +43,7 @@ void auto_level_search(void)
     SI(ch1_offset) = 0xFA;
     SI(f_046) = 0;
     SI(f_54f) = 1;
-    *(volatile unsigned char *)(0x42E68BB0u + 0x16) = 1;
+    g_touch->enabled = 1;
     SI(f_275) = 1;
     h = SI(plot_height);
     SI(f_70d) = 0;

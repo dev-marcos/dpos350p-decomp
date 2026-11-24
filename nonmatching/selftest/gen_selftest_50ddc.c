@@ -14,7 +14,6 @@
 #include "state/factory_block.h"
 #include "state/gen_block.h"
 
-
 void gen_selftest_50ddc(void)
 {
     int amp = 1000, q1, q2;
@@ -24,7 +23,7 @@ void gen_selftest_50ddc(void)
     SI(ch2_enabled) = 1;
     SI(f_046) = 2;
     SI(f_10a) = 2;
-    *(volatile unsigned char *)(0x42E68BB0u + 0x16) = 0;
+    g_touch->enabled = 0;
     GENS(waveform) = 0;
     GENS(frequency) = 0x2160EC0;
     GENS(amplitude) = (u32)amp;

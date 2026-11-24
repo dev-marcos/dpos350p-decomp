@@ -14,7 +14,6 @@
 
 #define SYS 0x40544E68u
 #define BB 0x42E180C8u
-#define TOUCH 0x42E68BB0u
 #define W(a) (*(volatile u32 *)(a))
 #define DD(a) (*(volatile double *)(a))
 #define BH(o) H16(BB + (o))
@@ -53,7 +52,7 @@ static void message(u32 e)
 void bode_curves_draw(void)
 {
     u32 x, y;
-    if (B8(TOUCH + 0x17))
+    if (g_touch->serviced)
         return;
     curve(0x8D20, 0xFF8800);
     curve(0x9CC0, 0x88FF);

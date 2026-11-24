@@ -20,7 +20,7 @@ void split_window_marker_draw(void)
 {
     int half, c, lo, hi, w, x4, lo2, hi2;
 
-    if (B8(0x42E68BB0u + 0x17))
+    if (g_touch->serviced)
         return;
     if (SI(zoom_on) == 0)
         return;

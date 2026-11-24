@@ -32,7 +32,7 @@ void gen_selftest_4f89c(void)
     SI(ch2_offset) = e - 2 * h;
     SI(ch1_offset) = e + 2 * h;
     SI(f_660) = 5;
-    *(volatile unsigned char *)(0x42E68BB0u + 0x16) = 0;
+    g_touch->enabled = 0;
     apply2();
 
     e = SI(level_default);

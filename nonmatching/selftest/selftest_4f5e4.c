@@ -32,7 +32,7 @@ void selftest_4f5e4(void)
     SI(ch2_enabled) = 0;
     SI(ch1_vdiv_index) = 6;
     SI(fpga_cmd62_value) = 1;
-    *(volatile unsigned char *)(0x42E68BB0u + 0x16) = 0;
+    g_touch->enabled = 0;
     outputs_apply();
     *(volatile long long *)(0x40544E68u + 0x30) = 10;
     SI(f_640) = 10;

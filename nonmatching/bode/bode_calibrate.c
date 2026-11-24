@@ -19,7 +19,6 @@
 #define SYS 0x40544E68u
 #define BB 0x42E180C8u
 #define DREC 0x42E554B0u
-#define TOUCH 0x42E68BB0u
 #define W(a) (*(volatile u32 *)(a))
 #define DD(a) (*(volatile double *)(a))
 #define BH(o) H16(BB + (o))
@@ -50,8 +49,8 @@ void bode_calibrate(void)
     BW(0x50) = 0;
     GENS(amplitude) = 1000;
     GENS(offset) = 0;
-    B8(TOUCH + 0x16) = 0;
-    B8(TOUCH + 0x15) = 0;
+    g_touch->enabled = 0;
+    g_touch->busy2 = 0;
     for (i = 0;; ) {
         DD(DREC + 0x4C0 + 8 * i) = 1.0;
         W(DREC + 0xE20 + 8 * i) = 0;
@@ -81,5 +80,5 @@ void bode_calibrate(void)
     }
     if (BODES(f_ad19) && BODES(f_ad1a))
         settings_d_save();
-    B8(TOUCH + 0x16) = 1;
+    g_touch->enabled = 1;
 }
