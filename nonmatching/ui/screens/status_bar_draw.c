@@ -14,6 +14,7 @@
 #include "sys_info.h"
 #include "state/gen_block.h"
 #include "state/ui_windows.h"
+#include "state/ui_texts.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -29,8 +30,6 @@ void str_copy_raw(char *d, const char *s) __asm__("str_copy");
 #define TREC(o)   ((volatile unsigned char *)(0x42E61FF8u + (o)))
 #define TXE(k)    (0x42C2FE74u + (k) * 0x1A0u)
 #define TXP(k)    (*(const char *volatile *)TXE(k))
-#define TDX(k)    (*(volatile signed char *)(TXE(k) + 0x194))
-#define TDY(k)    (*(volatile signed char *)(TXE(k) + 0x195))
 
 struct sbc {
     long long v;
@@ -288,8 +287,8 @@ void status_bar_draw(void)
     sb_tile(x, y, 0x33FF88, "MOV");
     draw_colour_set(THEME(1));
     if (S8(0x671) == 0)
-        sb_text(x + TDX(65) + 7, y + TDY(65) + 0x19, TXP(65));
+        sb_text(x + TEXT_DX(UI_TEXT(65)) + 7, y + TEXT_DY(UI_TEXT(65)) + 0x19, TXP(65));
     else
-        sb_text(x + TDX(66) + 7, y + TDY(66) + 0x19, TXP(66));
+        sb_text(x + TEXT_DX(UI_TEXT(66)) + 7, y + TEXT_DY(UI_TEXT(66)) + 0x19, TXP(66));
     sb_button(x, y, 0xE8);
 }

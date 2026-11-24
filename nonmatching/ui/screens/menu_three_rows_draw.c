@@ -11,11 +11,11 @@
 #include "ui/screens.h"
 #include "state/ui_windows.h"
 #include "shared/access.h"
+#include "state/ui_texts.h"
 
 #define SYS 0x40544E68u
 
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed */
-#define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 
 void menu_three_rows_draw(void)
 {
@@ -31,12 +31,12 @@ void menu_three_rows_draw(void)
     rect_fill(x, y, w, h);
     for (i = 0; i < 3; i++) {
         sl = y + 0x14 + 0x3C * i;
-        e = TXT + 0x1A0 * (110 + i);
+        e = UI_TEXT(110 + i);
         rec = (volatile unsigned char *)(0x42E61FF8u + 0x340 + 0xA * i);
         draw_colour_set(W32(TH + 4));
         draw_text_shadowed((x + 0x14) & 0xFFFF, sl & 0xFFFF, 0x4008A038u + 0x170 * i, 2, 2, 0);
         draw_colour_set(W32(TH + 4));
-        text_shadow_draw((x + 0x41 + SB8(e + 0x194)) & 0xFFFF, (sl + 3 + SB8(e + 0x195)) & 0xFFFF, (const char *)W32(e), 1, 2, 0);
+        text_shadow_draw((x + 0x41 + TEXT_DX(e)) & 0xFFFF, (sl + 3 + TEXT_DY(e)) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
         icon_19c7c_draw((x + 0x14A) & 0xFFFF, sl & 0xFFFF);
         touch_button_set_rect(x, (sl - 0x14) & 0xFFFF, w, 0x3C, rec);
         if (rec[1]) {

@@ -11,19 +11,18 @@
 #include "ui/screens.h"
 #include "state/ui_windows.h"
 #include "shared/access.h"
+#include "state/ui_texts.h"
 
 #define SYS 0x40544E68u
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
-#define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
-#define ENT(n) (TXT + 0x1A0 * (n))
 
 static void label_row(u32 x, u32 y, u32 img, u32 e)
 {
     draw_colour_set(W32(TH + 4));
     draw_text_shadowed((x + 0x14) & 0xFFFF, y & 0xFFFF, img, 2, 2, 0);
     draw_colour_set(W32(TH + 4));
-    text_shadow_draw((x + 0x41 + SB8(e + 0x194)) & 0xFFFF, (y + SB8(e + 0x195) + 3) & 0xFFFF, (const char *)W32(e), 1, 2, 0);
+    text_shadow_draw((x + 0x41 + TEXT_DX(e)) & 0xFFFF, (y + TEXT_DY(e) + 3) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
 }
 
 /* one option button: selected when the setting byte at sel equals v; the text is centred, then moved
@@ -52,7 +51,7 @@ static void option(u32 xo, u32 r, u32 wd, u32 sel, u32 v, const char *s, int dx,
 
 static void ent_option(u32 xo, u32 r, u32 wd, u32 sel, u32 v, u32 e, u32 rec)
 {
-    option(xo, r, wd, sel, v, (const char *)W32(e), SB8(e + 0x194), SB8(e + 0x195), rec);
+    option(xo, r, wd, sel, v, TEXT_STR(e), TEXT_DX(e), TEXT_DY(e), rec);
 }
 
 void trigger_menu_draw(void)
@@ -66,28 +65,28 @@ void trigger_menu_draw(void)
     rect_fill(x, y, w, h);
 
     r = y + 0x19;
-    label_row(x, r, 0x4008ABB8u, ENT(37));
+    label_row(x, r, 0x4008ABB8u, UI_TEXT(37));
     r += 0x37;
-    ent_option(x + 0x14, r, 0x86, SYS + 0x27A, 0, ENT(41), 0x5B6);
-    ent_option(x + 0x9E, r, 0x86, SYS + 0x27A, 1, ENT(42), 0x5C0);
-    ent_option(x + 0x128, r, 0x86, SYS + 0x27A, 2, ENT(43), 0x5CA);
+    ent_option(x + 0x14, r, 0x86, SYS + 0x27A, 0, UI_TEXT(41), 0x5B6);
+    ent_option(x + 0x9E, r, 0x86, SYS + 0x27A, 1, UI_TEXT(42), 0x5C0);
+    ent_option(x + 0x128, r, 0x86, SYS + 0x27A, 2, UI_TEXT(43), 0x5CA);
 
     r += 0x41;
-    label_row(x, r, 0x4008AD28u, ENT(38));
+    label_row(x, r, 0x4008AD28u, UI_TEXT(38));
     r += 0x37;
-    ent_option(x + 0x14, r, 0xCB, SYS + 0x27B, 0, ENT(44), 0x5D4);
-    ent_option(x + 0xE3, r, 0xCB, SYS + 0x27B, 1, ENT(45), 0x5DE);
+    ent_option(x + 0x14, r, 0xCB, SYS + 0x27B, 0, UI_TEXT(44), 0x5D4);
+    ent_option(x + 0xE3, r, 0xCB, SYS + 0x27B, 1, UI_TEXT(45), 0x5DE);
 
     r += 0x41;
-    label_row(x, r, 0x4008AE98u, ENT(39));
+    label_row(x, r, 0x4008AE98u, UI_TEXT(39));
     r += 0x37;
     option(x + 0x14, r, 0xCB, SYS + 0x27C, 0, "CH1", 0, 0, 0x5E8);
     option(x + 0xE3, r, 0xCB, SYS + 0x27C, 1, "CH2", 0, 0, 0x5F2);
 
     r += 0x41;
-    label_row(x, r, 0x4008B008u, ENT(40));
+    label_row(x, r, 0x4008B008u, UI_TEXT(40));
     r += 0x37;
-    ent_option(x + 0x14, r, 0x63, SYS + 0x284, 0, ENT(140), 0x5FC);
+    ent_option(x + 0x14, r, 0x63, SYS + 0x284, 0, UI_TEXT(140), 0x5FC);
     option(x + 0x7B, r, 0x64, SYS + 0x284, 1, "L1", 0, 0, 0x606);
     option(x + 0xE3, r, 0x64, SYS + 0x284, 2, "L2", 0, 0, 0x610);
     option(x + 0x14B, r, 0x63, SYS + 0x284, 3, "L3", 0, 0, 0x61A);

@@ -13,12 +13,11 @@
 #include "state/touch_buttons.h"
 #include "state/ui_windows.h"
 #include "shared/access.h"
+#include "state/ui_texts.h"
 
 #define SYS 0x40544E68u
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
-#define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
-#define ENT(n) (TXT + 0x1A0 * (n))
 
 /* fill and text colour of option i */
 static void option_colours(int i, u32 *txt)
@@ -35,7 +34,7 @@ static void option_colours(int i, u32 *txt)
 void hires_menu_draw(void)
 {
     u32 x = WREC(16, x), y = WREC(16, y), w = WREC(16, w), h = WREC(16, h);
-    u32 e = ENT(36), e2 = ENT(140), r, txt, tw, xo, yb;
+    u32 e = UI_TEXT(36), e2 = UI_TEXT(140), r, txt, tw, xo, yb;
     const char *s;
     int i;
 
@@ -46,16 +45,16 @@ void hires_menu_draw(void)
     draw_colour_set(W32(TH + 4));
     draw_text_shadowed((x + 0x14) & 0xFFFF, (y + 0x17) & 0xFFFF, 0x4008C3FCu, 2, 2, 0);
     draw_colour_set(W32(TH + 4));
-    text_shadow_draw((x + 0x41 + SB8(e + 0x194)) & 0xFFFF, (y + 0x14 + SB8(e + 0x195) + 3) & 0xFFFF, (const char *)W32(e), 1, 2, 0);
-    tw = text_width((const char *)W32(e));
-    text_shadow_draw((tw + x + SB8(e + 0x194) + 0x49) & 0xFFFF, (y + 0x14 + SB8(e + 0x195) + 3) & 0xFFFF, (const char *)0x4008F8CCu, 1, 2, 0);
+    text_shadow_draw((x + 0x41 + TEXT_DX(e)) & 0xFFFF, (y + 0x14 + TEXT_DY(e) + 3) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
+    tw = text_width(TEXT_STR(e));
+    text_shadow_draw((tw + x + TEXT_DX(e) + 0x49) & 0xFFFF, (y + 0x14 + TEXT_DY(e) + 3) & 0xFFFF, (const char *)0x4008F8CCu, 1, 2, 0);
 
     r = (y + 0x50) & 0xFFFF;
     option_colours(0, &txt);
     rect_fill((x + 0x14) & 0xFFFF, r, 0x19A, 0x2D);
     draw_colour_set(txt);
-    tw = text_width((const char *)W32(e2));
-    text_draw((x + ((0x19A - tw) >> 1) + SB8(e2 + 0x194) + 0x14) & 0xFFFF, (r + SB8(e2 + 0x195) + 6) & 0xFFFF, (const char *)W32(e2));
+    tw = text_width(TEXT_STR(e2));
+    text_draw((x + ((0x19A - tw) >> 1) + TEXT_DX(e2) + 0x14) & 0xFFFF, (r + TEXT_DY(e2) + 6) & 0xFFFF, TEXT_STR(e2));
     tw = text_width((const char *)0x400903D8u);
     text_draw((x + 0x14 + ((0x19A - tw) >> 1)) & 0xFFFF, (r + 0x19) & 0xFFFF, (const char *)0x400903D8u);
     touch_button_set_rect((x + 0x14) & 0xFFFF, (r - 0xA) & 0xFFFF, 0x19A, 0x41, (volatile unsigned char *)(BTN + 0x55C));

@@ -10,20 +10,19 @@
 #include "ui/input.h"
 #include "ui/screens.h"
 #include "shared/access.h"
+#include "state/ui_texts.h"
 
 #define SYS 0x40544E68u
 #define LAY 0x42E64520u              /* UI layout table */
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
-#define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
-#define ENT(n) (TXT + 0x1A0 * (n))
 
 static void label_row(u32 x, u32 y, u32 img, u32 e)
 {
     draw_colour_set(W32(TH + 4));
     draw_text_shadowed((x + 0x14) & 0xFFFF, y & 0xFFFF, img, 2, 2, 0);
     draw_colour_set(W32(TH + 4));
-    text_shadow_draw((x + 0x41 + SB8(e + 0x194)) & 0xFFFF, (y + SB8(e + 0x195) + 3) & 0xFFFF, (const char *)W32(e), 1, 2, 0);
+    text_shadow_draw((x + 0x41 + TEXT_DX(e)) & 0xFFFF, (y + TEXT_DY(e) + 3) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
 }
 
 /* row with an ON/OFF switch at x + 0x172 and a full-width touch record */
@@ -78,11 +77,11 @@ static void channel_menu(u32 lay, u32 so, u32 ro, u32 en)
     rect_fill(x, y, w, h);
 
     r = y + 0x19;
-    label_row(x, r, 0x4008A488u, ENT(en));
+    label_row(x, r, 0x4008A488u, UI_TEXT(en));
     switch_row(x, r, w, B8(SYS + so + 0x3E), ro + 0x35E);
 
     r += 0x39;
-    label_row(x, r, 0x4008A5F8u, ENT(27));
+    label_row(x, r, 0x4008A5F8u, UI_TEXT(27));
     r += 0x39;
     for (k = 0; k < 3; k++) {
         xo = x + 0x14 + 0x8A * k;
@@ -94,31 +93,31 @@ static void channel_menu(u32 lay, u32 so, u32 ro, u32 en)
     }
 
     r += 0x43;
-    label_row(x, r, 0x4008A768u, ENT(28));
+    label_row(x, r, 0x4008A768u, UI_TEXT(28));
     r += 0x39;
     for (k = 0; k < 2; k++) {
         xo = x + 0x14 + 0xCF * k;
-        e = ENT(29 + k);
+        e = UI_TEXT(29 + k);
         draw_colour_set(option_fill(B8(SYS + so + 0x3F), k, xo, r, 0xCB));
-        tw = text_width((const char *)W32(e));
-        text_draw((x + ((0xCB - tw) >> 1) + SB8(e + 0x194) + 0x14 + 0xCF * k) & 0xFFFF, (r + SB8(e + 0x195) + 8) & 0xFFFF, (const char *)W32(e));
+        tw = text_width(TEXT_STR(e));
+        text_draw((x + ((0xCB - tw) >> 1) + TEXT_DX(e) + 0x14 + 0xCF * k) & 0xFFFF, (r + TEXT_DY(e) + 8) & 0xFFFF, TEXT_STR(e));
         option_button(xo, r, 0xCB, ro + 0x386 + 0xA * k);
     }
 
     r += 0x43;
-    label_row(x, r, 0x4008A8D8u, ENT(31));
+    label_row(x, r, 0x4008A8D8u, UI_TEXT(31));
     switch_row(x, r, w, B8(SYS + so + 0x42), ro + 0x39A);
 
     r += 0x39;
-    label_row(x, r, 0x4008AA48u, ENT(32));
+    label_row(x, r, 0x4008AA48u, UI_TEXT(32));
     r += 0x39;
     for (k = 0; k < 3; k++) {
         xo = x + 0x14 + 0x8A * k;
         draw_colour_set(option_fill(B8(SYS + so + 0x47), k, xo, r, 0x86));
         if (k == 0) {
-            e = ENT(33);
-            tw = text_width((const char *)W32(e));
-            text_draw((x + ((0x86 - tw) >> 1) + SB8(e + 0x194) + 0x14) & 0xFFFF, (r + SB8(e + 0x195) + 8) & 0xFFFF, (const char *)W32(e));
+            e = UI_TEXT(33);
+            tw = text_width(TEXT_STR(e));
+            text_draw((x + ((0x86 - tw) >> 1) + TEXT_DX(e) + 0x14) & 0xFFFF, (r + TEXT_DY(e) + 8) & 0xFFFF, TEXT_STR(e));
         } else {
             s = k == 1 ? (const char *)0x40090340u : "20M";
             tw = text_width(s);

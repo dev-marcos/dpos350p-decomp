@@ -11,6 +11,7 @@
 #include "ui/screens.h"
 #include "state/gen_block.h"
 #include "state/ui_windows.h"
+#include "state/ui_texts.h"
 
 #define U16(v)    ((v) & 0xFFFFu)
 #define PAL(i)    (*(volatile u32 *)(0x409223B4u + 4 * (i)))
@@ -20,8 +21,6 @@
 #define TREC(o)   ((volatile unsigned char *)(0x42E61FF8u + (o)))
 #define TXE(k)    (0x42C2FE74u + (k) * 0x1A0u)
 #define TXP(k)    (*(const char *volatile *)TXE(k))
-#define TDX(k)    (*(volatile signed char *)(TXE(k) + 0x194))
-#define TDY(k)    (*(volatile signed char *)(TXE(k) + 0x195))
 
 static void gs_text(u32 x, u32 y, const char *s)
 {
@@ -70,7 +69,7 @@ void gen_screen_draw(void)
     word_42e68c74_set(0x42E64A98u);
     draw_colour_set(0xC0C0C0);
     for (i = 0; i < 4; i++)
-        gs_text(x + 0x23 + TDX(46 + i), y + 0x17 + 0x3F * i + TDY(46 + i), TXP(46 + i));
+        gs_text(x + 0x23 + TEXT_DX(UI_TEXT(46 + i)), y + 0x17 + 0x3F * i + TEXT_DY(UI_TEXT(46 + i)), TXP(46 + i));
 
     half_42e68be2_set(2);                                      /* units */
     word_42e68c74_set(0x42E658D8u);
@@ -239,7 +238,7 @@ void gen_screen_draw(void)
             for (j = 0, cx = U16(x + 0x16); j < 5; j++, cx += 0x79, k++) {
                 u32 e = U16(k + 0x32);
                 int dw = (int)(0x75 - U16(text_width(TXP(e)))) / 2;
-                gs_text(cx + dw + TDX(e), cy + TDY(e) + 0xF, TXP(e));
+                gs_text(cx + dw + TEXT_DX(UI_TEXT(e)), cy + TEXT_DY(UI_TEXT(e)) + 0xF, TXP(e));
             }
         {
             u32 wv = GENS(waveform), e;
@@ -251,7 +250,7 @@ void gen_screen_draw(void)
             draw_colour_set(0);
             e = GENS(waveform) + 0x32;
             dw = (int)(0x75 - U16(text_width(TXP(e)))) / 2;
-            text_draw(U16(cx + dw + TDX(e)), U16(cy + TDY(e) + 0xF), TXP(e));
+            text_draw(U16(cx + dw + TEXT_DX(UI_TEXT(e))), U16(cy + TEXT_DY(UI_TEXT(e)) + 0xF), TXP(e));
         }
     }
 
@@ -263,6 +262,6 @@ void gen_screen_draw(void)
     draw_colour_set(0xBBBBBB);
     {
         u32 e = GENS(waveform) + 0x32;
-        gs_text(x + TDX(e) + 0x19, cy + TDY(e) - 0x17, TXP(e));
+        gs_text(x + TEXT_DX(UI_TEXT(e)) + 0x19, cy + TEXT_DY(UI_TEXT(e)) - 0x17, TXP(e));
     }
 }

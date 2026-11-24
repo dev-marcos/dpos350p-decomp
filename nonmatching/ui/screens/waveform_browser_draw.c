@@ -11,6 +11,7 @@
 #include "ui/input.h"
 #include "ui/screens.h"
 #include "util.h"
+#include "state/ui_texts.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -23,8 +24,6 @@ void waveform_path_make_raw(u32 v) __asm__("waveform_path_make");
 #define BRS16(o)  (*(volatile short *)(0x40544E68u + 0xF90u + (o)))
 #define TXE(k)    (0x42C2FE74u + (k) * 0x1A0u)
 #define TXP(k)    (*(const char *volatile *)TXE(k))
-#define TDX(k)    (*(volatile signed char *)(TXE(k) + 0x194))
-#define TDY(k)    (*(volatile signed char *)(TXE(k) + 0x195))
 #define TEXT_W    (*(volatile unsigned short *)0x42E68BE4u)
 #define TREC(o)   ((volatile unsigned char *)(0x42E61FF8u + (o)))
 #define THEME(o)  (*(volatile u32 *)(0x40544E68u + 0x3DD54Cu + (o)))
@@ -36,7 +35,7 @@ void waveform_path_make_raw(u32 v) __asm__("waveform_path_make");
 /* one text-table entry at (x + dx, y + dy) with a 1 x 2 shadow */
 static void tb_label(u32 x, u32 y, u32 k)
 {
-    text_shadow_draw(U16(x + TDX(k)), U16(y + TDY(k)), TXP(k), 1, 2, 0);
+    text_shadow_draw(U16(x + TEXT_DX(UI_TEXT(k))), U16(y + TEXT_DY(UI_TEXT(k))), TXP(k), 1, 2, 0);
 }
 
 static void tb_number(u32 x, u32 y, int v)
@@ -66,25 +65,25 @@ static void tb_bars(u32 x, u32 y, u32 w, u32 img, u32 title, u32 bar_rec)
     rect_fill(x, y, w, 0x1E);
     draw_colour_set(0xBBBBBB);
     draw_text_shadowed(U16(x + 5), U16(y + 5), img, 2, 2, 0);   /* stock: last argument is an unset stack byte */
-    text_shadow_draw(U16(x + TDX(title) + 0x23), U16(y + TDY(title) + 8), TXP(title), 1, 2, 0);
+    text_shadow_draw(U16(x + TEXT_DX(UI_TEXT(title)) + 0x23), U16(y + TEXT_DY(UI_TEXT(title)) + 8), TXP(title), 1, 2, 0);
     half_42e68be2_set(1);
     word_42e68c74_set(0x42E64A98u);
     draw_colour_set(0x777777);
     xa = x + 0x249;
     tb_label(xa, y + 7, 119);
-    xa = xa + TEXT_W + TDX(119) + 6;
+    xa = xa + TEXT_W + TEXT_DX(UI_TEXT(119)) + 6;
     tb_number(xa, y + 7, BRS16(0x10));
     tb_label(xa + TEXT_W + 6, y + 7, 120);
     xb = x + 0x2DF;
     tb_label(xb, y + 7, 119);
-    xb = xb + TEXT_W + TDX(119) + 6;
+    xb = xb + TEXT_W + TEXT_DX(UI_TEXT(119)) + 6;
     tb_number(xb, y + 7, BRS16(0x12));
     tb_label(xb + TEXT_W + 6, y + 7, 121);
     xa = x + 0x37A;
     tb_label(xa, y + 7, 123);
-    xa = xa + TEXT_W + TDX(123);
+    xa = xa + TEXT_W + TEXT_DX(UI_TEXT(123));
     tb_label(xa, y + 7, 122);
-    xa = xa + TEXT_W + TDX(122) + 6;
+    xa = xa + TEXT_W + TEXT_DX(UI_TEXT(122)) + 6;
     tb_number(xa, y + 7, BRS16(0xE) + 1);
     draw_colour_set(0);
     rect_fill(U16(x + 0x2C4), U16(y + 7), 2, 0xF);

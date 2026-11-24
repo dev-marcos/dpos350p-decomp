@@ -12,10 +12,9 @@
 #include "sys_info.h"
 #include "state/ui_windows.h"
 #include "shared/access.h"
+#include "state/ui_texts.h"
 
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
-#define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
-#define ENT(n) (TXT + 0x1A0 * (n))
 
 #define SYS 0x40544E68u
 #define BTN 0x42E61FF8u              /* touch button records; byte 0 is the pending-touch flag */
@@ -25,7 +24,7 @@ static void label_row(u32 x, u32 y, u32 img, u32 e)
     draw_colour_set(W32(TH + 4));
     draw_text_shadowed((x + 0x14) & 0xFFFF, y & 0xFFFF, img, 2, 2, 0);
     draw_colour_set(W32(TH + 4));
-    text_shadow_draw((x + 0x41 + SB8(e + 0x194)) & 0xFFFF, (y + SB8(e + 0x195) + 3) & 0xFFFF, (const char *)W32(e), 1, 2, 0);
+    text_shadow_draw((x + 0x41 + TEXT_DX(e)) & 0xFFFF, (y + TEXT_DY(e) + 3) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
 }
 
 /* row with the arrow icon; the pressed colour is set even when the row is not pressed */
@@ -53,15 +52,15 @@ void system_menu_draw(void)
     draw_colour_set(W32(TH));
     rect_fill(x, y, w, h);
     r = y + 0x14;
-    arrow_row(x, r, w, 0x4008B8A8u, ENT(9), 0xFC, 1);
+    arrow_row(x, r, w, 0x4008B8A8u, UI_TEXT(9), 0xFC, 1);
     r += 0x3C;
-    arrow_row(x, r, w, 0x40089BE8u, ENT(10), 0x17E, 2);
+    arrow_row(x, r, w, 0x40089BE8u, UI_TEXT(10), 0x17E, 2);
     r += 0x3C;
-    arrow_row(x, r, w, 0x40088EF8u, ENT(11), 0x192, 3);
+    arrow_row(x, r, w, 0x40088EF8u, UI_TEXT(11), 0x192, 3);
     r += 0x3C;
     draw_colour_set(W32(TH));
     rect_fill((x + 0xA) & 0xFFFF, (r - 0x10) & 0xFFFF, (w - 0x1E) & 0xFFFF, 0x78);
-    label_row(x, r, 0x40089068u, ENT(12));
+    label_row(x, r, 0x40089068u, UI_TEXT(12));
     r += 0x3C;
     for (k = 0; k < 5; k++) {
         xo = x + 0x14 + 0x45 * k;
@@ -81,10 +80,10 @@ void system_menu_draw(void)
     }
     word_42e68c74_set(0x42E658D8u);
     r += 0x48;
-    arrow_row(x, r, w, 0x400891D8u, ENT(13), 0x1D8, 5);
+    arrow_row(x, r, w, 0x400891D8u, UI_TEXT(13), 0x1D8, 5);
     word_42e68c74_set(0x42E658D8u);
     r += 0x3C;
-    arrow_row(x, r, w, 0x40089348u, ENT(14), 0x1E2, 5);
+    arrow_row(x, r, w, 0x40089348u, UI_TEXT(14), 0x1E2, 5);
     r += 0x3C;
-    arrow_row(x, r, w, 0x400894B8u, ENT(15), 0x1F6, 6);
+    arrow_row(x, r, w, 0x400894B8u, UI_TEXT(15), 0x1F6, 6);
 }

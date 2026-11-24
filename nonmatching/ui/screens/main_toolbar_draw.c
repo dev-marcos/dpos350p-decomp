@@ -11,12 +11,11 @@
 #include "ui/screens.h"
 #include "state/ui_windows.h"
 #include "shared/access.h"
+#include "state/ui_texts.h"
 
 #define SYS 0x40544E68u
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
-#define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
-#define ENT(n) (TXT + 0x1A0 * (n))
 
 #define TT (SYS + 0x3DD530)          /* toolbar theme: +0 fill, +4 icon, +8 text, +0x1C pressed */
 
@@ -45,15 +44,15 @@ void main_toolbar_draw(void)
     for (i = 0; i < 9; i++) {
         bx = x + 0x6A * i;
         wd = i == 8 ? 0x67 : 0x66;
-        e = ENT(i);
+        e = UI_TEXT(i);
         draw_colour_set(W32(TT));
         rect_fill(bx & 0xFFFF, y, wd, 0x2C);
         draw_colour_set(icon_colour(i));
         draw_colour_set(W32(TT + 4));
         draw_text_shadowed((bx + 0x2A) & 0xFFFF, (y + 2) & 0xFFFF, 0x40088208u + 0x170 * i, 2, 2, 0);
         draw_colour_set(W32(TT + 8));
-        tw = text_width((const char *)W32(e));
-        text_shadow_draw((bx + ((0x66 - tw) >> 1) + SB8(e + 0x194)) & 0xFFFF, (y + SB8(e + 0x195) + 0x19) & 0xFFFF, (const char *)W32(e), 1, 2, 0);
+        tw = text_width(TEXT_STR(e));
+        text_shadow_draw((bx + ((0x66 - tw) >> 1) + TEXT_DX(e)) & 0xFFFF, (y + TEXT_DY(e) + 0x19) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
         touch_button_set_rect(bx & 0xFFFF, y, 0x66, 0x2C, (volatile unsigned char *)(BTN + 2 + 0xA * i));
         if (B8(BTN + 3 + 0xA * i)) {
             draw_colour_set(W32(TT + 0x1C));

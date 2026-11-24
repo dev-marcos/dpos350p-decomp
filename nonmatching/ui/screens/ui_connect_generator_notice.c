@@ -10,13 +10,10 @@
 #include "ui/input.h"
 #include "ui/screens.h"
 #include "shared/access.h"
+#include "state/ui_texts.h"
 
 #define WR16(o) H16(0x42E64520u + (o))
 #define BTN ((volatile unsigned char *)0x42E61FF8u)
-#define TXE(k) (0x42C2FE74u + 0x1A0u * (k))
-#define TXS(k) ((const char *)W32(TXE(k)))
-#define DX(k) (*(volatile signed char *)(TXE(k) + 0x194))
-#define DY(k) (*(volatile signed char *)(TXE(k) + 0x195))
 #define U16(v) ((unsigned short)(v))
 #define COL(i) W32(0x40544E68u + 0x3DD550u + 4 * (i))
 
@@ -36,19 +33,19 @@ static void msgbox(u32 roff, u32 t, u32 b, u32 xo, u32 bd, u32 boff)
     x2 = x + 2;
     y2 = y + 0x14;
     draw_colour_set(COL(1));
-    tw = text_width(TXS(t));
-    text_shadow_draw(U16(x2 + ((iw - tw) >> 1) + DX(t)), U16(y2 + DY(t) + 3), TXS(t), 1, 2, 0);
-    text_shadow_draw(U16(x2 + DX(b) + xo), U16(y2 + DY(b) + 0x23), TXS(b), 1, 2, 0);
-    text_shadow_draw(U16(x2 + DX(b + 1) + xo), U16(y2 + DY(b + 1) + 0x39), TXS(b + 1), 1, 2, 0);
-    text_shadow_draw(U16(x2 + DX(b + 2) + xo), U16(y2 + DY(b + 2) + 0x4F), TXS(b + 2), 1, 2, 0);
+    tw = text_width(TEXT_STR(UI_TEXT(t)));
+    text_shadow_draw(U16(x2 + ((iw - tw) >> 1) + TEXT_DX(UI_TEXT(t))), U16(y2 + TEXT_DY(UI_TEXT(t)) + 3), TEXT_STR(UI_TEXT(t)), 1, 2, 0);
+    text_shadow_draw(U16(x2 + TEXT_DX(UI_TEXT(b)) + xo), U16(y2 + TEXT_DY(UI_TEXT(b)) + 0x23), TEXT_STR(UI_TEXT(b)), 1, 2, 0);
+    text_shadow_draw(U16(x2 + TEXT_DX(UI_TEXT(b + 1)) + xo), U16(y2 + TEXT_DY(UI_TEXT(b + 1)) + 0x39), TEXT_STR(UI_TEXT(b + 1)), 1, 2, 0);
+    text_shadow_draw(U16(x2 + TEXT_DX(UI_TEXT(b + 2)) + xo), U16(y2 + TEXT_DY(UI_TEXT(b + 2)) + 0x4F), TEXT_STR(UI_TEXT(b + 2)), 1, 2, 0);
     bx = x2 + 0x14;
     bw = U16(iw - 0x28);
     by = y2 + 0x6E + bd;
     draw_colour_set(COL(3));
     rect_fill(U16(bx), U16(by), bw, 0x28);
     draw_colour_set(COL(1));
-    tw = text_width(TXS(95));
-    text_shadow_draw(U16(x2 + ((iw - tw) >> 1) + DX(95)), U16(y2 + DY(95) + 0x7A + bd), TXS(95), 1, 2, 0);
+    tw = text_width(TEXT_STR(UI_TEXT(95)));
+    text_shadow_draw(U16(x2 + ((iw - tw) >> 1) + TEXT_DX(UI_TEXT(95))), U16(y2 + TEXT_DY(UI_TEXT(95)) + 0x7A + bd), TEXT_STR(UI_TEXT(95)), 1, 2, 0);
     touch_button_set_rect(U16(bx), U16(y2 + 0x64 + bd), bw, 0x3C, BTN + boff);
     if (BTN[boff + 1]) {
         draw_colour_set(COL(2));

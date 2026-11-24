@@ -12,12 +12,11 @@
 #include "util.h"
 #include "state/ui_windows.h"
 #include "shared/access.h"
+#include "state/ui_texts.h"
 
 #define SYS 0x40544E68u
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
-#define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
-#define ENT(n) (TXT + 0x1A0 * (n))
 
 /* the stock code measures "Dt+" / "Dt-" but draws "Du+" / "Du-" (the centring uses the other text) */
 static const char ms_text[12][5] = { "Vmax", "Vmin", "Vavg", "Vrms", "Vp", "Vpp", "F", "T", "T+", "T-", "Dt+", "Dt-" };
@@ -57,7 +56,7 @@ static void header(u32 x, u32 y, u32 e)
     draw_colour_set(W32(TH + 4));
     draw_text_shadowed((x + 0x14) & 0xFFFF, y & 0xFFFF, 0x40089EC8u, 2, 2, 0);
     draw_colour_set(W32(TH + 4));
-    text_shadow_draw((x + SB8(e + 0x194) + 0x41) & 0xFFFF, (y + SB8(e + 0x195) + 3) & 0xFFFF, (const char *)W32(e), 1, 2, 0);
+    text_shadow_draw((x + TEXT_DX(e) + 0x41) & 0xFFFF, (y + TEXT_DY(e) + 3) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
 }
 
 void measure_select_menu_draw(void)
@@ -68,10 +67,10 @@ void measure_select_menu_draw(void)
     half_42e68be2_set(1);
     draw_colour_set(W32(TH));
     rect_fill(x & 0xFFFF, y, w, h);
-    header(x, y + 0x14, ENT(23));
+    header(x, y + 0x14, UI_TEXT(23));
     half_42e68be2_set(2);
     measure_rows(x + 0x14, y + 0x50, 0);
     half_42e68be2_set(1);
-    header(x, y + 0xFA, ENT(24));
+    header(x, y + 0xFA, UI_TEXT(24));
     measure_rows(x + 0x14, y + 0x136, 1);
 }

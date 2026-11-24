@@ -10,13 +10,10 @@
 #include "ui/input.h"
 #include "ui/screens.h"
 #include "shared/access.h"
+#include "state/ui_texts.h"
 
 #define WR16(o) H16(0x42E64520u + (o))
 #define BTN ((volatile unsigned char *)0x42E61FF8u)
-#define TXE(k) (0x42C2FE74u + 0x1A0u * (k))
-#define TXS(k) ((const char *)W32(TXE(k)))
-#define DX(k) (*(volatile signed char *)(TXE(k) + 0x194))
-#define DY(k) (*(volatile signed char *)(TXE(k) + 0x195))
 #define U16(v) ((unsigned short)(v))
 #define COL(i) W32(0x40544E68u + 0x3DD54Cu + 4 * (i))
 
@@ -32,11 +29,11 @@ static void delete_dialog(u32 roff, u32 boff, int dx_in_x2)
     half_42e68be2_set(1);
     word_42e68c74_set(0x42E658D8u);
     x1 = U16(x + 0x38);
-    text_shadow_draw(U16(x1 + DX(118)), U16(ty + DY(118)), TXS(118), 1, 2, 0);
-    x2 = U16(H16(0x42E68BE4u) + x1 + (dx_in_x2 ? DX(118) : 0) + 8);
+    text_shadow_draw(U16(x1 + TEXT_DX(UI_TEXT(118))), U16(ty + TEXT_DY(UI_TEXT(118))), TEXT_STR(UI_TEXT(118)), 1, 2, 0);
+    x2 = U16(H16(0x42E68BE4u) + x1 + (dx_in_x2 ? TEXT_DX(UI_TEXT(118)) : 0) + 8);
     text_d6f8_shadow_draw(x2, U16(ty), H16(0x40544E68u + 0x88BE), 0, 0, 1, 2, 0);
     x3 = U16(H16(0x42E68BE4u) + x2 + 8);
-    text_shadow_draw(U16(x3 + DX(120)), U16(ty + DY(120)), TXS(120), 1, 2, 0);
+    text_shadow_draw(U16(x3 + TEXT_DX(UI_TEXT(120))), U16(ty + TEXT_DY(UI_TEXT(120))), TEXT_STR(UI_TEXT(120)), 1, 2, 0);
     text_shadow_draw(U16(H16(0x42E68BE4u) + x3), U16(ty), " ?", 1, 2, 0);
     bx = cx - 0x78;
     by = y + 0x50;
@@ -48,8 +45,8 @@ static void delete_dialog(u32 roff, u32 boff, int dx_in_x2)
         rect_fill(U16(bx), U16(by), 0xF0, 0x32);
     }
     draw_colour_set(COL(2));
-    tw = text_width(TXS(95));
-    text_shadow_draw(U16(x + ((w - tw) >> 1) + DX(95)), U16(by + DY(95) + 0x14), TXS(95), 1, 2, 0);
+    tw = text_width(TEXT_STR(UI_TEXT(95)));
+    text_shadow_draw(U16(x + ((w - tw) >> 1) + TEXT_DX(UI_TEXT(95))), U16(by + TEXT_DY(UI_TEXT(95)) + 0x14), TEXT_STR(UI_TEXT(95)), 1, 2, 0);
 }
 
 void ui_delete_confirm_180(void)

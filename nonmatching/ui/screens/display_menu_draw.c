@@ -12,6 +12,7 @@
 #include "sys_info.h"
 #include "state/ui_windows.h"
 #include "shared/access.h"
+#include "state/ui_texts.h"
 
 /* Same functions, declared the way the stock code calls them (see the definitions for the
  * full interface): the C must pass exactly these registers. */
@@ -19,16 +20,14 @@ u32 number_text_width_mode0_raw(u32 a, u32 b, u32 c) __asm__("number_text_width_
 
 #define SYS 0x40544E68u
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
-#define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
-#define ENT(n) (TXT + 0x1A0 * (n))
 
 static void label_row(u32 x, u32 y, u32 img, u32 e)
 {
     draw_colour_set(W32(TH + 4));
     draw_text_shadowed((x + 0x14) & 0xFFFF, y & 0xFFFF, img, 2, 2, 0);
     draw_colour_set(W32(TH + 4));
-    text_shadow_draw((x + 0x41 + SB8(e + 0x194)) & 0xFFFF, (y + SB8(e + 0x195) + 3) & 0xFFFF, (const char *)W32(e), 1, 2, 0);
+    text_shadow_draw((x + 0x41 + TEXT_DX(e)) & 0xFFFF, (y + TEXT_DY(e) + 3) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
 }
 
 static void wide_button(u32 x, u32 y, u32 w, u32 rec)
@@ -49,7 +48,7 @@ void display_menu_draw(void)
     half_42e68be2_set(1);
     draw_colour_set(W32(TH));
     rect_fill(x, y, w, h);
-    label_row(x, r0, 0x40089628u, ENT(16));
+    label_row(x, r0, 0x40089628u, UI_TEXT(16));
     text_shadow_draw((x + w - 0x1C) & 0xFFFF, (r0 + 3) & 0xFFFF, "%", 1, 2, 0);
     half_42e68be2_set(3);
     nw = number_text_width_mode0_raw(SI(waveform_light), 0, 0);
@@ -59,28 +58,28 @@ void display_menu_draw(void)
     touch_button_set_rect(x, (r0 + 0x3C - 0x16) & 0xFFFF, w, 0x3C, (volatile unsigned char *)(BTN + 0x20A));
 
     r = (r0 + 0x3C + 0x3D) & 0xFFFF;
-    label_row(x, r, 0x40089798u, ENT(17));
+    label_row(x, r, 0x40089798u, UI_TEXT(17));
     switch_on_off_draw((x + 0x172) & 0xFFFF, (r - 5) & 0xFFFF, SI(palette_alt));
     wide_button(x, r, w, 0x214);
     r = (r + 0x3C) & 0xFFFF;
-    label_row(x, r, 0x40089908u, ENT(18));
+    label_row(x, r, 0x40089908u, UI_TEXT(18));
     switch_on_off_draw((x + 0x172) & 0xFFFF, (r - 5) & 0xFFFF, SI(f_652));
     wide_button(x, r, w, 0x21E);
     r = (r + 0x3C) & 0xFFFF;
-    label_row(x, r, 0x40089A78u, ENT(19));
+    label_row(x, r, 0x40089A78u, UI_TEXT(19));
     switch_on_off_draw((x + 0x172) & 0xFFFF, (r - 5) & 0xFFFF, SI(grid_on));
     wide_button(x, r, w, 0x228);
 
     r += 0x3C;
-    label_row(x, r, 0x40089D58u, ENT(20));
+    label_row(x, r, 0x40089D58u, UI_TEXT(20));
     icon_19c7c_draw((x + 0x186) & 0xFFFF, r & 0xFFFF);
     wide_button(x, r, w, 0x232);
     r += 0x3C;
-    label_row(x, r, 0x4008BB88u, ENT(21));
+    label_row(x, r, 0x4008BB88u, UI_TEXT(21));
     icon_19c7c_draw((x + 0x186) & 0xFFFF, r & 0xFFFF);
     wide_button(x, r, w, 0x23C);
     r += 0x3C;
-    label_row(x, r, 0x4008BCF8u, ENT(22));
+    label_row(x, r, 0x4008BCF8u, UI_TEXT(22));
     half_42e68be2_set(2);
     text_shadow_draw((H16(0x42E68BE4u) + x + 0x41) & 0xFFFF, (r + 3) & 0xFFFF, (const char *)0x40090318u, 1, 2, 0);
     half_42e68be2_set(1);

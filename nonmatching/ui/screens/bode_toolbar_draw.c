@@ -13,13 +13,12 @@
 #include "state/touch_buttons.h"
 #include "state/ui_windows.h"
 #include "shared/access.h"
+#include "state/ui_texts.h"
 
 #define SYS 0x40544E68u
 #define TT (SYS + 0x3DD530)          /* toolbar theme: +0 fill, +4 icon, +8 text, +0x1C pressed */
-#define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
 #define BODE 0x42E180C8u             /* frequency-response view block */
-#define ENT(n) (TXT + 0x1A0 * (n))
 
 /* one toolbar button: background, icon (colour c is set and at once replaced by the theme
    colour, as in the stock code), centred label of text entry e, touch record, pressed shade */
@@ -33,8 +32,8 @@ static void tool_button(u32 tx, u32 y, u32 c, u32 img, u32 e, u32 rec)
     draw_colour_set(W32(TT + 4));
     draw_text_shadowed((tx + 0x49) & 0xFFFF, (y + 2) & 0xFFFF, img, 2, 2, 0);
     draw_colour_set(W32(TT + 8));
-    tw = text_width((const char *)W32(e));
-    text_shadow_draw((tx + ((0xA6 - tw) >> 1) + SB8(e + 0x194)) & 0xFFFF, (y + SB8(e + 0x195) + 0x19) & 0xFFFF, (const char *)W32(e), 1, 2, 0);
+    tw = text_width(TEXT_STR(e));
+    text_shadow_draw((tx + ((0xA6 - tw) >> 1) + TEXT_DX(e)) & 0xFFFF, (y + TEXT_DY(e) + 0x19) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
     touch_button_set_rect(tx & 0xFFFF, y, 0xA6, 0x2C, (volatile unsigned char *)(BTN + rec));
     if (B8(BTN + rec + 1)) {
         draw_colour_set(W32(TT + 0x1C));
@@ -53,10 +52,10 @@ void bode_toolbar_draw(void)
     draw_colour_set(0);
     rect_fill(x, y, w, h);
     tx = x + 3;
-    tool_button(tx, y, 0xAA8855, 0x40089348u, ENT(67), 0xAC0);
-    tool_button(tx + 0xAA, y, 0x5588AA, 0x40089BE8u, ENT(68), 0xACA);
-    tool_button(tx + 0xAA * 2, y, 0x88AA55, 0x40088C18u, ENT(7), 0xAD4);
-    tool_button(tx + 0xAA * 3, y, 0x55AA88, 0x400887C8u, ENT(69), 0xADE);
+    tool_button(tx, y, 0xAA8855, 0x40089348u, UI_TEXT(67), 0xAC0);
+    tool_button(tx + 0xAA, y, 0x5588AA, 0x40089BE8u, UI_TEXT(68), 0xACA);
+    tool_button(tx + 0xAA * 2, y, 0x88AA55, 0x40088C18u, UI_TEXT(7), 0xAD4);
+    tool_button(tx + 0xAA * 3, y, 0x55AA88, 0x400887C8u, UI_TEXT(69), 0xADE);
 
     /* button 4: the label follows the sweep mode, chosen after the text colour is set */
     tx += 0xAA * 4;
@@ -67,9 +66,9 @@ void bode_toolbar_draw(void)
     draw_text_shadowed((tx + 0x49) & 0xFFFF, (y + 2) & 0xFFFF, 0x4008BA18u, 2, 2, 0);
     draw_colour_set(W32(TT + 8));
     {
-        u32 e = BODES(loop) ? ENT(70) : ENT(71);
-        u32 tw = text_width((const char *)W32(e));
-        text_shadow_draw((tx + ((0xA6 - tw) >> 1) + SB8(e + 0x194)) & 0xFFFF, (y + SB8(e + 0x195) + 0x19) & 0xFFFF, (const char *)W32(e), 1, 2, 0);
+        u32 e = BODES(loop) ? UI_TEXT(70) : UI_TEXT(71);
+        u32 tw = text_width(TEXT_STR(e));
+        text_shadow_draw((tx + ((0xA6 - tw) >> 1) + TEXT_DX(e)) & 0xFFFF, (y + TEXT_DY(e) + 0x19) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
     }
     touch_button_set_rect(tx & 0xFFFF, y, 0xA6, 0x2C, (volatile unsigned char *)(BTN + 0xAF2));
     if (BREC(280, touch_code)) {

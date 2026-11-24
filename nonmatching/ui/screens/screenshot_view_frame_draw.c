@@ -13,12 +13,11 @@
 #include "sys_info.h"
 #include "state/ui_windows.h"
 #include "shared/access.h"
+#include "state/ui_texts.h"
 
 #define SYS 0x40544E68u
 
-#define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
-#define ENT(n) (TXT + 0x1A0 * (n))
 
 void screenshot_view_frame_draw(void)
 {
@@ -37,8 +36,8 @@ void screenshot_view_frame_draw(void)
     }
     draw_colour_set(0xDDDDDD);
     draw_text_shadowed((x + 5) & 0xFFFF, (y + 5) & 0xFFFF, 0x4008A038u, 2, 2, 0);
-    e = ENT(110);
-    text_shadow_draw((x + SB8(e + 0x194) + 0x23) & 0xFFFF, (y + SB8(e + 0x195) + 8) & 0xFFFF, (const char *)W32(e), 1, 2, 0);
+    e = UI_TEXT(110);
+    text_shadow_draw((x + TEXT_DX(e) + 0x23) & 0xFFFF, (y + TEXT_DY(e) + 8) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
 
     half_42e68be2_set(1);
     word_42e68c74_set(0x42E658D8u);
@@ -70,8 +69,8 @@ void screenshot_view_frame_draw(void)
     }
     draw_colour_set(0xAAAAAA);
     for (k = 0; k < 4; k++) {
-        e = ENT(k ? 114 + k : 67);
-        tw = text_width((const char *)W32(e));
-        text_shadow_draw((x + 0xFF * k + ((0xFD - tw) >> 1) + SB8(e + 0x194)) & 0xFFFF, (ny + SB8(e + 0x195) + 0x16) & 0xFFFF, (const char *)W32(e), 1, 2, 0);
+        e = UI_TEXT(k ? 114 + k : 67);
+        tw = text_width(TEXT_STR(e));
+        text_shadow_draw((x + 0xFF * k + ((0xFD - tw) >> 1) + TEXT_DX(e)) & 0xFFFF, (ny + TEXT_DY(e) + 0x16) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
     }
 }

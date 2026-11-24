@@ -13,12 +13,11 @@
 #include "state/touch_buttons.h"
 #include "state/ui_windows.h"
 #include "shared/access.h"
+#include "state/ui_texts.h"
 
 #define SYS 0x40544E68u
 #define TH (SYS + 0x3DD550)          /* theme colours: fill, text, pressed, ... */
-#define TXT 0x42C2FE74u              /* text table, 0x1A0 bytes per entry */
 #define BTN 0x42E61FF8u              /* touch button records */
-#define ENT(n) (TXT + 0x1A0 * (n))
 
 static const char tb_text[30][6] = {
     "20S", "10S", "5S", "2S", "1S", "500mS",
@@ -55,8 +54,8 @@ void timebase_menu_draw(void)
     draw_colour_set(W32(TH + 4));
     draw_text_shadowed((x + 0x14) & 0xFFFF, (y + 0x17) & 0xFFFF, 0x4008B178u, 2, 2, 0);
     draw_colour_set(W32(TH + 4));
-    e = SI(zoom_on) ? ENT(35) : ENT(34);
-    text_shadow_draw((x + SB8(e + 0x194) + 0x41) & 0xFFFF, (y + 0x17 + SB8(e + 0x195) + 3) & 0xFFFF, (const char *)W32(e), 1, 2, 0);
+    e = SI(zoom_on) ? UI_TEXT(35) : UI_TEXT(34);
+    text_shadow_draw((x + TEXT_DX(e) + 0x41) & 0xFFFF, (y + 0x17 + TEXT_DY(e) + 3) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
     half_42e68be2_set(2);
 
     xo = x + 0x168;
