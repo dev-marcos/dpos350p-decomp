@@ -10,7 +10,6 @@
 #include "processing.h"
 #include "state/bode_block.h"
 
-#define TC32(o) (*(volatile int *)(0x42E180C8u + (o)))
 #define Q32(o) (*(volatile int *)(0x42E42884u + (o)))
 
 void trace_cursor_limits(void)
@@ -46,11 +45,11 @@ void trace_cursor_limits(void)
         if (a >= b)
             b = a;
     }
-    v = TC32(0x5C);
+    v = BODES(freq_count);
     if (v > 500)
-        TC32(0x5C) = 500;
+        BODES(freq_count) = 500;
     else if (v < 20)
-        TC32(0x5C) = 20;
+        BODES(freq_count) = 20;
     Q32(0) = BODES(amplitude);
     Q32(4) = BODES(offset);
     BODES(stop_freq) = b;

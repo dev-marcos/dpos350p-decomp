@@ -8,6 +8,7 @@
 #include "hw/fpga.h"
 #include "ui/windows.h"
 #include "shared/access.h"
+#include "state/bode_block.h"
 
 #define SYS 0x40544E68u
 #define U64(a) (*(volatile unsigned long long *)(a))
@@ -200,12 +201,12 @@ void ui_layout_init(void)
     H16(0x42E64714u) = 0x3FC;
     H16(0x42E64716u) = 0x39;
     B8(0x42E6471Au) = 0x1;
-    H16(0x42E6471Eu) = H16(0x42E180C8u);
-    H16(0x42E64720u) = H16(0x42E180CAu);
-    H16(0x42E64722u) = H16(0x42E180CCu);
+    H16(0x42E6471Eu) = BODES(plot_x);
+    H16(0x42E64720u) = BODES(plot_y);
+    H16(0x42E64722u) = BODES(plot_w);
     B8(0x42E6471Cu) = 0x1;
     H16(0x42E6474Au) = 0x228;
-    H16(0x42E64724u) = H16(0x42E180CEu);
+    H16(0x42E64724u) = BODES(plot_h);
     B8(0x42E64728u) = 0x0;
     H16(0x42E6472Cu) = 0x8C;
     H16(0x42E6472Eu) = 0x32;

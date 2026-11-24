@@ -9,6 +9,7 @@
 #include "system.h"
 #include "sys_info.h"
 #include "state/gen_block.h"
+#include "state/bode_block.h"
 
 #define SYS 0x40544E68u
 #define H16(a) (*(volatile unsigned short *)(a))
@@ -94,14 +95,14 @@ void system_defaults_init(void)
     W32(0x42E6899Cu) = 0x32;
     W32(0x42E689F8u) = 0x46;
     W32(0x42E68A0Cu) = 0x46;
-    H16(0x42E180C8u) = 0x46;
-    H16(0x42E180CCu) = 0x363;
-    H16(0x42E180D0u) = 0x121;
-    H16(0x42E180CAu) = 0x30;
-    H16(0x42E180CEu) = 0x1E0;
-    H16(0x42E180D2u) = 0x3;
-    H16(0x42E180D4u) = 0x50;
-    H16(0x42E180D6u) = 0x6;
+    BODES(plot_x) = 0x46;
+    BODES(plot_w) = 0x363;
+    BODES(decade_w) = 0x121;
+    BODES(plot_y) = 0x30;
+    BODES(plot_h) = 0x1E0;
+    BODES(decades) = 0x3;
+    BODES(row_h) = 0x50;
+    BODES(rows) = 0x6;
     W32(0x42E6871Cu) = 0x30;
     W32(0x42E68728u) = 0x1E0;
     W32(0x42E68718u) = 0x48;

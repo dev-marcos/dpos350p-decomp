@@ -8,13 +8,14 @@
 #include "hw/fpga.h"
 #include "ui/input.h"
 #include "state/touch_ctl.h"
+#include "state/bode_block.h"
 
 #define TS8     (*(volatile unsigned char *)0x42E68998u)   /* control code of the current touch */
 
 void touch_drag_delta_d(void)
 {
     int dx = g_touch->down_x - g_touch->x, dy = g_touch->down_y - g_touch->y;
-    if (*(volatile unsigned char *)(0x42E180C8u + 0x46)) {
+    if (BODES(move_slow)) {
         dx /= 10;
         dy /= 10;
     }

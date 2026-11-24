@@ -12,9 +12,6 @@
 #include "state/entry_pad.h"
 #include "state/touch_buttons.h"
 
-
-#define TT32(o) (*(volatile u32 *)(0x42E180C8u + (o)))
-
 void bode_settings_numpad_buttons(void)
 {
     u32 ptr, b, w, fld;
@@ -35,7 +32,7 @@ void bode_settings_numpad_buttons(void)
         ptr = NUMPAD(target_2);
         b = NUMPAD(f_04c);
         w = NUMPAD(f_050);
-        fld = TT32(0x48);
+        fld = BODES(f_048);
         if (BREC(284, state) == 2) {
             BREC(284, state) = 0;
             BREC_BYTE0 = 0;
@@ -60,7 +57,7 @@ void bode_settings_numpad_buttons(void)
             BODES(move_slow) = BODES(move_slow) == 0;
         }
     }
-    TT32(0x48) = fld;
+    BODES(f_048) = fld;
     NUMPAD(f_050) = w;
     NUMPAD(f_04c) = b;
     NUMPAD(target_2) = ptr;

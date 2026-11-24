@@ -10,7 +10,6 @@
 #include "ui/screens.h"
 #include "state/bode_block.h"
 
-#define BB 0x42E180C8u
 #define U16(v) ((unsigned short)(v))
 #define TW (*(volatile unsigned short *)0x42E68BE4u)
 
@@ -52,7 +51,7 @@ void bode_cursors_draw(void)
 {
     u32 x1, top, i, x, y;
     int c1, c2, n;
-    if (*(volatile unsigned char *)(BB + 0xAC60) == 0)
+    if (BODES(cursors_on) == 0)
         return;
     x1 = BODES(plot_x) + 1;
     top = BODES(plot_y) + 2;

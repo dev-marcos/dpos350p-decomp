@@ -234,7 +234,7 @@ MUTANTS = [
     # batch 24: display bring-up, defaults, state init, SPI erase/write
     (0x4003E63C, "if (pin == 12)", "if (pin == 11)"),
     (0x4003ED28, 'GENS(f_2f08) = 500;', 'GENS(f_2f08) = 1000;'),
-    (0x4003ED80, "W(0xAC64) = h / 5u;", "W(0xAC64) = h / 4u;"),
+    (0x4003ED80, 'BODES(cursor1) = h / 5u;', 'BODES(cursor1) = h / 4u;'),
     (0x4003EDF4, "W(0x5C) = v / 5;", "W(0x5C) = (u32)v / 5u;"),
     (0x4003EF1C, 'SI(f_bc9) = ~SI(ch2_vdiv_index);', 'SI(f_bc9) = ~SI(ch1_vdiv_index);'),
     (0x4003EFAC, "memset_w((void *)0x42E68BCAu, 0, 0x14);", "memset_w((void *)0x42E68BC8u, 0, 0x14);"),
