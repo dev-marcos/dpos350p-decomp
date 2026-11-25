@@ -161,6 +161,23 @@ The record tables are arrays of `struct touch_button` (state, touch code, rectan
 button record 182, the record that the older names call by its byte offset (2 + 10 x 182 =
 0x71E). The byte before button record 0 has its own accessor, `BREC_BYTE0`.
 
+`BODES` also reaches the per-point arrays of the Bode view with an index, for example
+`BODES(gain_db[i])` or `BODES(phase_rows[k])`. With an `int` index GCC can compute the address
+differently from the raw `base + 8 * i` form, so `trace_cursor_values` keeps its raw accessor
+(`TH(0x8D20 + 2 * c1)`).
+
+Some other shared tables and blocks have their own header:
+
+| Header | What | Use |
+|---|---|---|
+| `hw/fpga.h` | touch state block 0x42E68BB0 (`touch_t`) | `g_touch->serviced`, `g_touch->down_x`… |
+| `state/ui_texts.h` | UI text table 0x42C2FE74 (141 entries of 0x1A0 bytes) | `UI_TEXT(n)`, `TEXT_STR(e)`, `TEXT_DX(e)`, `TEXT_DY(e)` |
+| `state/theme.h` | colour table SYS_INFO + 0x3DD530 | `THEME_MENU_BG`, `THEME_OPTION_SELECTED`…, `THEME_WORD(o)` |
+| `shared/access.h` | the volatile accessors `B8`, `SB8`, `H16`, `W32`… | |
+| `shared/{drivers,framebuffer,storage,usb}.h` | addresses and constants used by many files of a module | |
+
+Before adding a local `#define` for an address, look in `include/shared/` and `include/state/`.
+
 ## TEST image for the emulator
 
 `make testiso` builds `build/test/DPOS350P_TEST.iso`: the stock image with every EQUIVALENT C
