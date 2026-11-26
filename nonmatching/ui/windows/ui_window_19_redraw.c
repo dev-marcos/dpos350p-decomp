@@ -12,5 +12,5 @@
 void ui_window_19_redraw(void)
 {
     fb_target_back();
-    window_frame_23d04_draw();
+    trigger_level_drag_draw();
 }

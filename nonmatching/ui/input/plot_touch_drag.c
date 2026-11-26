@@ -117,7 +117,7 @@ static void move(void)
     case 11:
     case 12:
         W32(SYS + 0x3DA534 + 4 * (m - 11)) = lo8 - dx;
-        cursor_3da534_clamp(m - 11);
+        cursor_pair_clamp(m - 11);
         break;
     case 13:
         SI(ch1_offset) = lo8 - dx;

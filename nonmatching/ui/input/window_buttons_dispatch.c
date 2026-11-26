@@ -15,10 +15,10 @@ void window_buttons_dispatch(u32 id)
         main_menu_buttons();
         break;
     case 2:
-        buttons_05c_handler();
+        side_menu_buttons();
         break;
     case 3:
-        buttons_ac_open_windows();
+        status_bar_buttons();
         break;
     case 5:
         plot_touch_handle();
@@ -27,7 +27,7 @@ void window_buttons_dispatch(u32 id)
         system_settings_buttons();
         break;
     case 7:
-        buttons_106_handler();
+        config_menu_buttons();
         break;
     case 8:
         settings_slot_buttons();
@@ -36,7 +36,7 @@ void window_buttons_dispatch(u32 id)
         language_select_buttons();
         break;
     case 10:
-        buttons_20a_handler();
+        display_menu_buttons();
         break;
     case 11:
         measure_select_buttons();
@@ -63,7 +63,7 @@ void window_buttons_dispatch(u32 id)
         gen_panel_buttons();
         break;
     case 19:
-        button_71e_drag_handler();
+        trigger_level_drag_buttons();
         break;
     case 20:
         list_a_thumbs_buttons();
@@ -72,7 +72,7 @@ void window_buttons_dispatch(u32 id)
         list_a_delete_button_handler();
         break;
     case 22:
-        touch_btn_0804_release();
+        screenshot_view_buttons();
         break;
     case 23:
         list_a_window_buttons();
@@ -90,7 +90,7 @@ void window_buttons_dispatch(u32 id)
         list_c_delete_button_handler();
         break;
     case 28:
-        buttons_9f8_handler();
+        colour_column_buttons();
         break;
     case 29:
         system_calibration_button_handler();

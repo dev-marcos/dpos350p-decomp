@@ -16,7 +16,7 @@ void inv_left(u32 id) __asm__("ui_window_invalidate_from");
 void numpad_key_buttons(void)
 {
     u32 i, k;
-    touch_buttons_a20_update();
+    numpad_key_buttons_update();
     if (BREC(259, state) == 2) {
         BREC(259, state) = 0;
         BREC_BYTE0 = 0;

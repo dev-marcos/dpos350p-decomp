@@ -31,7 +31,7 @@ void list_a_thumbs_buttons(void)
 {
     u32 i;
     int nv;
-    touch_buttons_728_update();
+    list_a_thumbs_buttons_update();
     if (P16(0xA)) {
         i = 0;
         do {

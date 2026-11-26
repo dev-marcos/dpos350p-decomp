@@ -1,7 +1,7 @@
 /*
  * auto_set -- stock 0x4004C7C4 (4 bytes, ARM)
  * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
- * AUTO button (buttons_05c_handler): auto_set_from(0x40544E68) (the stock code loads r0 and falls through).
+ * AUTO button (side_menu_buttons): auto_set_from(0x40544E68) (the stock code loads r0 and falls through).
  */
 #include "hw/platform.h"
 

@@ -1,7 +1,7 @@
 /*
  * factory_test_board -- stock 0x40050FE0 (1416 bytes, ARM)
  * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
- * First factory step (board test). On a cleared back buffer, in white with font 0x42E658D8 and spacing 1, each line prints a label at x = 15 (y = 15, 40, .. step 25), runs a test and prints 成功 (white) or a red failure at x = 160; any failure parks in for (;;): disk_check_file (flag 0x42E68AF0), fpga_probe_and_record (+0x11), security_check_and_copy (+0x12), table_684_init + selftest_4f5e4 (+0x18; on failure ADC1..ADC8 for each clear flag +0x19..+0x20, one line each), calibration_result_flags + acq_defaults_reset + calib_run_4_channels with SYS+0x54E = 1 (+0x21, else channel 1 / 2 from +0x22 / +0x23), gen_selftest_4f89c (+0x13), gen_selftest_50bac (+0x3F, else +0x40 / +0x41). On success SI(f_780) = SI(f_77c).
+ * First factory step (board test). On a cleared back buffer, in white with font 0x42E658D8 and spacing 1, each line prints a label at x = 15 (y = 15, 40, .. step 25), runs a test and prints 成功 (white) or a red failure at x = 160; any failure parks in for (;;): disk_check_file (flag 0x42E68AF0), fpga_probe_and_record (+0x11), security_check_and_copy (+0x12), table_684_init + adc_lanes_selftest (+0x18; on failure ADC1..ADC8 for each clear flag +0x19..+0x20, one line each), calibration_result_flags + acq_defaults_reset + calib_run_4_channels with SYS+0x54E = 1 (+0x21, else channel 1 / 2 from +0x22 / +0x23), channel_mux_selftest (+0x13), bandwidth_150m_selftest (+0x3F, else +0x40 / +0x41). On success SI(f_780) = SI(f_77c).
  */
 #include "hw/platform.h"
 
@@ -88,7 +88,7 @@ void factory_test_board(void)
     }
     ft_ok_next(160, 65, (const char *)0x4008EFECu);     /* ADC检测 ... */
     table_684_init();
-    selftest_4f5e4();
+    adc_lanes_selftest();
     if (!FACT(f_018)) {
         /* one red line "ADCk 异常" per failed lane; names "ADC1".."ADC8" are 8 bytes apart */
         y = 90;
@@ -112,13 +112,13 @@ void factory_test_board(void)
     if (!FACT(f_021))
         ft_fail2(160, 115, FACT(f_022), FACT(f_023));
     ft_ok_next(160, 115, (const char *)0x4008E31Cu);    /* 通道复用检测 ... */
-    gen_selftest_4f89c();
+    channel_mux_selftest();
     if (!FACT(f_013)) {
         ft_text(FT_RED, 160, 140, FT_FAIL);
         ft_halt();
     }
     ft_ok_next(160, 140, (const char *)0x4008DC40u);    /* 150M带宽限制检测 ... */
-    gen_selftest_50bac();
+    bandwidth_150m_selftest();
     if (!FACT(f_03f))
         ft_fail2(160, 165, FACT(f_040), FACT(f_041));
     ft_text(FT_WHITE, 160, 165, FT_OK);

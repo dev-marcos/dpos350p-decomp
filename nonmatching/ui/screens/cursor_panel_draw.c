@@ -60,7 +60,7 @@ static const char *cp_unit(u32 kind, int pre)
 
 static void cp_fill(u32 px, u32 y, u32 rh)
 {
-    colour_toggle_42e68d1a();
+    row_shade_toggle();
     rect_fill(U16(px), U16(y), 0x91, U16(rh));
 }
 

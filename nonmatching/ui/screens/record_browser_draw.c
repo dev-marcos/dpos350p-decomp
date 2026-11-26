@@ -1,7 +1,7 @@
 /*
  * record_browser_draw -- stock 0x40027498 (3044 bytes, ARM)
  * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
- * Window 26 (layout + 0x172): the saved-record browser. Same frame, title bar (image 0x4008A318, text entry 112) and bottom bar (buttons +0x9B2 + 10 i) as screenshot_browser_draw, with font 0x42E658D8 for the grid. Each cell: number_text_88c0(n) (name at SYS+0x88C0) and list_c_record_preview(n), a 0xBBBBBB box, and unless the point count u16 SYS+0x109684 is 3..6 a line plot of the points u16 SYS+0x10968E[i] (vertical segments between neighbours at x = cell + i + 8, black or 0x555555 in selection mode); touch button +0x91C + 10 k, the centred name, the selection veil (0xBB000000, check box 0x333333), and a SET tag in theme colour +0x14 on the cell whose number is u16 SYS+0x3DA52E.
+ * Window 26 (layout + 0x172): the saved-record browser. Same frame, title bar (image 0x4008A318, text entry 112) and bottom bar (buttons +0x9B2 + 10 i) as screenshot_browser_draw, with font 0x42E658D8 for the grid. Each cell: path_buf_number_write(n) (name at SYS+0x88C0) and list_c_record_preview(n), a 0xBBBBBB box, and unless the point count u16 SYS+0x109684 is 3..6 a line plot of the points u16 SYS+0x10968E[i] (vertical segments between neighbours at x = cell + i + 8, black or 0x555555 in selection mode); touch button +0x91C + 10 k, the centred name, the selection veil (0xBB000000, check box 0x333333), and a SET tag in theme colour +0x14 on the cell whose number is u16 SYS+0x3DA52E.
  */
 #include "hw/platform.h"
 
@@ -185,7 +185,7 @@ void record_browser_draw(void)
             n = item[col];
             if (!n)
                 goto bars;
-            number_text_88c0(n);
+            path_buf_number_write(n);
             list_c_record_preview(n);
             draw_colour_set(0xBBBBBB);
             rect_fill(U16(cx), U16(cy), 0xCB, 0x8A);

@@ -13,5 +13,5 @@ void measure_setup_gated(void)
 {
     if (g_touch->serviced)
         return;
-    measure_setup_62e14();
+    measure_setup();
 }

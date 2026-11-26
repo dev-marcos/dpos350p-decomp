@@ -33,7 +33,7 @@ void list_c_window_buttons(void)
 {
     u32 i;
     int nv;
-    touch_buttons_91c_update();
+    list_c_window_buttons_update();
     if (P16(0xA)) {
         i = 0;
         do {

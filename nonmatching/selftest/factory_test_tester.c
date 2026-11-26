@@ -1,7 +1,7 @@
 /*
  * factory_test_tester -- stock 0x40051578 (1128 bytes, ARM)
  * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
- * Second factory step (with the external tester). Prints 请插入测试器并按 OK 键继续... (insert the tester and press OK), a grey (0x555555) 120 x 120 button at (452, 240) labelled OK (font 0x42E65D98, spacing 3, at (502, 290)), then polls gt911_poll until a release (state 2) inside it (453 <= x < 572, 241 <= y < 360). Then it resets the settings (acq_defaults_reset, the three state blocks, outputs_apply), runs gen_output_calibrate, bode_calibrate and factory_channel_gen_check (+0x24, else +0x25 / +0x26: channel 1, channel 2 or 通道或信号发生器异常), gen_selftest_50688 (ranges, +0x2E / +0x2F / +0x30), gen_selftest_504b8 (DC/AC, +0x27 / +0x28 / +0x29), gen_selftest_50898 (flatness, +0x34 / +0x35 / +0x36), gen_selftest_50ddc (20 MHz limit, +0x42 / +0x43 / +0x44) and check_pair_save (ADC clock phase, +0x45); results at x = 220, failures park in for (;;).
+ * Second factory step (with the external tester). Prints 请插入测试器并按 OK 键继续... (insert the tester and press OK), a grey (0x555555) 120 x 120 button at (452, 240) labelled OK (font 0x42E65D98, spacing 3, at (502, 290)), then polls gt911_poll until a release (state 2) inside it (453 <= x < 572, 241 <= y < 360). Then it resets the settings (acq_defaults_reset, the three state blocks, outputs_apply), runs gen_output_calibrate, bode_calibrate and factory_channel_gen_check (+0x24, else +0x25 / +0x26: channel 1, channel 2 or 通道或信号发生器异常), channel_ranges_selftest (ranges, +0x2E / +0x2F / +0x30), coupling_dcac_selftest (DC/AC, +0x27 / +0x28 / +0x29), flatness_selftest (flatness, +0x34 / +0x35 / +0x36), bandwidth_20m_selftest (20 MHz limit, +0x42 / +0x43 / +0x44) and check_pair_save (ADC clock phase, +0x45); results at x = 220, failures park in for (;;).
  */
 #include "hw/platform.h"
 
@@ -99,19 +99,19 @@ void factory_test_tester(void)
         ft_halt();
     }
     ft_ok_next(220, 15, (const char *)0x4008E334u);     /* 通道量程检测 ... */
-    gen_selftest_50688();
+    channel_ranges_selftest();
     if (!FACT(f_02e))
         ft_fail2(220, 40, FACT(f_02f), FACT(f_030));
     ft_ok_next(220, 40, (const char *)0x4008E34Cu);     /* 通道DCAC检测 ... */
-    gen_selftest_504b8();
+    coupling_dcac_selftest();
     if (!FACT(f_027))
         ft_fail2(220, 65, FACT(f_028), FACT(f_029));
     ft_ok_next(220, 65, (const char *)0x4008DC5Cu);     /* 通道平坦度检测 ... */
-    gen_selftest_50898();
+    flatness_selftest();
     if (!FACT(f_034))
         ft_fail2(220, 90, FACT(window_a_ok), FACT(window_b_ok));
     ft_ok_next(220, 90, (const char *)0x4008DC78u);     /* 20M带宽限制检测 ... */
-    gen_selftest_50ddc();
+    bandwidth_20m_selftest();
     if (!FACT(f_042))
         ft_fail2(220, 115, FACT(f_043), FACT(f_044));
     ft_ok_next(220, 115, (const char *)0x4008DC94u);    /* ADC时钟相位校准 ... */

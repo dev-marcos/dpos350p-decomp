@@ -509,7 +509,7 @@ struct sys_info {
     unsigned short list_current;             /* +0x3DA52E DERIVED: file list C: current entry */
     unsigned short f_3da530;                 /* +0x3DA530 */
     unsigned char _pad76[0x2];
-    unsigned int cursor_a;                   /* +0x3DA534 DERIVED: first word of the cursor pair cursor_3da534_clamp keeps apart */
+    unsigned int cursor_a;                   /* +0x3DA534 DERIVED: first word of the cursor pair cursor_pair_clamp keeps apart */
     unsigned int cursor_b;                   /* +0x3DA538 DERIVED: second word of that cursor pair */
     unsigned int capture_len;                /* +0x3DA53C DERIVED: length word of the selected capture record */
     unsigned int cursor_gap;                 /* +0x3DA540 DERIVED: minimum distance between cursor_a and cursor_b */

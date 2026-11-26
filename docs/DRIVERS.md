@@ -822,8 +822,10 @@ Spec: `tools/platform_spec/v_touch_buttons.py`, 59 functions. 36 of them are gen
   - Byte +0 of the table is cleared together with a released button.
 - **Group updaters**: 36 functions call `touch_button_update` for a fixed list of records, from 1
   to 31 of them. Each is named after the handler that calls it (`main_menu_buttons_update` for
-  `main_menu_buttons`, DERIVED); the ones whose handler has no descriptive name yet keep the first
-  record offset (`touch_group_005C`, `touch_button_update_0804`, ...).
+  `main_menu_buttons`, DERIVED). A handler is named after the draw function of its window
+  (`window_buttons_dispatch` id → `ui_window_NN_redraw` → draw function): window 2
+  `side_menu_column_draw` → `side_menu_buttons`, window 22 `screenshot_view_draw` →
+  `screenshot_view_buttons`, and so on (`docs/RENAMES.md`, step 6b).
 - **Release handlers**:
   - each one updates its button and acts on state 2;
   - button +0x804 opens window 0x17;
@@ -871,7 +873,7 @@ new suite (see CONTRIBUTING.md).
     size from batch 27.
   - `sys_rect_fill` sets colour 0 and draws the rectangle from the u16 at SYS+4..+0xA;
     `message_box_erase` draws the rectangle described at 0x42E68C38.
-  - `colour_toggle_42e68d1a` flips the byte and picks colour 0x10262626 or 0x10303030.
+  - `row_shade_toggle` flips the byte and picks colour 0x10262626 or 0x10303030.
   - `display_start`: draw defaults, colour 0x00FFFFFF, word 0x42E68C74 = 0x42E64A98, `lcd_start`,
     `fb_clear_all`.
   - `ui_window_05_draw` (0x4001C348, the draw function of window 5) puts the button record
@@ -916,7 +918,7 @@ Spec: `tools/platform_spec/x_lists_colour.py`, 23 functions. Tests: `tools/emu/t
   - Three identical functions count the non-zero bytes at SYS+0x5DC6 into SYS+0x88BE.
   - Three identical functions clamp the indices +0xFA4 and +0xF9E.
   - `list_current_advance(i)` moves the current entry SYS+0x3DA52E on when it is entry i.
-  - `array_3da548_decimate(n)` keeps every n-th u16 of the array SYS+0x3DA548.
+  - `capture_samples_decimate(n)` keeps every n-th u16 of the array SYS+0x3DA548.
 - **Clamps**:
   - SYS+0x810/+0x814 stay in 12..(SYS+0xA) − 15;
   - SYS+0x808/+0x80C stay in 12..(SYS+8) − 12;
@@ -998,7 +1000,7 @@ Spec: `tools/platform_spec/z_list_files.py`, 22 functions. Tests: `tools/emu/tes
     bitmap writer;
   - `list_b_save_new`: refuses when `disk_free_bytes` is below twice word SYS+0x774 (it draws an
     image and waits 1 s). Otherwise it encodes the settings image into SYS+0x360404 and writes
-    word SYS+0x774 bytes of it (`file_write_360404`, mode 0xB).
+    word SYS+0x774 bytes of it (`waveform_file_write`, mode 0xB).
   - On success both insert the number (0x400349B4, 0x40035A00) and save the index.
 - **Loading**:
   - `list_a_thumb_load` reads two u16 at offsets 0x46 and 0x48 of a screenshot file, then their
@@ -1019,7 +1021,7 @@ Spec: `tools/platform_spec/z_list_files.py`, 22 functions. Tests: `tools/emu/tes
     copies its payload to SYS+0x3DA548;
   - `list_c_delete_marked` deletes the marked entries, then saves and reloads the index and the
     data block.
-- `cursor_3da534_clamp(flag)` keeps the cursor pair SYS+0x3DA534/0x3DA538 at least the width
+- `cursor_pair_clamp(flag)` keeps the cursor pair SYS+0x3DA534/0x3DA538 at least the width
   SYS+0x3DA540 apart (moving one or the other, by flag) and between 12 and the screen width − 12.
 - Still in assembly, because the result depends on a register the caller leaves:
   - 0x40036DE4, when no record has key 0;
@@ -1166,12 +1168,12 @@ Spec: `tools/platform_spec/zd_buttons_levels.py`, 19 functions. Tests: `tools/em
   - `format_button_handler` formats the disk and shows a message for 500 ms;
   - `calibration_button_handler` shows a message, runs `calib_run_4_channels`, shows a second
     message and waits 700 ms;
-  - `button_71e_drag_handler` handles a drag on button 0x71E (state 1 = pressed). In drag mode
+  - `trigger_level_drag_buttons` handles a drag on button 0x71E (state 1 = pressed). In drag mode
     0x12 it moves the s16 SYS+0x27E by the drag delta.
 
   The handlers call `ui_window_close` with one argument. Its hidden r2 (used only when the window
   is not on the stack) is whatever the previous call left, as in the stock code.
-  `buttons_9f8_handler` passes r1 to `ui_window_invalidate_from` explicitly: the flag address on
+  `colour_column_buttons` passes r1 to `ui_window_invalidate_from` explicitly: the flag address on
   one path and the value 1 on the other.
 - **Cursor.** `trigger_level_clamp` clamps SYS+0x27E to m .. height - m, or 2m .. height - 2m.
 - **FPGA counters.** Selectors 0x96 + 2i and 0x97 + 2i, for i = 0..7:
@@ -1181,14 +1183,14 @@ Spec: `tools/platform_spec/zd_buttons_levels.py`, 19 functions. Tests: `tools/em
 
   The step-pulse pattern (1, 0) suggests up/down counters or digital potentiometers. That is
   DERIVED; which part they drive is OPEN.
-- **Levels.** `level_stats_5f010` and `level_stats_60008` turn the s16 samples at the pointer
+- **Levels.** `levels_plot_stats` and `levels_panel_a_stats` turn the s16 samples at the pointer
   0x42E68CB0 into clamped screen levels (u16 arrays 0x42E5F010 and 0x42E60008). They keep the
   mean, max and min in the block 0x42E68668. The divisions follow `sdiv` (division by 0 gives 0).
 - **Other functions:**
   - `fft_input_prepare_b` is a second FFT input into 0x42D164B4, using consecutive samples;
   - `fpga_position_update` sets SYS+0x290. It uses the 13-bit FPGA value of selector 0x14
     when flag 0x18 is set, otherwise the remainder (u64 SYS+0x30 - SYS+0x28C) mod SYS+0x520;
-  - `measure_setup_62e14` runs four setup steps of the block 0x42E68668, then derives the
+  - `measure_setup` runs four setup steps of the block 0x42E68668, then derives the
     doubles +0x140 / +0x148 and the s64 window +0x120 .. +0x138.
 - Not taken: 0x40062354 reads r3 and ip as inputs (a fragment); 0x400447C8 ends in an endless
   loop after the watchdog reset; 0x40061608 takes a double in d0 (the harness has no FP
@@ -1212,12 +1214,12 @@ Spec: `tools/platform_spec/ze_buttons_more.py`, 12 functions. Tests: `tools/emu/
   - `bode_calibrate_button_handler` runs 0x40039EB8 and picks its message from the bytes
     0x42E22DE1 / 0x42E22DE2.
 - **Window and file buttons.**
-  - `buttons_ac_open_windows` opens windows 0xD..0x12. Its last button toggles SYS+0x671 and
+  - `status_bar_buttons` opens windows 0xD..0x12. Its last button toggles SYS+0x671 and
     passes the new value as r1 to `ui_window_invalidate_from`;
   - `levels_toolbar_buttons` and `bode_toolbar_buttons` restore SYS_INFO and reopen windows 1 and 5.
     They also save a screenshot and toggle several flags;
   - `levels_options_buttons` sets word +0xF4 of block 0x42E68668 to 0..3 and toggles its bytes +1
-    and +2. Byte +1 is the gate of `level_stats_60008`.
+    and +2. Byte +1 is the gate of `levels_panel_a_stats`.
 - **Numpad fields.** `bode_settings_numpad_buttons` opens the numpad for one of five fields. It sets the
   target in the block 0x42E68A88: a pointer to word 0x42E18114 + 4k, the field number in
   0x42E18110, and two cleared words. The four target words are rewritten even when no button
@@ -1227,7 +1229,7 @@ Spec: `tools/platform_spec/ze_buttons_more.py`, 12 functions. Tests: `tools/emu/
 - **FPGA parameters.** `fpga_params_0e_13_write` writes parameters 0x0E..0x13 for the channel
   selected by SYS+0x27C. Parameter 0x10 is the trace position SYS+0x27E, and the stock reads it
   as an unaligned word. It then calls `smec_commit(0xB8)` and `fpga_cmd17_write`.
-- **Generator self-test.** `gen_selftest_64c28` sets four generator values in turn:
+- **Generator self-test.** `adc_phase_trim8_check` sets four generator values in turn:
   0x2D32355 / 1800, 0x2D32355 / 1800, 0x1797D51 / 1300 and 0xBC84B1 / 1300. It checks each one
   with 0x4006453C and returns bit 0 of the AND of the four results. What the units of the values
   are is OPEN.
@@ -1249,14 +1251,14 @@ Spec: `tools/platform_spec/zf_buttons_tables.py`, 7 functions. Tests: `tools/emu
   - 3..12 add the digits '0'..'9', up to 10 characters;
   - 13 is backspace;
   - 14..16 close the numpad.
-- **Levels.** `level_stats_61000` is the third level function, gated by byte +2 of the block
+- **Levels.** `levels_panel_b_stats` is the third level function, gated by byte +2 of the block
   0x42E68668. The stock entry is 24 bytes long and falls into the code at 0x40062354 with the
   block in r3. The C has the whole body.
 - **64-bit window.** `window_64_recalc` keeps the s64 limits +0x120 / +0x128, centre +0x130 and
   span +0x138 of the block 0x42E68668 consistent. The mode word +0x18C selects how: from the
   limits (modes 1 and 2), or from the centre and span (modes 3 and 4).
-- **Generator self-test.** `gen_selftest_64cf0` is the second generator self-test. It has the
-  same shape as `gen_selftest_64c28`, with other values and the check function 0x400647F4.
+- **Generator self-test.** `adc_phase_trim4x2_check` is the second generator self-test. It has the
+  same shape as `adc_phase_trim8_check`, with other values and the check function 0x400647F4.
 - **Table.** `table_684_init` writes 64 fixed bytes (0x34..0x55) at SYS+0x684. The stock stores
   them one byte at a time; the C stores 16 words with the same final contents. What the table
   holds is OPEN.
@@ -1346,18 +1348,18 @@ Spec: `tools/platform_spec/zi_lists_selftests.py`, 7 functions. Tests: `tools/em
   The windows differ in what an entry opens. List A loads the entry and opens window 0x16. List C
   copies the entry's record number (halfword SYS+0xFA6 + 2 * entry) to 0x4091F396, selects that
   record and loads the generator samples.
-- **Button groups 0x20A and 0x5C.** `buttons_20a_handler` has:
+- **Button groups 0x20A and 0x5C.** `display_menu_buttons` has:
   - a slider: SYS+0x654 = 100 * (x - lo) / (hi - lo), with the touch x clamped to the slider
     limits;
   - toggles of SYS+0x652, +0x653, +0x655;
   - buttons that back up the settings and open the window sets 0x22..0x24 and 0x26..0x28.
 
-  `buttons_05c_handler` toggles SYS+0x3C, resets the word pair 0x570 / 0x578, and steps the byte
+  `side_menu_buttons` toggles SYS+0x3C, resets the word pair 0x570 / 0x578, and steps the byte
   SYS+0x41 (or +0x105) within 0..SYS+0x1BA - 1. "Brightness" for SYS+0x654 would be a guess; the
   names stay neutral.
 - **Numpad keys.** `numpad_key_buttons` maps the 16 buttons 0xA20..0xAB6 to the key codes
   3..0xC, 1, 2, 0xD..0x10 of `numpad_key` (batch 37).
-- **Self-tests.** `gen_selftest_504b8` and `gen_selftest_50688` put the generator (block
+- **Self-tests.** `coupling_dcac_selftest` and `channel_ranges_selftest` put the generator (block
   0x42E3F984) into one or two settings: amplitude 1000, or +/-2500. For each setting they:
   - apply it, then run two acquisitions;
   - compare the s64 results SYS+0x8F8 and SYS+0x958, divided by 1000 (`__aeabi_ldivmod`), with a
@@ -1374,13 +1376,13 @@ Spec: `tools/platform_spec/zi_lists_selftests.py`, 7 functions. Tests: `tools/em
 
 Spec: `tools/platform_spec/zj_selftests_dispatch.py`, 5 functions. Tests: `tools/emu/tests/sweep.py`.
 
-- **Self-tests.** `gen_selftest_50bac` and `gen_selftest_50ddc` join the self-tests of batch 40.
+- **Self-tests.** `bandwidth_150m_selftest` and `bandwidth_20m_selftest` join the self-tests of batch 40.
   Both store their pass flags in the result block 0x42E68AE0.
-  - `gen_selftest_50bac` measures, per channel, the spread (max - min) of the capture bytes at
+  - `bandwidth_150m_selftest` measures, per channel, the spread (max - min) of the capture bytes at
     0x42DF76D4, summed over 30 acquisitions. It does this with the output setting SYS+0x46 /
     SYS+0x10A at 0 and at 1. A channel passes when the spread with setting 1 is below 0.9 times
     the spread with setting 0.
-  - `gen_selftest_50ddc` compares 5 * (result / 1000) with 4 * 1000.
+  - `bandwidth_20m_selftest` compares 5 * (result / 1000) with 4 * 1000.
 
   What each test checks physically is DERIVED from the settings it writes. It is not
   HW-CONFIRMED.
@@ -1406,10 +1408,10 @@ Spec: `tools/platform_spec/zj_selftests_dispatch.py`, 5 functions. Tests: `tools
 Spec: `tools/platform_spec/zk_selftests_numpad.py`, 4 functions. Tests: `tools/emu/tests/sweep.py`.
 
 - **Self-tests.** Their purpose is DERIVED from the settings they write; neither is HW-CONFIRMED.
-  - `gen_selftest_4f89c` sets four output configurations. Each is centred on SYS+0xE with
+  - `channel_mux_selftest` sets four output configurations. Each is centred on SYS+0xE with
     offsets +/- 2 * SYS+0x20 and has the channels on or off. It checks the measured words SYS+0xB34
     and SYS+0xB50 against e * 1.3 and e * 0.7 (doubles).
-  - `selftest_4f5e4` steps the FPGA 0x2A value (SYS+0x44) 900 times from 3000 with a 7.777...
+  - `adc_lanes_selftest` steps the FPGA 0x2A value (SYS+0x44) 900 times from 3000 with a 7.777...
     step, and records one byte of each of the eight capture lanes per step. A lane passes when
     every bit is seen both set and clear, and every pair of neighbouring bits is seen different.
     That looks like a test of the eight data lines between the ADC and the FPGA.
@@ -1747,7 +1749,7 @@ is read from the code; no file written by the device was opened.
   - the record is decimated to at most 193 points, centred in the zoom buffer, then stretched;
   - the minimum is subtracted and the values are scaled to 8 + 122 x v / range;
   - the result goes to the preview block at SYS+0x109684 (count, then values).
-- **`number_text_88c0(n)`** (0x40037160) writes n in decimal to SYS+0x88C0, using the same digit
+- **`path_buf_number_write(n)`** (0x40037160) writes n in decimal to SYS+0x88C0, using the same digit
   code as the path helpers of batch 48.
 - **Not tested** (the stock code divides by these values): k = 0 in the zoom, and a record length
   of 0 in the preview.
@@ -1903,7 +1905,7 @@ The code facts are STATIC-CONFIRMED and checked in the emulator (EQUIVALENT).
     is saved and the state restored.
 
   The constants look like resistor values of the output stage, but that is OPEN.
-- **`gen_selftest_50898`** (0x40050898) joins the self-tests of batches 40 and 41. It applies
+- **`flatness_selftest`** (0x40050898) joins the self-tests of batches 40 and 41. It applies
   five generator / capture settings (25 Hz .. 10 kHz) and checks per channel that the
   peak-to-peak of the capture window is at most 10 × word SYS+0x1C0. The flags go to bytes
   0x42E68AE0 + 0x35 (A), + 0x36 (B) and + 0x34 (both).
@@ -2759,7 +2761,7 @@ meanings of the fields are DERIVED.
     level SYS+0x27E when that channel is the trigger channel (SYS+0x27C); 5 / 6 zoom position plus
     the CH1 / CH2 offset; 7, 8 cursor words SYS+0x808 / +0x80C (moved by dx,
     `time_cursors_clamp`); 9, 10 cursor words SYS+0x810 / +0x814 (moved by dy,
-    `level_cursors_clamp`); 11, 12 words SYS+0x3DA534 / +0x3DA538 (dx, `cursor_3da534_clamp(0 / 1)`);
+    `level_cursors_clamp`); 11, 12 words SYS+0x3DA534 / +0x3DA538 (dx, `cursor_pair_clamp(0 / 1)`);
     13 both offsets (CH1 by -dx, CH2 by dy).
   - Move: `touch_drag_delta` gives dx, dy (words U+0x30, U+0x34). A position moves by dx times the
     time per pixel (int64 SYS+0x590, zoom SYS+0x5A0), only when SYS+0x580 is set for objects 1 .. 4.
@@ -2825,7 +2827,7 @@ meaning of the fields are DERIVED; nothing here was observed on the device.
   - from the two points: gain = (dac_hi - dac_lo) x SYS+0x270 x SYS+0x26C / (mean_hi - mean_lo)
     (64-bit), offset = SYS+0x270 x dac_lo - mean_lo x gain / SYS+0x26C;
   - results at 0x42E53A0C + 4r: + 0x50 / + 0xA0 gain CH1 / CH2, + 0xF0 / + 0x140 offset.
-- **`auto_set`** (0x4004C7C4) is the AUTO button of `buttons_05c_handler`. It loads r0 =
+- **`auto_set`** (0x4004C7C4) is the AUTO button of `side_menu_buttons`. It loads r0 =
   0x40544E68 and falls through into **`auto_set_from`** (0x4004C7C8):
   - `state_backup_all`, `fb_target_back`, then a reset for the search (offsets SYS+0x60 / +0x120
     = 250, ranges SYS+0x41 / +0x105 = 0, time base SYS+0x588 = 0x1F);
@@ -3090,10 +3092,10 @@ failure parks the CPU in `for (;;)`. The result flags are bytes at 0x42E68AE0 + 
 | 15 | 磁盘初始化 (disk init) | `disk_check_file` | +0x10 |
 | 40 | FPGA检测 (FPGA) | `fpga_probe_and_record` | +0x11 |
 | 65 | 加密芯片检测 (crypto chip) | `security_check_and_copy` | +0x12 |
-| 90 | ADC检测 (ADC) | `table_684_init`, `selftest_4f5e4` | +0x18 (ADC1..ADC8: +0x19..+0x20, one red line each) |
+| 90 | ADC检测 (ADC) | `table_684_init`, `adc_lanes_selftest` | +0x18 (ADC1..ADC8: +0x19..+0x20, one red line each) |
 | 115 | 系统校准 (system calibration) | `calibration_result_flags`, `acq_defaults_reset`, `calib_run_4_channels` with SYS+0x54E = 1 | +0x21 (channel 1 / 2: +0x22 / +0x23) |
-| 140 | 通道复用检测 (channel mux) | `gen_selftest_4f89c` | +0x13 |
-| 165 | 150M带宽限制检测 (150 MHz limit) | `gen_selftest_50bac` | +0x3F (+0x40 / +0x41) |
+| 140 | 通道复用检测 (channel mux) | `channel_mux_selftest` | +0x13 |
+| 165 | 150M带宽限制检测 (150 MHz limit) | `bandwidth_150m_selftest` | +0x3F (+0x40 / +0x41) |
 
 On success it copies SYS32(0x77C) to SYS32(0x780).
 
@@ -3106,10 +3108,10 @@ Then it resets the settings (`acq_defaults_reset`, the three state-block inits, 
 | y | Label | Test | Flag (channel 1 / 2) |
 |---:|---|---|---|
 | 15 | 通道和信号发生器检测 (channels and generator) | `factory_channel_gen_check` | +0x24 (+0x25 / +0x26; both bad: 通道或信号发生器异常) |
-| 40 | 通道量程检测 (ranges) | `gen_selftest_50688` | +0x2E (+0x2F / +0x30) |
-| 65 | 通道DCAC检测 (DC/AC coupling) | `gen_selftest_504b8` | +0x27 (+0x28 / +0x29) |
-| 90 | 通道平坦度检测 (flatness) | `gen_selftest_50898` | +0x34 (+0x35 / +0x36) |
-| 115 | 20M带宽限制检测 (20 MHz limit) | `gen_selftest_50ddc` | +0x42 (+0x43 / +0x44) |
+| 40 | 通道量程检测 (ranges) | `channel_ranges_selftest` | +0x2E (+0x2F / +0x30) |
+| 65 | 通道DCAC检测 (DC/AC coupling) | `coupling_dcac_selftest` | +0x27 (+0x28 / +0x29) |
+| 90 | 通道平坦度检测 (flatness) | `flatness_selftest` | +0x34 (+0x35 / +0x36) |
+| 115 | 20M带宽限制检测 (20 MHz limit) | `bandwidth_20m_selftest` | +0x42 (+0x43 / +0x44) |
 | 140 | ADC时钟相位校准 (ADC clock phase) | `check_pair_save` | +0x45 |
 
 **`factory_channel_gen_check`** (0x4004FB44) is a loop-back test of the generator into both channels.
@@ -3277,7 +3279,7 @@ First it converts the cursor positions and stores the results, which other code 
 All divisions are signed 64-bit (`__aeabi_ldivmod`). The units are DERIVED: SYS64(0x50) is volts per
 division in the value_si_scale kind-6 unit, and SYS16(0x20) / SYS16(0x1C) are pixels per division.
 Then it draws a 145 px panel at (SYS16(4) + 1, SYS16(6) + 1), or at y + 0xA9 with zoom (SYS+0x2AA,
-rows 25 px instead of 33). The rows alternate in colour through `colour_toggle_42e68d1a`:
+rows 25 px instead of 33). The rows alternate in colour through `row_shade_toggle`:
 - HOR, H1, H2, D-T, D-F;
 - for each channel that is on: CH1 / CH2, V1, V2, D-V.
 

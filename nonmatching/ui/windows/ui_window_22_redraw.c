@@ -19,7 +19,7 @@ void ui_window_22_redraw(u32 anim)
         fb_target_offscreen();
     else
         fb_target_back();
-    image_42468a58_show();
+    screenshot_view_draw();
     if (anim) {
         fb_target_back();
         ui_reveal_slide_down((volatile unsigned short *)WIN(22));

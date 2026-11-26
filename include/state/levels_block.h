@@ -13,8 +13,8 @@
 
 struct levels_block {
     unsigned char _pad0[0x1];
-    unsigned char panel_a_on;            /* +0x001 DERIVED: left side panel shown; gate of level_stats_60008 */
-    unsigned char panel_b_on;            /* +0x002 DERIVED: second side panel shown; gate of level_stats_61000 */
+    unsigned char panel_a_on;            /* +0x001 DERIVED: left side panel shown; gate of levels_panel_a_stats */
+    unsigned char panel_b_on;            /* +0x002 DERIVED: second side panel shown; gate of levels_panel_b_stats */
     unsigned char move_slow;             /* +0x003 DERIVED: 'Movement': Fast move / Slow move */
     unsigned char f_004;                 /* +0x004 */
     unsigned char f_005;                 /* +0x005 */

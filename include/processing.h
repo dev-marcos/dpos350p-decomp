@@ -12,7 +12,7 @@ void channel_freq_measure(u32 ch);                                              
 void measure_channel(u32 ch_arg);                                                                /* 0x40032E0C */
 void time_cursors_clamp(void);                                                                     /* 0x4003407C */
 void level_cursors_clamp(void);                                                                     /* 0x400340D4 */
-void array_3da548_decimate(int n);                                                               /* 0x400374EC */
+void capture_samples_decimate(int n);                                                               /* 0x400374EC */
 void trace_cursor_limits(void);                                                                  /* 0x40037944 */
 void bode_cursors_clamp(void);                                                                    /* 0x40037A60 */
 void trace_update_chain(void);                                                                   /* 0x40037AB8 */
@@ -80,11 +80,11 @@ void peak_hold_decimate(volatile short *buf, u32 n, double step);               
 void measure_values_clamp(void);                                                                 /* 0x400617AC */
 void levels_samples_window(void);                                                                /* 0x40061A70 */
 void fft_levels_db(void);                                                                        /* 0x40061DB0 */
-void level_stats_5f010(void);                                                                    /* 0x400621EC */
-void level_stats_60008(void);                                                                    /* 0x40062284 */
-void level_stats_61000(void);                                                                    /* 0x4006233C */
+void levels_plot_stats(void);                                                                    /* 0x400621EC */
+void levels_panel_a_stats(void);                                                                    /* 0x40062284 */
+void levels_panel_b_stats(void);                                                                    /* 0x4006233C */
 void levels_update_chain(void);                                                                  /* 0x400623F4 */
-void measure_setup_62e14(void);                                                                  /* 0x40062E14 */
+void measure_setup(void);                                                                  /* 0x40062E14 */
 void trigger_level_clamp(void);                                                                     /* 0x40063484 */
 void cvec_magnitude(const volatile float *src, volatile float *dst, int n);                      /* 0x40066538 */
 void fft_radix2(int n, volatile float *x);                                                       /* 0x400665A8 */

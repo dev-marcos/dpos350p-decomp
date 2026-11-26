@@ -16,8 +16,8 @@ void check_pair_save(void)
 {
     u32 a, r;
     table_684_init();
-    a = gen_selftest_64c28();
-    r = gen_selftest_64cf0() & a & 1;
+    a = adc_phase_trim8_check();
+    r = adc_phase_trim4x2_check() & a & 1;
     if (r)
         settings_a_save();
     acq_defaults_reset();

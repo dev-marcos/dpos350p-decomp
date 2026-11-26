@@ -10,8 +10,8 @@ void switch_on_off_draw(u32 x, u32 y, u32 on);                                  
 void icon_19c7c_draw(u32 x, u32 y);                                                              /* 0x40019C7C */
 void slider_draw(u32 x, u32 y, unsigned char v);                                                 /* 0x40019CF8 */
 void battery_icon_draw(void);                                                                    /* 0x4001C200 */
-void window_frame_23d04_draw(void);                                                              /* 0x40023D04 */
-void image_42468a58_show(void);                                                                  /* 0x40025D08 */
+void trigger_level_drag_draw(void);                                                              /* 0x40023D04 */
+void screenshot_view_draw(void);                                                                  /* 0x40025D08 */
 void sys_rect_fill(void);                                                                        /* 0x4002C5C4 */
 void sys_rect_redraw_gated(void);                                                           /* 0x4002CC6C */
 void font_set(u32 a);                                                                   /* 0x4002CCCC */
@@ -44,7 +44,7 @@ void rect_fill(u32 x, u32 y, u32 w, u32 h);                                     
 void line_draw(int x0, int y0, int x1, int y1);                                                  /* 0x4002ED90 */
 void glyph_alpha_draw(u32 x, u32 y, const unsigned char *g);                                     /* 0x4002EE78 */
 void draw_text_shadowed(u32 x, u32 y, u32 s, u32 dx, u32 dy, u32 col);                           /* 0x4002F0E8 */
-void colour_toggle_42e68d1a(void);                                                               /* 0x40031710 */
+void row_shade_toggle(void);                                                               /* 0x40031710 */
 void message_box_erase(void);                                                                   /* 0x40034284 */
 void draw_target_default(void);                                                                  /* 0x400342CC */
 void fb_target_back(void);                                                                       /* 0x400342DC */
@@ -55,7 +55,7 @@ void fb_present_rect(u32 x0, u32 y0, u32 x1, u32 y1);                           
 void fb_present(void);                                                                           /* 0x4003442C */
 void fb_clear_current(void);                                                                     /* 0x40034454 */
 void fb_clear_all(void);                                                                         /* 0x4003446C */
-void number_text_88c0(int n);                                                                    /* 0x40037160 */
+void path_buf_number_write(int n);                                                                    /* 0x40037160 */
 void phase_deg_draw(u32 x, u32 y, u32 sg, double d);                                             /* 0x40038788 */
 void voltage_uv_draw(u32 x, u32 y, u32 sg, double d);                                            /* 0x40038974 */
 void level_value_draw(u32 x, u32 y, u32 sg, double d);                                           /* 0x40038C00 */

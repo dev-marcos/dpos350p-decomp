@@ -26,7 +26,7 @@ void list_a_page_validate(void);                                                
 void list_a_reload(void);                                                                        /* 0x40035540 */
 void list_a_page_thumbs(void);                                                                   /* 0x40035578 */
 void list_a_current_load(void);                                                                  /* 0x40035624 */
-u32 file_write_360404(const char *path);                                                         /* 0x40035780 */
+u32 waveform_file_write(const char *path);                                                         /* 0x40035780 */
 void list_b_index_create(void);                                                                  /* 0x400357EC */
 void list_b_index_load(void);                                                                    /* 0x400358B8 */
 void list_b_index_save(void);                                                                    /* 0x4003596C */
@@ -47,7 +47,7 @@ void list_b_prune_missing(void);                                                
 void list_b_page_validate(void);                                                                 /* 0x4003656C */
 void list_b_page_thumbs(void);                                                                   /* 0x400365F4 */
 void list_b_current_load(void);                                                                  /* 0x400366A0 */
-void cursor_3da534_clamp(int flag);                                                              /* 0x400367EC */
+void cursor_pair_clamp(int flag);                                                              /* 0x400367EC */
 void saved_wave_trace_build(void);                                                               /* 0x40036864 */
 void list_c_index_create(void);                                                                  /* 0x40036958 */
 void list_c_index_load(void);                                                                    /* 0x40036B00 */

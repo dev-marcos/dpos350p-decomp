@@ -120,3 +120,52 @@ state (`docs/DRIVERS.md`, "Current font and state"; `include/state/`).
 | `0x400562F4` | `calibration_b4c_button_handler` | `bode_calibrate_button_handler` |
 | `0x40063484` | `cursor_27e_clamp` | `trigger_level_clamp` |
 | `0x40063798` | `fpga_position_290_update` | `fpga_position_update` |
+
+## Step 6b
+
+Window handlers and their updaters are named after the draw function of their window
+(`window_buttons_dispatch` id -> `ui_window_NN_redraw` -> draw function). The factory
+self-tests are named after the firmware's own step labels (`docs/DRIVERS.md`, "Factory test
+flow"); the rest after the LEVELS and SYS_INFO fields they write. Every name DERIVED.
+
+| Address | Old name | New name |
+|---|---|---|
+| `0x40023D04` | `window_frame_23d04_draw` | `trigger_level_drag_draw` |
+| `0x40025D08` | `image_42468a58_show` | `screenshot_view_draw` |
+| `0x4002F378` | `touch_group_005C` | `side_menu_buttons_update` |
+| `0x4002F3C4` | `touch_group_00AC` | `status_bar_buttons_update` |
+| `0x4002F490` | `touch_group_020A` | `display_menu_buttons_update` |
+| `0x4002FAA4` | `touch_button_update_071E` | `trigger_level_drag_buttons_update` |
+| `0x4002FAAC` | `touch_buttons_728_update` | `list_a_thumbs_buttons_update` |
+| `0x4002FB48` | `touch_button_update_0804` | `screenshot_view_buttons_update` |
+| `0x4002FB98` | `touch_buttons_840_update` | `list_b_window_buttons_update` |
+| `0x4002FC38` | `touch_buttons_91c_update` | `list_c_window_buttons_update` |
+| `0x4002FCD4` | `touch_group_09F8` | `colour_column_buttons_update` |
+| `0x4002FD10` | `touch_group_0106` | `config_menu_buttons_update` |
+| `0x4002FDCC` | `touch_buttons_a20_update` | `numpad_key_buttons_update` |
+| `0x4002FEF0` | `touch_button_update_0B4C` | `bode_calibrate_button_update` |
+| `0x40031710` | `colour_toggle_42e68d1a` | `row_shade_toggle` |
+| `0x40035780` | `file_write_360404` | `waveform_file_write` |
+| `0x400367EC` | `cursor_3da534_clamp` | `cursor_pair_clamp` |
+| `0x40037160` | `number_text_88c0` | `path_buf_number_write` |
+| `0x400374EC` | `array_3da548_decimate` | `capture_samples_decimate` |
+| `0x4004F5E4` | `selftest_4f5e4` | `adc_lanes_selftest` |
+| `0x4004F89C` | `gen_selftest_4f89c` | `channel_mux_selftest` |
+| `0x400504B8` | `gen_selftest_504b8` | `coupling_dcac_selftest` |
+| `0x40050688` | `gen_selftest_50688` | `channel_ranges_selftest` |
+| `0x40050898` | `gen_selftest_50898` | `flatness_selftest` |
+| `0x40050BAC` | `gen_selftest_50bac` | `bandwidth_150m_selftest` |
+| `0x40050DDC` | `gen_selftest_50ddc` | `bandwidth_20m_selftest` |
+| `0x40052280` | `buttons_05c_handler` | `side_menu_buttons` |
+| `0x400524B4` | `buttons_ac_open_windows` | `status_bar_buttons` |
+| `0x400527C0` | `buttons_20a_handler` | `display_menu_buttons` |
+| `0x40054540` | `button_71e_drag_handler` | `trigger_level_drag_buttons` |
+| `0x40054F08` | `touch_btn_0804_release` | `screenshot_view_buttons` |
+| `0x40055634` | `buttons_9f8_handler` | `colour_column_buttons` |
+| `0x40055720` | `buttons_106_handler` | `config_menu_buttons` |
+| `0x400621EC` | `level_stats_5f010` | `levels_plot_stats` |
+| `0x40062284` | `level_stats_60008` | `levels_panel_a_stats` |
+| `0x4006233C` | `level_stats_61000` | `levels_panel_b_stats` |
+| `0x40062E14` | `measure_setup_62e14` | `measure_setup` |
+| `0x40064C28` | `gen_selftest_64c28` | `adc_phase_trim8_check` |
+| `0x40064CF0` | `gen_selftest_64cf0` | `adc_phase_trim4x2_check` |
