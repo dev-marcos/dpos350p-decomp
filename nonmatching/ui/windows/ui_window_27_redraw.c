@@ -20,7 +20,7 @@ void ui_window_27_redraw(u32 anim)
         fb_target_offscreen();
     else
         fb_target_back();
-    ui_delete_confirm_180();
+    list_c_delete_confirm_draw();
     if (anim) {
         fb_target_back();
         ui_reveal_slide_down((volatile unsigned short *)WIN(27));

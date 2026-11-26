@@ -1,7 +1,7 @@
 /*
  * full_acquisition_entry -- stock 0x400413C8 (1052 bytes, ARM)
  * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
- * Full acquisition. Mode byte SYS+0x27A: 1 clears SYS+0x101 and the halves SYS+0x584 / +0x586 (one word store); 2 (roll) moves both history buffers 0x42AC7CF4 and + 0x62250 up by the segment word SYS+0x2B0 samples (copy_u16 through 0x416431E8, 0x31128 - segment samples), grows the count SYS+0x586 up to SYS+0x582, steps the start SYS+0x584 (0 after SYS+0x582), refills the per-block tables (start / middle / length at SYS+0x2C4 / +0x38C / +0x454) and runs one block; other modes clear the halves. Then for each block i < SYS+0x550: acquisition_block_bank_selector((SYS+0x584 + i) & 0xFF), acquisition_prepare, acq_wait_done (stop when SYS+0x38 is clear), the bank copy steps, the block table entry, SYS+0x29C = 0, timebase_apply_2b4; for CH1 (SYS+0x3E) and CH2 (SYS+0x102) the stream geometry and SYS+0x644 chunks of SYS+0x640 samples (word SYS+0x63C advanced per chunk; mode SYS+0x100 picks the bank capture and the unpack / conversion into the buffers SYS+0x7B4 / +0x7B8); then the measurement chain for both channels and channel_to_display_copy(ch, i). While touch byte 0x42E68BB0 + 0x15 is set the loop ends early once (i + 1) x SYS+0x558 passes SYS+0x540 / SYS+0x1B0 / 10 (/ 3 unless a coupling byte SYS+0x51C / +0x51D is 2), setting the block counts SYS+0x550 / +0x5D0 to i + 1. At the end (roll mode: both counts = SYS+0x586) channel_filters_by_timebase, fft_input_prepare, and in mode 1 with SYS+0x38 set SYS+0x101 = SYS+0x3C = 1 and ui_windows_mark_dirty.
+ * Full acquisition. Mode byte SYS+0x27A: 1 clears SYS+0x101 and the halves SYS+0x584 / +0x586 (one word store); 2 (roll) moves both history buffers 0x42AC7CF4 and + 0x62250 up by the segment word SYS+0x2B0 samples (copy_u16 through 0x416431E8, 0x31128 - segment samples), grows the count SYS+0x586 up to SYS+0x582, steps the start SYS+0x584 (0 after SYS+0x582), refills the per-block tables (start / middle / length at SYS+0x2C4 / +0x38C / +0x454) and runs one block; other modes clear the halves. Then for each block i < SYS+0x550: acquisition_block_bank_selector((SYS+0x584 + i) & 0xFF), acquisition_prepare, acq_wait_done (stop when SYS+0x38 is clear), the bank copy steps, the block table entry, SYS+0x29C = 0, trace_pointers_2b4; for CH1 (SYS+0x3E) and CH2 (SYS+0x102) the stream geometry and SYS+0x644 chunks of SYS+0x640 samples (word SYS+0x63C advanced per chunk; mode SYS+0x100 picks the bank capture and the unpack / conversion into the buffers SYS+0x7B4 / +0x7B8); then the measurement chain for both channels and channel_to_display_copy(ch, i). While touch byte 0x42E68BB0 + 0x15 is set the loop ends early once (i + 1) x SYS+0x558 passes SYS+0x540 / SYS+0x1B0 / 10 (/ 3 unless a coupling byte SYS+0x51C / +0x51D is 2), setting the block counts SYS+0x550 / +0x5D0 to i + 1. At the end (roll mode: both counts = SYS+0x586) channel_filters_by_timebase, fft_input_prepare, and in mode 1 with SYS+0x38 set SYS+0x101 = SYS+0x3C = 1 and ui_windows_mark_dirty.
  */
 #include "hw/platform.h"
 
@@ -91,12 +91,12 @@ void full_acquisition_entry(void)
         acq_wait_done();
         if (!SI(acq_done))
             break;
-        veneer_40063798();
+        fpga_position_update_veneer();
         consumer_translator_of_the_16_bit();
         base = SI(runtime_quotient);
         table(i);
         W32(SYS + 0x29C) = 0;
-        timebase_apply_2b4();
+        trace_pointers_2b4();
         if (SI(ch1_enabled)) {
             stream_geometry_fpga_selector_0x22_configuration();
             chunks(0, base);
@@ -110,7 +110,7 @@ void full_acquisition_entry(void)
         channel_freq_measure(0);
         channel_freq_measure(1);
         moving_average_and_crossing_alignment_search();
-        timebase_apply_2b0();
+        trace_pointers_block_points();
         channel_post_process(0);
         channel_post_process(1);
         channel_moving_average(0);
@@ -119,7 +119,7 @@ void full_acquisition_entry(void)
         channel_step_limiter(1);
         trigger_window_crossing(0);
         trigger_window_crossing(1);
-        timebase_apply_2b0();
+        trace_pointers_block_points();
         key_repeat_and_measure_channels();
         channel_to_display_copy(0, i & 0xFFFF);
         channel_to_display_copy(1, i & 0xFFFF);

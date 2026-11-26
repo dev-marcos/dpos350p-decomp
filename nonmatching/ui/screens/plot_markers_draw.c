@@ -30,7 +30,7 @@ static void big_tag(int p, u32 col, u32 xt, const char *s)
 
     draw_colour_set(col);
     rect_fill(1, (p - 7) & 0xFFFF, 0xB, 0xF);
-    word_42e68c74_set(FONT);
+    font_set(FONT);
     draw_colour_set(0);
     text_draw(xt, (p - 6) & 0xFFFF, s);
     draw_colour_set(col);
@@ -46,7 +46,7 @@ static void small_tag(int p, u32 col, u32 xt, const char *s)
 
     draw_colour_set(col);
     rect_fill(1, (p - 6) & 0xFFFF, 6, 0xD);
-    word_42e68c74_set(FONT_S);
+    font_set(FONT_S);
     draw_colour_set(col);
     for (i = 0; i <= 6; i++) {
         hspan_fill((p - i) & 0xFFFF, 7, (0xE - i) & 0xFFFF);
@@ -79,7 +79,7 @@ static void trig_big(int p)
         hspan_fill((p + i) & 0xFFFF, 0x3A3 + i, 0x3AA);
     }
     rect_fill(0x3AB, (p - 7) & 0xFFFF, 0xB, 0xF);
-    word_42e68c74_set(FONT);
+    font_set(FONT);
     draw_colour_set(0);
     text_draw(0x3AD, (p - 6) & 0xFFFF, "T");
 }
@@ -94,7 +94,7 @@ static void trig_small(int p)
         hspan_fill((p + i) & 0xFFFF, 0x3A8 + i, 0x3AF);
     }
     rect_fill(0x3B0, (p - 6) & 0xFFFF, 6, 0xD);
-    word_42e68c74_set(FONT_S);
+    font_set(FONT_S);
     draw_colour_set(0);
     text_draw(0x3AE, (p - 5) & 0xFFFF, "T");
 }
@@ -106,12 +106,12 @@ static void h_right(int px, int pw, int yc)
 
     draw_colour_set(0xFF00);
     rect_fill(xr & 0xFFFF, (yc - 7) & 0xFFFF, 0xB, 0xF);
-    word_42e68c74_set(FONT);
+    font_set(FONT);
     for (i = 0; i < 8; i++) {
         hspan_fill((yc - i) & 0xFFFF, x6 & 0xFFFF, (x6 + 7 - i) & 0xFFFF);
         hspan_fill((yc + i) & 0xFFFF, x6 & 0xFFFF, (x6 + 7 - i) & 0xFFFF);
     }
-    word_42e68c74_set(FONT);
+    font_set(FONT);
     draw_colour_set(0);
     text_draw((x6 - 8) & 0xFFFF, (yc - 6) & 0xFFFF, "H");
 }
@@ -126,7 +126,7 @@ static void h_left(int yc)
         hspan_fill((yc + i) & 0xFFFF, i + 1, 8);
     }
     rect_fill(9, (yc - 7) & 0xFFFF, 0xB, 0xF);
-    word_42e68c74_set(FONT);
+    font_set(FONT);
     draw_colour_set(0);
     text_draw(0xA, (yc - 6) & 0xFFFF, "H");
 }
@@ -138,7 +138,7 @@ static void h_down(int p, int yt)
 
     draw_colour_set(0xFF00);
     rect_fill((p - 7) & 0xFFFF, yt & 0xFFFF, 0xF, 0xB);
-    word_42e68c74_set(FONT);
+    font_set(FONT);
     for (i = 0; i < 8; i++) {
         vline_draw((p - i) & 0xFFFF, y2 & 0xFFFF, (y2 + 7 - i) & 0xFFFF);
         vline_draw((p + i) & 0xFFFF, y2 & 0xFFFF, (y2 + 7 - i) & 0xFFFF);
@@ -153,7 +153,7 @@ static void h_down_small(int p, int yt)
 
     draw_colour_set(0xFF00);
     rect_fill((p - 6) & 0xFFFF, yt & 0xFFFF, 0xD, 8);
-    word_42e68c74_set(FONT_S);
+    font_set(FONT_S);
     for (i = 0; i <= 6; i++) {
         vline_draw((p - i) & 0xFFFF, y2 & 0xFFFF, (y2 + 7 - i) & 0xFFFF);
         vline_draw((p + i) & 0xFFFF, y2 & 0xFFFF, (y2 + 7 - i) & 0xFFFF);

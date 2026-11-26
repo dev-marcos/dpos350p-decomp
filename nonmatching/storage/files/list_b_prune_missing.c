@@ -25,5 +25,5 @@ void list_b_prune_missing(void)
     }
     list_b_index_save();
     list_b_index_load();
-    list_cursor_clamp_400362f4();
+    list_b_cursor_clamp();
 }

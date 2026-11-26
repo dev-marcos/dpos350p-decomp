@@ -424,8 +424,9 @@ STATIC-CONFIRMED; the roles are DERIVED.
 - **`channel_post_process(ch)`** runs while SYS+0x554 < SYS+0x55C, for an enabled channel. It
   applies the time base × 1.3, then `amplitude_statistical_normalization`, then
   `workspace_copy_and_resampling` of the channel buffer, then `final_per_channel_normalization`.
-- **Time-base steps** `timebase_apply_2b4` / `_2b0` / `_2b0_x1_3` call the fragment 0x4003FFE4
-  of the split time-base switch with SYS+0x2B4, SYS+0x2B0 or SYS+0x2B0 × 1.3.
+- **Time-base steps** `trace_pointers_2b4` / `trace_pointers_block_points` /
+  `trace_pointers_block_points_x1_3` call the fragment 0x4003FFE4 (`trace_buffer_pointers_setup`)
+  of the split time-base switch with SYS+0x2B4, SYS+0x2B0 (`block_points`) or SYS+0x2B0 × 1.3.
 - **Still assembly in this area**:
   - `full_acquisition_entry` (1 KB);
   - the bank unpackers 0x40040BEC / 0x40040D74 / 0x40040E44 (they turn the CSI banks into channel
@@ -625,7 +626,7 @@ Spec: `tools/platform_spec/q_trace_windows.py`, 18 functions.
     SYS+0x708.
 - **`runtime_rearm_setup`** (Hack name): a fixed list of eight re-arm calls, ending with the
   FPGA selector pulse.
-- **`table_scatter_42cf64b4`**: clears 0x3AAC bytes, then scatters the 0x3AAC (value, index)
+- **`glyph14_table_build`**: clears 0x3AAC bytes, then scatters the 0x3AAC (value, index)
   pairs from the ROM table 0x40090444 into the halfword array 0x42CF64B4.
 - **Window stack**:
   - `ui_windows_mark_dirty`;
@@ -869,7 +870,7 @@ new suite (see CONTRIBUTING.md).
     the blended path 0x4002EA88 when byte 0x42E6865C is set. The stride 1022 matches the layer
     size from batch 27.
   - `sys_rect_fill` sets colour 0 and draws the rectangle from the u16 at SYS+4..+0xA;
-    `rect_42e68c38_draw` draws the rectangle described at 0x42E68C38.
+    `message_box_erase` draws the rectangle described at 0x42E68C38.
   - `colour_toggle_42e68d1a` flips the byte and picks colour 0x10262626 or 0x10303030.
   - `display_start`: draw defaults, colour 0x00FFFFFF, word 0x42E68C74 = 0x42E64A98, `lcd_start`,
     `fb_clear_all`.
@@ -890,7 +891,7 @@ new suite (see CONTRIBUTING.md).
   `fpga_config_push` sends 0x61, 0x0C, 0x1A, 0x15, 0x16, then 0x400634F0 and
   `trigger_offsets_update`. The selector names are the numbers; what each register does is OPEN.
 - **Others**:
-  - `value_in_table_405456e8(mode, v)` says whether v (negated for mode 1) is one of the 24 s16
+  - `marker_value_present(mode, v)` says whether v (negated for mode 1) is one of the 24 s16
     at 0x405456E8;
   - `sys_3c_enter` and `sys_3c_leave` save and restore SYS+0x3C through +0x3D, together with
     the byte SYS+0x3DA52C;
@@ -906,7 +907,7 @@ Spec: `tools/platform_spec/x_lists_colour.py`, 23 functions. Tests: `tools/emu/t
   - +0 = A, +1 = R, +2 = G, +3 = B, +4 = RGB565, +8 = the whole word.
   - `pixel_put` (batch 28) blends through 0x4002EA88 when byte +0 is non-zero, so the high byte
     works as alpha (DERIVED).
-- **Buffer copy**: `fb_rect_copy_from_e4e84(x0, y0, x1, y1)` copies a rectangle of 16-bit
+- **Buffer copy**: `fb_rect_restore(x0, y0, x1, y1)` copies a rectangle of 16-bit
   pixels, stride 1022, from 0x420E4E84 to 0x41FB8FE8. It then cleans the data cache.
 - **The list at SYS+0xFA0** (s16 count at +0xFA0, u16 entries from +0xFA4). The list holds
   entries of some kind; which ones is OPEN.
@@ -1029,7 +1030,7 @@ Spec: `tools/platform_spec/z_list_files.py`, 22 functions. Tests: `tools/emu/tes
 Spec: `tools/platform_spec/za_widgets_fonts.py`, 19 functions. Tests: `tools/emu/tests/sweep.py`.
 
 - **Widgets:**
-  - `colour_table_3dd530_init` fills the 22 colour words at SYS+0x3DD530;
+  - `theme_colours_init` fills the 22 colour words at SYS+0x3DD530;
   - `switch_on_off_draw(x, y, on)` draws an ON/OFF switch. The strings are at 0x40019DB0 and
     0x40019DB4. The function also saves and restores the font word 0x42E68C74 and the half
     0x42E68BE2;
@@ -1054,7 +1055,7 @@ Spec: `tools/platform_spec/za_widgets_fonts.py`, 19 functions. Tests: `tools/emu
 - **Pixels:**
   - `pixel_blend` is the blending path of `pixel_put`. For each channel it computes
     (A × pixel + (255 − A) × colour) / 255 in 8 bits;
-  - `fb_rect_copy_to_e4e84` is the reverse of `fb_rect_copy_from_e4e84`.
+  - `fb_rect_save` is the reverse of `fb_rect_restore`.
 - **Keys and trace cursors:**
   - `key_repeat_update` updates two repeat counters (SYS+0x86E, +0x870). A counter goes up when
     the previous press was less than SYS+0x87C ticks ago, and down otherwise;
@@ -1082,13 +1083,13 @@ Spec: `tools/platform_spec/zb_draw_prims.py`, 14 functions. Tests: `tools/emu/te
   - `font_char_tint_draw` is `font_char_draw` with each glyph byte used as an intensity
     (anti-aliased text). It rewrites the colour block for every pixel and restores the colour
     word at the end;
-  - `text_d6f8_shadow_draw` is the shadow wrapper of the text routine 0x4002D6F8.
+  - `number_mode0_shadow_draw` is the shadow wrapper of the text routine 0x4002D6F8.
 - **Message box.** 0x40034134 was declared in `fpga.h` as "draws an image (OPEN)". It is
   `message_box_draw(x, y, text, align)`:
   - width = text width (0x4002D164) + 50, height 50;
   - align 0 centres the box above the point, align 2 puts it to the upper left;
-  - it saves the area under the box first (`fb_rect_copy_to_e4e84`), keeps the rectangle in
-    0x42E68C38 for the later restore (`rect_42e68c38_draw`), and draws the text with a shadow.
+  - it saves the area under the box first (`fb_rect_save`), keeps the rectangle in
+    0x42E68C38 for the later restore (`message_box_erase`), and draws the text with a shadow.
 
   So the "images" that the save routines of batch 31 show are messages. Their text pointers are
   words in the table at 0x42C2FE74. That this table holds the strings of the current language is
@@ -1172,7 +1173,7 @@ Spec: `tools/platform_spec/zd_buttons_levels.py`, 19 functions. Tests: `tools/em
   is not on the stack) is whatever the previous call left, as in the stock code.
   `buttons_9f8_handler` passes r1 to `ui_window_invalidate_from` explicitly: the flag address on
   one path and the value 1 on the other.
-- **Cursor.** `cursor_27e_clamp` clamps SYS+0x27E to m .. height - m, or 2m .. height - 2m.
+- **Cursor.** `trigger_level_clamp` clamps SYS+0x27E to m .. height - m, or 2m .. height - 2m.
 - **FPGA counters.** Selectors 0x96 + 2i and 0x97 + 2i, for i = 0..7:
   - `fpga_counters_init` sends 130 steps to each counter;
   - `fpga_counter_step(ch)` sends the direction and |target - last| steps, then keeps the
@@ -1185,7 +1186,7 @@ Spec: `tools/platform_spec/zd_buttons_levels.py`, 19 functions. Tests: `tools/em
   mean, max and min in the block 0x42E68668. The divisions follow `sdiv` (division by 0 gives 0).
 - **Other functions:**
   - `fft_input_prepare_b` is a second FFT input into 0x42D164B4, using consecutive samples;
-  - `fpga_position_290_update` sets SYS+0x290. It uses the 13-bit FPGA value of selector 0x14
+  - `fpga_position_update` sets SYS+0x290. It uses the 13-bit FPGA value of selector 0x14
     when flag 0x18 is set, otherwise the remainder (u64 SYS+0x30 - SYS+0x28C) mod SYS+0x520;
   - `measure_setup_62e14` runs four setup steps of the block 0x42E68668, then derives the
     doubles +0x140 / +0x148 and the s64 window +0x120 .. +0x138.
@@ -1208,7 +1209,7 @@ Spec: `tools/platform_spec/ze_buttons_more.py`, 12 functions. Tests: `tools/emu/
 - **Calibration buttons.**
   - `system_calibration_button_handler` runs `system_calibration` and shows one of four messages
     for the results -2, -1, 0 and 1;
-  - `calibration_b4c_button_handler` runs 0x40039EB8 and picks its message from the bytes
+  - `bode_calibrate_button_handler` runs 0x40039EB8 and picks its message from the bytes
     0x42E22DE1 / 0x42E22DE2.
 - **Window and file buttons.**
   - `buttons_ac_open_windows` opens windows 0xD..0x12. Its last button toggles SYS+0x671 and
@@ -1474,10 +1475,10 @@ put text and numbers on the screen is in C.
 | `glyph_alpha_draw` 0x4002EE78 | `void (u32 x, u32 y, const u8 *glyph)` | anti-aliased (alpha-mask) glyph |
 
 - **Current font and state.** The font descriptor is the word 0x42E68C74 (set by
-  `word_42e68c74_set`). Byte +0 is the font type: 1 uses `font_glyph_index` and `font_char_draw`;
+  `font_set`). Byte +0 is the font type: 1 uses `font_glyph_index` and `font_char_draw`;
   8 is the digits-only font (`char_to_digit_glyph`, `font_char_tint_draw`). Other state: glyph
   widths at u16 +0x262 + 2 * glyph, fixed width u16 +8, spacing u16 0x42E68BE2
-  (`half_42e68be2_set`), centring byte 0x42E68BE0 (`byte_42e68be0_set`).
+  (`text_spacing_set`), centring byte 0x42E68BE0 (`text_centring_set`).
 - **UTF-8.** Strings are decoded as UTF-8 (1 to 4 bytes); only the low 16 bits of the code are
   used. In font type 1, a character with no glyph is drawn with the 14 x 14 font
   (`glyph_14x14_draw`, code from table u16 0x42CF64B4[code]) and advances 14 pixels.
@@ -1559,8 +1560,8 @@ These are complete screens, so they show how a screen is put together.
 
 - **How a screen is built** (STATIC-CONFIRMED from the code):
   1. The box comes from the window rectangle table 0x42E64520 (u16 x, y, w, h per window).
-  2. Set the font (`word_42e68c74_set(0x42E658D8)`), the character spacing
-     (`half_42e68be2_set`) and the colour (`draw_colour_set`, colours from a table such as
+  2. Set the font (`font_set(0x42E658D8)`), the character spacing
+     (`text_spacing_set`) and the colour (`draw_colour_set`, colours from a table such as
      SYS+0x3DD54C or SYS+0x3DD550).
   3. Draw with `rect_fill`, then texts with `text_shadow_draw(x, y, s, 1, 2, 0)`. A text comes
      from the UI table, whose x/y bytes +0x194/+0x195 nudge it for the current language.
@@ -1578,8 +1579,8 @@ These are complete screens, so they show how a screen is put together.
 
 | Function | Window | What it draws |
 |---|---|---|
-| `ui_delete_confirm_164` / `_180` / `_12c` | +0x164 / +0x180 / +0x12C | 'Delete selected <n> items ?' (n = u16 SYS+0x88BE) and 'Confirm' |
-| `ui_unplug_notice_19c` / `_252` | +0x19C / +0x252 | 'Notice !' unplug probes and USB, 'Confirm' |
+| `list_b_delete_confirm_draw` / `list_c_…` / `list_a_…` | +0x164 / +0x180 / +0x12C | 'Delete selected <n> items ?' (n = u16 SYS+0x88BE) and 'Confirm' |
+| `system_calibration_notice_draw` / `calibration_notice_draw` | +0x19C / +0x252 | 'Notice !' unplug probes and USB, 'Confirm' |
 | `ui_factory_reset_confirm` | +0x1AA | 'Notice !' restore factory settings ?, 'Confirm' |
 | `ui_clear_data_warning` | +0x1AA | 'Warning !' all saved data will be cleared, 'Confirm' |
 | `ui_connect_generator_notice` | +0x20C | 'Notice !' connect all channels to the generator, 'Confirm' |
@@ -2649,13 +2650,13 @@ DERIVED. The menu meanings come from the English labels of the text table (`buil
   - The blocks are 'CH1 parameter measurement' (entry 23) and 'CH2 parameter measurement' (entry
     24). The buttons are 'Vmax', 'Vmin', 'Vavg', 'Vrms', 'Vp', 'Vpp', 'F', 'T', 'T+', 'T-', 'Du+'
     and 'Du-'.
-  - Measurement k (1 .. 12) of channel c is shown as selected when `value_in_table_405456e8(c, k)`
+  - Measurement k (1 .. 12) of channel c is shown as selected when `marker_value_present(c, k)`
     is set. That is, k (CH1) or -k (CH2) is in the list of 24 shown measurements at 0x405456E8.
     The measurement codes are therefore +-1 .. +-12 in this order.
   - The touch records are 0x42E61FF8 + 0x250 + 0xA x (12 c + k - 1).
   - Stock quirk: the last two buttons are centred by the width of 'Dt+' / 'Dt-' but draw 'Du+' /
     'Du-'. 'Du' is probably the duty cycle (DERIVED). The C keeps both texts.
-  - The CH2 block is drawn without the `half_42e68be2_set(2)` that comes before the CH1 buttons.
+  - The CH2 block is drawn without the `text_spacing_set(2)` that comes before the CH1 buttons.
 
 ## Menu touch handlers and system menu (batch 69)
 
@@ -2668,7 +2669,7 @@ DERIVED. The menu meanings come from the English labels of the text table (`buil
   - `measure_select_buttons_update` updates the 24 records 0x42E61FF8 + 0x250 + 0xA x i.
   - The first record in state 2 (released) is reset to 0, together with the pending flag
     0x42E61FF8. Then measurement k = i % 12 + 1 of channel c = i / 12 is toggled.
-  - It is removed with `func_400300e8(c, k)` when `value_in_table_405456e8(c, k)` says it is shown.
+  - It is removed with `func_400300e8(c, k)` when `marker_value_present(c, k)` says it is shown.
     Otherwise it is added with `marker_value_add(c, k)`.
 - **`timebase_menu_buttons`** (0x400533A0) is the touch handler of the time-base menu.
   - `timebase_menu_buttons_update` updates the records. The first record in state 2 is handled: + 0x426 gives
@@ -2757,8 +2758,8 @@ meanings of the fields are DERIVED.
     2 zoom position; 3 / 4 position plus the CH1 / CH2 offset (SYS+0x60 / +0x120), plus the trigger
     level SYS+0x27E when that channel is the trigger channel (SYS+0x27C); 5 / 6 zoom position plus
     the CH1 / CH2 offset; 7, 8 cursor words SYS+0x808 / +0x80C (moved by dx,
-    `cursor_808_clamp`); 9, 10 cursor words SYS+0x810 / +0x814 (moved by dy,
-    `cursor_810_clamp`); 11, 12 words SYS+0x3DA534 / +0x3DA538 (dx, `cursor_3da534_clamp(0 / 1)`);
+    `time_cursors_clamp`); 9, 10 cursor words SYS+0x810 / +0x814 (moved by dy,
+    `level_cursors_clamp`); 11, 12 words SYS+0x3DA534 / +0x3DA538 (dx, `cursor_3da534_clamp(0 / 1)`);
     13 both offsets (CH1 by -dx, CH2 by dy).
   - Move: `touch_drag_delta` gives dx, dy (words U+0x30, U+0x34). A position moves by dx times the
     time per pixel (int64 SYS+0x590, zoom SYS+0x5A0), only when SYS+0x580 is set for objects 1 .. 4.
@@ -3087,7 +3088,7 @@ failure parks the CPU in `for (;;)`. The result flags are bytes at 0x42E68AE0 + 
 | y | Label | Test | Flag (sub-flags on failure) |
 |---:|---|---|---|
 | 15 | 磁盘初始化 (disk init) | `disk_check_file` | +0x10 |
-| 40 | FPGA检测 (FPGA) | `fpga_probe_and_copy_7fc` | +0x11 |
+| 40 | FPGA检测 (FPGA) | `fpga_probe_and_record` | +0x11 |
 | 65 | 加密芯片检测 (crypto chip) | `security_check_and_copy` | +0x12 |
 | 90 | ADC检测 (ADC) | `table_684_init`, `selftest_4f5e4` | +0x18 (ADC1..ADC8: +0x19..+0x20, one red line each) |
 | 115 | 系统校准 (system calibration) | `calibration_result_flags`, `acq_defaults_reset`, `calib_run_4_channels` with SYS+0x54E = 1 | +0x21 (channel 1 / 2: +0x22 / +0x23) |
@@ -3159,7 +3160,7 @@ text, edit the row or the string at the listed address.
 |---:|---|
 | 1 | `sys_clock_init(0x44AA2000)`, `sys_mmu_init`, `timers_init`, word 0x40095490 = 1 |
 | 2 | `factory_defaults`, `spi0_init(0)`, `settings_load_all`, `ui_text_init` |
-| 3 | `FPGA_Start`, `display_start`, `touch_init`, `ui_layout_and_text_init`, `colour_table_3dd530_init` |
+| 3 | `FPGA_Start`, `display_start`, `touch_init`, `ui_layout_and_text_init`, `theme_colours_init` |
 | 4 | `disk_mount`, `SMEC_Init`, `power_monitor_init`, `acquisition_reconfigure`, `rate_table_init_entry`, `applied_state_invalidate` |
 | 5 | `Gen_Init`, `sd_update_check`, `factory_steps_run`, `outputs_apply`, `ui_windows_open_1_5` |
 | loop | `touch_service`, `window_touch_poll`, `ui_frame_update`, SYS32(0x64C) += 1 (pass counter) |

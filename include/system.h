@@ -6,14 +6,14 @@
 #include "rt/bits.h"
 
 int main(void);                                                                                  /* 0x40034700 */
-void reload_chain_40035744(void);                                                                /* 0x40035744 */
-void reload_chain_400373e0(void);                                                                /* 0x400373E0 */
-void reload_chain_400378e0(void);                                                                /* 0x400378E0 */
+void list_b_reload(void);                                                                /* 0x40035744 */
+void list_c_save_new(void);                                                                /* 0x400373E0 */
+void list_c_reload(void);                                                                /* 0x400378E0 */
 void outputs_apply(void);                                                                        /* 0x4003E708 */
 void system_defaults_init(void);                                                                 /* 0x4003E738 */
-void state_block_3f984_init(void);                                                               /* 0x4003ED28 */
-void state_block_180c8_init(void);                                                               /* 0x4003ED80 */
-void state_block_68668_init(void);                                                               /* 0x4003EDF4 */
+void generator_state_init(void);                                                               /* 0x4003ED28 */
+void bode_state_init(void);                                                               /* 0x4003ED80 */
+void levels_state_init(void);                                                               /* 0x4003EDF4 */
 void state_blocks_init(void);                                                                    /* 0x4003EEB0 */
 void applied_state_invalidate(void);                                                             /* 0x4003EF1C */
 void factory_defaults(void);                                                                     /* 0x4003EFAC */

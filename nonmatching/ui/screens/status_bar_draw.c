@@ -44,7 +44,7 @@ static void sb_text(u32 x, u32 y, const char *s)
 
 static void sb_num(struct sbc *c, u32 x, u32 y)
 {
-    text_d6f8_shadow_draw(U16(x), U16(y), (u32)c->v, (u32)((unsigned long long)c->v >> 32),
+    number_mode0_shadow_draw(U16(x), U16(y), (u32)c->v, (u32)((unsigned long long)c->v >> 32),
                           (unsigned char)c->dec, 1, 2, 0);
 }
 
@@ -141,8 +141,8 @@ void status_bar_draw(void)
     struct sbc st, *c = &st;
 
     y1 = y + 0x19;
-    word_42e68c74_set(0x42E658D8u);
-    half_42e68be2_set(2);
+    font_set(0x42E658D8u);
+    text_spacing_set(2);
 
     sb_channel(c, x, y, 0x3E, 0x68, 0xFFFF00, "CH1", 0xAC);
     x = U16(x + 0x86);
@@ -198,7 +198,7 @@ void status_bar_draw(void)
     sb_text(w + x + 0xA, y1, c->buf);
     fx = text_width("bit");
     w = number_text_width_mode0_raw(S8(0x660) + 8, 0, 0);
-    text_d6f8_shadow_draw(U16(x + 0x77 - fx - w), U16(y1), S8(0x660) + 8, 0, 0, 1, 2, 0);
+    number_mode0_shadow_draw(U16(x + 0x77 - fx - w), U16(y1), S8(0x660) + 8, 0, 0, 1, 2, 0);
     sb_text(x + 0x7B - text_width("bit"), y1, "bit");
     sb_button(x, y, 0xCA);
 
@@ -253,11 +253,11 @@ void status_bar_draw(void)
     x = x + 0x86;
     sb_tile(x, y, 0xFF3388, "GEN");
     draw_colour_set(0x5555FF);
-    half_42e68be2_set(1);
+    text_spacing_set(1);
     w = text_width((const char *)(0x40094EF0u + GENS(waveform) * 30u));
     sb_text(x + 0x7B - w, y + 2, (const char *)(0x40094EF0u + GENS(waveform) * 30u));
     draw_colour_set(THEME_WORD(0x18));
-    half_42e68be2_set(2);
+    text_spacing_set(2);
     value_si_scale(6, 0, (long long)GN32(0x2F00) * 1000, &c->v, &c->dec, &c->pre);
     switch (c->pre) {
     case 0: str_copy_raw(c->buf, "uV"); break;

@@ -14,8 +14,8 @@ void switch_on_off_draw(u32 x, u32 y, u32 on)
     volatile u32 *t = (volatile u32 *)(0x40544E68u + 0x3DD568u);
     u32 font = W32(0x42E68C74u);
     unsigned short h = H16(0x42E68BE2u);
-    half_42e68be2_set(2);
-    word_42e68c74_set(0x42E64F58u);
+    text_spacing_set(2);
+    font_set(0x42E64F58u);
     draw_colour_set(t[0]);
     rect_fill(x, (unsigned short)(y + 2), 0x3C, 0x1C);
     if (on) {
@@ -29,6 +29,6 @@ void switch_on_off_draw(u32 x, u32 y, u32 on)
         draw_colour_set(t[3]);
         text_draw((unsigned short)(x + 0x23), (unsigned short)(y + 10), (const char *)0x40019DB4u);
     }
-    word_42e68c74_set(font);
-    half_42e68be2_set((unsigned char)h);
+    font_set(font);
+    text_spacing_set((unsigned char)h);
 }

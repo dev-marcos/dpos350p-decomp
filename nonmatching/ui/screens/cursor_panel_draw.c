@@ -87,13 +87,13 @@ static void cp_row(struct cpc *c, u32 kind, u32 off, u32 x8, u32 top, u32 rh, co
 
     value_si_scale(kind, 0, S64(off), &c->v, &c->dec, &c->pre);
     draw_colour_set(CP_GREY);
-    word_42e68c74_set(CP_LFONT);
+    font_set(CP_LFONT);
     text_draw(U16(x8), U16(ly), l1);
     if (l2)
         text_draw(U16(TEXT_W + x8 + l2dx), U16(ly), l2);
     draw_colour_set(0xFFFFFF);
-    word_42e68c74_set(CP_VFONT);
-    half_42e68be2_set(3);
+    font_set(CP_VFONT);
+    text_spacing_set(3);
     if (flags & CP_ABS) {
         if (c->v < 0)
             c->v = -c->v;
@@ -107,10 +107,10 @@ static void cp_row(struct cpc *c, u32 kind, u32 off, u32 x8, u32 top, u32 rh, co
         number_draw_mode1(U16(numx), U16(ny), (u32)c->v, (u32)((unsigned long long)c->v >> 32),
                             (unsigned char)c->dec);
     }
-    half_42e68be2_set(2);
+    text_spacing_set(2);
     numx = numx + TEXT_W + 7;
     draw_colour_set(CP_GREY);
-    word_42e68c74_set(CP_LFONT);
+    font_set(CP_LFONT);
     s = cp_unit(unit, c->pre);
     if (s)
         text_draw(U16(numx), U16(ly), s);
@@ -139,7 +139,7 @@ void cursor_panel_draw(void)
     if (S8(0x802) == 0 && S8(0x803) == 0)
         return;
     *(volatile unsigned char *)0x42E68D1Au = 0;
-    half_42e68be2_set(2);
+    text_spacing_set(2);
     px = S16(4) + 1;
     if (S8(0x2AA) == 0) {
         py = S16(6) + 1;
@@ -177,8 +177,8 @@ void cursor_panel_draw(void)
     S32(0x824) = (int)((unsigned long long)t2 >> 32);
 
     /* row backgrounds and headers */
-    half_42e68be2_set(2);
-    word_42e68c74_set(CP_LFONT);
+    text_spacing_set(2);
+    font_set(CP_LFONT);
     y = py;
     if (S8(0x802)) {
         cp_block(px, y, rh, 5, "HOR");
@@ -194,7 +194,7 @@ void cursor_panel_draw(void)
     }
 
     /* values */
-    half_42e68be2_set(2);
+    text_spacing_set(2);
     y = py;
     if (S8(0x802)) {
         cp_row(c, 8, 0x818, px + 8, y + rh, rh, "H", "1", 1, px + 0x24, 0, 0);

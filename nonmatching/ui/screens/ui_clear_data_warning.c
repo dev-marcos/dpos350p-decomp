@@ -23,8 +23,8 @@ static void msgbox(u32 roff, u32 t, u32 b, u32 xo, u32 bd, u32 boff)
 {
     u32 x = WR16(roff), y = WR16(roff + 2), w = WR16(roff + 4), h = WR16(roff + 6);
     u32 iw, x2, y2, bx, bw, by, tw;
-    word_42e68c74_set(0x42E658D8u);
-    half_42e68be2_set(2);
+    font_set(0x42E658D8u);
+    text_spacing_set(2);
     draw_colour_set(THEME_MENU_BG);
     rect_fill(x, y, w, h);
     draw_colour_set(0);

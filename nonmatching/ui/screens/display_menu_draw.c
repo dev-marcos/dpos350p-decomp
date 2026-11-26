@@ -44,16 +44,16 @@ void display_menu_draw(void)
     u32 x = WREC(10, x), y = WREC(10, y), w = WREC(10, w), h = WREC(10, h);
     u32 r0 = y + 0x14, r, nw;
 
-    word_42e68c74_set(0x42E658D8u);
-    half_42e68be2_set(1);
+    font_set(0x42E658D8u);
+    text_spacing_set(1);
     draw_colour_set(THEME_MENU_BG);
     rect_fill(x, y, w, h);
     label_row(x, r0, 0x40089628u, UI_TEXT(16));
     text_shadow_draw((x + w - 0x1C) & 0xFFFF, (r0 + 3) & 0xFFFF, "%", 1, 2, 0);
-    half_42e68be2_set(3);
+    text_spacing_set(3);
     nw = number_text_width_mode0_raw(SI(waveform_light), 0, 0);
-    text_d6f8_shadow_draw((x + w - 0x20 - nw) & 0xFFFF, (r0 + 3) & 0xFFFF, SI(waveform_light), 0, 0, 1, 2, 0);
-    half_42e68be2_set(1);
+    number_mode0_shadow_draw((x + w - 0x20 - nw) & 0xFFFF, (r0 + 3) & 0xFFFF, SI(waveform_light), 0, 0, 1, 2, 0);
+    text_spacing_set(1);
     slider_draw((x + 0x14) & 0xFFFF, (r0 + 0x3C) & 0xFFFF, SI(waveform_light));
     touch_button_set_rect(x, (r0 + 0x3C - 0x16) & 0xFFFF, w, 0x3C, (volatile unsigned char *)(BTN + 0x20A));
 
@@ -80,9 +80,9 @@ void display_menu_draw(void)
     wide_button(x, r, w, 0x23C);
     r += 0x3C;
     label_row(x, r, 0x4008BCF8u, UI_TEXT(22));
-    half_42e68be2_set(2);
+    text_spacing_set(2);
     text_shadow_draw((H16(0x42E68BE4u) + x + 0x41) & 0xFFFF, (r + 3) & 0xFFFF, (const char *)0x40090318u, 1, 2, 0);
-    half_42e68be2_set(1);
+    text_spacing_set(1);
     icon_19c7c_draw((x + 0x186) & 0xFFFF, r & 0xFFFF);
     wide_button(x, r, w, 0x246);
 }

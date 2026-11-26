@@ -17,14 +17,14 @@ static void row(u32 y, const char *lab, u32 sz, double f, double g, double ph, u
 {
     u32 x = BODES(plot_x) + 0xA;
     draw_colour_set(0xBBBBBB);
-    half_42e68be2_set(sz);
+    text_spacing_set(sz);
     text_draw(U16(x), U16(y), lab);
-    half_42e68be2_set(2);
+    text_spacing_set(2);
     x += TW;
     if (sz != 4)
         x -= 2;
     text_draw(U16(x), U16(y), "= ");
-    half_42e68be2_set(2);
+    text_spacing_set(2);
     x += TW;
     draw_colour_set(0xBBBBBB);
     frequency_draw(U16(x), U16(y), 0, f);
@@ -58,7 +58,7 @@ void bode_cursors_draw(void)
     c1 = BODES(cursor1);
     c2 = BODES(cursor2);
     n = ((int)(BODES(plot_y) + BODES(plot_h)) - (int)top + 1) / 4;
-    word_42e68c74_set(0x42E65418u);
+    font_set(0x42E65418u);
     draw_colour_set(0xBBBBBB);
     if (n != 0) {
         x = (u32)c1 + x1 + 0xFFFF;
@@ -71,17 +71,17 @@ void bode_cursors_draw(void)
     x = (u32)c1 + BODES(plot_x);
     tag(x, top);
     draw_colour_set(0);
-    half_42e68be2_set(2);
+    text_spacing_set(2);
     text_draw(U16(x - 3), U16(top), "C");
     text_draw(U16(x - 1), U16(top + 9), "1");
     x = (u32)c2 + BODES(plot_x);
     tag(x, top);
-    half_42e68be2_set(1);
+    text_spacing_set(1);
     draw_colour_set(0);
     text_draw(U16(x - 3), U16(top), "C");
     text_draw(U16(x - 2), U16(top + 9), "2");
-    half_42e68be2_set(1);
-    word_42e68c74_set(0x42E658D8u);
+    text_spacing_set(1);
+    font_set(0x42E658D8u);
     y = BODES(plot_h) + BODES(plot_y) - 0x37;
     row(y, "C1 ", 4, BODES(c1_freq), BODES(c1_gain), BODES(c1_phase), 1);
     row(y + 0x11, "C2 ", 3, BODES(c2_freq), BODES(c2_gain), BODES(c2_phase), 1);

@@ -22,7 +22,7 @@ void trace_markers_draw(void)
         lo = (bot - 8 > y) ? y : bot - 8;
     draw_colour_set(0xFFFF);
     rect_fill(U16(x), U16(lo - 7), 0xB, 0xF);
-    word_42e68c74_set(0x42E658D8u);
+    font_set(0x42E658D8u);
     draw_colour_set(0);
     text_draw(U16(x + 3), U16(lo - 6), "2");
     draw_colour_set(0xFFFF);
@@ -35,7 +35,7 @@ void trace_markers_draw(void)
     k = (int)SI(plot_y0) + 1;
     draw_colour_set(0xFFFF00);
     rect_fill(U16(x - 7), U16(k), 0xF, 0xB);
-    word_42e68c74_set(0x42E658D8u);
+    font_set(0x42E658D8u);
     k += 0xB;
     for (i = 0; i < 8; i++) {
         vline_draw(U16(x - i), U16(k), U16(k + 7 - i));

@@ -117,7 +117,7 @@ void window_buttons_dispatch(u32 id)
         bode_cursor_drag_buttons();
         break;
     case 37:
-        calibration_b4c_button_handler();
+        bode_calibrate_button_handler();
         break;
     case 38:
         levels_toolbar_buttons();

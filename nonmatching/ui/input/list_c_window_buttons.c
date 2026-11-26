@@ -96,7 +96,7 @@ void list_c_window_buttons(void)
         BREC(251, state) = 0;
         BREC_BYTE0 = 0;
         if (SI(list_mark_mode)) {
-            list_count_nonzero_40037880();
+            list_c_marks_count();
             ui_window_open(0x1B);
         }
         return;
@@ -114,7 +114,7 @@ void list_c_window_buttons(void)
         }
         PS16(0x14) = (short)nv;
         PS16(0xE) = (short)sdv((short)nv, P16(0xA));
-        list_cursor_clamp_4003771c();
+        list_c_cursor_clamp();
     }
     inv_left(0x1A);
 }

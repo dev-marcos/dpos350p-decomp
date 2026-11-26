@@ -20,10 +20,10 @@ void levels_max_panel_draw(void)
         return;
     x = LEVELS(plot_x) + 8;
     y = LEVELS(plot_y) + 8;
-    half_42e68be2_set(1);
-    word_42e68c74_set(0x42E64F58u);
-    half_42e68be2_set(2);
-    word_42e68c74_set(0x42E658D8u);
+    text_spacing_set(1);
+    font_set(0x42E64F58u);
+    text_spacing_set(2);
+    font_set(0x42E658D8u);
     draw_colour_set(0xDDDDDD);
     text_draw(x & 0xFFFF, y & 0xFFFF, (const char *)0x400902C0u);
     x += H16(ADV);

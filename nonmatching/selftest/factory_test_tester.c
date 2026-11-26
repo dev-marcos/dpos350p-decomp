@@ -62,17 +62,17 @@ void factory_test_tester(void)
     fb_target_back();
     fb_clear_current();
     draw_colour_set(FT_WHITE);
-    word_42e68c74_set(FT_FONT);
-    half_42e68be2_set(1);
+    font_set(FT_FONT);
+    text_spacing_set(1);
     text_draw(15, 15, (const char *)0x4008D32Cu);       /* 请插入测试器并按 OK 键继续... */
     draw_colour_set(0x555555);
     rect_fill(452, 240, 120, 120);
     draw_colour_set(FT_WHITE);
-    half_42e68be2_set(3);
-    word_42e68c74_set(0x42E65D98u);
+    text_spacing_set(3);
+    font_set(0x42E65D98u);
     text_draw(502, 290, (const char *)0x40051964u);     /* "OK" */
-    half_42e68be2_set(1);
-    word_42e68c74_set(FT_FONT);
+    text_spacing_set(1);
+    font_set(FT_FONT);
     fb_present();
     do
         gt911_poll();
@@ -82,9 +82,9 @@ void factory_test_tester(void)
     text_draw(15, 15, (const char *)0x4008D7B0u);       /* 通道和信号发生器检测 ... */
     fb_present();
     acq_defaults_reset();
-    state_block_3f984_init();
-    state_block_180c8_init();
-    state_block_68668_init();
+    generator_state_init();
+    bode_state_init();
+    levels_state_init();
     outputs_apply();
     gen_output_calibrate();
     bode_calibrate();

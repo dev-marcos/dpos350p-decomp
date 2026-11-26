@@ -36,6 +36,6 @@ void format_button_handler(void)
     message_box_draw(TX8(0xAAA0 + 0x194) + (int)(cx & 0xFFFF), TX8(0xAAA0 + 0x195) + (int)(cy & 0xFFFF),
                      TX32(0xAAA0), 0);
     delay_ms(500);
-    rect_42e68c38_draw();
+    message_box_erase();
     ui_window_close_raw(0x1F);
 }

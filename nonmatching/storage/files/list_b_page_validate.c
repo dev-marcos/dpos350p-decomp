@@ -1,7 +1,7 @@
 /*
  * list_b_page_validate -- stock 0x4003656C (120 bytes, ARM)
  * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
- * Page index = selected entry SYS+0xFA4 / page size; walks the entries of that page until a zero entry, and when one of them has no file (file_exists_40035bc4), runs list_b_prune_missing and stops. Then the cursor clamp.
+ * Page index = selected entry SYS+0xFA4 / page size; walks the entries of that page until a zero entry, and when one of them has no file (waveform_file_exists), runs list_b_prune_missing and stops. Then the cursor clamp.
  */
 #include "hw/platform.h"
 
@@ -21,10 +21,10 @@ void list_b_page_validate(void)
         u32 v = *p++;
         if (v == 0)
             break;
-        if (file_exists_40035bc4(v) == 0) {
+        if (waveform_file_exists(v) == 0) {
             list_b_prune_missing();
             break;
         }
     }
-    list_cursor_clamp_400362f4();
+    list_b_cursor_clamp();
 }

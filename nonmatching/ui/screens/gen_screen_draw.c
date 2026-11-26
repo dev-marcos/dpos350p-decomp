@@ -29,7 +29,7 @@ static void gs_text(u32 x, u32 y, const char *s)
 
 static void gs_digit(u32 x, u32 y, unsigned short d)
 {
-    text_d6f8_shadow_draw(U16(x), U16(y), d, 0, 0, 1, 2, 0);
+    number_mode0_shadow_draw(U16(x), U16(y), d, 0, 0, 1, 2, 0);
 }
 
 static u32 gs_arrow_colour(u32 rec)
@@ -44,9 +44,9 @@ void gen_screen_draw(void)
     unsigned short d[8];
     int v;
 
-    byte_42e68be0_set(0);
-    word_42e68c74_set(0x42E658D8u);
-    half_42e68be2_set(1);
+    text_centring_set(0);
+    font_set(0x42E658D8u);
+    text_spacing_set(1);
     draw_colour_set(PAL(1));
     draw_colour_set(0);
     rect_fill(x, y, w, U16(h));
@@ -66,21 +66,21 @@ void gen_screen_draw(void)
     draw_colour_set(PAL(5));
     for (i = 0; i < 0x23; i++)
         hspan_fill(U16(cy + 0x22 - i), x, U16(x + i));
-    word_42e68c74_set(0x42E64A98u);
+    font_set(0x42E64A98u);
     draw_colour_set(0xC0C0C0);
     for (i = 0; i < 4; i++)
         gs_text(x + 0x23 + TEXT_DX(UI_TEXT(46 + i)), y + 0x17 + 0x3F * i + TEXT_DY(UI_TEXT(46 + i)), TXP(46 + i));
 
-    half_42e68be2_set(2);                                      /* units */
-    word_42e68c74_set(0x42E658D8u);
+    text_spacing_set(2);                                      /* units */
+    font_set(0x42E658D8u);
     gs_text(x + 0x9E + 0xB9, y + 0x1E, "Hz");
     gs_text(x + 0x9E + 0x66, y + 0x5D, "VPP");
     gs_text(GN32(0x2F04) == 0 ? x + 0x9E + 0x66 : x + 0x9E + 0x7A, y + 0x9C, "VDC");
     gs_text(x + 0x9E + 0x53, y + 0xDB, "%");
 
-    byte_42e68be0_set(1);                                      /* read-outs */
-    half_42e68be2_set(1);
-    word_42e68c74_set(0x42E66BD8u);
+    text_centring_set(1);                                      /* read-outs */
+    text_spacing_set(1);
+    font_set(0x42E66BD8u);
     draw_colour_set(0xFFFFFF);
     v = GN32(0x2EFC);
     d[0] = v / 10000000;
@@ -143,7 +143,7 @@ void gen_screen_draw(void)
         }
     }
 
-    byte_42e68be0_set(0);                                      /* edit cursor */
+    text_centring_set(0);                                      /* edit cursor */
     draw_colour_set(PAL(5));
     sel = GENS(f_001);
     cur = **(volatile unsigned char *volatile *)(0x42E3F984u + 4);
@@ -198,8 +198,8 @@ void gen_screen_draw(void)
     touch_button_set_rect(U16(x + 0x229), U16(y + 0x5A), 0x5C, 0x46, TREC(0x674));
     touch_button_set_rect(U16(x + 0x229), U16(y), 0x5C, 0x5A, TREC(0x67E));
 
-    word_42e68c74_set(0x42E658D8u);                            /* waveform preview */
-    half_42e68be2_set(1);
+    font_set(0x42E658D8u);                            /* waveform preview */
+    text_spacing_set(1);
     draw_colour_set(PAL(1));
     rect_fill(x, U16(y + 0xFC), U16(w - 3), 0xBE);
     touch_button_set_rect(x, U16(y + 0xFC), U16(w - 3), 0xBE, TREC(0x64C));
@@ -215,7 +215,7 @@ void gen_screen_draw(void)
         }
 
     if (GENS(f_00c)) {                                             /* waveform picker */
-        word_42e68c74_set(0x42E64A98u);
+        font_set(0x42E64A98u);
         draw_colour_set(PAL(1));
         rect_fill(x, y, U16(w - 3), 0xF9);
         draw_colour_set(PAL(4));

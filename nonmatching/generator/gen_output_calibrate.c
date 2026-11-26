@@ -37,7 +37,7 @@ void gen_output_calibrate(void)
     double a, b, c, k0, k1, k2, d;
     float f0, f1, f2;
     state_backup_all();
-    state_block_3f984_init();
+    generator_state_init();
     GENS(frequency) = 1000;
     GENS(period_len) = 2000;
     SI(timebase_index) = 0x18;

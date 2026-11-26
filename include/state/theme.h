@@ -1,5 +1,5 @@
 /* The colour table at SYS_INFO + 0x3DD530 (build 2025-06-19): 22 words that
- * colour_table_3dd530_init fills. The names are DERIVED from the screens that use them
+ * theme_colours_init fills. The names are DERIVED from the screens that use them
  * (docs/DRIVERS.md: toolbars, menus, option buttons); THEME_WORD(o) reaches the others. */
 #ifndef THEME_H
 #define THEME_H

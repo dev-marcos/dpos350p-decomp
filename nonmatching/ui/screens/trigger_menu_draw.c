@@ -59,8 +59,8 @@ void trigger_menu_draw(void)
     u32 x = WREC(17, x), y = WREC(17, y), w = WREC(17, w), h = WREC(17, h);
     u32 r;
 
-    word_42e68c74_set(0x42E658D8u);
-    half_42e68be2_set(1);
+    font_set(0x42E658D8u);
+    text_spacing_set(1);
     draw_colour_set(THEME_MENU_BG);
     rect_fill(x, y, w, h);
 

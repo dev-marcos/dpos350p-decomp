@@ -45,7 +45,7 @@ u32 lane_level_mean(u32 start, u32 lane, u32 ch, u32 n, unsigned char *buf);    
 void lane_gain_calibrate(void);                                                                  /* 0x4004B0A0 */
 void fpga_sel42_43_fill(u32 n);                                                                  /* 0x4004EC98 */
 void fpga_cmd63_write(void);                                                                     /* 0x4004EEEC */
-void fpga_probe_and_copy_7fc(void);                                                              /* 0x4004F59C */
+void fpga_probe_and_record(void);                                                              /* 0x4004F59C */
 void security_check_and_copy(void);                                                              /* 0x4004F5C0 */
 void fpga_config_push(void);                                                                     /* 0x40063328 */
 void fpga_cmd0c_write(void);                                                                     /* 0x40063354 */
@@ -59,7 +59,7 @@ void fpga_cmd1a_write(void);                                                    
 void fpga_cmd1b_write(void);                                                                     /* 0x400636BC */
 void fpga_cmd1c_write(void);                                                                     /* 0x40063714 */
 void fpga_cmd18_read(void);                                                                      /* 0x40063770 */
-void fpga_position_290_update(void);                                                             /* 0x40063798 */
+void fpga_position_update(void);                                                             /* 0x40063798 */
 void fpga_counters_init(void);                                                                   /* 0x40063BC0 */
 void fpga_counter_step(u32 ch);                                                                  /* 0x40063C34 */
 void fpga_counter_step_all(void);                                                                   /* 0x40063CB0 */

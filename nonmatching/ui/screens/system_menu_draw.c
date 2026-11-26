@@ -46,8 +46,8 @@ void system_menu_draw(void)
     const char *s;
     int k;
 
-    word_42e68c74_set(0x42E658D8u);
-    half_42e68be2_set(1);
+    font_set(0x42E658D8u);
+    text_spacing_set(1);
     draw_colour_set(THEME_MENU_BG);
     rect_fill(x, y, w, h);
     r = y + 0x14;
@@ -77,10 +77,10 @@ void system_menu_draw(void)
             rect_fill(xo & 0xFFFF, r & 0xFFFF, 0x41, 0x1E);
         }
     }
-    word_42e68c74_set(0x42E658D8u);
+    font_set(0x42E658D8u);
     r += 0x48;
     arrow_row(x, r, w, 0x400891D8u, UI_TEXT(13), 0x1D8, 5);
-    word_42e68c74_set(0x42E658D8u);
+    font_set(0x42E658D8u);
     r += 0x3C;
     arrow_row(x, r, w, 0x40089348u, UI_TEXT(14), 0x1E2, 5);
     r += 0x3C;

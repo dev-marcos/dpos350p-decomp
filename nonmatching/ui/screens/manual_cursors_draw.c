@@ -19,7 +19,7 @@ static void hmark(u32 xc, u32 top, const char *digit, unsigned short ty1, unsign
     u32 y = top + 0xB, j;
     draw_colour_set(0xDDDDDD);
     rect_fill(U16(xc - 8), U16(top), 0x11, 0xE);
-    word_42e68c74_set(0x42E65418u);
+    font_set(0x42E65418u);
     for (j = 0; j <= 8; j++) {
         vline_draw(U16(xc - j), U16(y), U16(y + 0xD - j));
         vline_draw(U16(xc + j), U16(y), U16(y + 0xD - j));
@@ -103,14 +103,14 @@ void manual_cursors_draw(void)
     if (SI(cursor_y_on)) {
         p = clamp_y((int)(v1 + y0 - 1));
         vmark(p);
-        half_42e68be2_set(2);
-        word_42e68c74_set(0x42E65418u);
+        text_spacing_set(2);
+        font_set(0x42E65418u);
         draw_colour_set(0);
         text_draw(0x3A6, U16(p + 0xFFFB), "V1");
         p = clamp_y((int)(v2 + y0 - 1));
         vmark(p);
-        half_42e68be2_set(1);
-        word_42e68c74_set(0x42E65418u);
+        text_spacing_set(1);
+        font_set(0x42E65418u);
         draw_colour_set(0);
         text_draw(0x3A5, U16(p + 0xFFFB), "V2");
     }

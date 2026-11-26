@@ -92,7 +92,7 @@ void list_a_thumbs_buttons(void)
         BREC(201, state) = 0;
         BREC_BYTE0 = 0;
         if (SI(list_mark_mode)) {
-            list_count_nonzero_400353a8();
+            list_a_marks_count();
             ui_window_open(0x15);
         }
         return;
@@ -110,7 +110,7 @@ void list_a_thumbs_buttons(void)
         }
         PS16(0x14) = (short)nv;
         PS16(0xE) = (short)sdv((short)nv, P16(0xA));
-        list_cursor_clamp_40035248();
+        list_a_cursor_clamp();
         list_a_page_thumbs();
     }
     inv_left(0x14);

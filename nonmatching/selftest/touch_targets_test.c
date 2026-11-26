@@ -20,8 +20,8 @@ void touch_targets_test(void)
     fb_target_back();
     fb_clear_current();
     draw_colour_set(0xCCCCCC);
-    word_42e68c74_set(0x42E658D8);
-    half_42e68be2_set(1);
+    font_set(0x42E658D8);
+    text_spacing_set(1);
     rect_fill(0x14, 0x14, 0x50, 0x50);
     rect_fill(0x39C, 0x14, 0x50, 0x50);
     rect_fill(0x14, 0x1F4, 0x50, 0x50);

@@ -72,8 +72,8 @@ void bode_sweep_bar_draw(void)
     w = WREC(35, w);
     h = WREC(35, h);
     draw_colour_set(0xFFFFFF);
-    word_42e68c74_set(0x42E658D8u);
-    half_42e68be2_set(2);
+    font_set(0x42E658D8u);
+    text_spacing_set(2);
     draw_colour_set(0);
     rect_fill(x, y, w, h);
     tx = x + 3;

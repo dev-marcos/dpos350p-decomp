@@ -5,7 +5,7 @@ address,size,name,type,evidence_level,source
 0x40000042,18400,fonts_40000042,data,DERIVED,analyze.py
 0x40004822,18,pad_40004822,padding,STATIC-CONFIRMED,analyze.py:zero
 0x40004834,86720,fonts_40004834,data,DERIVED,analyze.py
-0x40019AF4,152,colour_table_3dd530_init,function_arm,DERIVED,this-project:phase5 (ui)
+0x40019AF4,152,theme_colours_init,function_arm,DERIVED,this-project:phase5 (ui)
 0x40019B8C,240,switch_on_off_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x40019C7C,124,icon_19c7c_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x40019CF8,184,slider_draw,function_arm,DERIVED,this-project:phase5 (ui)
@@ -75,7 +75,7 @@ address,size,name,type,evidence_level,source
 0x40024E28,12,pool_40024e28,literal_pool,DERIVED,analyze.py
 0x40024E34,1,code_40024e34,data,OPEN,analyze.py
 0x40024E35,3,pad_40024e35,padding,STATIC-CONFIRMED,analyze.py:zero
-0x40024E38,656,ui_delete_confirm_12c,function_arm,DERIVED,this-project:phase5 (ui)
+0x40024E38,656,list_a_delete_confirm_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x400250C8,8,code_400250c8,data,OPEN,analyze.py
 0x400250D0,12,pool_400250d0,literal_pool,DERIVED,analyze.py
 0x400250DC,3104,screenshot_browser_draw,function_arm,DERIVED,this-project:phase5 (ui)
@@ -84,12 +84,12 @@ address,size,name,type,evidence_level,source
 0x40025D88,44,pool_40025d88,literal_pool,DERIVED,analyze.py
 0x40025DB4,1324,screenshot_view_frame_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x400262E0,24,pool_400262e0,literal_pool,DERIVED,analyze.py
-0x400262F8,664,ui_delete_confirm_164,function_arm,DERIVED,this-project:phase5 (ui)
+0x400262F8,664,list_b_delete_confirm_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x40026590,4,code_40026590,data,OPEN,analyze.py
 0x40026594,40,pool_40026594,literal_pool,DERIVED,analyze.py
 0x400265BC,3052,waveform_browser_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x400271A8,8,pool_400271a8,literal_pool,DERIVED,analyze.py
-0x400271B0,664,ui_delete_confirm_180,function_arm,DERIVED,this-project:phase5 (ui)
+0x400271B0,664,list_c_delete_confirm_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x40027448,36,pool_40027448,literal_pool,DERIVED,analyze.py
 0x4002746C,4,code_4002746c,data,OPEN,analyze.py
 0x40027470,40,pool_40027470,literal_pool,DERIVED,analyze.py
@@ -106,7 +106,7 @@ address,size,name,type,evidence_level,source
 0x40028AA0,20,pool_40028aa0,literal_pool,DERIVED,analyze.py
 0x40028AB4,1376,config_slot_menu_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x40029014,40,pool_40029014,literal_pool,DERIVED,analyze.py
-0x4002903C,660,ui_unplug_notice_19c,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002903C,660,system_calibration_notice_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x400292D0,20,pool_400292d0,literal_pool,DERIVED,analyze.py
 0x400292E4,900,ui_language_menu_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x40029668,20,pool_40029668,literal_pool,DERIVED,analyze.py
@@ -129,7 +129,7 @@ address,size,name,type,evidence_level,source
 0x4002BC40,1744,fft_settings_menu_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002C310,4,code_4002c310,data,OPEN,analyze.py
 0x4002C314,24,pool_4002c314,literal_pool,DERIVED,analyze.py
-0x4002C32C,664,ui_unplug_notice_252,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002C32C,664,calibration_notice_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002C5C4,48,sys_rect_fill,function_arm,DERIVED,this-project:phase5 (display)
 0x4002C5F4,4,pool_4002c5f4,literal_pool,DERIVED,analyze.py
 0x4002C5F8,416,xy_grid_draw,function_arm,DERIVED,this-project:phase5 (trace)
@@ -140,7 +140,7 @@ address,size,name,type,evidence_level,source
 0x4002CC68,4,pool_4002cc68,literal_pool,DERIVED,analyze.py
 0x4002CC6C,48,sys_rect_redraw_gated,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002CC9C,48,pool_4002cc9c,literal_pool,DERIVED,analyze.py
-0x4002CCCC,12,word_42e68c74_set,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002CCCC,12,font_set,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002CCD8,236,fonts_init,function_arm,DERIVED,this-project:phase5 (display)
 0x4002CDC4,184,glyph_14x14_draw,function_arm,DERIVED,this-project:phase5 (display)
 0x4002CE7C,600,text_draw,function_arm,DERIVED,this-project:phase5 (display)
@@ -150,12 +150,12 @@ address,size,name,type,evidence_level,source
 0x4002D6D4,36,number_draw_mode1,function_arm,DERIVED,this-project:phase5 (display)
 0x4002D6F8,36,number_draw_mode0,function_arm,DERIVED,this-project:phase5 (display)
 0x4002D71C,8,number_text_width_mode0,function_arm,DERIVED,this-project:phase5 (display)
-0x4002D724,188,text_d6f8_shadow_draw,function_arm,DERIVED,this-project:phase5 (display)
+0x4002D724,188,number_mode0_shadow_draw,function_arm,DERIVED,this-project:phase5 (display)
 0x4002D7E0,76,pool_4002d7e0,literal_pool,DERIVED,analyze.py
 0x4002D82C,1044,number_draw,function_arm,DERIVED,this-project:phase5 (display)
-0x4002DC40,12,half_42e68be2_set,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002DC40,12,text_spacing_set,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002DC4C,40,draw_state_defaults,function_arm,DERIVED,this-project:phase5 (display)
-0x4002DC74,12,byte_42e68be0_set,function_arm,DERIVED,this-project:phase5 (ui)
+0x4002DC74,12,text_centring_set,function_arm,DERIVED,this-project:phase5 (ui)
 0x4002DC80,44,pool_4002dc80,literal_pool,DERIVED,analyze.py
 0x4002DCAC,196,font_metrics_build,function_arm,DERIVED,this-project:phase5 (display)
 0x4002DD70,2408,font_glyph_index,function_arm,DERIVED,this-project:phase5 (display)
@@ -225,7 +225,7 @@ address,size,name,type,evidence_level,source
 0x40030010,80,pool_40030010,literal_pool,DERIVED,analyze.py
 0x40030060,136,marker_value_add,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x400300E8,192,func_400300e8,function_arm,DERIVED,analyze.py:prologue
-0x400301A8,56,value_in_table_405456e8,function_arm,DERIVED,this-project:phase5 (ui)
+0x400301A8,56,marker_value_present,function_arm,DERIVED,this-project:phase5 (ui)
 0x400301E0,2328,value_si_scale,function_arm,DERIVED,this-project:phase5 (display)
 0x40030AF8,1116,measure_item_draw,function_arm,DERIVED,this-project:phase5 (display)
 0x40030F54,16,code_40030f54,data,OPEN,analyze.py
@@ -268,17 +268,17 @@ address,size,name,type,evidence_level,source
 0x40032DFC,16,pool_40032dfc,literal_pool,DERIVED,analyze.py
 0x40032E0C,4684,measure_channel,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40034058,36,key_repeat_and_measure_channels,function_arm,DERIVED,this-project:phase5 (ui)
-0x4003407C,88,cursor_808_clamp,function_arm,DERIVED,this-project:phase5 (ui)
-0x400340D4,84,cursor_810_clamp,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003407C,88,time_cursors_clamp,function_arm,DERIVED,this-project:phase5 (ui)
+0x400340D4,84,level_cursors_clamp,function_arm,DERIVED,this-project:phase5 (ui)
 0x40034128,12,pool_40034128,literal_pool,DERIVED,analyze.py
 0x40034134,336,message_box_draw,function_arm,DERIVED,this-project:phase5 (ui)
-0x40034284,48,rect_42e68c38_draw,function_arm,DERIVED,this-project:phase5 (display)
+0x40034284,48,message_box_erase,function_arm,DERIVED,this-project:phase5 (display)
 0x400342B4,24,str_copy,function_arm,DERIVED,this-project:phase5 (string)
 0x400342CC,16,draw_target_default,function_arm,DERIVED,this-project:phase5 (display)
 0x400342DC,16,fb_target_back,function_arm,DERIVED,this-project:phase5 (ui)
 0x400342EC,16,fb_target_offscreen,function_arm,DERIVED,this-project:phase5 (ui)
-0x400342FC,112,fb_rect_copy_to_e4e84,function_arm,DERIVED,this-project:phase5 (display)
-0x4003436C,88,fb_rect_copy_from_e4e84,function_arm,DERIVED,this-project:phase5 (display)
+0x400342FC,112,fb_rect_save,function_arm,DERIVED,this-project:phase5 (display)
+0x4003436C,88,fb_rect_restore,function_arm,DERIVED,this-project:phase5 (display)
 0x400343C4,104,fb_present_rect,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003442C,40,fb_present,function_arm,DERIVED,this-project:phase5 (display)
 0x40034454,24,fb_clear_current,function_arm,DERIVED,this-project:phase5 (display)
@@ -293,7 +293,7 @@ address,size,name,type,evidence_level,source
 0x400347A0,204,list_a_index_create,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003486C,180,list_a_index_load,function_arm,DERIVED,this-project:phase5 (ui)
 0x40034920,148,list_a_index_save,function_arm,DERIVED,this-project:phase5 (ui)
-0x400349B4,88,list_fa4_insert_754,function_arm,DERIVED,this-project:phase5 (ui)
+0x400349B4,88,list_a_insert,function_arm,DERIVED,this-project:phase5 (ui)
 0x40034A0C,168,list_a_entry_remove,function_arm,DERIVED,this-project:phase5 (ui)
 0x40034AB4,196,list_a_next_free,function_arm,DERIVED,this-project:phase5 (ui)
 0x40034B78,796,screenshot_path_make,function_arm,DERIVED,this-project:phase5 (storage)
@@ -301,11 +301,11 @@ address,size,name,type,evidence_level,source
 0x4003506C,136,list_a_save_new,function_arm,DERIVED,this-project:phase5 (ui)
 0x400350F4,148,list_a_delete_marked,function_arm,DERIVED,this-project:phase5 (ui)
 0x40035188,192,list_a_thumb_load,function_arm,DERIVED,this-project:phase5 (ui)
-0x40035248,96,list_cursor_clamp_40035248,function_arm,DERIVED,this-project:phase5 (ui)
+0x40035248,96,list_a_cursor_clamp,function_arm,DERIVED,this-project:phase5 (ui)
 0x400352A8,120,list_a_page_mark,function_arm,DERIVED,this-project:phase5 (ui)
 0x40035320,136,list_a_marks_clear,function_arm,DERIVED,this-project:phase5 (ui)
-0x400353A8,76,list_count_nonzero_400353a8,function_arm,DERIVED,this-project:phase5 (ui)
-0x400353F4,64,file_exists_40034b78,function_arm,DERIVED,this-project:phase5 (ui)
+0x400353A8,76,list_a_marks_count,function_arm,DERIVED,this-project:phase5 (ui)
+0x400353F4,64,screenshot_file_exists,function_arm,DERIVED,this-project:phase5 (ui)
 0x40035434,140,list_a_prune_missing,function_arm,DERIVED,this-project:phase5 (ui)
 0x400354C0,120,list_a_page_validate,function_arm,DERIVED,this-project:phase5 (ui)
 0x40035538,8,pool_40035538,literal_pool,DERIVED,analyze.py
@@ -318,12 +318,12 @@ address,size,name,type,evidence_level,source
 0x4003570C,24,fill_u32,function_arm,DERIVED,this-project:phase5 (display)
 0x40035724,4,memcpy,function_arm,DERIVED,this-project:phase5 (display)
 0x40035728,28,copy_u16,function_arm,DERIVED,this-project:phase5 (display)
-0x40035744,60,reload_chain_40035744,function_arm,DERIVED,this-project:phase5 (ui)
+0x40035744,60,list_b_reload,function_arm,DERIVED,this-project:phase5 (ui)
 0x40035780,108,file_write_360404,function_arm,DERIVED,this-project:phase5 (ui)
 0x400357EC,204,list_b_index_create,function_arm,DERIVED,this-project:phase5 (ui)
 0x400358B8,180,list_b_index_load,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003596C,148,list_b_index_save,function_arm,DERIVED,this-project:phase5 (ui)
-0x40035A00,88,list_fa4_insert_756,function_arm,DERIVED,this-project:phase5 (ui)
+0x40035A00,88,list_b_insert,function_arm,DERIVED,this-project:phase5 (ui)
 0x40035A58,168,list_b_entry_remove,function_arm,DERIVED,this-project:phase5 (ui)
 0x40035B00,196,list_b_next_free,function_arm,DERIVED,this-project:phase5 (ui)
 0x40035BC4,796,waveform_path_make,function_arm,DERIVED,this-project:phase5 (storage)
@@ -331,11 +331,11 @@ address,size,name,type,evidence_level,source
 0x400360F0,220,list_b_save_new,function_arm,DERIVED,this-project:phase5 (ui)
 0x400361CC,148,list_b_delete_marked,function_arm,DERIVED,this-project:phase5 (ui)
 0x40036260,148,list_b_file_load,function_arm,DERIVED,this-project:phase5 (ui)
-0x400362F4,96,list_cursor_clamp_400362f4,function_arm,DERIVED,this-project:phase5 (ui)
+0x400362F4,96,list_b_cursor_clamp,function_arm,DERIVED,this-project:phase5 (ui)
 0x40036354,120,list_b_page_mark,function_arm,DERIVED,this-project:phase5 (ui)
 0x400363CC,136,list_b_marks_clear,function_arm,DERIVED,this-project:phase5 (ui)
-0x40036454,76,list_count_nonzero_40036454,function_arm,DERIVED,this-project:phase5 (ui)
-0x400364A0,64,file_exists_40035bc4,function_arm,DERIVED,this-project:phase5 (ui)
+0x40036454,76,list_b_marks_count,function_arm,DERIVED,this-project:phase5 (ui)
+0x400364A0,64,waveform_file_exists,function_arm,DERIVED,this-project:phase5 (ui)
 0x400364E0,140,list_b_prune_missing,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003656C,120,list_b_page_validate,function_arm,DERIVED,this-project:phase5 (ui)
 0x400365E4,16,pool_400365e4,literal_pool,DERIVED,analyze.py
@@ -351,7 +351,7 @@ address,size,name,type,evidence_level,source
 0x40036BDC,120,list_c_data_load,function_arm,DERIVED,this-project:phase5 (ui)
 0x40036C54,188,list_c_index_save,function_arm,DERIVED,this-project:phase5 (ui)
 0x40036D10,120,list_c_data_save,function_arm,DERIVED,this-project:phase5 (ui)
-0x40036D88,92,list_fa4_insert_758,function_arm,DERIVED,this-project:phase5 (ui)
+0x40036D88,92,list_c_insert,function_arm,DERIVED,this-project:phase5 (ui)
 0x40036DE4,192,record_append,function_arm,DERIVED,this-project:phase5 (storage)
 0x40036EA4,208,list_c_record_select,function_arm,DERIVED,this-project:phase5 (ui)
 0x40036F74,168,list_c_entry_remove,function_arm,DERIVED,this-project:phase5 (ui)
@@ -360,20 +360,20 @@ address,size,name,type,evidence_level,source
 0x40037094,8,pool_40037094,literal_pool,DERIVED,analyze.py
 0x4003709C,196,list_c_next_free,function_arm,DERIVED,this-project:phase5 (ui)
 0x40037160,640,number_text_88c0,function_arm,DERIVED,this-project:phase5 (string)
-0x400373E0,56,reload_chain_400373e0,function_arm,DERIVED,this-project:phase5 (ui)
+0x400373E0,56,list_c_save_new,function_arm,DERIVED,this-project:phase5 (ui)
 0x40037418,72,list_current_advance,function_arm,DERIVED,this-project:phase5 (ui)
 0x40037460,140,list_c_delete_marked,function_arm,DERIVED,this-project:phase5 (ui)
 0x400374EC,76,array_3da548_decimate,function_arm,DERIVED,this-project:phase5 (ui)
 0x40037538,20,pool_40037538,literal_pool,DERIVED,analyze.py
 0x4003754C,460,list_c_record_preview,function_arm,DERIVED,this-project:phase5 (ui)
 0x40037718,4,pool_40037718,literal_pool,DERIVED,analyze.py
-0x4003771C,96,list_cursor_clamp_4003771c,function_arm,DERIVED,this-project:phase5 (ui)
+0x4003771C,96,list_c_cursor_clamp,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003777C,120,list_c_page_mark,function_arm,DERIVED,this-project:phase5 (ui)
 0x400377F4,4,pool_400377f4,literal_pool,DERIVED,analyze.py
 0x400377F8,136,list_c_marks_clear,function_arm,DERIVED,this-project:phase5 (ui)
-0x40037880,76,list_count_nonzero_40037880,function_arm,DERIVED,this-project:phase5 (ui)
+0x40037880,76,list_c_marks_count,function_arm,DERIVED,this-project:phase5 (ui)
 0x400378CC,20,pool_400378cc,literal_pool,DERIVED,analyze.py
-0x400378E0,56,reload_chain_400378e0,function_arm,DERIVED,this-project:phase5 (ui)
+0x400378E0,56,list_c_reload,function_arm,DERIVED,this-project:phase5 (ui)
 0x40037918,44,pool_40037918,literal_pool,DERIVED,analyze.py
 0x40037944,284,trace_cursor_limits,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40037A60,88,bode_cursors_clamp,function_arm,DERIVED,this-project:phase5 (ui)
@@ -446,7 +446,7 @@ address,size,name,type,evidence_level,source
 0x4003BE4C,4,pool_4003be4c,literal_pool,DERIVED,analyze.py
 0x4003BE50,40,timebase_index_set,function_arm,DERIVED,this-project:phase5 (timebase)
 0x4003BE78,32,timebase_slow_flag_update,function_arm,DERIVED,this-project:phase5 (timebase)
-0x4003BE98,16,sys_word_pair_570_set,function_arm,DERIVED,this-project:phase5 (timebase)
+0x4003BE98,16,position_ref_set,function_arm,DERIVED,this-project:phase5 (timebase)
 0x4003BEA8,12,runtime_state_commit_force,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003BEB4,160,runtime_state_commit_copy,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003BF54,4,pool_4003bf54,literal_pool,DERIVED,analyze.py
@@ -473,7 +473,7 @@ address,size,name,type,evidence_level,source
 0x4003C9BC,56,trace_process_window,function_arm,DERIVED,this-project:phase5 (trace)
 0x4003C9F4,52,per_channel_processing,function_arm,DERIVED,this-project:phase5 (trace; name: Hack)
 0x4003CA28,16,pool_4003ca28,literal_pool,DERIVED,analyze.py
-0x4003CA38,72,table_scatter_42cf64b4,function_arm,DERIVED,this-project:phase5 (trace)
+0x4003CA38,72,glyph14_table_build,function_arm,DERIVED,this-project:phase5 (trace)
 0x4003CA80,8,pool_4003ca80,literal_pool,DERIVED,analyze.py
 0x4003CA88,644,ui_window_redraw_dirty,function_arm,DERIVED,this-project:phase5 (ui)
 0x4003CD0C,56,ui_window_stack_top_update,function_arm,DERIVED,this-project:phase5 (ui)
@@ -562,9 +562,9 @@ address,size,name,type,evidence_level,source
 0x4003E708,48,outputs_apply,function_arm,DERIVED,this-project:phase5 (init)
 0x4003E738,1032,system_defaults_init,function_arm,DERIVED,this-project:phase5 (init)
 0x4003EB40,488,acq_defaults_reset,function_arm,DERIVED,this-project:phase5 (acquisition)
-0x4003ED28,88,state_block_3f984_init,function_arm,DERIVED,this-project:phase5 (init)
-0x4003ED80,116,state_block_180c8_init,function_arm,DERIVED,this-project:phase5 (init)
-0x4003EDF4,188,state_block_68668_init,function_arm,DERIVED,this-project:phase5 (init)
+0x4003ED28,88,generator_state_init,function_arm,DERIVED,this-project:phase5 (init)
+0x4003ED80,116,bode_state_init,function_arm,DERIVED,this-project:phase5 (init)
+0x4003EDF4,188,levels_state_init,function_arm,DERIVED,this-project:phase5 (init)
 0x4003EEB0,108,state_blocks_init,function_arm,DERIVED,this-project:phase5 (init)
 0x4003EF1C,144,applied_state_invalidate,function_arm,DERIVED,this-project:phase5 (init)
 0x4003EFAC,120,factory_defaults,function_arm,DERIVED,this-project:phase5 (init)
@@ -617,10 +617,10 @@ address,size,name,type,evidence_level,source
 0x4003FA04,12,pe0_clr,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003FA10,132,acquisition_prepare,function_arm,DERIVED,this-project:phase5 (acquisition; name: Hack STOCK_LIKE_MINIMAL_RUNTIME.md)
 0x4003FA94,28,fpga_write_sel_0x1f,function_arm,DERIVED,this-project:phase5 (acquisition)
-0x4003FAB0,4,veneer_400636bc,function_arm,DERIVED,this-project:phase5 (acquisition)
-0x4003FAB4,4,veneer_40063714,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003FAB0,4,fpga_cmd1b_write_veneer,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003FAB4,4,fpga_cmd1c_write_veneer,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003FAB8,44,trigger_pos_update,function_arm,DERIVED,this-project:phase5 (acquisition)
-0x4003FAE4,4,veneer_40063798,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4003FAE4,4,fpga_position_update_veneer,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003FAE8,168,trigger_offsets_update,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003FB90,304,consumer_translator_of_the_16_bit,function_arm,DERIVED,this-project:phase5 (acquisition; name: Hack FPGA.md)
 0x4003FCC0,80,acq_wait_done,function_arm,DERIVED,this-project:phase5 (acquisition)
@@ -628,9 +628,9 @@ address,size,name,type,evidence_level,source
 0x4003FE14,464,final_per_channel_normalization,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4003FFE4,32,trace_buffer_pointers_setup,function_arm,DERIVED,this-project:phase5 (trace)
 0x40040004,44,func_40040004,function_arm,DERIVED,analyze.py:pointer
-0x40040030,12,timebase_apply_2b4,function_arm,DERIVED,this-project:phase5 (acquisition)
-0x4004003C,12,timebase_apply_2b0,function_arm,DERIVED,this-project:phase5 (acquisition)
-0x40040048,32,timebase_apply_2b0_x1_3,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x40040030,12,trace_pointers_2b4,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4004003C,12,trace_pointers_block_points,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x40040048,32,trace_pointers_block_points_x1_3,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40040068,4,pool_40040068,literal_pool,DERIVED,analyze.py
 0x4004006C,164,channel_post_process,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40040110,4,pool_40040110,literal_pool,DERIVED,analyze.py
@@ -689,7 +689,7 @@ address,size,name,type,evidence_level,source
 0x4004245C,20,zoom_index_add,function_arm,DERIVED,this-project:phase5 (timebase)
 0x40042470,72,zoom_index_sub,function_arm,DERIVED,this-project:phase5 (timebase)
 0x400424B8,12,zoom_index_set,function_arm,DERIVED,this-project:phase5 (timebase)
-0x400424C4,16,sys_word_pair_578_set,function_arm,DERIVED,this-project:phase5 (timebase)
+0x400424C4,16,view_position_set,function_arm,DERIVED,this-project:phase5 (timebase)
 0x400424D4,76,zoom_reset,function_arm,DERIVED,this-project:phase5 (timebase)
 0x40042520,616,split_window_marker_draw,function_arm,DERIVED,this-project:phase5 (ui)
 0x40042788,24,pool_40042788,literal_pool,DERIVED,analyze.py
@@ -788,7 +788,7 @@ address,size,name,type,evidence_level,source
 0x40045580,100,settings_i_fields,function_arm,DERIVED,this-project:phase5 (settings)
 0x400455E4,140,settings_j_fields,function_arm,DERIVED,this-project:phase5 (settings)
 0x40045670,24,settings_h_decode,function_arm,DERIVED,this-project:phase5 (settings)
-0x40045688,36,settings_block_448b4_decode,function_arm,DERIVED,this-project:phase5 (settings)
+0x40045688,36,settings_image_fields_decode,function_arm,DERIVED,this-project:phase5 (settings)
 0x400456AC,36,settings_i_decode,function_arm,DERIVED,this-project:phase5 (settings)
 0x400456D0,36,settings_j_decode,function_arm,DERIVED,this-project:phase5 (settings)
 0x400456F4,32,settings_image_decode,function_arm,DERIVED,this-project:phase5 (settings)
@@ -933,7 +933,7 @@ address,size,name,type,evidence_level,source
 0x4004F0E4,80,pool_4004f0e4,literal_pool,DERIVED,analyze.py
 0x4004F134,1116,sd_update_check,function_arm,DERIVED,this-project:phase5 (storage)
 0x4004F590,12,pool_4004f590,literal_pool,DERIVED,analyze.py
-0x4004F59C,36,fpga_probe_and_copy_7fc,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x4004F59C,36,fpga_probe_and_record,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4004F5C0,36,security_check_and_copy,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4004F5E4,692,selftest_4f5e4,function_arm,DERIVED,this-project:phase5 (init)
 0x4004F898,4,pool_4004f898,literal_pool,DERIVED,analyze.py
@@ -1014,7 +1014,7 @@ address,size,name,type,evidence_level,source
 0x4005620C,8,pool_4005620c,literal_pool,DERIVED,analyze.py
 0x40056214,220,bode_cursor_drag_buttons,function_arm,DERIVED,this-project:phase5 (trace)
 0x400562F0,4,pool_400562f0,literal_pool,DERIVED,analyze.py
-0x400562F4,268,calibration_b4c_button_handler,function_arm,DERIVED,this-project:phase5 (ui)
+0x400562F4,268,bode_calibrate_button_handler,function_arm,DERIVED,this-project:phase5 (ui)
 0x40056400,4,pool_40056400,literal_pool,DERIVED,analyze.py
 0x40056404,292,levels_toolbar_buttons,function_arm,DERIVED,this-project:phase5 (ui)
 0x40056528,8,pool_40056528,literal_pool,DERIVED,analyze.py
@@ -1259,7 +1259,7 @@ address,size,name,type,evidence_level,source
 0x4006338C,164,acquisition_block_bank_selector,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40063430,48,fpga_cmd15_write,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40063460,36,fpga_cmd16_write,function_arm,DERIVED,this-project:phase5 (acquisition)
-0x40063484,108,cursor_27e_clamp,function_arm,DERIVED,this-project:phase5 (trace)
+0x40063484,108,trigger_level_clamp,function_arm,DERIVED,this-project:phase5 (trace)
 0x400634F0,224,fpga_params_0e_13_write,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x400635D0,36,fpga_cmd61_write,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x400635F4,52,fpga_cmd61_pulse,function_arm,DERIVED,this-project:phase5 (acquisition)
@@ -1268,7 +1268,7 @@ address,size,name,type,evidence_level,source
 0x400636BC,88,fpga_cmd1b_write,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40063714,92,fpga_cmd1c_write,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40063770,40,fpga_cmd18_read,function_arm,DERIVED,this-project:phase5 (acquisition)
-0x40063798,148,fpga_position_290_update,function_arm,DERIVED,this-project:phase5 (acquisition)
+0x40063798,148,fpga_position_update,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x4006382C,524,trigger_level_auto,function_arm,DERIVED,this-project:phase5 (acquisition)
 0x40063A38,24,pool_40063a38,literal_pool,DERIVED,analyze.py
 0x40063A50,368,table_684_init,function_arm,DERIVED,this-project:phase5 (acquisition)

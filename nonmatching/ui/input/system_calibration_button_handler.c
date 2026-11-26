@@ -37,7 +37,7 @@ void system_calibration_button_handler(void)
     BREC_BYTE0 = 0;
     MSG(cx, cy, 0x9C00);
     rc = system_calibration();
-    rect_42e68c38_draw();
+    message_box_erase();
     switch (rc) {
     case -2: t = 0x4E0, p = 0x674; break;
     case -1: t = 0x340, p = 0x4D4; break;

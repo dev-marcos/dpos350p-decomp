@@ -41,7 +41,7 @@ static void tb_label(u32 x, u32 y, u32 k)
 
 static void tb_number(u32 x, u32 y, int v)
 {
-    text_d6f8_shadow_draw(U16(x), U16(y), (u32)v, (u32)(v >> 31), 0, 1, 2, 0);
+    number_mode0_shadow_draw(U16(x), U16(y), (u32)v, (u32)(v >> 31), 0, 1, 2, 0);
 }
 
 /* light grey body with a dark right edge */
@@ -51,8 +51,8 @@ static void tb_frame(u32 x, u32 y, u32 w, u32 h, u32 font)
     rect_fill(x, y, w, h);
     draw_colour_set(0);
     vline_draw(U16(x + w - 1), y, U16(h + y));
-    half_42e68be2_set(1);
-    word_42e68c74_set(font);
+    text_spacing_set(1);
+    font_set(font);
 }
 
 /* title bar (image, title entry, count / page fields) and the bottom bar of six buttons */
@@ -60,15 +60,15 @@ static void tb_bars(u32 x, u32 y, u32 w, u32 img, u32 title, u32 bar_rec)
 {
     u32 i, cx, cy, xa, xb;
     /* title bar: image, title, "count", "page n / m" */
-    half_42e68be2_set(2);
-    word_42e68c74_set(0x42E658D8u);
+    text_spacing_set(2);
+    font_set(0x42E658D8u);
     draw_colour_set(0x202020);
     rect_fill(x, y, w, 0x1E);
     draw_colour_set(0xBBBBBB);
     draw_text_shadowed(U16(x + 5), U16(y + 5), img, 2, 2, 0);   /* stock: last argument is an unset stack byte */
     text_shadow_draw(U16(x + TEXT_DX(UI_TEXT(title)) + 0x23), U16(y + TEXT_DY(UI_TEXT(title)) + 8), TXP(title), 1, 2, 0);
-    half_42e68be2_set(1);
-    word_42e68c74_set(0x42E64A98u);
+    text_spacing_set(1);
+    font_set(0x42E64A98u);
     draw_colour_set(0x777777);
     xa = x + 0x249;
     tb_label(xa, y + 7, 119);
@@ -91,8 +91,8 @@ static void tb_bars(u32 x, u32 y, u32 w, u32 img, u32 title, u32 bar_rec)
     rect_fill(U16(x + 0x35F), U16(y + 7), 2, 0xF);
 
     /* bottom bar: six 170 x 60 buttons with separators and labels */
-    half_42e68be2_set(2);
-    word_42e68c74_set(0x42E658D8u);
+    text_spacing_set(2);
+    font_set(0x42E658D8u);
     draw_colour_set(0x202020);
     cy = 0x21C - y;
     rect_fill(x, U16(cy), w, 0x3C);

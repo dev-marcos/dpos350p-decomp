@@ -40,7 +40,7 @@ void settings_image_fields(void);                                               
 void settings_i_fields(void);                                                                    /* 0x40045580 */
 void settings_j_fields(void);                                                                    /* 0x400455E4 */
 void settings_h_decode(void);                                                                    /* 0x40045670 */
-void settings_block_448b4_decode(void);                                                          /* 0x40045688 */
+void settings_image_fields_decode(void);                                                          /* 0x40045688 */
 void settings_i_decode(void);                                                                    /* 0x400456AC */
 void settings_j_decode(void);                                                                    /* 0x400456D0 */
 void settings_image_decode(void);                                                                /* 0x400456F4 */

@@ -10,8 +10,8 @@ void value_si_scale(u32 kind, u32 unused, long long v, long long *out, int *dec,
 void channel_minmax_stats(u32 ch);                                                               /* 0x40032A58 */
 void channel_freq_measure(u32 ch);                                                               /* 0x40032B5C */
 void measure_channel(u32 ch_arg);                                                                /* 0x40032E0C */
-void cursor_808_clamp(void);                                                                     /* 0x4003407C */
-void cursor_810_clamp(void);                                                                     /* 0x400340D4 */
+void time_cursors_clamp(void);                                                                     /* 0x4003407C */
+void level_cursors_clamp(void);                                                                     /* 0x400340D4 */
 void array_3da548_decimate(int n);                                                               /* 0x400374EC */
 void trace_cursor_limits(void);                                                                  /* 0x40037944 */
 void bode_cursors_clamp(void);                                                                    /* 0x40037A60 */
@@ -33,7 +33,7 @@ void traces_process_single(void);                                               
 void traces_update(void);                                                                        /* 0x4003C970 */
 void trace_process_window(u32 tr);                                                               /* 0x4003C9BC */
 void per_channel_processing(void);                                                               /* 0x4003C9F4 */
-void table_scatter_42cf64b4(void);                                                               /* 0x4003CA38 */
+void glyph14_table_build(void);                                                               /* 0x4003CA38 */
 void amplitude_statistical_normalization(u32 ch);                                                /* 0x4003FD10 */
 void final_per_channel_normalization(u32 ch);                                                    /* 0x4003FE14 */
 void channel_post_process(u32 ch);                                                               /* 0x4004006C */
@@ -85,7 +85,7 @@ void level_stats_60008(void);                                                   
 void level_stats_61000(void);                                                                    /* 0x4006233C */
 void levels_update_chain(void);                                                                  /* 0x400623F4 */
 void measure_setup_62e14(void);                                                                  /* 0x40062E14 */
-void cursor_27e_clamp(void);                                                                     /* 0x40063484 */
+void trigger_level_clamp(void);                                                                     /* 0x40063484 */
 void cvec_magnitude(const volatile float *src, volatile float *dst, int n);                      /* 0x40066538 */
 void fft_radix2(int n, volatile float *x);                                                       /* 0x400665A8 */
 

@@ -5,7 +5,7 @@
 
 #include "rt/bits.h"
 
-u32 value_in_table_405456e8(u32 mode, int v);                                                    /* 0x400301A8 */
+u32 marker_value_present(u32 mode, int v);                                                    /* 0x400301A8 */
 unsigned char *str_copy(unsigned char *d, const unsigned char *s);                               /* 0x400342B4 */
 void *memset_w(void *d, int v, unsigned int n);                                                  /* 0x400356E4 */
 void fill_u16(unsigned short *d, unsigned short v, u32 n);                                       /* 0x400356F4 */

@@ -20,7 +20,7 @@ void ui_window_42_redraw(u32 anim)
         fb_target_offscreen();
     else
         fb_target_back();
-    ui_unplug_notice_252();
+    calibration_notice_draw();
     if (anim) {
         fb_target_back();
         ui_reveal_slide_down((volatile unsigned short *)WIN(42));

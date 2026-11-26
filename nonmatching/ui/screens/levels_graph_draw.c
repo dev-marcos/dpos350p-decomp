@@ -61,8 +61,8 @@ void levels_graph_draw(void)
     double v;
     if (g_touch->serviced)
         return;
-    half_42e68be2_set(2);
-    word_42e68c74_set(0x42E658D8u);
+    text_spacing_set(2);
+    font_set(0x42E658D8u);
     draw_colour_set(0);
     rect_fill(H16(0x42E6473Au), (H16(0x42E64740u) + H16(0x42E6473Cu)) & 0xFFFF, H16(0x42E6473Eu),
               (H16(0x42E6474Au) - H16(0x42E6473Cu) - H16(0x42E64740u)) & 0xFFFF);

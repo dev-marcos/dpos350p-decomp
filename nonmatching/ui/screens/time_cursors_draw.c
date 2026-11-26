@@ -21,7 +21,7 @@ static void marker(u32 xc, u32 top, const char *digit_y_text, unsigned short ty1
     u32 y = top - 1 + 0xB, j;
     draw_colour_set(col);
     rect_fill(U16(xc - 8), U16(top - 1), 0x11, 0xE);
-    word_42e68c74_set(0x42E65418u);
+    font_set(0x42E65418u);
     for (j = 0; j < 9; j++) {
         vline_draw(U16(xc - j), U16(y), U16(y + 0xD - j));
         vline_draw(U16(xc + j), U16(y), U16(y + 0xD - j));
@@ -66,8 +66,8 @@ void time_cursors_draw(void)
     marker(c2 + SI(plot_x0), top, "2", U16(r5 - 0xB), U16(r5 + 0xFFFE), light, 2);
     half = (int)(c2 - c1 - 0x3C) / 2;
     draw_colour_set(dark);
-    half_42e68be2_set(2);
-    word_42e68c74_set(0x42E658D8u);
+    text_spacing_set(2);
+    font_set(0x42E658D8u);
     hspan_fill(U16(mid), U16(c1 + left1), U16(half + c1 + left1));
     xb = U16(c2 + left1 - 1);
     hspan_fill(U16(mid), U16(xb - half), xb);

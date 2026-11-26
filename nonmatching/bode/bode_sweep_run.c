@@ -51,8 +51,8 @@ void bode_sweep_run(void)
     BODES(log_start) = l0;
     BODES(log_span) = span;
     step = span / (double)(int)BODES(freq_count);
-    word_42e68c74_set(0x42E658D8u);
-    half_42e68be2_set(1);
+    font_set(0x42E658D8u);
+    text_spacing_set(1);
     for (i = 0; (n = BODES(freq_count)) >= i; i++) {
         pct = n ? 100 * i / n : 0;
         if ((int)pct < 10) {

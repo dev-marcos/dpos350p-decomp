@@ -46,8 +46,8 @@ void timebase_menu_draw(void)
     const char *s;
     int i, j;
 
-    word_42e68c74_set(0x42E658D8u);
-    half_42e68be2_set(1);
+    font_set(0x42E658D8u);
+    text_spacing_set(1);
     draw_colour_set(THEME_MENU_BG);
     rect_fill(x & 0xFFFF, y, w, h);
     sel = SI(zoom_on) ? SI(zoom_index) : SI(timebase_index);
@@ -56,7 +56,7 @@ void timebase_menu_draw(void)
     draw_colour_set(THEME_MENU_TEXT);
     e = SI(zoom_on) ? UI_TEXT(35) : UI_TEXT(34);
     text_shadow_draw((x + TEXT_DX(e) + 0x41) & 0xFFFF, (y + 0x17 + TEXT_DY(e) + 3) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
-    half_42e68be2_set(2);
+    text_spacing_set(2);
 
     xo = x + 0x168;
     r = y + 0x18;

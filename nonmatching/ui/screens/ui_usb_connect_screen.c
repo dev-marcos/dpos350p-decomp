@@ -24,8 +24,8 @@ void ui_usb_connect_screen(void)
     fb_clear_current();
     draw_colour_set(0);
     rect_fill(x, y, w, h);
-    half_42e68be2_set(2);
-    word_42e68c74_set(0x42E658D8u);
+    text_spacing_set(2);
+    font_set(0x42E658D8u);
     draw_colour_set(THEME_MENU_BG);
     draw_colour_set(0x252525);
     rect_fill(x, y, w, 0x1E);

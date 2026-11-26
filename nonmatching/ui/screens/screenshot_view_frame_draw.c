@@ -26,8 +26,8 @@ void screenshot_view_frame_draw(void)
     u32 k, e, bx, by, ny, tw;
 
     touch_button_set_rect(x, (y + 0x1E) & 0xFFFF, w, (h - 0x5A) & 0xFFFF, (volatile unsigned char *)(BTN + 0x80E));
-    half_42e68be2_set(2);
-    word_42e68c74_set(0x42E658D8u);
+    text_spacing_set(2);
+    font_set(0x42E658D8u);
     draw_colour_set(0x202020);
     rect_fill(x, y, w, 0x1E);
     for (k = 1; k < 8; k++) {
@@ -39,15 +39,15 @@ void screenshot_view_frame_draw(void)
     e = UI_TEXT(110);
     text_shadow_draw((x + TEXT_DX(e) + 0x23) & 0xFFFF, (y + TEXT_DY(e) + 8) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
 
-    half_42e68be2_set(1);
-    word_42e68c74_set(0x42E658D8u);
+    text_spacing_set(1);
+    font_set(0x42E658D8u);
     draw_colour_set(0x777777);
     screenshot_path_make(H16(SYS + 0xFA6 + 2 * (short)H16(SYS + 0xFA4)));
     tw = text_width((const char *)(SYS + 0x88C1));
     text_shadow_draw((0x3ED + x - tw) & 0xFFFF, (y + 7) & 0xFFFF, (const char *)(SYS + 0x88C1), 2, 2, 0);
 
-    half_42e68be2_set(2);
-    word_42e68c74_set(0x42E658D8u);
+    text_spacing_set(2);
+    font_set(0x42E658D8u);
     draw_colour_set(0x202020);
     by = (y + 0x21C) & 0xFFFF;
     rect_fill(x, by, w, 0x3C);

@@ -24,6 +24,6 @@ void trigger_offsets_update(void)
     b = r4 - a;
     SI(trigger_offset_1b) = a - (a / L) * L;
     SI(trigger_offset_1c) = b - (b / L) * L;
-    veneer_400636bc();
-    veneer_40063714();
+    fpga_cmd1b_write_veneer();
+    fpga_cmd1c_write_veneer();
 }

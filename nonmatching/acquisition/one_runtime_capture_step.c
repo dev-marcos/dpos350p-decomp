@@ -29,7 +29,7 @@ void one_runtime_capture_step(void)
     }
     SI(f_29c) = 0;
     SI(f_29e) = 0;
-    timebase_apply_2b0();
+    trace_pointers_block_points();
     if (SI(ch1_enabled) != 0) {
         stream_geometry_fpga_selector_0x22_configuration();
         m = SI(bank_mode);

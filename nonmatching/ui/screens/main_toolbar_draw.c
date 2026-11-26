@@ -35,8 +35,8 @@ void main_toolbar_draw(void)
     int i;
 
     draw_colour_set(0xFFFFFF);
-    word_42e68c74_set(0x42E658D8u);
-    half_42e68be2_set(2);
+    font_set(0x42E658D8u);
+    text_spacing_set(2);
     draw_colour_set(0);
     rect_fill(x, y, 0x3BA, 0x2C);
     for (i = 0; i < 9; i++) {

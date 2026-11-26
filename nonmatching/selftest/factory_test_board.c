@@ -1,7 +1,7 @@
 /*
  * factory_test_board -- stock 0x40050FE0 (1416 bytes, ARM)
  * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
- * First factory step (board test). On a cleared back buffer, in white with font 0x42E658D8 and spacing 1, each line prints a label at x = 15 (y = 15, 40, .. step 25), runs a test and prints 成功 (white) or a red failure at x = 160; any failure parks in for (;;): disk_check_file (flag 0x42E68AF0), fpga_probe_and_copy_7fc (+0x11), security_check_and_copy (+0x12), table_684_init + selftest_4f5e4 (+0x18; on failure ADC1..ADC8 for each clear flag +0x19..+0x20, one line each), calibration_result_flags + acq_defaults_reset + calib_run_4_channels with SYS+0x54E = 1 (+0x21, else channel 1 / 2 from +0x22 / +0x23), gen_selftest_4f89c (+0x13), gen_selftest_50bac (+0x3F, else +0x40 / +0x41). On success SI(f_780) = SI(f_77c).
+ * First factory step (board test). On a cleared back buffer, in white with font 0x42E658D8 and spacing 1, each line prints a label at x = 15 (y = 15, 40, .. step 25), runs a test and prints 成功 (white) or a red failure at x = 160; any failure parks in for (;;): disk_check_file (flag 0x42E68AF0), fpga_probe_and_record (+0x11), security_check_and_copy (+0x12), table_684_init + selftest_4f5e4 (+0x18; on failure ADC1..ADC8 for each clear flag +0x19..+0x20, one line each), calibration_result_flags + acq_defaults_reset + calib_run_4_channels with SYS+0x54E = 1 (+0x21, else channel 1 / 2 from +0x22 / +0x23), gen_selftest_4f89c (+0x13), gen_selftest_50bac (+0x3F, else +0x40 / +0x41). On success SI(f_780) = SI(f_77c).
  */
 #include "hw/platform.h"
 
@@ -65,8 +65,8 @@ void factory_test_board(void)
     fb_target_back();
     fb_clear_current();
     draw_colour_set(FT_WHITE);
-    word_42e68c74_set(FT_FONT);
-    half_42e68be2_set(1);
+    font_set(FT_FONT);
+    text_spacing_set(1);
     text_draw(15, 15, (const char *)0x4008E8E8u);       /* 磁盘初始化 ... */
     fb_present();
     disk_check_file();
@@ -75,7 +75,7 @@ void factory_test_board(void)
         ft_halt();
     }
     ft_ok_next(160, 15, (const char *)0x4008EFDCu);     /* FPGA检测 ... */
-    fpga_probe_and_copy_7fc();
+    fpga_probe_and_record();
     if (!FACT(fpga_probe_ok)) {
         ft_text(FT_RED, 160, 40, FT_FAIL);
         ft_halt();

@@ -24,8 +24,8 @@ void ui_language_menu_draw(void)
 {
     static const u32 name[4] = {0x40090430u, 0x40090438u, 0x4008E7B4u, 0x4008FF6Cu};
     u32 x = WR16(0x84), y = WR16(0x86), w = WR16(0x88), h = WR16(0x8A), bx = x + 2, row, i;
-    word_42e68c74_set(0x42E658D8u);
-    half_42e68be2_set(1);
+    font_set(0x42E658D8u);
+    text_spacing_set(1);
     draw_colour_set(THEME_MENU_BG);
     rect_fill(x, y, w, h);
     draw_colour_set(0);

@@ -21,8 +21,8 @@ void bode_grid_draw(void)
     double step, d, base;
     if (g_touch->serviced)
         return;
-    half_42e68be2_set(2);
-    word_42e68c74_set(0x42E658D8u);
+    text_spacing_set(2);
+    font_set(0x42E658D8u);
     draw_colour_set(0);
     rect_fill(0, U16(BODES(plot_y) - 4), 0x3FC, U16(BODES(plot_h) + 0x1C));
     draw_colour_set(0x444444);

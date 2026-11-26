@@ -22,7 +22,7 @@ void channel_post_process(u32 ch)
     }
     if (SI(f_554) >= SI(f_55c))
         return;
-    timebase_apply_2b0_x1_3();
+    trace_pointers_block_points_x1_3();
     w = SI(capture_samples);
     amplitude_statistical_normalization(ch);
     workspace_copy_and_resampling(ch, SYS32(0x7B4 + 4 * ch), w >> 1, w & 0xFFFF, SI(f_55c));

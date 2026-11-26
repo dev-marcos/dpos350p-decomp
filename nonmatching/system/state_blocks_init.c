@@ -13,9 +13,9 @@
 void state_blocks_init(void)
 {
     acq_defaults_reset();
-    state_block_3f984_init();
-    state_block_180c8_init();
-    state_block_68668_init();
+    generator_state_init();
+    bode_state_init();
+    levels_state_init();
     marker_value_add(0, 7);
     marker_value_add(0, 6);
     marker_value_add(0, 3);

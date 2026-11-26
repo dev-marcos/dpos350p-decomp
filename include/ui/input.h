@@ -95,7 +95,7 @@ void numpad_key_buttons(void);                                                  
 void bode_toolbar_buttons(void);                                                                  /* 0x40055F2C */
 void bode_settings_numpad_buttons(void);                                                                   /* 0x40056080 */
 void bode_cursor_drag_buttons(void);                                                              /* 0x40056214 */
-void calibration_b4c_button_handler(void);                                                       /* 0x400562F4 */
+void bode_calibrate_button_handler(void);                                                       /* 0x400562F4 */
 void levels_toolbar_buttons(void);                                                                  /* 0x40056404 */
 void measure_numpad_buttons(void);                                                               /* 0x40056530 */
 void levels_marker_drag_buttons(void);                                                              /* 0x40056724 */

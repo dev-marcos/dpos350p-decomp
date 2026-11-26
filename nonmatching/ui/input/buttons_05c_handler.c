@@ -46,9 +46,9 @@ void buttons_05c_handler(void)
         BREC(11, state) = 0;
         BREC_BYTE0 = 0;
         if (SI(zoom_on) == 0)
-            sys_word_pair_570_set(0, 0);
+            position_ref_set(0, 0);
         else
-            sys_word_pair_578_set(0, 0);
+            view_position_set(0, 0);
         SI(trigger_level) = 0xFA;
         SI(ch1_offset) = 0xFA;
         SI(ch2_offset) = 0xFA;

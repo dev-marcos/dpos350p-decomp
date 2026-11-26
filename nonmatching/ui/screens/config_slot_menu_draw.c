@@ -24,8 +24,8 @@ void config_slot_menu_draw(void)
     u32 x2, w2, ys, e;
     int i;
 
-    word_42e68c74_set(0x42E658D8u);
-    half_42e68be2_set(1);
+    font_set(0x42E658D8u);
+    text_spacing_set(1);
     draw_colour_set(THEME_MENU_BG);
     rect_fill(x, y, w, h);
     draw_colour_set(0);

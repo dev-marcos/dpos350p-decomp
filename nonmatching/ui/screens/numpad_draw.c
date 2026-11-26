@@ -37,8 +37,8 @@ void numpad_draw(void)
     rect_fill(x0, y0, w, h);
     y0 += 1;
     x = x0 + 1;
-    word_42e68c74_set(0x42E66BD8u);
-    half_42e68be2_set(5);
+    font_set(0x42E66BD8u);
+    text_spacing_set(5);
     draw_colour_set(0x202020);
     rect_fill(x & 0xFFFF, y0 & 0xFFFF, (w - 2) & 0xFFFF, 0x3C);
     draw_colour_set(0xCCCCCC);

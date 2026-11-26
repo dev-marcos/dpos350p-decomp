@@ -14,8 +14,8 @@ void message_box_draw(int x, int y, u32 text, int align)
     volatile unsigned short *b = (volatile unsigned short *)0x42E68C38u;
     const char *s = (const char *)text;
     int w;
-    word_42e68c74_set(0x42E658D8u);
-    half_42e68be2_set(2);
+    font_set(0x42E658D8u);
+    text_spacing_set(2);
     w = (unsigned short)(text_width(s) + 0x32);
     if (align == 0) {
         y -= 0x19;
@@ -34,7 +34,7 @@ void message_box_draw(int x, int y, u32 text, int align)
     b[0] = x;
     b[1] = y;
     b[2] = w;
-    fb_rect_copy_to_e4e84((unsigned short)x, (unsigned short)y, (unsigned short)(w + x + 1), (unsigned short)(y + 0x33));
+    fb_rect_save((unsigned short)x, (unsigned short)y, (unsigned short)(w + x + 1), (unsigned short)(y + 0x33));
     fb_target_back();
     draw_colour_set(0);
     rect_fill((unsigned short)x, (unsigned short)y, w, 0x32);

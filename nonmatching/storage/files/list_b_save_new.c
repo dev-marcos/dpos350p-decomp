@@ -1,7 +1,7 @@
 /*
  * list_b_save_new -- stock 0x400360F0 (220 bytes, ARM)
  * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
- * Saves a waveform: when disk_free_bytes is below twice word SYS+0x774, shows the message box of the text word 0x42C3D820 at the screen centre (offsets at 0x42C3D828) and waits 1 s; otherwise reloads the index, takes the next free number, waveform_thumb_make, shows the message box of the text word 0x42C3C7F4, builds the path, encodes the settings image and writes it (file_write_360404); on success the number is inserted and the index saved. Ends with rect_42e68c38_draw.
+ * Saves a waveform: when disk_free_bytes is below twice word SYS+0x774, shows the message box of the text word 0x42C3D820 at the screen centre (offsets at 0x42C3D828) and waits 1 s; otherwise reloads the index, takes the next free number, waveform_thumb_make, shows the message box of the text word 0x42C3C7F4, builds the path, encodes the settings image and writes it (file_write_360404); on success the number is inserted and the index saved. Ends with message_box_erase.
  */
 #include "hw/platform.h"
 
@@ -34,9 +34,9 @@ void list_b_save_new(void)
         waveform_path_make(SI(f_f9c));
         settings_image_encode();
         if (file_write_360404(PATHBUF)) {
-            list_fa4_insert_756(SI(f_f9c));
+            list_b_insert(SI(f_f9c));
             list_b_index_save();
         }
     }
-    rect_42e68c38_draw();
+    message_box_erase();
 }

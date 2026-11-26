@@ -51,8 +51,8 @@ void bode_curves_draw(void)
         return;
     curve(0x8D20, 0xFF8800);
     curve(0x9CC0, 0x88FF);
-    half_42e68be2_set(2);
-    word_42e68c74_set(0x42E658D8u);
+    text_spacing_set(2);
+    font_set(0x42E658D8u);
     x = BODES(plot_x) + BODES(plot_w) - 0x40;
     y = BODES(plot_y) + 2;
     draw_colour_set(0x55000000);

@@ -157,7 +157,7 @@ struct sys_info {
     unsigned char _pad16[0x3];
     unsigned int trigger_offset_1b;          /* +0x288 DERIVED: trigger offset sent with FPGA selector 0x1B: (record / 2 + k) mod L */
     unsigned int trigger_offset_1c;          /* +0x28C DERIVED: trigger offset sent with FPGA selector 0x1C: (record - a) mod L */
-    unsigned int fpga_position;              /* +0x290 DERIVED: position from the 13-bit FPGA value of selector 0x14 (fpga_position_290_update) */
+    unsigned int fpga_position;              /* +0x290 DERIVED: position from the 13-bit FPGA value of selector 0x14 (fpga_position_update) */
     unsigned int f_294;                      /* +0x294 */
     unsigned int f_298;                      /* +0x298 */
     unsigned short f_29c;                    /* +0x29C */

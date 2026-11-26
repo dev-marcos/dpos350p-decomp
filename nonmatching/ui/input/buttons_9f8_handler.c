@@ -1,7 +1,7 @@
 /*
  * buttons_9f8_handler -- stock 0x40055634 (228 bytes, ARM)
  * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
- * Buttons 0x9F8 and 0xA02 (the first also runs reload_chain_400373e0) leave mode 0x3C and swap windows 0x1C/5 for 2/5; buttons 0xA0C and 0xA16 set byte 0x4091F398 to 0 or 1 and invalidate from window 5.
+ * Buttons 0x9F8 and 0xA02 (the first also runs list_c_save_new) leave mode 0x3C and swap windows 0x1C/5 for 2/5; buttons 0xA0C and 0xA16 set byte 0x4091F398 to 0 or 1 and invalidate from window 5.
  */
 #include "hw/platform.h"
 
@@ -25,7 +25,7 @@ void buttons_9f8_handler(void)
     if (BREC(255, state) == 2) {
         BREC(255, state) = 0;
         BREC_BYTE0 = 0;
-        reload_chain_400373e0();
+        list_c_save_new();
     } else if (BREC(256, state) == 2) {
         BREC(256, state) = 0;
         BREC_BYTE0 = 0;

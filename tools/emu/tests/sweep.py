@@ -5573,7 +5573,7 @@ TESTS[0x4006A734] = lambda r: Case([r.getrandbits(32)], ret=R)
 
 
 # ---------------------------------------------------------------- batch 74: full acquisition
-_FACQ0 = (("acquisition_prepare", 0x4003FA10), ("veneer_40063798", 0x4003FAE4), ("translator", 0x4003FB90),
+_FACQ0 = (("acquisition_prepare", 0x4003FA10), ("fpga_position_update_veneer", 0x4003FAE4), ("translator", 0x4003FB90),
           ("tb_2b4", 0x40040030), ("geom", 0x400405E0), ("banks_0_3", 0x400406FC), ("banks_4_7", 0x4004071C),
           ("banks_all", 0x400406DC), ("avg_align", 0x40040114), ("tb_2b0", 0x4004003C), ("both", 0x40034058),
           ("filters", 0x40041324), ("fft_prep", 0x40041A4C), ("mark_dirty", 0x4003CDC0))

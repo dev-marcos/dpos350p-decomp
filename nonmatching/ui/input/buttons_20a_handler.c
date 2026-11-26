@@ -69,7 +69,7 @@ void buttons_20a_handler(void)
         sys_info_backup();
         gen_state_backup();
         acq_defaults_reset();
-        state_block_3f984_init();
+        generator_state_init();
         ui_windows_reset();
         fb_clear_current();
         ui_window_open(0x22);

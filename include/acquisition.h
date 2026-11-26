@@ -20,7 +20,7 @@ void timebase_index_step(u32 d);                                                
 void timebase_index_step_down(u32 d);                                                            /* 0x4003BDE8 */
 void timebase_index_set(u32 v);                                                                  /* 0x4003BE50 */
 void timebase_slow_flag_update(void);                                                            /* 0x4003BE78 */
-void sys_word_pair_570_set(u32 lo, u32 hi);                                                      /* 0x4003BE98 */
+void position_ref_set(u32 lo, u32 hi);                                                      /* 0x4003BE98 */
 void runtime_state_commit_force(void);                                                           /* 0x4003BEA8 */
 void runtime_state_commit_copy(void);                                                            /* 0x4003BEB4 */
 u32 mode_not_0_or_2(u32 v);                                                                      /* 0x4003BF58 */
@@ -34,17 +34,17 @@ void timebase_apply(void);                                                      
 void runtime_ready_read(void);                                                                   /* 0x4003F8B8 */
 void acq_done_read(void);                                                                        /* 0x4003F9D0 */
 void acquisition_prepare(void);                                                                  /* 0x4003FA10 */
-void veneer_400636bc(void);                                                                      /* 0x4003FAB0 */
-void veneer_40063714(void);                                                                      /* 0x4003FAB4 */
+void fpga_cmd1b_write_veneer(void);                                                                      /* 0x4003FAB0 */
+void fpga_cmd1c_write_veneer(void);                                                                      /* 0x4003FAB4 */
 void trigger_pos_update(void);                                                                   /* 0x4003FAB8 */
-void veneer_40063798(void);                                                                      /* 0x4003FAE4 */
+void fpga_position_update_veneer(void);                                                                      /* 0x4003FAE4 */
 void trigger_offsets_update(void);                                                               /* 0x4003FAE8 */
 void consumer_translator_of_the_16_bit(void);                                                    /* 0x4003FB90 */
 void acq_wait_done(void);                                                                        /* 0x4003FCC0 */
 void trace_buffer_pointers_setup(u32 n);                                                         /* 0x4003FFE4 */
-void timebase_apply_2b4(void);                                                                   /* 0x40040030 */
-void timebase_apply_2b0(void);                                                                   /* 0x4004003C */
-void timebase_apply_2b0_x1_3(void);                                                              /* 0x40040048 */
+void trace_pointers_2b4(void);                                                                   /* 0x40040030 */
+void trace_pointers_block_points(void);                                                                   /* 0x4004003C */
+void trace_pointers_block_points_x1_3(void);                                                              /* 0x40040048 */
 void trigger_window_crossing(u32 ch);                                                            /* 0x400403AC */
 void stream_geometry_fpga_selector_0x22_configuration(void);                                     /* 0x400405E0 */
 void capture_block(u32 v, u32 buf);                                                              /* 0x40040638 */
@@ -65,7 +65,7 @@ void one_runtime_capture_step(void);                                            
 void full_acquisition_veneer(void);                                                              /* 0x40041918 */
 void runtime_sweep_path(void);                                                                   /* 0x4004191C */
 void acquisition_dispatcher(void);                                                               /* 0x400419CC */
-void sys_word_pair_578_set(u32 lo, u32 hi);                                                      /* 0x400424C4 */
+void view_position_set(u32 lo, u32 hi);                                                      /* 0x400424C4 */
 void runtime_event_service(void);                                                                /* 0x40049B08 */
 void acquisition_block_bank_selector(u32 i);                                                     /* 0x4006338C */
 void trigger_level_auto(void);                                                                   /* 0x4006382C */

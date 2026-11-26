@@ -107,12 +107,12 @@ static void move(void)
     case 7:
     case 8:
         W32(SYS + 0x808 + 4 * (m - 7)) = lo8 - dx;
-        cursor_808_clamp();
+        time_cursors_clamp();
         break;
     case 9:
     case 10:
         W32(SYS + 0x810 + 4 * (m - 9)) = lo8 - dy;
-        cursor_810_clamp();
+        level_cursors_clamp();
         break;
     case 11:
     case 12:

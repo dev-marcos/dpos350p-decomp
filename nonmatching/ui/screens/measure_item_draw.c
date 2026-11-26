@@ -27,10 +27,10 @@ void measure_item_draw(u32 x, u32 y, u32 ch, u32 kind)
     u32 yy, x2, xn, xu;
     const char *unit = 0;
     sign[1] = 0;
-    half_42e68be2_set(2);
+    text_spacing_set(2);
     draw_colour_set(0x888888);
     x += 3;
-    word_42e68c74_set(0x42E658D8u);
+    font_set(0x42E658D8u);
     y += 4;
     if (kind - 1 <= 11) {
         text_draw(U16(x), U16(y), label[kind - 1]);
@@ -56,14 +56,14 @@ void measure_item_draw(u32 x, u32 y, u32 ch, u32 kind)
     draw_colour_set(ch == 0 ? 0xFFFF00u : 0x00FFFFu);
     x2 = H16(0x42E68BE4u) + x + 3;
     text_draw(U16(x2), U16(yy), sign);
-    half_42e68be2_set(2);
+    text_spacing_set(2);
     xn = H16(0x42E68BE4u) + x2;
-    word_42e68c74_set(0x42E66718u);
+    font_set(0x42E66718u);
     number_draw_mode0(U16(xn), U16(yy - 2), (u32)v, (u32)((unsigned long long)v >> 32), (unsigned char)dec);
     xu = H16(0x42E68BE4u) + xn + 3;
-    half_42e68be2_set(1);
+    text_spacing_set(1);
     draw_colour_set(0x888888);
-    word_42e68c74_set(0x42E658D8u);
+    font_set(0x42E658D8u);
     if (kind >= 1 && kind <= 6) {
         if ((u32)prefix <= 4)
             unit = volt[prefix];

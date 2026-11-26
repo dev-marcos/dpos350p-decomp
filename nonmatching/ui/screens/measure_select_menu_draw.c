@@ -1,7 +1,7 @@
 /*
  * measure_select_menu_draw -- stock 0x4001D608 (4804 bytes, ARM)
  * Status: NONMATCHING; behaviour (incl. the ordered MMIO access sequence) verified by tools/emu
- * Draws the measurement selection menu (layout +0xA0..+0xA6): for CH1 (label 'CH1 parameter measurement', text entry 23, at y + 0x14) and CH2 (entry 24, at y + 0xFA) an image 0x40089EC8 and twelve 0x50 x 0x28 buttons in two rows of six, 0x55 apart (rows at y + 0x50 / 0xA5 and y + 0x136 / 0x18B): 'Vmax', 'Vmin', 'Vavg', 'Vrms', 'Vp', 'Vpp', 'F', 'T', 'T+', 'T-', 'Du+', 'Du-' (the last two are centred by the width of 'Dt+' / 'Dt-'). Measurement k (1 .. 12) of channel c is shown as selected (theme colour +0x10, black text) when value_in_table_405456e8(c, k) is set, i.e. when k (CH1) or -k (CH2) is in the list of 24 shown measurements at 0x405456E8. Touch records 0x42E61FF8 + 0x250 + 0xA x (12 c + k - 1); a pressed button is shaded with theme +8.
+ * Draws the measurement selection menu (layout +0xA0..+0xA6): for CH1 (label 'CH1 parameter measurement', text entry 23, at y + 0x14) and CH2 (entry 24, at y + 0xFA) an image 0x40089EC8 and twelve 0x50 x 0x28 buttons in two rows of six, 0x55 apart (rows at y + 0x50 / 0xA5 and y + 0x136 / 0x18B): 'Vmax', 'Vmin', 'Vavg', 'Vrms', 'Vp', 'Vpp', 'F', 'T', 'T+', 'T-', 'Du+', 'Du-' (the last two are centred by the width of 'Dt+' / 'Dt-'). Measurement k (1 .. 12) of channel c is shown as selected (theme colour +0x10, black text) when marker_value_present(c, k) is set, i.e. when k (CH1) or -k (CH2) is in the list of 24 shown measurements at 0x405456E8. Touch records 0x42E61FF8 + 0x250 + 0xA x (12 c + k - 1); a pressed button is shaded with theme +8.
  */
 #include "hw/platform.h"
 
@@ -32,7 +32,7 @@ static void measure_rows(u32 x0, u32 r, u32 c)
             r += 0x55;
         xo = (x0 + 0x55 * (k % 6)) & 0xFFFF;
         rec = 0x250 + 0xA * (12 * c + k);
-        if (value_in_table_405456e8(c, k + 1)) {
+        if (marker_value_present(c, k + 1)) {
             draw_colour_set(THEME_OPTION_SELECTED);
             txt = 0;
         } else {
@@ -63,14 +63,14 @@ void measure_select_menu_draw(void)
 {
     u32 x = WREC(11, x), y = WREC(11, y), w = WREC(11, w), h = WREC(11, h);
 
-    word_42e68c74_set(0x42E658D8u);
-    half_42e68be2_set(1);
+    font_set(0x42E658D8u);
+    text_spacing_set(1);
     draw_colour_set(THEME_MENU_BG);
     rect_fill(x & 0xFFFF, y, w, h);
     header(x, y + 0x14, UI_TEXT(23));
-    half_42e68be2_set(2);
+    text_spacing_set(2);
     measure_rows(x + 0x14, y + 0x50, 0);
-    half_42e68be2_set(1);
+    text_spacing_set(1);
     header(x, y + 0xFA, UI_TEXT(24));
     measure_rows(x + 0x14, y + 0x136, 1);
 }

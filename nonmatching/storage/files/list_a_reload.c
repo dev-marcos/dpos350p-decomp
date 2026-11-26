@@ -16,7 +16,7 @@ void list_a_reload(void)
     SI(list_mark_mode) = 0;
     SYS16(0xFA4) = 0;
     SYS16(0xF9E) = 0;
-    list_cursor_clamp_40035248();
+    list_a_cursor_clamp();
     list_a_page_validate();
     list_a_page_thumbs();
 }

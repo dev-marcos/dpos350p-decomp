@@ -46,8 +46,8 @@ void fft_settings_menu_draw(void)
     u32 r, xo, tw;
     int i;
 
-    word_42e68c74_set(0x42E658D8u);
-    half_42e68be2_set(1);
+    font_set(0x42E658D8u);
+    text_spacing_set(1);
     draw_colour_set(THEME_MENU_BG);
     rect_fill(x, y, w, h);
     draw_colour_set(THEME_MENU_BG);
@@ -75,7 +75,7 @@ void fft_settings_menu_draw(void)
     label_row(x, r, 0x4008C148u, UI_TEXT(139));
     switch_on_off_draw((x + 0x110) & 0xFFFF, r & 0xFFFF, LEVELS(panel_b_on));
     wide_button(x, r, w, 0xC14);
-    word_42e68c74_set(0x42E658D8u);
+    font_set(0x42E658D8u);
     r += 0x3C;
     label_row(x, r, 0x40089BE8u, UI_TEXT(68));
     icon_19c7c_draw((x + 0x126) & 0xFFFF, r & 0xFFFF);

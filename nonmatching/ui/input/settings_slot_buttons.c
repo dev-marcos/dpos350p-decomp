@@ -53,7 +53,7 @@ void settings_slot_buttons(void)
     }
     message_box_draw((int)cx + TX8(0xAAA0 + 0x194), (int)cy + TX8(0xAAA0 + 0x195), TX32(0xAAA0), 0);
     delay_ms(500);
-    rect_42e68c38_draw();
+    message_box_erase();
     ui_window_close_raw(8);
     outputs_apply();
     gen_update();

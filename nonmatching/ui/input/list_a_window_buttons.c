@@ -56,7 +56,7 @@ void list_a_window_buttons(void)
         BREC_BYTE0 = 0;
         list_a_marks_clear();
         SYS8(0x5DC6 + (short)SYS16(0xFA4)) = 1;
-        list_count_nonzero_400353a8();
+        list_a_marks_count();
         ui_window_open(0x15);
     } else if (BREC(209, state) == 2 || BREC(210, state) == 2) {
         int d;
@@ -72,7 +72,7 @@ void list_a_window_buttons(void)
         v = (short)((short)SYS16(0xFA4) + d);
         SYS16(0xFA4) = v;
         SYS16(0xF9E) = sdv(v, SI(list_page_size));
-        list_cursor_clamp_40035248();
+        list_a_cursor_clamp();
         list_a_current_load();
     } else if (BREC(206, state) == 2) {
         BREC(206, state) = 0;
