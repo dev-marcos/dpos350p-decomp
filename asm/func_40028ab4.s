@@ -360,15 +360,15 @@ config_slot_menu_draw:  /* 0x40028ab4 */
     add sp, sp, #0xc  /* 4002900c */
     pop {r4, r5, r6, r7, r8, sb, sl, fp, pc}  /* 40029010 */
 .Lp_40029014:
-    .word graphics_400863dc  /* 40029014 */
+    .word d_400863dc  /* 40029014 */
 .Lp_40029018:
     .word 0x00ff8822  /* 40029018 */
 .Lp_4002901c:
-    .word graphics_400866d4  /* 4002901c */
+    .word d_400866d4  /* 4002901c */
 .Lp_40029020:
     .word 0x002288ff  /* 40029020 */
 .Lp_40029024:
-    .word graphics_400869cc  /* 40029024 */
+    .word d_400869cc  /* 40029024 */
 .Lp_40029028:
     .word 0x42e68bb0  /* 40029028 */
 .Lp_4002902c:

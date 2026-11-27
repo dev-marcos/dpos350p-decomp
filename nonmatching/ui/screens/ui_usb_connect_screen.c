@@ -30,7 +30,7 @@ void ui_usb_connect_screen(void)
     draw_colour_set(0x252525);
     rect_fill(x, y, w, 0x1E);
     draw_colour_set(THEME_MENU_TEXT);
-    draw_text_shadowed(U16(x + 5), U16(y + 5), 0x40088EF8u, 2, 2, 0);
+    draw_text_shadowed(U16(x + 5), U16(y + 5), IMGU(40088ef8), 2, 2, 0);
     text_shadow_draw(U16(x + TEXT_DX(UI_TEXT(11)) + 0x23), U16(y + TEXT_DY(UI_TEXT(11)) + 8), TEXT_STR(UI_TEXT(11)), 1, 2, 0);
     by = y + h - 0x32;
     draw_colour_set(THEME_MENU_BG);

@@ -34,7 +34,7 @@ void config_menu_draw(void)
         sl = y + 0x14 + 0x3C * i;
         e = UI_TEXT(83 + i);
         draw_colour_set(THEME_MENU_TEXT);
-        draw_text_shadowed((x2 + 0x14) & 0xFFFF, sl & 0xFFFF, 0x4008B2E8u + 0x170 * i, 2, 2, 0);
+        draw_text_shadowed((x2 + 0x14) & 0xFFFF, sl & 0xFFFF, IMGU(4008b2e8) + 0x170 * i, 2, 2, 0);
         draw_colour_set(THEME_MENU_TEXT);
         text_shadow_draw((x2 + 0x41 + TEXT_DX(e)) & 0xFFFF, (sl + 3 + TEXT_DY(e)) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
         icon_19c7c_draw((x2 + 0x122) & 0xFFFF, sl & 0xFFFF);

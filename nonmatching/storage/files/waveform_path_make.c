@@ -44,7 +44,7 @@ static void path_number(u32 p, int n, const char *ext)
 
 void waveform_path_make(int n)
 {
-    __aeabi_memcpy4((void *)(SYS + 0x88C0), (const void *)0x4008FFB4u, 10);
+    __aeabi_memcpy4((void *)(SYS + 0x88C0), (const void *)IMG(4008ffb4), 10);
     SI(f_88c9) = '/';
     path_number(SYS + 0x88C9, n, ".wav");
 }

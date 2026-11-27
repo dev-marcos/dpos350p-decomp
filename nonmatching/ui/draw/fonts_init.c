@@ -11,23 +11,23 @@
 void fonts_init(void)
 {
     *(volatile unsigned char *)0x42E64F58u = 1;
-    *(volatile u32 *)0x42E65414u = 0x4007DA1Cu;
+    *(volatile u32 *)0x42E65414u = IMGU(4007da1c);
     *(volatile unsigned char *)0x42E65418u = 1;
-    *(volatile u32 *)0x42E658D4u = 0x4007A4ECu;
+    *(volatile u32 *)0x42E658D4u = IMGU(4007a4ec);
     *(volatile unsigned char *)0x42E64A98u = 1;
-    *(volatile u32 *)0x42E64F54u = 0x40076C98u;
+    *(volatile u32 *)0x42E64F54u = IMGU(40076c98);
     *(volatile unsigned char *)0x42E658D8u = 1;
-    *(volatile u32 *)0x42E65D94u = 0x40072D78u;
+    *(volatile u32 *)0x42E65D94u = IMGU(40072d78);
     *(volatile unsigned char *)0x42E65D98u = 1;
-    *(volatile u32 *)0x42E66254u = 0x4006DDECu;
+    *(volatile u32 *)0x42E66254u = IMGU(4006ddec);
     *(volatile unsigned char *)0x42E66258u = 8;
-    *(volatile u32 *)0x42E66714u = 0x400841F0u;
+    *(volatile u32 *)0x42E66714u = IMGU(400841f0);
     *(volatile unsigned char *)0x42E66718u = 8;
-    *(volatile u32 *)0x42E66BD4u = 0x400836E8u;
+    *(volatile u32 *)0x42E66BD4u = IMGU(400836e8);
     *(volatile unsigned char *)0x42E66BD8u = 8;
-    *(volatile u32 *)0x42E67094u = 0x4008279Cu;
+    *(volatile u32 *)0x42E67094u = IMGU(4008279c);
     *(volatile unsigned char *)0x42E67098u = 8;
-    *(volatile u32 *)0x42E67554u = 0x400809D0u;
+    *(volatile u32 *)0x42E67554u = IMGU(400809d0);
     font_metrics_build((volatile unsigned char *)0x42E64F58u);
     font_metrics_build((volatile unsigned char *)0x42E65418u);
     font_metrics_build((volatile unsigned char *)0x42E64A98u);

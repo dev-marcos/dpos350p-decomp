@@ -10,5 +10,5 @@
 
 void fb_target_back(void)
 {
-    *(volatile u32 *)0x40095498u = 0x41BFBF68u;
+    *(volatile u32 *)IMG(40095498) = 0x41BFBF68u;
 }

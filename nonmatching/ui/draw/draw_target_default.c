@@ -10,5 +10,5 @@
 
 void draw_target_default(void)
 {
-    *(volatile u32 *)0x40095498u = 0x41FB8FE8u;
+    *(volatile u32 *)IMG(40095498) = 0x41FB8FE8u;
 }

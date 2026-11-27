@@ -20,7 +20,7 @@ static void usb_mass_decode_cbw(void)
     CSW_TAG = *(u32 *)(cbw + 4);
     CSW_RESIDUE = CBW_DLEN;
     if (len != 31) {
-        debug_printf_stub(STR(0x4008F8DC));
+        debug_printf_stub(STR(4008f8dc));
         CBW_SIG = 0;
         asc = 0x1A;
         goto fail;
@@ -30,16 +30,16 @@ static void usb_mass_decode_cbw(void)
         mass_count = (u32)cbw[0x16] << 8 | cbw[0x17];
     }
     if (CBW_SIG != 0x43425355u) {
-        debug_printf_stub(STR(0x4008F91C));
+        debug_printf_stub(STR(4008f91c));
         asc = 0x20;
         goto fail;
     }
     if (max_lun < CBW_LUN || CBW_CBLEN == 0 || (int)CBW_CBLEN >= 0x11) {
-        debug_printf_stub(STR(0x4008F8EC));
+        debug_printf_stub(STR(4008f8ec));
         asc = 0x24;
         goto fail;
     }
-    debug_printf_stub(STR(0x4008F8FC), CBW_OP);
+    debug_printf_stub(STR(4008f8fc), CBW_OP);
     switch (CBW_OP) {
     case 0x00: scsi_test_unit_ready(CBW_LUN); return;
     case 0x03: scsi_request_sense(CBW_LUN); return;
@@ -58,7 +58,7 @@ static void usb_mass_decode_cbw(void)
     case 0x9E: case 0xA8: case 0xAA: case 0xAF:
         scsi_invalid_cmd(CBW_LUN); return;
     }
-    debug_printf_stub(STR(0x4008F90C));
+    debug_printf_stub(STR(4008f90c));
     asc = 0x20;
 fail:
     usb_mass_set_sense(CBW_LUN, 5, asc);

@@ -17,8 +17,8 @@
 
 typedef struct { float re, im; } cfloat;
 typedef double (*dfn)(double);
-#define COS_T ((dfn)0x40066531u)   /* cos at 0x40066530 is Thumb */
-#define SIN_T ((dfn)0x40066535u)   /* sin at 0x40066534 is Thumb */
+#define COS_T ((dfn)CODE_ADDR(cos))   /* cos at 0x40066530 is Thumb */
+#define SIN_T ((dfn)CODE_ADDR(sin))   /* sin at 0x40066534 is Thumb */
 
 cfloat cmul(cfloat a, cfloat b);
 

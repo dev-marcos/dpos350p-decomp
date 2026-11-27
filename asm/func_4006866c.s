@@ -82,7 +82,7 @@ mmc_read_blocks:  /* 0x4006866c */
 .Lp_40068788:
     .word 0x01c20088  /* 40068788 */
 .Lp_4006878c:
-    .word rodata_4008e0a0  /* 4006878c */
+    .word d_4008e0a0  /* 4006878c */
 .Lp_40068790:
-    .word rodata_4008e73c  /* 40068790 */
+    .word d_4008e73c  /* 40068790 */
     .size mmc_read_blocks, . - mmc_read_blocks

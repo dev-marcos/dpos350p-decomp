@@ -15,7 +15,7 @@
 #define SYS 0x40544E68u
 
 #define HITS(tr) (0x400954A4u + (tr) * 0x12BE70u)
-#define FBP (*(volatile u32 *)0x40095498u)
+#define FBP (*(volatile u32 *)IMG(40095498))
 #define PAL_A 0x42E45864u
 #define PAL_B 0x42E47B8Cu
 

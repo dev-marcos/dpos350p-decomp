@@ -19,10 +19,10 @@
 #define FT_WHITE    0x00FFFFFFu
 #define FT_RED      0x00FF2222u
 #define FT_FONT     0x42E658D8u
-#define FT_OK       ((const char *)0x4008FFC8u)     /* 成功 */
-#define FT_FAIL     ((const char *)0x4008FFD0u)     /* 异常 */
-#define FT_CH1_FAIL ((const char *)0x4008EFFCu)     /* 通道1异常 */
-#define FT_CH2_FAIL ((const char *)0x4008F00Cu)     /* 通道2异常 */
+#define FT_OK       ((const char *)IMG(4008ffc8))     /* 成功 */
+#define FT_FAIL     ((const char *)IMG(4008ffd0))     /* 异常 */
+#define FT_CH1_FAIL ((const char *)IMG(4008effc))     /* 通道1异常 */
+#define FT_CH2_FAIL ((const char *)IMG(4008f00c))     /* 通道2异常 */
 
 static void ft_text(u32 colour, u32 x, u32 y, const char *s)
 {
@@ -67,26 +67,26 @@ void factory_test_board(void)
     draw_colour_set(FT_WHITE);
     font_set(FT_FONT);
     text_spacing_set(1);
-    text_draw(15, 15, (const char *)0x4008E8E8u);       /* 磁盘初始化 ... */
+    text_draw(15, 15, (const char *)IMG(4008e8e8));       /* 磁盘初始化 ... */
     fb_present();
     disk_check_file();
     if (!FACT(f_010)) {
         ft_text(FT_RED, 160, 15, FT_FAIL);
         ft_halt();
     }
-    ft_ok_next(160, 15, (const char *)0x4008EFDCu);     /* FPGA检测 ... */
+    ft_ok_next(160, 15, (const char *)IMG(4008efdc));     /* FPGA检测 ... */
     fpga_probe_and_record();
     if (!FACT(fpga_probe_ok)) {
         ft_text(FT_RED, 160, 40, FT_FAIL);
         ft_halt();
     }
-    ft_ok_next(160, 40, (const char *)0x4008E304u);     /* 加密芯片检测 ... */
+    ft_ok_next(160, 40, (const char *)IMG(4008e304));     /* 加密芯片检测 ... */
     security_check_and_copy();
     if (!FACT(security_chip_ok)) {
         ft_text(FT_RED, 160, 65, FT_FAIL);
         ft_halt();
     }
-    ft_ok_next(160, 65, (const char *)0x4008EFECu);     /* ADC检测 ... */
+    ft_ok_next(160, 65, (const char *)IMG(4008efec));     /* ADC检测 ... */
     table_684_init();
     adc_lanes_selftest();
     if (!FACT(f_018)) {
@@ -96,14 +96,14 @@ void factory_test_board(void)
             if (FT8(0x19 + k))
                 continue;
             draw_colour_set(FT_RED);
-            text_draw(160, y, (const char *)(0x4008FFD8u + 8 * k));
+            text_draw(160, y, (const char *)(IMGU(4008ffd8) + 8 * k));
             text_draw((TEXT_W + (k ? 0xA1 : 0xA6)) & 0xFFFF, y, FT_FAIL);
             fb_present();
             y += 25;
         }
         ft_halt();
     }
-    ft_ok_next(160, 90, (const char *)0x4008E8FCu);     /* 系统校准 ... */
+    ft_ok_next(160, 90, (const char *)IMG(4008e8fc));     /* 系统校准 ... */
     calibration_result_flags();
     acq_defaults_reset();
     SI(f_54e) = 1;
@@ -111,13 +111,13 @@ void factory_test_board(void)
     SI(f_54e) = 0;
     if (!FACT(f_021))
         ft_fail2(160, 115, FACT(f_022), FACT(f_023));
-    ft_ok_next(160, 115, (const char *)0x4008E31Cu);    /* 通道复用检测 ... */
+    ft_ok_next(160, 115, (const char *)IMG(4008e31c));    /* 通道复用检测 ... */
     channel_mux_selftest();
     if (!FACT(f_013)) {
         ft_text(FT_RED, 160, 140, FT_FAIL);
         ft_halt();
     }
-    ft_ok_next(160, 140, (const char *)0x4008DC40u);    /* 150M带宽限制检测 ... */
+    ft_ok_next(160, 140, (const char *)IMG(4008dc40));    /* 150M带宽限制检测 ... */
     bandwidth_150m_selftest();
     if (!FACT(f_03f))
         ft_fail2(160, 165, FACT(f_040), FACT(f_041));

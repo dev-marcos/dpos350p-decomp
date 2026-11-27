@@ -3,259 +3,261 @@
     .arm
     .global graphics_4006ddec
 graphics_4006ddec:
+    .global d_4006ddec
+d_4006ddec:
     .incbin "data/graphics_4006ddec.bin", 0, 20364  /* 4006ddec */
-    .global graphics_40072d78
-graphics_40072d78:
+    .global d_40072d78
+d_40072d78:
     .incbin "data/graphics_4006ddec.bin", 20364, 16160  /* 40072d78 */
-    .global graphics_40076c98
-graphics_40076c98:
+    .global d_40076c98
+d_40076c98:
     .incbin "data/graphics_4006ddec.bin", 36524, 14420  /* 40076c98 */
-    .global graphics_4007a4ec
-graphics_4007a4ec:
+    .global d_4007a4ec
+d_4007a4ec:
     .incbin "data/graphics_4006ddec.bin", 50944, 13616  /* 4007a4ec */
-    .global graphics_4007da1c
-graphics_4007da1c:
+    .global d_4007da1c
+d_4007da1c:
     .incbin "data/graphics_4006ddec.bin", 64560, 12212  /* 4007da1c */
-    .global graphics_400809d0
-graphics_400809d0:
+    .global d_400809d0
+d_400809d0:
     .incbin "data/graphics_4006ddec.bin", 76772, 7628  /* 400809d0 */
-    .global graphics_4008279c
-graphics_4008279c:
+    .global d_4008279c
+d_4008279c:
     .incbin "data/graphics_4006ddec.bin", 84400, 3916  /* 4008279c */
-    .global graphics_400836e8
-graphics_400836e8:
+    .global d_400836e8
+d_400836e8:
     .incbin "data/graphics_4006ddec.bin", 88316, 2824  /* 400836e8 */
-    .global graphics_400841f0
-graphics_400841f0:
+    .global d_400841f0
+d_400841f0:
     .incbin "data/graphics_4006ddec.bin", 91140, 2080  /* 400841f0 */
-    .global graphics_40084a10
-graphics_40084a10:
+    .global d_40084a10
+d_40084a10:
     .incbin "data/graphics_4006ddec.bin", 93220, 1056  /* 40084a10 */
-    .global graphics_40084e30
-graphics_40084e30:
+    .global d_40084e30
+d_40084e30:
     .incbin "data/graphics_4006ddec.bin", 94276, 932  /* 40084e30 */
-    .global graphics_400851d4
-graphics_400851d4:
+    .global d_400851d4
+d_400851d4:
     .incbin "data/graphics_4006ddec.bin", 95208, 788  /* 400851d4 */
-    .global graphics_400854e8
-graphics_400854e8:
+    .global d_400854e8
+d_400854e8:
     .incbin "data/graphics_4006ddec.bin", 95996, 788  /* 400854e8 */
-    .global graphics_400857fc
-graphics_400857fc:
+    .global d_400857fc
+d_400857fc:
     .incbin "data/graphics_4006ddec.bin", 96784, 760  /* 400857fc */
-    .global graphics_40085af4
-graphics_40085af4:
+    .global d_40085af4
+d_40085af4:
     .incbin "data/graphics_4006ddec.bin", 97544, 760  /* 40085af4 */
-    .global graphics_40085dec
-graphics_40085dec:
+    .global d_40085dec
+d_40085dec:
     .incbin "data/graphics_4006ddec.bin", 98304, 760  /* 40085dec */
-    .global graphics_400860e4
-graphics_400860e4:
+    .global d_400860e4
+d_400860e4:
     .incbin "data/graphics_4006ddec.bin", 99064, 760  /* 400860e4 */
-    .global graphics_400863dc
-graphics_400863dc:
+    .global d_400863dc
+d_400863dc:
     .incbin "data/graphics_4006ddec.bin", 99824, 760  /* 400863dc */
-    .global graphics_400866d4
-graphics_400866d4:
+    .global d_400866d4
+d_400866d4:
     .incbin "data/graphics_4006ddec.bin", 100584, 760  /* 400866d4 */
-    .global graphics_400869cc
-graphics_400869cc:
+    .global d_400869cc
+d_400869cc:
     .incbin "data/graphics_4006ddec.bin", 101344, 760  /* 400869cc */
-    .global graphics_40086cc4
-graphics_40086cc4:
+    .global d_40086cc4
+d_40086cc4:
     .incbin "data/graphics_4006ddec.bin", 102104, 760  /* 40086cc4 */
-    .global graphics_40086fbc
-graphics_40086fbc:
+    .global d_40086fbc
+d_40086fbc:
     .incbin "data/graphics_4006ddec.bin", 102864, 760  /* 40086fbc */
-    .global graphics_400872b4
-graphics_400872b4:
+    .global d_400872b4
+d_400872b4:
     .incbin "data/graphics_4006ddec.bin", 103624, 660  /* 400872b4 */
-    .global graphics_40087548
-graphics_40087548:
+    .global d_40087548
+d_40087548:
     .incbin "data/graphics_4006ddec.bin", 104284, 612  /* 40087548 */
-    .global graphics_400877ac
-graphics_400877ac:
+    .global d_400877ac
+d_400877ac:
     .incbin "data/graphics_4006ddec.bin", 104896, 500  /* 400877ac */
-    .global graphics_400879a0
-graphics_400879a0:
+    .global d_400879a0
+d_400879a0:
     .incbin "data/graphics_4006ddec.bin", 105396, 500  /* 400879a0 */
-    .global graphics_40087b94
-graphics_40087b94:
+    .global d_40087b94
+d_40087b94:
     .incbin "data/graphics_4006ddec.bin", 105896, 456  /* 40087b94 */
-    .global graphics_40087d5c
-graphics_40087d5c:
+    .global d_40087d5c
+d_40087d5c:
     .incbin "data/graphics_4006ddec.bin", 106352, 436  /* 40087d5c */
-    .global graphics_40087f10
-graphics_40087f10:
+    .global d_40087f10
+d_40087f10:
     .incbin "data/graphics_4006ddec.bin", 106788, 388  /* 40087f10 */
-    .global graphics_40088094
-graphics_40088094:
+    .global d_40088094
+d_40088094:
     .incbin "data/graphics_4006ddec.bin", 107176, 372  /* 40088094 */
-    .global graphics_40088208
-graphics_40088208:
+    .global d_40088208
+d_40088208:
     .incbin "data/graphics_4006ddec.bin", 107548, 368  /* 40088208 */
-    .global graphics_40088378
-graphics_40088378:
+    .global d_40088378
+d_40088378:
     .incbin "data/graphics_4006ddec.bin", 107916, 368  /* 40088378 */
-    .global graphics_400884e8
-graphics_400884e8:
+    .global d_400884e8
+d_400884e8:
     .incbin "data/graphics_4006ddec.bin", 108284, 368  /* 400884e8 */
-    .global graphics_40088658
-graphics_40088658:
+    .global d_40088658
+d_40088658:
     .incbin "data/graphics_4006ddec.bin", 108652, 368  /* 40088658 */
-    .global graphics_400887c8
-graphics_400887c8:
+    .global d_400887c8
+d_400887c8:
     .incbin "data/graphics_4006ddec.bin", 109020, 368  /* 400887c8 */
-    .global graphics_40088938
-graphics_40088938:
+    .global d_40088938
+d_40088938:
     .incbin "data/graphics_4006ddec.bin", 109388, 368  /* 40088938 */
-    .global graphics_40088aa8
-graphics_40088aa8:
+    .global d_40088aa8
+d_40088aa8:
     .incbin "data/graphics_4006ddec.bin", 109756, 368  /* 40088aa8 */
-    .global graphics_40088c18
-graphics_40088c18:
+    .global d_40088c18
+d_40088c18:
     .incbin "data/graphics_4006ddec.bin", 110124, 368  /* 40088c18 */
-    .global graphics_40088d88
-graphics_40088d88:
+    .global d_40088d88
+d_40088d88:
     .incbin "data/graphics_4006ddec.bin", 110492, 368  /* 40088d88 */
-    .global graphics_40088ef8
-graphics_40088ef8:
+    .global d_40088ef8
+d_40088ef8:
     .incbin "data/graphics_4006ddec.bin", 110860, 368  /* 40088ef8 */
-    .global graphics_40089068
-graphics_40089068:
+    .global d_40089068
+d_40089068:
     .incbin "data/graphics_4006ddec.bin", 111228, 368  /* 40089068 */
-    .global graphics_400891d8
-graphics_400891d8:
+    .global d_400891d8
+d_400891d8:
     .incbin "data/graphics_4006ddec.bin", 111596, 368  /* 400891d8 */
-    .global graphics_40089348
-graphics_40089348:
+    .global d_40089348
+d_40089348:
     .incbin "data/graphics_4006ddec.bin", 111964, 368  /* 40089348 */
-    .global graphics_400894b8
-graphics_400894b8:
+    .global d_400894b8
+d_400894b8:
     .incbin "data/graphics_4006ddec.bin", 112332, 368  /* 400894b8 */
-    .global graphics_40089628
-graphics_40089628:
+    .global d_40089628
+d_40089628:
     .incbin "data/graphics_4006ddec.bin", 112700, 368  /* 40089628 */
-    .global graphics_40089798
-graphics_40089798:
+    .global d_40089798
+d_40089798:
     .incbin "data/graphics_4006ddec.bin", 113068, 368  /* 40089798 */
-    .global graphics_40089908
-graphics_40089908:
+    .global d_40089908
+d_40089908:
     .incbin "data/graphics_4006ddec.bin", 113436, 368  /* 40089908 */
-    .global graphics_40089a78
-graphics_40089a78:
+    .global d_40089a78
+d_40089a78:
     .incbin "data/graphics_4006ddec.bin", 113804, 368  /* 40089a78 */
-    .global graphics_40089be8
-graphics_40089be8:
+    .global d_40089be8
+d_40089be8:
     .incbin "data/graphics_4006ddec.bin", 114172, 368  /* 40089be8 */
-    .global graphics_40089d58
-graphics_40089d58:
+    .global d_40089d58
+d_40089d58:
     .incbin "data/graphics_4006ddec.bin", 114540, 368  /* 40089d58 */
-    .global graphics_40089ec8
-graphics_40089ec8:
+    .global d_40089ec8
+d_40089ec8:
     .incbin "data/graphics_4006ddec.bin", 114908, 368  /* 40089ec8 */
-    .global graphics_4008a038
-graphics_4008a038:
+    .global d_4008a038
+d_4008a038:
     .incbin "data/graphics_4006ddec.bin", 115276, 368  /* 4008a038 */
-    .global graphics_4008a1a8
-graphics_4008a1a8:
+    .global d_4008a1a8
+d_4008a1a8:
     .incbin "data/graphics_4006ddec.bin", 115644, 368  /* 4008a1a8 */
-    .global graphics_4008a318
-graphics_4008a318:
+    .global d_4008a318
+d_4008a318:
     .incbin "data/graphics_4006ddec.bin", 116012, 368  /* 4008a318 */
-    .global graphics_4008a488
-graphics_4008a488:
+    .global d_4008a488
+d_4008a488:
     .incbin "data/graphics_4006ddec.bin", 116380, 368  /* 4008a488 */
-    .global graphics_4008a5f8
-graphics_4008a5f8:
+    .global d_4008a5f8
+d_4008a5f8:
     .incbin "data/graphics_4006ddec.bin", 116748, 368  /* 4008a5f8 */
-    .global graphics_4008a768
-graphics_4008a768:
+    .global d_4008a768
+d_4008a768:
     .incbin "data/graphics_4006ddec.bin", 117116, 368  /* 4008a768 */
-    .global graphics_4008a8d8
-graphics_4008a8d8:
+    .global d_4008a8d8
+d_4008a8d8:
     .incbin "data/graphics_4006ddec.bin", 117484, 368  /* 4008a8d8 */
-    .global graphics_4008aa48
-graphics_4008aa48:
+    .global d_4008aa48
+d_4008aa48:
     .incbin "data/graphics_4006ddec.bin", 117852, 368  /* 4008aa48 */
-    .global graphics_4008abb8
-graphics_4008abb8:
+    .global d_4008abb8
+d_4008abb8:
     .incbin "data/graphics_4006ddec.bin", 118220, 368  /* 4008abb8 */
-    .global graphics_4008ad28
-graphics_4008ad28:
+    .global d_4008ad28
+d_4008ad28:
     .incbin "data/graphics_4006ddec.bin", 118588, 368  /* 4008ad28 */
-    .global graphics_4008ae98
-graphics_4008ae98:
+    .global d_4008ae98
+d_4008ae98:
     .incbin "data/graphics_4006ddec.bin", 118956, 368  /* 4008ae98 */
-    .global graphics_4008b008
-graphics_4008b008:
+    .global d_4008b008
+d_4008b008:
     .incbin "data/graphics_4006ddec.bin", 119324, 368  /* 4008b008 */
-    .global graphics_4008b178
-graphics_4008b178:
+    .global d_4008b178
+d_4008b178:
     .incbin "data/graphics_4006ddec.bin", 119692, 368  /* 4008b178 */
-    .global graphics_4008b2e8
-graphics_4008b2e8:
+    .global d_4008b2e8
+d_4008b2e8:
     .incbin "data/graphics_4006ddec.bin", 120060, 368  /* 4008b2e8 */
-    .global graphics_4008b458
-graphics_4008b458:
+    .global d_4008b458
+d_4008b458:
     .incbin "data/graphics_4006ddec.bin", 120428, 368  /* 4008b458 */
-    .global graphics_4008b5c8
-graphics_4008b5c8:
+    .global d_4008b5c8
+d_4008b5c8:
     .incbin "data/graphics_4006ddec.bin", 120796, 368  /* 4008b5c8 */
-    .global graphics_4008b738
-graphics_4008b738:
+    .global d_4008b738
+d_4008b738:
     .incbin "data/graphics_4006ddec.bin", 121164, 368  /* 4008b738 */
-    .global graphics_4008b8a8
-graphics_4008b8a8:
+    .global d_4008b8a8
+d_4008b8a8:
     .incbin "data/graphics_4006ddec.bin", 121532, 368  /* 4008b8a8 */
-    .global graphics_4008ba18
-graphics_4008ba18:
+    .global d_4008ba18
+d_4008ba18:
     .incbin "data/graphics_4006ddec.bin", 121900, 368  /* 4008ba18 */
-    .global graphics_4008bb88
-graphics_4008bb88:
+    .global d_4008bb88
+d_4008bb88:
     .incbin "data/graphics_4006ddec.bin", 122268, 368  /* 4008bb88 */
-    .global graphics_4008bcf8
-graphics_4008bcf8:
+    .global d_4008bcf8
+d_4008bcf8:
     .incbin "data/graphics_4006ddec.bin", 122636, 368  /* 4008bcf8 */
-    .global graphics_4008be68
-graphics_4008be68:
+    .global d_4008be68
+d_4008be68:
     .incbin "data/graphics_4006ddec.bin", 123004, 368  /* 4008be68 */
-    .global graphics_4008bfd8
-graphics_4008bfd8:
+    .global d_4008bfd8
+d_4008bfd8:
     .incbin "data/graphics_4006ddec.bin", 123372, 368  /* 4008bfd8 */
-    .global graphics_4008c148
-graphics_4008c148:
+    .global d_4008c148
+d_4008c148:
     .incbin "data/graphics_4006ddec.bin", 123740, 368  /* 4008c148 */
-    .global graphics_4008c2b8
-graphics_4008c2b8:
+    .global d_4008c2b8
+d_4008c2b8:
     .incbin "data/graphics_4006ddec.bin", 124108, 324  /* 4008c2b8 */
-    .global graphics_4008c3fc
-graphics_4008c3fc:
+    .global d_4008c3fc
+d_4008c3fc:
     .incbin "data/graphics_4006ddec.bin", 124432, 272  /* 4008c3fc */
-    .global graphics_4008c50c
-graphics_4008c50c:
+    .global d_4008c50c
+d_4008c50c:
     .incbin "data/graphics_4006ddec.bin", 124704, 256  /* 4008c50c */
-    .global graphics_4008c60c
-graphics_4008c60c:
+    .global d_4008c60c
+d_4008c60c:
     .incbin "data/graphics_4006ddec.bin", 124960, 212  /* 4008c60c */
-    .global graphics_4008c6e0
-graphics_4008c6e0:
+    .global d_4008c6e0
+d_4008c6e0:
     .incbin "data/graphics_4006ddec.bin", 125172, 188  /* 4008c6e0 */
-    .global graphics_4008c79c
-graphics_4008c79c:
+    .global d_4008c79c
+d_4008c79c:
     .incbin "data/graphics_4006ddec.bin", 125360, 84  /* 4008c79c */
-    .global graphics_4008c7f0
-graphics_4008c7f0:
+    .global d_4008c7f0
+d_4008c7f0:
     .incbin "data/graphics_4006ddec.bin", 125444, 168  /* 4008c7f0 */
-    .global graphics_4008c898
-graphics_4008c898:
+    .global d_4008c898
+d_4008c898:
     .incbin "data/graphics_4006ddec.bin", 125612, 168  /* 4008c898 */
-    .global graphics_4008c940
-graphics_4008c940:
+    .global d_4008c940
+d_4008c940:
     .incbin "data/graphics_4006ddec.bin", 125780, 148  /* 4008c940 */
-    .global graphics_4008c9d4
-graphics_4008c9d4:
+    .global d_4008c9d4
+d_4008c9d4:
     .incbin "data/graphics_4006ddec.bin", 125928, 212  /* 4008c9d4 */
-    .global graphics_4008caa8
-graphics_4008caa8:
+    .global d_4008caa8
+d_4008caa8:
     .incbin "data/graphics_4006ddec.bin", 126140, 128  /* 4008caa8 */

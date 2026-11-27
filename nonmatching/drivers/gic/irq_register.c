@@ -11,7 +11,7 @@ void irq_register(int irq, void (*handler)(void), int prio, int enable)
 {
     u32 reg, v;
     int sh;
-    dbg_printf(STR(0x4008E724));
+    dbg_printf(STR(4008e724));
     reg = g_gic.base_lo + (u32)((irq / 4) * 4) + 0x1400;
     sh = (irq - (irq / 4) * 4) * 8;
     v = gic_readl(reg);

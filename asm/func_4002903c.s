@@ -176,7 +176,7 @@ system_calibration_notice_draw:  /* 0x4002903c */
 .Lp_400292d4:
     .word 0x42e658d8  /* 400292d4 */
 .Lp_400292d8:
-    .word rodata_40090420  /* 400292d8 */
+    .word d_40090420  /* 400292d8 */
 .Lp_400292dc:
     .word 0x42e64520  /* 400292dc */
 .Lp_400292e0:

@@ -64,7 +64,7 @@ line_draw:  /* 0x4002ed90 */
 .Lp_4002ee68:
     .word 0x42e6865c  /* 4002ee68 */
 .Lp_4002ee6c:
-    .word rodata_40095498  /* 4002ee6c */
+    .word d_40095498  /* 4002ee6c */
 .Lp_4002ee70:
     .word 0x80808081  /* 4002ee70 */
 .Lp_4002ee74:

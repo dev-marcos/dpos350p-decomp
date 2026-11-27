@@ -32,9 +32,9 @@ capture_samples_decimate:  /* 0x400374ec */
 .Lp_4003753c:
     .word 0x411af3e8  /* 4003753c */
 .Lp_40037540:
-    .word rodata_4008fa2c  /* 40037540 */
+    .word d_4008fa2c  /* 40037540 */
 .Lp_40037544:
     .word 0x003da52e  /* 40037544 */
 .Lp_40037548:
-    .word rodata_4008e2ec  /* 40037548 */
+    .word d_4008e2ec  /* 40037548 */
     .size capture_samples_decimate, . - capture_samples_decimate

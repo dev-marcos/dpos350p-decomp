@@ -51,7 +51,7 @@ screenshot_view_draw:  /* 0x40025d08 */
 .Lp_40025d9c:
     .word 0x000292b6  /* 40025d9c */
 .Lp_40025da0:
-    .word rodata_40095498  /* 40025da0 */
+    .word d_40095498  /* 40025da0 */
 .Lp_40025da4:
     .word 0x00109684  /* 40025da4 */
 .Lp_40025da8:

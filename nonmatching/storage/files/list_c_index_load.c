@@ -16,7 +16,7 @@ void list_c_index_load(void)
 {
     unsigned char fil[0x250];
     int c, ps, q;
-    if (f_open(fil, (const char *)0x4008E2ECu, 1) != 0) {
+    if (f_open(fil, (const char *)IMG(4008e2ec), 1) != 0) {
         list_c_index_create();
     } else {
         f_lseek(fil, 0);

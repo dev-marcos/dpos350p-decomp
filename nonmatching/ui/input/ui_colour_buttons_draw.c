@@ -21,7 +21,8 @@
 
 void ui_colour_buttons_draw(void)
 {
-    static const u32 img[4] = {0x400860E4u, 0x400863DCu, 0x400866D4u, 0x400869CCu};
+    IMG_DECL(400860e4); IMG_DECL(400863dc); IMG_DECL(400866d4); IMG_DECL(400869cc);
+    static const u32 img[4] = {(u32)d_400860e4, (u32)d_400863dc, (u32)d_400866d4, (u32)d_400869cc};
     static const u32 ink[4] = {0xFF2288u, 0x88FF22u, 0xFF8822u, 0x2288FFu};
     u32 x = U16(WR16(0x18E) + 2), y = WR16(0x190), w = WR16(0x192), h = WR16(0x194), i;
     u32 tx = x + 0x14;

@@ -391,13 +391,13 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40045f78  /* 40045f70 */
     b .L40045f7c  /* 40045f74 */
 .Lp_40045f78:
-    .word rodata_4008faf8  /* 40045f78 */
+    .word d_4008faf8  /* 40045f78 */
 .L40045f7c:
     mov r0, #0x12  /* 40045f7c */
     ldr r4, .Lp_40045f88  /* 40045f80 */
     b .L40045f8c  /* 40045f84 */
 .Lp_40045f88:
-    .word rodata_4008f25c  /* 40045f88 */
+    .word d_4008f25c  /* 40045f88 */
 .L40045f8c:
     bl ui_text_set_lang4  /* 40045f8c */
     mov r3, #0  /* 40045f90 */
@@ -405,7 +405,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40045fa0  /* 40045f98 */
     b .L40045fa4  /* 40045f9c */
 .Lp_40045fa0:
-    .word rodata_4008f1ec  /* 40045fa0 */
+    .word d_4008f1ec  /* 40045fa0 */
 .L40045fa4:
     mov r0, #0x13  /* 40045fa4 */
     bl ui_text_set_lang1  /* 40045fa8 */
@@ -414,7 +414,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40045fbc  /* 40045fb4 */
     b .L40045fc0  /* 40045fb8 */
 .Lp_40045fbc:
-    .word rodata_4008f1fc  /* 40045fbc */
+    .word d_4008f1fc  /* 40045fbc */
 .L40045fc0:
     mov r0, #0x13  /* 40045fc0 */
     bl ui_text_set_lang2  /* 40045fc4 */
@@ -423,7 +423,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40045fd8  /* 40045fd0 */
     b .L40045fdc  /* 40045fd4 */
 .Lp_40045fd8:
-    .word rodata_4008dd20  /* 40045fd8 */
+    .word d_4008dd20  /* 40045fd8 */
 .L40045fdc:
     mov r0, #0x13  /* 40045fdc */
     bl ui_text_set_lang3  /* 40045fe0 */
@@ -432,7 +432,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40045ff4  /* 40045fec */
     b .L40045ff8  /* 40045ff0 */
 .Lp_40045ff4:
-    .word rodata_4008ea3c  /* 40045ff4 */
+    .word d_4008ea3c  /* 40045ff4 */
 .L40045ff8:
     mov r0, #0x13  /* 40045ff8 */
     bl ui_text_set_lang4  /* 40045ffc */
@@ -441,7 +441,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40046010  /* 40046008 */
     b .L40046014  /* 4004600c */
 .Lp_40046010:
-    .word rodata_4008f20c  /* 40046010 */
+    .word d_4008f20c  /* 40046010 */
 .L40046014:
     mov r0, #0x14  /* 40046014 */
     bl ui_text_set_lang1  /* 40046018 */
@@ -450,7 +450,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_4004602c  /* 40046024 */
     b .L40046030  /* 40046028 */
 .Lp_4004602c:
-    .word rodata_4008f21c  /* 4004602c */
+    .word d_4008f21c  /* 4004602c */
 .L40046030:
     mov r0, #0x14  /* 40046030 */
     bl ui_text_set_lang2  /* 40046034 */
@@ -459,7 +459,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40046048  /* 40046040 */
     b .L4004604c  /* 40046044 */
 .Lp_40046048:
-    .word rodata_4008daa0  /* 40046048 */
+    .word d_4008daa0  /* 40046048 */
 .L4004604c:
     mov r0, #0x14  /* 4004604c */
     bl ui_text_set_lang3  /* 40046050 */
@@ -468,7 +468,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40046064  /* 4004605c */
     b .L40046068  /* 40046060 */
 .Lp_40046064:
-    .word rodata_4008f22c  /* 40046064 */
+    .word d_4008f22c  /* 40046064 */
 .L40046068:
     mov r0, #0x14  /* 40046068 */
     bl ui_text_set_lang4  /* 4004606c */
@@ -477,7 +477,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40046080  /* 40046078 */
     b .L40046084  /* 4004607c */
 .Lp_40046080:
-    .word rodata_4008e3c4  /* 40046080 */
+    .word d_4008e3c4  /* 40046080 */
 .L40046084:
     mov r0, #0x15  /* 40046084 */
     bl ui_text_set_lang1  /* 40046088 */
@@ -486,7 +486,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_4004609c  /* 40046094 */
     b .L400460a0  /* 40046098 */
 .Lp_4004609c:
-    .word rodata_4008dd3c  /* 4004609c */
+    .word d_4008dd3c  /* 4004609c */
 .L400460a0:
     mov r0, #0x15  /* 400460a0 */
     bl ui_text_set_lang2  /* 400460a4 */
@@ -504,7 +504,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400460d4  /* 400460cc */
     b .L400460d8  /* 400460d0 */
 .Lp_400460d4:
-    .word rodata_4008d530  /* 400460d4 */
+    .word d_4008d530  /* 400460d4 */
 .L400460d8:
     mov r0, #0x15  /* 400460d8 */
     bl ui_text_set_lang4  /* 400460dc */
@@ -513,7 +513,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400460f0  /* 400460e8 */
     b .L400460f4  /* 400460ec */
 .Lp_400460f0:
-    .word rodata_4008f23c  /* 400460f0 */
+    .word d_4008f23c  /* 400460f0 */
 .L400460f4:
     mov r0, #0x16  /* 400460f4 */
     bl ui_text_set_lang1  /* 400460f8 */
@@ -522,7 +522,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_4004610c  /* 40046104 */
     b .L40046110  /* 40046108 */
 .Lp_4004610c:
-    .word rodata_4008ea50  /* 4004610c */
+    .word d_4008ea50  /* 4004610c */
 .L40046110:
     mov r0, #0x16  /* 40046110 */
     bl ui_text_set_lang2  /* 40046114 */
@@ -531,7 +531,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40046128  /* 40046120 */
     b .L4004612c  /* 40046124 */
 .Lp_40046128:
-    .word rodata_4008d0bc  /* 40046128 */
+    .word d_4008d0bc  /* 40046128 */
 .L4004612c:
     mov r0, #0x16  /* 4004612c */
     bl ui_text_set_lang3  /* 40046130 */
@@ -540,7 +540,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40046144  /* 4004613c */
     b .L40046148  /* 40046140 */
 .Lp_40046144:
-    .word rodata_4008e3dc  /* 40046144 */
+    .word d_4008e3dc  /* 40046144 */
 .L40046148:
     mov r0, #0x16  /* 40046148 */
     bl ui_text_set_lang4  /* 4004614c */
@@ -549,7 +549,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40046160  /* 40046158 */
     b .L40046164  /* 4004615c */
 .Lp_40046160:
-    .word rodata_4008ea64  /* 40046160 */
+    .word d_4008ea64  /* 40046160 */
 .L40046164:
     mov r0, #0x17  /* 40046164 */
     bl ui_text_set_lang1  /* 40046168 */
@@ -558,7 +558,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_4004617c  /* 40046174 */
     b .L40046180  /* 40046178 */
 .Lp_4004617c:
-    .word rodata_4008dd58  /* 4004617c */
+    .word d_4008dd58  /* 4004617c */
 .L40046180:
     mov r0, #0x17  /* 40046180 */
     bl ui_text_set_lang2  /* 40046184 */
@@ -567,7 +567,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40046198  /* 40046190 */
     b .L4004619c  /* 40046194 */
 .Lp_40046198:
-    .word rodata_4008d558  /* 40046198 */
+    .word d_4008d558  /* 40046198 */
 .L4004619c:
     mov r0, #0x17  /* 4004619c */
     bl ui_text_set_lang3  /* 400461a0 */
@@ -576,7 +576,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400461b4  /* 400461ac */
     b .L400461b8  /* 400461b0 */
 .Lp_400461b4:
-    .word rodata_4008e3f4  /* 400461b4 */
+    .word d_4008e3f4  /* 400461b4 */
 .L400461b8:
     mov r0, #0x17  /* 400461b8 */
     bl ui_text_set_lang4  /* 400461bc */
@@ -585,7 +585,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400461d0  /* 400461c8 */
     b .L400461d4  /* 400461cc */
 .Lp_400461d0:
-    .word rodata_4008ea78  /* 400461d0 */
+    .word d_4008ea78  /* 400461d0 */
 .L400461d4:
     mov r0, #0x18  /* 400461d4 */
     bl ui_text_set_lang1  /* 400461d8 */
@@ -594,7 +594,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400461ec  /* 400461e4 */
     b .L400461f0  /* 400461e8 */
 .Lp_400461ec:
-    .word rodata_4008dd74  /* 400461ec */
+    .word d_4008dd74  /* 400461ec */
 .L400461f0:
     mov r0, #0x18  /* 400461f0 */
     bl ui_text_set_lang2  /* 400461f4 */
@@ -603,7 +603,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40046208  /* 40046200 */
     b .L4004620c  /* 40046204 */
 .Lp_40046208:
-    .word rodata_4008d580  /* 40046208 */
+    .word d_4008d580  /* 40046208 */
 .L4004620c:
     mov r0, #0x18  /* 4004620c */
     bl ui_text_set_lang3  /* 40046210 */
@@ -612,7 +612,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40046224  /* 4004621c */
     b .L40046228  /* 40046220 */
 .Lp_40046224:
-    .word rodata_4008e40c  /* 40046224 */
+    .word d_4008e40c  /* 40046224 */
 .L40046228:
     mov r0, #0x18  /* 40046228 */
     bl ui_text_set_lang4  /* 4004622c */
@@ -621,7 +621,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40046240  /* 40046238 */
     b .L40046244  /* 4004623c */
 .Lp_40046240:
-    .word rodata_4008f24c  /* 40046240 */
+    .word d_4008f24c  /* 40046240 */
 .L40046244:
     mov r0, #0x19  /* 40046244 */
     bl ui_text_set_lang1  /* 40046248 */
@@ -633,7 +633,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r6, .Lp_40046268  /* 40046260 */
     b .L4004626c  /* 40046264 */
 .Lp_40046268:
-    .word rodata_4008dd90  /* 40046268 */
+    .word d_4008dd90  /* 40046268 */
 .L4004626c:
     mov r3, #0  /* 4004626c */
     mov r2, #0  /* 40046270 */
@@ -642,7 +642,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r7, .Lp_40046284  /* 4004627c */
     b .L40046288  /* 40046280 */
 .Lp_40046284:
-    .word rodata_4008f26c  /* 40046284 */
+    .word d_4008f26c  /* 40046284 */
 .L40046288:
     bl ui_text_set_lang3  /* 40046288 */
     mov r3, #0  /* 4004628c */
@@ -655,7 +655,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400462b0  /* 400462a8 */
     b .L400462b4  /* 400462ac */
 .Lp_400462b0:
-    .word rodata_4008f27c  /* 400462b0 */
+    .word d_4008f27c  /* 400462b0 */
 .L400462b4:
     mov r0, #0x1a  /* 400462b4 */
     bl ui_text_set_lang1  /* 400462b8 */
@@ -679,7 +679,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40046308  /* 40046300 */
     b .L4004630c  /* 40046304 */
 .Lp_40046308:
-    .word rodata_4008f28c  /* 40046308 */
+    .word d_4008f28c  /* 40046308 */
 .L4004630c:
     mov r0, #0x1b  /* 4004630c */
     bl ui_text_set_lang1  /* 40046310 */
@@ -688,7 +688,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40046324  /* 4004631c */
     b .L40046328  /* 40046320 */
 .Lp_40046324:
-    .word rodata_4008ea8c  /* 40046324 */
+    .word d_4008ea8c  /* 40046324 */
 .L40046328:
     mov r0, #0x1b  /* 40046328 */
     bl ui_text_set_lang2  /* 4004632c */
@@ -697,7 +697,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40046340  /* 40046338 */
     b .L40046344  /* 4004633c */
 .Lp_40046340:
-    .word rodata_4008dac0  /* 40046340 */
+    .word d_4008dac0  /* 40046340 */
 .L40046344:
     mov r0, #0x1b  /* 40046344 */
     bl ui_text_set_lang3  /* 40046348 */
@@ -706,7 +706,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_4004635c  /* 40046354 */
     b .L40046360  /* 40046358 */
 .Lp_4004635c:
-    .word rodata_4008e424  /* 4004635c */
+    .word d_4008e424  /* 4004635c */
 .L40046360:
     mov r0, #0x1b  /* 40046360 */
     bl ui_text_set_lang4  /* 40046364 */
@@ -715,7 +715,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40046378  /* 40046370 */
     b .L4004637c  /* 40046374 */
 .Lp_40046378:
-    .word rodata_4008f29c  /* 40046378 */
+    .word d_4008f29c  /* 40046378 */
 .L4004637c:
     mov r0, #0x1c  /* 4004637c */
     bl ui_text_set_lang1  /* 40046380 */
@@ -724,7 +724,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40046394  /* 4004638c */
     b .L40046398  /* 40046390 */
 .Lp_40046394:
-    .word rodata_4008f2ac  /* 40046394 */
+    .word d_4008f2ac  /* 40046394 */
 .L40046398:
     mov r0, #0x1c  /* 40046398 */
     bl ui_text_set_lang2  /* 4004639c */
@@ -733,7 +733,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400463b0  /* 400463a8 */
     b .L400463b4  /* 400463ac */
 .Lp_400463b0:
-    .word rodata_4008ddac  /* 400463b0 */
+    .word d_4008ddac  /* 400463b0 */
 .L400463b4:
     mov r0, #0x1c  /* 400463b4 */
     bl ui_text_set_lang3  /* 400463b8 */
@@ -742,7 +742,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400463cc  /* 400463c4 */
     b .L400463d0  /* 400463c8 */
 .Lp_400463cc:
-    .word rodata_4008eaa0  /* 400463cc */
+    .word d_4008eaa0  /* 400463cc */
 .L400463d0:
     mov r0, #0x1c  /* 400463d0 */
     bl ui_text_set_lang4  /* 400463d4 */
@@ -1066,13 +1066,13 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400477bc  /* 400468c4 */
     b .L400468dc  /* 400468c8 */
 .Lp_400468cc:
-    .word rodata_4008f05c  /* 400468cc */
+    .word d_4008f05c  /* 400468cc */
 .Lp_400468d0:
-    .word rodata_40090030  /* 400468d0 */
+    .word d_40090030  /* 400468d0 */
 .Lp_400468d4:
-    .word rodata_4008f06c  /* 400468d4 */
+    .word d_4008f06c  /* 400468d4 */
 .Lp_400468d8:
-    .word rodata_4008f04c  /* 400468d8 */
+    .word d_4008f04c  /* 400468d8 */
 .L400468dc:
     mov r2, #0  /* 400468dc */
     mov r0, #0x2c  /* 400468e0 */
@@ -1086,9 +1086,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400477f0  /* 40046900 */
     b .L40046910  /* 40046904 */
 .Lp_40046908:
-    .word rodata_40090028  /* 40046908 */
+    .word d_40090028  /* 40046908 */
 .Lp_4004690c:
-    .word rodata_4008f08c  /* 4004690c */
+    .word d_4008f08c  /* 4004690c */
 .L40046910:
     mov r2, #0  /* 40046910 */
     mov r0, #0x2c  /* 40046914 */
@@ -1102,9 +1102,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40047824  /* 40046934 */
     b .L40046944  /* 40046938 */
 .Lp_4004693c:
-    .word rodata_4008e938  /* 4004693c */
+    .word d_4008e938  /* 4004693c */
 .Lp_40046940:
-    .word rodata_4008fa5c  /* 40046940 */
+    .word d_4008fa5c  /* 40046940 */
 .L40046944:
     mov r2, #0  /* 40046944 */
     mov r0, #0x2d  /* 40046948 */
@@ -1118,9 +1118,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40047858  /* 40046968 */
     b .L40046978  /* 4004696c */
 .Lp_40046970:
-    .word rodata_4008f07c  /* 40046970 */
+    .word d_4008f07c  /* 40046970 */
 .Lp_40046974:
-    .word rodata_4008fa68  /* 40046974 */
+    .word d_4008fa68  /* 40046974 */
 .L40046978:
     mov r2, #0  /* 40046978 */
     mov r0, #0x2d  /* 4004697c */
@@ -1134,9 +1134,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_4004788c  /* 4004699c */
     b .L400469ac  /* 400469a0 */
 .Lp_400469a4:
-    .word rodata_40090038  /* 400469a4 */
+    .word d_40090038  /* 400469a4 */
 .Lp_400469a8:
-    .word rodata_4008fa74  /* 400469a8 */
+    .word d_4008fa74  /* 400469a8 */
 .L400469ac:
     mov r2, #0  /* 400469ac */
     mov r0, #0x2e  /* 400469b0 */
@@ -1150,21 +1150,21 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400478c0  /* 400469d0 */
     b .L400469f8  /* 400469d4 */
 .Lp_400469d8:
-    .word rodata_4008f09c  /* 400469d8 */
+    .word d_4008f09c  /* 400469d8 */
 .Lp_400469dc:
-    .word rodata_40090040  /* 400469dc */
+    .word d_40090040  /* 400469dc */
 .Lp_400469e0:
-    .word rodata_4008f0ac  /* 400469e0 */
+    .word d_4008f0ac  /* 400469e0 */
 .Lp_400469e4:
-    .word rodata_4008fa80  /* 400469e4 */
+    .word d_4008fa80  /* 400469e4 */
 .Lp_400469e8:
-    .word rodata_4008f0bc  /* 400469e8 */
+    .word d_4008f0bc  /* 400469e8 */
 .Lp_400469ec:
-    .word rodata_4008fa8c  /* 400469ec */
+    .word d_4008fa8c  /* 400469ec */
 .Lp_400469f0:
-    .word rodata_4008f0cc  /* 400469f0 */
+    .word d_4008f0cc  /* 400469f0 */
 .Lp_400469f4:
-    .word rodata_4008f0dc  /* 400469f4 */
+    .word d_4008f0dc  /* 400469f4 */
 .L400469f8:
     mov r2, #0  /* 400469f8 */
     mov r0, #0x2e  /* 400469fc */
@@ -1201,17 +1201,17 @@ ui_texts_init:  /* 0x40045974 */
     ldr sb, .Lp_40047984  /* 40046a78 */
     b .L40046a98  /* 40046a7c */
 .Lp_40046a80:
-    .word rodata_4008fa98  /* 40046a80 */
+    .word d_4008fa98  /* 40046a80 */
 .Lp_40046a84:
-    .word rodata_4008f0fc  /* 40046a84 */
+    .word d_4008f0fc  /* 40046a84 */
 .Lp_40046a88:
-    .word rodata_4008faa4  /* 40046a88 */
+    .word d_4008faa4  /* 40046a88 */
 .Lp_40046a8c:
-    .word rodata_4008fab0  /* 40046a8c */
+    .word d_4008fab0  /* 40046a8c */
 .Lp_40046a90:
-    .word rodata_40090048  /* 40046a90 */
+    .word d_40090048  /* 40046a90 */
 .Lp_40046a94:
-    .word rodata_4008f0ec  /* 40046a94 */
+    .word d_4008f0ec  /* 40046a94 */
 .L40046a98:
     mov r3, #0  /* 40046a98 */
     mov r2, #0  /* 40046a9c */
@@ -1229,11 +1229,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400479b8  /* 40046acc */
     b .L40046ae0  /* 40046ad0 */
 .Lp_40046ad4:
-    .word rodata_40090050  /* 40046ad4 */
+    .word d_40090050  /* 40046ad4 */
 .Lp_40046ad8:
-    .word rodata_4008f11c  /* 40046ad8 */
+    .word d_4008f11c  /* 40046ad8 */
 .Lp_40046adc:
-    .word rodata_40090058  /* 40046adc */
+    .word d_40090058  /* 40046adc */
 .L40046ae0:
     mov r0, #0x30  /* 40046ae0 */
     bl ui_text_set_lang4  /* 40046ae4 */
@@ -1252,11 +1252,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40047a04  /* 40046b18 */
     b .L40046b2c  /* 40046b1c */
 .Lp_40046b20:
-    .word rodata_4008f10c  /* 40046b20 */
+    .word d_4008f10c  /* 40046b20 */
 .Lp_40046b24:
-    .word rodata_4008fabc  /* 40046b24 */
+    .word d_4008fabc  /* 40046b24 */
 .Lp_40046b28:
-    .word rodata_4008e94c  /* 40046b28 */
+    .word d_4008e94c  /* 40046b28 */
 .L40046b2c:
     mov r0, #0x31  /* 40046b2c */
     bl ui_text_set_lang3  /* 40046b30 */
@@ -1270,9 +1270,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40047a4c  /* 40046b50 */
     b .L40046b60  /* 40046b54 */
 .Lp_40046b58:
-    .word rodata_4008e960  /* 40046b58 */
+    .word d_4008e960  /* 40046b58 */
 .Lp_40046b5c:
-    .word rodata_4008f14c  /* 40046b5c */
+    .word d_4008f14c  /* 40046b5c */
 .L40046b60:
     mov r0, #0x32  /* 40046b60 */
     bl ui_text_set_lang1  /* 40046b64 */
@@ -1286,9 +1286,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40047a80  /* 40046b84 */
     b .L40046b94  /* 40046b88 */
 .Lp_40046b8c:
-    .word rodata_4008f12c  /* 40046b8c */
+    .word d_4008f12c  /* 40046b8c */
 .Lp_40046b90:
-    .word rodata_4008f13c  /* 40046b90 */
+    .word d_4008f13c  /* 40046b90 */
 .L40046b94:
     mov r0, #0x32  /* 40046b94 */
     bl ui_text_set_lang3  /* 40046b98 */
@@ -1302,7 +1302,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40047ab4  /* 40046bb8 */
     b .L40046bc4  /* 40046bbc */
 .Lp_40046bc0:
-    .word rodata_4008e37c  /* 40046bc0 */
+    .word d_4008e37c  /* 40046bc0 */
 .L40046bc4:
     mov r0, #0x33  /* 40046bc4 */
     bl ui_text_set_lang1  /* 40046bc8 */
@@ -1316,13 +1316,13 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40047ae8  /* 40046be8 */
     b .L40046c00  /* 40046bec */
 .Lp_40046bf0:
-    .word rodata_4008f15c  /* 40046bf0 */
+    .word d_4008f15c  /* 40046bf0 */
 .Lp_40046bf4:
-    .word rodata_4008fad4  /* 40046bf4 */
+    .word d_4008fad4  /* 40046bf4 */
 .Lp_40046bf8:
-    .word rodata_4008e988  /* 40046bf8 */
+    .word d_4008e988  /* 40046bf8 */
 .Lp_40046bfc:
-    .word rodata_4008e974  /* 40046bfc */
+    .word d_4008e974  /* 40046bfc */
 .L40046c00:
     mov r0, #0x33  /* 40046c00 */
     bl ui_text_set_lang3  /* 40046c04 */
@@ -1336,13 +1336,13 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40047b20  /* 40046c24 */
     b .L40046c3c  /* 40046c28 */
 .Lp_40046c2c:
-    .word rodata_4008d4b8  /* 40046c2c */
+    .word d_4008d4b8  /* 40046c2c */
 .Lp_40046c30:
-    .word rodata_4008e394  /* 40046c30 */
+    .word d_4008e394  /* 40046c30 */
 .Lp_40046c34:
-    .word rodata_4008e99c  /* 40046c34 */
+    .word d_4008e99c  /* 40046c34 */
 .Lp_40046c38:
-    .word rodata_4008fac8  /* 40046c38 */
+    .word d_4008fac8  /* 40046c38 */
 .L40046c3c:
     mov r0, #0x34  /* 40046c3c */
     bl ui_text_set_lang1  /* 40046c40 */
@@ -1357,15 +1357,15 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40047b78  /* 40046c64 */
     b .L40046c80  /* 40046c68 */
 .Lp_40046c6c:
-    .word rodata_4008fae0  /* 40046c6c */
+    .word d_4008fae0  /* 40046c6c */
 .Lp_40046c70:
-    .word rodata_4008dcb0  /* 40046c70 */
+    .word d_4008dcb0  /* 40046c70 */
 .Lp_40046c74:
-    .word rodata_4008f17c  /* 40046c74 */
+    .word d_4008f17c  /* 40046c74 */
 .Lp_40046c78:
-    .word rodata_4008e9b0  /* 40046c78 */
+    .word d_4008e9b0  /* 40046c78 */
 .Lp_40046c7c:
-    .word rodata_4008f16c  /* 40046c7c */
+    .word d_4008f16c  /* 40046c7c */
 .L40046c80:
     mov r0, #0x34  /* 40046c80 */
     bl ui_text_set_lang3  /* 40046c84 */
@@ -1382,7 +1382,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr fp, .Lp_40047bb8  /* 40046cb0 */
     b .L40046cbc  /* 40046cb4 */
 .Lp_40046cb8:
-    .word rodata_4008da40  /* 40046cb8 */
+    .word d_4008da40  /* 40046cb8 */
 .L40046cbc:
     mov r3, #0  /* 40046cbc */
     mov r2, #0  /* 40046cc0 */
@@ -1404,15 +1404,15 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40047bc0  /* 40046d00 */
     b .L40046d1c  /* 40046d04 */
 .Lp_40046d08:
-    .word rodata_4008da60  /* 40046d08 */
+    .word d_4008da60  /* 40046d08 */
 .Lp_40046d0c:
-    .word rodata_4008dccc  /* 40046d0c */
+    .word d_4008dccc  /* 40046d0c */
 .Lp_40046d10:
-    .word rodata_4008e9c4  /* 40046d10 */
+    .word d_4008e9c4  /* 40046d10 */
 .Lp_40046d14:
-    .word rodata_4008e9d8  /* 40046d14 */
+    .word d_4008e9d8  /* 40046d14 */
 .Lp_40046d18:
-    .word rodata_4008dd04  /* 40046d18 */
+    .word d_4008dd04  /* 40046d18 */
 .L40046d1c:
     mov r0, #0x36  /* 40046d1c */
     bl ui_text_set_lang1  /* 40046d20 */
@@ -1427,37 +1427,37 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40047c60  /* 40046d44 */
     b .L40046d8c  /* 40046d48 */
 .Lp_40046d4c:
-    .word rodata_4008da80  /* 40046d4c */
+    .word d_4008da80  /* 40046d4c */
 .Lp_40046d50:
-    .word rodata_4008dce8  /* 40046d50 */
+    .word d_4008dce8  /* 40046d50 */
 .Lp_40046d54:
-    .word rodata_4008f18c  /* 40046d54 */
+    .word d_4008f18c  /* 40046d54 */
 .Lp_40046d58:
-    .word rodata_4008f19c  /* 40046d58 */
+    .word d_4008f19c  /* 40046d58 */
 .Lp_40046d5c:
-    .word rodata_4008e9ec  /* 40046d5c */
+    .word d_4008e9ec  /* 40046d5c */
 .Lp_40046d60:
-    .word rodata_4008f1ac  /* 40046d60 */
+    .word d_4008f1ac  /* 40046d60 */
 .Lp_40046d64:
-    .word rodata_4008f1bc  /* 40046d64 */
+    .word d_4008f1bc  /* 40046d64 */
 .Lp_40046d68:
-    .word rodata_4008d4e0  /* 40046d68 */
+    .word d_4008d4e0  /* 40046d68 */
 .Lp_40046d6c:
-    .word rodata_4008e3ac  /* 40046d6c */
+    .word d_4008e3ac  /* 40046d6c */
 .Lp_40046d70:
-    .word rodata_4008f1cc  /* 40046d70 */
+    .word d_4008f1cc  /* 40046d70 */
 .Lp_40046d74:
-    .word rodata_4008ea00  /* 40046d74 */
+    .word d_4008ea00  /* 40046d74 */
 .Lp_40046d78:
-    .word rodata_4008d508  /* 40046d78 */
+    .word d_4008d508  /* 40046d78 */
 .Lp_40046d7c:
-    .word rodata_4008ea14  /* 40046d7c */
+    .word d_4008ea14  /* 40046d7c */
 .Lp_40046d80:
-    .word rodata_4008faec  /* 40046d80 */
+    .word d_4008faec  /* 40046d80 */
 .Lp_40046d84:
-    .word rodata_4008ea28  /* 40046d84 */
+    .word d_4008ea28  /* 40046d84 */
 .Lp_40046d88:
-    .word rodata_4008f1dc  /* 40046d88 */
+    .word d_4008f1dc  /* 40046d88 */
 .L40046d8c:
     mov r0, #0x36  /* 40046d8c */
     bl ui_text_set_lang3  /* 40046d90 */
@@ -1803,9 +1803,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048194  /* 400472e0 */
     b .L400472f0  /* 400472e4 */
 .Lp_400472e8:
-    .word rodata_40090060  /* 400472e8 */
+    .word d_40090060  /* 400472e8 */
 .Lp_400472ec:
-    .word rodata_40090068  /* 400472ec */
+    .word d_40090068  /* 400472ec */
 .L400472f0:
     mov r0, #0x47  /* 400472f0 */
     bl ui_text_set_lang3  /* 400472f4 */
@@ -1864,11 +1864,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048280  /* 400473c8 */
     b .L400473dc  /* 400473cc */
 .Lp_400473d0:
-    .word rodata_4008fb04  /* 400473d0 */
+    .word d_4008fb04  /* 400473d0 */
 .Lp_400473d4:
-    .word rodata_4008fb10  /* 400473d4 */
+    .word d_4008fb10  /* 400473d4 */
 .Lp_400473d8:
-    .word rodata_4008e43c  /* 400473d8 */
+    .word d_4008e43c  /* 400473d8 */
 .L400473dc:
     mov r0, #0x4a  /* 400473dc */
     bl ui_text_set_lang2  /* 400473e0 */
@@ -1887,11 +1887,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400482e4  /* 40047414 */
     b .L40047428  /* 40047418 */
 .Lp_4004741c:
-    .word rodata_4008f2bc  /* 4004741c */
+    .word d_4008f2bc  /* 4004741c */
 .Lp_40047420:
-    .word rodata_4008f2cc  /* 40047420 */
+    .word d_4008f2cc  /* 40047420 */
 .Lp_40047424:
-    .word rodata_4008ddc8  /* 40047424 */
+    .word d_4008ddc8  /* 40047424 */
 .L40047428:
     mov r0, #0x4b  /* 40047428 */
     bl ui_text_set_lang1  /* 4004742c */
@@ -1905,11 +1905,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048318  /* 4004744c */
     b .L40047460  /* 40047450 */
 .Lp_40047454:
-    .word rodata_4008f2dc  /* 40047454 */
+    .word d_4008f2dc  /* 40047454 */
 .Lp_40047458:
-    .word rodata_4008f2ec  /* 40047458 */
+    .word d_4008f2ec  /* 40047458 */
 .Lp_4004745c:
-    .word rodata_4008fb1c  /* 4004745c */
+    .word d_4008fb1c  /* 4004745c */
 .L40047460:
     mov r0, #0x4b  /* 40047460 */
     bl ui_text_set_lang3  /* 40047464 */
@@ -1923,11 +1923,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_4004834c  /* 40047484 */
     b .L40047498  /* 40047488 */
 .Lp_4004748c:
-    .word rodata_4008eab4  /* 4004748c */
+    .word d_4008eab4  /* 4004748c */
 .Lp_40047490:
-    .word rodata_4008fb28  /* 40047490 */
+    .word d_4008fb28  /* 40047490 */
 .Lp_40047494:
-    .word rodata_4008fb34  /* 40047494 */
+    .word d_4008fb34  /* 40047494 */
 .L40047498:
     mov r0, #0x4c  /* 40047498 */
     bl ui_text_set_lang1  /* 4004749c */
@@ -1941,9 +1941,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048380  /* 400474bc */
     b .L400474cc  /* 400474c0 */
 .Lp_400474c4:
-    .word rodata_4008f2fc  /* 400474c4 */
+    .word d_4008f2fc  /* 400474c4 */
 .Lp_400474c8:
-    .word rodata_4008d358  /* 400474c8 */
+    .word d_4008d358  /* 400474c8 */
 .L400474cc:
     mov r0, #0x4c  /* 400474cc */
     bl ui_text_set_lang3  /* 400474d0 */
@@ -1957,11 +1957,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400483bc  /* 400474f0 */
     b .L40047504  /* 400474f4 */
 .Lp_400474f8:
-    .word rodata_4008e454  /* 400474f8 */
+    .word d_4008e454  /* 400474f8 */
 .Lp_400474fc:
-    .word rodata_4008f30c  /* 400474fc */
+    .word d_4008f30c  /* 400474fc */
 .Lp_40047500:
-    .word rodata_4008d7d4  /* 40047500 */
+    .word d_4008d7d4  /* 40047500 */
 .L40047504:
     mov r0, #0x4d  /* 40047504 */
     bl ui_text_set_lang1  /* 40047508 */
@@ -1975,11 +1975,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400483ec  /* 40047528 */
     b .L4004753c  /* 4004752c */
 .Lp_40047530:
-    .word rodata_4008f31c  /* 40047530 */
+    .word d_4008f31c  /* 40047530 */
 .Lp_40047534:
-    .word rodata_4008eac8  /* 40047534 */
+    .word d_4008eac8  /* 40047534 */
 .Lp_40047538:
-    .word rodata_4008e46c  /* 40047538 */
+    .word d_4008e46c  /* 40047538 */
 .L4004753c:
     mov r0, #0x4d  /* 4004753c */
     bl ui_text_set_lang3  /* 40047540 */
@@ -1993,11 +1993,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048420  /* 40047560 */
     b .L40047574  /* 40047564 */
 .Lp_40047568:
-    .word rodata_4008cfb8  /* 40047568 */
+    .word d_4008cfb8  /* 40047568 */
 .Lp_4004756c:
-    .word rodata_4008dde4  /* 4004756c */
+    .word d_4008dde4  /* 4004756c */
 .Lp_40047570:
-    .word rodata_4008f32c  /* 40047570 */
+    .word d_4008f32c  /* 40047570 */
 .L40047574:
     mov r0, #0x4e  /* 40047574 */
     bl ui_text_set_lang1  /* 40047578 */
@@ -2011,9 +2011,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40047700  /* 40047598 */
     b .L400475a8  /* 4004759c */
 .Lp_400475a0:
-    .word rodata_4008f33c  /* 400475a0 */
+    .word d_4008f33c  /* 400475a0 */
 .Lp_400475a4:
-    .word rodata_4008de00  /* 400475a4 */
+    .word d_4008de00  /* 400475a4 */
 .L400475a8:
     mov r0, #0x4e  /* 400475a8 */
     bl ui_text_set_lang3  /* 400475ac */
@@ -2027,13 +2027,13 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_4004849c  /* 400475cc */
     b .L400475e4  /* 400475d0 */
 .Lp_400475d4:
-    .word rodata_4008f34c  /* 400475d4 */
+    .word d_4008f34c  /* 400475d4 */
 .Lp_400475d8:
-    .word rodata_40090078  /* 400475d8 */
+    .word d_40090078  /* 400475d8 */
 .Lp_400475dc:
-    .word rodata_4008f35c  /* 400475dc */
+    .word d_4008f35c  /* 400475dc */
 .Lp_400475e0:
-    .word rodata_4008f36c  /* 400475e0 */
+    .word d_4008f36c  /* 400475e0 */
 .L400475e4:
     mov r0, #0x4f  /* 400475e4 */
     bl ui_text_set_lang1  /* 400475e8 */
@@ -2047,11 +2047,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400484d0  /* 40047608 */
     b .L4004761c  /* 4004760c */
 .Lp_40047610:
-    .word rodata_4008de1c  /* 40047610 */
+    .word d_4008de1c  /* 40047610 */
 .Lp_40047614:
-    .word rodata_4008f37c  /* 40047614 */
+    .word d_4008f37c  /* 40047614 */
 .Lp_40047618:
-    .word rodata_4008f38c  /* 40047618 */
+    .word d_4008f38c  /* 40047618 */
 .L4004761c:
     mov r0, #0x4f  /* 4004761c */
     bl ui_text_set_lang3  /* 40047620 */
@@ -2065,11 +2065,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048504  /* 40047640 */
     b .L40047654  /* 40047644 */
 .Lp_40047648:
-    .word rodata_4008f39c  /* 40047648 */
+    .word d_4008f39c  /* 40047648 */
 .Lp_4004764c:
-    .word rodata_4008de38  /* 4004764c */
+    .word d_4008de38  /* 4004764c */
 .Lp_40047650:
-    .word rodata_4008eadc  /* 40047650 */
+    .word d_4008eadc  /* 40047650 */
 .L40047654:
     mov r0, #0x50  /* 40047654 */
     bl ui_text_set_lang1  /* 40047658 */
@@ -2083,11 +2083,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048538  /* 40047678 */
     b .L4004768c  /* 4004767c */
 .Lp_40047680:
-    .word rodata_4008f3ac  /* 40047680 */
+    .word d_4008f3ac  /* 40047680 */
 .Lp_40047684:
-    .word rodata_4008f3bc  /* 40047684 */
+    .word d_4008f3bc  /* 40047684 */
 .Lp_40047688:
-    .word rodata_4008de54  /* 40047688 */
+    .word d_4008de54  /* 40047688 */
 .L4004768c:
     mov r0, #0x50  /* 4004768c */
     bl ui_text_set_lang3  /* 40047690 */
@@ -2101,9 +2101,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_4004856c  /* 400476b0 */
     b .L400476c0  /* 400476b4 */
 .Lp_400476b8:
-    .word rodata_4008f3cc  /* 400476b8 */
+    .word d_4008f3cc  /* 400476b8 */
 .Lp_400476bc:
-    .word rodata_40090070  /* 400476bc */
+    .word d_40090070  /* 400476bc */
 .L400476c0:
     mov r0, #0x51  /* 400476c0 */
     bl ui_text_set_lang1  /* 400476c4 */
@@ -2122,9 +2122,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400485cc  /* 400476f8 */
     b .L40047708  /* 400476fc */
 .Lp_40047700:
-    .word rodata_4008fb40  /* 40047700 */
+    .word d_4008fb40  /* 40047700 */
 .Lp_40047704:
-    .word rodata_40090080  /* 40047704 */
+    .word d_40090080  /* 40047704 */
 .L40047708:
     mov r0, #0x51  /* 40047708 */
     bl ui_text_set_lang4  /* 4004770c */
@@ -2138,13 +2138,13 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048604  /* 4004772c */
     b .L40047744  /* 40047730 */
 .Lp_40047734:
-    .word rodata_40090088  /* 40047734 */
+    .word d_40090088  /* 40047734 */
 .Lp_40047738:
-    .word rodata_40090090  /* 40047738 */
+    .word d_40090090  /* 40047738 */
 .Lp_4004773c:
-    .word rodata_4008fb4c  /* 4004773c */
+    .word d_4008fb4c  /* 4004773c */
 .Lp_40047740:
-    .word rodata_40090098  /* 40047740 */
+    .word d_40090098  /* 40047740 */
 .L40047744:
     mov r0, #0x52  /* 40047744 */
     bl ui_text_set_lang2  /* 40047748 */
@@ -2163,9 +2163,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048644  /* 4004777c */
     b .L4004778c  /* 40047780 */
 .Lp_40047784:
-    .word rodata_400900a0  /* 40047784 */
+    .word d_400900a0  /* 40047784 */
 .Lp_40047788:
-    .word rodata_4008f3dc  /* 40047788 */
+    .word d_4008f3dc  /* 40047788 */
 .L4004778c:
     mov r0, #0x53  /* 4004778c */
     bl ui_text_set_lang1  /* 40047790 */
@@ -2179,9 +2179,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048674  /* 400477b0 */
     b .L400477c0  /* 400477b4 */
 .Lp_400477b8:
-    .word rodata_4008fb58  /* 400477b8 */
+    .word d_4008fb58  /* 400477b8 */
 .Lp_400477bc:
-    .word rodata_400900a8  /* 400477bc */
+    .word d_400900a8  /* 400477bc */
 .L400477c0:
     mov r0, #0x53  /* 400477c0 */
     bl ui_text_set_lang3  /* 400477c4 */
@@ -2195,9 +2195,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400486a0  /* 400477e4 */
     b .L400477f4  /* 400477e8 */
 .Lp_400477ec:
-    .word rodata_4008eaf0  /* 400477ec */
+    .word d_4008eaf0  /* 400477ec */
 .Lp_400477f0:
-    .word rodata_400900b0  /* 400477f0 */
+    .word d_400900b0  /* 400477f0 */
 .L400477f4:
     mov r0, #0x54  /* 400477f4 */
     bl ui_text_set_lang1  /* 400477f8 */
@@ -2211,9 +2211,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400486a8  /* 40047818 */
     b .L40047828  /* 4004781c */
 .Lp_40047820:
-    .word rodata_4008fb64  /* 40047820 */
+    .word d_4008fb64  /* 40047820 */
 .Lp_40047824:
-    .word rodata_400900b8  /* 40047824 */
+    .word d_400900b8  /* 40047824 */
 .L40047828:
     mov r0, #0x54  /* 40047828 */
     bl ui_text_set_lang3  /* 4004782c */
@@ -2227,9 +2227,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400486fc  /* 4004784c */
     b .L4004785c  /* 40047850 */
 .Lp_40047854:
-    .word rodata_4008f3ec  /* 40047854 */
+    .word d_4008f3ec  /* 40047854 */
 .Lp_40047858:
-    .word rodata_400900c0  /* 40047858 */
+    .word d_400900c0  /* 40047858 */
 .L4004785c:
     mov r0, #0x55  /* 4004785c */
     bl ui_text_set_lang1  /* 40047860 */
@@ -2243,9 +2243,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048704  /* 40047880 */
     b .L40047890  /* 40047884 */
 .Lp_40047888:
-    .word rodata_400900c8  /* 40047888 */
+    .word d_400900c8  /* 40047888 */
 .Lp_4004788c:
-    .word rodata_4008fb70  /* 4004788c */
+    .word d_4008fb70  /* 4004788c */
 .L40047890:
     mov r0, #0x55  /* 40047890 */
     bl ui_text_set_lang3  /* 40047894 */
@@ -2259,9 +2259,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048774  /* 400478b4 */
     b .L400478c4  /* 400478b8 */
 .Lp_400478bc:
-    .word rodata_4008f3fc  /* 400478bc */
+    .word d_4008f3fc  /* 400478bc */
 .Lp_400478c0:
-    .word rodata_4008fb7c  /* 400478c0 */
+    .word d_4008fb7c  /* 400478c0 */
 .L400478c4:
     mov r0, #0x56  /* 400478c4 */
     bl ui_text_set_lang1  /* 400478c8 */
@@ -2275,7 +2275,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400487a8  /* 400478e8 */
     b .L400478f4  /* 400478ec */
 .Lp_400478f0:
-    .word rodata_400900d0  /* 400478f0 */
+    .word d_400900d0  /* 400478f0 */
 .L400478f4:
     mov r0, #0x56  /* 400478f4 */
     bl ui_text_set_lang3  /* 400478f8 */
@@ -2289,9 +2289,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400487dc  /* 40047918 */
     b .L40047928  /* 4004791c */
 .Lp_40047920:
-    .word rodata_4008fb88  /* 40047920 */
+    .word d_4008fb88  /* 40047920 */
 .Lp_40047924:
-    .word rodata_4008eb04  /* 40047924 */
+    .word d_4008eb04  /* 40047924 */
 .L40047928:
     mov r0, #0x57  /* 40047928 */
     bl ui_text_set_lang1  /* 4004792c */
@@ -2305,7 +2305,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048810  /* 4004794c */
     b .L40047958  /* 40047950 */
 .Lp_40047954:
-    .word rodata_400900d8  /* 40047954 */
+    .word d_400900d8  /* 40047954 */
 .L40047958:
     mov r0, #0x57  /* 40047958 */
     bl ui_text_set_lang3  /* 4004795c */
@@ -2319,7 +2319,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048844  /* 4004797c */
     b .L40047988  /* 40047980 */
 .Lp_40047984:
-    .word rodata_400900e0  /* 40047984 */
+    .word d_400900e0  /* 40047984 */
 .L40047988:
     mov r0, #0x58  /* 40047988 */
     bl ui_text_set_lang1  /* 4004798c */
@@ -2333,9 +2333,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048878  /* 400479ac */
     b .L400479bc  /* 400479b0 */
 .Lp_400479b4:
-    .word rodata_4008e484  /* 400479b4 */
+    .word d_4008e484  /* 400479b4 */
 .Lp_400479b8:
-    .word rodata_4008f40c  /* 400479b8 */
+    .word d_4008f40c  /* 400479b8 */
 .L400479bc:
     mov r0, #0x58  /* 400479bc */
     bl ui_text_set_lang3  /* 400479c0 */
@@ -2354,11 +2354,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400488c4  /* 400479f4 */
     b .L40047a08  /* 400479f8 */
 .Lp_400479fc:
-    .word rodata_4008fb94  /* 400479fc */
+    .word d_4008fb94  /* 400479fc */
 .Lp_40047a00:
-    .word rodata_4008fba0  /* 40047a00 */
+    .word d_4008fba0  /* 40047a00 */
 .Lp_40047a04:
-    .word rodata_4008fbac  /* 40047a04 */
+    .word d_4008fbac  /* 40047a04 */
 .L40047a08:
     mov r0, #0x59  /* 40047a08 */
     bl ui_text_set_lang2  /* 40047a0c */
@@ -2377,9 +2377,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_400488fc  /* 40047a40 */
     b .L40047a50  /* 40047a44 */
 .Lp_40047a48:
-    .word rodata_400900e8  /* 40047a48 */
+    .word d_400900e8  /* 40047a48 */
 .Lp_40047a4c:
-    .word rodata_4008fbb8  /* 40047a4c */
+    .word d_4008fbb8  /* 40047a4c */
 .L40047a50:
     mov r0, #0x5a  /* 40047a50 */
     bl ui_text_set_lang1  /* 40047a54 */
@@ -2393,9 +2393,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048930  /* 40047a74 */
     b .L40047a84  /* 40047a78 */
 .Lp_40047a7c:
-    .word rodata_400900f0  /* 40047a7c */
+    .word d_400900f0  /* 40047a7c */
 .Lp_40047a80:
-    .word rodata_4008fbc4  /* 40047a80 */
+    .word d_4008fbc4  /* 40047a80 */
 .L40047a84:
     mov r0, #0x5a  /* 40047a84 */
     bl ui_text_set_lang3  /* 40047a88 */
@@ -2409,9 +2409,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048964  /* 40047aa8 */
     b .L40047ab8  /* 40047aac */
 .Lp_40047ab0:
-    .word rodata_400900f8  /* 40047ab0 */
+    .word d_400900f8  /* 40047ab0 */
 .Lp_40047ab4:
-    .word rodata_40090100  /* 40047ab4 */
+    .word d_40090100  /* 40047ab4 */
 .L40047ab8:
     mov r0, #0x5b  /* 40047ab8 */
     bl ui_text_set_lang1  /* 40047abc */
@@ -2425,9 +2425,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_4004896c  /* 40047adc */
     b .L40047aec  /* 40047ae0 */
 .Lp_40047ae4:
-    .word rodata_40090108  /* 40047ae4 */
+    .word d_40090108  /* 40047ae4 */
 .Lp_40047ae8:
-    .word rodata_4008f41c  /* 40047ae8 */
+    .word d_4008f41c  /* 40047ae8 */
 .L40047aec:
     mov r0, #0x5b  /* 40047aec */
     bl ui_text_set_lang3  /* 40047af0 */
@@ -2442,9 +2442,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048974  /* 40047b14 */
     b .L40047b24  /* 40047b18 */
 .Lp_40047b1c:
-    .word rodata_4008fbd0  /* 40047b1c */
+    .word d_4008fbd0  /* 40047b1c */
 .Lp_40047b20:
-    .word rodata_4008fbdc  /* 40047b20 */
+    .word d_4008fbdc  /* 40047b20 */
 .L40047b24:
     mov r0, #0x5c  /* 40047b24 */
     bl ui_text_set_lang1  /* 40047b28 */
@@ -2458,7 +2458,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048a24  /* 40047b48 */
     b .L40047b54  /* 40047b4c */
 .Lp_40047b50:
-    .word rodata_4008fbe8  /* 40047b50 */
+    .word d_4008fbe8  /* 40047b50 */
 .L40047b54:
     mov r0, #0x5c  /* 40047b54 */
     bl ui_text_set_lang3  /* 40047b58 */
@@ -2470,7 +2470,7 @@ ui_texts_init:  /* 0x40045974 */
     adr r5, .Lp_40047edc  /* 40047b70 */
     b .L40047b7c  /* 40047b74 */
 .Lp_40047b78:
-    .word rodata_4008e49c  /* 40047b78 */
+    .word d_4008e49c  /* 40047b78 */
 .L40047b7c:
     mov r3, #0  /* 40047b7c */
     mov r2, #0  /* 40047b80 */
@@ -2487,13 +2487,13 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048a60  /* 40047bac */
     b .L40047bc4  /* 40047bb0 */
 .Lp_40047bb4:
-    .word rodata_4008fbf4  /* 40047bb4 */
+    .word d_4008fbf4  /* 40047bb4 */
 .Lp_40047bb8:
-    .word rodata_4008fc00  /* 40047bb8 */
+    .word d_4008fc00  /* 40047bb8 */
 .Lp_40047bbc:
-    .word rodata_4008e4b4  /* 40047bbc */
+    .word d_4008e4b4  /* 40047bbc */
 .Lp_40047bc0:
-    .word rodata_4008fc0c  /* 40047bc0 */
+    .word d_4008fc0c  /* 40047bc0 */
 .L40047bc4:
     mov r0, #0x5d  /* 40047bc4 */
     bl ui_text_set_lang3  /* 40047bc8 */
@@ -2519,7 +2519,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r6, .Lp_40048ae4  /* 40047c18 */
     b .L40047c24  /* 40047c1c */
 .Lp_40047c20:
-    .word rodata_4008fc18  /* 40047c20 */
+    .word d_4008fc18  /* 40047c20 */
 .L40047c24:
     bl ui_text_set_lang3  /* 40047c24 */
     mov r3, #0  /* 40047c28 */
@@ -2537,7 +2537,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048b18  /* 40047c58 */
     b .L40047c64  /* 40047c5c */
 .Lp_40047c60:
-    .word rodata_4008e4cc  /* 40047c60 */
+    .word d_4008e4cc  /* 40047c60 */
 .L40047c64:
     mov r0, #0x5f  /* 40047c64 */
     bl ui_text_set_lang2  /* 40047c68 */
@@ -2551,7 +2551,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048b4c  /* 40047c88 */
     b .L40047c94  /* 40047c8c */
 .Lp_40047c90:
-    .word rodata_4008fc24  /* 40047c90 */
+    .word d_4008fc24  /* 40047c90 */
 .L40047c94:
     mov r0, #0x5f  /* 40047c94 */
     bl ui_text_set_lang4  /* 40047c98 */
@@ -2565,9 +2565,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048b80  /* 40047cb8 */
     b .L40047cc8  /* 40047cbc */
 .Lp_40047cc0:
-    .word rodata_40090110  /* 40047cc0 */
+    .word d_40090110  /* 40047cc0 */
 .Lp_40047cc4:
-    .word rodata_4008fc30  /* 40047cc4 */
+    .word d_4008fc30  /* 40047cc4 */
 .L40047cc8:
     mov r0, #0x60  /* 40047cc8 */
     bl ui_text_set_lang2  /* 40047ccc */
@@ -2581,11 +2581,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048bb4  /* 40047cec */
     b .L40047d00  /* 40047cf0 */
 .Lp_40047cf4:
-    .word rodata_40090118  /* 40047cf4 */
+    .word d_40090118  /* 40047cf4 */
 .Lp_40047cf8:
-    .word rodata_40090120  /* 40047cf8 */
+    .word d_40090120  /* 40047cf8 */
 .Lp_40047cfc:
-    .word rodata_40090128  /* 40047cfc */
+    .word d_40090128  /* 40047cfc */
 .L40047d00:
     mov r0, #0x60  /* 40047d00 */
     bl ui_text_set_lang4  /* 40047d04 */
@@ -2599,11 +2599,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048be8  /* 40047d24 */
     b .L40047d38  /* 40047d28 */
 .Lp_40047d2c:
-    .word rodata_4008eb18  /* 40047d2c */
+    .word d_4008eb18  /* 40047d2c */
 .Lp_40047d30:
-    .word rodata_40090130  /* 40047d30 */
+    .word d_40090130  /* 40047d30 */
 .Lp_40047d34:
-    .word rodata_40090138  /* 40047d34 */
+    .word d_40090138  /* 40047d34 */
 .L40047d38:
     mov r0, #0x61  /* 40047d38 */
     bl ui_text_set_lang2  /* 40047d3c */
@@ -2617,13 +2617,13 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048c1c  /* 40047d5c */
     b .L40047d74  /* 40047d60 */
 .Lp_40047d64:
-    .word rodata_40090140  /* 40047d64 */
+    .word d_40090140  /* 40047d64 */
 .Lp_40047d68:
-    .word rodata_4008fc3c  /* 40047d68 */
+    .word d_4008fc3c  /* 40047d68 */
 .Lp_40047d6c:
-    .word rodata_40090148  /* 40047d6c */
+    .word d_40090148  /* 40047d6c */
 .Lp_40047d70:
-    .word rodata_4008fc48  /* 40047d70 */
+    .word d_4008fc48  /* 40047d70 */
 .L40047d74:
     mov r0, #0x61  /* 40047d74 */
     bl ui_text_set_lang4  /* 40047d78 */
@@ -2642,11 +2642,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048c7c  /* 40047dac */
     b .L40047dc0  /* 40047db0 */
 .Lp_40047db4:
-    .word rodata_4008fc54  /* 40047db4 */
+    .word d_4008fc54  /* 40047db4 */
 .Lp_40047db8:
-    .word rodata_4008f42c  /* 40047db8 */
+    .word d_4008f42c  /* 40047db8 */
 .Lp_40047dbc:
-    .word rodata_4008fc60  /* 40047dbc */
+    .word d_4008fc60  /* 40047dbc */
 .L40047dc0:
     mov r0, #0x65  /* 40047dc0 */
     bl ui_text_set_lang3  /* 40047dc4 */
@@ -2660,11 +2660,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048cb0  /* 40047de4 */
     b .L40047df8  /* 40047de8 */
 .Lp_40047dec:
-    .word rodata_4008f43c  /* 40047dec */
+    .word d_4008f43c  /* 40047dec */
 .Lp_40047df0:
-    .word rodata_40090150  /* 40047df0 */
+    .word d_40090150  /* 40047df0 */
 .Lp_40047df4:
-    .word rodata_4008e4e4  /* 40047df4 */
+    .word d_4008e4e4  /* 40047df4 */
 .L40047df8:
     mov r0, #0x62  /* 40047df8 */
     bl ui_text_set_lang1  /* 40047dfc */
@@ -2678,11 +2678,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048ce4  /* 40047e1c */
     b .L40047e30  /* 40047e20 */
 .Lp_40047e24:
-    .word rodata_40090158  /* 40047e24 */
+    .word d_40090158  /* 40047e24 */
 .Lp_40047e28:
-    .word rodata_4008fc6c  /* 40047e28 */
+    .word d_4008fc6c  /* 40047e28 */
 .Lp_40047e2c:
-    .word rodata_40090160  /* 40047e2c */
+    .word d_40090160  /* 40047e2c */
 .L40047e30:
     mov r0, #0x62  /* 40047e30 */
     bl ui_text_set_lang3  /* 40047e34 */
@@ -2696,11 +2696,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048d18  /* 40047e54 */
     b .L40047e68  /* 40047e58 */
 .Lp_40047e5c:
-    .word rodata_4008f44c  /* 40047e5c */
+    .word d_4008f44c  /* 40047e5c */
 .Lp_40047e60:
-    .word rodata_40090168  /* 40047e60 */
+    .word d_40090168  /* 40047e60 */
 .Lp_40047e64:
-    .word rodata_4008f45c  /* 40047e64 */
+    .word d_4008f45c  /* 40047e64 */
 .L40047e68:
     mov r0, #0x63  /* 40047e68 */
     bl ui_text_set_lang1  /* 40047e6c */
@@ -2714,11 +2714,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048d4c  /* 40047e8c */
     b .L40047ea0  /* 40047e90 */
 .Lp_40047e94:
-    .word rodata_4008fc78  /* 40047e94 */
+    .word d_4008fc78  /* 40047e94 */
 .Lp_40047e98:
-    .word rodata_4008fc84  /* 40047e98 */
+    .word d_4008fc84  /* 40047e98 */
 .Lp_40047e9c:
-    .word rodata_40090170  /* 40047e9c */
+    .word d_40090170  /* 40047e9c */
 .L40047ea0:
     mov r0, #0x63  /* 40047ea0 */
     bl ui_text_set_lang3  /* 40047ea4 */
@@ -2732,13 +2732,13 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048d94  /* 40047ec4 */
     b .L40047ee0  /* 40047ec8 */
 .Lp_40047ecc:
-    .word rodata_4008f46c  /* 40047ecc */
+    .word d_4008f46c  /* 40047ecc */
 .Lp_40047ed0:
-    .word rodata_40090178  /* 40047ed0 */
+    .word d_40090178  /* 40047ed0 */
 .Lp_40047ed4:
-    .word rodata_4008f47c  /* 40047ed4 */
+    .word d_4008f47c  /* 40047ed4 */
 .Lp_40047ed8:
-    .word rodata_4008fc90  /* 40047ed8 */
+    .word d_4008fc90  /* 40047ed8 */
 .Lp_40047edc:
     .space 4  /* 40047edc */
 .L40047ee0:
@@ -2774,13 +2774,13 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048e14  /* 40047f54 */
     b .L40047f6c  /* 40047f58 */
 .Lp_40047f5c:
-    .word rodata_40090180  /* 40047f5c */
+    .word d_40090180  /* 40047f5c */
 .Lp_40047f60:
-    .word rodata_40090188  /* 40047f60 */
+    .word d_40090188  /* 40047f60 */
 .Lp_40047f64:
-    .word rodata_4008f48c  /* 40047f64 */
+    .word d_4008f48c  /* 40047f64 */
 .Lp_40047f68:
-    .word rodata_4008fc9c  /* 40047f68 */
+    .word d_4008fc9c  /* 40047f68 */
 .L40047f6c:
     mov r0, #0x66  /* 40047f6c */
     bl ui_text_set_lang3  /* 40047f70 */
@@ -2799,23 +2799,23 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048e5c  /* 40047fa4 */
     b .L40047fd0  /* 40047fa8 */
 .Lp_40047fac:
-    .word rodata_40090190  /* 40047fac */
+    .word d_40090190  /* 40047fac */
 .Lp_40047fb0:
-    .word rodata_4008fca8  /* 40047fb0 */
+    .word d_4008fca8  /* 40047fb0 */
 .Lp_40047fb4:
-    .word rodata_4008f49c  /* 40047fb4 */
+    .word d_4008f49c  /* 40047fb4 */
 .Lp_40047fb8:
-    .word rodata_40090198  /* 40047fb8 */
+    .word d_40090198  /* 40047fb8 */
 .Lp_40047fbc:
-    .word rodata_400901a0  /* 40047fbc */
+    .word d_400901a0  /* 40047fbc */
 .Lp_40047fc0:
-    .word rodata_4008fcb4  /* 40047fc0 */
+    .word d_4008fcb4  /* 40047fc0 */
 .Lp_40047fc4:
-    .word rodata_4008eb2c  /* 40047fc4 */
+    .word d_4008eb2c  /* 40047fc4 */
 .Lp_40047fc8:
-    .word rodata_400901a8  /* 40047fc8 */
+    .word d_400901a8  /* 40047fc8 */
 .Lp_40047fcc:
-    .word rodata_4008f4ac  /* 40047fcc */
+    .word d_4008f4ac  /* 40047fcc */
 .L40047fd0:
     mov r0, #0x67  /* 40047fd0 */
     bl ui_text_set_lang2  /* 40047fd4 */
@@ -2854,11 +2854,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048e88  /* 40048058 */
     b .L4004806c  /* 4004805c */
 .Lp_40048060:
-    .word rodata_400901b0  /* 40048060 */
+    .word d_400901b0  /* 40048060 */
 .Lp_40048064:
-    .word rodata_4008e4fc  /* 40048064 */
+    .word d_4008e4fc  /* 40048064 */
 .Lp_40048068:
-    .word rodata_400901b8  /* 40048068 */
+    .word d_400901b8  /* 40048068 */
 .L4004806c:
     mov r0, #0x69  /* 4004806c */
     bl ui_text_set_lang1  /* 40048070 */
@@ -2872,11 +2872,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048e90  /* 40048090 */
     b .L400480a4  /* 40048094 */
 .Lp_40048098:
-    .word rodata_4008f15c  /* 40048098 */
+    .word d_4008f15c  /* 40048098 */
 .Lp_4004809c:
-    .word rodata_4008fcc0  /* 4004809c */
+    .word d_4008fcc0  /* 4004809c */
 .Lp_400480a0:
-    .word rodata_4008e514  /* 400480a0 */
+    .word d_4008e514  /* 400480a0 */
 .L400480a4:
     mov r0, #0x69  /* 400480a4 */
     bl ui_text_set_lang3  /* 400480a8 */
@@ -2890,11 +2890,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048e98  /* 400480c8 */
     b .L400480dc  /* 400480cc */
 .Lp_400480d0:
-    .word rodata_4008f4bc  /* 400480d0 */
+    .word d_4008f4bc  /* 400480d0 */
 .Lp_400480d4:
-    .word rodata_4008f4cc  /* 400480d4 */
+    .word d_4008f4cc  /* 400480d4 */
 .Lp_400480d8:
-    .word rodata_400901c0  /* 400480d8 */
+    .word d_400901c0  /* 400480d8 */
 .L400480dc:
     mov r0, #0x6a  /* 400480dc */
     bl ui_text_set_lang1  /* 400480e0 */
@@ -2908,9 +2908,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048ea0  /* 40048100 */
     b .L40048110  /* 40048104 */
 .Lp_40048108:
-    .word rodata_4008f4dc  /* 40048108 */
+    .word d_4008f4dc  /* 40048108 */
 .Lp_4004810c:
-    .word rodata_4008f4ec  /* 4004810c */
+    .word d_4008f4ec  /* 4004810c */
 .L40048110:
     mov r0, #0x6a  /* 40048110 */
     bl ui_text_set_lang3  /* 40048114 */
@@ -2944,11 +2944,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048eb4  /* 40048184 */
     b .L40048198  /* 40048188 */
 .Lp_4004818c:
-    .word rodata_4008f4fc  /* 4004818c */
+    .word d_4008f4fc  /* 4004818c */
 .Lp_40048190:
-    .word rodata_400901c8  /* 40048190 */
+    .word d_400901c8  /* 40048190 */
 .Lp_40048194:
-    .word rodata_4008fccc  /* 40048194 */
+    .word d_4008fccc  /* 40048194 */
 .L40048198:
     mov r0, #0x6c  /* 40048198 */
     bl ui_text_set_lang1  /* 4004819c */
@@ -3007,11 +3007,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048ed8  /* 40048270 */
     b .L40048284  /* 40048274 */
 .Lp_40048278:
-    .word rodata_4008f50c  /* 40048278 */
+    .word d_4008f50c  /* 40048278 */
 .Lp_4004827c:
-    .word rodata_4008f51c  /* 4004827c */
+    .word d_4008f51c  /* 4004827c */
 .Lp_40048280:
-    .word rodata_4008f52c  /* 40048280 */
+    .word d_4008f52c  /* 40048280 */
 .L40048284:
     mov r0, #0x6e  /* 40048284 */
     bl ui_text_set_lang4  /* 40048288 */
@@ -3025,9 +3025,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048ee0  /* 400482a8 */
     b .L400482b8  /* 400482ac */
 .Lp_400482b0:
-    .word rodata_4008f53c  /* 400482b0 */
+    .word d_4008f53c  /* 400482b0 */
 .Lp_400482b4:
-    .word rodata_4008fcd8  /* 400482b4 */
+    .word d_4008fcd8  /* 400482b4 */
 .L400482b8:
     mov r0, #0x6f  /* 400482b8 */
     bl ui_text_set_lang2  /* 400482bc */
@@ -3041,9 +3041,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048ee8  /* 400482dc */
     b .L400482ec  /* 400482e0 */
 .Lp_400482e4:
-    .word rodata_4008f54c  /* 400482e4 */
+    .word d_4008f54c  /* 400482e4 */
 .Lp_400482e8:
-    .word rodata_4008f55c  /* 400482e8 */
+    .word d_4008f55c  /* 400482e8 */
 .L400482ec:
     mov r0, #0x6f  /* 400482ec */
     bl ui_text_set_lang4  /* 400482f0 */
@@ -3057,9 +3057,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048ef0  /* 40048310 */
     b .L40048320  /* 40048314 */
 .Lp_40048318:
-    .word rodata_4008f56c  /* 40048318 */
+    .word d_4008f56c  /* 40048318 */
 .Lp_4004831c:
-    .word rodata_4008fce4  /* 4004831c */
+    .word d_4008fce4  /* 4004831c */
 .L40048320:
     mov r0, #0x70  /* 40048320 */
     bl ui_text_set_lang2  /* 40048324 */
@@ -3073,9 +3073,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048efc  /* 40048344 */
     b .L40048354  /* 40048348 */
 .Lp_4004834c:
-    .word rodata_4008f57c  /* 4004834c */
+    .word d_4008f57c  /* 4004834c */
 .Lp_40048350:
-    .word rodata_4008f58c  /* 40048350 */
+    .word d_4008f58c  /* 40048350 */
 .L40048354:
     mov r0, #0x70  /* 40048354 */
     bl ui_text_set_lang4  /* 40048358 */
@@ -3089,9 +3089,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048f04  /* 40048378 */
     b .L40048388  /* 4004837c */
 .Lp_40048380:
-    .word rodata_4008e52c  /* 40048380 */
+    .word d_4008e52c  /* 40048380 */
 .Lp_40048384:
-    .word rodata_4008fcf0  /* 40048384 */
+    .word d_4008fcf0  /* 40048384 */
 .L40048388:
     mov r0, #0x71  /* 40048388 */
     bl ui_text_set_lang2  /* 4004838c */
@@ -3107,9 +3107,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r4, .Lp_40048f10  /* 400483b4 */
     b .L400483c4  /* 400483b8 */
 .Lp_400483bc:
-    .word rodata_400901d0  /* 400483bc */
+    .word d_400901d0  /* 400483bc */
 .Lp_400483c0:
-    .word rodata_4008fcfc  /* 400483c0 */
+    .word d_4008fcfc  /* 400483c0 */
 .L400483c4:
     bl ui_text_set_lang4  /* 400483c4 */
     mov r3, #0  /* 400483c8 */
@@ -3122,9 +3122,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048f18  /* 400483e4 */
     b .L400483f4  /* 400483e8 */
 .Lp_400483ec:
-    .word rodata_4008fd08  /* 400483ec */
+    .word d_4008fd08  /* 400483ec */
 .Lp_400483f0:
-    .word rodata_4008fd14  /* 400483f0 */
+    .word d_4008fd14  /* 400483f0 */
 .L400483f4:
     mov r0, #0x72  /* 400483f4 */
     bl ui_text_set_lang2  /* 400483f8 */
@@ -3138,7 +3138,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048f20  /* 40048418 */
     b .L40048424  /* 4004841c */
 .Lp_40048420:
-    .word rodata_4008f59c  /* 40048420 */
+    .word d_4008f59c  /* 40048420 */
 .L40048424:
     mov r0, #0x72  /* 40048424 */
     bl ui_text_set_lang4  /* 40048428 */
@@ -3152,9 +3152,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048f28  /* 40048448 */
     b .L40048458  /* 4004844c */
 .Lp_40048450:
-    .word rodata_400901d8  /* 40048450 */
+    .word d_400901d8  /* 40048450 */
 .Lp_40048454:
-    .word rodata_4008fd20  /* 40048454 */
+    .word d_4008fd20  /* 40048454 */
 .L40048458:
     mov r0, #0x73  /* 40048458 */
     bl ui_text_set_lang2  /* 4004845c */
@@ -3174,9 +3174,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048f30  /* 40048494 */
     b .L400484a4  /* 40048498 */
 .Lp_4004849c:
-    .word rodata_400901e0  /* 4004849c */
+    .word d_400901e0  /* 4004849c */
 .Lp_400484a0:
-    .word rodata_4008fd2c  /* 400484a0 */
+    .word d_4008fd2c  /* 400484a0 */
 .L400484a4:
     mov r0, #0x74  /* 400484a4 */
     bl ui_text_set_lang1  /* 400484a8 */
@@ -3190,9 +3190,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048f38  /* 400484c8 */
     b .L400484d8  /* 400484cc */
 .Lp_400484d0:
-    .word rodata_4008f5ac  /* 400484d0 */
+    .word d_4008f5ac  /* 400484d0 */
 .Lp_400484d4:
-    .word rodata_4008fd38  /* 400484d4 */
+    .word d_4008fd38  /* 400484d4 */
 .L400484d8:
     mov r0, #0x74  /* 400484d8 */
     bl ui_text_set_lang3  /* 400484dc */
@@ -3206,7 +3206,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048f40  /* 400484fc */
     b .L40048508  /* 40048500 */
 .Lp_40048504:
-    .word rodata_400901e8  /* 40048504 */
+    .word d_400901e8  /* 40048504 */
 .L40048508:
     mov r0, #0x75  /* 40048508 */
     bl ui_text_set_lang1  /* 4004850c */
@@ -3220,9 +3220,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048f48  /* 4004852c */
     b .L4004853c  /* 40048530 */
 .Lp_40048534:
-    .word rodata_4008fd44  /* 40048534 */
+    .word d_4008fd44  /* 40048534 */
 .Lp_40048538:
-    .word rodata_4008e544  /* 40048538 */
+    .word d_4008e544  /* 40048538 */
 .L4004853c:
     mov r0, #0x75  /* 4004853c */
     bl ui_text_set_lang3  /* 40048540 */
@@ -3236,13 +3236,13 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048f50  /* 40048560 */
     b .L40048578  /* 40048564 */
 .Lp_40048568:
-    .word rodata_4008fd50  /* 40048568 */
+    .word d_4008fd50  /* 40048568 */
 .Lp_4004856c:
-    .word rodata_4008f5bc  /* 4004856c */
+    .word d_4008f5bc  /* 4004856c */
 .Lp_40048570:
-    .word rodata_4008fd5c  /* 40048570 */
+    .word d_4008fd5c  /* 40048570 */
 .Lp_40048574:
-    .word rodata_4008f5cc  /* 40048574 */
+    .word d_4008f5cc  /* 40048574 */
 .L40048578:
     mov r0, #0x76  /* 40048578 */
     bl ui_text_set_lang1  /* 4004857c */
@@ -3266,9 +3266,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048f58  /* 400485c4 */
     b .L400485d4  /* 400485c8 */
 .Lp_400485cc:
-    .word rodata_4008fd68  /* 400485cc */
+    .word d_4008fd68  /* 400485cc */
 .Lp_400485d0:
-    .word rodata_4008f5dc  /* 400485d0 */
+    .word d_4008f5dc  /* 400485d0 */
 .L400485d4:
     mov r0, #0x77  /* 400485d4 */
     bl ui_text_set_lang1  /* 400485d8 */
@@ -3283,9 +3283,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048f60  /* 400485fc */
     b .L4004860c  /* 40048600 */
 .Lp_40048604:
-    .word rodata_4008fd74  /* 40048604 */
+    .word d_4008fd74  /* 40048604 */
 .Lp_40048608:
-    .word rodata_4008f5ec  /* 40048608 */
+    .word d_4008f5ec  /* 40048608 */
 .L4004860c:
     mov r0, #0x77  /* 4004860c */
     bl ui_text_set_lang3  /* 40048610 */
@@ -3301,9 +3301,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r6, .Lp_40048f68  /* 40048638 */
     b .L40048648  /* 4004863c */
 .Lp_40048640:
-    .word rodata_4008fd80  /* 40048640 */
+    .word d_4008fd80  /* 40048640 */
 .Lp_40048644:
-    .word rodata_4008f5fc  /* 40048644 */
+    .word d_4008f5fc  /* 40048644 */
 .L40048648:
     bl ui_text_set_lang1  /* 40048648 */
     mov r3, #0  /* 4004864c */
@@ -3316,9 +3316,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048f70  /* 40048668 */
     b .L40048678  /* 4004866c */
 .Lp_40048670:
-    .word rodata_4008eb40  /* 40048670 */
+    .word d_4008eb40  /* 40048670 */
 .Lp_40048674:
-    .word rodata_4008d384  /* 40048674 */
+    .word d_4008d384  /* 40048674 */
 .L40048678:
     mov r0, #0x78  /* 40048678 */
     bl ui_text_set_lang3  /* 4004867c */
@@ -3330,13 +3330,13 @@ ui_texts_init:  /* 0x40045974 */
     adr r4, .Lp_40048a28  /* 40048694 */
     b .L400486ac  /* 40048698 */
 .Lp_4004869c:
-    .word rodata_4008e55c  /* 4004869c */
+    .word d_4008e55c  /* 4004869c */
 .Lp_400486a0:
-    .word rodata_4008f60c  /* 400486a0 */
+    .word d_4008f60c  /* 400486a0 */
 .Lp_400486a4:
-    .word rodata_4008eb54  /* 400486a4 */
+    .word d_4008eb54  /* 400486a4 */
 .Lp_400486a8:
-    .word rodata_4008d5a8  /* 400486a8 */
+    .word d_4008d5a8  /* 400486a8 */
 .L400486ac:
     mov r3, #0  /* 400486ac */
     mov r2, #0  /* 400486b0 */
@@ -3358,13 +3358,13 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048f7c  /* 400486f0 */
     b .L40048708  /* 400486f4 */
 .Lp_400486f8:
-    .word rodata_4008e574  /* 400486f8 */
+    .word d_4008e574  /* 400486f8 */
 .Lp_400486fc:
-    .word rodata_4008f61c  /* 400486fc */
+    .word d_4008f61c  /* 400486fc */
 .Lp_40048700:
-    .word rodata_4008e58c  /* 40048700 */
+    .word d_4008e58c  /* 40048700 */
 .Lp_40048704:
-    .word rodata_4008cfec  /* 40048704 */
+    .word d_4008cfec  /* 40048704 */
 .L40048708:
     mov r0, #0x79  /* 40048708 */
     bl ui_text_set_lang4  /* 4004870c */
@@ -3393,9 +3393,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048f88  /* 40048768 */
     b .L40048778  /* 4004876c */
 .Lp_40048770:
-    .word rodata_4008de70  /* 40048770 */
+    .word d_4008de70  /* 40048770 */
 .Lp_40048774:
-    .word rodata_400901f0  /* 40048774 */
+    .word d_400901f0  /* 40048774 */
 .L40048778:
     mov r0, #0x7b  /* 40048778 */
     bl ui_text_set_lang1  /* 4004877c */
@@ -3409,9 +3409,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048f90  /* 4004879c */
     b .L400487ac  /* 400487a0 */
 .Lp_400487a4:
-    .word rodata_4008f62c  /* 400487a4 */
+    .word d_4008f62c  /* 400487a4 */
 .Lp_400487a8:
-    .word rodata_4008de8c  /* 400487a8 */
+    .word d_4008de8c  /* 400487a8 */
 .L400487ac:
     mov r0, #0x7b  /* 400487ac */
     bl ui_text_set_lang3  /* 400487b0 */
@@ -3425,9 +3425,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048f98  /* 400487d0 */
     b .L400487e0  /* 400487d4 */
 .Lp_400487d8:
-    .word rodata_4008eb68  /* 400487d8 */
+    .word d_4008eb68  /* 400487d8 */
 .Lp_400487dc:
-    .word rodata_400901f8  /* 400487dc */
+    .word d_400901f8  /* 400487dc */
 .L400487e0:
     mov r0, #0x7c  /* 400487e0 */
     bl ui_text_set_lang1  /* 400487e4 */
@@ -3441,9 +3441,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048fa0  /* 40048804 */
     b .L40048814  /* 40048808 */
 .Lp_4004880c:
-    .word rodata_4008f63c  /* 4004880c */
+    .word d_4008f63c  /* 4004880c */
 .Lp_40048810:
-    .word rodata_4008dea8  /* 40048810 */
+    .word d_4008dea8  /* 40048810 */
 .L40048814:
     mov r0, #0x7c  /* 40048814 */
     bl ui_text_set_lang3  /* 40048818 */
@@ -3457,11 +3457,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048fa8  /* 40048838 */
     b .L4004884c  /* 4004883c */
 .Lp_40048840:
-    .word rodata_4008eb7c  /* 40048840 */
+    .word d_4008eb7c  /* 40048840 */
 .Lp_40048844:
-    .word rodata_40090200  /* 40048844 */
+    .word d_40090200  /* 40048844 */
 .Lp_40048848:
-    .word rodata_4008f64c  /* 40048848 */
+    .word d_4008f64c  /* 40048848 */
 .L4004884c:
     mov r0, #0x7d  /* 4004884c */
     bl ui_text_set_lang1  /* 40048850 */
@@ -3475,11 +3475,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048fb0  /* 40048870 */
     b .L40048884  /* 40048874 */
 .Lp_40048878:
-    .word rodata_4008dec4  /* 40048878 */
+    .word d_4008dec4  /* 40048878 */
 .Lp_4004887c:
-    .word rodata_4008eb90  /* 4004887c */
+    .word d_4008eb90  /* 4004887c */
 .Lp_40048880:
-    .word rodata_40090208  /* 40048880 */
+    .word d_40090208  /* 40048880 */
 .L40048884:
     mov r0, #0x7d  /* 40048884 */
     bl ui_text_set_lang3  /* 40048888 */
@@ -3498,9 +3498,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048fbc  /* 400488bc */
     b .L400488cc  /* 400488c0 */
 .Lp_400488c4:
-    .word rodata_4008f65c  /* 400488c4 */
+    .word d_4008f65c  /* 400488c4 */
 .Lp_400488c8:
-    .word rodata_4008dee0  /* 400488c8 */
+    .word d_4008dee0  /* 400488c8 */
 .L400488cc:
     mov r0, #0x7e  /* 400488cc */
     bl ui_text_set_lang2  /* 400488d0 */
@@ -3514,9 +3514,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048fc4  /* 400488f0 */
     b .L40048900  /* 400488f4 */
 .Lp_400488f8:
-    .word rodata_4008eba4  /* 400488f8 */
+    .word d_4008eba4  /* 400488f8 */
 .Lp_400488fc:
-    .word rodata_40090210  /* 400488fc */
+    .word d_40090210  /* 400488fc */
 .L40048900:
     mov r0, #0x7e  /* 40048900 */
     bl ui_text_set_lang4  /* 40048904 */
@@ -3530,11 +3530,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048fcc  /* 40048924 */
     b .L40048938  /* 40048928 */
 .Lp_4004892c:
-    .word rodata_4008f66c  /* 4004892c */
+    .word d_4008f66c  /* 4004892c */
 .Lp_40048930:
-    .word rodata_4008defc  /* 40048930 */
+    .word d_4008defc  /* 40048930 */
 .Lp_40048934:
-    .word rodata_4008ebb8  /* 40048934 */
+    .word d_4008ebb8  /* 40048934 */
 .L40048938:
     mov r0, #0x7f  /* 40048938 */
     bl ui_text_set_lang2  /* 4004893c */
@@ -3548,15 +3548,15 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048fd4  /* 4004895c */
     b .L40048978  /* 40048960 */
 .Lp_40048964:
-    .word rodata_4008fd8c  /* 40048964 */
+    .word d_4008fd8c  /* 40048964 */
 .Lp_40048968:
-    .word rodata_4008fd98  /* 40048968 */
+    .word d_4008fd98  /* 40048968 */
 .Lp_4004896c:
-    .word rodata_4008df18  /* 4004896c */
+    .word d_4008df18  /* 4004896c */
 .Lp_40048970:
-    .word rodata_40090218  /* 40048970 */
+    .word d_40090218  /* 40048970 */
 .Lp_40048974:
-    .word rodata_4008d7f8  /* 40048974 */
+    .word d_4008d7f8  /* 40048974 */
 .L40048978:
     mov r0, #0x7f  /* 40048978 */
     bl ui_text_set_lang4  /* 4004897c */
@@ -3590,7 +3590,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048fdc  /* 400489ec */
     b .L400489f8  /* 400489f0 */
 .Lp_400489f4:
-    .word rodata_4008df34  /* 400489f4 */
+    .word d_4008df34  /* 400489f4 */
 .L400489f8:
     mov r0, #0x81  /* 400489f8 */
     bl ui_text_set_lang2  /* 400489fc */
@@ -3604,11 +3604,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048fe4  /* 40048a1c */
     b .L40048a30  /* 40048a20 */
 .Lp_40048a24:
-    .word rodata_4008d5d0  /* 40048a24 */
+    .word d_4008d5d0  /* 40048a24 */
 .Lp_40048a28:
     .byte 0xe9, 0xa1, 0xb5, 0x00  /* 40048a28 */
 .Lp_40048a2c:
-    .word rodata_4008e5a4  /* 40048a2c */
+    .word d_4008e5a4  /* 40048a2c */
 .L40048a30:
     mov r0, #0x81  /* 40048a30 */
     bl ui_text_set_lang4  /* 40048a34 */
@@ -3622,11 +3622,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40048fec  /* 40048a54 */
     b .L40048a68  /* 40048a58 */
 .Lp_40048a5c:
-    .word rodata_4008e5bc  /* 40048a5c */
+    .word d_4008e5bc  /* 40048a5c */
 .Lp_40048a60:
-    .word rodata_4008ebcc  /* 40048a60 */
+    .word d_4008ebcc  /* 40048a60 */
 .Lp_40048a64:
-    .word rodata_4008ebe0  /* 40048a64 */
+    .word d_4008ebe0  /* 40048a64 */
 .L40048a68:
     mov r0, #0x82  /* 40048a68 */
     bl ui_text_set_lang2  /* 40048a6c */
@@ -3660,7 +3660,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40049004  /* 40048adc */
     b .L40048ae8  /* 40048ae0 */
 .Lp_40048ae4:
-    .word rodata_4008fde0  /* 40048ae4 */
+    .word d_4008fde0  /* 40048ae4 */
 .L40048ae8:
     mov r0, #0x83  /* 40048ae8 */
     bl ui_text_set_lang4  /* 40048aec */
@@ -3674,9 +3674,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_4004900c  /* 40048b0c */
     b .L40048b1c  /* 40048b10 */
 .Lp_40048b14:
-    .word rodata_40090220  /* 40048b14 */
+    .word d_40090220  /* 40048b14 */
 .Lp_40048b18:
-    .word rodata_40090228  /* 40048b18 */
+    .word d_40090228  /* 40048b18 */
 .L40048b1c:
     mov r0, #0x84  /* 40048b1c */
     bl ui_text_set_lang2  /* 40048b20 */
@@ -3690,11 +3690,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40049014  /* 40048b40 */
     b .L40048b54  /* 40048b44 */
 .Lp_40048b48:
-    .word rodata_4008e5d4  /* 40048b48 */
+    .word d_4008e5d4  /* 40048b48 */
 .Lp_40048b4c:
-    .word rodata_4008fda4  /* 40048b4c */
+    .word d_4008fda4  /* 40048b4c */
 .Lp_40048b50:
-    .word rodata_4008ebf4  /* 40048b50 */
+    .word d_4008ebf4  /* 40048b50 */
 .L40048b54:
     mov r0, #0x84  /* 40048b54 */
     bl ui_text_set_lang4  /* 40048b58 */
@@ -3708,9 +3708,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_4004901c  /* 40048b78 */
     b .L40048b88  /* 40048b7c */
 .Lp_40048b80:
-    .word rodata_4008ec08  /* 40048b80 */
+    .word d_4008ec08  /* 40048b80 */
 .Lp_40048b84:
-    .word rodata_4008df50  /* 40048b84 */
+    .word d_4008df50  /* 40048b84 */
 .L40048b88:
     mov r0, #0x85  /* 40048b88 */
     bl ui_text_set_lang2  /* 40048b8c */
@@ -3724,9 +3724,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40049024  /* 40048bac */
     b .L40048bbc  /* 40048bb0 */
 .Lp_40048bb4:
-    .word rodata_4008f67c  /* 40048bb4 */
+    .word d_4008f67c  /* 40048bb4 */
 .Lp_40048bb8:
-    .word rodata_4008fdb0  /* 40048bb8 */
+    .word d_4008fdb0  /* 40048bb8 */
 .L40048bbc:
     mov r0, #0x85  /* 40048bbc */
     bl ui_text_set_lang4  /* 40048bc0 */
@@ -3740,7 +3740,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_4004902c  /* 40048be0 */
     b .L40048bec  /* 40048be4 */
 .Lp_40048be8:
-    .word rodata_4008fdbc  /* 40048be8 */
+    .word d_4008fdbc  /* 40048be8 */
 .L40048bec:
     mov r0, #0x86  /* 40048bec */
     bl ui_text_set_lang2  /* 40048bf0 */
@@ -3754,9 +3754,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40049034  /* 40048c10 */
     b .L40048c20  /* 40048c14 */
 .Lp_40048c18:
-    .word rodata_4008f68c  /* 40048c18 */
+    .word d_4008f68c  /* 40048c18 */
 .Lp_40048c1c:
-    .word rodata_4008fdc8  /* 40048c1c */
+    .word d_4008fdc8  /* 40048c1c */
 .L40048c20:
     mov r0, #0x86  /* 40048c20 */
     bl ui_text_set_lang4  /* 40048c24 */
@@ -3770,7 +3770,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_4004903c  /* 40048c44 */
     b .L40048c50  /* 40048c48 */
 .Lp_40048c4c:
-    .word rodata_4008fdd4  /* 40048c4c */
+    .word d_4008fdd4  /* 40048c4c */
 .L40048c50:
     mov r0, #0x87  /* 40048c50 */
     bl ui_text_set_lang2  /* 40048c54 */
@@ -3784,7 +3784,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40049044  /* 40048c74 */
     b .L40048c80  /* 40048c78 */
 .Lp_40048c7c:
-    .word rodata_4008ec1c  /* 40048c7c */
+    .word d_4008ec1c  /* 40048c7c */
 .L40048c80:
     mov r0, #0x87  /* 40048c80 */
     bl ui_text_set_lang4  /* 40048c84 */
@@ -3798,9 +3798,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_4004904c  /* 40048ca4 */
     b .L40048cb4  /* 40048ca8 */
 .Lp_40048cac:
-    .word rodata_4008fdec  /* 40048cac */
+    .word d_4008fdec  /* 40048cac */
 .Lp_40048cb0:
-    .word rodata_4008f69c  /* 40048cb0 */
+    .word d_4008f69c  /* 40048cb0 */
 .L40048cb4:
     mov r0, #0x88  /* 40048cb4 */
     bl ui_text_set_lang2  /* 40048cb8 */
@@ -3814,9 +3814,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40049054  /* 40048cd8 */
     b .L40048ce8  /* 40048cdc */
 .Lp_40048ce0:
-    .word rodata_4008f6ac  /* 40048ce0 */
+    .word d_4008f6ac  /* 40048ce0 */
 .Lp_40048ce4:
-    .word rodata_4008ec30  /* 40048ce4 */
+    .word d_4008ec30  /* 40048ce4 */
 .L40048ce8:
     mov r0, #0x88  /* 40048ce8 */
     bl ui_text_set_lang4  /* 40048cec */
@@ -3830,9 +3830,9 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_4004905c  /* 40048d0c */
     b .L40048d1c  /* 40048d10 */
 .Lp_40048d14:
-    .word rodata_4008f6bc  /* 40048d14 */
+    .word d_4008f6bc  /* 40048d14 */
 .Lp_40048d18:
-    .word rodata_4008f6cc  /* 40048d18 */
+    .word d_4008f6cc  /* 40048d18 */
 .L40048d1c:
     mov r0, #0x89  /* 40048d1c */
     bl ui_text_set_lang2  /* 40048d20 */
@@ -3846,11 +3846,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40049064  /* 40048d40 */
     b .L40048d54  /* 40048d44 */
 .Lp_40048d48:
-    .word rodata_4008f6dc  /* 40048d48 */
+    .word d_4008f6dc  /* 40048d48 */
 .Lp_40048d4c:
-    .word rodata_4008ec44  /* 40048d4c */
+    .word d_4008ec44  /* 40048d4c */
 .Lp_40048d50:
-    .word rodata_4008f6ec  /* 40048d50 */
+    .word d_4008f6ec  /* 40048d50 */
 .L40048d54:
     mov r0, #0x89  /* 40048d54 */
     bl ui_text_set_lang4  /* 40048d58 */
@@ -3869,7 +3869,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40049070  /* 40048d8c */
     b .L40048d98  /* 40048d90 */
 .Lp_40048d94:
-    .word rodata_4008f6fc  /* 40048d94 */
+    .word d_4008f6fc  /* 40048d94 */
 .L40048d98:
     mov r0, #0x8a  /* 40048d98 */
     bl ui_text_set_lang3  /* 40048d9c */
@@ -3888,11 +3888,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_4004907c  /* 40048dd0 */
     b .L40048de4  /* 40048dd4 */
 .Lp_40048dd8:
-    .word rodata_4008e5ec  /* 40048dd8 */
+    .word d_4008e5ec  /* 40048dd8 */
 .Lp_40048ddc:
-    .word rodata_4008f70c  /* 40048ddc */
+    .word d_4008f70c  /* 40048ddc */
 .Lp_40048de0:
-    .word rodata_4008e604  /* 40048de0 */
+    .word d_4008e604  /* 40048de0 */
 .L40048de4:
     mov r0, #0x8b  /* 40048de4 */
     bl ui_text_set_lang2  /* 40048de8 */
@@ -3906,11 +3906,11 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_40049084  /* 40048e08 */
     b .L40048e1c  /* 40048e0c */
 .Lp_40048e10:
-    .word rodata_4008ec58  /* 40048e10 */
+    .word d_4008ec58  /* 40048e10 */
 .Lp_40048e14:
-    .word rodata_4008d81c  /* 40048e14 */
+    .word d_4008d81c  /* 40048e14 */
 .Lp_40048e18:
-    .word rodata_4008ec6c  /* 40048e18 */
+    .word d_4008ec6c  /* 40048e18 */
 .L40048e1c:
     mov r0, #0x8b  /* 40048e1c */
     bl ui_text_set_lang4  /* 40048e20 */
@@ -3929,7 +3929,7 @@ ui_texts_init:  /* 0x40045974 */
     ldr r1, .Lp_4004908c  /* 40048e54 */
     b .L40048e60  /* 40048e58 */
 .Lp_40048e5c:
-    .word rodata_4008fdf8  /* 40048e5c */
+    .word d_4008fdf8  /* 40048e5c */
 .L40048e60:
     mov r0, #0x8c  /* 40048e60 */
     bl ui_text_set_lang3  /* 40048e64 */
@@ -3941,267 +3941,269 @@ ui_texts_init:  /* 0x40045974 */
     mov r0, #0x8c  /* 40048e7c */
     b ui_text_set_lang4  /* 40048e80 */
 .Lp_40048e84:
-    .word rodata_4008fe04  /* 40048e84 */
+    .word d_4008fe04  /* 40048e84 */
 .Lp_40048e88:
-    .word rodata_4008fe10  /* 40048e88 */
+    .word d_4008fe10  /* 40048e88 */
 .Lp_40048e8c:
-    .word rodata_40090230  /* 40048e8c */
+    .word d_40090230  /* 40048e8c */
 .Lp_40048e90:
-    .word rodata_4008f71c  /* 40048e90 */
+    .word d_4008f71c  /* 40048e90 */
 .Lp_40048e94:
-    .word rodata_4008fe1c  /* 40048e94 */
+    .word d_4008fe1c  /* 40048e94 */
 .Lp_40048e98:
-    .word rodata_4008fe28  /* 40048e98 */
+    .word d_4008fe28  /* 40048e98 */
 .Lp_40048e9c:
-    .word rodata_4008fe34  /* 40048e9c */
+    .word d_4008fe34  /* 40048e9c */
 .Lp_40048ea0:
-    .word rodata_4008ec80  /* 40048ea0 */
+    .word d_4008ec80  /* 40048ea0 */
 .Lp_40048ea4:
-    .word rodata_4008dae0  /* 40048ea4 */
+    .word d_4008dae0  /* 40048ea4 */
 .Lp_40048ea8:
-    .word rodata_4008ec94  /* 40048ea8 */
+    .word d_4008ec94  /* 40048ea8 */
 .Lp_40048eac:
-    .word rodata_4008db00  /* 40048eac */
+    .word d_4008db00  /* 40048eac */
 .Lp_40048eb0:
-    .word rodata_4008e61c  /* 40048eb0 */
+    .word d_4008e61c  /* 40048eb0 */
 .Lp_40048eb4:
-    .word rodata_4008eca8  /* 40048eb4 */
+    .word d_4008eca8  /* 40048eb4 */
 .Lp_40048eb8:
-    .word rodata_4008fe40  /* 40048eb8 */
+    .word d_4008fe40  /* 40048eb8 */
 .Lp_40048ebc:
-    .word rodata_4008d5f8  /* 40048ebc */
+    .word d_4008d5f8  /* 40048ebc */
 .Lp_40048ec0:
-    .word rodata_4008ecbc  /* 40048ec0 */
+    .word d_4008ecbc  /* 40048ec0 */
 .Lp_40048ec4:
-    .word rodata_4008df6c  /* 40048ec4 */
+    .word d_4008df6c  /* 40048ec4 */
 .Lp_40048ec8:
-    .word rodata_4008ecd0  /* 40048ec8 */
+    .word d_4008ecd0  /* 40048ec8 */
 .Lp_40048ecc:
-    .word rodata_4008f72c  /* 40048ecc */
+    .word d_4008f72c  /* 40048ecc */
 .Lp_40048ed0:
-    .word rodata_4008f73c  /* 40048ed0 */
+    .word d_4008f73c  /* 40048ed0 */
 .Lp_40048ed4:
-    .word rodata_4008db20  /* 40048ed4 */
+    .word d_4008db20  /* 40048ed4 */
 .Lp_40048ed8:
-    .word rodata_4008e634  /* 40048ed8 */
+    .word d_4008e634  /* 40048ed8 */
 .Lp_40048edc:
-    .word rodata_4008f74c  /* 40048edc */
+    .word d_4008f74c  /* 40048edc */
 .Lp_40048ee0:
-    .word rodata_4008ece4  /* 40048ee0 */
+    .word d_4008ece4  /* 40048ee0 */
 .Lp_40048ee4:
-    .word rodata_4008d3b0  /* 40048ee4 */
+    .word d_4008d3b0  /* 40048ee4 */
 .Lp_40048ee8:
-    .word rodata_4008e64c  /* 40048ee8 */
+    .word d_4008e64c  /* 40048ee8 */
 .Lp_40048eec:
-    .word rodata_4008f75c  /* 40048eec */
+    .word d_4008f75c  /* 40048eec */
 .Lp_40048ef0:
-    .word rodata_4008f76c  /* 40048ef0 */
+    .word d_4008f76c  /* 40048ef0 */
+    .global d_40048ef4
+d_40048ef4:
 .Lp_40048ef4:
     .byte 0x4f, 0x46, 0x46, 0x00  /* 40048ef4 */
 .Lp_40048ef8:
-    .word rodata_4008d840  /* 40048ef8 */
+    .word d_4008d840  /* 40048ef8 */
 .Lp_40048efc:
-    .word rodata_4008df88  /* 40048efc */
+    .word d_4008df88  /* 40048efc */
 .Lp_40048f00:
-    .word rodata_40090238  /* 40048f00 */
+    .word d_40090238  /* 40048f00 */
 .Lp_40048f04:
-    .word rodata_40090240  /* 40048f04 */
+    .word d_40090240  /* 40048f04 */
 .Lp_40048f08:
-    .word rodata_4008fe4c  /* 40048f08 */
+    .word d_4008fe4c  /* 40048f08 */
 .Lp_40048f0c:
-    .word rodata_4008fe58  /* 40048f0c */
+    .word d_4008fe58  /* 40048f0c */
 .Lp_40048f10:
-    .word rodata_4008ed0c  /* 40048f10 */
+    .word d_4008ed0c  /* 40048f10 */
 .Lp_40048f14:
-    .word rodata_40090248  /* 40048f14 */
+    .word d_40090248  /* 40048f14 */
 .Lp_40048f18:
-    .word rodata_4008fe64  /* 40048f18 */
+    .word d_4008fe64  /* 40048f18 */
 .Lp_40048f1c:
-    .word rodata_4008ecf8  /* 40048f1c */
+    .word d_4008ecf8  /* 40048f1c */
 .Lp_40048f20:
-    .word rodata_4008f77c  /* 40048f20 */
+    .word d_4008f77c  /* 40048f20 */
 .Lp_40048f24:
-    .word rodata_40090250  /* 40048f24 */
+    .word d_40090250  /* 40048f24 */
 .Lp_40048f28:
-    .word rodata_40090258  /* 40048f28 */
+    .word d_40090258  /* 40048f28 */
 .Lp_40048f2c:
-    .word rodata_40090260  /* 40048f2c */
+    .word d_40090260  /* 40048f2c */
 .Lp_40048f30:
-    .word rodata_4008fe70  /* 40048f30 */
+    .word d_4008fe70  /* 40048f30 */
 .Lp_40048f34:
-    .word rodata_4008fe7c  /* 40048f34 */
+    .word d_4008fe7c  /* 40048f34 */
 .Lp_40048f38:
-    .word rodata_4008ed20  /* 40048f38 */
+    .word d_4008ed20  /* 40048f38 */
 .Lp_40048f3c:
-    .word rodata_4008fe88  /* 40048f3c */
+    .word d_4008fe88  /* 40048f3c */
 .Lp_40048f40:
-    .word rodata_4008fe94  /* 40048f40 */
+    .word d_4008fe94  /* 40048f40 */
 .Lp_40048f44:
-    .word rodata_4008fea0  /* 40048f44 */
+    .word d_4008fea0  /* 40048f44 */
 .Lp_40048f48:
-    .word rodata_4008ed34  /* 40048f48 */
+    .word d_4008ed34  /* 40048f48 */
 .Lp_40048f4c:
-    .word rodata_4008feac  /* 40048f4c */
+    .word d_4008feac  /* 40048f4c */
 .Lp_40048f50:
-    .word rodata_4008f78c  /* 40048f50 */
+    .word d_4008f78c  /* 40048f50 */
 .Lp_40048f54:
-    .word rodata_4008f79c  /* 40048f54 */
+    .word d_4008f79c  /* 40048f54 */
 .Lp_40048f58:
-    .word rodata_40090268  /* 40048f58 */
+    .word d_40090268  /* 40048f58 */
 .Lp_40048f5c:
-    .word rodata_40090270  /* 40048f5c */
+    .word d_40090270  /* 40048f5c */
 .Lp_40048f60:
-    .word rodata_4008feb8  /* 40048f60 */
+    .word d_4008feb8  /* 40048f60 */
 .Lp_40048f64:
-    .word rodata_4008fec4  /* 40048f64 */
+    .word d_4008fec4  /* 40048f64 */
 .Lp_40048f68:
-    .word rodata_4008f7bc  /* 40048f68 */
+    .word d_4008f7bc  /* 40048f68 */
 .Lp_40048f6c:
-    .word rodata_40090278  /* 40048f6c */
+    .word d_40090278  /* 40048f6c */
 .Lp_40048f70:
-    .word rodata_4008f7ac  /* 40048f70 */
+    .word d_4008f7ac  /* 40048f70 */
 .Lp_40048f74:
-    .word rodata_40090280  /* 40048f74 */
+    .word d_40090280  /* 40048f74 */
 .Lp_40048f78:
-    .word rodata_40090288  /* 40048f78 */
+    .word d_40090288  /* 40048f78 */
 .Lp_40048f7c:
-    .word rodata_4008fed0  /* 40048f7c */
+    .word d_4008fed0  /* 40048f7c */
 .Lp_40048f80:
-    .word rodata_40090290  /* 40048f80 */
+    .word d_40090290  /* 40048f80 */
 .Lp_40048f84:
-    .word rodata_40090298  /* 40048f84 */
+    .word d_40090298  /* 40048f84 */
 .Lp_40048f88:
-    .word rodata_400902a0  /* 40048f88 */
+    .word d_400902a0  /* 40048f88 */
 .Lp_40048f8c:
-    .word rodata_400902a8  /* 40048f8c */
+    .word d_400902a8  /* 40048f8c */
 .Lp_40048f90:
-    .word rodata_4008f7cc  /* 40048f90 */
+    .word d_4008f7cc  /* 40048f90 */
 .Lp_40048f94:
-    .word rodata_400902b0  /* 40048f94 */
+    .word d_400902b0  /* 40048f94 */
 .Lp_40048f98:
-    .word rodata_4008e664  /* 40048f98 */
+    .word d_4008e664  /* 40048f98 */
 .Lp_40048f9c:
-    .word rodata_4008ed48  /* 40048f9c */
+    .word d_4008ed48  /* 40048f9c */
 .Lp_40048fa0:
-    .word rodata_4008d0ec  /* 40048fa0 */
+    .word d_4008d0ec  /* 40048fa0 */
 .Lp_40048fa4:
-    .word rodata_4008dfa4  /* 40048fa4 */
+    .word d_4008dfa4  /* 40048fa4 */
 .Lp_40048fa8:
-    .word rodata_4008e67c  /* 40048fa8 */
+    .word d_4008e67c  /* 40048fa8 */
 .Lp_40048fac:
-    .word rodata_4008e694  /* 40048fac */
+    .word d_4008e694  /* 40048fac */
 .Lp_40048fb0:
-    .word rodata_4008d11c  /* 40048fb0 */
+    .word d_4008d11c  /* 40048fb0 */
 .Lp_40048fb4:
-    .word rodata_4008ed5c  /* 40048fb4 */
+    .word d_4008ed5c  /* 40048fb4 */
 .Lp_40048fb8:
-    .word rodata_4008d620  /* 40048fb8 */
+    .word d_4008d620  /* 40048fb8 */
 .Lp_40048fbc:
-    .word rodata_4008dfc0  /* 40048fbc */
+    .word d_4008dfc0  /* 40048fbc */
 .Lp_40048fc0:
-    .word rodata_4008d3dc  /* 40048fc0 */
+    .word d_4008d3dc  /* 40048fc0 */
 .Lp_40048fc4:
-    .word rodata_4008dfdc  /* 40048fc4 */
+    .word d_4008dfdc  /* 40048fc4 */
 .Lp_40048fc8:
-    .word rodata_4008fedc  /* 40048fc8 */
+    .word d_4008fedc  /* 40048fc8 */
 .Lp_40048fcc:
-    .word rodata_4008dff8  /* 40048fcc */
+    .word d_4008dff8  /* 40048fcc */
 .Lp_40048fd0:
-    .word rodata_4008d648  /* 40048fd0 */
+    .word d_4008d648  /* 40048fd0 */
 .Lp_40048fd4:
-    .word rodata_4008ed70  /* 40048fd4 */
+    .word d_4008ed70  /* 40048fd4 */
 .Lp_40048fd8:
-    .word rodata_4008d864  /* 40048fd8 */
+    .word d_4008d864  /* 40048fd8 */
 .Lp_40048fdc:
-    .word rodata_4008d670  /* 40048fdc */
+    .word d_4008d670  /* 40048fdc */
 .Lp_40048fe0:
-    .word graphics_4008c9d4  /* 40048fe0 */
+    .word d_4008c9d4  /* 40048fe0 */
 .Lp_40048fe4:
     .word d_4008ced8  /* 40048fe4 */
 .Lp_40048fe8:
-    .word rodata_4008e014  /* 40048fe8 */
+    .word d_4008e014  /* 40048fe8 */
 .Lp_40048fec:
-    .word rodata_4008d698  /* 40048fec */
+    .word d_4008d698  /* 40048fec */
 .Lp_40048ff0:
     .word d_4008cdb0  /* 40048ff0 */
 .Lp_40048ff4:
-    .word rodata_4008d14c  /* 40048ff4 */
+    .word d_4008d14c  /* 40048ff4 */
 .Lp_40048ff8:
-    .word rodata_4008e030  /* 40048ff8 */
+    .word d_4008e030  /* 40048ff8 */
 .Lp_40048ffc:
-    .word rodata_4008d6c0  /* 40048ffc */
+    .word d_4008d6c0  /* 40048ffc */
 .Lp_40049000:
     .word d_4008cdec  /* 40049000 */
 .Lp_40049004:
-    .word rodata_4008d17c  /* 40049004 */
+    .word d_4008d17c  /* 40049004 */
 .Lp_40049008:
-    .word rodata_4008e04c  /* 40049008 */
+    .word d_4008e04c  /* 40049008 */
 .Lp_4004900c:
-    .word rodata_4008e6ac  /* 4004900c */
+    .word d_4008e6ac  /* 4004900c */
 .Lp_40049010:
-    .word rodata_4008e068  /* 40049010 */
+    .word d_4008e068  /* 40049010 */
 .Lp_40049014:
-    .word rodata_4008d6e8  /* 40049014 */
+    .word d_4008d6e8  /* 40049014 */
 .Lp_40049018:
-    .word rodata_4008e6c4  /* 40049018 */
+    .word d_4008e6c4  /* 40049018 */
 .Lp_4004901c:
-    .word rodata_4008e6dc  /* 4004901c */
+    .word d_4008e6dc  /* 4004901c */
 .Lp_40049020:
     .word d_4008cd30  /* 40049020 */
 .Lp_40049024:
-    .word rodata_4008d888  /* 40049024 */
+    .word d_4008d888  /* 40049024 */
 .Lp_40049028:
-    .word rodata_4008ed84  /* 40049028 */
+    .word d_4008ed84  /* 40049028 */
 .Lp_4004902c:
-    .word rodata_4008fee8  /* 4004902c */
+    .word d_4008fee8  /* 4004902c */
 .Lp_40049030:
-    .word rodata_4008fef4  /* 40049030 */
+    .word d_4008fef4  /* 40049030 */
 .Lp_40049034:
-    .word rodata_4008ff00  /* 40049034 */
+    .word d_4008ff00  /* 40049034 */
 .Lp_40049038:
-    .word rodata_4008f7dc  /* 40049038 */
+    .word d_4008f7dc  /* 40049038 */
 .Lp_4004903c:
-    .word rodata_4008f7ec  /* 4004903c */
+    .word d_4008f7ec  /* 4004903c */
 .Lp_40049040:
-    .word rodata_4008db40  /* 40049040 */
+    .word d_4008db40  /* 40049040 */
 .Lp_40049044:
-    .word rodata_4008ed98  /* 40049044 */
+    .word d_4008ed98  /* 40049044 */
 .Lp_40049048:
-    .word rodata_4008e6f4  /* 40049048 */
+    .word d_4008e6f4  /* 40049048 */
 .Lp_4004904c:
-    .word rodata_4008e70c  /* 4004904c */
+    .word d_4008e70c  /* 4004904c */
 .Lp_40049050:
-    .word rodata_4008d1ac  /* 40049050 */
+    .word d_4008d1ac  /* 40049050 */
 .Lp_40049054:
-    .word rodata_4008edac  /* 40049054 */
+    .word d_4008edac  /* 40049054 */
 .Lp_40049058:
-    .word rodata_4008ff0c  /* 40049058 */
+    .word d_4008ff0c  /* 40049058 */
 .Lp_4004905c:
-    .word rodata_4008ff18  /* 4004905c */
+    .word d_4008ff18  /* 4004905c */
 .Lp_40049060:
-    .word rodata_4008f7fc  /* 40049060 */
+    .word d_4008f7fc  /* 40049060 */
 .Lp_40049064:
-    .word rodata_4008f80c  /* 40049064 */
+    .word d_4008f80c  /* 40049064 */
 .Lp_40049068:
-    .word rodata_4008f81c  /* 40049068 */
+    .word d_4008f81c  /* 40049068 */
 .Lp_4004906c:
-    .word rodata_4008edc0  /* 4004906c */
+    .word d_4008edc0  /* 4004906c */
 .Lp_40049070:
-    .word rodata_4008e084  /* 40049070 */
+    .word d_4008e084  /* 40049070 */
 .Lp_40049074:
-    .word rodata_4008edd4  /* 40049074 */
+    .word d_4008edd4  /* 40049074 */
 .Lp_40049078:
-    .word rodata_4008ff24  /* 40049078 */
+    .word d_4008ff24  /* 40049078 */
 .Lp_4004907c:
-    .word rodata_4008ff30  /* 4004907c */
+    .word d_4008ff30  /* 4004907c */
 .Lp_40049080:
-    .word rodata_4008d408  /* 40049080 */
+    .word d_4008d408  /* 40049080 */
 .Lp_40049084:
-    .word rodata_4008ede8  /* 40049084 */
+    .word d_4008ede8  /* 40049084 */
 .Lp_40049088:
-    .word rodata_400902b8  /* 40049088 */
+    .word d_400902b8  /* 40049088 */
 .Lp_4004908c:
-    .word rodata_4008ff3c  /* 4004908c */
+    .word d_4008ff3c  /* 4004908c */
 .Lp_40049090:
-    .word rodata_4008ff48  /* 40049090 */
+    .word d_4008ff48  /* 40049090 */
     .size ui_texts_init, . - ui_texts_init

@@ -16,8 +16,8 @@ void disk_check_file(void)
 {
     char rd[0x20], wr[0x20];
     unsigned char fil[0x250];
-    const char *path = (const char *)0x4008E364u;
-    __aeabi_memcpy(wr, (const void *)0x4008DA20u, 0x1E);
+    const char *path = (const char *)IMG(4008e364);
+    __aeabi_memcpy(wr, (const void *)IMG(4008da20), 0x1E);
     disk_format_and_reload();
     f_open(fil, path, 0xB);
     f_lseek(fil, 0);

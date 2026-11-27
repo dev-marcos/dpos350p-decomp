@@ -15,7 +15,7 @@ int mmc_update_clk(u32 n)
     writel_a(base + 0x18, 0x80202000u);
     while (readl_a(base + 0x18) & 0x80000000u) {
         if (t-- == 0) {
-            dbg_printf(STR(0x4008F83C));
+            dbg_printf(STR(4008f83c));
             return -1;
         }
         mmc_delay_us(1);

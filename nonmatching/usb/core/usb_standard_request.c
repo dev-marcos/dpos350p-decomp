@@ -12,21 +12,21 @@
 void usb_standard_request(unsigned char *req)
 {
     u32 r = req[1];
-    if (r == 6) { debug_printf_stub(STR(0x4008F92C)); usb_get_descriptor(req); return; }
-    if (r == 9) { debug_printf_stub(STR(0x4008EE60)); usb_set_configuration(); return; }
-    if (r == 8) { debug_printf_stub(STR(0x4008EE74)); debug_printf_stub(STR(0x4008D020)); }
-    else if (r == 0x0B) { debug_printf_stub(STR(0x4008F93C)); debug_printf_stub(STR(0x4008D23C)); }
-    else if (r == 0x0A) { debug_printf_stub(STR(0x4008D26C)); }
-    else if (r == 5) { debug_printf_stub(STR(0x4008FF78)); usb_set_address(req[2] & 0x7F); return; }
-    else if (r == 7) { debug_printf_stub(STR(0x4008F94C)); debug_printf_stub(STR(0x4008D054)); }
-    else if (r == 0x0C) { debug_printf_stub(STR(0x4008FF84)); debug_printf_stub(STR(0x4008D29C)); }
+    if (r == 6) { debug_printf_stub(STR(4008f92c)); usb_get_descriptor(req); return; }
+    if (r == 9) { debug_printf_stub(STR(4008ee60)); usb_set_configuration(); return; }
+    if (r == 8) { debug_printf_stub(STR(4008ee74)); debug_printf_stub(STR(4008d020)); }
+    else if (r == 0x0B) { debug_printf_stub(STR(4008f93c)); debug_printf_stub(STR(4008d23c)); }
+    else if (r == 0x0A) { debug_printf_stub(STR(4008d26c)); }
+    else if (r == 5) { debug_printf_stub(STR(4008ff78)); usb_set_address(req[2] & 0x7F); return; }
+    else if (r == 7) { debug_printf_stub(STR(4008f94c)); debug_printf_stub(STR(4008d054)); }
+    else if (r == 0x0C) { debug_printf_stub(STR(4008ff84)); debug_printf_stub(STR(4008d29c)); }
     else if (r == 1) {
         u32 idx = *(unsigned short *)(req + 4);
-        debug_printf_stub(STR(0x4008F95C));
+        debug_printf_stub(STR(4008f95c));
         usb_device_clear_ep_halt(idx);
     } else {
-        debug_printf_stub(STR(0x4008F96C));
-        debug_printf_stub(STR(0x4008D460), r);
+        debug_printf_stub(STR(4008f96c));
+        debug_printf_stub(STR(4008d460), r);
     }
     usb_device_read_data_status_ep0(1);
 }

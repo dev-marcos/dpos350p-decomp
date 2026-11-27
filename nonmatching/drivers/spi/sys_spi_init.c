@@ -21,7 +21,7 @@ void sys_spi_init(int spi)
             n = nn;
             if (n >= 10) break;
         }
-        dbg_printf(STR(0x4008E110), spi, rate, n);
+        dbg_printf(STR(4008e110), spi, rate, n);
         writel_f(base + 0x24, (u32)n | 0x1000);
     }
     v = (readl_f(base + 4) & ~4u) | 0x83 | 0x80000000u;

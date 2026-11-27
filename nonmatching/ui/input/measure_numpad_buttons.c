@@ -14,7 +14,7 @@
 
 void inv_left(u32 id) __asm__("ui_window_invalidate_from");
 
-#define CB 0x400617ACu
+#define CB (u32)CODE_ADDR(measure_values_clamp)
 
 void measure_numpad_buttons(void)
 {

@@ -632,13 +632,13 @@ ch2_menu_draw:  /* 0x4001f5a8 */
     add sp, sp, #0x14  /* 4001ff34 */
     pop {r4, r5, r6, r7, r8, sb, sl, fp, pc}  /* 4001ff38 */
 .Lp_4001ff3c:
-    .word graphics_4008a8d8  /* 4001ff3c */
+    .word d_4008a8d8  /* 4001ff3c */
 .Lp_4001ff40:
-    .word graphics_4008aa48  /* 4001ff40 */
+    .word d_4008aa48  /* 4001ff40 */
 .Lp_4001ff44:
     .byte 0x32, 0x30, 0x4d, 0x00  /* 4001ff44 */
 .Lp_4001ff48:
-    .word rodata_40090340  /* 4001ff48 */
+    .word d_40090340  /* 4001ff48 */
 .Lp_4001ff4c:
     .word 0x42e64520  /* 4001ff4c */
 .Lp_4001ff50:
@@ -650,13 +650,13 @@ ch2_menu_draw:  /* 0x4001f5a8 */
 .Lp_4001ff5c:
     .word 0x42e61ff8  /* 4001ff5c */
 .Lp_4001ff60:
-    .word graphics_4008a488  /* 4001ff60 */
+    .word d_4008a488  /* 4001ff60 */
 .Lp_4001ff64:
     .word 0x42c2fe74  /* 4001ff64 */
 .Lp_4001ff68:
-    .word graphics_4008a5f8  /* 4001ff68 */
+    .word d_4008a5f8  /* 4001ff68 */
 .Lp_4001ff6c:
-    .word rodata_400902c8  /* 4001ff6c */
+    .word d_400902c8  /* 4001ff6c */
 .Lp_4001ff70:
-    .word graphics_4008a768  /* 4001ff70 */
+    .word d_4008a768  /* 4001ff70 */
     .size ch2_menu_draw, . - ch2_menu_draw

@@ -14,7 +14,7 @@ void usb_phy_nop_raw(u32 x) __asm__("usb_phy_nop");
 
 void scsi_read_format_capacities(u32 lun)
 {
-    unsigned char *b = (unsigned char *)0x40095464u;
+    unsigned char *b = (unsigned char *)IMG(40095464);
     u32 n, s;
     if (scsi_lun_invalid(lun)) {
         usb_mass_set_sense(CBW_LUN, 2, 0x3A);   /* NOT READY, MEDIUM NOT PRESENT */

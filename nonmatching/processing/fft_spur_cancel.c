@@ -14,7 +14,7 @@
 #define SPT 0x42E3C000u
 #define SPEC 0x42D364B4u
 typedef long long (*f2lz_fn)(float) __attribute__((pcs("aapcs")));
-#define F2LZ(x) (((f2lz_fn)0x4006A4E9u)(x))   /* __aeabi_f2lz at 0x4006A4E8 is Thumb */
+#define F2LZ(x) (((f2lz_fn)CODE_ADDR(__aeabi_f2lz))(x))   /* __aeabi_f2lz at 0x4006A4E8 is Thumb */
 
 /* per mode word BLK+0xF4 = 0..3: values (float), bin indices (u16), mean (float), count (u16) */
 static void spur_lists(u32 sel, u32 *vals, u32 *idxs, u32 *mean, u32 *cntp)
@@ -30,7 +30,7 @@ static void spur_lists(u32 sel, u32 *vals, u32 *idxs, u32 *mean, u32 *cntp)
 #define HIN 0x42D164B4u
 #define HX 0x42BEFE74u
 typedef double (*dfn)(double);
-#define COS_T ((dfn)0x40066531u)   /* cos at 0x40066530 is Thumb */
+#define COS_T ((dfn)CODE_ADDR(cos))   /* cos at 0x40066530 is Thumb */
 
 void fft_spur_cancel(void)
 {

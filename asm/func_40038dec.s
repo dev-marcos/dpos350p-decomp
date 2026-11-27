@@ -31,6 +31,8 @@ level_label_dbmv:  /* 0x40038dec */
 .Lp_40038e34:
     .word 0x00000000  /* 40038e34 */
     .word 0x408f4000  /* 40038e38 */
+    .global d_40038e3c
+d_40038e3c:
 .Lp_40038e3c:
     .byte 0x64, 0x42, 0x00, 0x00  /* 40038e3c */
     .size level_label_dbmv, . - level_label_dbmv

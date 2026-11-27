@@ -15,6 +15,6 @@ void usb_set_address(u32 addr)
     delay_ms(1);
     usb_device_set_address((unsigned char)addr);
     usb_device_read_data_status_ep0(1);
-    debug_printf_stub(STR(0x4008E7CC), addr);
+    debug_printf_stub(STR(4008e7cc), addr);
     usb_device_set_ep0_state(0);
 }

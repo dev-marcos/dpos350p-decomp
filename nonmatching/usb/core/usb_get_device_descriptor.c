@@ -14,11 +14,11 @@ void usb_get_device_descriptor(unsigned char *req)
     u32 len = *(unsigned short *)(req + 6);
     unsigned char *d = 0;
     switch (current_usb_type) {
-    case 3: d = (unsigned char *)0x4009543Cu; break;
-    case 1: d = (unsigned char *)0x40095428u; break;
-    case 2: d = (unsigned char *)0x40095414u; break;
-    case 4: d = (unsigned char *)0x40095450u; break;
+    case 3: d = (unsigned char *)IMG(4009543c); break;
+    case 1: d = (unsigned char *)IMG(40095428); break;
+    case 2: d = (unsigned char *)IMG(40095414); break;
+    case 4: d = (unsigned char *)IMG(40095450); break;
     }
-    debug_printf_stub(STR(0x4008E148));
+    debug_printf_stub(STR(4008e148));
     usb_device_write_data_ep_pack(0, d, len < 0x12 ? len : 0x12);
 }

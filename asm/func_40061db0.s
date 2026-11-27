@@ -98,7 +98,7 @@ fft_levels_db:  /* 0x40061db0 */
 .Lp_40061eec:
     .word 0x42e583a0  /* 40061eec */
 .Lp_40061ef0:
-    .word rodata_40095498  /* 40061ef0 */
+    .word d_40095498  /* 40061ef0 */
 .Lp_40061ef4:
     .word 0x42e68bb0  /* 40061ef4 */
 .Lp_40061ef8:

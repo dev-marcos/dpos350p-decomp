@@ -17,7 +17,7 @@
 
 #define MB32(o) (*(volatile u32 *)(0x42E68668u + (o)))
 #define COLOUR16 (*(volatile unsigned short *)0x42E68660u)
-#define SCREEN (*(volatile u32 *)0x40095498u)
+#define SCREEN (*(volatile u32 *)IMG(40095498))
 
 static void scroll_rows(u32 buf, u32 ow, u32 oh)
 {

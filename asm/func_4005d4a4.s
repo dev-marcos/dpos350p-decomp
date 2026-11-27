@@ -247,8 +247,8 @@ pow:  /* 0x4005d4a4 */
     movw fp, #0  /* 4005d756 */
     movw sl, #0  /* 4005d75a */
     movt fp, #0x4000  /* 4005d75e */
-    movw r1, #:lower16:(graphics_40084a10 - . + 0)  /* 4005d762 */
-    movt r1, #:upper16:(graphics_40084a10 - . + 4)  /* 4005d766 */
+    movw r1, #:lower16:(d_40084a10 - . + 0)  /* 4005d762 */
+    movt r1, #:upper16:(d_40084a10 - . + 4)  /* 4005d766 */
     add r1, pc  /* 4005d76a */
     sub.w r1, r1, #0xc  /* 4005d76c */
     vmul.f64 d3, d2, d2  /* 4005d770 */

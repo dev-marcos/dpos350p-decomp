@@ -37,19 +37,19 @@ usb_mass_send_csw:  /* 0x4006c08c */
 .Lp_4006c0e4:
     .word 0x42e68c10  /* 4006c0e4 */
 .Lp_4006c0e8:
-    .word rodata_4008f8dc  /* 4006c0e8 */
+    .word d_4008f8dc  /* 4006c0e8 */
 .Lp_4006c0ec:
     .word 0x43425355  /* 4006c0ec */
 .Lp_4006c0f0:
     .word 0x42e68d23  /* 4006c0f0 */
 .Lp_4006c0f4:
-    .word rodata_4008f8ec  /* 4006c0f4 */
+    .word d_4008f8ec  /* 4006c0f4 */
 .Lp_4006c0f8:
-    .word rodata_4008f8fc  /* 4006c0f8 */
+    .word d_4008f8fc  /* 4006c0f8 */
 .Lp_4006c0fc:
-    .word rodata_4008f90c  /* 4006c0fc */
+    .word d_4008f90c  /* 4006c0fc */
 .Lp_4006c100:
-    .word rodata_4008f91c  /* 4006c100 */
+    .word d_4008f91c  /* 4006c100 */
 .Lp_4006c104:
     .word 0x53425355  /* 4006c104 */
     .size usb_mass_send_csw, . - usb_mass_send_csw

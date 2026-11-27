@@ -9,7 +9,7 @@
 
 u32 usb_phy_close_clock_Device(void)
 {
-    debug_printf_stub(STR(0x4008E298));
+    debug_printf_stub(STR(4008e298));
     REG32(0x01C200CCu) &= ~0x100u;
     REG32(0x01C200CCu) &= ~1u;
     REG32(0x01C20060u) &= ~0x1000000u;

@@ -12,8 +12,8 @@ log10:  /* 0x4005dad0 */
     cmn.w r0, r1, lsl #1  /* 4005dadc */
     bhs.w loc_4006a3d4  /* 4005dae0 */
     vmrs apsr_nzcv, fpscr  /* 4005dae4 */
-    movw r0, #:lower16:graphics_4008c7f0  /* 4005dae8 */
-    movt r0, #:upper16:graphics_4008c7f0  /* 4005daec */
+    movw r0, #:lower16:d_4008c7f0  /* 4005dae8 */
+    movt r0, #:upper16:d_4008c7f0  /* 4005daec */
     vldmia r0!, {d1, d2, d3, d4}  /* 4005daf0 */
     ble.w loc_4006a3e8  /* 4005daf4 */
     lsrs.w ip, r1, #0x14  /* 4005daf8 */

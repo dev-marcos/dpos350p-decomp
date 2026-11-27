@@ -88,5 +88,5 @@ battery_icon_draw:  /* 0x4001c200 */
     add sp, sp, #4  /* 4001c33c */
     pop {r4, r5, r6, r7, pc}  /* 4001c340 */
 .Lp_4001c344:
-    .word rodata_400902d0  /* 4001c344 */
+    .word d_400902d0  /* 4001c344 */
     .size battery_icon_draw, . - battery_icon_draw

@@ -48,7 +48,7 @@ void display_menu_draw(void)
     text_spacing_set(1);
     draw_colour_set(THEME_MENU_BG);
     rect_fill(x, y, w, h);
-    label_row(x, r0, 0x40089628u, UI_TEXT(16));
+    label_row(x, r0, IMGU(40089628), UI_TEXT(16));
     text_shadow_draw((x + w - 0x1C) & 0xFFFF, (r0 + 3) & 0xFFFF, "%", 1, 2, 0);
     text_spacing_set(3);
     nw = number_text_width_mode0_raw(SI(waveform_light), 0, 0);
@@ -58,30 +58,30 @@ void display_menu_draw(void)
     touch_button_set_rect(x, (r0 + 0x3C - 0x16) & 0xFFFF, w, 0x3C, (volatile unsigned char *)(BTN + 0x20A));
 
     r = (r0 + 0x3C + 0x3D) & 0xFFFF;
-    label_row(x, r, 0x40089798u, UI_TEXT(17));
+    label_row(x, r, IMGU(40089798), UI_TEXT(17));
     switch_on_off_draw((x + 0x172) & 0xFFFF, (r - 5) & 0xFFFF, SI(palette_alt));
     wide_button(x, r, w, 0x214);
     r = (r + 0x3C) & 0xFFFF;
-    label_row(x, r, 0x40089908u, UI_TEXT(18));
+    label_row(x, r, IMGU(40089908), UI_TEXT(18));
     switch_on_off_draw((x + 0x172) & 0xFFFF, (r - 5) & 0xFFFF, SI(f_652));
     wide_button(x, r, w, 0x21E);
     r = (r + 0x3C) & 0xFFFF;
-    label_row(x, r, 0x40089A78u, UI_TEXT(19));
+    label_row(x, r, IMGU(40089a78), UI_TEXT(19));
     switch_on_off_draw((x + 0x172) & 0xFFFF, (r - 5) & 0xFFFF, SI(grid_on));
     wide_button(x, r, w, 0x228);
 
     r += 0x3C;
-    label_row(x, r, 0x40089D58u, UI_TEXT(20));
+    label_row(x, r, IMGU(40089d58), UI_TEXT(20));
     icon_19c7c_draw((x + 0x186) & 0xFFFF, r & 0xFFFF);
     wide_button(x, r, w, 0x232);
     r += 0x3C;
-    label_row(x, r, 0x4008BB88u, UI_TEXT(21));
+    label_row(x, r, IMGU(4008bb88), UI_TEXT(21));
     icon_19c7c_draw((x + 0x186) & 0xFFFF, r & 0xFFFF);
     wide_button(x, r, w, 0x23C);
     r += 0x3C;
-    label_row(x, r, 0x4008BCF8u, UI_TEXT(22));
+    label_row(x, r, IMGU(4008bcf8), UI_TEXT(22));
     text_spacing_set(2);
-    text_shadow_draw((H16(0x42E68BE4u) + x + 0x41) & 0xFFFF, (r + 3) & 0xFFFF, (const char *)0x40090318u, 1, 2, 0);
+    text_shadow_draw((H16(0x42E68BE4u) + x + 0x41) & 0xFFFF, (r + 3) & 0xFFFF, (const char *)IMG(40090318), 1, 2, 0);
     text_spacing_set(1);
     icon_19c7c_draw((x + 0x186) & 0xFFFF, r & 0xFFFF);
     wide_button(x, r, w, 0x246);

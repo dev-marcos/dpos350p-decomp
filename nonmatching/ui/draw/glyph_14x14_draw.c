@@ -11,7 +11,7 @@
 
 void glyph_14x14_draw(u32 x, u32 y, unsigned short code)
 {
-    const unsigned char *p = (const unsigned char *)0x40000040u +
+    const unsigned char *p = (const unsigned char *)IMG(40000040) +
         (unsigned short)((code >> 8) * 0x5E + (code & 0xFF) - 0x4141) * 28u;
     int row, col;
     for (row = 0; row < 14; row++)

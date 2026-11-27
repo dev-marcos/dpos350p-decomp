@@ -102,7 +102,7 @@ void levels_graph_draw(void)
         if (i == 0) {
             level_value_draw(5, (sb + 6) & 0xFFFF, 1, v);
             if (!LEVELS(panel_b_on) || !LEVELS(panel_a_on))
-                text_draw(6, (sb + 0x18) & 0xFFFF, (const char *)0x40062684u);
+                text_draw(6, (sb + 0x18) & 0xFFFF, (const char *)IMG(40062684));
         } else {
             level_value_draw(5, (i == LEVELS(grid_y_div) ? 0xFFFA + sb : sb) & 0xFFFF, 1, v);
         }

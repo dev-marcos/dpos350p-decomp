@@ -7,4 +7,4 @@
 #include "usb/mass_storage.h"
 #include "shared/usb.h"
 
-void scsi_mode_sense10(u32 lun) { (void)lun; usb_mass_send_data((unsigned char *)0x4009547Cu, 8); }
+void scsi_mode_sense10(u32 lun) { (void)lun; usb_mass_send_data((unsigned char *)IMG(4009547c), 8); }

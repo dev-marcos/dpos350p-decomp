@@ -87,9 +87,9 @@ ff_wtoupper:  /* 0x40069e38 */
     uxth r0, r0  /* 40069f40 */
     ldm sp!, {pc}  /* 40069f44 */
 .Lp_40069f48:
-    .word graphics_4008c50c  /* 40069f48 */
+    .word d_4008c50c  /* 40069f48 */
 .Lp_40069f4c:
-    .word graphics_400877ac  /* 40069f4c */
+    .word d_400877ac  /* 40069f4c */
 .Lp_40069f50:
-    .word graphics_4008c6e0  /* 40069f50 */
+    .word d_4008c6e0  /* 40069f50 */
     .size ff_wtoupper, . - ff_wtoupper

@@ -11,7 +11,7 @@
 void scsi_invalid_cmd(u32 lun)
 {
     (void)lun;
-    debug_printf_stub(STR(0x4008EFC8));
+    debug_printf_stub(STR(4008efc8));
     usb_mass_set_sense(CBW_LUN, 5, 0x20);
     usb_mass_send_csw(1, 0);
 }

@@ -3,2258 +3,2260 @@
     .arm
     .global rodata_4008cfb8
 rodata_4008cfb8:
+    .global d_4008cfb8
+d_4008cfb8:
     .incbin "data/rodata_4008cfb8.bin", 0, 52  /* 4008cfb8 */
-    .global rodata_4008cfec
-rodata_4008cfec:
+    .global d_4008cfec
+d_4008cfec:
     .incbin "data/rodata_4008cfb8.bin", 52, 52  /* 4008cfec */
-    .global rodata_4008d020
-rodata_4008d020:
+    .global d_4008d020
+d_4008d020:
     .incbin "data/rodata_4008cfb8.bin", 104, 52  /* 4008d020 */
-    .global rodata_4008d054
-rodata_4008d054:
+    .global d_4008d054
+d_4008d054:
     .incbin "data/rodata_4008cfb8.bin", 156, 52  /* 4008d054 */
-    .global rodata_4008d088
-rodata_4008d088:
+    .global d_4008d088
+d_4008d088:
     .incbin "data/rodata_4008cfb8.bin", 208, 52  /* 4008d088 */
-    .global rodata_4008d0bc
-rodata_4008d0bc:
+    .global d_4008d0bc
+d_4008d0bc:
     .incbin "data/rodata_4008cfb8.bin", 260, 48  /* 4008d0bc */
-    .global rodata_4008d0ec
-rodata_4008d0ec:
+    .global d_4008d0ec
+d_4008d0ec:
     .incbin "data/rodata_4008cfb8.bin", 308, 48  /* 4008d0ec */
-    .global rodata_4008d11c
-rodata_4008d11c:
+    .global d_4008d11c
+d_4008d11c:
     .incbin "data/rodata_4008cfb8.bin", 356, 48  /* 4008d11c */
-    .global rodata_4008d14c
-rodata_4008d14c:
+    .global d_4008d14c
+d_4008d14c:
     .incbin "data/rodata_4008cfb8.bin", 404, 48  /* 4008d14c */
-    .global rodata_4008d17c
-rodata_4008d17c:
+    .global d_4008d17c
+d_4008d17c:
     .incbin "data/rodata_4008cfb8.bin", 452, 48  /* 4008d17c */
-    .global rodata_4008d1ac
-rodata_4008d1ac:
+    .global d_4008d1ac
+d_4008d1ac:
     .incbin "data/rodata_4008cfb8.bin", 500, 48  /* 4008d1ac */
-    .global rodata_4008d1dc
-rodata_4008d1dc:
+    .global d_4008d1dc
+d_4008d1dc:
     .incbin "data/rodata_4008cfb8.bin", 548, 48  /* 4008d1dc */
-    .global rodata_4008d20c
-rodata_4008d20c:
+    .global d_4008d20c
+d_4008d20c:
     .incbin "data/rodata_4008cfb8.bin", 596, 48  /* 4008d20c */
-    .global rodata_4008d23c
-rodata_4008d23c:
+    .global d_4008d23c
+d_4008d23c:
     .incbin "data/rodata_4008cfb8.bin", 644, 48  /* 4008d23c */
-    .global rodata_4008d26c
-rodata_4008d26c:
+    .global d_4008d26c
+d_4008d26c:
     .incbin "data/rodata_4008cfb8.bin", 692, 48  /* 4008d26c */
-    .global rodata_4008d29c
-rodata_4008d29c:
+    .global d_4008d29c
+d_4008d29c:
     .incbin "data/rodata_4008cfb8.bin", 740, 48  /* 4008d29c */
-    .global rodata_4008d2cc
-rodata_4008d2cc:
+    .global d_4008d2cc
+d_4008d2cc:
     .incbin "data/rodata_4008cfb8.bin", 788, 48  /* 4008d2cc */
-    .global rodata_4008d2fc
-rodata_4008d2fc:
+    .global d_4008d2fc
+d_4008d2fc:
     .incbin "data/rodata_4008cfb8.bin", 836, 48  /* 4008d2fc */
-    .global rodata_4008d32c
-rodata_4008d32c:
+    .global d_4008d32c
+d_4008d32c:
     .incbin "data/rodata_4008cfb8.bin", 884, 44  /* 4008d32c */
-    .global rodata_4008d358
-rodata_4008d358:
+    .global d_4008d358
+d_4008d358:
     .incbin "data/rodata_4008cfb8.bin", 928, 44  /* 4008d358 */
-    .global rodata_4008d384
-rodata_4008d384:
+    .global d_4008d384
+d_4008d384:
     .incbin "data/rodata_4008cfb8.bin", 972, 44  /* 4008d384 */
-    .global rodata_4008d3b0
-rodata_4008d3b0:
+    .global d_4008d3b0
+d_4008d3b0:
     .incbin "data/rodata_4008cfb8.bin", 1016, 44  /* 4008d3b0 */
-    .global rodata_4008d3dc
-rodata_4008d3dc:
+    .global d_4008d3dc
+d_4008d3dc:
     .incbin "data/rodata_4008cfb8.bin", 1060, 44  /* 4008d3dc */
-    .global rodata_4008d408
-rodata_4008d408:
+    .global d_4008d408
+d_4008d408:
     .incbin "data/rodata_4008cfb8.bin", 1104, 44  /* 4008d408 */
-    .global rodata_4008d434
-rodata_4008d434:
+    .global d_4008d434
+d_4008d434:
     .incbin "data/rodata_4008cfb8.bin", 1148, 44  /* 4008d434 */
-    .global rodata_4008d460
-rodata_4008d460:
+    .global d_4008d460
+d_4008d460:
     .incbin "data/rodata_4008cfb8.bin", 1192, 44  /* 4008d460 */
-    .global rodata_4008d48c
-rodata_4008d48c:
+    .global d_4008d48c
+d_4008d48c:
     .incbin "data/rodata_4008cfb8.bin", 1236, 44  /* 4008d48c */
-    .global rodata_4008d4b8
-rodata_4008d4b8:
+    .global d_4008d4b8
+d_4008d4b8:
     .incbin "data/rodata_4008cfb8.bin", 1280, 40  /* 4008d4b8 */
-    .global rodata_4008d4e0
-rodata_4008d4e0:
+    .global d_4008d4e0
+d_4008d4e0:
     .incbin "data/rodata_4008cfb8.bin", 1320, 40  /* 4008d4e0 */
-    .global rodata_4008d508
-rodata_4008d508:
+    .global d_4008d508
+d_4008d508:
     .incbin "data/rodata_4008cfb8.bin", 1360, 40  /* 4008d508 */
-    .global rodata_4008d530
-rodata_4008d530:
+    .global d_4008d530
+d_4008d530:
     .incbin "data/rodata_4008cfb8.bin", 1400, 40  /* 4008d530 */
-    .global rodata_4008d558
-rodata_4008d558:
+    .global d_4008d558
+d_4008d558:
     .incbin "data/rodata_4008cfb8.bin", 1440, 40  /* 4008d558 */
-    .global rodata_4008d580
-rodata_4008d580:
+    .global d_4008d580
+d_4008d580:
     .incbin "data/rodata_4008cfb8.bin", 1480, 40  /* 4008d580 */
-    .global rodata_4008d5a8
-rodata_4008d5a8:
+    .global d_4008d5a8
+d_4008d5a8:
     .incbin "data/rodata_4008cfb8.bin", 1520, 40  /* 4008d5a8 */
-    .global rodata_4008d5d0
-rodata_4008d5d0:
+    .global d_4008d5d0
+d_4008d5d0:
     .incbin "data/rodata_4008cfb8.bin", 1560, 40  /* 4008d5d0 */
-    .global rodata_4008d5f8
-rodata_4008d5f8:
+    .global d_4008d5f8
+d_4008d5f8:
     .incbin "data/rodata_4008cfb8.bin", 1600, 40  /* 4008d5f8 */
-    .global rodata_4008d620
-rodata_4008d620:
+    .global d_4008d620
+d_4008d620:
     .incbin "data/rodata_4008cfb8.bin", 1640, 40  /* 4008d620 */
-    .global rodata_4008d648
-rodata_4008d648:
+    .global d_4008d648
+d_4008d648:
     .incbin "data/rodata_4008cfb8.bin", 1680, 40  /* 4008d648 */
-    .global rodata_4008d670
-rodata_4008d670:
+    .global d_4008d670
+d_4008d670:
     .incbin "data/rodata_4008cfb8.bin", 1720, 40  /* 4008d670 */
-    .global rodata_4008d698
-rodata_4008d698:
+    .global d_4008d698
+d_4008d698:
     .incbin "data/rodata_4008cfb8.bin", 1760, 40  /* 4008d698 */
-    .global rodata_4008d6c0
-rodata_4008d6c0:
+    .global d_4008d6c0
+d_4008d6c0:
     .incbin "data/rodata_4008cfb8.bin", 1800, 40  /* 4008d6c0 */
-    .global rodata_4008d6e8
-rodata_4008d6e8:
+    .global d_4008d6e8
+d_4008d6e8:
     .incbin "data/rodata_4008cfb8.bin", 1840, 40  /* 4008d6e8 */
-    .global rodata_4008d710
-rodata_4008d710:
+    .global d_4008d710
+d_4008d710:
     .incbin "data/rodata_4008cfb8.bin", 1880, 40  /* 4008d710 */
-    .global rodata_4008d738
-rodata_4008d738:
+    .global d_4008d738
+d_4008d738:
     .incbin "data/rodata_4008cfb8.bin", 1920, 40  /* 4008d738 */
-    .global rodata_4008d760
-rodata_4008d760:
+    .global d_4008d760
+d_4008d760:
     .incbin "data/rodata_4008cfb8.bin", 1960, 40  /* 4008d760 */
-    .global rodata_4008d788
-rodata_4008d788:
+    .global d_4008d788
+d_4008d788:
     .incbin "data/rodata_4008cfb8.bin", 2000, 40  /* 4008d788 */
-    .global rodata_4008d7b0
-rodata_4008d7b0:
+    .global d_4008d7b0
+d_4008d7b0:
     .incbin "data/rodata_4008cfb8.bin", 2040, 36  /* 4008d7b0 */
-    .global rodata_4008d7d4
-rodata_4008d7d4:
+    .global d_4008d7d4
+d_4008d7d4:
     .incbin "data/rodata_4008cfb8.bin", 2076, 36  /* 4008d7d4 */
-    .global rodata_4008d7f8
-rodata_4008d7f8:
+    .global d_4008d7f8
+d_4008d7f8:
     .incbin "data/rodata_4008cfb8.bin", 2112, 36  /* 4008d7f8 */
-    .global rodata_4008d81c
-rodata_4008d81c:
+    .global d_4008d81c
+d_4008d81c:
     .incbin "data/rodata_4008cfb8.bin", 2148, 36  /* 4008d81c */
-    .global rodata_4008d840
-rodata_4008d840:
+    .global d_4008d840
+d_4008d840:
     .incbin "data/rodata_4008cfb8.bin", 2184, 36  /* 4008d840 */
-    .global rodata_4008d864
-rodata_4008d864:
+    .global d_4008d864
+d_4008d864:
     .incbin "data/rodata_4008cfb8.bin", 2220, 36  /* 4008d864 */
-    .global rodata_4008d888
-rodata_4008d888:
+    .global d_4008d888
+d_4008d888:
     .incbin "data/rodata_4008cfb8.bin", 2256, 36  /* 4008d888 */
-    .global rodata_4008d8ac
-rodata_4008d8ac:
+    .global d_4008d8ac
+d_4008d8ac:
     .incbin "data/rodata_4008cfb8.bin", 2292, 36  /* 4008d8ac */
-    .global rodata_4008d8d0
-rodata_4008d8d0:
+    .global d_4008d8d0
+d_4008d8d0:
     .incbin "data/rodata_4008cfb8.bin", 2328, 36  /* 4008d8d0 */
-    .global rodata_4008d8f4
-rodata_4008d8f4:
+    .global d_4008d8f4
+d_4008d8f4:
     .incbin "data/rodata_4008cfb8.bin", 2364, 36  /* 4008d8f4 */
-    .global rodata_4008d918
-rodata_4008d918:
+    .global d_4008d918
+d_4008d918:
     .incbin "data/rodata_4008cfb8.bin", 2400, 36  /* 4008d918 */
-    .global rodata_4008d93c
-rodata_4008d93c:
+    .global d_4008d93c
+d_4008d93c:
     .incbin "data/rodata_4008cfb8.bin", 2436, 36  /* 4008d93c */
-    .global rodata_4008d960
-rodata_4008d960:
+    .global d_4008d960
+d_4008d960:
     .incbin "data/rodata_4008cfb8.bin", 2472, 36  /* 4008d960 */
-    .global rodata_4008d984
-rodata_4008d984:
+    .global d_4008d984
+d_4008d984:
     .incbin "data/rodata_4008cfb8.bin", 2508, 36  /* 4008d984 */
-    .global rodata_4008d9a8
-rodata_4008d9a8:
+    .global d_4008d9a8
+d_4008d9a8:
     .incbin "data/rodata_4008cfb8.bin", 2544, 36  /* 4008d9a8 */
-    .global rodata_4008d9cc
-rodata_4008d9cc:
+    .global d_4008d9cc
+d_4008d9cc:
     .incbin "data/rodata_4008cfb8.bin", 2580, 36  /* 4008d9cc */
-    .global rodata_4008d9f0
-rodata_4008d9f0:
+    .global d_4008d9f0
+d_4008d9f0:
     .word __scatterload_zeroinit - .  /* 4008d9f0 */
     .incbin "data/rodata_4008cfb8.bin", 2620, 12  /* 4008d9f4 */
-    .global rodata_4008da00
-rodata_4008da00:
+    .global d_4008da00
+d_4008da00:
     .incbin "data/rodata_4008cfb8.bin", 2632, 32  /* 4008da00 */
-    .global rodata_4008da20
-rodata_4008da20:
+    .global d_4008da20
+d_4008da20:
     .incbin "data/rodata_4008cfb8.bin", 2664, 32  /* 4008da20 */
-    .global rodata_4008da40
-rodata_4008da40:
+    .global d_4008da40
+d_4008da40:
     .incbin "data/rodata_4008cfb8.bin", 2696, 32  /* 4008da40 */
-    .global rodata_4008da60
-rodata_4008da60:
+    .global d_4008da60
+d_4008da60:
     .incbin "data/rodata_4008cfb8.bin", 2728, 32  /* 4008da60 */
-    .global rodata_4008da80
-rodata_4008da80:
+    .global d_4008da80
+d_4008da80:
     .incbin "data/rodata_4008cfb8.bin", 2760, 32  /* 4008da80 */
-    .global rodata_4008daa0
-rodata_4008daa0:
+    .global d_4008daa0
+d_4008daa0:
     .incbin "data/rodata_4008cfb8.bin", 2792, 32  /* 4008daa0 */
-    .global rodata_4008dac0
-rodata_4008dac0:
+    .global d_4008dac0
+d_4008dac0:
     .incbin "data/rodata_4008cfb8.bin", 2824, 32  /* 4008dac0 */
-    .global rodata_4008dae0
-rodata_4008dae0:
+    .global d_4008dae0
+d_4008dae0:
     .incbin "data/rodata_4008cfb8.bin", 2856, 32  /* 4008dae0 */
-    .global rodata_4008db00
-rodata_4008db00:
+    .global d_4008db00
+d_4008db00:
     .incbin "data/rodata_4008cfb8.bin", 2888, 32  /* 4008db00 */
-    .global rodata_4008db20
-rodata_4008db20:
+    .global d_4008db20
+d_4008db20:
     .incbin "data/rodata_4008cfb8.bin", 2920, 32  /* 4008db20 */
-    .global rodata_4008db40
-rodata_4008db40:
+    .global d_4008db40
+d_4008db40:
     .incbin "data/rodata_4008cfb8.bin", 2952, 32  /* 4008db40 */
-    .global rodata_4008db60
-rodata_4008db60:
+    .global d_4008db60
+d_4008db60:
     .incbin "data/rodata_4008cfb8.bin", 2984, 32  /* 4008db60 */
-    .global rodata_4008db80
-rodata_4008db80:
+    .global d_4008db80
+d_4008db80:
     .incbin "data/rodata_4008cfb8.bin", 3016, 32  /* 4008db80 */
-    .global rodata_4008dba0
-rodata_4008dba0:
+    .global d_4008dba0
+d_4008dba0:
     .incbin "data/rodata_4008cfb8.bin", 3048, 32  /* 4008dba0 */
-    .global rodata_4008dbc0
-rodata_4008dbc0:
+    .global d_4008dbc0
+d_4008dbc0:
     .incbin "data/rodata_4008cfb8.bin", 3080, 32  /* 4008dbc0 */
-    .global rodata_4008dbe0
-rodata_4008dbe0:
+    .global d_4008dbe0
+d_4008dbe0:
     .incbin "data/rodata_4008cfb8.bin", 3112, 32  /* 4008dbe0 */
-    .global rodata_4008dc00
-rodata_4008dc00:
+    .global d_4008dc00
+d_4008dc00:
     .incbin "data/rodata_4008cfb8.bin", 3144, 32  /* 4008dc00 */
-    .global rodata_4008dc20
-rodata_4008dc20:
+    .global d_4008dc20
+d_4008dc20:
     .incbin "data/rodata_4008cfb8.bin", 3176, 32  /* 4008dc20 */
-    .global rodata_4008dc40
-rodata_4008dc40:
+    .global d_4008dc40
+d_4008dc40:
     .incbin "data/rodata_4008cfb8.bin", 3208, 28  /* 4008dc40 */
-    .global rodata_4008dc5c
-rodata_4008dc5c:
+    .global d_4008dc5c
+d_4008dc5c:
     .incbin "data/rodata_4008cfb8.bin", 3236, 28  /* 4008dc5c */
-    .global rodata_4008dc78
-rodata_4008dc78:
+    .global d_4008dc78
+d_4008dc78:
     .incbin "data/rodata_4008cfb8.bin", 3264, 28  /* 4008dc78 */
-    .global rodata_4008dc94
-rodata_4008dc94:
+    .global d_4008dc94
+d_4008dc94:
     .incbin "data/rodata_4008cfb8.bin", 3292, 28  /* 4008dc94 */
-    .global rodata_4008dcb0
-rodata_4008dcb0:
+    .global d_4008dcb0
+d_4008dcb0:
     .incbin "data/rodata_4008cfb8.bin", 3320, 28  /* 4008dcb0 */
-    .global rodata_4008dccc
-rodata_4008dccc:
+    .global d_4008dccc
+d_4008dccc:
     .incbin "data/rodata_4008cfb8.bin", 3348, 28  /* 4008dccc */
-    .global rodata_4008dce8
-rodata_4008dce8:
+    .global d_4008dce8
+d_4008dce8:
     .incbin "data/rodata_4008cfb8.bin", 3376, 28  /* 4008dce8 */
-    .global rodata_4008dd04
-rodata_4008dd04:
+    .global d_4008dd04
+d_4008dd04:
     .incbin "data/rodata_4008cfb8.bin", 3404, 28  /* 4008dd04 */
-    .global rodata_4008dd20
-rodata_4008dd20:
+    .global d_4008dd20
+d_4008dd20:
     .incbin "data/rodata_4008cfb8.bin", 3432, 28  /* 4008dd20 */
-    .global rodata_4008dd3c
-rodata_4008dd3c:
+    .global d_4008dd3c
+d_4008dd3c:
     .incbin "data/rodata_4008cfb8.bin", 3460, 28  /* 4008dd3c */
-    .global rodata_4008dd58
-rodata_4008dd58:
+    .global d_4008dd58
+d_4008dd58:
     .incbin "data/rodata_4008cfb8.bin", 3488, 28  /* 4008dd58 */
-    .global rodata_4008dd74
-rodata_4008dd74:
+    .global d_4008dd74
+d_4008dd74:
     .incbin "data/rodata_4008cfb8.bin", 3516, 28  /* 4008dd74 */
-    .global rodata_4008dd90
-rodata_4008dd90:
+    .global d_4008dd90
+d_4008dd90:
     .incbin "data/rodata_4008cfb8.bin", 3544, 28  /* 4008dd90 */
-    .global rodata_4008ddac
-rodata_4008ddac:
+    .global d_4008ddac
+d_4008ddac:
     .incbin "data/rodata_4008cfb8.bin", 3572, 28  /* 4008ddac */
-    .global rodata_4008ddc8
-rodata_4008ddc8:
+    .global d_4008ddc8
+d_4008ddc8:
     .incbin "data/rodata_4008cfb8.bin", 3600, 28  /* 4008ddc8 */
-    .global rodata_4008dde4
-rodata_4008dde4:
+    .global d_4008dde4
+d_4008dde4:
     .incbin "data/rodata_4008cfb8.bin", 3628, 28  /* 4008dde4 */
-    .global rodata_4008de00
-rodata_4008de00:
+    .global d_4008de00
+d_4008de00:
     .incbin "data/rodata_4008cfb8.bin", 3656, 28  /* 4008de00 */
-    .global rodata_4008de1c
-rodata_4008de1c:
+    .global d_4008de1c
+d_4008de1c:
     .incbin "data/rodata_4008cfb8.bin", 3684, 28  /* 4008de1c */
-    .global rodata_4008de38
-rodata_4008de38:
+    .global d_4008de38
+d_4008de38:
     .incbin "data/rodata_4008cfb8.bin", 3712, 28  /* 4008de38 */
-    .global rodata_4008de54
-rodata_4008de54:
+    .global d_4008de54
+d_4008de54:
     .incbin "data/rodata_4008cfb8.bin", 3740, 28  /* 4008de54 */
-    .global rodata_4008de70
-rodata_4008de70:
+    .global d_4008de70
+d_4008de70:
     .incbin "data/rodata_4008cfb8.bin", 3768, 28  /* 4008de70 */
-    .global rodata_4008de8c
-rodata_4008de8c:
+    .global d_4008de8c
+d_4008de8c:
     .incbin "data/rodata_4008cfb8.bin", 3796, 28  /* 4008de8c */
-    .global rodata_4008dea8
-rodata_4008dea8:
+    .global d_4008dea8
+d_4008dea8:
     .incbin "data/rodata_4008cfb8.bin", 3824, 28  /* 4008dea8 */
-    .global rodata_4008dec4
-rodata_4008dec4:
+    .global d_4008dec4
+d_4008dec4:
     .incbin "data/rodata_4008cfb8.bin", 3852, 28  /* 4008dec4 */
-    .global rodata_4008dee0
-rodata_4008dee0:
+    .global d_4008dee0
+d_4008dee0:
     .incbin "data/rodata_4008cfb8.bin", 3880, 28  /* 4008dee0 */
-    .global rodata_4008defc
-rodata_4008defc:
+    .global d_4008defc
+d_4008defc:
     .incbin "data/rodata_4008cfb8.bin", 3908, 28  /* 4008defc */
-    .global rodata_4008df18
-rodata_4008df18:
+    .global d_4008df18
+d_4008df18:
     .incbin "data/rodata_4008cfb8.bin", 3936, 28  /* 4008df18 */
-    .global rodata_4008df34
-rodata_4008df34:
+    .global d_4008df34
+d_4008df34:
     .incbin "data/rodata_4008cfb8.bin", 3964, 28  /* 4008df34 */
-    .global rodata_4008df50
-rodata_4008df50:
+    .global d_4008df50
+d_4008df50:
     .incbin "data/rodata_4008cfb8.bin", 3992, 28  /* 4008df50 */
-    .global rodata_4008df6c
-rodata_4008df6c:
+    .global d_4008df6c
+d_4008df6c:
     .incbin "data/rodata_4008cfb8.bin", 4020, 28  /* 4008df6c */
-    .global rodata_4008df88
-rodata_4008df88:
+    .global d_4008df88
+d_4008df88:
     .incbin "data/rodata_4008cfb8.bin", 4048, 28  /* 4008df88 */
-    .global rodata_4008dfa4
-rodata_4008dfa4:
+    .global d_4008dfa4
+d_4008dfa4:
     .incbin "data/rodata_4008cfb8.bin", 4076, 28  /* 4008dfa4 */
-    .global rodata_4008dfc0
-rodata_4008dfc0:
+    .global d_4008dfc0
+d_4008dfc0:
     .incbin "data/rodata_4008cfb8.bin", 4104, 28  /* 4008dfc0 */
-    .global rodata_4008dfdc
-rodata_4008dfdc:
+    .global d_4008dfdc
+d_4008dfdc:
     .incbin "data/rodata_4008cfb8.bin", 4132, 28  /* 4008dfdc */
-    .global rodata_4008dff8
-rodata_4008dff8:
+    .global d_4008dff8
+d_4008dff8:
     .incbin "data/rodata_4008cfb8.bin", 4160, 28  /* 4008dff8 */
-    .global rodata_4008e014
-rodata_4008e014:
+    .global d_4008e014
+d_4008e014:
     .incbin "data/rodata_4008cfb8.bin", 4188, 28  /* 4008e014 */
-    .global rodata_4008e030
-rodata_4008e030:
+    .global d_4008e030
+d_4008e030:
     .incbin "data/rodata_4008cfb8.bin", 4216, 28  /* 4008e030 */
-    .global rodata_4008e04c
-rodata_4008e04c:
+    .global d_4008e04c
+d_4008e04c:
     .incbin "data/rodata_4008cfb8.bin", 4244, 28  /* 4008e04c */
-    .global rodata_4008e068
-rodata_4008e068:
+    .global d_4008e068
+d_4008e068:
     .incbin "data/rodata_4008cfb8.bin", 4272, 28  /* 4008e068 */
-    .global rodata_4008e084
-rodata_4008e084:
+    .global d_4008e084
+d_4008e084:
     .incbin "data/rodata_4008cfb8.bin", 4300, 28  /* 4008e084 */
-    .global rodata_4008e0a0
-rodata_4008e0a0:
+    .global d_4008e0a0
+d_4008e0a0:
     .incbin "data/rodata_4008cfb8.bin", 4328, 28  /* 4008e0a0 */
-    .global rodata_4008e0bc
-rodata_4008e0bc:
+    .global d_4008e0bc
+d_4008e0bc:
     .incbin "data/rodata_4008cfb8.bin", 4356, 28  /* 4008e0bc */
-    .global rodata_4008e0d8
-rodata_4008e0d8:
+    .global d_4008e0d8
+d_4008e0d8:
     .incbin "data/rodata_4008cfb8.bin", 4384, 28  /* 4008e0d8 */
-    .global rodata_4008e0f4
-rodata_4008e0f4:
+    .global d_4008e0f4
+d_4008e0f4:
     .incbin "data/rodata_4008cfb8.bin", 4412, 28  /* 4008e0f4 */
-    .global rodata_4008e110
-rodata_4008e110:
+    .global d_4008e110
+d_4008e110:
     .incbin "data/rodata_4008cfb8.bin", 4440, 28  /* 4008e110 */
-    .global rodata_4008e12c
-rodata_4008e12c:
+    .global d_4008e12c
+d_4008e12c:
     .incbin "data/rodata_4008cfb8.bin", 4468, 28  /* 4008e12c */
-    .global rodata_4008e148
-rodata_4008e148:
+    .global d_4008e148
+d_4008e148:
     .incbin "data/rodata_4008cfb8.bin", 4496, 28  /* 4008e148 */
-    .global rodata_4008e164
-rodata_4008e164:
+    .global d_4008e164
+d_4008e164:
     .incbin "data/rodata_4008cfb8.bin", 4524, 28  /* 4008e164 */
-    .global rodata_4008e180
-rodata_4008e180:
+    .global d_4008e180
+d_4008e180:
     .incbin "data/rodata_4008cfb8.bin", 4552, 28  /* 4008e180 */
-    .global rodata_4008e19c
-rodata_4008e19c:
+    .global d_4008e19c
+d_4008e19c:
     .incbin "data/rodata_4008cfb8.bin", 4580, 28  /* 4008e19c */
-    .global rodata_4008e1b8
-rodata_4008e1b8:
+    .global d_4008e1b8
+d_4008e1b8:
     .incbin "data/rodata_4008cfb8.bin", 4608, 28  /* 4008e1b8 */
-    .global rodata_4008e1d4
-rodata_4008e1d4:
+    .global d_4008e1d4
+d_4008e1d4:
     .incbin "data/rodata_4008cfb8.bin", 4636, 28  /* 4008e1d4 */
-    .global rodata_4008e1f0
-rodata_4008e1f0:
+    .global d_4008e1f0
+d_4008e1f0:
     .incbin "data/rodata_4008cfb8.bin", 4664, 28  /* 4008e1f0 */
-    .global rodata_4008e20c
-rodata_4008e20c:
+    .global d_4008e20c
+d_4008e20c:
     .incbin "data/rodata_4008cfb8.bin", 4692, 28  /* 4008e20c */
-    .global rodata_4008e228
-rodata_4008e228:
+    .global d_4008e228
+d_4008e228:
     .incbin "data/rodata_4008cfb8.bin", 4720, 28  /* 4008e228 */
-    .global rodata_4008e244
-rodata_4008e244:
+    .global d_4008e244
+d_4008e244:
     .incbin "data/rodata_4008cfb8.bin", 4748, 28  /* 4008e244 */
-    .global rodata_4008e260
-rodata_4008e260:
+    .global d_4008e260
+d_4008e260:
     .incbin "data/rodata_4008cfb8.bin", 4776, 28  /* 4008e260 */
-    .global rodata_4008e27c
-rodata_4008e27c:
+    .global d_4008e27c
+d_4008e27c:
     .incbin "data/rodata_4008cfb8.bin", 4804, 28  /* 4008e27c */
-    .global rodata_4008e298
-rodata_4008e298:
+    .global d_4008e298
+d_4008e298:
     .incbin "data/rodata_4008cfb8.bin", 4832, 28  /* 4008e298 */
-    .global rodata_4008e2b4
-rodata_4008e2b4:
+    .global d_4008e2b4
+d_4008e2b4:
     .incbin "data/rodata_4008cfb8.bin", 4860, 28  /* 4008e2b4 */
-    .global rodata_4008e2d0
-rodata_4008e2d0:
+    .global d_4008e2d0
+d_4008e2d0:
     .incbin "data/rodata_4008cfb8.bin", 4888, 28  /* 4008e2d0 */
-    .global rodata_4008e2ec
-rodata_4008e2ec:
+    .global d_4008e2ec
+d_4008e2ec:
     .incbin "data/rodata_4008cfb8.bin", 4916, 24  /* 4008e2ec */
-    .global rodata_4008e304
-rodata_4008e304:
+    .global d_4008e304
+d_4008e304:
     .incbin "data/rodata_4008cfb8.bin", 4940, 24  /* 4008e304 */
-    .global rodata_4008e31c
-rodata_4008e31c:
+    .global d_4008e31c
+d_4008e31c:
     .incbin "data/rodata_4008cfb8.bin", 4964, 24  /* 4008e31c */
-    .global rodata_4008e334
-rodata_4008e334:
+    .global d_4008e334
+d_4008e334:
     .incbin "data/rodata_4008cfb8.bin", 4988, 24  /* 4008e334 */
-    .global rodata_4008e34c
-rodata_4008e34c:
+    .global d_4008e34c
+d_4008e34c:
     .incbin "data/rodata_4008cfb8.bin", 5012, 24  /* 4008e34c */
-    .global rodata_4008e364
-rodata_4008e364:
+    .global d_4008e364
+d_4008e364:
     .incbin "data/rodata_4008cfb8.bin", 5036, 24  /* 4008e364 */
-    .global rodata_4008e37c
-rodata_4008e37c:
+    .global d_4008e37c
+d_4008e37c:
     .incbin "data/rodata_4008cfb8.bin", 5060, 24  /* 4008e37c */
-    .global rodata_4008e394
-rodata_4008e394:
+    .global d_4008e394
+d_4008e394:
     .incbin "data/rodata_4008cfb8.bin", 5084, 24  /* 4008e394 */
-    .global rodata_4008e3ac
-rodata_4008e3ac:
+    .global d_4008e3ac
+d_4008e3ac:
     .incbin "data/rodata_4008cfb8.bin", 5108, 24  /* 4008e3ac */
-    .global rodata_4008e3c4
-rodata_4008e3c4:
+    .global d_4008e3c4
+d_4008e3c4:
     .incbin "data/rodata_4008cfb8.bin", 5132, 24  /* 4008e3c4 */
-    .global rodata_4008e3dc
-rodata_4008e3dc:
+    .global d_4008e3dc
+d_4008e3dc:
     .incbin "data/rodata_4008cfb8.bin", 5156, 24  /* 4008e3dc */
-    .global rodata_4008e3f4
-rodata_4008e3f4:
+    .global d_4008e3f4
+d_4008e3f4:
     .incbin "data/rodata_4008cfb8.bin", 5180, 24  /* 4008e3f4 */
-    .global rodata_4008e40c
-rodata_4008e40c:
+    .global d_4008e40c
+d_4008e40c:
     .incbin "data/rodata_4008cfb8.bin", 5204, 24  /* 4008e40c */
-    .global rodata_4008e424
-rodata_4008e424:
+    .global d_4008e424
+d_4008e424:
     .incbin "data/rodata_4008cfb8.bin", 5228, 24  /* 4008e424 */
-    .global rodata_4008e43c
-rodata_4008e43c:
+    .global d_4008e43c
+d_4008e43c:
     .incbin "data/rodata_4008cfb8.bin", 5252, 24  /* 4008e43c */
-    .global rodata_4008e454
-rodata_4008e454:
+    .global d_4008e454
+d_4008e454:
     .incbin "data/rodata_4008cfb8.bin", 5276, 24  /* 4008e454 */
-    .global rodata_4008e46c
-rodata_4008e46c:
+    .global d_4008e46c
+d_4008e46c:
     .incbin "data/rodata_4008cfb8.bin", 5300, 24  /* 4008e46c */
-    .global rodata_4008e484
-rodata_4008e484:
+    .global d_4008e484
+d_4008e484:
     .incbin "data/rodata_4008cfb8.bin", 5324, 24  /* 4008e484 */
-    .global rodata_4008e49c
-rodata_4008e49c:
+    .global d_4008e49c
+d_4008e49c:
     .incbin "data/rodata_4008cfb8.bin", 5348, 24  /* 4008e49c */
-    .global rodata_4008e4b4
-rodata_4008e4b4:
+    .global d_4008e4b4
+d_4008e4b4:
     .incbin "data/rodata_4008cfb8.bin", 5372, 24  /* 4008e4b4 */
-    .global rodata_4008e4cc
-rodata_4008e4cc:
+    .global d_4008e4cc
+d_4008e4cc:
     .incbin "data/rodata_4008cfb8.bin", 5396, 24  /* 4008e4cc */
-    .global rodata_4008e4e4
-rodata_4008e4e4:
+    .global d_4008e4e4
+d_4008e4e4:
     .incbin "data/rodata_4008cfb8.bin", 5420, 24  /* 4008e4e4 */
-    .global rodata_4008e4fc
-rodata_4008e4fc:
+    .global d_4008e4fc
+d_4008e4fc:
     .incbin "data/rodata_4008cfb8.bin", 5444, 24  /* 4008e4fc */
-    .global rodata_4008e514
-rodata_4008e514:
+    .global d_4008e514
+d_4008e514:
     .incbin "data/rodata_4008cfb8.bin", 5468, 24  /* 4008e514 */
-    .global rodata_4008e52c
-rodata_4008e52c:
+    .global d_4008e52c
+d_4008e52c:
     .incbin "data/rodata_4008cfb8.bin", 5492, 24  /* 4008e52c */
-    .global rodata_4008e544
-rodata_4008e544:
+    .global d_4008e544
+d_4008e544:
     .incbin "data/rodata_4008cfb8.bin", 5516, 24  /* 4008e544 */
-    .global rodata_4008e55c
-rodata_4008e55c:
+    .global d_4008e55c
+d_4008e55c:
     .incbin "data/rodata_4008cfb8.bin", 5540, 24  /* 4008e55c */
-    .global rodata_4008e574
-rodata_4008e574:
+    .global d_4008e574
+d_4008e574:
     .incbin "data/rodata_4008cfb8.bin", 5564, 24  /* 4008e574 */
-    .global rodata_4008e58c
-rodata_4008e58c:
+    .global d_4008e58c
+d_4008e58c:
     .incbin "data/rodata_4008cfb8.bin", 5588, 24  /* 4008e58c */
-    .global rodata_4008e5a4
-rodata_4008e5a4:
+    .global d_4008e5a4
+d_4008e5a4:
     .incbin "data/rodata_4008cfb8.bin", 5612, 24  /* 4008e5a4 */
-    .global rodata_4008e5bc
-rodata_4008e5bc:
+    .global d_4008e5bc
+d_4008e5bc:
     .incbin "data/rodata_4008cfb8.bin", 5636, 24  /* 4008e5bc */
-    .global rodata_4008e5d4
-rodata_4008e5d4:
+    .global d_4008e5d4
+d_4008e5d4:
     .incbin "data/rodata_4008cfb8.bin", 5660, 24  /* 4008e5d4 */
-    .global rodata_4008e5ec
-rodata_4008e5ec:
+    .global d_4008e5ec
+d_4008e5ec:
     .incbin "data/rodata_4008cfb8.bin", 5684, 24  /* 4008e5ec */
-    .global rodata_4008e604
-rodata_4008e604:
+    .global d_4008e604
+d_4008e604:
     .incbin "data/rodata_4008cfb8.bin", 5708, 24  /* 4008e604 */
-    .global rodata_4008e61c
-rodata_4008e61c:
+    .global d_4008e61c
+d_4008e61c:
     .incbin "data/rodata_4008cfb8.bin", 5732, 24  /* 4008e61c */
-    .global rodata_4008e634
-rodata_4008e634:
+    .global d_4008e634
+d_4008e634:
     .incbin "data/rodata_4008cfb8.bin", 5756, 24  /* 4008e634 */
-    .global rodata_4008e64c
-rodata_4008e64c:
+    .global d_4008e64c
+d_4008e64c:
     .incbin "data/rodata_4008cfb8.bin", 5780, 24  /* 4008e64c */
-    .global rodata_4008e664
-rodata_4008e664:
+    .global d_4008e664
+d_4008e664:
     .incbin "data/rodata_4008cfb8.bin", 5804, 24  /* 4008e664 */
-    .global rodata_4008e67c
-rodata_4008e67c:
+    .global d_4008e67c
+d_4008e67c:
     .incbin "data/rodata_4008cfb8.bin", 5828, 24  /* 4008e67c */
-    .global rodata_4008e694
-rodata_4008e694:
+    .global d_4008e694
+d_4008e694:
     .incbin "data/rodata_4008cfb8.bin", 5852, 24  /* 4008e694 */
-    .global rodata_4008e6ac
-rodata_4008e6ac:
+    .global d_4008e6ac
+d_4008e6ac:
     .incbin "data/rodata_4008cfb8.bin", 5876, 24  /* 4008e6ac */
-    .global rodata_4008e6c4
-rodata_4008e6c4:
+    .global d_4008e6c4
+d_4008e6c4:
     .incbin "data/rodata_4008cfb8.bin", 5900, 24  /* 4008e6c4 */
-    .global rodata_4008e6dc
-rodata_4008e6dc:
+    .global d_4008e6dc
+d_4008e6dc:
     .incbin "data/rodata_4008cfb8.bin", 5924, 24  /* 4008e6dc */
-    .global rodata_4008e6f4
-rodata_4008e6f4:
+    .global d_4008e6f4
+d_4008e6f4:
     .incbin "data/rodata_4008cfb8.bin", 5948, 24  /* 4008e6f4 */
-    .global rodata_4008e70c
-rodata_4008e70c:
+    .global d_4008e70c
+d_4008e70c:
     .incbin "data/rodata_4008cfb8.bin", 5972, 24  /* 4008e70c */
-    .global rodata_4008e724
-rodata_4008e724:
+    .global d_4008e724
+d_4008e724:
     .incbin "data/rodata_4008cfb8.bin", 5996, 24  /* 4008e724 */
-    .global rodata_4008e73c
-rodata_4008e73c:
+    .global d_4008e73c
+d_4008e73c:
     .incbin "data/rodata_4008cfb8.bin", 6020, 24  /* 4008e73c */
-    .global rodata_4008e754
-rodata_4008e754:
+    .global d_4008e754
+d_4008e754:
     .incbin "data/rodata_4008cfb8.bin", 6044, 24  /* 4008e754 */
-    .global rodata_4008e76c
-rodata_4008e76c:
+    .global d_4008e76c
+d_4008e76c:
     .incbin "data/rodata_4008cfb8.bin", 6068, 24  /* 4008e76c */
-    .global rodata_4008e784
-rodata_4008e784:
+    .global d_4008e784
+d_4008e784:
     .incbin "data/rodata_4008cfb8.bin", 6092, 24  /* 4008e784 */
-    .global rodata_4008e79c
-rodata_4008e79c:
+    .global d_4008e79c
+d_4008e79c:
     .incbin "data/rodata_4008cfb8.bin", 6116, 24  /* 4008e79c */
-    .global rodata_4008e7b4
-rodata_4008e7b4:
+    .global d_4008e7b4
+d_4008e7b4:
     .incbin "data/rodata_4008cfb8.bin", 6140, 24  /* 4008e7b4 */
-    .global rodata_4008e7cc
-rodata_4008e7cc:
+    .global d_4008e7cc
+d_4008e7cc:
     .incbin "data/rodata_4008cfb8.bin", 6164, 24  /* 4008e7cc */
-    .global rodata_4008e7e4
-rodata_4008e7e4:
+    .global d_4008e7e4
+d_4008e7e4:
     .incbin "data/rodata_4008cfb8.bin", 6188, 24  /* 4008e7e4 */
-    .global rodata_4008e7fc
-rodata_4008e7fc:
+    .global d_4008e7fc
+d_4008e7fc:
     .incbin "data/rodata_4008cfb8.bin", 6212, 24  /* 4008e7fc */
-    .global rodata_4008e814
-rodata_4008e814:
+    .global d_4008e814
+d_4008e814:
     .incbin "data/rodata_4008cfb8.bin", 6236, 24  /* 4008e814 */
-    .global rodata_4008e82c
-rodata_4008e82c:
+    .global d_4008e82c
+d_4008e82c:
     .incbin "data/rodata_4008cfb8.bin", 6260, 24  /* 4008e82c */
-    .global rodata_4008e844
-rodata_4008e844:
+    .global d_4008e844
+d_4008e844:
     .incbin "data/rodata_4008cfb8.bin", 6284, 24  /* 4008e844 */
-    .global rodata_4008e85c
-rodata_4008e85c:
+    .global d_4008e85c
+d_4008e85c:
     .incbin "data/rodata_4008cfb8.bin", 6308, 24  /* 4008e85c */
-    .global rodata_4008e874
-rodata_4008e874:
+    .global d_4008e874
+d_4008e874:
     .incbin "data/rodata_4008cfb8.bin", 6332, 24  /* 4008e874 */
-    .global rodata_4008e88c
-rodata_4008e88c:
+    .global d_4008e88c
+d_4008e88c:
     .incbin "data/rodata_4008cfb8.bin", 6356, 24  /* 4008e88c */
-    .global rodata_4008e8a4
-rodata_4008e8a4:
+    .global d_4008e8a4
+d_4008e8a4:
     .incbin "data/rodata_4008cfb8.bin", 6380, 24  /* 4008e8a4 */
-    .global rodata_4008e8bc
-rodata_4008e8bc:
+    .global d_4008e8bc
+d_4008e8bc:
     .incbin "data/rodata_4008cfb8.bin", 6404, 24  /* 4008e8bc */
-    .global rodata_4008e8d4
-rodata_4008e8d4:
+    .global d_4008e8d4
+d_4008e8d4:
     .incbin "data/rodata_4008cfb8.bin", 6428, 20  /* 4008e8d4 */
-    .global rodata_4008e8e8
-rodata_4008e8e8:
+    .global d_4008e8e8
+d_4008e8e8:
     .incbin "data/rodata_4008cfb8.bin", 6448, 20  /* 4008e8e8 */
-    .global rodata_4008e8fc
-rodata_4008e8fc:
+    .global d_4008e8fc
+d_4008e8fc:
     .incbin "data/rodata_4008cfb8.bin", 6468, 20  /* 4008e8fc */
-    .global rodata_4008e910
-rodata_4008e910:
+    .global d_4008e910
+d_4008e910:
     .incbin "data/rodata_4008cfb8.bin", 6488, 20  /* 4008e910 */
-    .global rodata_4008e924
-rodata_4008e924:
+    .global d_4008e924
+d_4008e924:
     .incbin "data/rodata_4008cfb8.bin", 6508, 20  /* 4008e924 */
-    .global rodata_4008e938
-rodata_4008e938:
+    .global d_4008e938
+d_4008e938:
     .incbin "data/rodata_4008cfb8.bin", 6528, 20  /* 4008e938 */
-    .global rodata_4008e94c
-rodata_4008e94c:
+    .global d_4008e94c
+d_4008e94c:
     .incbin "data/rodata_4008cfb8.bin", 6548, 20  /* 4008e94c */
-    .global rodata_4008e960
-rodata_4008e960:
+    .global d_4008e960
+d_4008e960:
     .incbin "data/rodata_4008cfb8.bin", 6568, 20  /* 4008e960 */
-    .global rodata_4008e974
-rodata_4008e974:
+    .global d_4008e974
+d_4008e974:
     .incbin "data/rodata_4008cfb8.bin", 6588, 20  /* 4008e974 */
-    .global rodata_4008e988
-rodata_4008e988:
+    .global d_4008e988
+d_4008e988:
     .incbin "data/rodata_4008cfb8.bin", 6608, 20  /* 4008e988 */
-    .global rodata_4008e99c
-rodata_4008e99c:
+    .global d_4008e99c
+d_4008e99c:
     .incbin "data/rodata_4008cfb8.bin", 6628, 20  /* 4008e99c */
-    .global rodata_4008e9b0
-rodata_4008e9b0:
+    .global d_4008e9b0
+d_4008e9b0:
     .incbin "data/rodata_4008cfb8.bin", 6648, 20  /* 4008e9b0 */
-    .global rodata_4008e9c4
-rodata_4008e9c4:
+    .global d_4008e9c4
+d_4008e9c4:
     .incbin "data/rodata_4008cfb8.bin", 6668, 20  /* 4008e9c4 */
-    .global rodata_4008e9d8
-rodata_4008e9d8:
+    .global d_4008e9d8
+d_4008e9d8:
     .incbin "data/rodata_4008cfb8.bin", 6688, 20  /* 4008e9d8 */
-    .global rodata_4008e9ec
-rodata_4008e9ec:
+    .global d_4008e9ec
+d_4008e9ec:
     .incbin "data/rodata_4008cfb8.bin", 6708, 20  /* 4008e9ec */
-    .global rodata_4008ea00
-rodata_4008ea00:
+    .global d_4008ea00
+d_4008ea00:
     .incbin "data/rodata_4008cfb8.bin", 6728, 20  /* 4008ea00 */
-    .global rodata_4008ea14
-rodata_4008ea14:
+    .global d_4008ea14
+d_4008ea14:
     .incbin "data/rodata_4008cfb8.bin", 6748, 20  /* 4008ea14 */
-    .global rodata_4008ea28
-rodata_4008ea28:
+    .global d_4008ea28
+d_4008ea28:
     .incbin "data/rodata_4008cfb8.bin", 6768, 20  /* 4008ea28 */
-    .global rodata_4008ea3c
-rodata_4008ea3c:
+    .global d_4008ea3c
+d_4008ea3c:
     .incbin "data/rodata_4008cfb8.bin", 6788, 20  /* 4008ea3c */
-    .global rodata_4008ea50
-rodata_4008ea50:
+    .global d_4008ea50
+d_4008ea50:
     .incbin "data/rodata_4008cfb8.bin", 6808, 20  /* 4008ea50 */
-    .global rodata_4008ea64
-rodata_4008ea64:
+    .global d_4008ea64
+d_4008ea64:
     .incbin "data/rodata_4008cfb8.bin", 6828, 20  /* 4008ea64 */
-    .global rodata_4008ea78
-rodata_4008ea78:
+    .global d_4008ea78
+d_4008ea78:
     .incbin "data/rodata_4008cfb8.bin", 6848, 20  /* 4008ea78 */
-    .global rodata_4008ea8c
-rodata_4008ea8c:
+    .global d_4008ea8c
+d_4008ea8c:
     .incbin "data/rodata_4008cfb8.bin", 6868, 20  /* 4008ea8c */
-    .global rodata_4008eaa0
-rodata_4008eaa0:
+    .global d_4008eaa0
+d_4008eaa0:
     .incbin "data/rodata_4008cfb8.bin", 6888, 20  /* 4008eaa0 */
-    .global rodata_4008eab4
-rodata_4008eab4:
+    .global d_4008eab4
+d_4008eab4:
     .incbin "data/rodata_4008cfb8.bin", 6908, 20  /* 4008eab4 */
-    .global rodata_4008eac8
-rodata_4008eac8:
+    .global d_4008eac8
+d_4008eac8:
     .incbin "data/rodata_4008cfb8.bin", 6928, 20  /* 4008eac8 */
-    .global rodata_4008eadc
-rodata_4008eadc:
+    .global d_4008eadc
+d_4008eadc:
     .incbin "data/rodata_4008cfb8.bin", 6948, 20  /* 4008eadc */
-    .global rodata_4008eaf0
-rodata_4008eaf0:
+    .global d_4008eaf0
+d_4008eaf0:
     .incbin "data/rodata_4008cfb8.bin", 6968, 20  /* 4008eaf0 */
-    .global rodata_4008eb04
-rodata_4008eb04:
+    .global d_4008eb04
+d_4008eb04:
     .incbin "data/rodata_4008cfb8.bin", 6988, 20  /* 4008eb04 */
-    .global rodata_4008eb18
-rodata_4008eb18:
+    .global d_4008eb18
+d_4008eb18:
     .incbin "data/rodata_4008cfb8.bin", 7008, 20  /* 4008eb18 */
-    .global rodata_4008eb2c
-rodata_4008eb2c:
+    .global d_4008eb2c
+d_4008eb2c:
     .incbin "data/rodata_4008cfb8.bin", 7028, 20  /* 4008eb2c */
-    .global rodata_4008eb40
-rodata_4008eb40:
+    .global d_4008eb40
+d_4008eb40:
     .incbin "data/rodata_4008cfb8.bin", 7048, 20  /* 4008eb40 */
-    .global rodata_4008eb54
-rodata_4008eb54:
+    .global d_4008eb54
+d_4008eb54:
     .incbin "data/rodata_4008cfb8.bin", 7068, 20  /* 4008eb54 */
-    .global rodata_4008eb68
-rodata_4008eb68:
+    .global d_4008eb68
+d_4008eb68:
     .incbin "data/rodata_4008cfb8.bin", 7088, 20  /* 4008eb68 */
-    .global rodata_4008eb7c
-rodata_4008eb7c:
+    .global d_4008eb7c
+d_4008eb7c:
     .incbin "data/rodata_4008cfb8.bin", 7108, 20  /* 4008eb7c */
-    .global rodata_4008eb90
-rodata_4008eb90:
+    .global d_4008eb90
+d_4008eb90:
     .incbin "data/rodata_4008cfb8.bin", 7128, 20  /* 4008eb90 */
-    .global rodata_4008eba4
-rodata_4008eba4:
+    .global d_4008eba4
+d_4008eba4:
     .incbin "data/rodata_4008cfb8.bin", 7148, 20  /* 4008eba4 */
-    .global rodata_4008ebb8
-rodata_4008ebb8:
+    .global d_4008ebb8
+d_4008ebb8:
     .incbin "data/rodata_4008cfb8.bin", 7168, 20  /* 4008ebb8 */
-    .global rodata_4008ebcc
-rodata_4008ebcc:
+    .global d_4008ebcc
+d_4008ebcc:
     .incbin "data/rodata_4008cfb8.bin", 7188, 20  /* 4008ebcc */
-    .global rodata_4008ebe0
-rodata_4008ebe0:
+    .global d_4008ebe0
+d_4008ebe0:
     .incbin "data/rodata_4008cfb8.bin", 7208, 20  /* 4008ebe0 */
-    .global rodata_4008ebf4
-rodata_4008ebf4:
+    .global d_4008ebf4
+d_4008ebf4:
     .incbin "data/rodata_4008cfb8.bin", 7228, 20  /* 4008ebf4 */
-    .global rodata_4008ec08
-rodata_4008ec08:
+    .global d_4008ec08
+d_4008ec08:
     .incbin "data/rodata_4008cfb8.bin", 7248, 20  /* 4008ec08 */
-    .global rodata_4008ec1c
-rodata_4008ec1c:
+    .global d_4008ec1c
+d_4008ec1c:
     .incbin "data/rodata_4008cfb8.bin", 7268, 20  /* 4008ec1c */
-    .global rodata_4008ec30
-rodata_4008ec30:
+    .global d_4008ec30
+d_4008ec30:
     .incbin "data/rodata_4008cfb8.bin", 7288, 20  /* 4008ec30 */
-    .global rodata_4008ec44
-rodata_4008ec44:
+    .global d_4008ec44
+d_4008ec44:
     .incbin "data/rodata_4008cfb8.bin", 7308, 20  /* 4008ec44 */
-    .global rodata_4008ec58
-rodata_4008ec58:
+    .global d_4008ec58
+d_4008ec58:
     .incbin "data/rodata_4008cfb8.bin", 7328, 20  /* 4008ec58 */
-    .global rodata_4008ec6c
-rodata_4008ec6c:
+    .global d_4008ec6c
+d_4008ec6c:
     .incbin "data/rodata_4008cfb8.bin", 7348, 20  /* 4008ec6c */
-    .global rodata_4008ec80
-rodata_4008ec80:
+    .global d_4008ec80
+d_4008ec80:
     .incbin "data/rodata_4008cfb8.bin", 7368, 20  /* 4008ec80 */
-    .global rodata_4008ec94
-rodata_4008ec94:
+    .global d_4008ec94
+d_4008ec94:
     .incbin "data/rodata_4008cfb8.bin", 7388, 20  /* 4008ec94 */
-    .global rodata_4008eca8
-rodata_4008eca8:
+    .global d_4008eca8
+d_4008eca8:
     .incbin "data/rodata_4008cfb8.bin", 7408, 20  /* 4008eca8 */
-    .global rodata_4008ecbc
-rodata_4008ecbc:
+    .global d_4008ecbc
+d_4008ecbc:
     .incbin "data/rodata_4008cfb8.bin", 7428, 20  /* 4008ecbc */
-    .global rodata_4008ecd0
-rodata_4008ecd0:
+    .global d_4008ecd0
+d_4008ecd0:
     .incbin "data/rodata_4008cfb8.bin", 7448, 20  /* 4008ecd0 */
-    .global rodata_4008ece4
-rodata_4008ece4:
+    .global d_4008ece4
+d_4008ece4:
     .incbin "data/rodata_4008cfb8.bin", 7468, 20  /* 4008ece4 */
-    .global rodata_4008ecf8
-rodata_4008ecf8:
+    .global d_4008ecf8
+d_4008ecf8:
     .incbin "data/rodata_4008cfb8.bin", 7488, 20  /* 4008ecf8 */
-    .global rodata_4008ed0c
-rodata_4008ed0c:
+    .global d_4008ed0c
+d_4008ed0c:
     .incbin "data/rodata_4008cfb8.bin", 7508, 20  /* 4008ed0c */
-    .global rodata_4008ed20
-rodata_4008ed20:
+    .global d_4008ed20
+d_4008ed20:
     .incbin "data/rodata_4008cfb8.bin", 7528, 20  /* 4008ed20 */
-    .global rodata_4008ed34
-rodata_4008ed34:
+    .global d_4008ed34
+d_4008ed34:
     .incbin "data/rodata_4008cfb8.bin", 7548, 20  /* 4008ed34 */
-    .global rodata_4008ed48
-rodata_4008ed48:
+    .global d_4008ed48
+d_4008ed48:
     .incbin "data/rodata_4008cfb8.bin", 7568, 20  /* 4008ed48 */
-    .global rodata_4008ed5c
-rodata_4008ed5c:
+    .global d_4008ed5c
+d_4008ed5c:
     .incbin "data/rodata_4008cfb8.bin", 7588, 20  /* 4008ed5c */
-    .global rodata_4008ed70
-rodata_4008ed70:
+    .global d_4008ed70
+d_4008ed70:
     .incbin "data/rodata_4008cfb8.bin", 7608, 20  /* 4008ed70 */
-    .global rodata_4008ed84
-rodata_4008ed84:
+    .global d_4008ed84
+d_4008ed84:
     .incbin "data/rodata_4008cfb8.bin", 7628, 20  /* 4008ed84 */
-    .global rodata_4008ed98
-rodata_4008ed98:
+    .global d_4008ed98
+d_4008ed98:
     .incbin "data/rodata_4008cfb8.bin", 7648, 20  /* 4008ed98 */
-    .global rodata_4008edac
-rodata_4008edac:
+    .global d_4008edac
+d_4008edac:
     .incbin "data/rodata_4008cfb8.bin", 7668, 20  /* 4008edac */
-    .global rodata_4008edc0
-rodata_4008edc0:
+    .global d_4008edc0
+d_4008edc0:
     .incbin "data/rodata_4008cfb8.bin", 7688, 20  /* 4008edc0 */
-    .global rodata_4008edd4
-rodata_4008edd4:
+    .global d_4008edd4
+d_4008edd4:
     .incbin "data/rodata_4008cfb8.bin", 7708, 20  /* 4008edd4 */
-    .global rodata_4008ede8
-rodata_4008ede8:
+    .global d_4008ede8
+d_4008ede8:
     .incbin "data/rodata_4008cfb8.bin", 7728, 20  /* 4008ede8 */
-    .global rodata_4008edfc
-rodata_4008edfc:
+    .global d_4008edfc
+d_4008edfc:
     .incbin "data/rodata_4008cfb8.bin", 7748, 20  /* 4008edfc */
-    .global rodata_4008ee10
-rodata_4008ee10:
+    .global d_4008ee10
+d_4008ee10:
     .incbin "data/rodata_4008cfb8.bin", 7768, 20  /* 4008ee10 */
-    .global rodata_4008ee24
-rodata_4008ee24:
+    .global d_4008ee24
+d_4008ee24:
     .incbin "data/rodata_4008cfb8.bin", 7788, 20  /* 4008ee24 */
-    .global rodata_4008ee38
-rodata_4008ee38:
+    .global d_4008ee38
+d_4008ee38:
     .incbin "data/rodata_4008cfb8.bin", 7808, 20  /* 4008ee38 */
-    .global rodata_4008ee4c
-rodata_4008ee4c:
+    .global d_4008ee4c
+d_4008ee4c:
     .incbin "data/rodata_4008cfb8.bin", 7828, 20  /* 4008ee4c */
-    .global rodata_4008ee60
-rodata_4008ee60:
+    .global d_4008ee60
+d_4008ee60:
     .incbin "data/rodata_4008cfb8.bin", 7848, 20  /* 4008ee60 */
-    .global rodata_4008ee74
-rodata_4008ee74:
+    .global d_4008ee74
+d_4008ee74:
     .incbin "data/rodata_4008cfb8.bin", 7868, 20  /* 4008ee74 */
-    .global rodata_4008ee88
-rodata_4008ee88:
+    .global d_4008ee88
+d_4008ee88:
     .incbin "data/rodata_4008cfb8.bin", 7888, 20  /* 4008ee88 */
-    .global rodata_4008ee9c
-rodata_4008ee9c:
+    .global d_4008ee9c
+d_4008ee9c:
     .incbin "data/rodata_4008cfb8.bin", 7908, 20  /* 4008ee9c */
-    .global rodata_4008eeb0
-rodata_4008eeb0:
+    .global d_4008eeb0
+d_4008eeb0:
     .incbin "data/rodata_4008cfb8.bin", 7928, 20  /* 4008eeb0 */
-    .global rodata_4008eec4
-rodata_4008eec4:
+    .global d_4008eec4
+d_4008eec4:
     .incbin "data/rodata_4008cfb8.bin", 7948, 20  /* 4008eec4 */
-    .global rodata_4008eed8
-rodata_4008eed8:
+    .global d_4008eed8
+d_4008eed8:
     .incbin "data/rodata_4008cfb8.bin", 7968, 20  /* 4008eed8 */
-    .global rodata_4008eeec
-rodata_4008eeec:
+    .global d_4008eeec
+d_4008eeec:
     .incbin "data/rodata_4008cfb8.bin", 7988, 20  /* 4008eeec */
-    .global rodata_4008ef00
-rodata_4008ef00:
+    .global d_4008ef00
+d_4008ef00:
     .incbin "data/rodata_4008cfb8.bin", 8008, 20  /* 4008ef00 */
-    .global rodata_4008ef14
-rodata_4008ef14:
+    .global d_4008ef14
+d_4008ef14:
     .incbin "data/rodata_4008cfb8.bin", 8028, 20  /* 4008ef14 */
-    .global rodata_4008ef28
-rodata_4008ef28:
+    .global d_4008ef28
+d_4008ef28:
     .incbin "data/rodata_4008cfb8.bin", 8048, 20  /* 4008ef28 */
-    .global rodata_4008ef3c
-rodata_4008ef3c:
+    .global d_4008ef3c
+d_4008ef3c:
     .incbin "data/rodata_4008cfb8.bin", 8068, 20  /* 4008ef3c */
-    .global rodata_4008ef50
-rodata_4008ef50:
+    .global d_4008ef50
+d_4008ef50:
     .incbin "data/rodata_4008cfb8.bin", 8088, 20  /* 4008ef50 */
-    .global rodata_4008ef64
-rodata_4008ef64:
+    .global d_4008ef64
+d_4008ef64:
     .incbin "data/rodata_4008cfb8.bin", 8108, 20  /* 4008ef64 */
-    .global rodata_4008ef78
-rodata_4008ef78:
+    .global d_4008ef78
+d_4008ef78:
     .incbin "data/rodata_4008cfb8.bin", 8128, 20  /* 4008ef78 */
-    .global rodata_4008ef8c
-rodata_4008ef8c:
+    .global d_4008ef8c
+d_4008ef8c:
     .incbin "data/rodata_4008cfb8.bin", 8148, 20  /* 4008ef8c */
-    .global rodata_4008efa0
-rodata_4008efa0:
+    .global d_4008efa0
+d_4008efa0:
     .incbin "data/rodata_4008cfb8.bin", 8168, 20  /* 4008efa0 */
-    .global rodata_4008efb4
-rodata_4008efb4:
+    .global d_4008efb4
+d_4008efb4:
     .incbin "data/rodata_4008cfb8.bin", 8188, 20  /* 4008efb4 */
-    .global rodata_4008efc8
-rodata_4008efc8:
+    .global d_4008efc8
+d_4008efc8:
     .incbin "data/rodata_4008cfb8.bin", 8208, 20  /* 4008efc8 */
-    .global rodata_4008efdc
-rodata_4008efdc:
+    .global d_4008efdc
+d_4008efdc:
     .incbin "data/rodata_4008cfb8.bin", 8228, 16  /* 4008efdc */
-    .global rodata_4008efec
-rodata_4008efec:
+    .global d_4008efec
+d_4008efec:
     .incbin "data/rodata_4008cfb8.bin", 8244, 16  /* 4008efec */
-    .global rodata_4008effc
-rodata_4008effc:
+    .global d_4008effc
+d_4008effc:
     .incbin "data/rodata_4008cfb8.bin", 8260, 16  /* 4008effc */
-    .global rodata_4008f00c
-rodata_4008f00c:
+    .global d_4008f00c
+d_4008f00c:
     .incbin "data/rodata_4008cfb8.bin", 8276, 16  /* 4008f00c */
-    .global rodata_4008f01c
-rodata_4008f01c:
+    .global d_4008f01c
+d_4008f01c:
     .incbin "data/rodata_4008cfb8.bin", 8292, 16  /* 4008f01c */
-    .global rodata_4008f02c
-rodata_4008f02c:
+    .global d_4008f02c
+d_4008f02c:
     .incbin "data/rodata_4008cfb8.bin", 8308, 16  /* 4008f02c */
-    .global rodata_4008f03c
-rodata_4008f03c:
+    .global d_4008f03c
+d_4008f03c:
     .incbin "data/rodata_4008cfb8.bin", 8324, 16  /* 4008f03c */
-    .global rodata_4008f04c
-rodata_4008f04c:
+    .global d_4008f04c
+d_4008f04c:
     .incbin "data/rodata_4008cfb8.bin", 8340, 16  /* 4008f04c */
-    .global rodata_4008f05c
-rodata_4008f05c:
+    .global d_4008f05c
+d_4008f05c:
     .incbin "data/rodata_4008cfb8.bin", 8356, 16  /* 4008f05c */
-    .global rodata_4008f06c
-rodata_4008f06c:
+    .global d_4008f06c
+d_4008f06c:
     .incbin "data/rodata_4008cfb8.bin", 8372, 16  /* 4008f06c */
-    .global rodata_4008f07c
-rodata_4008f07c:
+    .global d_4008f07c
+d_4008f07c:
     .incbin "data/rodata_4008cfb8.bin", 8388, 16  /* 4008f07c */
-    .global rodata_4008f08c
-rodata_4008f08c:
+    .global d_4008f08c
+d_4008f08c:
     .incbin "data/rodata_4008cfb8.bin", 8404, 16  /* 4008f08c */
-    .global rodata_4008f09c
-rodata_4008f09c:
+    .global d_4008f09c
+d_4008f09c:
     .incbin "data/rodata_4008cfb8.bin", 8420, 16  /* 4008f09c */
-    .global rodata_4008f0ac
-rodata_4008f0ac:
+    .global d_4008f0ac
+d_4008f0ac:
     .incbin "data/rodata_4008cfb8.bin", 8436, 16  /* 4008f0ac */
-    .global rodata_4008f0bc
-rodata_4008f0bc:
+    .global d_4008f0bc
+d_4008f0bc:
     .incbin "data/rodata_4008cfb8.bin", 8452, 16  /* 4008f0bc */
-    .global rodata_4008f0cc
-rodata_4008f0cc:
+    .global d_4008f0cc
+d_4008f0cc:
     .incbin "data/rodata_4008cfb8.bin", 8468, 16  /* 4008f0cc */
-    .global rodata_4008f0dc
-rodata_4008f0dc:
+    .global d_4008f0dc
+d_4008f0dc:
     .incbin "data/rodata_4008cfb8.bin", 8484, 16  /* 4008f0dc */
-    .global rodata_4008f0ec
-rodata_4008f0ec:
+    .global d_4008f0ec
+d_4008f0ec:
     .incbin "data/rodata_4008cfb8.bin", 8500, 16  /* 4008f0ec */
-    .global rodata_4008f0fc
-rodata_4008f0fc:
+    .global d_4008f0fc
+d_4008f0fc:
     .incbin "data/rodata_4008cfb8.bin", 8516, 16  /* 4008f0fc */
-    .global rodata_4008f10c
-rodata_4008f10c:
+    .global d_4008f10c
+d_4008f10c:
     .incbin "data/rodata_4008cfb8.bin", 8532, 16  /* 4008f10c */
-    .global rodata_4008f11c
-rodata_4008f11c:
+    .global d_4008f11c
+d_4008f11c:
     .incbin "data/rodata_4008cfb8.bin", 8548, 16  /* 4008f11c */
-    .global rodata_4008f12c
-rodata_4008f12c:
+    .global d_4008f12c
+d_4008f12c:
     .incbin "data/rodata_4008cfb8.bin", 8564, 16  /* 4008f12c */
-    .global rodata_4008f13c
-rodata_4008f13c:
+    .global d_4008f13c
+d_4008f13c:
     .incbin "data/rodata_4008cfb8.bin", 8580, 16  /* 4008f13c */
-    .global rodata_4008f14c
-rodata_4008f14c:
+    .global d_4008f14c
+d_4008f14c:
     .incbin "data/rodata_4008cfb8.bin", 8596, 16  /* 4008f14c */
-    .global rodata_4008f15c
-rodata_4008f15c:
+    .global d_4008f15c
+d_4008f15c:
     .incbin "data/rodata_4008cfb8.bin", 8612, 16  /* 4008f15c */
-    .global rodata_4008f16c
-rodata_4008f16c:
+    .global d_4008f16c
+d_4008f16c:
     .incbin "data/rodata_4008cfb8.bin", 8628, 16  /* 4008f16c */
-    .global rodata_4008f17c
-rodata_4008f17c:
+    .global d_4008f17c
+d_4008f17c:
     .incbin "data/rodata_4008cfb8.bin", 8644, 16  /* 4008f17c */
-    .global rodata_4008f18c
-rodata_4008f18c:
+    .global d_4008f18c
+d_4008f18c:
     .incbin "data/rodata_4008cfb8.bin", 8660, 16  /* 4008f18c */
-    .global rodata_4008f19c
-rodata_4008f19c:
+    .global d_4008f19c
+d_4008f19c:
     .incbin "data/rodata_4008cfb8.bin", 8676, 16  /* 4008f19c */
-    .global rodata_4008f1ac
-rodata_4008f1ac:
+    .global d_4008f1ac
+d_4008f1ac:
     .incbin "data/rodata_4008cfb8.bin", 8692, 16  /* 4008f1ac */
-    .global rodata_4008f1bc
-rodata_4008f1bc:
+    .global d_4008f1bc
+d_4008f1bc:
     .incbin "data/rodata_4008cfb8.bin", 8708, 16  /* 4008f1bc */
-    .global rodata_4008f1cc
-rodata_4008f1cc:
+    .global d_4008f1cc
+d_4008f1cc:
     .incbin "data/rodata_4008cfb8.bin", 8724, 16  /* 4008f1cc */
-    .global rodata_4008f1dc
-rodata_4008f1dc:
+    .global d_4008f1dc
+d_4008f1dc:
     .incbin "data/rodata_4008cfb8.bin", 8740, 16  /* 4008f1dc */
-    .global rodata_4008f1ec
-rodata_4008f1ec:
+    .global d_4008f1ec
+d_4008f1ec:
     .incbin "data/rodata_4008cfb8.bin", 8756, 16  /* 4008f1ec */
-    .global rodata_4008f1fc
-rodata_4008f1fc:
+    .global d_4008f1fc
+d_4008f1fc:
     .incbin "data/rodata_4008cfb8.bin", 8772, 16  /* 4008f1fc */
-    .global rodata_4008f20c
-rodata_4008f20c:
+    .global d_4008f20c
+d_4008f20c:
     .incbin "data/rodata_4008cfb8.bin", 8788, 16  /* 4008f20c */
-    .global rodata_4008f21c
-rodata_4008f21c:
+    .global d_4008f21c
+d_4008f21c:
     .incbin "data/rodata_4008cfb8.bin", 8804, 16  /* 4008f21c */
-    .global rodata_4008f22c
-rodata_4008f22c:
+    .global d_4008f22c
+d_4008f22c:
     .incbin "data/rodata_4008cfb8.bin", 8820, 16  /* 4008f22c */
-    .global rodata_4008f23c
-rodata_4008f23c:
+    .global d_4008f23c
+d_4008f23c:
     .incbin "data/rodata_4008cfb8.bin", 8836, 16  /* 4008f23c */
-    .global rodata_4008f24c
-rodata_4008f24c:
+    .global d_4008f24c
+d_4008f24c:
     .incbin "data/rodata_4008cfb8.bin", 8852, 16  /* 4008f24c */
-    .global rodata_4008f25c
-rodata_4008f25c:
+    .global d_4008f25c
+d_4008f25c:
     .incbin "data/rodata_4008cfb8.bin", 8868, 16  /* 4008f25c */
-    .global rodata_4008f26c
-rodata_4008f26c:
+    .global d_4008f26c
+d_4008f26c:
     .incbin "data/rodata_4008cfb8.bin", 8884, 16  /* 4008f26c */
-    .global rodata_4008f27c
-rodata_4008f27c:
+    .global d_4008f27c
+d_4008f27c:
     .incbin "data/rodata_4008cfb8.bin", 8900, 16  /* 4008f27c */
-    .global rodata_4008f28c
-rodata_4008f28c:
+    .global d_4008f28c
+d_4008f28c:
     .incbin "data/rodata_4008cfb8.bin", 8916, 16  /* 4008f28c */
-    .global rodata_4008f29c
-rodata_4008f29c:
+    .global d_4008f29c
+d_4008f29c:
     .incbin "data/rodata_4008cfb8.bin", 8932, 16  /* 4008f29c */
-    .global rodata_4008f2ac
-rodata_4008f2ac:
+    .global d_4008f2ac
+d_4008f2ac:
     .incbin "data/rodata_4008cfb8.bin", 8948, 16  /* 4008f2ac */
-    .global rodata_4008f2bc
-rodata_4008f2bc:
+    .global d_4008f2bc
+d_4008f2bc:
     .incbin "data/rodata_4008cfb8.bin", 8964, 16  /* 4008f2bc */
-    .global rodata_4008f2cc
-rodata_4008f2cc:
+    .global d_4008f2cc
+d_4008f2cc:
     .incbin "data/rodata_4008cfb8.bin", 8980, 16  /* 4008f2cc */
-    .global rodata_4008f2dc
-rodata_4008f2dc:
+    .global d_4008f2dc
+d_4008f2dc:
     .incbin "data/rodata_4008cfb8.bin", 8996, 16  /* 4008f2dc */
-    .global rodata_4008f2ec
-rodata_4008f2ec:
+    .global d_4008f2ec
+d_4008f2ec:
     .incbin "data/rodata_4008cfb8.bin", 9012, 16  /* 4008f2ec */
-    .global rodata_4008f2fc
-rodata_4008f2fc:
+    .global d_4008f2fc
+d_4008f2fc:
     .incbin "data/rodata_4008cfb8.bin", 9028, 16  /* 4008f2fc */
-    .global rodata_4008f30c
-rodata_4008f30c:
+    .global d_4008f30c
+d_4008f30c:
     .incbin "data/rodata_4008cfb8.bin", 9044, 16  /* 4008f30c */
-    .global rodata_4008f31c
-rodata_4008f31c:
+    .global d_4008f31c
+d_4008f31c:
     .incbin "data/rodata_4008cfb8.bin", 9060, 16  /* 4008f31c */
-    .global rodata_4008f32c
-rodata_4008f32c:
+    .global d_4008f32c
+d_4008f32c:
     .incbin "data/rodata_4008cfb8.bin", 9076, 16  /* 4008f32c */
-    .global rodata_4008f33c
-rodata_4008f33c:
+    .global d_4008f33c
+d_4008f33c:
     .incbin "data/rodata_4008cfb8.bin", 9092, 16  /* 4008f33c */
-    .global rodata_4008f34c
-rodata_4008f34c:
+    .global d_4008f34c
+d_4008f34c:
     .incbin "data/rodata_4008cfb8.bin", 9108, 16  /* 4008f34c */
-    .global rodata_4008f35c
-rodata_4008f35c:
+    .global d_4008f35c
+d_4008f35c:
     .incbin "data/rodata_4008cfb8.bin", 9124, 16  /* 4008f35c */
-    .global rodata_4008f36c
-rodata_4008f36c:
+    .global d_4008f36c
+d_4008f36c:
     .incbin "data/rodata_4008cfb8.bin", 9140, 16  /* 4008f36c */
-    .global rodata_4008f37c
-rodata_4008f37c:
+    .global d_4008f37c
+d_4008f37c:
     .incbin "data/rodata_4008cfb8.bin", 9156, 16  /* 4008f37c */
-    .global rodata_4008f38c
-rodata_4008f38c:
+    .global d_4008f38c
+d_4008f38c:
     .incbin "data/rodata_4008cfb8.bin", 9172, 16  /* 4008f38c */
-    .global rodata_4008f39c
-rodata_4008f39c:
+    .global d_4008f39c
+d_4008f39c:
     .incbin "data/rodata_4008cfb8.bin", 9188, 16  /* 4008f39c */
-    .global rodata_4008f3ac
-rodata_4008f3ac:
+    .global d_4008f3ac
+d_4008f3ac:
     .incbin "data/rodata_4008cfb8.bin", 9204, 16  /* 4008f3ac */
-    .global rodata_4008f3bc
-rodata_4008f3bc:
+    .global d_4008f3bc
+d_4008f3bc:
     .incbin "data/rodata_4008cfb8.bin", 9220, 16  /* 4008f3bc */
-    .global rodata_4008f3cc
-rodata_4008f3cc:
+    .global d_4008f3cc
+d_4008f3cc:
     .incbin "data/rodata_4008cfb8.bin", 9236, 16  /* 4008f3cc */
-    .global rodata_4008f3dc
-rodata_4008f3dc:
+    .global d_4008f3dc
+d_4008f3dc:
     .incbin "data/rodata_4008cfb8.bin", 9252, 16  /* 4008f3dc */
-    .global rodata_4008f3ec
-rodata_4008f3ec:
+    .global d_4008f3ec
+d_4008f3ec:
     .incbin "data/rodata_4008cfb8.bin", 9268, 16  /* 4008f3ec */
-    .global rodata_4008f3fc
-rodata_4008f3fc:
+    .global d_4008f3fc
+d_4008f3fc:
     .incbin "data/rodata_4008cfb8.bin", 9284, 16  /* 4008f3fc */
-    .global rodata_4008f40c
-rodata_4008f40c:
+    .global d_4008f40c
+d_4008f40c:
     .incbin "data/rodata_4008cfb8.bin", 9300, 16  /* 4008f40c */
-    .global rodata_4008f41c
-rodata_4008f41c:
+    .global d_4008f41c
+d_4008f41c:
     .incbin "data/rodata_4008cfb8.bin", 9316, 16  /* 4008f41c */
-    .global rodata_4008f42c
-rodata_4008f42c:
+    .global d_4008f42c
+d_4008f42c:
     .incbin "data/rodata_4008cfb8.bin", 9332, 16  /* 4008f42c */
-    .global rodata_4008f43c
-rodata_4008f43c:
+    .global d_4008f43c
+d_4008f43c:
     .incbin "data/rodata_4008cfb8.bin", 9348, 16  /* 4008f43c */
-    .global rodata_4008f44c
-rodata_4008f44c:
+    .global d_4008f44c
+d_4008f44c:
     .incbin "data/rodata_4008cfb8.bin", 9364, 16  /* 4008f44c */
-    .global rodata_4008f45c
-rodata_4008f45c:
+    .global d_4008f45c
+d_4008f45c:
     .incbin "data/rodata_4008cfb8.bin", 9380, 16  /* 4008f45c */
-    .global rodata_4008f46c
-rodata_4008f46c:
+    .global d_4008f46c
+d_4008f46c:
     .incbin "data/rodata_4008cfb8.bin", 9396, 16  /* 4008f46c */
-    .global rodata_4008f47c
-rodata_4008f47c:
+    .global d_4008f47c
+d_4008f47c:
     .incbin "data/rodata_4008cfb8.bin", 9412, 16  /* 4008f47c */
-    .global rodata_4008f48c
-rodata_4008f48c:
+    .global d_4008f48c
+d_4008f48c:
     .incbin "data/rodata_4008cfb8.bin", 9428, 16  /* 4008f48c */
-    .global rodata_4008f49c
-rodata_4008f49c:
+    .global d_4008f49c
+d_4008f49c:
     .incbin "data/rodata_4008cfb8.bin", 9444, 16  /* 4008f49c */
-    .global rodata_4008f4ac
-rodata_4008f4ac:
+    .global d_4008f4ac
+d_4008f4ac:
     .incbin "data/rodata_4008cfb8.bin", 9460, 16  /* 4008f4ac */
-    .global rodata_4008f4bc
-rodata_4008f4bc:
+    .global d_4008f4bc
+d_4008f4bc:
     .incbin "data/rodata_4008cfb8.bin", 9476, 16  /* 4008f4bc */
-    .global rodata_4008f4cc
-rodata_4008f4cc:
+    .global d_4008f4cc
+d_4008f4cc:
     .incbin "data/rodata_4008cfb8.bin", 9492, 16  /* 4008f4cc */
-    .global rodata_4008f4dc
-rodata_4008f4dc:
+    .global d_4008f4dc
+d_4008f4dc:
     .incbin "data/rodata_4008cfb8.bin", 9508, 16  /* 4008f4dc */
-    .global rodata_4008f4ec
-rodata_4008f4ec:
+    .global d_4008f4ec
+d_4008f4ec:
     .incbin "data/rodata_4008cfb8.bin", 9524, 16  /* 4008f4ec */
-    .global rodata_4008f4fc
-rodata_4008f4fc:
+    .global d_4008f4fc
+d_4008f4fc:
     .incbin "data/rodata_4008cfb8.bin", 9540, 16  /* 4008f4fc */
-    .global rodata_4008f50c
-rodata_4008f50c:
+    .global d_4008f50c
+d_4008f50c:
     .incbin "data/rodata_4008cfb8.bin", 9556, 16  /* 4008f50c */
-    .global rodata_4008f51c
-rodata_4008f51c:
+    .global d_4008f51c
+d_4008f51c:
     .incbin "data/rodata_4008cfb8.bin", 9572, 16  /* 4008f51c */
-    .global rodata_4008f52c
-rodata_4008f52c:
+    .global d_4008f52c
+d_4008f52c:
     .incbin "data/rodata_4008cfb8.bin", 9588, 16  /* 4008f52c */
-    .global rodata_4008f53c
-rodata_4008f53c:
+    .global d_4008f53c
+d_4008f53c:
     .incbin "data/rodata_4008cfb8.bin", 9604, 16  /* 4008f53c */
-    .global rodata_4008f54c
-rodata_4008f54c:
+    .global d_4008f54c
+d_4008f54c:
     .incbin "data/rodata_4008cfb8.bin", 9620, 16  /* 4008f54c */
-    .global rodata_4008f55c
-rodata_4008f55c:
+    .global d_4008f55c
+d_4008f55c:
     .incbin "data/rodata_4008cfb8.bin", 9636, 16  /* 4008f55c */
-    .global rodata_4008f56c
-rodata_4008f56c:
+    .global d_4008f56c
+d_4008f56c:
     .incbin "data/rodata_4008cfb8.bin", 9652, 16  /* 4008f56c */
-    .global rodata_4008f57c
-rodata_4008f57c:
+    .global d_4008f57c
+d_4008f57c:
     .incbin "data/rodata_4008cfb8.bin", 9668, 16  /* 4008f57c */
-    .global rodata_4008f58c
-rodata_4008f58c:
+    .global d_4008f58c
+d_4008f58c:
     .incbin "data/rodata_4008cfb8.bin", 9684, 16  /* 4008f58c */
-    .global rodata_4008f59c
-rodata_4008f59c:
+    .global d_4008f59c
+d_4008f59c:
     .incbin "data/rodata_4008cfb8.bin", 9700, 16  /* 4008f59c */
-    .global rodata_4008f5ac
-rodata_4008f5ac:
+    .global d_4008f5ac
+d_4008f5ac:
     .incbin "data/rodata_4008cfb8.bin", 9716, 16  /* 4008f5ac */
-    .global rodata_4008f5bc
-rodata_4008f5bc:
+    .global d_4008f5bc
+d_4008f5bc:
     .incbin "data/rodata_4008cfb8.bin", 9732, 16  /* 4008f5bc */
-    .global rodata_4008f5cc
-rodata_4008f5cc:
+    .global d_4008f5cc
+d_4008f5cc:
     .incbin "data/rodata_4008cfb8.bin", 9748, 16  /* 4008f5cc */
-    .global rodata_4008f5dc
-rodata_4008f5dc:
+    .global d_4008f5dc
+d_4008f5dc:
     .incbin "data/rodata_4008cfb8.bin", 9764, 16  /* 4008f5dc */
-    .global rodata_4008f5ec
-rodata_4008f5ec:
+    .global d_4008f5ec
+d_4008f5ec:
     .incbin "data/rodata_4008cfb8.bin", 9780, 16  /* 4008f5ec */
-    .global rodata_4008f5fc
-rodata_4008f5fc:
+    .global d_4008f5fc
+d_4008f5fc:
     .incbin "data/rodata_4008cfb8.bin", 9796, 16  /* 4008f5fc */
-    .global rodata_4008f60c
-rodata_4008f60c:
+    .global d_4008f60c
+d_4008f60c:
     .incbin "data/rodata_4008cfb8.bin", 9812, 16  /* 4008f60c */
-    .global rodata_4008f61c
-rodata_4008f61c:
+    .global d_4008f61c
+d_4008f61c:
     .incbin "data/rodata_4008cfb8.bin", 9828, 16  /* 4008f61c */
-    .global rodata_4008f62c
-rodata_4008f62c:
+    .global d_4008f62c
+d_4008f62c:
     .incbin "data/rodata_4008cfb8.bin", 9844, 16  /* 4008f62c */
-    .global rodata_4008f63c
-rodata_4008f63c:
+    .global d_4008f63c
+d_4008f63c:
     .incbin "data/rodata_4008cfb8.bin", 9860, 16  /* 4008f63c */
-    .global rodata_4008f64c
-rodata_4008f64c:
+    .global d_4008f64c
+d_4008f64c:
     .incbin "data/rodata_4008cfb8.bin", 9876, 16  /* 4008f64c */
-    .global rodata_4008f65c
-rodata_4008f65c:
+    .global d_4008f65c
+d_4008f65c:
     .incbin "data/rodata_4008cfb8.bin", 9892, 16  /* 4008f65c */
-    .global rodata_4008f66c
-rodata_4008f66c:
+    .global d_4008f66c
+d_4008f66c:
     .incbin "data/rodata_4008cfb8.bin", 9908, 16  /* 4008f66c */
-    .global rodata_4008f67c
-rodata_4008f67c:
+    .global d_4008f67c
+d_4008f67c:
     .incbin "data/rodata_4008cfb8.bin", 9924, 16  /* 4008f67c */
-    .global rodata_4008f68c
-rodata_4008f68c:
+    .global d_4008f68c
+d_4008f68c:
     .incbin "data/rodata_4008cfb8.bin", 9940, 16  /* 4008f68c */
-    .global rodata_4008f69c
-rodata_4008f69c:
+    .global d_4008f69c
+d_4008f69c:
     .incbin "data/rodata_4008cfb8.bin", 9956, 16  /* 4008f69c */
-    .global rodata_4008f6ac
-rodata_4008f6ac:
+    .global d_4008f6ac
+d_4008f6ac:
     .incbin "data/rodata_4008cfb8.bin", 9972, 16  /* 4008f6ac */
-    .global rodata_4008f6bc
-rodata_4008f6bc:
+    .global d_4008f6bc
+d_4008f6bc:
     .incbin "data/rodata_4008cfb8.bin", 9988, 16  /* 4008f6bc */
-    .global rodata_4008f6cc
-rodata_4008f6cc:
+    .global d_4008f6cc
+d_4008f6cc:
     .incbin "data/rodata_4008cfb8.bin", 10004, 16  /* 4008f6cc */
-    .global rodata_4008f6dc
-rodata_4008f6dc:
+    .global d_4008f6dc
+d_4008f6dc:
     .incbin "data/rodata_4008cfb8.bin", 10020, 16  /* 4008f6dc */
-    .global rodata_4008f6ec
-rodata_4008f6ec:
+    .global d_4008f6ec
+d_4008f6ec:
     .incbin "data/rodata_4008cfb8.bin", 10036, 16  /* 4008f6ec */
-    .global rodata_4008f6fc
-rodata_4008f6fc:
+    .global d_4008f6fc
+d_4008f6fc:
     .incbin "data/rodata_4008cfb8.bin", 10052, 16  /* 4008f6fc */
-    .global rodata_4008f70c
-rodata_4008f70c:
+    .global d_4008f70c
+d_4008f70c:
     .incbin "data/rodata_4008cfb8.bin", 10068, 16  /* 4008f70c */
-    .global rodata_4008f71c
-rodata_4008f71c:
+    .global d_4008f71c
+d_4008f71c:
     .incbin "data/rodata_4008cfb8.bin", 10084, 16  /* 4008f71c */
-    .global rodata_4008f72c
-rodata_4008f72c:
+    .global d_4008f72c
+d_4008f72c:
     .incbin "data/rodata_4008cfb8.bin", 10100, 16  /* 4008f72c */
-    .global rodata_4008f73c
-rodata_4008f73c:
+    .global d_4008f73c
+d_4008f73c:
     .incbin "data/rodata_4008cfb8.bin", 10116, 16  /* 4008f73c */
-    .global rodata_4008f74c
-rodata_4008f74c:
+    .global d_4008f74c
+d_4008f74c:
     .incbin "data/rodata_4008cfb8.bin", 10132, 16  /* 4008f74c */
-    .global rodata_4008f75c
-rodata_4008f75c:
+    .global d_4008f75c
+d_4008f75c:
     .incbin "data/rodata_4008cfb8.bin", 10148, 16  /* 4008f75c */
-    .global rodata_4008f76c
-rodata_4008f76c:
+    .global d_4008f76c
+d_4008f76c:
     .incbin "data/rodata_4008cfb8.bin", 10164, 16  /* 4008f76c */
-    .global rodata_4008f77c
-rodata_4008f77c:
+    .global d_4008f77c
+d_4008f77c:
     .incbin "data/rodata_4008cfb8.bin", 10180, 16  /* 4008f77c */
-    .global rodata_4008f78c
-rodata_4008f78c:
+    .global d_4008f78c
+d_4008f78c:
     .incbin "data/rodata_4008cfb8.bin", 10196, 16  /* 4008f78c */
-    .global rodata_4008f79c
-rodata_4008f79c:
+    .global d_4008f79c
+d_4008f79c:
     .incbin "data/rodata_4008cfb8.bin", 10212, 16  /* 4008f79c */
-    .global rodata_4008f7ac
-rodata_4008f7ac:
+    .global d_4008f7ac
+d_4008f7ac:
     .incbin "data/rodata_4008cfb8.bin", 10228, 16  /* 4008f7ac */
-    .global rodata_4008f7bc
-rodata_4008f7bc:
+    .global d_4008f7bc
+d_4008f7bc:
     .incbin "data/rodata_4008cfb8.bin", 10244, 16  /* 4008f7bc */
-    .global rodata_4008f7cc
-rodata_4008f7cc:
+    .global d_4008f7cc
+d_4008f7cc:
     .incbin "data/rodata_4008cfb8.bin", 10260, 16  /* 4008f7cc */
-    .global rodata_4008f7dc
-rodata_4008f7dc:
+    .global d_4008f7dc
+d_4008f7dc:
     .incbin "data/rodata_4008cfb8.bin", 10276, 16  /* 4008f7dc */
-    .global rodata_4008f7ec
-rodata_4008f7ec:
+    .global d_4008f7ec
+d_4008f7ec:
     .incbin "data/rodata_4008cfb8.bin", 10292, 16  /* 4008f7ec */
-    .global rodata_4008f7fc
-rodata_4008f7fc:
+    .global d_4008f7fc
+d_4008f7fc:
     .incbin "data/rodata_4008cfb8.bin", 10308, 16  /* 4008f7fc */
-    .global rodata_4008f80c
-rodata_4008f80c:
+    .global d_4008f80c
+d_4008f80c:
     .incbin "data/rodata_4008cfb8.bin", 10324, 16  /* 4008f80c */
-    .global rodata_4008f81c
-rodata_4008f81c:
+    .global d_4008f81c
+d_4008f81c:
     .incbin "data/rodata_4008cfb8.bin", 10340, 16  /* 4008f81c */
-    .global rodata_4008f82c
-rodata_4008f82c:
+    .global d_4008f82c
+d_4008f82c:
     .incbin "data/rodata_4008cfb8.bin", 10356, 16  /* 4008f82c */
-    .global rodata_4008f83c
-rodata_4008f83c:
+    .global d_4008f83c
+d_4008f83c:
     .incbin "data/rodata_4008cfb8.bin", 10372, 16  /* 4008f83c */
-    .global rodata_4008f84c
-rodata_4008f84c:
+    .global d_4008f84c
+d_4008f84c:
     .incbin "data/rodata_4008cfb8.bin", 10388, 16  /* 4008f84c */
-    .global rodata_4008f85c
-rodata_4008f85c:
+    .global d_4008f85c
+d_4008f85c:
     .incbin "data/rodata_4008cfb8.bin", 10404, 16  /* 4008f85c */
-    .global rodata_4008f86c
-rodata_4008f86c:
+    .global d_4008f86c
+d_4008f86c:
     .incbin "data/rodata_4008cfb8.bin", 10420, 16  /* 4008f86c */
-    .global rodata_4008f87c
-rodata_4008f87c:
+    .global d_4008f87c
+d_4008f87c:
     .incbin "data/rodata_4008cfb8.bin", 10436, 16  /* 4008f87c */
-    .global rodata_4008f88c
-rodata_4008f88c:
+    .global d_4008f88c
+d_4008f88c:
     .incbin "data/rodata_4008cfb8.bin", 10452, 16  /* 4008f88c */
-    .global rodata_4008f89c
-rodata_4008f89c:
+    .global d_4008f89c
+d_4008f89c:
     .incbin "data/rodata_4008cfb8.bin", 10468, 16  /* 4008f89c */
-    .global rodata_4008f8ac
-rodata_4008f8ac:
+    .global d_4008f8ac
+d_4008f8ac:
     .incbin "data/rodata_4008cfb8.bin", 10484, 16  /* 4008f8ac */
-    .global rodata_4008f8bc
-rodata_4008f8bc:
+    .global d_4008f8bc
+d_4008f8bc:
     .incbin "data/rodata_4008cfb8.bin", 10500, 16  /* 4008f8bc */
-    .global rodata_4008f8cc
-rodata_4008f8cc:
+    .global d_4008f8cc
+d_4008f8cc:
     .incbin "data/rodata_4008cfb8.bin", 10516, 16  /* 4008f8cc */
-    .global rodata_4008f8dc
-rodata_4008f8dc:
+    .global d_4008f8dc
+d_4008f8dc:
     .incbin "data/rodata_4008cfb8.bin", 10532, 16  /* 4008f8dc */
-    .global rodata_4008f8ec
-rodata_4008f8ec:
+    .global d_4008f8ec
+d_4008f8ec:
     .incbin "data/rodata_4008cfb8.bin", 10548, 16  /* 4008f8ec */
-    .global rodata_4008f8fc
-rodata_4008f8fc:
+    .global d_4008f8fc
+d_4008f8fc:
     .incbin "data/rodata_4008cfb8.bin", 10564, 16  /* 4008f8fc */
-    .global rodata_4008f90c
-rodata_4008f90c:
+    .global d_4008f90c
+d_4008f90c:
     .incbin "data/rodata_4008cfb8.bin", 10580, 16  /* 4008f90c */
-    .global rodata_4008f91c
-rodata_4008f91c:
+    .global d_4008f91c
+d_4008f91c:
     .incbin "data/rodata_4008cfb8.bin", 10596, 16  /* 4008f91c */
-    .global rodata_4008f92c
-rodata_4008f92c:
+    .global d_4008f92c
+d_4008f92c:
     .incbin "data/rodata_4008cfb8.bin", 10612, 16  /* 4008f92c */
-    .global rodata_4008f93c
-rodata_4008f93c:
+    .global d_4008f93c
+d_4008f93c:
     .incbin "data/rodata_4008cfb8.bin", 10628, 16  /* 4008f93c */
-    .global rodata_4008f94c
-rodata_4008f94c:
+    .global d_4008f94c
+d_4008f94c:
     .incbin "data/rodata_4008cfb8.bin", 10644, 16  /* 4008f94c */
-    .global rodata_4008f95c
-rodata_4008f95c:
+    .global d_4008f95c
+d_4008f95c:
     .incbin "data/rodata_4008cfb8.bin", 10660, 16  /* 4008f95c */
-    .global rodata_4008f96c
-rodata_4008f96c:
+    .global d_4008f96c
+d_4008f96c:
     .incbin "data/rodata_4008cfb8.bin", 10676, 16  /* 4008f96c */
-    .global rodata_4008f97c
-rodata_4008f97c:
+    .global d_4008f97c
+d_4008f97c:
     .incbin "data/rodata_4008cfb8.bin", 10692, 16  /* 4008f97c */
-    .global rodata_4008f98c
-rodata_4008f98c:
+    .global d_4008f98c
+d_4008f98c:
     .incbin "data/rodata_4008cfb8.bin", 10708, 16  /* 4008f98c */
-    .global rodata_4008f99c
-rodata_4008f99c:
+    .global d_4008f99c
+d_4008f99c:
     .incbin "data/rodata_4008cfb8.bin", 10724, 16  /* 4008f99c */
-    .global rodata_4008f9ac
-rodata_4008f9ac:
+    .global d_4008f9ac
+d_4008f9ac:
     .incbin "data/rodata_4008cfb8.bin", 10740, 16  /* 4008f9ac */
-    .global rodata_4008f9bc
-rodata_4008f9bc:
+    .global d_4008f9bc
+d_4008f9bc:
     .incbin "data/rodata_4008cfb8.bin", 10756, 16  /* 4008f9bc */
-    .global rodata_4008f9cc
-rodata_4008f9cc:
+    .global d_4008f9cc
+d_4008f9cc:
     .incbin "data/rodata_4008cfb8.bin", 10772, 16  /* 4008f9cc */
-    .global rodata_4008f9dc
-rodata_4008f9dc:
+    .global d_4008f9dc
+d_4008f9dc:
     .incbin "data/rodata_4008cfb8.bin", 10788, 16  /* 4008f9dc */
-    .global rodata_4008f9ec
-rodata_4008f9ec:
+    .global d_4008f9ec
+d_4008f9ec:
     .incbin "data/rodata_4008cfb8.bin", 10804, 16  /* 4008f9ec */
-    .global rodata_4008f9fc
-rodata_4008f9fc:
+    .global d_4008f9fc
+d_4008f9fc:
     .incbin "data/rodata_4008cfb8.bin", 10820, 16  /* 4008f9fc */
-    .global rodata_4008fa0c
-rodata_4008fa0c:
+    .global d_4008fa0c
+d_4008fa0c:
     .incbin "data/rodata_4008cfb8.bin", 10836, 16  /* 4008fa0c */
-    .global rodata_4008fa1c
-rodata_4008fa1c:
+    .global d_4008fa1c
+d_4008fa1c:
     .incbin "data/rodata_4008cfb8.bin", 10852, 16  /* 4008fa1c */
-    .global rodata_4008fa2c
-rodata_4008fa2c:
+    .global d_4008fa2c
+d_4008fa2c:
     .incbin "data/rodata_4008cfb8.bin", 10868, 12  /* 4008fa2c */
-    .global rodata_4008fa38
-rodata_4008fa38:
+    .global d_4008fa38
+d_4008fa38:
     .incbin "data/rodata_4008cfb8.bin", 10880, 12  /* 4008fa38 */
-    .global rodata_4008fa44
-rodata_4008fa44:
+    .global d_4008fa44
+d_4008fa44:
     .incbin "data/rodata_4008cfb8.bin", 10892, 12  /* 4008fa44 */
-    .global rodata_4008fa50
-rodata_4008fa50:
+    .global d_4008fa50
+d_4008fa50:
     .incbin "data/rodata_4008cfb8.bin", 10904, 12  /* 4008fa50 */
-    .global rodata_4008fa5c
-rodata_4008fa5c:
+    .global d_4008fa5c
+d_4008fa5c:
     .incbin "data/rodata_4008cfb8.bin", 10916, 12  /* 4008fa5c */
-    .global rodata_4008fa68
-rodata_4008fa68:
+    .global d_4008fa68
+d_4008fa68:
     .incbin "data/rodata_4008cfb8.bin", 10928, 12  /* 4008fa68 */
-    .global rodata_4008fa74
-rodata_4008fa74:
+    .global d_4008fa74
+d_4008fa74:
     .incbin "data/rodata_4008cfb8.bin", 10940, 12  /* 4008fa74 */
-    .global rodata_4008fa80
-rodata_4008fa80:
+    .global d_4008fa80
+d_4008fa80:
     .incbin "data/rodata_4008cfb8.bin", 10952, 12  /* 4008fa80 */
-    .global rodata_4008fa8c
-rodata_4008fa8c:
+    .global d_4008fa8c
+d_4008fa8c:
     .incbin "data/rodata_4008cfb8.bin", 10964, 12  /* 4008fa8c */
-    .global rodata_4008fa98
-rodata_4008fa98:
+    .global d_4008fa98
+d_4008fa98:
     .incbin "data/rodata_4008cfb8.bin", 10976, 12  /* 4008fa98 */
-    .global rodata_4008faa4
-rodata_4008faa4:
+    .global d_4008faa4
+d_4008faa4:
     .incbin "data/rodata_4008cfb8.bin", 10988, 12  /* 4008faa4 */
-    .global rodata_4008fab0
-rodata_4008fab0:
+    .global d_4008fab0
+d_4008fab0:
     .incbin "data/rodata_4008cfb8.bin", 11000, 12  /* 4008fab0 */
-    .global rodata_4008fabc
-rodata_4008fabc:
+    .global d_4008fabc
+d_4008fabc:
     .incbin "data/rodata_4008cfb8.bin", 11012, 12  /* 4008fabc */
-    .global rodata_4008fac8
-rodata_4008fac8:
+    .global d_4008fac8
+d_4008fac8:
     .incbin "data/rodata_4008cfb8.bin", 11024, 12  /* 4008fac8 */
-    .global rodata_4008fad4
-rodata_4008fad4:
+    .global d_4008fad4
+d_4008fad4:
     .incbin "data/rodata_4008cfb8.bin", 11036, 12  /* 4008fad4 */
-    .global rodata_4008fae0
-rodata_4008fae0:
+    .global d_4008fae0
+d_4008fae0:
     .incbin "data/rodata_4008cfb8.bin", 11048, 12  /* 4008fae0 */
-    .global rodata_4008faec
-rodata_4008faec:
+    .global d_4008faec
+d_4008faec:
     .incbin "data/rodata_4008cfb8.bin", 11060, 12  /* 4008faec */
-    .global rodata_4008faf8
-rodata_4008faf8:
+    .global d_4008faf8
+d_4008faf8:
     .incbin "data/rodata_4008cfb8.bin", 11072, 12  /* 4008faf8 */
-    .global rodata_4008fb04
-rodata_4008fb04:
+    .global d_4008fb04
+d_4008fb04:
     .incbin "data/rodata_4008cfb8.bin", 11084, 12  /* 4008fb04 */
-    .global rodata_4008fb10
-rodata_4008fb10:
+    .global d_4008fb10
+d_4008fb10:
     .incbin "data/rodata_4008cfb8.bin", 11096, 12  /* 4008fb10 */
-    .global rodata_4008fb1c
-rodata_4008fb1c:
+    .global d_4008fb1c
+d_4008fb1c:
     .incbin "data/rodata_4008cfb8.bin", 11108, 12  /* 4008fb1c */
-    .global rodata_4008fb28
-rodata_4008fb28:
+    .global d_4008fb28
+d_4008fb28:
     .incbin "data/rodata_4008cfb8.bin", 11120, 12  /* 4008fb28 */
-    .global rodata_4008fb34
-rodata_4008fb34:
+    .global d_4008fb34
+d_4008fb34:
     .incbin "data/rodata_4008cfb8.bin", 11132, 12  /* 4008fb34 */
-    .global rodata_4008fb40
-rodata_4008fb40:
+    .global d_4008fb40
+d_4008fb40:
     .incbin "data/rodata_4008cfb8.bin", 11144, 12  /* 4008fb40 */
-    .global rodata_4008fb4c
-rodata_4008fb4c:
+    .global d_4008fb4c
+d_4008fb4c:
     .incbin "data/rodata_4008cfb8.bin", 11156, 12  /* 4008fb4c */
-    .global rodata_4008fb58
-rodata_4008fb58:
+    .global d_4008fb58
+d_4008fb58:
     .incbin "data/rodata_4008cfb8.bin", 11168, 12  /* 4008fb58 */
-    .global rodata_4008fb64
-rodata_4008fb64:
+    .global d_4008fb64
+d_4008fb64:
     .incbin "data/rodata_4008cfb8.bin", 11180, 12  /* 4008fb64 */
-    .global rodata_4008fb70
-rodata_4008fb70:
+    .global d_4008fb70
+d_4008fb70:
     .incbin "data/rodata_4008cfb8.bin", 11192, 12  /* 4008fb70 */
-    .global rodata_4008fb7c
-rodata_4008fb7c:
+    .global d_4008fb7c
+d_4008fb7c:
     .incbin "data/rodata_4008cfb8.bin", 11204, 12  /* 4008fb7c */
-    .global rodata_4008fb88
-rodata_4008fb88:
+    .global d_4008fb88
+d_4008fb88:
     .incbin "data/rodata_4008cfb8.bin", 11216, 12  /* 4008fb88 */
-    .global rodata_4008fb94
-rodata_4008fb94:
+    .global d_4008fb94
+d_4008fb94:
     .incbin "data/rodata_4008cfb8.bin", 11228, 12  /* 4008fb94 */
-    .global rodata_4008fba0
-rodata_4008fba0:
+    .global d_4008fba0
+d_4008fba0:
     .incbin "data/rodata_4008cfb8.bin", 11240, 12  /* 4008fba0 */
-    .global rodata_4008fbac
-rodata_4008fbac:
+    .global d_4008fbac
+d_4008fbac:
     .incbin "data/rodata_4008cfb8.bin", 11252, 12  /* 4008fbac */
-    .global rodata_4008fbb8
-rodata_4008fbb8:
+    .global d_4008fbb8
+d_4008fbb8:
     .incbin "data/rodata_4008cfb8.bin", 11264, 12  /* 4008fbb8 */
-    .global rodata_4008fbc4
-rodata_4008fbc4:
+    .global d_4008fbc4
+d_4008fbc4:
     .incbin "data/rodata_4008cfb8.bin", 11276, 12  /* 4008fbc4 */
-    .global rodata_4008fbd0
-rodata_4008fbd0:
+    .global d_4008fbd0
+d_4008fbd0:
     .incbin "data/rodata_4008cfb8.bin", 11288, 12  /* 4008fbd0 */
-    .global rodata_4008fbdc
-rodata_4008fbdc:
+    .global d_4008fbdc
+d_4008fbdc:
     .incbin "data/rodata_4008cfb8.bin", 11300, 12  /* 4008fbdc */
-    .global rodata_4008fbe8
-rodata_4008fbe8:
+    .global d_4008fbe8
+d_4008fbe8:
     .incbin "data/rodata_4008cfb8.bin", 11312, 12  /* 4008fbe8 */
-    .global rodata_4008fbf4
-rodata_4008fbf4:
+    .global d_4008fbf4
+d_4008fbf4:
     .incbin "data/rodata_4008cfb8.bin", 11324, 12  /* 4008fbf4 */
-    .global rodata_4008fc00
-rodata_4008fc00:
+    .global d_4008fc00
+d_4008fc00:
     .incbin "data/rodata_4008cfb8.bin", 11336, 12  /* 4008fc00 */
-    .global rodata_4008fc0c
-rodata_4008fc0c:
+    .global d_4008fc0c
+d_4008fc0c:
     .incbin "data/rodata_4008cfb8.bin", 11348, 12  /* 4008fc0c */
-    .global rodata_4008fc18
-rodata_4008fc18:
+    .global d_4008fc18
+d_4008fc18:
     .incbin "data/rodata_4008cfb8.bin", 11360, 12  /* 4008fc18 */
-    .global rodata_4008fc24
-rodata_4008fc24:
+    .global d_4008fc24
+d_4008fc24:
     .incbin "data/rodata_4008cfb8.bin", 11372, 12  /* 4008fc24 */
-    .global rodata_4008fc30
-rodata_4008fc30:
+    .global d_4008fc30
+d_4008fc30:
     .incbin "data/rodata_4008cfb8.bin", 11384, 12  /* 4008fc30 */
-    .global rodata_4008fc3c
-rodata_4008fc3c:
+    .global d_4008fc3c
+d_4008fc3c:
     .incbin "data/rodata_4008cfb8.bin", 11396, 12  /* 4008fc3c */
-    .global rodata_4008fc48
-rodata_4008fc48:
+    .global d_4008fc48
+d_4008fc48:
     .incbin "data/rodata_4008cfb8.bin", 11408, 12  /* 4008fc48 */
-    .global rodata_4008fc54
-rodata_4008fc54:
+    .global d_4008fc54
+d_4008fc54:
     .incbin "data/rodata_4008cfb8.bin", 11420, 12  /* 4008fc54 */
-    .global rodata_4008fc60
-rodata_4008fc60:
+    .global d_4008fc60
+d_4008fc60:
     .incbin "data/rodata_4008cfb8.bin", 11432, 12  /* 4008fc60 */
-    .global rodata_4008fc6c
-rodata_4008fc6c:
+    .global d_4008fc6c
+d_4008fc6c:
     .incbin "data/rodata_4008cfb8.bin", 11444, 12  /* 4008fc6c */
-    .global rodata_4008fc78
-rodata_4008fc78:
+    .global d_4008fc78
+d_4008fc78:
     .incbin "data/rodata_4008cfb8.bin", 11456, 12  /* 4008fc78 */
-    .global rodata_4008fc84
-rodata_4008fc84:
+    .global d_4008fc84
+d_4008fc84:
     .incbin "data/rodata_4008cfb8.bin", 11468, 12  /* 4008fc84 */
-    .global rodata_4008fc90
-rodata_4008fc90:
+    .global d_4008fc90
+d_4008fc90:
     .incbin "data/rodata_4008cfb8.bin", 11480, 12  /* 4008fc90 */
-    .global rodata_4008fc9c
-rodata_4008fc9c:
+    .global d_4008fc9c
+d_4008fc9c:
     .incbin "data/rodata_4008cfb8.bin", 11492, 12  /* 4008fc9c */
-    .global rodata_4008fca8
-rodata_4008fca8:
+    .global d_4008fca8
+d_4008fca8:
     .incbin "data/rodata_4008cfb8.bin", 11504, 12  /* 4008fca8 */
-    .global rodata_4008fcb4
-rodata_4008fcb4:
+    .global d_4008fcb4
+d_4008fcb4:
     .incbin "data/rodata_4008cfb8.bin", 11516, 12  /* 4008fcb4 */
-    .global rodata_4008fcc0
-rodata_4008fcc0:
+    .global d_4008fcc0
+d_4008fcc0:
     .incbin "data/rodata_4008cfb8.bin", 11528, 12  /* 4008fcc0 */
-    .global rodata_4008fccc
-rodata_4008fccc:
+    .global d_4008fccc
+d_4008fccc:
     .incbin "data/rodata_4008cfb8.bin", 11540, 12  /* 4008fccc */
-    .global rodata_4008fcd8
-rodata_4008fcd8:
+    .global d_4008fcd8
+d_4008fcd8:
     .incbin "data/rodata_4008cfb8.bin", 11552, 12  /* 4008fcd8 */
-    .global rodata_4008fce4
-rodata_4008fce4:
+    .global d_4008fce4
+d_4008fce4:
     .incbin "data/rodata_4008cfb8.bin", 11564, 12  /* 4008fce4 */
-    .global rodata_4008fcf0
-rodata_4008fcf0:
+    .global d_4008fcf0
+d_4008fcf0:
     .incbin "data/rodata_4008cfb8.bin", 11576, 12  /* 4008fcf0 */
-    .global rodata_4008fcfc
-rodata_4008fcfc:
+    .global d_4008fcfc
+d_4008fcfc:
     .incbin "data/rodata_4008cfb8.bin", 11588, 12  /* 4008fcfc */
-    .global rodata_4008fd08
-rodata_4008fd08:
+    .global d_4008fd08
+d_4008fd08:
     .incbin "data/rodata_4008cfb8.bin", 11600, 12  /* 4008fd08 */
-    .global rodata_4008fd14
-rodata_4008fd14:
+    .global d_4008fd14
+d_4008fd14:
     .incbin "data/rodata_4008cfb8.bin", 11612, 12  /* 4008fd14 */
-    .global rodata_4008fd20
-rodata_4008fd20:
+    .global d_4008fd20
+d_4008fd20:
     .incbin "data/rodata_4008cfb8.bin", 11624, 12  /* 4008fd20 */
-    .global rodata_4008fd2c
-rodata_4008fd2c:
+    .global d_4008fd2c
+d_4008fd2c:
     .incbin "data/rodata_4008cfb8.bin", 11636, 12  /* 4008fd2c */
-    .global rodata_4008fd38
-rodata_4008fd38:
+    .global d_4008fd38
+d_4008fd38:
     .incbin "data/rodata_4008cfb8.bin", 11648, 12  /* 4008fd38 */
-    .global rodata_4008fd44
-rodata_4008fd44:
+    .global d_4008fd44
+d_4008fd44:
     .incbin "data/rodata_4008cfb8.bin", 11660, 12  /* 4008fd44 */
-    .global rodata_4008fd50
-rodata_4008fd50:
+    .global d_4008fd50
+d_4008fd50:
     .incbin "data/rodata_4008cfb8.bin", 11672, 12  /* 4008fd50 */
-    .global rodata_4008fd5c
-rodata_4008fd5c:
+    .global d_4008fd5c
+d_4008fd5c:
     .incbin "data/rodata_4008cfb8.bin", 11684, 12  /* 4008fd5c */
-    .global rodata_4008fd68
-rodata_4008fd68:
+    .global d_4008fd68
+d_4008fd68:
     .incbin "data/rodata_4008cfb8.bin", 11696, 12  /* 4008fd68 */
-    .global rodata_4008fd74
-rodata_4008fd74:
+    .global d_4008fd74
+d_4008fd74:
     .incbin "data/rodata_4008cfb8.bin", 11708, 12  /* 4008fd74 */
-    .global rodata_4008fd80
-rodata_4008fd80:
+    .global d_4008fd80
+d_4008fd80:
     .incbin "data/rodata_4008cfb8.bin", 11720, 12  /* 4008fd80 */
-    .global rodata_4008fd8c
-rodata_4008fd8c:
+    .global d_4008fd8c
+d_4008fd8c:
     .incbin "data/rodata_4008cfb8.bin", 11732, 12  /* 4008fd8c */
-    .global rodata_4008fd98
-rodata_4008fd98:
+    .global d_4008fd98
+d_4008fd98:
     .incbin "data/rodata_4008cfb8.bin", 11744, 12  /* 4008fd98 */
-    .global rodata_4008fda4
-rodata_4008fda4:
+    .global d_4008fda4
+d_4008fda4:
     .incbin "data/rodata_4008cfb8.bin", 11756, 12  /* 4008fda4 */
-    .global rodata_4008fdb0
-rodata_4008fdb0:
+    .global d_4008fdb0
+d_4008fdb0:
     .incbin "data/rodata_4008cfb8.bin", 11768, 12  /* 4008fdb0 */
-    .global rodata_4008fdbc
-rodata_4008fdbc:
+    .global d_4008fdbc
+d_4008fdbc:
     .incbin "data/rodata_4008cfb8.bin", 11780, 12  /* 4008fdbc */
-    .global rodata_4008fdc8
-rodata_4008fdc8:
+    .global d_4008fdc8
+d_4008fdc8:
     .incbin "data/rodata_4008cfb8.bin", 11792, 12  /* 4008fdc8 */
-    .global rodata_4008fdd4
-rodata_4008fdd4:
+    .global d_4008fdd4
+d_4008fdd4:
     .incbin "data/rodata_4008cfb8.bin", 11804, 12  /* 4008fdd4 */
-    .global rodata_4008fde0
-rodata_4008fde0:
+    .global d_4008fde0
+d_4008fde0:
     .incbin "data/rodata_4008cfb8.bin", 11816, 12  /* 4008fde0 */
-    .global rodata_4008fdec
-rodata_4008fdec:
+    .global d_4008fdec
+d_4008fdec:
     .incbin "data/rodata_4008cfb8.bin", 11828, 12  /* 4008fdec */
-    .global rodata_4008fdf8
-rodata_4008fdf8:
+    .global d_4008fdf8
+d_4008fdf8:
     .incbin "data/rodata_4008cfb8.bin", 11840, 12  /* 4008fdf8 */
-    .global rodata_4008fe04
-rodata_4008fe04:
+    .global d_4008fe04
+d_4008fe04:
     .incbin "data/rodata_4008cfb8.bin", 11852, 12  /* 4008fe04 */
-    .global rodata_4008fe10
-rodata_4008fe10:
+    .global d_4008fe10
+d_4008fe10:
     .incbin "data/rodata_4008cfb8.bin", 11864, 12  /* 4008fe10 */
-    .global rodata_4008fe1c
-rodata_4008fe1c:
+    .global d_4008fe1c
+d_4008fe1c:
     .incbin "data/rodata_4008cfb8.bin", 11876, 12  /* 4008fe1c */
-    .global rodata_4008fe28
-rodata_4008fe28:
+    .global d_4008fe28
+d_4008fe28:
     .incbin "data/rodata_4008cfb8.bin", 11888, 12  /* 4008fe28 */
-    .global rodata_4008fe34
-rodata_4008fe34:
+    .global d_4008fe34
+d_4008fe34:
     .incbin "data/rodata_4008cfb8.bin", 11900, 12  /* 4008fe34 */
-    .global rodata_4008fe40
-rodata_4008fe40:
+    .global d_4008fe40
+d_4008fe40:
     .incbin "data/rodata_4008cfb8.bin", 11912, 12  /* 4008fe40 */
-    .global rodata_4008fe4c
-rodata_4008fe4c:
+    .global d_4008fe4c
+d_4008fe4c:
     .incbin "data/rodata_4008cfb8.bin", 11924, 12  /* 4008fe4c */
-    .global rodata_4008fe58
-rodata_4008fe58:
+    .global d_4008fe58
+d_4008fe58:
     .incbin "data/rodata_4008cfb8.bin", 11936, 12  /* 4008fe58 */
-    .global rodata_4008fe64
-rodata_4008fe64:
+    .global d_4008fe64
+d_4008fe64:
     .incbin "data/rodata_4008cfb8.bin", 11948, 12  /* 4008fe64 */
-    .global rodata_4008fe70
-rodata_4008fe70:
+    .global d_4008fe70
+d_4008fe70:
     .incbin "data/rodata_4008cfb8.bin", 11960, 12  /* 4008fe70 */
-    .global rodata_4008fe7c
-rodata_4008fe7c:
+    .global d_4008fe7c
+d_4008fe7c:
     .incbin "data/rodata_4008cfb8.bin", 11972, 12  /* 4008fe7c */
-    .global rodata_4008fe88
-rodata_4008fe88:
+    .global d_4008fe88
+d_4008fe88:
     .incbin "data/rodata_4008cfb8.bin", 11984, 12  /* 4008fe88 */
-    .global rodata_4008fe94
-rodata_4008fe94:
+    .global d_4008fe94
+d_4008fe94:
     .incbin "data/rodata_4008cfb8.bin", 11996, 12  /* 4008fe94 */
-    .global rodata_4008fea0
-rodata_4008fea0:
+    .global d_4008fea0
+d_4008fea0:
     .incbin "data/rodata_4008cfb8.bin", 12008, 12  /* 4008fea0 */
-    .global rodata_4008feac
-rodata_4008feac:
+    .global d_4008feac
+d_4008feac:
     .incbin "data/rodata_4008cfb8.bin", 12020, 12  /* 4008feac */
-    .global rodata_4008feb8
-rodata_4008feb8:
+    .global d_4008feb8
+d_4008feb8:
     .incbin "data/rodata_4008cfb8.bin", 12032, 12  /* 4008feb8 */
-    .global rodata_4008fec4
-rodata_4008fec4:
+    .global d_4008fec4
+d_4008fec4:
     .incbin "data/rodata_4008cfb8.bin", 12044, 12  /* 4008fec4 */
-    .global rodata_4008fed0
-rodata_4008fed0:
+    .global d_4008fed0
+d_4008fed0:
     .incbin "data/rodata_4008cfb8.bin", 12056, 12  /* 4008fed0 */
-    .global rodata_4008fedc
-rodata_4008fedc:
+    .global d_4008fedc
+d_4008fedc:
     .incbin "data/rodata_4008cfb8.bin", 12068, 12  /* 4008fedc */
-    .global rodata_4008fee8
-rodata_4008fee8:
+    .global d_4008fee8
+d_4008fee8:
     .incbin "data/rodata_4008cfb8.bin", 12080, 12  /* 4008fee8 */
-    .global rodata_4008fef4
-rodata_4008fef4:
+    .global d_4008fef4
+d_4008fef4:
     .incbin "data/rodata_4008cfb8.bin", 12092, 12  /* 4008fef4 */
-    .global rodata_4008ff00
-rodata_4008ff00:
+    .global d_4008ff00
+d_4008ff00:
     .incbin "data/rodata_4008cfb8.bin", 12104, 12  /* 4008ff00 */
-    .global rodata_4008ff0c
-rodata_4008ff0c:
+    .global d_4008ff0c
+d_4008ff0c:
     .incbin "data/rodata_4008cfb8.bin", 12116, 12  /* 4008ff0c */
-    .global rodata_4008ff18
-rodata_4008ff18:
+    .global d_4008ff18
+d_4008ff18:
     .incbin "data/rodata_4008cfb8.bin", 12128, 12  /* 4008ff18 */
-    .global rodata_4008ff24
-rodata_4008ff24:
+    .global d_4008ff24
+d_4008ff24:
     .incbin "data/rodata_4008cfb8.bin", 12140, 12  /* 4008ff24 */
-    .global rodata_4008ff30
-rodata_4008ff30:
+    .global d_4008ff30
+d_4008ff30:
     .incbin "data/rodata_4008cfb8.bin", 12152, 12  /* 4008ff30 */
-    .global rodata_4008ff3c
-rodata_4008ff3c:
+    .global d_4008ff3c
+d_4008ff3c:
     .incbin "data/rodata_4008cfb8.bin", 12164, 12  /* 4008ff3c */
-    .global rodata_4008ff48
-rodata_4008ff48:
+    .global d_4008ff48
+d_4008ff48:
     .incbin "data/rodata_4008cfb8.bin", 12176, 12  /* 4008ff48 */
-    .global rodata_4008ff54
-rodata_4008ff54:
+    .global d_4008ff54
+d_4008ff54:
     .incbin "data/rodata_4008cfb8.bin", 12188, 12  /* 4008ff54 */
-    .global rodata_4008ff60
-rodata_4008ff60:
+    .global d_4008ff60
+d_4008ff60:
     .incbin "data/rodata_4008cfb8.bin", 12200, 12  /* 4008ff60 */
-    .global rodata_4008ff6c
-rodata_4008ff6c:
+    .global d_4008ff6c
+d_4008ff6c:
     .incbin "data/rodata_4008cfb8.bin", 12212, 12  /* 4008ff6c */
-    .global rodata_4008ff78
-rodata_4008ff78:
+    .global d_4008ff78
+d_4008ff78:
     .incbin "data/rodata_4008cfb8.bin", 12224, 12  /* 4008ff78 */
-    .global rodata_4008ff84
-rodata_4008ff84:
+    .global d_4008ff84
+d_4008ff84:
     .incbin "data/rodata_4008cfb8.bin", 12236, 12  /* 4008ff84 */
-    .global rodata_4008ff90
-rodata_4008ff90:
+    .global d_4008ff90
+d_4008ff90:
     .incbin "data/rodata_4008cfb8.bin", 12248, 12  /* 4008ff90 */
-    .global rodata_4008ff9c
-rodata_4008ff9c:
+    .global d_4008ff9c
+d_4008ff9c:
     .incbin "data/rodata_4008cfb8.bin", 12260, 12  /* 4008ff9c */
-    .global rodata_4008ffa8
-rodata_4008ffa8:
+    .global d_4008ffa8
+d_4008ffa8:
     .incbin "data/rodata_4008cfb8.bin", 12272, 12  /* 4008ffa8 */
-    .global rodata_4008ffb4
-rodata_4008ffb4:
+    .global d_4008ffb4
+d_4008ffb4:
     .incbin "data/rodata_4008cfb8.bin", 12284, 12  /* 4008ffb4 */
-    .global rodata_4008ffc0
-rodata_4008ffc0:
+    .global d_4008ffc0
+d_4008ffc0:
     .incbin "data/rodata_4008cfb8.bin", 12296, 8  /* 4008ffc0 */
-    .global rodata_4008ffc8
-rodata_4008ffc8:
+    .global d_4008ffc8
+d_4008ffc8:
     .incbin "data/rodata_4008cfb8.bin", 12304, 8  /* 4008ffc8 */
-    .global rodata_4008ffd0
-rodata_4008ffd0:
+    .global d_4008ffd0
+d_4008ffd0:
     .incbin "data/rodata_4008cfb8.bin", 12312, 8  /* 4008ffd0 */
-    .global rodata_4008ffd8
-rodata_4008ffd8:
+    .global d_4008ffd8
+d_4008ffd8:
     .incbin "data/rodata_4008cfb8.bin", 12320, 8  /* 4008ffd8 */
-    .global rodata_4008ffe0
-rodata_4008ffe0:
+    .global d_4008ffe0
+d_4008ffe0:
     .incbin "data/rodata_4008cfb8.bin", 12328, 8  /* 4008ffe0 */
-    .global rodata_4008ffe8
-rodata_4008ffe8:
+    .global d_4008ffe8
+d_4008ffe8:
     .incbin "data/rodata_4008cfb8.bin", 12336, 8  /* 4008ffe8 */
-    .global rodata_4008fff0
-rodata_4008fff0:
+    .global d_4008fff0
+d_4008fff0:
     .incbin "data/rodata_4008cfb8.bin", 12344, 8  /* 4008fff0 */
-    .global rodata_4008fff8
-rodata_4008fff8:
+    .global d_4008fff8
+d_4008fff8:
     .incbin "data/rodata_4008cfb8.bin", 12352, 8  /* 4008fff8 */
-    .global rodata_40090000
-rodata_40090000:
+    .global d_40090000
+d_40090000:
     .incbin "data/rodata_4008cfb8.bin", 12360, 8  /* 40090000 */
-    .global rodata_40090008
-rodata_40090008:
+    .global d_40090008
+d_40090008:
     .incbin "data/rodata_4008cfb8.bin", 12368, 8  /* 40090008 */
-    .global rodata_40090010
-rodata_40090010:
+    .global d_40090010
+d_40090010:
     .incbin "data/rodata_4008cfb8.bin", 12376, 8  /* 40090010 */
-    .global rodata_40090018
-rodata_40090018:
+    .global d_40090018
+d_40090018:
     .incbin "data/rodata_4008cfb8.bin", 12384, 8  /* 40090018 */
-    .global rodata_40090020
-rodata_40090020:
+    .global d_40090020
+d_40090020:
     .incbin "data/rodata_4008cfb8.bin", 12392, 8  /* 40090020 */
-    .global rodata_40090028
-rodata_40090028:
+    .global d_40090028
+d_40090028:
     .incbin "data/rodata_4008cfb8.bin", 12400, 8  /* 40090028 */
-    .global rodata_40090030
-rodata_40090030:
+    .global d_40090030
+d_40090030:
     .incbin "data/rodata_4008cfb8.bin", 12408, 8  /* 40090030 */
-    .global rodata_40090038
-rodata_40090038:
+    .global d_40090038
+d_40090038:
     .incbin "data/rodata_4008cfb8.bin", 12416, 8  /* 40090038 */
-    .global rodata_40090040
-rodata_40090040:
+    .global d_40090040
+d_40090040:
     .incbin "data/rodata_4008cfb8.bin", 12424, 8  /* 40090040 */
-    .global rodata_40090048
-rodata_40090048:
+    .global d_40090048
+d_40090048:
     .incbin "data/rodata_4008cfb8.bin", 12432, 8  /* 40090048 */
-    .global rodata_40090050
-rodata_40090050:
+    .global d_40090050
+d_40090050:
     .incbin "data/rodata_4008cfb8.bin", 12440, 8  /* 40090050 */
-    .global rodata_40090058
-rodata_40090058:
+    .global d_40090058
+d_40090058:
     .incbin "data/rodata_4008cfb8.bin", 12448, 8  /* 40090058 */
-    .global rodata_40090060
-rodata_40090060:
+    .global d_40090060
+d_40090060:
     .incbin "data/rodata_4008cfb8.bin", 12456, 8  /* 40090060 */
-    .global rodata_40090068
-rodata_40090068:
+    .global d_40090068
+d_40090068:
     .incbin "data/rodata_4008cfb8.bin", 12464, 8  /* 40090068 */
-    .global rodata_40090070
-rodata_40090070:
+    .global d_40090070
+d_40090070:
     .incbin "data/rodata_4008cfb8.bin", 12472, 8  /* 40090070 */
-    .global rodata_40090078
-rodata_40090078:
+    .global d_40090078
+d_40090078:
     .incbin "data/rodata_4008cfb8.bin", 12480, 8  /* 40090078 */
-    .global rodata_40090080
-rodata_40090080:
+    .global d_40090080
+d_40090080:
     .incbin "data/rodata_4008cfb8.bin", 12488, 8  /* 40090080 */
-    .global rodata_40090088
-rodata_40090088:
+    .global d_40090088
+d_40090088:
     .incbin "data/rodata_4008cfb8.bin", 12496, 8  /* 40090088 */
-    .global rodata_40090090
-rodata_40090090:
+    .global d_40090090
+d_40090090:
     .incbin "data/rodata_4008cfb8.bin", 12504, 8  /* 40090090 */
-    .global rodata_40090098
-rodata_40090098:
+    .global d_40090098
+d_40090098:
     .incbin "data/rodata_4008cfb8.bin", 12512, 8  /* 40090098 */
-    .global rodata_400900a0
-rodata_400900a0:
+    .global d_400900a0
+d_400900a0:
     .incbin "data/rodata_4008cfb8.bin", 12520, 8  /* 400900a0 */
-    .global rodata_400900a8
-rodata_400900a8:
+    .global d_400900a8
+d_400900a8:
     .incbin "data/rodata_4008cfb8.bin", 12528, 8  /* 400900a8 */
-    .global rodata_400900b0
-rodata_400900b0:
+    .global d_400900b0
+d_400900b0:
     .incbin "data/rodata_4008cfb8.bin", 12536, 8  /* 400900b0 */
-    .global rodata_400900b8
-rodata_400900b8:
+    .global d_400900b8
+d_400900b8:
     .incbin "data/rodata_4008cfb8.bin", 12544, 8  /* 400900b8 */
-    .global rodata_400900c0
-rodata_400900c0:
+    .global d_400900c0
+d_400900c0:
     .incbin "data/rodata_4008cfb8.bin", 12552, 8  /* 400900c0 */
-    .global rodata_400900c8
-rodata_400900c8:
+    .global d_400900c8
+d_400900c8:
     .incbin "data/rodata_4008cfb8.bin", 12560, 8  /* 400900c8 */
-    .global rodata_400900d0
-rodata_400900d0:
+    .global d_400900d0
+d_400900d0:
     .incbin "data/rodata_4008cfb8.bin", 12568, 8  /* 400900d0 */
-    .global rodata_400900d8
-rodata_400900d8:
+    .global d_400900d8
+d_400900d8:
     .incbin "data/rodata_4008cfb8.bin", 12576, 8  /* 400900d8 */
-    .global rodata_400900e0
-rodata_400900e0:
+    .global d_400900e0
+d_400900e0:
     .incbin "data/rodata_4008cfb8.bin", 12584, 8  /* 400900e0 */
-    .global rodata_400900e8
-rodata_400900e8:
+    .global d_400900e8
+d_400900e8:
     .incbin "data/rodata_4008cfb8.bin", 12592, 8  /* 400900e8 */
-    .global rodata_400900f0
-rodata_400900f0:
+    .global d_400900f0
+d_400900f0:
     .incbin "data/rodata_4008cfb8.bin", 12600, 8  /* 400900f0 */
-    .global rodata_400900f8
-rodata_400900f8:
+    .global d_400900f8
+d_400900f8:
     .incbin "data/rodata_4008cfb8.bin", 12608, 8  /* 400900f8 */
-    .global rodata_40090100
-rodata_40090100:
+    .global d_40090100
+d_40090100:
     .incbin "data/rodata_4008cfb8.bin", 12616, 8  /* 40090100 */
-    .global rodata_40090108
-rodata_40090108:
+    .global d_40090108
+d_40090108:
     .incbin "data/rodata_4008cfb8.bin", 12624, 8  /* 40090108 */
-    .global rodata_40090110
-rodata_40090110:
+    .global d_40090110
+d_40090110:
     .incbin "data/rodata_4008cfb8.bin", 12632, 8  /* 40090110 */
-    .global rodata_40090118
-rodata_40090118:
+    .global d_40090118
+d_40090118:
     .incbin "data/rodata_4008cfb8.bin", 12640, 8  /* 40090118 */
-    .global rodata_40090120
-rodata_40090120:
+    .global d_40090120
+d_40090120:
     .incbin "data/rodata_4008cfb8.bin", 12648, 8  /* 40090120 */
-    .global rodata_40090128
-rodata_40090128:
+    .global d_40090128
+d_40090128:
     .incbin "data/rodata_4008cfb8.bin", 12656, 8  /* 40090128 */
-    .global rodata_40090130
-rodata_40090130:
+    .global d_40090130
+d_40090130:
     .incbin "data/rodata_4008cfb8.bin", 12664, 8  /* 40090130 */
-    .global rodata_40090138
-rodata_40090138:
+    .global d_40090138
+d_40090138:
     .incbin "data/rodata_4008cfb8.bin", 12672, 8  /* 40090138 */
-    .global rodata_40090140
-rodata_40090140:
+    .global d_40090140
+d_40090140:
     .incbin "data/rodata_4008cfb8.bin", 12680, 8  /* 40090140 */
-    .global rodata_40090148
-rodata_40090148:
+    .global d_40090148
+d_40090148:
     .incbin "data/rodata_4008cfb8.bin", 12688, 8  /* 40090148 */
-    .global rodata_40090150
-rodata_40090150:
+    .global d_40090150
+d_40090150:
     .incbin "data/rodata_4008cfb8.bin", 12696, 8  /* 40090150 */
-    .global rodata_40090158
-rodata_40090158:
+    .global d_40090158
+d_40090158:
     .incbin "data/rodata_4008cfb8.bin", 12704, 8  /* 40090158 */
-    .global rodata_40090160
-rodata_40090160:
+    .global d_40090160
+d_40090160:
     .incbin "data/rodata_4008cfb8.bin", 12712, 8  /* 40090160 */
-    .global rodata_40090168
-rodata_40090168:
+    .global d_40090168
+d_40090168:
     .incbin "data/rodata_4008cfb8.bin", 12720, 8  /* 40090168 */
-    .global rodata_40090170
-rodata_40090170:
+    .global d_40090170
+d_40090170:
     .incbin "data/rodata_4008cfb8.bin", 12728, 8  /* 40090170 */
-    .global rodata_40090178
-rodata_40090178:
+    .global d_40090178
+d_40090178:
     .incbin "data/rodata_4008cfb8.bin", 12736, 8  /* 40090178 */
-    .global rodata_40090180
-rodata_40090180:
+    .global d_40090180
+d_40090180:
     .incbin "data/rodata_4008cfb8.bin", 12744, 8  /* 40090180 */
-    .global rodata_40090188
-rodata_40090188:
+    .global d_40090188
+d_40090188:
     .incbin "data/rodata_4008cfb8.bin", 12752, 8  /* 40090188 */
-    .global rodata_40090190
-rodata_40090190:
+    .global d_40090190
+d_40090190:
     .incbin "data/rodata_4008cfb8.bin", 12760, 8  /* 40090190 */
-    .global rodata_40090198
-rodata_40090198:
+    .global d_40090198
+d_40090198:
     .incbin "data/rodata_4008cfb8.bin", 12768, 8  /* 40090198 */
-    .global rodata_400901a0
-rodata_400901a0:
+    .global d_400901a0
+d_400901a0:
     .incbin "data/rodata_4008cfb8.bin", 12776, 8  /* 400901a0 */
-    .global rodata_400901a8
-rodata_400901a8:
+    .global d_400901a8
+d_400901a8:
     .incbin "data/rodata_4008cfb8.bin", 12784, 8  /* 400901a8 */
-    .global rodata_400901b0
-rodata_400901b0:
+    .global d_400901b0
+d_400901b0:
     .incbin "data/rodata_4008cfb8.bin", 12792, 8  /* 400901b0 */
-    .global rodata_400901b8
-rodata_400901b8:
+    .global d_400901b8
+d_400901b8:
     .incbin "data/rodata_4008cfb8.bin", 12800, 8  /* 400901b8 */
-    .global rodata_400901c0
-rodata_400901c0:
+    .global d_400901c0
+d_400901c0:
     .incbin "data/rodata_4008cfb8.bin", 12808, 8  /* 400901c0 */
-    .global rodata_400901c8
-rodata_400901c8:
+    .global d_400901c8
+d_400901c8:
     .incbin "data/rodata_4008cfb8.bin", 12816, 8  /* 400901c8 */
-    .global rodata_400901d0
-rodata_400901d0:
+    .global d_400901d0
+d_400901d0:
     .incbin "data/rodata_4008cfb8.bin", 12824, 8  /* 400901d0 */
-    .global rodata_400901d8
-rodata_400901d8:
+    .global d_400901d8
+d_400901d8:
     .incbin "data/rodata_4008cfb8.bin", 12832, 8  /* 400901d8 */
-    .global rodata_400901e0
-rodata_400901e0:
+    .global d_400901e0
+d_400901e0:
     .incbin "data/rodata_4008cfb8.bin", 12840, 8  /* 400901e0 */
-    .global rodata_400901e8
-rodata_400901e8:
+    .global d_400901e8
+d_400901e8:
     .incbin "data/rodata_4008cfb8.bin", 12848, 8  /* 400901e8 */
-    .global rodata_400901f0
-rodata_400901f0:
+    .global d_400901f0
+d_400901f0:
     .incbin "data/rodata_4008cfb8.bin", 12856, 8  /* 400901f0 */
-    .global rodata_400901f8
-rodata_400901f8:
+    .global d_400901f8
+d_400901f8:
     .incbin "data/rodata_4008cfb8.bin", 12864, 8  /* 400901f8 */
-    .global rodata_40090200
-rodata_40090200:
+    .global d_40090200
+d_40090200:
     .incbin "data/rodata_4008cfb8.bin", 12872, 8  /* 40090200 */
-    .global rodata_40090208
-rodata_40090208:
+    .global d_40090208
+d_40090208:
     .incbin "data/rodata_4008cfb8.bin", 12880, 8  /* 40090208 */
-    .global rodata_40090210
-rodata_40090210:
+    .global d_40090210
+d_40090210:
     .incbin "data/rodata_4008cfb8.bin", 12888, 8  /* 40090210 */
-    .global rodata_40090218
-rodata_40090218:
+    .global d_40090218
+d_40090218:
     .incbin "data/rodata_4008cfb8.bin", 12896, 8  /* 40090218 */
-    .global rodata_40090220
-rodata_40090220:
+    .global d_40090220
+d_40090220:
     .incbin "data/rodata_4008cfb8.bin", 12904, 8  /* 40090220 */
-    .global rodata_40090228
-rodata_40090228:
+    .global d_40090228
+d_40090228:
     .incbin "data/rodata_4008cfb8.bin", 12912, 8  /* 40090228 */
-    .global rodata_40090230
-rodata_40090230:
+    .global d_40090230
+d_40090230:
     .incbin "data/rodata_4008cfb8.bin", 12920, 8  /* 40090230 */
-    .global rodata_40090238
-rodata_40090238:
+    .global d_40090238
+d_40090238:
     .incbin "data/rodata_4008cfb8.bin", 12928, 8  /* 40090238 */
-    .global rodata_40090240
-rodata_40090240:
+    .global d_40090240
+d_40090240:
     .incbin "data/rodata_4008cfb8.bin", 12936, 8  /* 40090240 */
-    .global rodata_40090248
-rodata_40090248:
+    .global d_40090248
+d_40090248:
     .incbin "data/rodata_4008cfb8.bin", 12944, 8  /* 40090248 */
-    .global rodata_40090250
-rodata_40090250:
+    .global d_40090250
+d_40090250:
     .incbin "data/rodata_4008cfb8.bin", 12952, 8  /* 40090250 */
-    .global rodata_40090258
-rodata_40090258:
+    .global d_40090258
+d_40090258:
     .incbin "data/rodata_4008cfb8.bin", 12960, 8  /* 40090258 */
-    .global rodata_40090260
-rodata_40090260:
+    .global d_40090260
+d_40090260:
     .incbin "data/rodata_4008cfb8.bin", 12968, 8  /* 40090260 */
-    .global rodata_40090268
-rodata_40090268:
+    .global d_40090268
+d_40090268:
     .incbin "data/rodata_4008cfb8.bin", 12976, 8  /* 40090268 */
-    .global rodata_40090270
-rodata_40090270:
+    .global d_40090270
+d_40090270:
     .incbin "data/rodata_4008cfb8.bin", 12984, 8  /* 40090270 */
-    .global rodata_40090278
-rodata_40090278:
+    .global d_40090278
+d_40090278:
     .incbin "data/rodata_4008cfb8.bin", 12992, 8  /* 40090278 */
-    .global rodata_40090280
-rodata_40090280:
+    .global d_40090280
+d_40090280:
     .incbin "data/rodata_4008cfb8.bin", 13000, 8  /* 40090280 */
-    .global rodata_40090288
-rodata_40090288:
+    .global d_40090288
+d_40090288:
     .incbin "data/rodata_4008cfb8.bin", 13008, 8  /* 40090288 */
-    .global rodata_40090290
-rodata_40090290:
+    .global d_40090290
+d_40090290:
     .incbin "data/rodata_4008cfb8.bin", 13016, 8  /* 40090290 */
-    .global rodata_40090298
-rodata_40090298:
+    .global d_40090298
+d_40090298:
     .incbin "data/rodata_4008cfb8.bin", 13024, 8  /* 40090298 */
-    .global rodata_400902a0
-rodata_400902a0:
+    .global d_400902a0
+d_400902a0:
     .incbin "data/rodata_4008cfb8.bin", 13032, 8  /* 400902a0 */
-    .global rodata_400902a8
-rodata_400902a8:
+    .global d_400902a8
+d_400902a8:
     .incbin "data/rodata_4008cfb8.bin", 13040, 8  /* 400902a8 */
-    .global rodata_400902b0
-rodata_400902b0:
+    .global d_400902b0
+d_400902b0:
     .incbin "data/rodata_4008cfb8.bin", 13048, 8  /* 400902b0 */
-    .global rodata_400902b8
-rodata_400902b8:
+    .global d_400902b8
+d_400902b8:
     .incbin "data/rodata_4008cfb8.bin", 13056, 8  /* 400902b8 */
-    .global rodata_400902c0
-rodata_400902c0:
+    .global d_400902c0
+d_400902c0:
     .incbin "data/rodata_4008cfb8.bin", 13064, 8  /* 400902c0 */
-    .global rodata_400902c8
-rodata_400902c8:
+    .global d_400902c8
+d_400902c8:
     .incbin "data/rodata_4008cfb8.bin", 13072, 8  /* 400902c8 */
-    .global rodata_400902d0
-rodata_400902d0:
+    .global d_400902d0
+d_400902d0:
     .incbin "data/rodata_4008cfb8.bin", 13080, 8  /* 400902d0 */
-    .global rodata_400902d8
-rodata_400902d8:
+    .global d_400902d8
+d_400902d8:
     .incbin "data/rodata_4008cfb8.bin", 13088, 8  /* 400902d8 */
-    .global rodata_400902e0
-rodata_400902e0:
+    .global d_400902e0
+d_400902e0:
     .incbin "data/rodata_4008cfb8.bin", 13096, 8  /* 400902e0 */
-    .global rodata_400902e8
-rodata_400902e8:
+    .global d_400902e8
+d_400902e8:
     .incbin "data/rodata_4008cfb8.bin", 13104, 8  /* 400902e8 */
-    .global rodata_400902f0
-rodata_400902f0:
+    .global d_400902f0
+d_400902f0:
     .incbin "data/rodata_4008cfb8.bin", 13112, 8  /* 400902f0 */
-    .global rodata_400902f8
-rodata_400902f8:
+    .global d_400902f8
+d_400902f8:
     .incbin "data/rodata_4008cfb8.bin", 13120, 8  /* 400902f8 */
-    .global rodata_40090300
-rodata_40090300:
+    .global d_40090300
+d_40090300:
     .incbin "data/rodata_4008cfb8.bin", 13128, 8  /* 40090300 */
-    .global rodata_40090308
-rodata_40090308:
+    .global d_40090308
+d_40090308:
     .incbin "data/rodata_4008cfb8.bin", 13136, 8  /* 40090308 */
-    .global rodata_40090310
-rodata_40090310:
+    .global d_40090310
+d_40090310:
     .incbin "data/rodata_4008cfb8.bin", 13144, 8  /* 40090310 */
-    .global rodata_40090318
-rodata_40090318:
+    .global d_40090318
+d_40090318:
     .incbin "data/rodata_4008cfb8.bin", 13152, 8  /* 40090318 */
-    .global rodata_40090320
-rodata_40090320:
+    .global d_40090320
+d_40090320:
     .incbin "data/rodata_4008cfb8.bin", 13160, 8  /* 40090320 */
-    .global rodata_40090328
-rodata_40090328:
+    .global d_40090328
+d_40090328:
     .incbin "data/rodata_4008cfb8.bin", 13168, 8  /* 40090328 */
-    .global rodata_40090330
-rodata_40090330:
+    .global d_40090330
+d_40090330:
     .incbin "data/rodata_4008cfb8.bin", 13176, 8  /* 40090330 */
-    .global rodata_40090338
-rodata_40090338:
+    .global d_40090338
+d_40090338:
     .incbin "data/rodata_4008cfb8.bin", 13184, 8  /* 40090338 */
-    .global rodata_40090340
-rodata_40090340:
+    .global d_40090340
+d_40090340:
     .incbin "data/rodata_4008cfb8.bin", 13192, 8  /* 40090340 */
-    .global rodata_40090348
-rodata_40090348:
+    .global d_40090348
+d_40090348:
     .incbin "data/rodata_4008cfb8.bin", 13200, 8  /* 40090348 */
-    .global rodata_40090350
-rodata_40090350:
+    .global d_40090350
+d_40090350:
     .incbin "data/rodata_4008cfb8.bin", 13208, 8  /* 40090350 */
-    .global rodata_40090358
-rodata_40090358:
+    .global d_40090358
+d_40090358:
     .incbin "data/rodata_4008cfb8.bin", 13216, 8  /* 40090358 */
-    .global rodata_40090360
-rodata_40090360:
+    .global d_40090360
+d_40090360:
     .incbin "data/rodata_4008cfb8.bin", 13224, 8  /* 40090360 */
-    .global rodata_40090368
-rodata_40090368:
+    .global d_40090368
+d_40090368:
     .incbin "data/rodata_4008cfb8.bin", 13232, 8  /* 40090368 */
-    .global rodata_40090370
-rodata_40090370:
+    .global d_40090370
+d_40090370:
     .incbin "data/rodata_4008cfb8.bin", 13240, 8  /* 40090370 */
-    .global rodata_40090378
-rodata_40090378:
+    .global d_40090378
+d_40090378:
     .incbin "data/rodata_4008cfb8.bin", 13248, 8  /* 40090378 */
-    .global rodata_40090380
-rodata_40090380:
+    .global d_40090380
+d_40090380:
     .incbin "data/rodata_4008cfb8.bin", 13256, 8  /* 40090380 */
-    .global rodata_40090388
-rodata_40090388:
+    .global d_40090388
+d_40090388:
     .incbin "data/rodata_4008cfb8.bin", 13264, 8  /* 40090388 */
-    .global rodata_40090390
-rodata_40090390:
+    .global d_40090390
+d_40090390:
     .incbin "data/rodata_4008cfb8.bin", 13272, 8  /* 40090390 */
-    .global rodata_40090398
-rodata_40090398:
+    .global d_40090398
+d_40090398:
     .incbin "data/rodata_4008cfb8.bin", 13280, 8  /* 40090398 */
-    .global rodata_400903a0
-rodata_400903a0:
+    .global d_400903a0
+d_400903a0:
     .incbin "data/rodata_4008cfb8.bin", 13288, 8  /* 400903a0 */
-    .global rodata_400903a8
-rodata_400903a8:
+    .global d_400903a8
+d_400903a8:
     .incbin "data/rodata_4008cfb8.bin", 13296, 8  /* 400903a8 */
-    .global rodata_400903b0
-rodata_400903b0:
+    .global d_400903b0
+d_400903b0:
     .incbin "data/rodata_4008cfb8.bin", 13304, 8  /* 400903b0 */
-    .global rodata_400903b8
-rodata_400903b8:
+    .global d_400903b8
+d_400903b8:
     .incbin "data/rodata_4008cfb8.bin", 13312, 8  /* 400903b8 */
-    .global rodata_400903c0
-rodata_400903c0:
+    .global d_400903c0
+d_400903c0:
     .incbin "data/rodata_4008cfb8.bin", 13320, 8  /* 400903c0 */
-    .global rodata_400903c8
-rodata_400903c8:
+    .global d_400903c8
+d_400903c8:
     .incbin "data/rodata_4008cfb8.bin", 13328, 8  /* 400903c8 */
-    .global rodata_400903d0
-rodata_400903d0:
+    .global d_400903d0
+d_400903d0:
     .incbin "data/rodata_4008cfb8.bin", 13336, 8  /* 400903d0 */
-    .global rodata_400903d8
-rodata_400903d8:
+    .global d_400903d8
+d_400903d8:
     .incbin "data/rodata_4008cfb8.bin", 13344, 8  /* 400903d8 */
-    .global rodata_400903e0
-rodata_400903e0:
+    .global d_400903e0
+d_400903e0:
     .incbin "data/rodata_4008cfb8.bin", 13352, 8  /* 400903e0 */
-    .global rodata_400903e8
-rodata_400903e8:
+    .global d_400903e8
+d_400903e8:
     .incbin "data/rodata_4008cfb8.bin", 13360, 8  /* 400903e8 */
-    .global rodata_400903f0
-rodata_400903f0:
+    .global d_400903f0
+d_400903f0:
     .incbin "data/rodata_4008cfb8.bin", 13368, 8  /* 400903f0 */
-    .global rodata_400903f8
-rodata_400903f8:
+    .global d_400903f8
+d_400903f8:
     .incbin "data/rodata_4008cfb8.bin", 13376, 8  /* 400903f8 */
-    .global rodata_40090400
-rodata_40090400:
+    .global d_40090400
+d_40090400:
     .incbin "data/rodata_4008cfb8.bin", 13384, 8  /* 40090400 */
-    .global rodata_40090408
-rodata_40090408:
+    .global d_40090408
+d_40090408:
     .incbin "data/rodata_4008cfb8.bin", 13392, 8  /* 40090408 */
-    .global rodata_40090410
-rodata_40090410:
+    .global d_40090410
+d_40090410:
     .incbin "data/rodata_4008cfb8.bin", 13400, 8  /* 40090410 */
-    .global rodata_40090418
-rodata_40090418:
+    .global d_40090418
+d_40090418:
     .incbin "data/rodata_4008cfb8.bin", 13408, 8  /* 40090418 */
-    .global rodata_40090420
-rodata_40090420:
+    .global d_40090420
+d_40090420:
     .incbin "data/rodata_4008cfb8.bin", 13416, 8  /* 40090420 */
-    .global rodata_40090428
-rodata_40090428:
+    .global d_40090428
+d_40090428:
     .incbin "data/rodata_4008cfb8.bin", 13424, 8  /* 40090428 */
-    .global rodata_40090430
-rodata_40090430:
+    .global d_40090430
+d_40090430:
     .incbin "data/rodata_4008cfb8.bin", 13432, 8  /* 40090430 */
-    .global rodata_40090438
-rodata_40090438:
+    .global d_40090438
+d_40090438:
     .incbin "data/rodata_4008cfb8.bin", 13440, 12  /* 40090438 */
-    .global rodata_40090444
-rodata_40090444:
+    .global d_40090444
+d_40090444:
     .incbin "data/rodata_4008cfb8.bin", 13452, 15020  /* 40090444 */
-    .global rodata_40093ef0
-rodata_40093ef0:
+    .global d_40093ef0
+d_40093ef0:
     .incbin "data/rodata_4008cfb8.bin", 28472, 4096  /* 40093ef0 */
-    .global rodata_40094ef0
-rodata_40094ef0:
+    .global d_40094ef0
+d_40094ef0:
     .incbin "data/rodata_4008cfb8.bin", 32568, 452  /* 40094ef0 */
-    .global rodata_400950b4
-rodata_400950b4:
+    .global d_400950b4
+d_400950b4:
     .incbin "data/rodata_4008cfb8.bin", 33020, 308  /* 400950b4 */
-    .global rodata_400951e8
-rodata_400951e8:
+    .global d_400951e8
+d_400951e8:
     .incbin "data/rodata_4008cfb8.bin", 33328, 200  /* 400951e8 */
-    .global rodata_400952b0
-rodata_400952b0:
+    .global d_400952b0
+d_400952b0:
     .incbin "data/rodata_4008cfb8.bin", 33528, 72  /* 400952b0 */
-    .global rodata_400952f8
-rodata_400952f8:
+    .global d_400952f8
+d_400952f8:
     .incbin "data/rodata_4008cfb8.bin", 33600, 36  /* 400952f8 */
-    .global rodata_4009531c
-rodata_4009531c:
+    .global d_4009531c
+d_4009531c:
     .incbin "data/rodata_4008cfb8.bin", 33636, 36  /* 4009531c */
-    .global rodata_40095340
-rodata_40095340:
+    .global d_40095340
+d_40095340:
     .incbin "data/rodata_4008cfb8.bin", 33672, 32  /* 40095340 */
-    .global rodata_40095360
-rodata_40095360:
+    .global d_40095360
+d_40095360:
     .incbin "data/rodata_4008cfb8.bin", 33704, 32  /* 40095360 */
-    .global rodata_40095380
-rodata_40095380:
+    .global d_40095380
+d_40095380:
     .incbin "data/rodata_4008cfb8.bin", 33736, 32  /* 40095380 */
-    .global rodata_400953a0
-rodata_400953a0:
+    .global d_400953a0
+d_400953a0:
     .incbin "data/rodata_4008cfb8.bin", 33768, 32  /* 400953a0 */
-    .global rodata_400953c0
-rodata_400953c0:
+    .global d_400953c0
+d_400953c0:
     .incbin "data/rodata_4008cfb8.bin", 33800, 32  /* 400953c0 */
-    .global rodata_400953e0
-rodata_400953e0:
+    .global d_400953e0
+d_400953e0:
     .incbin "data/rodata_4008cfb8.bin", 33832, 32  /* 400953e0 */
-    .global rodata_40095400
-rodata_40095400:
+    .global d_40095400
+d_40095400:
     .incbin "data/rodata_4008cfb8.bin", 33864, 20  /* 40095400 */
-    .global rodata_40095414
-rodata_40095414:
+    .global d_40095414
+d_40095414:
     .incbin "data/rodata_4008cfb8.bin", 33884, 20  /* 40095414 */
-    .global rodata_40095428
-rodata_40095428:
+    .global d_40095428
+d_40095428:
     .incbin "data/rodata_4008cfb8.bin", 33904, 20  /* 40095428 */
-    .global rodata_4009543c
-rodata_4009543c:
+    .global d_4009543c
+d_4009543c:
     .incbin "data/rodata_4008cfb8.bin", 33924, 20  /* 4009543c */
-    .global rodata_40095450
-rodata_40095450:
+    .global d_40095450
+d_40095450:
     .incbin "data/rodata_4008cfb8.bin", 33944, 20  /* 40095450 */
-    .global rodata_40095464
-rodata_40095464:
+    .global d_40095464
+d_40095464:
     .incbin "data/rodata_4008cfb8.bin", 33964, 12  /* 40095464 */
-    .global rodata_40095470
-rodata_40095470:
+    .global d_40095470
+d_40095470:
     .incbin "data/rodata_4008cfb8.bin", 33976, 12  /* 40095470 */
-    .global rodata_4009547c
-rodata_4009547c:
+    .global d_4009547c
+d_4009547c:
     .incbin "data/rodata_4008cfb8.bin", 33988, 8  /* 4009547c */
-    .global rodata_40095484
-rodata_40095484:
+    .global d_40095484
+d_40095484:
     .incbin "data/rodata_4008cfb8.bin", 33996, 8  /* 40095484 */
-    .global rodata_4009548c
-rodata_4009548c:
+    .global d_4009548c
+d_4009548c:
     .incbin "data/rodata_4008cfb8.bin", 34004, 4  /* 4009548c */
-    .global rodata_40095490
-rodata_40095490:
+    .global d_40095490
+d_40095490:
     .incbin "data/rodata_4008cfb8.bin", 34008, 4  /* 40095490 */
-    .global rodata_40095494
-rodata_40095494:
+    .global d_40095494
+d_40095494:
     .incbin "data/rodata_4008cfb8.bin", 34012, 4  /* 40095494 */
-    .global rodata_40095498
-rodata_40095498:
+    .global d_40095498
+d_40095498:
     .incbin "data/rodata_4008cfb8.bin", 34016, 4  /* 40095498 */
-    .global rodata_4009549c
-rodata_4009549c:
+    .global d_4009549c
+d_4009549c:
     .incbin "data/rodata_4008cfb8.bin", 34020, 4  /* 4009549c */
-    .global rodata_400954a0
-rodata_400954a0:
+    .global d_400954a0
+d_400954a0:
     .incbin "data/rodata_4008cfb8.bin", 34024, 4  /* 400954a0 */

@@ -3,4 +3,6 @@
     .arm
     .global fonts_40000040
 fonts_40000040:
+    .global d_40000040
+d_40000040:
     .incbin "data/fonts_40000040.bin", 0, 105140  /* 40000040 */

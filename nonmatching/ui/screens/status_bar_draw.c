@@ -254,8 +254,8 @@ void status_bar_draw(void)
     sb_tile(x, y, 0xFF3388, "GEN");
     draw_colour_set(0x5555FF);
     text_spacing_set(1);
-    w = text_width((const char *)(0x40094EF0u + GENS(waveform) * 30u));
-    sb_text(x + 0x7B - w, y + 2, (const char *)(0x40094EF0u + GENS(waveform) * 30u));
+    w = text_width((const char *)(IMGU(40094ef0) + GENS(waveform) * 30u));
+    sb_text(x + 0x7B - w, y + 2, (const char *)(IMGU(40094ef0) + GENS(waveform) * 30u));
     draw_colour_set(THEME_WORD(0x18));
     text_spacing_set(2);
     value_si_scale(6, 0, (long long)GN32(0x2F00) * 1000, &c->v, &c->dec, &c->pre);

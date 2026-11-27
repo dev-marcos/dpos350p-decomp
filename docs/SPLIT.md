@@ -78,8 +78,10 @@ now writes:
 | word holding the offset from itself to a function (the armlink `Region$$Table` entry) | 1 | `.word __scatterload_zeroinit - .` |
 
 The symbols for things that are not function entries:
-- `d_XXXXXXXX` inside a unit (strings and tables after the runtime code);
-- `<blob>_XXXXXXXX` inside a data blob, which is split into several `.incbin` pieces there;
+- `d_XXXXXXXX` for every image address the assembly or the C refers to, inside a unit (strings
+  and tables after the code) or inside a data blob (split into several `.incbin` pieces there).
+  The C uses the same names (`include/image.h`), and `tools/split.py` reads them from the C
+  sources so that each one has a label;
 - `vectors` for `0x40000000` (copied to the vector page at reset).
 
 What is **not** a symbol, and why:

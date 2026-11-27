@@ -422,7 +422,7 @@ bode_toolbar_draw:  /* 0x4002a184 */
 .Lp_4002a7d4:
     .word 0x00252525  /* 4002a7d4 */
 .Lp_4002a7d8:
-    .word graphics_40088ef8  /* 4002a7d8 */
+    .word d_40088ef8  /* 4002a7d8 */
 .Lp_4002a7dc:
     .word 0x00bbbbbb  /* 4002a7dc */
 .Lp_4002a7e0:

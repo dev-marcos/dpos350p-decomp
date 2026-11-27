@@ -39,7 +39,7 @@ sunxi_udc_enable:  /* 0x4006b624 */
 .Lp_4006b698:
     .word 0x42e68cfc  /* 4006b698 */
 .Lp_4006b69c:
-    .word rodata_4008eed8  /* 4006b69c */
+    .word d_4008eed8  /* 4006b69c */
 .Lp_4006b6a0:
-    .word rodata_40095470  /* 4006b6a0 */
+    .word d_40095470  /* 4006b6a0 */
     .size sunxi_udc_enable, . - sunxi_udc_enable

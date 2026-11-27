@@ -10,7 +10,7 @@
 
 void pixel_blend(u32 x, u32 y)
 {
-    volatile unsigned short *px = (volatile unsigned short *)(*(volatile u32 *)0x40095498u + (x + y * 1022u) * 2u);
+    volatile unsigned short *px = (volatile unsigned short *)(*(volatile u32 *)IMG(40095498) + (x + y * 1022u) * 2u);
     volatile unsigned char *c = (volatile unsigned char *)0x42E6865Cu;
     int a = c[0], cr = c[1], cg = c[2], cb = c[3], v = *px, r, g, b;
     r = (v >> 11) & 31;

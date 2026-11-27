@@ -16,7 +16,7 @@
 
 #define TRACES 0x413F92E8u           /* trace sample buffers */
 typedef double (*sqrt_fn)(double);
-#define SQRT_T ((sqrt_fn)0x4003DF75u)   /* sqrt at 0x4003DF74 is Thumb */
+#define SQRT_T ((sqrt_fn)CODE_ADDR(sqrt))   /* sqrt at 0x4003DF74 is Thumb */
 
 static int clamp_x(int v)
 {

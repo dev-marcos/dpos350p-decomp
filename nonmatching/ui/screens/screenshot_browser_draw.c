@@ -31,7 +31,7 @@ void screenshot_path_make_raw(u32 v) __asm__("screenshot_path_make");
 #define NAME      ((const char *)(0x40544E68u + 0x88C1u))
 #define THUMB_W   (*(volatile unsigned short *)(0x40544E68u + 0x109684u))
 #define THUMB_H   (*(volatile unsigned short *)(0x40544E68u + 0x109686u))
-#define FB_PTR    (*(volatile u32 *)0x40095498u)
+#define FB_PTR    (*(volatile u32 *)IMG(40095498))
 
 /* one text-table entry at (x + dx, y + dy) with a 1 x 2 shadow */
 static void tb_label(u32 x, u32 y, u32 k)
@@ -169,5 +169,5 @@ bars:
 
 void screenshot_browser_draw(void)
 {
-    tb_draw(0x11E, screenshot_path_make_raw, 0x728, 0x4008A038u, 110, 0x7BE);
+    tb_draw(0x11E, screenshot_path_make_raw, 0x728, IMGU(4008a038), 110, 0x7BE);
 }

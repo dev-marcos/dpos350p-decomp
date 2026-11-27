@@ -9,7 +9,7 @@
 
 u32 usb_phy_open_clock_Device(void)
 {
-    debug_printf_stub(STR(0x4008E27C));
+    debug_printf_stub(STR(4008e27c));
     REG32(0x01C200CCu) |= 0x100;
     REG32(0x01C200CCu) |= 1;
     REG32(0x01C20060u) |= 0x1000000;

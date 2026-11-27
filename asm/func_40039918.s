@@ -207,5 +207,5 @@ bode_curves_zoom:  /* 0x40039918 */
 .Lp_40039c00:
     .word 0x42e68be0  /* 40039c00 */
 .Lp_40039c04:
-    .word rodata_4008ffc0  /* 40039c04 */
+    .word d_4008ffc0  /* 40039c04 */
     .size bode_curves_zoom, . - bode_curves_zoom

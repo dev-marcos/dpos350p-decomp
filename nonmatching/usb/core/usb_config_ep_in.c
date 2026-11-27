@@ -12,7 +12,7 @@ void usb_config_ep_in(int epidx, int maxpack, int type)
 {
     u32 old;
     if (!epidx) return;
-    debug_printf_stub(STR(0x4008E228), epidx, maxpack, type);
+    debug_printf_stub(STR(4008e228), epidx, maxpack, type);
     old = USBC_GetActiveEp();
     USBC_SelectActiveEp((unsigned char)epidx);
     USBC_Dev_ConfigEp(type, 2, 1, maxpack);

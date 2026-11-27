@@ -14,7 +14,7 @@ u32 ff_wtoupper(u32 uni)
     if (uni >= 0x10000)
         return uni;
     uc = uni & 0xFFFF;
-    p = uc < 0x1000 ? (const volatile unsigned short *)0x400877ACu : (const volatile unsigned short *)0x4008C6E0u;
+    p = uc < 0x1000 ? (const volatile unsigned short *)IMG(400877ac) : (const volatile unsigned short *)IMG(4008c6e0);
     for (;;) {
         bc = *p++;
         if (bc == 0 || uc < bc)

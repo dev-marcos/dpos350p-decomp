@@ -10,7 +10,7 @@
 int sys_spi_transfer(int spi, const unsigned char *tx, unsigned char *rx, int len)
 {
     if (len >= 0x1000000) {
-        dbg_printf(STR(0x4008D20C), len);
+        dbg_printf(STR(4008d20c), len);
         return -1;
     }
     sys_spi_cpu_transfer(spi, tx, rx, len);

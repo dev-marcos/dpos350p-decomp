@@ -10,9 +10,9 @@
 
 void sunxi_udc_enable(void)
 {
-    debug_printf_stub(STR(0x4008E260));
+    debug_printf_stub(STR(4008e260));
     current_speed = 0;
-    debug_printf_stub(STR(0x4008D2FC));
+    debug_printf_stub(STR(4008d2fc));
     USBC_Dev_ConfigTransferMode(4, 3);
     USBC_INT_EnableUsbMiscUint(0);
     USBC_INT_EnableUsbMiscUint(1);

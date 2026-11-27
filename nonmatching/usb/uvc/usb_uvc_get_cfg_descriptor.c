@@ -12,6 +12,6 @@
 
 int usb_uvc_get_cfg_descriptor(unsigned char *req)
 {
-    debug_printf_stub(STR(0x4008E2B4));
-    return usb_device_write_data_ep_pack(0, (unsigned char *)0x400950B4u, *(unsigned short *)(req + 6));
+    debug_printf_stub(STR(4008e2b4));
+    return usb_device_write_data_ep_pack(0, (unsigned char *)IMG(400950b4), *(unsigned short *)(req + 6));
 }

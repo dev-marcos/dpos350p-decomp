@@ -19,10 +19,10 @@
 #define FT_WHITE    0x00FFFFFFu
 #define FT_RED      0x00FF2222u
 #define FT_FONT     0x42E658D8u
-#define FT_OK       ((const char *)0x4008FFC8u)     /* 成功 */
-#define FT_FAIL     ((const char *)0x4008FFD0u)     /* 异常 */
-#define FT_CH1_FAIL ((const char *)0x4008EFFCu)     /* 通道1异常 */
-#define FT_CH2_FAIL ((const char *)0x4008F00Cu)     /* 通道2异常 */
+#define FT_OK       ((const char *)IMG(4008ffc8))     /* 成功 */
+#define FT_FAIL     ((const char *)IMG(4008ffd0))     /* 异常 */
+#define FT_CH1_FAIL ((const char *)IMG(4008effc))     /* 通道1异常 */
+#define FT_CH2_FAIL ((const char *)IMG(4008f00c))     /* 通道2异常 */
 
 static void ft_text(u32 colour, u32 x, u32 y, const char *s)
 {
@@ -64,13 +64,13 @@ void factory_test_tester(void)
     draw_colour_set(FT_WHITE);
     font_set(FT_FONT);
     text_spacing_set(1);
-    text_draw(15, 15, (const char *)0x4008D32Cu);       /* 请插入测试器并按 OK 键继续... */
+    text_draw(15, 15, (const char *)IMG(4008d32c));       /* 请插入测试器并按 OK 键继续... */
     draw_colour_set(0x555555);
     rect_fill(452, 240, 120, 120);
     draw_colour_set(FT_WHITE);
     text_spacing_set(3);
     font_set(0x42E65D98u);
-    text_draw(502, 290, (const char *)0x40051964u);     /* "OK" */
+    text_draw(502, 290, (const char *)IMG(40051964));     /* "OK" */
     text_spacing_set(1);
     font_set(FT_FONT);
     fb_present();
@@ -79,7 +79,7 @@ void factory_test_tester(void)
     while (g_touch->event != 2 || (u32)(g_touch->down_x - 453) >= 0x77 || (u32)(g_touch->down_y - 241) >= 0x77);
 
     fb_clear_current();
-    text_draw(15, 15, (const char *)0x4008D7B0u);       /* 通道和信号发生器检测 ... */
+    text_draw(15, 15, (const char *)IMG(4008d7b0));       /* 通道和信号发生器检测 ... */
     fb_present();
     acq_defaults_reset();
     generator_state_init();
@@ -91,30 +91,30 @@ void factory_test_tester(void)
     factory_channel_gen_check();
     if (!FACT(f_024)) {
         if (!FACT(ch1_checks_ok))
-            ft_text(FT_RED, 220, 15, FACT(ch2_checks_ok) ? FT_CH1_FAIL : (const char *)0x4008DA00u);  /* 通道或信号发生器异常 */
+            ft_text(FT_RED, 220, 15, FACT(ch2_checks_ok) ? FT_CH1_FAIL : (const char *)IMG(4008da00));  /* 通道或信号发生器异常 */
         else if (!FACT(ch2_checks_ok))
             ft_text(FT_RED, 220, 15, FT_CH2_FAIL);
         else
             fb_present();
         ft_halt();
     }
-    ft_ok_next(220, 15, (const char *)0x4008E334u);     /* 通道量程检测 ... */
+    ft_ok_next(220, 15, (const char *)IMG(4008e334));     /* 通道量程检测 ... */
     channel_ranges_selftest();
     if (!FACT(f_02e))
         ft_fail2(220, 40, FACT(f_02f), FACT(f_030));
-    ft_ok_next(220, 40, (const char *)0x4008E34Cu);     /* 通道DCAC检测 ... */
+    ft_ok_next(220, 40, (const char *)IMG(4008e34c));     /* 通道DCAC检测 ... */
     coupling_dcac_selftest();
     if (!FACT(f_027))
         ft_fail2(220, 65, FACT(f_028), FACT(f_029));
-    ft_ok_next(220, 65, (const char *)0x4008DC5Cu);     /* 通道平坦度检测 ... */
+    ft_ok_next(220, 65, (const char *)IMG(4008dc5c));     /* 通道平坦度检测 ... */
     flatness_selftest();
     if (!FACT(f_034))
         ft_fail2(220, 90, FACT(window_a_ok), FACT(window_b_ok));
-    ft_ok_next(220, 90, (const char *)0x4008DC78u);     /* 20M带宽限制检测 ... */
+    ft_ok_next(220, 90, (const char *)IMG(4008dc78));     /* 20M带宽限制检测 ... */
     bandwidth_20m_selftest();
     if (!FACT(f_042))
         ft_fail2(220, 115, FACT(f_043), FACT(f_044));
-    ft_ok_next(220, 115, (const char *)0x4008DC94u);    /* ADC时钟相位校准 ... */
+    ft_ok_next(220, 115, (const char *)IMG(4008dc94));    /* ADC时钟相位校准 ... */
     check_pair_save();
     if (!FACT(f_045)) {
         ft_text(FT_RED, 220, 140, FT_FAIL);

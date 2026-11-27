@@ -1201,7 +1201,7 @@ status_bar_draw:  /* 0x4001ad50 */
     add r1, pc, #216, #30  /* 4001be78 */
     b .L4001be88  /* 4001be7c */
 .Lp_4001be80:
-    .word rodata_400902c8  /* 4001be80 */
+    .word d_400902c8  /* 4001be80 */
 .L4001be84:
     adr r1, .Lp_4001c1e4  /* 4001be84 */
 .L4001be88:

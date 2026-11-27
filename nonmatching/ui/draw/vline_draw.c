@@ -10,7 +10,7 @@
 
 #define CB8(o) (*(volatile unsigned char *)(0x42E6865Cu + (o)))
 #define CB16(o) (*(volatile unsigned short *)(0x42E6865Cu + (o)))
-#define FBP (*(volatile u32 *)0x40095498u)
+#define FBP (*(volatile u32 *)IMG(40095498))
 
 void vline_draw(u32 x, u32 y0, u32 y1)
 {

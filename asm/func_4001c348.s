@@ -25,27 +25,27 @@ ui_window_05_draw:  /* 0x4001c348 */
 .Lp_4001c384:
     .word 0x00ff8833  /* 4001c384 */
 .Lp_4001c388:
-    .word rodata_400902d8  /* 4001c388 */
+    .word d_400902d8  /* 4001c388 */
 .Lp_4001c38c:
-    .word rodata_400902e0  /* 4001c38c */
+    .word d_400902e0  /* 4001c38c */
 .Lp_4001c390:
-    .word rodata_400902e8  /* 4001c390 */
+    .word d_400902e8  /* 4001c390 */
 .Lp_4001c394:
-    .word rodata_400902f0  /* 4001c394 */
+    .word d_400902f0  /* 4001c394 */
 .Lp_4001c398:
     .word 0x00aa44ff  /* 4001c398 */
 .Lp_4001c39c:
-    .word rodata_40090078  /* 4001c39c */
+    .word d_40090078  /* 4001c39c */
 .Lp_4001c3a0:
-    .word rodata_40090088  /* 4001c3a0 */
+    .word d_40090088  /* 4001c3a0 */
 .Lp_4001c3a4:
-    .word rodata_400900a0  /* 4001c3a4 */
+    .word d_400900a0  /* 4001c3a4 */
 .Lp_4001c3a8:
     .word 0x003dd544  /* 4001c3a8 */
 .Lp_4001c3ac:
     .word 0x42e3f984  /* 4001c3ac */
 .Lp_4001c3b0:
-    .word rodata_40094ef0  /* 4001c3b0 */
+    .word d_40094ef0  /* 4001c3b0 */
 .Lp_4001c3b4:
     .word 0x00ff3388  /* 4001c3b4 */
 .Lp_4001c3b8:

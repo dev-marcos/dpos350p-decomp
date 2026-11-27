@@ -123,7 +123,7 @@ xy_grid_draw:  /* 0x4002c5f8 */
 .Lp_4002c7a0:
     .word 0x003dd550  /* 4002c7a0 */
 .Lp_4002c7a4:
-    .word graphics_4008be68  /* 4002c7a4 */
+    .word d_4008be68  /* 4002c7a4 */
 .Lp_4002c7a8:
     .word 0x42e68668  /* 4002c7a8 */
     .size xy_grid_draw, . - xy_grid_draw

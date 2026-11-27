@@ -384,35 +384,35 @@ side_menu_column_draw:  /* 0x4001a708 */
 .Lp_4001acc0:
     .word 0x00aa8855  /* 4001acc0 */
 .Lp_4001acc4:
-    .word graphics_40088208  /* 4001acc4 */
+    .word d_40088208  /* 4001acc4 */
 .Lp_4001acc8:
     .word 0x42e61ff8  /* 4001acc8 */
 .Lp_4001accc:
     .word 0x005588aa  /* 4001accc */
 .Lp_4001acd0:
-    .word graphics_40088378  /* 4001acd0 */
+    .word d_40088378  /* 4001acd0 */
 .Lp_4001acd4:
     .word 0x0088aa55  /* 4001acd4 */
 .Lp_4001acd8:
-    .word graphics_400884e8  /* 4001acd8 */
+    .word d_400884e8  /* 4001acd8 */
 .Lp_4001acdc:
     .word 0x0055aa88  /* 4001acdc */
 .Lp_4001ace0:
-    .word graphics_40088658  /* 4001ace0 */
+    .word d_40088658  /* 4001ace0 */
 .Lp_4001ace4:
     .word 0x00aa5588  /* 4001ace4 */
 .Lp_4001ace8:
-    .word graphics_400887c8  /* 4001ace8 */
+    .word d_400887c8  /* 4001ace8 */
 .Lp_4001acec:
     .word 0x008855aa  /* 4001acec */
 .Lp_4001acf0:
-    .word graphics_40088938  /* 4001acf0 */
+    .word d_40088938  /* 4001acf0 */
 .Lp_4001acf4:
-    .word graphics_40088aa8  /* 4001acf4 */
+    .word d_40088aa8  /* 4001acf4 */
 .Lp_4001acf8:
-    .word graphics_40088c18  /* 4001acf8 */
+    .word d_40088c18  /* 4001acf8 */
 .Lp_4001acfc:
-    .word graphics_40088d88  /* 4001acfc */
+    .word d_40088d88  /* 4001acfc */
 .Lp_4001ad00:
     .word 0x42e64520  /* 4001ad00 */
 .Lp_4001ad04:
@@ -420,37 +420,37 @@ side_menu_column_draw:  /* 0x4001a708 */
 .Lp_4001ad08:
     .word 0x40544e68  /* 4001ad08 */
 .Lp_4001ad0c:
-    .word graphics_400857fc  /* 4001ad0c */
+    .word d_400857fc  /* 4001ad0c */
 .Lp_4001ad10:
     .word 0x002288ff  /* 4001ad10 */
 .Lp_4001ad14:
-    .word graphics_40085af4  /* 4001ad14 */
+    .word d_40085af4  /* 4001ad14 */
 .Lp_4001ad18:
     .word 0x0022cc66  /* 4001ad18 */
 .Lp_4001ad1c:
-    .word graphics_40085dec  /* 4001ad1c */
+    .word d_40085dec  /* 4001ad1c */
 .Lp_4001ad20:
     .word 0x00282828  /* 4001ad20 */
 .Lp_4001ad24:
-    .word graphics_40086cc4  /* 4001ad24 */
+    .word d_40086cc4  /* 4001ad24 */
 .Lp_4001ad28:
     .word 0x00aaaaaa  /* 4001ad28 */
 .Lp_4001ad2c:
     .word 0x00ffaa33  /* 4001ad2c */
 .Lp_4001ad30:
-    .word graphics_400866d4  /* 4001ad30 */
+    .word d_400866d4  /* 4001ad30 */
 .Lp_4001ad34:
     .word 0x0033aaff  /* 4001ad34 */
 .Lp_4001ad38:
-    .word graphics_400869cc  /* 4001ad38 */
+    .word d_400869cc  /* 4001ad38 */
 .Lp_4001ad3c:
-    .word graphics_40086fbc  /* 4001ad3c */
+    .word d_40086fbc  /* 4001ad3c */
 .Lp_4001ad40:
     .word 0x0088ff22  /* 4001ad40 */
 .Lp_4001ad44:
-    .word graphics_400851d4  /* 4001ad44 */
+    .word d_400851d4  /* 4001ad44 */
 .Lp_4001ad48:
     .word 0x008822ff  /* 4001ad48 */
 .Lp_4001ad4c:
-    .word graphics_400854e8  /* 4001ad4c */
+    .word d_400854e8  /* 4001ad4c */
     .size side_menu_column_draw, . - side_menu_column_draw

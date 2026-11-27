@@ -14,7 +14,7 @@ int mmc_check_range(u32 start, u32 count)
     u32 end = start + count - 1;
     if (mmc_capacity >= end)
         return 0;
-    dbg_printf(STR(0x4008CC4C));
-    dbg_printf(STR(0x4008CD70), mmc_capacity);
+    dbg_printf(STR(4008cc4c));
+    dbg_printf(STR(4008cd70), mmc_capacity);
     return (int)0xFFFCA9A3u;
 }

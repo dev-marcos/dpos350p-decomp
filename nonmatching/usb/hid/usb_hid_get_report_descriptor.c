@@ -9,4 +9,4 @@
 #include "usb/mass_storage.h"
 #include "shared/usb.h"
 
-void usb_hid_get_report_descriptor(void) { usb_device_write_data_ep_pack(0, (unsigned char *)0x4008D9A8u, 0x23); }
+void usb_hid_get_report_descriptor(void) { usb_device_write_data_ep_pack(0, (unsigned char *)IMG(4008d9a8), 0x23); }

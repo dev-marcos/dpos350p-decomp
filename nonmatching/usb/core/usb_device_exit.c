@@ -10,7 +10,7 @@
 
 void usb_device_exit(void)
 {
-    dbg_printf(STR(0x4008EFB4));
+    dbg_printf(STR(4008efb4));
     sunxi_udc_disable();
     usb_phy_close_clock_Device();
     current_usb_type = 0;

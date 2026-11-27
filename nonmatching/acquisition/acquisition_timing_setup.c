@@ -19,9 +19,9 @@
 
 /* Thumb runtime helpers, called through their Thumb addresses like the stock BLX */
 typedef double (*ul2d_fn)(unsigned long long) __attribute__((pcs("aapcs")));
-#define UL2D(v) (((ul2d_fn)0x4005F731u)(v))
+#define UL2D(v) (((ul2d_fn)CODE_ADDR(__aeabi_ul2d))(v))
 typedef double (*pow_fn)(double, double);
-#define POW(a, b) (((pow_fn)0x4005D4A5u)((a), (b)))
+#define POW(a, b) (((pow_fn)CODE_ADDR(pow))((a), (b)))
 
 struct tb_row {
     unsigned long long period;

@@ -239,13 +239,13 @@ ui_language_menu_draw:  /* 0x400292e4 */
     add sp, sp, #0xc  /* 40029660 */
     pop {r4, r5, r6, r7, r8, sb, sl, fp, pc}  /* 40029664 */
 .Lp_40029668:
-    .word rodata_40090428  /* 40029668 */
+    .word d_40090428  /* 40029668 */
 .Lp_4002966c:
-    .word graphics_4008b2e8  /* 4002966c */
+    .word d_4008b2e8  /* 4002966c */
 .Lp_40029670:
     .word 0x42c2fe74  /* 40029670 */
 .Lp_40029674:
     .word 0x42e61ff8  /* 40029674 */
 .Lp_40029678:
-    .word graphics_4008b458  /* 40029678 */
+    .word d_4008b458  /* 40029678 */
     .size ui_language_menu_draw, . - ui_language_menu_draw

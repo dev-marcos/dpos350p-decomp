@@ -22,12 +22,12 @@ void switch_on_off_draw(u32 x, u32 y, u32 on)
         draw_colour_set(t[1]);
         rect_fill((unsigned short)(x + 0x1E), (unsigned short)(y + 2), 0x1E, 0x1C);
         draw_colour_set(t[3]);
-        text_draw((unsigned short)(x + 7), (unsigned short)(y + 10), (const char *)0x40019DB0u);
+        text_draw((unsigned short)(x + 7), (unsigned short)(y + 10), (const char *)IMG(40019db0));
     } else {
         draw_colour_set(t[2]);
         rect_fill(x, (unsigned short)(y + 2), 0x1E, 0x1C);
         draw_colour_set(t[3]);
-        text_draw((unsigned short)(x + 0x23), (unsigned short)(y + 10), (const char *)0x40019DB4u);
+        text_draw((unsigned short)(x + 0x23), (unsigned short)(y + 10), (const char *)IMG(40019db4));
     }
     font_set(font);
     text_spacing_set((unsigned char)h);

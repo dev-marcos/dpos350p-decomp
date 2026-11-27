@@ -43,7 +43,7 @@ void side_menu_column_draw(void)
     draw_colour_set(THEME_WORD(0x0C));
     rect_fill(x & 0xFFFF, y, 0x40, 0x258);
     draw_colour_set(SI(acq_transition_flag) ? 0xFF0000 : 0xFF00);
-    icon_rec(x, y, y + 0x14, 0x400857FCu, 0x5C);
+    icon_rec(x, y, y + 0x14, IMGU(400857fc), 0x5C);
     pressed(x & 0xFFFF, y, 0x5C, 0x47);
 
     draw_colour_set(THEME_WORD(0x0C));
@@ -51,21 +51,21 @@ void side_menu_column_draw(void)
     draw_colour_set(0x2288FF);
     draw_colour_set(THEME_WORD(0x10));
     draw_colour_set(0x88FF);
-    icon_rec(x, y + 0x4B, y + 0x5F, 0x40085AF4u, 0x66);
+    icon_rec(x, y + 0x4B, y + 0x5F, IMGU(40085af4), 0x66);
     pressed(x & 0xFFFF, y + 0x4B, 0x66, 0x47);
 
     draw_colour_set(THEME_WORD(0x0C));
     rect_fill(x & 0xFFFF, (y + 0x96) & 0xFFFF, 0x40, 0x47);
     draw_colour_set(0x22CC66);
     draw_colour_set(THEME_WORD(0x10));
-    icon_rec(x, y + 0x96, y + 0xAA, 0x40085DECu, 0x70);
+    icon_rec(x, y + 0x96, y + 0xAA, IMGU(40085dec), 0x70);
     pressed(x & 0xFFFF, y + 0x96, 0x70, 0x47);
 
     draw_colour_set(0x282828);
     rect_fill(x & 0xFFFF, (y + 0xE1) & 0xFFFF, 0x40, 0x46);
     draw_colour_set(0x22CC66);
     draw_colour_set(THEME_WORD(0x10));
-    icon_rec(x, y + 0xE1, y + 0xF5, 0x40086CC4u, 0x7A);
+    icon_rec(x, y + 0xE1, y + 0xF5, IMGU(40086cc4), 0x7A);
     pressed(x & 0xFFFF, y + 0xE1, 0x7A, 0x46);
 
     draw_colour_set(0x282828);
@@ -73,10 +73,10 @@ void side_menu_column_draw(void)
     draw_colour_set(0xAAAAAA);
     if (!SI(f_664)) {
         draw_colour_set(0xFFAA33);
-        draw_text_shadowed((x + 0x14) & 0xFFFF, (y + 0x140) & 0xFFFF, 0x400866D4u, 2, 2, 0);
+        draw_text_shadowed((x + 0x14) & 0xFFFF, (y + 0x140) & 0xFFFF, IMGU(400866d4), 2, 2, 0);
     } else {
         draw_colour_set(0x33AAFF);
-        draw_text_shadowed((x + 0x14) & 0xFFFF, (y + 0x140) & 0xFFFF, 0x400869CCu, 2, 2, 0);
+        draw_text_shadowed((x + 0x14) & 0xFFFF, (y + 0x140) & 0xFFFF, IMGU(400869cc), 2, 2, 0);
     }
     touch_button_set_rect(x & 0xFFFF, (y + 0x127) & 0xFFFF, 0x40, 0x46, (volatile unsigned char *)(BTN + 0x84));
     pressed(x & 0xFFFF, y + 0x128, 0x84, 0x4B);
@@ -85,14 +85,14 @@ void side_menu_column_draw(void)
     rect_fill(x & 0xFFFF, (y + 0x175) & 0xFFFF, 0x40, 0x46);
     draw_colour_set(0x22CC66);
     draw_colour_set(THEME_WORD(0x10));
-    icon_rec(x, y + 0x175, y + 0x189, 0x40086FBCu, 0x8E);
+    icon_rec(x, y + 0x175, y + 0x189, IMGU(40086fbc), 0x8E);
     pressed(x & 0xFFFF, y + 0x174, 0x8E, 0x47);
 
     draw_colour_set(THEME_WORD(0x0C));
     rect_fill(x & 0xFFFF, (y + 0x1BF) & 0xFFFF, 0x40, 0x47);
     draw_colour_set(0x88FF22);
     draw_colour_set(THEME_WORD(0x10));
-    icon_rec(x, y + 0x1BF, y + 0x1D6, 0x400851D4u, 0x98);
+    icon_rec(x, y + 0x1BF, y + 0x1D6, IMGU(400851d4), 0x98);
     pressed(x & 0xFFFF, y + 0x1BF, 0x98, 0x47);
 
     draw_colour_set(THEME_WORD(0x0C));
@@ -100,6 +100,6 @@ void side_menu_column_draw(void)
     draw_colour_set(0x8822FF);
     draw_colour_set(THEME_WORD(0x10));
     draw_colour_set(0x8800FF);
-    icon_rec(x, y + 0x20A, y + 0x221, 0x400854E8u, 0xA2);
+    icon_rec(x, y + 0x20A, y + 0x221, IMGU(400854e8), 0xA2);
     pressed(x & 0xFFFF, y + 0x20A, 0xA2, 0x48);
 }

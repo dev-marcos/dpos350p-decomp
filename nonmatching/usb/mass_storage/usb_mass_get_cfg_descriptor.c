@@ -12,7 +12,7 @@
 void usb_mass_get_cfg_descriptor(unsigned char *req)
 {
     u32 len = *(unsigned short *)(req + 6), n;
-    debug_printf_stub(STR(0x4008DC20));
+    debug_printf_stub(STR(4008dc20));
     n = len == 8 ? 8 : len == 9 ? 9 : 0x20;
-    usb_device_write_data_ep_pack(0, (unsigned char *)0x400953E0u, n);
+    usb_device_write_data_ep_pack(0, (unsigned char *)IMG(400953e0), n);
 }

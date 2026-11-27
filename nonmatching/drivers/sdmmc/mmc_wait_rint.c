@@ -15,7 +15,7 @@ int mmc_wait_rint(u32 n, u32 timeout, u32 mask)
     for (;;) {
         v = readl_a(base + 0x38);
         if (timeout-- == 0 || (v & 0xBFC2)) {
-            dbg_printf(STR(0x4008D8AC), n, timeout, v & 0xBFC2);
+            dbg_printf(STR(4008d8ac), n, timeout, v & 0xBFC2);
             return -0x98;
         }
         mmc_delay_us(5);

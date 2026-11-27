@@ -36,15 +36,15 @@ f_mount:  /* 0x40059aec */
     add sp, sp, #0xc  /* 40059b58 */
     pop {r4, r5, pc}  /* 40059b5c */
 .Lp_40059b60:
-    .word rodata_4008fa38  /* 40059b60 */
+    .word d_4008fa38  /* 40059b60 */
 .Lp_40059b64:
-    .word graphics_4008caa8  /* 40059b64 */
+    .word d_4008caa8  /* 40059b64 */
 .Lp_40059b68:
-    .word rodata_40090018  /* 40059b68 */
+    .word d_40090018  /* 40059b68 */
 .Lp_40059b6c:
-    .word rodata_4008fa44  /* 40059b6c */
+    .word d_4008fa44  /* 40059b6c */
 .Lp_40059b70:
-    .word rodata_40090020  /* 40059b70 */
+    .word d_40090020  /* 40059b70 */
 .Lp_40059b74:
     .word 0x42e68c6c  /* 40059b74 */
 .Lp_40059b78:

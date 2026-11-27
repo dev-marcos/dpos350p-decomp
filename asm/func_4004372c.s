@@ -66,7 +66,7 @@ spi_flash_page_program:  /* 0x4004372c */
 .Lp_40043800:
     .word 0x55555556  /* 40043800 */
 .Lp_40043804:
-    .word rodata_4009549c  /* 40043804 */
+    .word d_4009549c  /* 40043804 */
 .Lp_40043808:
-    .word rodata_4008e110  /* 40043808 */
+    .word d_4008e110  /* 40043808 */
     .size spi_flash_page_program, . - spi_flash_page_program

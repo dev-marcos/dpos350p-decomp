@@ -7,6 +7,8 @@ get_fattime:  /* 0x40049dd8 */
 .Lstart_40049dd8:
     ldr r0, .Lp_40049dfc  /* 40049dd8 */
     bx lr  /* 40049ddc */
+    .global d_40049de0
+d_40049de0:
 .Lp_40049de0:
     .byte 0x30, 0x3a, 0x00, 0x00  /* 40049de0 */
 .Lp_40049de4:
@@ -14,11 +16,11 @@ get_fattime:  /* 0x40049dd8 */
 .Lp_40049de8:
     .word 0x428df874  /* 40049de8 */
 .Lp_40049dec:
-    .word rodata_40095490  /* 40049dec */
+    .word d_40095490  /* 40049dec */
 .Lp_40049df0:
     .word 0x427eb634  /* 40049df0 */
 .Lp_40049df4:
-    .word rodata_4009548c  /* 40049df4 */
+    .word d_4009548c  /* 40049df4 */
 .Lp_40049df8:
     .word 0x42e68a18  /* 40049df8 */
 .Lp_40049dfc:

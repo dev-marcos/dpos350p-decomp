@@ -19,6 +19,6 @@ void usb_get_descriptor(unsigned char *req)
     case 3: udp_get_dev_descriptor_string(req); return;
     case 0x22: usb_hid_get_report_descriptor(); return;
     }
-    debug_printf_stub(STR(0x4008D434), type);
+    debug_printf_stub(STR(4008d434), type);
     usb_device_read_data_status_ep0(1);
 }

@@ -101,7 +101,7 @@ gen_resample2:  /* 0x4004d730 */
 .Lp_4004d874:
     .word 0x004c4b40  /* 4004d874 */
 .Lp_4004d878:
-    .word rodata_400951e8  /* 4004d878 */
+    .word d_400951e8  /* 4004d878 */
 .Lp_4004d87c:
     .word 0x42e40934  /* 4004d87c */
     .size gen_resample2, . - gen_resample2

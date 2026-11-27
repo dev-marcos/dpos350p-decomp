@@ -14,7 +14,7 @@
 void list_c_data_load(void)
 {
     unsigned char fil[0x250];
-    if (f_open(fil, (const char *)0x4008E8D4u, 1) != 0) {
+    if (f_open(fil, (const char *)IMG(4008e8d4), 1) != 0) {
         list_c_index_create();
         return;
     }

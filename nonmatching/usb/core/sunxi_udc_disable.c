@@ -10,7 +10,7 @@
 
 void sunxi_udc_disable(void)
 {
-    debug_printf_stub(STR(0x4008EF00));
+    debug_printf_stub(STR(4008ef00));
     USBC_INT_DisableUsbMiscAll();
     USBC_INT_DisableEpAll(USBC_EP_TYPE_RX);
     USBC_INT_DisableEpAll(USBC_EP_TYPE_TX);

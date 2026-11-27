@@ -16,14 +16,14 @@ void usb_class_request(unsigned char *req)
 {
     unsigned char buf[8];
     u32 r = req[1], len;
-    if (r == 9) { debug_printf_stub(STR(0x4008CF10)); return; }
-    if (r == 0x0A) { debug_printf_stub(STR(0x4008CF48)); return; }
+    if (r == 9) { debug_printf_stub(STR(4008cf10)); return; }
+    if (r == 0x0A) { debug_printf_stub(STR(4008cf48)); return; }
     if (r == 0x20) {
-        debug_printf_stub(STR(0x4008EE88));
+        debug_printf_stub(STR(4008ee88));
         line_coding_rx = 1;
         delay_us(200);
         len = USBC_ReadLenFromFifo(USBC_EP_TYPE_EP0);
-        debug_printf_stub(STR(0x4008E164), len);
+        debug_printf_stub(STR(4008e164), len);
         if (len != 7) return;
         usb_device_read_data_ep_pack(0, buf, 7);
         usb_cdc_store_line_coding(buf);
@@ -34,20 +34,20 @@ void usb_class_request(unsigned char *req)
     }
     if (r == 0x21) {
         usb_device_write_data_ep_pack(0, line_coding, 7);
-        debug_printf_stub(STR(0x4008EE9C));
+        debug_printf_stub(STR(4008ee9c));
         return;
     }
     if (r == 0x22) {
-        debug_printf_stub(STR(0x4008E180));
+        debug_printf_stub(STR(4008e180));
         usb_device_clear_setup_end();
         usb_device_set_ep0_state(0);
         return;
     }
     if (r == 0xFE) {
         max_lun_rsp = *usb_mass_max_lun_ptr();
-        debug_printf_stub(STR(0x4008E7E4), max_lun_rsp);
+        debug_printf_stub(STR(4008e7e4), max_lun_rsp);
         usb_device_write_data_ep_pack(0, &max_lun_rsp, *(unsigned short *)(req + 6));
         return;
     }
-    debug_printf_stub(STR(0x4008CE28), r);
+    debug_printf_stub(STR(4008ce28), r);
 }

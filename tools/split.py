@@ -165,6 +165,17 @@ LOAD_RE = re.compile(r"\[pc(?:, #(-?0x[0-9a-f]+|-?\d+))?\]$")
 ADDPC_RE = re.compile(r"^(add|sub|adr)(w|eq|ne|cs|hs|cc|lo|mi|pl|vs|vc|hi|ls|ge|lt|gt|le|al)?(\.w)?$")
 
 
+C_REF_RE = re.compile(r"\b(?:IMG|IMGU|IMG_DECL|STR|S)\(([0-9a-f]{8})\)")
+
+
+def c_image_refs():
+    """Image addresses the C sources name as d_XXXXXXXX (include/image.h): each needs a label."""
+    refs = set()
+    for p in list((ROOT / "nonmatching").rglob("*.c")) + list((ROOT / "include").rglob("*.h")):
+        refs.update(int(m, 16) for m in C_REF_RE.findall(p.read_text(encoding="utf-8", errors="replace")))
+    return refs
+
+
 def pcrel_target(ins, a, th):
     """Address an instruction reads relative to the PC: 'ldr* / vldr rX, [pc, #imm]' or
     'add / sub / adr rX, pc, #imm'. None for anything else (pc in a register list,
@@ -316,6 +327,9 @@ class Emitter:
             v = (a + struct.unpack("<i", im.bytes(a, 4))[0]) & 0xFFFFFFFF
             assert self.func_sym(v), f"0x{a:08x}: relative word does not reach a function"
             self.relwords[a] = v
+        # addresses the C names through include/image.h (IMG, IMGU, IMG_DECL, STR, S)
+        self.c_refs = c_image_refs()
+        self.data_refs |= {v for v in self.c_refs if self.func_sym(v) is None}
         self.data_refs.discard(BASE)          # 'vectors'
 
     def _mov_pcrel(self, lin, i, rd, k16, pw, pt, th):
@@ -354,12 +368,9 @@ class Emitter:
         return None
 
     def data_sym(self, v):
-        if v == BASE:
-            return "vectors"
-        for lo, hi, n in self.blob_of:
-            if lo <= v < hi:
-                return n if v == lo else f"{n.rsplit('_', 1)[0]}_{v:08x}"
-        return f"d_{v:08x}"
+        """Symbol for an image address that is not a function entry: d_XXXXXXXX, the same name
+        the C uses for it (include/image.h)."""
+        return "vectors" if v == BASE else f"d_{v:08x}"
 
     def _clusters(self):
         """Contiguous runs of units that must stay together: a PC-relative operand in one unit
@@ -500,6 +511,8 @@ class Emitter:
         """[(addr, text, size_or_None, is_label)] for a unit."""
         L = self._unit_lines(u)
         a0, e = u[0], u[1]
+        if u[2] == "blob":
+            return L                         # labels placed by _unit_lines
         if not hasattr(self, "dlabels"):
             self.dlabels = {v for v in self.data_refs if self.data_sym(v).startswith("d_")}
         want = {x for x in self.pc_targets | self.dlabels if a0 <= x < e}
@@ -529,8 +542,8 @@ class Emitter:
             name = f"{obj}_{a0:08x}"
             pts = [a0] + sorted(cuts) + [e]
             for lo, hi in zip(pts, pts[1:]):
-                if lo != a0 and lo in self.data_refs:
-                    L.append((lo, f"{obj}_{lo:08x}:", None))
+                if lo in self.data_refs:
+                    L.append((lo, f"d_{lo:08x}:", None))
                 if lo in rel:
                     assert hi == lo + 4
                     L.append((lo, f".word {self.ptrname(self.relwords[lo])} - .", 4))

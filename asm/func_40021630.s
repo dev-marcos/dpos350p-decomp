@@ -524,17 +524,17 @@ hires_menu_draw:  /* 0x40021630 */
     add sp, sp, #0xc  /* 40021e1c */
     pop {r4, r5, r6, r7, r8, sb, sl, fp, pc}  /* 40021e20 */
 .Lp_40021e24:
-    .word rodata_400903a8  /* 40021e24 */
+    .word d_400903a8  /* 40021e24 */
 .Lp_40021e28:
-    .word rodata_400903b0  /* 40021e28 */
+    .word d_400903b0  /* 40021e28 */
 .Lp_40021e2c:
-    .word rodata_400903b8  /* 40021e2c */
+    .word d_400903b8  /* 40021e2c */
 .Lp_40021e30:
-    .word rodata_400903c0  /* 40021e30 */
+    .word d_400903c0  /* 40021e30 */
 .Lp_40021e34:
-    .word rodata_400903c8  /* 40021e34 */
+    .word d_400903c8  /* 40021e34 */
 .Lp_40021e38:
-    .word rodata_400903d0  /* 40021e38 */
+    .word d_400903d0  /* 40021e38 */
 .Lp_40021e3c:
     .word 0x42e64520  /* 40021e3c */
 .Lp_40021e40:
@@ -546,15 +546,15 @@ hires_menu_draw:  /* 0x40021630 */
 .Lp_40021e4c:
     .word 0x42c2fe74  /* 40021e4c */
 .Lp_40021e50:
-    .word graphics_4008c3fc  /* 40021e50 */
+    .word d_4008c3fc  /* 40021e50 */
 .Lp_40021e54:
-    .word rodata_4008f8cc  /* 40021e54 */
+    .word d_4008f8cc  /* 40021e54 */
 .Lp_40021e58:
-    .word rodata_400903d8  /* 40021e58 */
+    .word d_400903d8  /* 40021e58 */
 .Lp_40021e5c:
     .word 0x42e61ff8  /* 40021e5c */
 .Lp_40021e60:
-    .word rodata_400903e0  /* 40021e60 */
+    .word d_400903e0  /* 40021e60 */
 .Lp_40021e64:
-    .word rodata_400903e8  /* 40021e64 */
+    .word d_400903e8  /* 40021e64 */
     .size hires_menu_draw, . - hires_menu_draw

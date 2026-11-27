@@ -27,7 +27,7 @@
 #define NAME      ((const char *)(0x40544E68u + 0x88C1u))
 #define THUMB_W   (*(volatile unsigned short *)(0x40544E68u + 0x109684u))
 #define THUMB_H   (*(volatile unsigned short *)(0x40544E68u + 0x109686u))
-#define FB_PTR    (*(volatile u32 *)0x40095498u)
+#define FB_PTR    (*(volatile u32 *)IMG(40095498))
 
 /* one text-table entry at (x + dx, y + dy) with a 1 x 2 shadow */
 static void tb_label(u32 x, u32 y, u32 k)
@@ -221,5 +221,5 @@ void record_browser_draw(void)
         }
     }
 bars:
-    tb_bars(x, y, w, 0x4008A318u, 112, 0x9B2);
+    tb_bars(x, y, w, IMGU(4008a318), 112, 0x9B2);
 }

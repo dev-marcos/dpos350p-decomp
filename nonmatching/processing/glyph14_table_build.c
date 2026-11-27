@@ -12,7 +12,7 @@
 void glyph14_table_build(void)
 {
     volatile unsigned short *d = (volatile unsigned short *)0x42CF64B4u;
-    const volatile unsigned short *s = (const volatile unsigned short *)0x40090444u;
+    const volatile unsigned short *s = (const volatile unsigned short *)IMG(40090444);
     u32 n;
     memset_w((void *)d, 0, 0x3AAC);
     for (n = 0x3AAC; n; n--) {

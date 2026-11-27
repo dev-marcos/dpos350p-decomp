@@ -30,6 +30,6 @@ int mmc_switch_hs(u32 n, mmc_cmd_t *cmd)
     if (r) return r;
     if (!(mmc_dma_buf[1] | mmc_dma_buf[0] << 8)) return 1;
     if (!(mmc_dma_buf[0x1D] | mmc_dma_buf[0x1C] << 8))
-        dbg_printf(STR(0x4008D8F4));
+        dbg_printf(STR(4008d8f4));
     return 0;
 }

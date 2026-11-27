@@ -301,7 +301,7 @@ sd_update_check:  /* 0x4004f134 */
 .Lp_4004f590:
     .word 0x41e7b9c8  /* 4004f590 */
 .Lp_4004f594:
-    .word rodata_40093ef0  /* 4004f594 */
+    .word d_40093ef0  /* 4004f594 */
 .Lp_4004f598:
     .word 0x42e59b10  /* 4004f598 */
     .size sd_update_check, . - sd_update_check

@@ -30,7 +30,7 @@ usb_mass_get_cfg_descriptor:  /* 0x4006b980 */
 .Lp_4006b9cc:
     .word 0x42e68d23  /* 4006b9cc */
 .Lp_4006b9d0:
-    .word rodata_4008dc20  /* 4006b9d0 */
+    .word d_4008dc20  /* 4006b9d0 */
 .Lp_4006b9d4:
-    .word rodata_400953e0  /* 4006b9d4 */
+    .word d_400953e0  /* 4006b9d4 */
     .size usb_mass_get_cfg_descriptor, . - usb_mass_get_cfg_descriptor

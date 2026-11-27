@@ -22,30 +22,30 @@ int mmc_select_setup(u32 n, mmc_cmd_t *cmd, int width4)
 {
     mmc_xfer_t d;
     int r;
-    dbg_printf(STR(0x4008F87C));
+    dbg_printf(STR(4008f87c));
     r = mmc_cmd(n, cmd, 0, 7, mmc_rca, 5);
     if (r) return r;
     if (mmc_card_type == 1) {
-        dbg_printf(STR(0x4008E784));
+        dbg_printf(STR(4008e784));
         r = mmc_cmd(n, cmd, 0, 0x37, mmc_rca, 5);
         if (r) return r;
         d.buf = (u32 *)mmc_dma_buf; *(u32 *)&d.flags = 1; d.blocks = 1; d.blksz = 8;
         r = mmc_cmd(n, cmd, &d, 0x33, 0, 5);
         if (r) return r;
         if ((mmc_dma_buf[0] & 0xF) == 2 && mmc_switch_hs(n, cmd) == 0) {
-            dbg_printf(STR(0x4008F88C));
+            dbg_printf(STR(4008f88c));
             mmc_config_clock(n, 25000000);
             mmc_delay_ms(10);
         }
     } else if (mmc_card_type == 2) {
-        dbg_printf(STR(0x4008EE24));
+        dbg_printf(STR(4008ee24));
         mmc_config_clock(n, 50000000);
         mmc_delay_ms(10);
     } else {
         goto blk;
     }
     if (width4 == 1) {
-        dbg_printf(STR(0x4008EE10));
+        dbg_printf(STR(4008ee10));
         r = mmc_cmd(n, cmd, 0, 0x37, mmc_rca, 5);
         if (r) return r;
         r = mmc_cmd(n, cmd, 0, 6, 2, 5);
@@ -53,7 +53,7 @@ int mmc_select_setup(u32 n, mmc_cmd_t *cmd, int width4)
         mmc_set_bus_width(n, 1);
     }
 blk:
-    dbg_printf(STR(0x4008E79C));
+    dbg_printf(STR(4008e79c));
     mmc_cmd(n, cmd, 0, 0x10, 0x200, 0xD);
     mmc_cmd(n, cmd, 0, 7, 0, 0);
     return 0;

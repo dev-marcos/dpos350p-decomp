@@ -14,7 +14,7 @@ int usb_device_write_data_ep_pack(int ep, unsigned char *databuf, int len)
     memcpy(usb_tx_buf, databuf, len);
     usb_tx_data = databuf;
     usb_tx_buf_len = len;
-    debug_printf_stub(STR(0x4008EED8), len);
+    debug_printf_stub(STR(4008eed8), len);
     if (len > ep_max_len[ep]) {
         USBC_WritePacket(USBC_SelectFIFO(ep), ep_max_len[ep], databuf);
         USBC_Dev_WriteDataStatus(ep == 0 ? USBC_EP_TYPE_EP0 : USBC_EP_TYPE_TX, 0);

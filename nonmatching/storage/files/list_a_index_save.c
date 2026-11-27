@@ -14,7 +14,7 @@
 void list_a_index_save(void)
 {
     unsigned char fil[0x250];
-    if (f_open(fil, (const char *)0x4008DB60u, 3) != 0) {
+    if (f_open(fil, (const char *)IMG(4008db60), 3) != 0) {
         list_a_index_create();
         return;
     }

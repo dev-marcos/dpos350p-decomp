@@ -16,5 +16,5 @@ void scsi_inquiry(u32 lun)
     }
     n = cbw[0x13];
     if ((int)n >= 0x25) n = 0x24;
-    usb_mass_send_data(lun == 0 ? (unsigned char *)0x400952F8u : (unsigned char *)0x4009531Cu, n);
+    usb_mass_send_data(lun == 0 ? (unsigned char *)IMG(400952f8) : (unsigned char *)IMG(4009531c), n);
 }

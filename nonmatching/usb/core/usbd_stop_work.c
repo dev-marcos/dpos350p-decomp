@@ -10,6 +10,6 @@
 
 void usbd_stop_work(void)
 {
-    debug_printf_stub(STR(0x4008F9AC));
+    debug_printf_stub(STR(4008f9ac));
     USBC_Dev_ConectSwitch(0);
 }

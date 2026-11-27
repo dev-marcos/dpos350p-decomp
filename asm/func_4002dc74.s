@@ -9,7 +9,7 @@ text_centring_set:  /* 0x4002dc74 */
     strb r0, [r1]  /* 4002dc78 */
     bx lr  /* 4002dc7c */
 .Lp_4002dc80:
-    .word fonts_40000040  /* 4002dc80 */
+    .word d_40000040  /* 4002dc80 */
 .Lp_4002dc84:
     .word 0x42e68be0  /* 4002dc84 */
 .Lp_4002dc88:

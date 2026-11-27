@@ -23,7 +23,7 @@ lcd_start:  /* 0x4003e688 */
 .Lp_4003e6bc:
     .word 0x01c20010  /* 4003e6bc */
 .Lp_4003e6c0:
-    .word rodata_400952b0  /* 4003e6c0 */
+    .word d_400952b0  /* 4003e6c0 */
 .Lp_4003e6c4:
     .word 0x0c845884  /* 4003e6c4 */
 .Lp_4003e6c8:

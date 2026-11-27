@@ -84,7 +84,7 @@ long long __aeabi_ldivmod(long long n, long long d);       /* 0x4003453C */
 /* __aeabi_d2ulz is Thumb code and uses the base AAPCS (double in r0:r1): called through a pointer
  * to its Thumb address so the BLX switches state, as the stock BLX does */
 typedef unsigned long long (*d2ulz_fn)(double) __attribute__((pcs("aapcs")));
-#define D2ULZ(d) (((d2ulz_fn)0x4005F6E9u)(d))
+#define D2ULZ(d) (((d2ulz_fn)CODE_ADDR(__aeabi_d2ulz))(d))
 unsigned long long __aeabi_uldivmod(unsigned long long n, unsigned long long d);   /* 0x40034590 */
 
 /* ---- acquisition control (batch 14) */
@@ -92,11 +92,11 @@ unsigned long long __aeabi_uldivmod(unsigned long long n, unsigned long long d);
 #define SYS_SIZE     0x3DD588u
 
 /* ---- disk glue (FatFs diskio for the SD card, drive 0) */
-#define g_sd_state     (*(volatile u32 *)0x40095490u)   /* 1 = card ready */
-#define g_sector_size  (*(volatile u32 *)0x4009548Cu)
+#define g_sd_state     (*(volatile u32 *)IMG(40095490))   /* 1 = card ready */
+#define g_sector_size  (*(volatile u32 *)IMG(4009548c))
 #define g_sd_info      ((volatile u32 *)0x42E68A18u)    /* [1] = sector count */
 #define SD_BOUNCE      ((unsigned char *)0x427EB634u)
 #define g_fatfs0       ((void *)0x42E67E24u)
-#define STR_DRIVE0     ((const char *)0x40049DE0u)     /* "0:" */
+#define STR_DRIVE0     ((const char *)IMG(40049de0))     /* "0:" */
 #define MKFS_WORK      ((void *)0x428DF874u)
 #endif

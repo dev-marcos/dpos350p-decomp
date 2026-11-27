@@ -14,18 +14,18 @@ void usb_handle_ep0(void)
     int len, timeout;
     USBC_SelectActiveEp(0);
     if (USBC_Dev_IsEpStall(USBC_EP_TYPE_EP0)) {
-        debug_printf_stub(STR(0x4008F9BC));
+        debug_printf_stub(STR(4008f9bc));
         USBC_Dev_EpClearStall(USBC_EP_TYPE_EP0);
         usb_ep0_state = 0;
         return;
     }
     if (USBC_Dev_Ctrl_IsSetupEnd()) {
-        debug_printf_stub(STR(0x4008E1B8));
+        debug_printf_stub(STR(4008e1b8));
         USBC_Dev_Ctrl_ClearSetupEnd();
         usb_ep0_state = 0;
     }
-    debug_printf_stub(STR(0x4008EF14), usb_ep0_state);
-    debug_printf_stub(STR(0x4008F9CC), USBC_Dev_Read_EP0_CSR());
+    debug_printf_stub(STR(4008ef14), usb_ep0_state);
+    debug_printf_stub(STR(4008f9cc), USBC_Dev_Read_EP0_CSR());
     if (USBC_Dev_IsReadDataReady(USBC_EP_TYPE_EP0)) {
         usb_ep0_state = 0;
     } else {
@@ -38,18 +38,18 @@ void usb_handle_ep0(void)
         }
     }
     if (!USBC_Dev_IsReadDataReady(USBC_EP_TYPE_EP0)) {
-        debug_printf_stub(STR(0x4008D738));
+        debug_printf_stub(STR(4008d738));
         return;
     }
     len = USBC_ReadLenFromFifo(USBC_EP_TYPE_EP0);
-    debug_printf_stub(STR(0x4008F9DC), len);
+    debug_printf_stub(STR(4008f9dc), len);
     if (len != 8) {
         timeout = 16;
         while (timeout-- && len != 8)
             len = USBC_ReadLenFromFifo(USBC_EP_TYPE_EP0);
-        debug_printf_stub(STR(0x4008EF28), len);
+        debug_printf_stub(STR(4008ef28), len);
         if (len != 8) {
-            debug_printf_stub(STR(0x4008D760), len);
+            debug_printf_stub(STR(4008d760), len);
             USBC_Dev_ReadDataStatus(USBC_EP_TYPE_EP0, 0);
             USBC_Dev_EpSendStall(USBC_EP_TYPE_EP0);
             return;
@@ -63,19 +63,19 @@ void usb_handle_ep0(void)
 
 in_phase:
     if (usb_tx_pos == 0) {
-        debug_printf_stub(STR(0x4008E82C));
+        debug_printf_stub(STR(4008e82c));
         usb_ep0_state = 0;
         return;
     }
-    debug_printf_stub(STR(0x4008E1D4));
-    debug_printf_stub(STR(0x4008EF3C), usb_tx_pos);
-    debug_printf_stub(STR(0x4008E844), usb_tx_buf_len);
+    debug_printf_stub(STR(4008e1d4));
+    debug_printf_stub(STR(4008ef3c), usb_tx_pos);
+    debug_printf_stub(STR(4008e844), usb_tx_buf_len);
     if (usb_tx_buf_len - usb_tx_pos > 64) {
         USBC_WritePacket(USBC_SelectFIFO(0), ep_max_len[0], usb_tx_data + usb_tx_pos);
         USBC_Dev_WriteDataStatus(USBC_EP_TYPE_EP0, 0);
         usb_tx_pos += 64;
     } else {
-        debug_printf_stub(STR(0x4008FF90));
+        debug_printf_stub(STR(4008ff90));
         USBC_WritePacket(USBC_SelectFIFO(0), usb_tx_buf_len - usb_tx_pos, usb_tx_data + usb_tx_pos);
         USBC_Dev_WriteDataStatus(USBC_EP_TYPE_EP0, 1);
         usb_ep0_state = 0;
@@ -85,13 +85,13 @@ in_phase:
 
 out_phase:
     if (!USBC_Dev_IsReadDataReady(USBC_EP_TYPE_EP0)) {
-        debug_printf_stub(STR(0x4008D088));
+        debug_printf_stub(STR(4008d088));
         return;
     }
     len = USBC_ReadLenFromFifo(USBC_EP_TYPE_EP0);
-    debug_printf_stub(STR(0x4008E85C), len);
+    debug_printf_stub(STR(4008e85c), len);
     usb_device_read_data_ep_pack(0, d, len);
     usb_device_read_data_status_ep0(0);
     usb_ep0_state = 0;
-    debug_printf_stub(STR(0x4008C940), d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7]);
+    debug_printf_stub(STR(4008c940), d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7]);
 }

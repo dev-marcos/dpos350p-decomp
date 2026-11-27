@@ -200,5 +200,5 @@ ui_colour_buttons_draw:  /* 0x40028084 */
 .Lp_40028348:
     .word 0x42c2fe74  /* 40028348 */
 .Lp_4002834c:
-    .word graphics_4008a318  /* 4002834c */
+    .word d_4008a318  /* 4002834c */
     .size ui_colour_buttons_draw, . - ui_colour_buttons_draw

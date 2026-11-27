@@ -12,7 +12,7 @@
 #include "storage/settings.h"
 
 #define IMAGE ((volatile unsigned char *)0x41E7B9C8u)
-#define MAGIC ((const volatile unsigned char *)0x40093EF0u)
+#define MAGIC ((const volatile unsigned char *)IMG(40093ef0))
 #define SECTOR_ZERO ((void *)0x42E59B10u)
 
 struct finfo {                    /* FatFs FILINFO (R0.13b, long file names) */

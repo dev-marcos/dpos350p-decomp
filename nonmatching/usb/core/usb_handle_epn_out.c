@@ -14,16 +14,16 @@
 void usb_handle_epn_out(int ep)
 {
     u32 old, len;
-    debug_printf_stub(STR(0x4008EF64), ep);
+    debug_printf_stub(STR(4008ef64), ep);
     old = USBC_GetActiveEp();
     USBC_SelectActiveEp((unsigned char)ep);
     if (USBC_Dev_IsEpStall(USBC_EP_TYPE_RX)) {
-        debug_printf_stub(STR(0x4008E20C), ep);
+        debug_printf_stub(STR(4008e20c), ep);
         USBC_Dev_EpClearStall(USBC_EP_TYPE_RX);
     }
     if (USBC_Dev_IsReadDataReady(USBC_EP_TYPE_RX)) {
         len = USBC_ReadLenFromFifo(USBC_EP_TYPE_RX);
-        debug_printf_stub(STR(0x4008DBE0), ep, len);
+        debug_printf_stub(STR(4008dbe0), ep, len);
         usb_device_read_data_ep_pack(ep, usb_rx_buf, len);
         usb_rx_buf_len = len;
         switch (current_usb_type) {

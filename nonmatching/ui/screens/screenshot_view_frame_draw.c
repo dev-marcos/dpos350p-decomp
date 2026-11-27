@@ -35,7 +35,7 @@ void screenshot_view_frame_draw(void)
         hspan_fill((y + 0x1E + k - 1) & 0xFFFF, x, (w + x) & 0xFFFF);
     }
     draw_colour_set(0xDDDDDD);
-    draw_text_shadowed((x + 5) & 0xFFFF, (y + 5) & 0xFFFF, 0x4008A038u, 2, 2, 0);
+    draw_text_shadowed((x + 5) & 0xFFFF, (y + 5) & 0xFFFF, IMGU(4008a038), 2, 2, 0);
     e = UI_TEXT(110);
     text_shadow_draw((x + TEXT_DX(e) + 0x23) & 0xFFFF, (y + TEXT_DY(e) + 8) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
 

@@ -523,21 +523,21 @@ levels_param_bar_draw:  /* 0x4002b43c */
 .Lp_4002bc18:
     .word 0x00aa8855  /* 4002bc18 */
 .Lp_4002bc1c:
-    .word graphics_40089348  /* 4002bc1c */
+    .word d_40089348  /* 4002bc1c */
 .Lp_4002bc20:
     .word 0x005588aa  /* 4002bc20 */
 .Lp_4002bc24:
-    .word graphics_40089be8  /* 4002bc24 */
+    .word d_40089be8  /* 4002bc24 */
 .Lp_4002bc28:
     .word 0x0088aa55  /* 4002bc28 */
 .Lp_4002bc2c:
-    .word graphics_40088c18  /* 4002bc2c */
+    .word d_40088c18  /* 4002bc2c */
 .Lp_4002bc30:
     .word 0x0055aa88  /* 4002bc30 */
 .Lp_4002bc34:
-    .word graphics_400887c8  /* 4002bc34 */
+    .word d_400887c8  /* 4002bc34 */
 .Lp_4002bc38:
-    .word graphics_40085af4  /* 4002bc38 */
+    .word d_40085af4  /* 4002bc38 */
 .Lp_4002bc3c:
     .word 0x42e68668  /* 4002bc3c */
     .size levels_param_bar_draw, . - levels_param_bar_draw

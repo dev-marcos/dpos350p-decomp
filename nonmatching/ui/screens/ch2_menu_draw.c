@@ -77,23 +77,23 @@ static void channel_menu(u32 lay, u32 so, u32 ro, u32 en)
     rect_fill(x, y, w, h);
 
     r = y + 0x19;
-    label_row(x, r, 0x4008A488u, UI_TEXT(en));
+    label_row(x, r, IMGU(4008a488), UI_TEXT(en));
     switch_row(x, r, w, B8(SYS + so + 0x3E), ro + 0x35E);
 
     r += 0x39;
-    label_row(x, r, 0x4008A5F8u, UI_TEXT(27));
+    label_row(x, r, IMGU(4008a5f8), UI_TEXT(27));
     r += 0x39;
     for (k = 0; k < 3; k++) {
         xo = x + 0x14 + 0x8A * k;
         draw_colour_set(option_fill(B8(SYS + so + 0x40), k, xo, r, 0x86));
-        s = k == 0 ? "1X" : k == 1 ? "10X" : (const char *)0x400902C8u;
+        s = k == 0 ? "1X" : k == 1 ? "10X" : (const char *)IMG(400902c8);
         tw = text_width(s);
         text_draw((xo + ((0x86 - tw) >> 1)) & 0xFFFF, (r + 8) & 0xFFFF, s);
         option_button(xo, r, 0x86, ro + 0x368 + 0xA * k);
     }
 
     r += 0x43;
-    label_row(x, r, 0x4008A768u, UI_TEXT(28));
+    label_row(x, r, IMGU(4008a768), UI_TEXT(28));
     r += 0x39;
     for (k = 0; k < 2; k++) {
         xo = x + 0x14 + 0xCF * k;
@@ -105,11 +105,11 @@ static void channel_menu(u32 lay, u32 so, u32 ro, u32 en)
     }
 
     r += 0x43;
-    label_row(x, r, 0x4008A8D8u, UI_TEXT(31));
+    label_row(x, r, IMGU(4008a8d8), UI_TEXT(31));
     switch_row(x, r, w, B8(SYS + so + 0x42), ro + 0x39A);
 
     r += 0x39;
-    label_row(x, r, 0x4008AA48u, UI_TEXT(32));
+    label_row(x, r, IMGU(4008aa48), UI_TEXT(32));
     r += 0x39;
     for (k = 0; k < 3; k++) {
         xo = x + 0x14 + 0x8A * k;
@@ -119,7 +119,7 @@ static void channel_menu(u32 lay, u32 so, u32 ro, u32 en)
             tw = text_width(TEXT_STR(e));
             text_draw((x + ((0x86 - tw) >> 1) + TEXT_DX(e) + 0x14) & 0xFFFF, (r + TEXT_DY(e) + 8) & 0xFFFF, TEXT_STR(e));
         } else {
-            s = k == 1 ? (const char *)0x40090340u : "20M";
+            s = k == 1 ? (const char *)IMG(40090340) : "20M";
             tw = text_width(s);
             text_draw((xo + ((0x86 - tw) >> 1)) & 0xFFFF, (r + 8) & 0xFFFF, s);
         }

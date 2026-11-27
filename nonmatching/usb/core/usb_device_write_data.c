@@ -15,10 +15,10 @@ int usb_device_write_data(int ep, unsigned char *databuf, int len)
     u32 old;
     void *fifo;
     if (!usb_connect) {
-        debug_printf_stub(STR(0x4008D2CC));
+        debug_printf_stub(STR(4008d2cc));
         return -1;
     }
-    debug_printf_stub(STR(0x4008DBA0), len);
+    debug_printf_stub(STR(4008dba0), len);
     old = USBC_GetActiveEp();
     fifo = USBC_SelectFIFO(ep);
     USBC_SelectActiveEp((unsigned char)ep);
@@ -32,7 +32,7 @@ int usb_device_write_data(int ep, unsigned char *databuf, int len)
         length -= write_len;
         if (Timeout == 0) {
             USBC_SelectActiveEp((unsigned char)old);
-            debug_printf_stub(STR(0x4008DBC0));
+            debug_printf_stub(STR(4008dbc0));
             return -1;
         }
         Timeout = 10000000;

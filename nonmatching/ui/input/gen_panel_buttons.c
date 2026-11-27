@@ -106,7 +106,7 @@ void gen_panel_buttons(void)
         ptr = GEN + 0x2EFC + 4 * fld;
         NUMPAD(target_2) = ptr;
         NUMPAD(f_04c) = 1;
-        NUMPAD(f_050) = 0x4004D18Cu;          /* gen_update */
+        NUMPAD(f_050) = (u32)CODE_ADDR(gen_update);          /* gen_update */
         return;
     }
     if (take(0x64C)) {

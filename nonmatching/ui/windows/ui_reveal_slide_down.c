@@ -13,7 +13,7 @@
 #define WIN(id)  ((volatile unsigned char *)(0x42E64520u + (id) * 14u))
 #define WSTK     ((volatile unsigned char *)0x42E68BC8u)
 typedef double (*tanh_fn)(double);
-#define TANH_T ((tanh_fn)0x4005F91Du)   /* tanh at 0x4005F91C is Thumb */
+#define TANH_T ((tanh_fn)CODE_ADDR(tanh))   /* tanh at 0x4005F91C is Thumb */
 
 void ui_reveal_slide_down(volatile unsigned short *r)
 {

@@ -53,31 +53,31 @@ scsi_check_range:  /* 0x4006dce4 */
 .Lp_4006dd84:
     .word 0x42e68c40  /* 4006dd84 */
 .Lp_4006dd88:
-    .word rodata_400952f8  /* 4006dd88 */
+    .word d_400952f8  /* 4006dd88 */
 .Lp_4006dd8c:
-    .word rodata_4009531c  /* 4006dd8c */
+    .word d_4009531c  /* 4006dd8c */
 .Lp_4006dd90:
     .word 0x42e68d10  /* 4006dd90 */
 .Lp_4006dd94:
-    .word rodata_40095464  /* 4006dd94 */
+    .word d_40095464  /* 4006dd94 */
 .Lp_4006dd98:
     .word 0x42e68d0c  /* 4006dd98 */
 .Lp_4006dd9c:
     .word 0x42e68c48  /* 4006dd9c */
 .Lp_4006dda0:
-    .word rodata_40095494  /* 4006dda0 */
+    .word d_40095494  /* 4006dda0 */
 .Lp_4006dda4:
-    .word rodata_4009547c  /* 4006dda4 */
+    .word d_4009547c  /* 4006dda4 */
 .Lp_4006dda8:
-    .word rodata_40095400  /* 4006dda8 */
+    .word d_40095400  /* 4006dda8 */
 .Lp_4006ddac:
     .word 0x42e68d1d  /* 4006ddac */
 .Lp_4006ddb0:
-    .word rodata_4008d9cc  /* 4006ddb0 */
+    .word d_4008d9cc  /* 4006ddb0 */
 .Lp_4006ddb4:
-    .word rodata_4008ffa8  /* 4006ddb4 */
+    .word d_4008ffa8  /* 4006ddb4 */
 .Lp_4006ddb8:
-    .word rodata_4008e8bc  /* 4006ddb8 */
+    .word d_4008e8bc  /* 4006ddb8 */
 .Lp_4006ddbc:
-    .word rodata_4008efc8  /* 4006ddbc */
+    .word d_4008efc8  /* 4006ddbc */
     .size scsi_check_range, . - scsi_check_range

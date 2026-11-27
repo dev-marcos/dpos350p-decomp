@@ -22,7 +22,8 @@
 
 void ui_language_menu_draw(void)
 {
-    static const u32 name[4] = {0x40090430u, 0x40090438u, 0x4008E7B4u, 0x4008FF6Cu};
+    IMG_DECL(40090430); IMG_DECL(40090438); IMG_DECL(4008e7b4); IMG_DECL(4008ff6c);
+    static const u32 name[4] = {(u32)d_40090430, (u32)d_40090438, (u32)d_4008e7b4, (u32)d_4008ff6c};
     u32 x = WR16(0x84), y = WR16(0x86), w = WR16(0x88), h = WR16(0x8A), bx = x + 2, row, i;
     font_set(0x42E658D8u);
     text_spacing_set(1);
@@ -32,7 +33,7 @@ void ui_language_menu_draw(void)
     rect_fill(x, y, 2, h);
     for (i = 0, row = y + 0x14; i < 4; i++, row += 0x3C) {
         draw_colour_set(THEME_MENU_TEXT);
-        draw_text_shadowed(U16(bx + 0x14), U16(row), 0x400891D8u, 2, 2, 0);
+        draw_text_shadowed(U16(bx + 0x14), U16(row), IMGU(400891d8), 2, 2, 0);
         draw_colour_set(THEME_MENU_TEXT);
         text_shadow_draw(U16(bx + 0x41), U16(row + 3), (const char *)name[i], 1, 2, 0);
         touch_button_set_rect(U16(bx), U16(row - 0x14), w, 0x3C, BTN + 0x156 + 10 * i);

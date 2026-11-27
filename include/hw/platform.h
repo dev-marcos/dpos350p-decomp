@@ -3,10 +3,11 @@
 #ifndef HW_PLATFORM_H
 #define HW_PLATFORM_H
 #include "hw/v3s.h"
+#include "image.h"
 
 #define REG16(a) (*(volatile unsigned short *)(a))
 
-#define STR(a) ((const char *)(a))    /* stock string literal (keeps call arguments identical) */
+#define STR(a) ((const char *)IMG(a))  /* a text of the image: STR(4008e724), see image.h */
 
 /* ---- GIC (0x01C80000: distributor +0x1000, CPU interface +0x2000) */
 typedef struct {
@@ -26,7 +27,7 @@ typedef struct {
 #define spi_cs_index   (*(int *)0x42E68CC8u)
 #define spi_soft_cs    (*(int *)0x42E68CCCu)     /* 1: chip select by GPIO */
 #define spi_no_ctrl    (*(int *)0x42E68CD0u)     /* 1: skip counter/clock programming */
-#define spi_max_hz     (*(int *)0x4009549Cu)
+#define spi_max_hz     (*(int *)IMG(4009549c))
 #define spi_cs_port    ((u32 *)0x42E68C20u)
 #define spi_cs_pin     ((u32 *)0x42E68C2Cu)
 

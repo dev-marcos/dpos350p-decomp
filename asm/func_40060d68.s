@@ -30,6 +30,8 @@ calib_run_4_channels:  /* 0x40060d68 */
 .Lp_40060dbc:
     .word 0x00000000  /* 40060dbc */
     .word 0x00000000  /* 40060dc0 */
+    .global d_40060dc4
+d_40060dc4:
 .Lp_40060dc4:
     .byte 0x44, 0x43, 0x20, 0x00  /* 40060dc4 */
     .size calib_run_4_channels, . - calib_run_4_channels

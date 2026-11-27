@@ -81,33 +81,33 @@ void numpad_draw(void)
             gx = 0;
             s = 0;
             if (k == 3) {
-                glyph_alpha_draw_raw((x + 0x20) & 0xFFFF, (ry + 0x15) & 0xFFFF, 0x40087B94u);
+                glyph_alpha_draw_raw((x + 0x20) & 0xFFFF, (ry + 0x15) & 0xFFFF, IMGU(40087b94));
                 continue;
             } else if (k == 14) {
-                s = (const char *)0x400604E8u;
+                s = (const char *)IMG(400604e8);
             } else if (k == 12) {
                 mode = B8(0x42E68A89u);
                 if (mode == 2 || mode == 3 || mode == 4)
-                    s = (const char *)0x400604ECu;
+                    s = (const char *)IMG(400604ec);
             } else if (k == 7) {
                 switch (B8(0x42E68A89u)) {
-                case 1: gx = 0x21; gs = 0x40087F10u; break;
-                case 2: gx = 0x21; gs = 0x40088094u; break;
-                case 3: gx = 0x10; gs = 0x40084E30u; break;
-                case 4: gx = 0x1D; gs = 0x400879A0u; break;
-                case 5: gx = 0x1F; gs = 0x40087D5Cu; break;
-                case 6: gx = 0x23; gs = 0x4008C2B8u; break;
+                case 1: gx = 0x21; gs = IMGU(40087f10); break;
+                case 2: gx = 0x21; gs = IMGU(40088094); break;
+                case 3: gx = 0x10; gs = IMGU(40084e30); break;
+                case 4: gx = 0x1D; gs = IMGU(400879a0); break;
+                case 5: gx = 0x1F; gs = IMGU(40087d5c); break;
+                case 6: gx = 0x23; gs = IMGU(4008c2b8); break;
                 }
             } else if (k == 11) {
                 mode = B8(0x42E68A89u);
                 if (mode == 1) {
-                    gx = 0x1A; gs = 0x40087548u;
+                    gx = 0x1A; gs = IMGU(40087548);
                 } else if (mode == 4) {
-                    gx = 0x26; gs = 0x4008C60Cu;
+                    gx = 0x26; gs = IMGU(4008c60c);
                 }
             } else if (k == 15) {
                 if (B8(0x42E68A89u) == 1) {
-                    gx = 0x18; gs = 0x400872B4u;
+                    gx = 0x18; gs = IMGU(400872b4);
                 }
             }
             if (s) {

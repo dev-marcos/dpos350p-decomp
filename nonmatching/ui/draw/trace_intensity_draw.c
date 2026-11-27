@@ -15,12 +15,12 @@
 #define SYS 0x40544E68u
 
 #define HITS(tr) (0x400954A4u + (tr) * 0x12BE70u)
-#define FBP (*(volatile u32 *)0x40095498u)
+#define FBP (*(volatile u32 *)IMG(40095498))
 #define PAL_A 0x42E45864u
 #define PAL_B 0x42E47B8Cu
 
 typedef double (*sqrt_fn)(double);
-#define SQRT_T ((sqrt_fn)0x4003DF75u)   /* sqrt at 0x4003DF74 is Thumb */
+#define SQRT_T ((sqrt_fn)CODE_ADDR(sqrt))   /* sqrt at 0x4003DF74 is Thumb */
 
 void trace_intensity_draw(u32 tr)
 {

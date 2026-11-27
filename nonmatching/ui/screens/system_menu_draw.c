@@ -51,15 +51,15 @@ void system_menu_draw(void)
     draw_colour_set(THEME_MENU_BG);
     rect_fill(x, y, w, h);
     r = y + 0x14;
-    arrow_row(x, r, w, 0x4008B8A8u, UI_TEXT(9), 0xFC, 1);
+    arrow_row(x, r, w, IMGU(4008b8a8), UI_TEXT(9), 0xFC, 1);
     r += 0x3C;
-    arrow_row(x, r, w, 0x40089BE8u, UI_TEXT(10), 0x17E, 2);
+    arrow_row(x, r, w, IMGU(40089be8), UI_TEXT(10), 0x17E, 2);
     r += 0x3C;
-    arrow_row(x, r, w, 0x40088EF8u, UI_TEXT(11), 0x192, 3);
+    arrow_row(x, r, w, IMGU(40088ef8), UI_TEXT(11), 0x192, 3);
     r += 0x3C;
     draw_colour_set(THEME_MENU_BG);
     rect_fill((x + 0xA) & 0xFFFF, (r - 0x10) & 0xFFFF, (w - 0x1E) & 0xFFFF, 0x78);
-    label_row(x, r, 0x40089068u, UI_TEXT(12));
+    label_row(x, r, IMGU(40089068), UI_TEXT(12));
     r += 0x3C;
     for (k = 0; k < 5; k++) {
         xo = x + 0x14 + 0x45 * k;
@@ -67,7 +67,7 @@ void system_menu_draw(void)
         draw_colour_set(SI(auto_off_minutes) == (u32)(15 * k) ? THEME_OPTION_SELECTED : THEME_OPTION);
         rect_fill(xo & 0xFFFF, r & 0xFFFF, 0x41, 0x1E);
         draw_colour_set(SI(auto_off_minutes) != (u32)(15 * k) ? THEME_OPTION_TEXT : 0);
-        s = k == 0 ? "OFF" : (const char *)(0x400902F8u + 8 * (k - 1));
+        s = k == 0 ? "OFF" : (const char *)(IMGU(400902f8) + 8 * (k - 1));
         tw = text_width(s);
         text_draw((xo + ((0x41 - tw) >> 1)) & 0xFFFF, (r + 8) & 0xFFFF, s);
         touch_button_set_rect(xo & 0xFFFF, (r - 0xF) & 0xFFFF, 0x41, 0x3C, (volatile unsigned char *)(BTN + rec));
@@ -79,10 +79,10 @@ void system_menu_draw(void)
     }
     font_set(0x42E658D8u);
     r += 0x48;
-    arrow_row(x, r, w, 0x400891D8u, UI_TEXT(13), 0x1D8, 5);
+    arrow_row(x, r, w, IMGU(400891d8), UI_TEXT(13), 0x1D8, 5);
     font_set(0x42E658D8u);
     r += 0x3C;
-    arrow_row(x, r, w, 0x40089348u, UI_TEXT(14), 0x1E2, 5);
+    arrow_row(x, r, w, IMGU(40089348), UI_TEXT(14), 0x1E2, 5);
     r += 0x3C;
-    arrow_row(x, r, w, 0x400894B8u, UI_TEXT(15), 0x1F6, 6);
+    arrow_row(x, r, w, IMGU(400894b8), UI_TEXT(15), 0x1F6, 6);
 }

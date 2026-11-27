@@ -15,7 +15,7 @@ usb_uvc_get_cfg_descriptor:  /* 0x4006ddc0 */
     bl usb_device_write_data_ep_pack  /* 4006dddc */
     pop {r4, pc}  /* 4006dde0 */
 .Lp_4006dde4:
-    .word rodata_4008e2b4  /* 4006dde4 */
+    .word d_4008e2b4  /* 4006dde4 */
 .Lp_4006dde8:
-    .word rodata_400950b4  /* 4006dde8 */
+    .word d_400950b4  /* 4006dde8 */
     .size usb_uvc_get_cfg_descriptor, . - usb_uvc_get_cfg_descriptor

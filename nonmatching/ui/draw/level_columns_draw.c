@@ -11,7 +11,7 @@
 #include "state/levels_block.h"
 
 #define COLOUR16 (*(volatile unsigned short *)0x42E68660u)
-#define SCREEN (*(volatile u32 *)0x40095498u)
+#define SCREEN (*(volatile u32 *)IMG(40095498))
 
 #define TOP16(c) (*(volatile short *)(0x42E60008u + 2 * (c)))
 #define TBL(i) (*(volatile u32 *)(0x42E56C30u + 4 * (i)))

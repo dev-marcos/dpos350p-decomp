@@ -39,8 +39,26 @@ CFLAGS = ["-c", "-marm", "-mcpu=cortex-a7", "-mfpu=neon-vfpv4", "-mfloat-abi=har
 OUT = ROOT / "build/nonmatching"
 
 
+class Symbols(dict):
+    """Name -> original address. Besides the listed names it resolves d_XXXXXXXX (include/image.h:
+    a text, table or initialised global of the image, named after its address) to that address."""
+    _D = re.compile(r"d_([0-9a-f]{8})$")
+
+    def __contains__(self, k):
+        return dict.__contains__(self, k) or bool(self._D.match(k))
+
+    def __missing__(self, k):
+        m = self._D.match(k)
+        if not m:
+            raise KeyError(k)
+        return int(m.group(1), 16)
+
+    def get(self, k, d=None):
+        return self[k] if k in self else d
+
+
 def original_symbols():
-    syms = {}
+    syms = Symbols()
     for r in csv.DictReader(open(ROOT / "symbols/symbols_2025-06-19.csv")):
         if r["type"].startswith("function"):
             a = int(r["address"], 16)

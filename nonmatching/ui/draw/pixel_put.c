@@ -14,6 +14,6 @@ void pixel_put(u32 x, u32 y)
         pixel_blend(x, y);
         return;
     }
-    *(volatile unsigned short *)(*(volatile u32 *)0x40095498u + (x + y * 1022u) * 2u) =
+    *(volatile unsigned short *)(*(volatile u32 *)IMG(40095498) + (x + y * 1022u) * 2u) =
         *(volatile unsigned short *)0x42E68660u;
 }

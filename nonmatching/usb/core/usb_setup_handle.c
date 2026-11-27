@@ -15,15 +15,15 @@ void usb_setup_handle(unsigned char *req, int len)
     volatile int Timeout = 10000000;
     (void)Timeout;
     if (len != 8) {
-        debug_printf_stub(STR(0x4008EEC4));
+        debug_printf_stub(STR(4008eec4));
         return;
     }
     memcpy(setup_req, req, 8);
-    debug_printf_stub(STR(0x4008E7FC), setup_req[0]);
-    debug_printf_stub(STR(0x4008EEB0), setup_req[1]);
-    debug_printf_stub(STR(0x4008F97C), *(unsigned short *)(setup_req + 2));
-    debug_printf_stub(STR(0x4008F98C), *(unsigned short *)(setup_req + 4));
-    debug_printf_stub(STR(0x4008F99C), *(unsigned short *)(setup_req + 6));
+    debug_printf_stub(STR(4008e7fc), setup_req[0]);
+    debug_printf_stub(STR(4008eeb0), setup_req[1]);
+    debug_printf_stub(STR(4008f97c), *(unsigned short *)(setup_req + 2));
+    debug_printf_stub(STR(4008f98c), *(unsigned short *)(setup_req + 4));
+    debug_printf_stub(STR(4008f99c), *(unsigned short *)(setup_req + 6));
     if (!(setup_req[0] & 0x60))
         usb_standard_request(setup_req);
     else if ((setup_req[0] & 0x60) == 0x20)

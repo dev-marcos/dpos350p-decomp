@@ -52,7 +52,7 @@ void timebase_menu_draw(void)
     rect_fill(x & 0xFFFF, y, w, h);
     sel = SI(zoom_on) ? SI(zoom_index) : SI(timebase_index);
     draw_colour_set(THEME_MENU_TEXT);
-    draw_text_shadowed((x + 0x14) & 0xFFFF, (y + 0x17) & 0xFFFF, 0x4008B178u, 2, 2, 0);
+    draw_text_shadowed((x + 0x14) & 0xFFFF, (y + 0x17) & 0xFFFF, IMGU(4008b178), 2, 2, 0);
     draw_colour_set(THEME_MENU_TEXT);
     e = SI(zoom_on) ? UI_TEXT(35) : UI_TEXT(34);
     text_shadow_draw((x + TEXT_DX(e) + 0x41) & 0xFFFF, (y + 0x17 + TEXT_DY(e) + 3) & 0xFFFF, TEXT_STR(e), 1, 2, 0);

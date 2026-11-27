@@ -5,6 +5,7 @@
 #ifndef HW_USB_H
 #define HW_USB_H
 #include "hw/v3s.h"
+#include "image.h"
 
 #define REG16(a) (*(volatile unsigned short *)(a))
 
@@ -38,7 +39,7 @@
 #define USBC_EP_TYPE_RX   3
 
 /* debug output: the stock build links usbprint to a variadic no-op */
-#define STR(a) ((const char *)(a))    /* stock string literal (keeps call arguments identical) */
+#define STR(a) ((const char *)IMG(a))  /* a text of the image: STR(4008e724), see image.h */
 
 
 
@@ -56,6 +57,6 @@
 #define current_speed     (*(unsigned char *)0x42E68D20u)
 #define usb_addr          (*(unsigned char *)0x42E68D21u)
 #define usb_xfer_type     (*(unsigned char *)0x42E68D22u)
-#define ep_max_len        ((int *)0x40095470u)              /* {64, 512, 512} in .data */
+#define ep_max_len        ((int *)IMG(40095470))              /* {64, 512, 512} in .data */
 
 #endif

@@ -13,7 +13,7 @@
 void usb_hid_get_cfg_descriptor(unsigned char *req)
 {
     u32 len = *(unsigned short *)(req + 6), n;
-    debug_printf_stub(STR(0x4008E12C));
+    debug_printf_stub(STR(4008e12c));
     n = len == 8 ? 8 : len == 9 ? 9 : 0x29;
-    usb_device_write_data_ep_pack(0, (unsigned char *)0x4008D48Cu, n);
+    usb_device_write_data_ep_pack(0, (unsigned char *)IMG(4008d48c), n);
 }

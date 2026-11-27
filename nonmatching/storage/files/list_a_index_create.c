@@ -15,10 +15,10 @@
 void list_a_index_create(void)
 {
     unsigned char fil[0x250];
-    f_mkdir((const char *)0x4008F82Cu);
-    f_open(fil, (const char *)0x4008DB60u, 7);
-    f_chmod((const char *)0x4008DB60u, 2, 2);
-    f_chmod((const char *)0x4008DB60u, 4, 4);
+    f_mkdir((const char *)IMG(4008f82c));
+    f_open(fil, (const char *)IMG(4008db60), 7);
+    f_chmod((const char *)IMG(4008db60), 2, 2);
+    f_chmod((const char *)IMG(4008db60), 4, 4);
     fill_u16((unsigned short *)(0x40544E68u + 0xFA6u), 0, SI(f_754) + 2);
     SI(list_count) = 0;
     f_lseek(fil, 0);

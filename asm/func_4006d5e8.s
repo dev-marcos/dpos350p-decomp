@@ -57,83 +57,83 @@ usb_setup_handle:  /* 0x4006d5e8 */
 .Lp_4006d6a0:
     .word 0x42e68cec  /* 4006d6a0 */
 .Lp_4006d6a4:
-    .word rodata_40095484  /* 4006d6a4 */
+    .word d_40095484  /* 4006d6a4 */
 .Lp_4006d6a8:
     .word 0x42e68d1f  /* 4006d6a8 */
 .Lp_4006d6ac:
-    .word rodata_4009543c  /* 4006d6ac */
+    .word d_4009543c  /* 4006d6ac */
 .Lp_4006d6b0:
-    .word rodata_40095428  /* 4006d6b0 */
+    .word d_40095428  /* 4006d6b0 */
 .Lp_4006d6b4:
-    .word rodata_40095414  /* 4006d6b4 */
+    .word d_40095414  /* 4006d6b4 */
 .Lp_4006d6b8:
-    .word rodata_40095450  /* 4006d6b8 */
+    .word d_40095450  /* 4006d6b8 */
 .Lp_4006d6bc:
-    .word rodata_4008e148  /* 4006d6bc */
+    .word d_4008e148  /* 4006d6bc */
 .Lp_4006d6c0:
-    .word rodata_4008d960  /* 4006d6c0 */
+    .word d_4008d960  /* 4006d6c0 */
 .Lp_4006d6c4:
-    .word rodata_400954a0  /* 4006d6c4 */
+    .word d_400954a0  /* 4006d6c4 */
 .Lp_4006d6c8:
-    .word rodata_40095340  /* 4006d6c8 */
+    .word d_40095340  /* 4006d6c8 */
 .Lp_4006d6cc:
-    .word rodata_40095360  /* 4006d6cc */
+    .word d_40095360  /* 4006d6cc */
 .Lp_4006d6d0:
-    .word rodata_40095380  /* 4006d6d0 */
+    .word d_40095380  /* 4006d6d0 */
 .Lp_4006d6d4:
-    .word rodata_400953a0  /* 4006d6d4 */
+    .word d_400953a0  /* 4006d6d4 */
 .Lp_4006d6d8:
-    .word rodata_400953c0  /* 4006d6d8 */
+    .word d_400953c0  /* 4006d6d8 */
 .Lp_4006d6dc:
-    .word rodata_4008d434  /* 4006d6dc */
+    .word d_4008d434  /* 4006d6dc */
 .Lp_4006d6e0:
-    .word rodata_4008e7cc  /* 4006d6e0 */
+    .word d_4008e7cc  /* 4006d6e0 */
 .Lp_4006d6e4:
-    .word rodata_4008f92c  /* 4006d6e4 */
+    .word d_4008f92c  /* 4006d6e4 */
 .Lp_4006d6e8:
-    .word rodata_4008ee60  /* 4006d6e8 */
+    .word d_4008ee60  /* 4006d6e8 */
 .Lp_4006d6ec:
-    .word rodata_4008ee74  /* 4006d6ec */
+    .word d_4008ee74  /* 4006d6ec */
 .Lp_4006d6f0:
-    .word rodata_4008d020  /* 4006d6f0 */
+    .word d_4008d020  /* 4006d6f0 */
 .Lp_4006d6f4:
-    .word rodata_4008f93c  /* 4006d6f4 */
+    .word d_4008f93c  /* 4006d6f4 */
 .Lp_4006d6f8:
-    .word rodata_4008d23c  /* 4006d6f8 */
+    .word d_4008d23c  /* 4006d6f8 */
 .Lp_4006d6fc:
-    .word rodata_4008d26c  /* 4006d6fc */
+    .word d_4008d26c  /* 4006d6fc */
 .Lp_4006d700:
-    .word rodata_4008ff78  /* 4006d700 */
+    .word d_4008ff78  /* 4006d700 */
 .Lp_4006d704:
-    .word rodata_4008f94c  /* 4006d704 */
+    .word d_4008f94c  /* 4006d704 */
 .Lp_4006d708:
-    .word rodata_4008d054  /* 4006d708 */
+    .word d_4008d054  /* 4006d708 */
 .Lp_4006d70c:
-    .word rodata_4008ff84  /* 4006d70c */
+    .word d_4008ff84  /* 4006d70c */
 .Lp_4006d710:
-    .word rodata_4008d29c  /* 4006d710 */
+    .word d_4008d29c  /* 4006d710 */
 .Lp_4006d714:
-    .word rodata_4008f95c  /* 4006d714 */
+    .word d_4008f95c  /* 4006d714 */
 .Lp_4006d718:
-    .word rodata_4008f96c  /* 4006d718 */
+    .word d_4008f96c  /* 4006d718 */
 .Lp_4006d71c:
-    .word rodata_4008d460  /* 4006d71c */
+    .word d_4008d460  /* 4006d71c */
 .Lp_4006d720:
     .word d_4008cf10  /* 4006d720 */
 .Lp_4006d724:
     .word d_4008cf48  /* 4006d724 */
 .Lp_4006d728:
-    .word rodata_4008ee88  /* 4006d728 */
+    .word d_4008ee88  /* 4006d728 */
 .Lp_4006d72c:
-    .word rodata_4008e164  /* 4006d72c */
+    .word d_4008e164  /* 4006d72c */
 .Lp_4006d730:
-    .word rodata_4008ee9c  /* 4006d730 */
+    .word d_4008ee9c  /* 4006d730 */
 .Lp_4006d734:
-    .word rodata_4008e180  /* 4006d734 */
+    .word d_4008e180  /* 4006d734 */
 .Lp_4006d738:
     .word 0x42e68d1e  /* 4006d738 */
 .Lp_4006d73c:
-    .word rodata_4008e7e4  /* 4006d73c */
+    .word d_4008e7e4  /* 4006d73c */
 .Lp_4006d740:
     .word d_4008ce28  /* 4006d740 */
 .Lp_4006d744:
@@ -141,15 +141,15 @@ usb_setup_handle:  /* 0x4006d5e8 */
 .Lp_4006d748:
     .word 0x42e68c58  /* 4006d748 */
 .Lp_4006d74c:
-    .word rodata_4008e7fc  /* 4006d74c */
+    .word d_4008e7fc  /* 4006d74c */
 .Lp_4006d750:
-    .word rodata_4008eeb0  /* 4006d750 */
+    .word d_4008eeb0  /* 4006d750 */
 .Lp_4006d754:
-    .word rodata_4008f97c  /* 4006d754 */
+    .word d_4008f97c  /* 4006d754 */
 .Lp_4006d758:
-    .word rodata_4008f98c  /* 4006d758 */
+    .word d_4008f98c  /* 4006d758 */
 .Lp_4006d75c:
-    .word rodata_4008f99c  /* 4006d75c */
+    .word d_4008f99c  /* 4006d75c */
 .Lp_4006d760:
-    .word rodata_4008eec4  /* 4006d760 */
+    .word d_4008eec4  /* 4006d760 */
     .size usb_setup_handle, . - usb_setup_handle

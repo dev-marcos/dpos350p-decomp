@@ -43,11 +43,11 @@ void hires_menu_draw(void)
     draw_colour_set(THEME_MENU_BG);
     rect_fill(x, y, w, h);
     draw_colour_set(THEME_MENU_TEXT);
-    draw_text_shadowed((x + 0x14) & 0xFFFF, (y + 0x17) & 0xFFFF, 0x4008C3FCu, 2, 2, 0);
+    draw_text_shadowed((x + 0x14) & 0xFFFF, (y + 0x17) & 0xFFFF, IMGU(4008c3fc), 2, 2, 0);
     draw_colour_set(THEME_MENU_TEXT);
     text_shadow_draw((x + 0x41 + TEXT_DX(e)) & 0xFFFF, (y + 0x14 + TEXT_DY(e) + 3) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
     tw = text_width(TEXT_STR(e));
-    text_shadow_draw((tw + x + TEXT_DX(e) + 0x49) & 0xFFFF, (y + 0x14 + TEXT_DY(e) + 3) & 0xFFFF, (const char *)0x4008F8CCu, 1, 2, 0);
+    text_shadow_draw((tw + x + TEXT_DX(e) + 0x49) & 0xFFFF, (y + 0x14 + TEXT_DY(e) + 3) & 0xFFFF, (const char *)IMG(4008f8cc), 1, 2, 0);
 
     r = (y + 0x50) & 0xFFFF;
     option_colours(0, &txt);
@@ -55,8 +55,8 @@ void hires_menu_draw(void)
     draw_colour_set(txt);
     tw = text_width(TEXT_STR(e2));
     text_draw((x + ((0x19A - tw) >> 1) + TEXT_DX(e2) + 0x14) & 0xFFFF, (r + TEXT_DY(e2) + 6) & 0xFFFF, TEXT_STR(e2));
-    tw = text_width((const char *)0x400903D8u);
-    text_draw((x + 0x14 + ((0x19A - tw) >> 1)) & 0xFFFF, (r + 0x19) & 0xFFFF, (const char *)0x400903D8u);
+    tw = text_width((const char *)IMG(400903d8));
+    text_draw((x + 0x14 + ((0x19A - tw) >> 1)) & 0xFFFF, (r + 0x19) & 0xFFFF, (const char *)IMG(400903d8));
     touch_button_set_rect((x + 0x14) & 0xFFFF, (r - 0xA) & 0xFFFF, 0x19A, 0x41, (volatile unsigned char *)(BTN + 0x55C));
     if (BREC(137, touch_code)) {
         draw_colour_set(THEME_MENU_ROW_PRESSED);
@@ -68,7 +68,7 @@ void hires_menu_draw(void)
             r += 0x5A;
         yb = (r - 0xA) & 0xFFFF;
         xo = x + 0x14 + 0x69 * ((i - 1) & 3);
-        s = (const char *)(0x400903D8u + 8 * i);
+        s = (const char *)(IMGU(400903d8) + 8 * i);
         option_colours(i, &txt);
         rect_fill(xo & 0xFFFF, r & 0xFFFF, 0x64, 0x2D);
         draw_colour_set(txt);

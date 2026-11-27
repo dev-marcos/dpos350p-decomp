@@ -350,7 +350,7 @@ screenshot_view_frame_draw:  /* 0x40025db4 */
 .Lp_400262e8:
     .word 0x00bbbbbb  /* 400262e8 */
 .Lp_400262ec:
-    .word graphics_4008a038  /* 400262ec */
+    .word d_4008a038  /* 400262ec */
 .Lp_400262f0:
     .word 0x42e64a98  /* 400262f0 */
 .Lp_400262f4:

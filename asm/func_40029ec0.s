@@ -181,15 +181,15 @@ ui_connect_generator_notice:  /* 0x40029ec0 */
 .Lp_4002a168:
     .word 0x003dd550  /* 4002a168 */
 .Lp_4002a16c:
-    .word graphics_400891d8  /* 4002a16c */
+    .word d_400891d8  /* 4002a16c */
 .Lp_4002a170:
-    .word rodata_40090430  /* 4002a170 */
+    .word d_40090430  /* 4002a170 */
 .Lp_4002a174:
-    .word rodata_40090438  /* 4002a174 */
+    .word d_40090438  /* 4002a174 */
 .Lp_4002a178:
-    .word rodata_4008e7b4  /* 4002a178 */
+    .word d_4008e7b4  /* 4002a178 */
 .Lp_4002a17c:
-    .word rodata_4008ff6c  /* 4002a17c */
+    .word d_4008ff6c  /* 4002a17c */
 .Lp_4002a180:
     .word 0x42c2fe74  /* 4002a180 */
     .size ui_connect_generator_notice, . - ui_connect_generator_notice

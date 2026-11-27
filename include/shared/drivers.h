@@ -10,7 +10,7 @@
 #define csi_base_tbl ((u32 *)0x42E68C50u)
 #define g_disp ((disp_t *)0x42E68B68u)
 #define g_disp_ptr (*(disp_t **)0x42E68CB4u)
-#define lcd_timing ((const u32 *)0x400952B0u)                /* panel timing table (.data), indexed in words */
+#define lcd_timing ((const u32 *)IMG(400952b0))                /* panel timing table (.data), indexed in words */
 #define mmc_capacity (*(u32 *)0x42E68CC0u)
 #define mmc_card_type (*(int *)0x42E68CB8u)                  /* 0 none, 1 SDHC, 2 SD (byte addressed), 3 MMC */
 #define mmc_dma_buf ((unsigned char *)0x42E68B28u)

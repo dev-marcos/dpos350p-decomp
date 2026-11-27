@@ -8,8 +8,8 @@ exp:  /* 0x40068f08 */
 .Lstart_40068f08:
     vmov.32 r1, d0[1]  /* 40068f08 */
     vcmp.f64 d0, #0  /* 40068f0c */
-    movw r2, #:lower16:graphics_4008c898  /* 40068f10 */
-    movt r2, #:upper16:graphics_4008c898  /* 40068f14 */
+    movw r2, #:lower16:d_4008c898  /* 40068f10 */
+    movt r2, #:upper16:d_4008c898  /* 40068f14 */
     ldr.w r0, [r2, #0x80]  /* 40068f18 */
     cmp.w r0, r1, lsl #1  /* 40068f1c */
     vldmia r2!, {d1, d2, d3, d4, d5, d6, d7}  /* 40068f20 */

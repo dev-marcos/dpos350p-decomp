@@ -87,9 +87,9 @@ persistence_write_read_modify_write:  /* 0x40043874 */
 .Lp_40043984:
     .word 0x42e68cc4  /* 40043984 */
 .Lp_40043988:
-    .word rodata_4008d93c  /* 40043988 */
+    .word d_4008d93c  /* 40043988 */
 .Lp_4004398c:
-    .word rodata_4008d20c  /* 4004398c */
+    .word d_4008d20c  /* 4004398c */
 .Lp_40043990:
     .word 0x01c20848  /* 40043990 */
 .Lp_40043994:

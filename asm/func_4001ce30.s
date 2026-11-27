@@ -493,21 +493,21 @@ display_menu_draw:  /* 0x4001ce30 */
     add sp, sp, #0x14  /* 4001d5a4 */
     pop {r4, r5, r6, r7, r8, sb, sl, fp, pc}  /* 4001d5a8 */
 .Lp_4001d5ac:
-    .word graphics_40089068  /* 4001d5ac */
+    .word d_40089068  /* 4001d5ac */
 .Lp_4001d5b0:
-    .word rodata_400902f8  /* 4001d5b0 */
+    .word d_400902f8  /* 4001d5b0 */
 .Lp_4001d5b4:
-    .word rodata_40090300  /* 4001d5b4 */
+    .word d_40090300  /* 4001d5b4 */
 .Lp_4001d5b8:
-    .word rodata_40090308  /* 4001d5b8 */
+    .word d_40090308  /* 4001d5b8 */
 .Lp_4001d5bc:
-    .word rodata_40090310  /* 4001d5bc */
+    .word d_40090310  /* 4001d5bc */
 .Lp_4001d5c0:
-    .word graphics_400891d8  /* 4001d5c0 */
+    .word d_400891d8  /* 4001d5c0 */
 .Lp_4001d5c4:
-    .word graphics_40089348  /* 4001d5c4 */
+    .word d_40089348  /* 4001d5c4 */
 .Lp_4001d5c8:
-    .word graphics_400894b8  /* 4001d5c8 */
+    .word d_400894b8  /* 4001d5c8 */
 .Lp_4001d5cc:
     .word 0x42e64520  /* 4001d5cc */
 .Lp_4001d5d0:
@@ -517,25 +517,25 @@ display_menu_draw:  /* 0x4001ce30 */
 .Lp_4001d5d8:
     .word 0x40544e68  /* 4001d5d8 */
 .Lp_4001d5dc:
-    .word graphics_40089628  /* 4001d5dc */
+    .word d_40089628  /* 4001d5dc */
 .Lp_4001d5e0:
     .word 0x42c2fe74  /* 4001d5e0 */
 .Lp_4001d5e4:
     .word 0x42e61ff8  /* 4001d5e4 */
 .Lp_4001d5e8:
-    .word graphics_40089798  /* 4001d5e8 */
+    .word d_40089798  /* 4001d5e8 */
 .Lp_4001d5ec:
-    .word graphics_40089908  /* 4001d5ec */
+    .word d_40089908  /* 4001d5ec */
 .Lp_4001d5f0:
-    .word graphics_40089a78  /* 4001d5f0 */
+    .word d_40089a78  /* 4001d5f0 */
 .Lp_4001d5f4:
-    .word graphics_40089d58  /* 4001d5f4 */
+    .word d_40089d58  /* 4001d5f4 */
 .Lp_4001d5f8:
-    .word graphics_4008bb88  /* 4001d5f8 */
+    .word d_4008bb88  /* 4001d5f8 */
 .Lp_4001d5fc:
-    .word graphics_4008bcf8  /* 4001d5fc */
+    .word d_4008bcf8  /* 4001d5fc */
 .Lp_4001d600:
     .word 0x42e68be0  /* 4001d600 */
 .Lp_4001d604:
-    .word rodata_40090318  /* 4001d604 */
+    .word d_40090318  /* 4001d604 */
     .size display_menu_draw, . - display_menu_draw

@@ -160,7 +160,7 @@ in place only where it fits. To link the whole firmware from C, the steps are:
 | Step | What | State |
 |---|---|---|
 | 1 | Relocatable assembly: every reference inside the image is a symbol, units grouped in 277 clusters that the linker may place anywhere (`docs/SPLIT.md`, "Relocatable output") | **done**: `make check` MATCH; the clusters linked in reversed and shuffled orders boot like the stock image in the emulator (`tools/relink_test.py`, `tools/relink_check.mjs`) |
-| 2 | C without image addresses: `STR(0x4008…)` and the other text/table addresses become named symbols, calls to Thumb library code through fixed pointers become declared functions (about 500 lines) | next |
+| 2 | C without image addresses: texts, tables, pictures and initialised globals of the image become `d_<address>` symbols (`include/image.h`, `docs/CONTRIBUTING.md`); library calls through fixed pointers use `CODE_ADDR(name)` | **done**: 936 uses in 146 files (674 texts, 244 pointers/integers, 18 code addresses); only a bit mask equal to `0x40000000` is left. 164 of the 237 changed objects link to the same bytes; the other 73 differ only where GCC can no longer fold a known address; emutest decides |
 | 3 | Mixed link: replace clusters' units by their C objects group by group, with a place for code that no longer fits below the ZI base (`0x400954A4`) | |
 | 4 | Whole build from C; assembly only for the startup code and the 90 functions above | |
 | 5 | First run on a device, after a recovery path is known (OPEN) | |

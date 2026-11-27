@@ -25,7 +25,7 @@ void levels_max_panel_draw(void)
     text_spacing_set(2);
     font_set(0x42E658D8u);
     draw_colour_set(0xDDDDDD);
-    text_draw(x & 0xFFFF, y & 0xFFFF, (const char *)0x400902C0u);
+    text_draw(x & 0xFFFF, y & 0xFFFF, (const char *)IMG(400902c0));
     x += H16(ADV);
     frequency_draw(x & 0xFFFF, y & 0xFFFF, 0, (double)(int)LEVELS(max_freq));
     w = frequency_draw(x & 0xFFFF, y & 0xFFFF, 1, (double)(int)LEVELS(max_freq));

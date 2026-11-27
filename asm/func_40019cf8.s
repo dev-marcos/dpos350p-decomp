@@ -52,8 +52,12 @@ slider_draw:  /* 0x40019cf8 */
     uxth r1, r1  /* 40019da4 */
     uxth r0, r0  /* 40019da8 */
     b rect_fill  /* 40019dac */
+    .global d_40019db0
+d_40019db0:
 .Lp_40019db0:
     .byte 0x4f, 0x4e, 0x00, 0x00  /* 40019db0 */
+    .global d_40019db4
+d_40019db4:
 .Lp_40019db4:
     .byte 0x4f, 0x46, 0x46, 0x00  /* 40019db4 */
     .size slider_draw, . - slider_draw

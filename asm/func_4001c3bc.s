@@ -694,9 +694,9 @@ system_menu_draw:  /* 0x4001c3bc */
 .Lp_4001ce20:
     .word 0x42e61ff8  /* 4001ce20 */
 .Lp_4001ce24:
-    .word graphics_4008b8a8  /* 4001ce24 */
+    .word d_4008b8a8  /* 4001ce24 */
 .Lp_4001ce28:
-    .word graphics_40089be8  /* 4001ce28 */
+    .word d_40089be8  /* 4001ce28 */
 .Lp_4001ce2c:
-    .word graphics_40088ef8  /* 4001ce2c */
+    .word d_40088ef8  /* 4001ce2c */
     .size system_menu_draw, . - system_menu_draw

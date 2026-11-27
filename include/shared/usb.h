@@ -14,7 +14,7 @@
 #define CSW_TAG (*(u32 *)0x42E68C14u)
 #define cbw ((unsigned char *)0x42E68B90u)                   /* 31-byte command block wrapper */
 #define csw ((unsigned char *)0x42E68C10u)                   /* 13-byte command status wrapper */
-#define line_coding ((unsigned char *)0x40095484u)           /* 7 bytes */
+#define line_coding ((unsigned char *)IMG(40095484))           /* 7 bytes */
 #define line_coding_rx (*(u32 *)0x42E68CECu)
 #define lun_blksize ((u32 *)0x42E68D0Cu)
 #define lun_blocks ((u32 *)0x42E68D10u)
@@ -26,7 +26,7 @@
 #define mass_stage (*(unsigned char *)0x42E68D1Du)           /* 0 CBW, 1 data out, 2 data in, 3 sent, 4/5 CSW */
 #define max_lun (*(volatile u32 *)0x42E68D23u)               /* read as an unaligned word by the CBW check */
 #define max_lun_rsp (*(unsigned char *)0x42E68D1Eu)
-#define sense_data ((unsigned char *)0x40095400u)            /* 18-byte fixed-format sense */
+#define sense_data ((unsigned char *)IMG(40095400))            /* 18-byte fixed-format sense */
 #define setup_req ((unsigned char *)0x42E68C58u)             /* copy of the last setup packet */
 
 #endif /* SHARED_USB_H */

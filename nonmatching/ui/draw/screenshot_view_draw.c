@@ -17,7 +17,7 @@ void screenshot_view_draw(void)
     int i, o = 0;
     touch_button_set_rect(r[0], r[1], r[2], r[3], (volatile unsigned char *)0x42E627FCu);
     for (i = 600; i; i--) {
-        copy_u16((unsigned short *)(*(volatile u32 *)0x40095498u + o + 0x12AEA4u), s, 0x3FE);
+        copy_u16((unsigned short *)(*(volatile u32 *)IMG(40095498) + o + 0x12AEA4u), s, 0x3FE);
         s += 0x3FE;
         o -= 0x7FC;
     }

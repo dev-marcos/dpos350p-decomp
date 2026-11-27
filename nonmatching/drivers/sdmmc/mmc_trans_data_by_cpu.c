@@ -22,7 +22,7 @@ int mmc_trans_data_by_cpu(u32 n, mmc_data_t *d)
     for (i = 0; i < words; i++) {
         while (readl_a(base + 0x3C) & busy) {
             if (t-- == 0) {
-                dbg_printf(STR(0x4008D8D0), i, readl_a(base + 0x3C));
+                dbg_printf(STR(4008d8d0), i, readl_a(base + 0x3C));
                 return -1;
             }
             mmc_delay_us(1);

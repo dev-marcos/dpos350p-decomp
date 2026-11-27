@@ -53,7 +53,7 @@ int sys_spi_cpu_transfer(int spi, const unsigned char *tx, unsigned char *rx, in
     while (readl_f(base + 8) & 0x80000000u)
         if (--t <= 0) break;
     if (t == 0) {
-        dbg_printf(STR(0x4008D93C));
+        dbg_printf(STR(4008d93c));
         return -1;
     }
     return len;

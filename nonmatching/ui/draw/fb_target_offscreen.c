@@ -10,5 +10,5 @@
 
 void fb_target_offscreen(void)
 {
-    *(volatile u32 *)0x40095498u = 0x4233CBBCu;
+    *(volatile u32 *)IMG(40095498) = 0x4233CBBCu;
 }

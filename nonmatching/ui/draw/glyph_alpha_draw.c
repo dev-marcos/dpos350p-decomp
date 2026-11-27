@@ -21,7 +21,7 @@ void glyph_alpha_draw(u32 x, u32 y, const unsigned char *g)
         return;
     do {
         if (w) {
-            volatile unsigned short *fb = (volatile unsigned short *)*(volatile u32 *)0x40095498u;
+            volatile unsigned short *fb = (volatile unsigned short *)*(volatile u32 *)IMG(40095498);
             u32 j, p = idx;
             for (j = 0; j < w; j++, p++) {
                 unsigned short d = fb[p];

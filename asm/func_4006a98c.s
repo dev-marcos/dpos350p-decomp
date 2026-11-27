@@ -53,9 +53,9 @@ usb_disk_geometry_update:  /* 0x4006a98c */
 .Lp_4006aa0c:
     .word 0x42e68d16  /* 4006aa0c */
 .Lp_4006aa10:
-    .word rodata_40095490  /* 4006aa10 */
+    .word d_40095490  /* 4006aa10 */
 .Lp_4006aa14:
-    .word rodata_4009548c  /* 4006aa14 */
+    .word d_4009548c  /* 4006aa14 */
 .Lp_4006aa18:
     .word 0x42e68d0c  /* 4006aa18 */
 .Lp_4006aa1c:

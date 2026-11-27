@@ -46,7 +46,7 @@ int mmc_card_init(u32 n)
     r = mmc_cmd(n, &cmd, 0, 8, 0x155, 5);
     mmc_delay_ms(30);
     if (r == 0) {
-        dbg_printf(STR(0x4008FF54));
+        dbg_printf(STR(4008ff54));
         mmc_cmd(n, &cmd, 0, 0x37, 0, 5);
         mmc_cmd(n, &cmd, 0, 0x29, 0x40FF8000u, 7);
         while (!(cmd.resp[3] & 0x80000000u)) {
@@ -55,13 +55,13 @@ int mmc_card_init(u32 n)
         }
         if (cmd.resp[3] & 0x40000000u) {
             mmc_card_type = 1;
-            s = STR(0x4008EE38);
+            s = STR(4008ee38);
         } else {
             mmc_card_type = 2;
-            s = STR(0x4008EE4C);
+            s = STR(4008ee4c);
         }
     } else {
-        dbg_printf(STR(0x4008FF60));
+        dbg_printf(STR(4008ff60));
         mmc_cmd(n, &cmd, 0, 0, 0, 0);
         mmc_delay_ms(20);
         r = mmc_cmd(n, &cmd, 0, 0x37, 0, 5);
@@ -70,16 +70,16 @@ int mmc_card_init(u32 n)
             mmc_delay_ms(2);
             if (mmc_cmd(n, &cmd, 0, 1, 0x80FF8000u, 5) == 0x98) {
                 mmc_card_type = 0;
-                dbg_printf(STR(0x4008F8AC));
+                dbg_printf(STR(4008f8ac));
                 return -1;
             }
             while (!(cmd.resp[3] & 0x80000000u))
                 if (mmc_cmd(n, &cmd, 0, 1, 0x80FF8000u, 5)) break;
             mmc_card_type = 3;
-            s = STR(0x4008F89C);
+            s = STR(4008f89c);
         } else if (r != 0) {
             mmc_card_type = 0;
-            dbg_printf(STR(0x4008F8BC));
+            dbg_printf(STR(4008f8bc));
             return -1;
         } else {
             mmc_cmd(n, &cmd, 0, 0x29, 0x00FF8000u, 7);
@@ -88,7 +88,7 @@ int mmc_card_init(u32 n)
                 if (mmc_cmd(n, &cmd, 0, 0x29, 0x00FF8000u, 7)) break;
             }
             mmc_card_type = 2;
-            s = STR(0x4008EE4C);
+            s = STR(4008ee4c);
         }
     }
     dbg_printf(s);

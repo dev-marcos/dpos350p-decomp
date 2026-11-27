@@ -393,8 +393,12 @@ numpad_draw:  /* 0x4005ff88 */
     bne .L40060048  /* 400604dc */
     add sp, sp, #0x20  /* 400604e0 */
     pop {r4, r5, r6, r7, r8, sb, sl, pc}  /* 400604e4 */
+    .global d_400604e8
+d_400604e8:
 .Lp_400604e8:
     .byte 0x2e, 0x00, 0x00, 0x00  /* 400604e8 */
+    .global d_400604ec
+d_400604ec:
 .Lp_400604ec:
     .byte 0x2b, 0x2d, 0x00, 0x00  /* 400604ec */
 .Lp_400604f0:
@@ -416,23 +420,23 @@ numpad_draw:  /* 0x4005ff88 */
 .Lp_40060510:
     .word 0x409223b4  /* 40060510 */
 .Lp_40060514:
-    .word graphics_40087b94  /* 40060514 */
+    .word d_40087b94  /* 40060514 */
 .Lp_40060518:
-    .word graphics_40087f10  /* 40060518 */
+    .word d_40087f10  /* 40060518 */
 .Lp_4006051c:
-    .word graphics_40088094  /* 4006051c */
+    .word d_40088094  /* 4006051c */
 .Lp_40060520:
-    .word graphics_40084e30  /* 40060520 */
+    .word d_40084e30  /* 40060520 */
 .Lp_40060524:
-    .word graphics_400879a0  /* 40060524 */
+    .word d_400879a0  /* 40060524 */
 .Lp_40060528:
-    .word graphics_40087d5c  /* 40060528 */
+    .word d_40087d5c  /* 40060528 */
 .Lp_4006052c:
-    .word graphics_4008c2b8  /* 4006052c */
+    .word d_4008c2b8  /* 4006052c */
 .Lp_40060530:
-    .word graphics_40087548  /* 40060530 */
+    .word d_40087548  /* 40060530 */
 .Lp_40060534:
-    .word graphics_4008c60c  /* 40060534 */
+    .word d_4008c60c  /* 40060534 */
 .Lp_40060538:
-    .word graphics_400872b4  /* 40060538 */
+    .word d_400872b4  /* 40060538 */
     .size numpad_draw, . - numpad_draw

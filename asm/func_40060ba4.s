@@ -128,5 +128,7 @@ fft_spur_capture:  /* 0x40060ba4 */
     vpop {d8, d9}  /* 40060d58 */
     add sp, sp, #4  /* 40060d5c */
     pop {r4, r5, r6, r7, r8, sb, sl, fp, pc}  /* 40060d60 */
+    .global d_40060d64
+d_40060d64:
     .byte 0x43, 0x32, 0x20, 0x00  /* 40060d64 */
     .size fft_spur_capture, . - fft_spur_capture

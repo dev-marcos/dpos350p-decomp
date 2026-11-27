@@ -174,7 +174,7 @@ ui_factory_reset_confirm:  /* 0x4002967c */
     add sp, sp, #0xc  /* 40029910 */
     pop {r4, r5, r6, r7, r8, sb, sl, fp, pc}  /* 40029914 */
 .Lp_40029918:
-    .word graphics_4008b5c8  /* 40029918 */
+    .word d_4008b5c8  /* 40029918 */
 .Lp_4002991c:
-    .word graphics_4008b738  /* 4002991c */
+    .word d_4008b738  /* 4002991c */
     .size ui_factory_reset_confirm, . - ui_factory_reset_confirm

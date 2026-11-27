@@ -23,11 +23,11 @@ sys_rect_redraw_gated:  /* 0x4002cc6c */
 .Lp_4002cca0:
     .word 0x41066667  /* 4002cca0 */
 .Lp_4002cca4:
-    .word graphics_4008bfd8  /* 4002cca4 */
+    .word d_4008bfd8  /* 4002cca4 */
 .Lp_4002cca8:
-    .word graphics_4008c148  /* 4002cca8 */
+    .word d_4008c148  /* 4002cca8 */
 .Lp_4002ccac:
-    .word graphics_40089be8  /* 4002ccac */
+    .word d_40089be8  /* 4002ccac */
 .Lp_4002ccb0:
     .word 0x42e64520  /* 4002ccb0 */
 .Lp_4002ccb4:

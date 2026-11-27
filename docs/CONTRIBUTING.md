@@ -178,6 +178,24 @@ Some other shared tables and blocks have their own header:
 
 Before adding a local `#define` for an address, look in `include/shared/` and `include/state/`.
 
+### Addresses inside the image (`image.h`)
+
+A text, table, picture or initialised global that lives **in the image** (below `0x400954A4`)
+is never written as a number. The code may move (`docs/SPLIT.md`, "Relocatable output"), so
+the C names it as the symbol `d_<address>`, which the linker resolves:
+
+| Write | For |
+|---|---|
+| `STR(4008e724)` | a text passed as `const char *` |
+| `(const char *)IMG(40060b90)`, `(volatile u32 *)IMG(40095498)` | a pointer of another type |
+| `IMGU(400857fc)` | an address passed as an integer (pictures, icons) |
+| `IMG_DECL(400860e4);` then `(u32)d_400860e4` | a `static const` initialiser |
+| `((sqrt_fn)CODE_ADDR(sqrt))` | a library function called through a pointer |
+
+The stock-address builds (emutest, selftest, testiso) define every `d_XXXXXXXX` at the address
+in its name (`tools/nmbuild.py`, `Symbols`). `tools/split.py` gives the assembly a label at every
+address the C names this way. RAM (`0x400954A4` and up) and peripherals stay numeric.
+
 ## TEST image for the emulator
 
 `make testiso` builds `build/test/DPOS350P_TEST.iso`: the stock image with every EQUIVALENT C

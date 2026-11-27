@@ -46,5 +46,5 @@ irq_register:  /* 0x40066bd4 */
 .Lp_40066c64:
     .word 0xa0a0a0a0  /* 40066c64 */
 .Lp_40066c68:
-    .word rodata_4008e724  /* 40066c68 */
+    .word d_4008e724  /* 40066c68 */
     .size irq_register, . - irq_register

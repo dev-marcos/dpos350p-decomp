@@ -10,7 +10,7 @@
 
 u32 usb_mass_disk_read(u32 lun, u32 lba, u32 count)
 {
-    if (*(volatile u32 *)0x40095490u == 1)
-        return usb_disk_sd_read(lun, lba, count, 0x40095490u);   /* r3 still holds the state address */
+    if (*(volatile u32 *)IMG(40095490) == 1)
+        return usb_disk_sd_read(lun, lba, count, IMGU(40095490));   /* r3 still holds the state address */
     return lun;
 }

@@ -20,7 +20,7 @@ int mmc_set_mod_clk(u32 n, u32 hz)
     if (div >= 17) {
         do { div = (div + 1) >> 1; nexp++; } while (div >= 17);
         if (nexp >= 4) {
-            dbg_printf(STR(0x4008D710), n, hz);
+            dbg_printf(STR(4008d710), n, hz);
             return -1;
         }
     }

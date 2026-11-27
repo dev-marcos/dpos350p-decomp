@@ -47,7 +47,7 @@ void main_toolbar_draw(void)
         rect_fill(bx & 0xFFFF, y, wd, 0x2C);
         draw_colour_set(icon_colour(i));
         draw_colour_set(THEME_TOOLBAR_ICON);
-        draw_text_shadowed((bx + 0x2A) & 0xFFFF, (y + 2) & 0xFFFF, 0x40088208u + 0x170 * i, 2, 2, 0);
+        draw_text_shadowed((bx + 0x2A) & 0xFFFF, (y + 2) & 0xFFFF, IMGU(40088208) + 0x170 * i, 2, 2, 0);
         draw_colour_set(THEME_TOOLBAR_TEXT);
         tw = text_width(TEXT_STR(e));
         text_shadow_draw((bx + ((0x66 - tw) >> 1) + TEXT_DX(e)) & 0xFFFF, (y + TEXT_DY(e) + 0x19) & 0xFFFF, TEXT_STR(e), 1, 2, 0);

@@ -8,13 +8,13 @@ dcache_flush_range:  /* 0x400688fc */
     add r1, r1, r0  /* 400688fc */
     b dcache_flush_range_se  /* 40068900 */
 .Lp_40068904:
-    .word rodata_4008d8d0  /* 40068904 */
+    .word d_4008d8d0  /* 40068904 */
 .Lp_40068908:
-    .word rodata_4008e76c  /* 40068908 */
+    .word d_4008e76c  /* 40068908 */
 .Lp_4006890c:
     .word 0x42e5d010  /* 4006890c */
 .Lp_40068910:
-    .word rodata_4008f84c  /* 40068910 */
+    .word d_4008f84c  /* 40068910 */
 .Lp_40068914:
-    .word rodata_4008f85c  /* 40068914 */
+    .word d_4008f85c  /* 40068914 */
     .size dcache_flush_range, . - dcache_flush_range

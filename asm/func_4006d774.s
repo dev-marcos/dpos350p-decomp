@@ -28,9 +28,9 @@ usb_hid_get_cfg_descriptor:  /* 0x4006d774 */
     mov r0, #0  /* 4006d7b8 */
     b usb_device_write_data_ep_pack  /* 4006d7bc */
 .Lp_4006d7c0:
-    .word rodata_4008d9a8  /* 4006d7c0 */
+    .word d_4008d9a8  /* 4006d7c0 */
 .Lp_4006d7c4:
-    .word rodata_4008e12c  /* 4006d7c4 */
+    .word d_4008e12c  /* 4006d7c4 */
 .Lp_4006d7c8:
-    .word rodata_4008d48c  /* 4006d7c8 */
+    .word d_4008d48c  /* 4006d7c8 */
     .size usb_hid_get_cfg_descriptor, . - usb_hid_get_cfg_descriptor

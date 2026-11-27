@@ -13,25 +13,25 @@ void udp_get_dev_descriptor_string(unsigned char *req)
 {
     u32 len = *(unsigned short *)(req + 6), idx = req[2];
     unsigned char *d;
-    debug_printf_stub(STR(0x4008D960), idx);
+    debug_printf_stub(STR(4008d960), idx);
     switch (idx) {
     case 0:
-        usb_device_write_data_ep_pack(0, (unsigned char *)0x400954A0u, len < 5 ? len : 4);
+        usb_device_write_data_ep_pack(0, (unsigned char *)IMG(400954a0), len < 5 ? len : 4);
         return;
     case 2:
         if ((int)len >= 0x26) len = 0x26;
-        *(unsigned short *)0x40095340u = (unsigned short)(len | 0x300);
-        d = (unsigned char *)0x40095340u;
+        *(unsigned short *)IMG(40095340) = (unsigned short)(len | 0x300);
+        d = (unsigned char *)IMG(40095340);
         break;
     case 1:
-    case 3: if (len >= 0x20) len = 0x20; d = (unsigned char *)0x40095360u; break;
-    case 4: if (len >= 0x20) len = 0x20; d = (unsigned char *)0x40095380u; break;
-    case 5: if (len >= 0x20) len = 0x20; d = (unsigned char *)0x400953A0u; break;
-    case 6: if (len >= 0x20) len = 0x20; d = (unsigned char *)0x400953C0u; break;
+    case 3: if (len >= 0x20) len = 0x20; d = (unsigned char *)IMG(40095360); break;
+    case 4: if (len >= 0x20) len = 0x20; d = (unsigned char *)IMG(40095380); break;
+    case 5: if (len >= 0x20) len = 0x20; d = (unsigned char *)IMG(400953a0); break;
+    case 6: if (len >= 0x20) len = 0x20; d = (unsigned char *)IMG(400953c0); break;
     case 0xEE:
         if (len >= 0x20) len = 0x20;
-        *(unsigned short *)0x40095360u = (unsigned short)(len | 0x300);
-        d = (unsigned char *)0x40095360u;
+        *(unsigned short *)IMG(40095360) = (unsigned short)(len | 0x300);
+        d = (unsigned char *)IMG(40095360);
         break;
     default:
         usb_device_write_data_ep_pack(0, 0, 0);

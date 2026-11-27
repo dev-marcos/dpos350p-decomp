@@ -27,11 +27,11 @@ USBC_Clear_Feature_HALT:  /* 0x4006cf24 */
 .Lp_4006cf60:
     .word 0x01c19410  /* 4006cf60 */
 .Lp_4006cf64:
-    .word rodata_4008e27c  /* 4006cf64 */
+    .word d_4008e27c  /* 4006cf64 */
 .Lp_4006cf68:
     .word 0x01c20060  /* 4006cf68 */
 .Lp_4006cf6c:
-    .word rodata_4008e298  /* 4006cf6c */
+    .word d_4008e298  /* 4006cf6c */
 .Lp_4006cf70:
     .word 0x01c19050  /* 4006cf70 */
 .Lp_4006cf74:

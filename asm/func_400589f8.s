@@ -207,5 +207,5 @@ dir_register:  /* 0x400589f8 */
     add sp, sp, #0x60  /* 40058cd8 */
     pop {r4, r5, r6, r7, sb, pc}  /* 40058cdc */
 .Lp_40058ce0:
-    .word rodata_4008f01c  /* 40058ce0 */
+    .word d_4008f01c  /* 40058ce0 */
     .size dir_register, . - dir_register

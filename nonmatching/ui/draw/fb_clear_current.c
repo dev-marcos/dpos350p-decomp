@@ -10,4 +10,4 @@
 #include "util.h"
 #include "shared/framebuffer.h"
 
-void fb_clear_current(void) { fill_u16(*(unsigned short **)0x40095498u, 0, FB_PIXELS); }
+void fb_clear_current(void) { fill_u16(*(unsigned short **)IMG(40095498), 0, FB_PIXELS); }

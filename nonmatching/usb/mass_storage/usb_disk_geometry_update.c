@@ -10,10 +10,10 @@
 
 void usb_disk_geometry_update(void)
 {
-    u32 ss = *(volatile u32 *)0x4009548Cu;
+    u32 ss = *(volatile u32 *)IMG(4009548c);
     volatile unsigned long long *cap = (volatile unsigned long long *)0x42E68C60u;
     *(volatile u32 *)0x42E68D0Cu = ss;
-    if (*(volatile u32 *)0x40095490u == 1)
+    if (*(volatile u32 *)IMG(40095490) == 1)
         *cap = (unsigned long long)*(volatile u32 *)(0x42E68A18u + 4) * ss;
     *(volatile u32 *)0x42E68D10u = (u32)__aeabi_uldivmod(*cap, ss);
 }

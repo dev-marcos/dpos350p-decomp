@@ -43,7 +43,7 @@ list_b_page_validate:  /* 0x4003656c */
 .Lp_400365e8:
     .word 0x00360404  /* 400365e8 */
 .Lp_400365ec:
-    .word rodata_4008ffb4  /* 400365ec */
+    .word d_4008ffb4  /* 400365ec */
 .Lp_400365f0:
-    .word rodata_4008e2d0  /* 400365f0 */
+    .word d_4008e2d0  /* 400365f0 */
     .size list_b_page_validate, . - list_b_page_validate

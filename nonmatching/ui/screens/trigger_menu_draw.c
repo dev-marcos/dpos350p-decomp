@@ -65,26 +65,26 @@ void trigger_menu_draw(void)
     rect_fill(x, y, w, h);
 
     r = y + 0x19;
-    label_row(x, r, 0x4008ABB8u, UI_TEXT(37));
+    label_row(x, r, IMGU(4008abb8), UI_TEXT(37));
     r += 0x37;
     ent_option(x + 0x14, r, 0x86, SYS + 0x27A, 0, UI_TEXT(41), 0x5B6);
     ent_option(x + 0x9E, r, 0x86, SYS + 0x27A, 1, UI_TEXT(42), 0x5C0);
     ent_option(x + 0x128, r, 0x86, SYS + 0x27A, 2, UI_TEXT(43), 0x5CA);
 
     r += 0x41;
-    label_row(x, r, 0x4008AD28u, UI_TEXT(38));
+    label_row(x, r, IMGU(4008ad28), UI_TEXT(38));
     r += 0x37;
     ent_option(x + 0x14, r, 0xCB, SYS + 0x27B, 0, UI_TEXT(44), 0x5D4);
     ent_option(x + 0xE3, r, 0xCB, SYS + 0x27B, 1, UI_TEXT(45), 0x5DE);
 
     r += 0x41;
-    label_row(x, r, 0x4008AE98u, UI_TEXT(39));
+    label_row(x, r, IMGU(4008ae98), UI_TEXT(39));
     r += 0x37;
     option(x + 0x14, r, 0xCB, SYS + 0x27C, 0, "CH1", 0, 0, 0x5E8);
     option(x + 0xE3, r, 0xCB, SYS + 0x27C, 1, "CH2", 0, 0, 0x5F2);
 
     r += 0x41;
-    label_row(x, r, 0x4008B008u, UI_TEXT(40));
+    label_row(x, r, IMGU(4008b008), UI_TEXT(40));
     r += 0x37;
     ent_option(x + 0x14, r, 0x63, SYS + 0x284, 0, UI_TEXT(140), 0x5FC);
     option(x + 0x7B, r, 0x64, SYS + 0x284, 1, "L1", 0, 0, 0x606);

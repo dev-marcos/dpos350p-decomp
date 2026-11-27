@@ -30,7 +30,7 @@ int mmc_send_cmd(u32 n, mmc_cmd_t *cmd, mmc_xfer_t *data)
     if (data) {
         if ((u32)data->buf & 3) {
             r = -1;
-            dbg_printf(STR(0x4008E76C));
+            dbg_printf(STR(4008e76c));
             goto reset;
         }
         v |= 0x2200;
@@ -48,7 +48,7 @@ int mmc_send_cmd(u32 n, mmc_cmd_t *cmd, mmc_xfer_t *data)
             writel_a(base + 0x18, cmd->opcode | v);
             if (mmc_trans_data_by_cpu(n, data)) {
                 r = -0x98;
-                dbg_printf(STR(0x4008F84C), readl_a(base + 0x38) & 0xBFC2);
+                dbg_printf(STR(4008f84c), readl_a(base + 0x38) & 0xBFC2);
                 goto reset;
             }
             goto wait;
@@ -74,7 +74,7 @@ wait:
             u32 st = readl_a(base + 0x3C);
             if (t == 0) {
                 r = -0x98;
-                dbg_printf(STR(0x4008F85C));
+                dbg_printf(STR(4008f85c));
                 goto reset;
             }
             t--;
@@ -94,7 +94,7 @@ wait:
 done:
     if (r >= 0) goto cleanup;
 reset:
-    dbg_printf(STR(0x4008F86C));
+    dbg_printf(STR(4008f86c));
     writel_a(base, 7);
     mmc_update_clk(n);
 cleanup:

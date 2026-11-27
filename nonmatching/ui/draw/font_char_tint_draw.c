@@ -11,7 +11,7 @@
 
 #define CB8(o) (*(volatile unsigned char *)(0x42E6865Cu + (o)))
 #define CB16(o) (*(volatile unsigned short *)(0x42E6865Cu + (o)))
-#define FBP (*(volatile u32 *)0x40095498u)
+#define FBP (*(volatile u32 *)IMG(40095498))
 
 #define FONT (*(volatile u32 *)0x42E68C74u)
 

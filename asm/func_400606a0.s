@@ -327,14 +327,24 @@ levels_markers_draw:  /* 0x400606a0 */
 .L40060b88:
     add sp, sp, #0xc  /* 40060b88 */
     pop {r4, r5, r6, r7, r8, sb, sl, fp, pc}  /* 40060b8c */
+    .global d_40060b90
+d_40060b90:
 .Lp_40060b90:
     .byte 0x43, 0x00, 0x00, 0x00  /* 40060b90 */
+    .global d_40060b94
+d_40060b94:
 .Lp_40060b94:
     .byte 0x31, 0x00, 0x00, 0x00  /* 40060b94 */
+    .global d_40060b98
+d_40060b98:
 .Lp_40060b98:
     .byte 0x32, 0x00, 0x00, 0x00  /* 40060b98 */
+    .global d_40060b9c
+d_40060b9c:
 .Lp_40060b9c:
     .byte 0x43, 0x31, 0x20, 0x00  /* 40060b9c */
+    .global d_40060ba0
+d_40060ba0:
 .Lp_40060ba0:
     .byte 0x3d, 0x20, 0x00, 0x00  /* 40060ba0 */
     .size levels_markers_draw, . - levels_markers_draw

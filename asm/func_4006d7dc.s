@@ -28,7 +28,7 @@ usb_cdc_get_cfg_descriptor:  /* 0x4006d7dc */
     mov r0, #0  /* 4006d820 */
     b usb_device_write_data_ep_pack  /* 4006d824 */
 .Lp_4006d828:
-    .word rodata_4008e12c  /* 4006d828 */
+    .word d_4008e12c  /* 4006d828 */
 .Lp_4006d82c:
-    .word graphics_4008c79c  /* 4006d82c */
+    .word d_4008c79c  /* 4006d82c */
     .size usb_cdc_get_cfg_descriptor, . - usb_cdc_get_cfg_descriptor

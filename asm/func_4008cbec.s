@@ -7,12 +7,12 @@
 __scatterload:  /* 0x4008cbec */
 .Lstart_4008cbec:
     push {r4, lr}  /* 4008cbec */
-    movw r1, #:lower16:(rodata_4008d9f0 - . + 0)  /* 4008cbee */
-    movt r1, #:upper16:(rodata_4008d9f0 - . + 4)  /* 4008cbf2 */
+    movw r1, #:lower16:(d_4008d9f0 - . + 0)  /* 4008cbee */
+    movt r1, #:upper16:(d_4008d9f0 - . + 4)  /* 4008cbf2 */
     add r1, pc  /* 4008cbf6 */
     sub.w r1, r1, #0xc  /* 4008cbf8 */
-    movw r4, #:lower16:(rodata_4008da00 - . + 0)  /* 4008cbfc */
-    movt r4, #:upper16:(rodata_4008da00 - . + 4)  /* 4008cc00 */
+    movw r4, #:lower16:(d_4008da00 - . + 0)  /* 4008cbfc */
+    movt r4, #:upper16:(d_4008da00 - . + 4)  /* 4008cc00 */
     add r4, pc  /* 4008cc04 */
     sub.w r4, r4, #0xc  /* 4008cc06 */
     b .L4008cc16  /* 4008cc0a */

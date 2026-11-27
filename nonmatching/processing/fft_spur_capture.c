@@ -14,7 +14,7 @@
 #define SPT 0x42E3C000u
 #define SPEC 0x42D364B4u
 typedef long long (*f2lz_fn)(float) __attribute__((pcs("aapcs")));
-#define F2LZ(x) (((f2lz_fn)0x4006A4E9u)(x))   /* __aeabi_f2lz at 0x4006A4E8 is Thumb */
+#define F2LZ(x) (((f2lz_fn)CODE_ADDR(__aeabi_f2lz))(x))   /* __aeabi_f2lz at 0x4006A4E8 is Thumb */
 
 /* per mode word BLK+0xF4 = 0..3: values (float), bin indices (u16), mean (float), count (u16) */
 static void spur_lists(u32 sel, u32 *vals, u32 *idxs, u32 *mean, u32 *cntp)

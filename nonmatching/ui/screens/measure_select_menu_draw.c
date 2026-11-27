@@ -54,7 +54,7 @@ static void measure_rows(u32 x0, u32 r, u32 c)
 static void header(u32 x, u32 y, u32 e)
 {
     draw_colour_set(THEME_MENU_TEXT);
-    draw_text_shadowed((x + 0x14) & 0xFFFF, y & 0xFFFF, 0x40089EC8u, 2, 2, 0);
+    draw_text_shadowed((x + 0x14) & 0xFFFF, y & 0xFFFF, IMGU(40089ec8), 2, 2, 0);
     draw_colour_set(THEME_MENU_TEXT);
     text_shadow_draw((x + TEXT_DX(e) + 0x41) & 0xFFFF, (y + TEXT_DY(e) + 3) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
 }

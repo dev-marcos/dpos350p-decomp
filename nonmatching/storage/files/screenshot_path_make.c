@@ -44,7 +44,7 @@ static void path_number(u32 p, int n, const char *ext)
 
 void screenshot_path_make(int n)
 {
-    __aeabi_memcpy4((void *)(SYS + 0x88C0), (const void *)0x4008F82Cu, 13);
+    __aeabi_memcpy4((void *)(SYS + 0x88C0), (const void *)IMG(4008f82c), 13);
     SI(f_88cc) = '/';
     path_number(SYS + 0x88CC, n, ".bmp");
 }

@@ -379,11 +379,11 @@ levels_toolbar_draw:  /* 0x4002ae60 */
 .Lp_4002b414:
     .word 0x008855aa  /* 4002b414 */
 .Lp_4002b418:
-    .word graphics_4008ba18  /* 4002b418 */
+    .word d_4008ba18  /* 4002b418 */
 .Lp_4002b41c:
     .word 0x42e180c8  /* 4002b41c */
 .Lp_4002b420:
-    .word graphics_400857fc  /* 4002b420 */
+    .word d_400857fc  /* 4002b420 */
 .Lp_4002b424:
     .word 0x42e64520  /* 4002b424 */
 .Lp_4002b428:

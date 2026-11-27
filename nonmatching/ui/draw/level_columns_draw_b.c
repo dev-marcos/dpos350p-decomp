@@ -12,7 +12,7 @@
 
 #define MB32(o) (*(volatile u32 *)(0x42E68668u + (o)))
 #define COLOUR16 (*(volatile unsigned short *)0x42E68660u)
-#define SCREEN (*(volatile u32 *)0x40095498u)
+#define SCREEN (*(volatile u32 *)IMG(40095498))
 
 #define TOP16(c) (*(volatile unsigned short *)(0x42E61000u + 2 * (c)))
 #define TBL(i) (*(volatile u32 *)(0x42E583A0u + 4 * (i)))

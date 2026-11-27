@@ -494,7 +494,7 @@ trace_intensity_accumulate_lines:  /* 0x4005e12c */
 .Lp_4005e828:
     .word 0x83126e98  /* 4005e828 */
 .Lp_4005e82c:
-    .word rodata_40095498  /* 4005e82c */
+    .word d_40095498  /* 4005e82c */
 .Lp_4005e830:
     .word 0x0012be70  /* 4005e830 */
 .Lp_4005e834:

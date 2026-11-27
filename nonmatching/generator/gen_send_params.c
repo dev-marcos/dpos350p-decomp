@@ -21,7 +21,7 @@ void gen_send_params(void)
         d0 = (double)g[1];
         d1 = (double)g[7];
         d1 = d0 * d1;
-        d0 = (double)((volatile int *)0x400951E8u)[idx];
+        d0 = (double)((volatile int *)IMG(400951e8))[idx];
         d0 = d1 / d0;
         a = (u32)d0;
     } else {

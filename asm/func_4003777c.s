@@ -37,5 +37,5 @@ list_c_page_mark:  /* 0x4003777c */
     add sp, sp, #4  /* 400377ec */
     ldm sp!, {pc}  /* 400377f0 */
 .Lp_400377f4:
-    .word rodata_4008e8d4  /* 400377f4 */
+    .word d_4008e8d4  /* 400377f4 */
     .size list_c_page_mark, . - list_c_page_mark

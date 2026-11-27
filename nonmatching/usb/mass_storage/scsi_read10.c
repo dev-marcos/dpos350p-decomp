@@ -12,19 +12,19 @@ void scsi_read10(u32 lun, u32 lba, u32 count)
 {
     if (mass_stage == 0) {
         if (!scsi_check_range(CBW_LUN, 0x28, lba, count)) {
-            debug_printf_stub(STR(0x4008D9CC));
+            debug_printf_stub(STR(4008d9cc));
             return;
         }
         if (!(CBW_FLAGS & 0x80)) {
-            debug_printf_stub(STR(0x4008E8BC));
+            debug_printf_stub(STR(4008e8bc));
             usb_mass_set_sense(CBW_LUN, 5, 0x24);
             usb_mass_send_csw(1, 1);
             return;
         }
-        debug_printf_stub(STR(0x4008FFA8));
+        debug_printf_stub(STR(4008ffa8));
         mass_stage = 2;
     } else if (mass_stage == 2) {
-        debug_printf_stub(STR(0x4008FFA8));
+        debug_printf_stub(STR(4008ffa8));
     } else {
         return;
     }

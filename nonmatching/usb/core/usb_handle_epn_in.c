@@ -12,15 +12,15 @@
 void usb_handle_epn_in(int ep)
 {
     u32 old;
-    debug_printf_stub(STR(0x4008EF50), ep);
+    debug_printf_stub(STR(4008ef50), ep);
     old = USBC_GetActiveEp();
     USBC_SelectActiveEp((unsigned char)ep);
     if (USBC_Dev_IsEpStall(USBC_EP_TYPE_TX)) {
-        debug_printf_stub(STR(0x4008E1F0), ep);
+        debug_printf_stub(STR(4008e1f0), ep);
         USBC_Dev_EpClearStall(USBC_EP_TYPE_TX);
     }
     if (!USBC_Dev_IsWriteDataReady(USBC_EP_TYPE_TX)) {
-        debug_printf_stub(STR(0x4008E874), ep);
+        debug_printf_stub(STR(4008e874), ep);
         if (current_usb_type == 4)
             usb_mass_in_ep_callback();
     }

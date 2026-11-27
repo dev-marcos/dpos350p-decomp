@@ -1187,17 +1187,17 @@ f_mkfs:  /* 0x4005b1f8 */
     add sp, sp, #0x5c  /* 4005c2f0 */
     pop {r4, r5, r6, r7, r8, sb, sl, fp, pc}  /* 4005c2f4 */
 .Lp_4005c2f8:
-    .word rodata_4008f02c  /* 4005c2f8 */
+    .word d_4008f02c  /* 4005c2f8 */
 .Lp_4005c2fc:
-    .word rodata_4008fa44  /* 4005c2fc */
+    .word d_4008fa44  /* 4005c2fc */
 .Lp_4005c300:
-    .word rodata_4008f03c  /* 4005c300 */
+    .word d_4008f03c  /* 4005c300 */
 .Lp_4005c304:
-    .word rodata_4008fa50  /* 4005c304 */
+    .word d_4008fa50  /* 4005c304 */
 .Lp_4005c308:
-    .word rodata_4008e910  /* 4005c308 */
+    .word d_4008e910  /* 4005c308 */
 .Lp_4005c30c:
-    .word rodata_4008e924  /* 4005c30c */
+    .word d_4008e924  /* 4005c30c */
 .Lp_4005c310:
     .word 0x41615252  /* 4005c310 */
 .Lp_4005c314:

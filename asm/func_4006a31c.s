@@ -12,8 +12,8 @@ log:  /* 0x4006a31c */
     cmn.w r0, r1, lsl #1  /* 4006a328 */
     bhs .L4006a3d4  /* 4006a32c */
     vmrs apsr_nzcv, fpscr  /* 4006a32e */
-    movw r0, #:lower16:graphics_4008c7f0  /* 4006a332 */
-    movt r0, #:upper16:graphics_4008c7f0  /* 4006a336 */
+    movw r0, #:lower16:d_4008c7f0  /* 4006a332 */
+    movt r0, #:upper16:d_4008c7f0  /* 4006a336 */
     vldmia r0!, {d1, d2, d3, d4}  /* 4006a33a */
     ble .L4006a3e8  /* 4006a33e */
     lsrs.w ip, r1, #0x14  /* 4006a340 */

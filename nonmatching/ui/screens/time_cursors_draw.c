@@ -74,6 +74,6 @@ void time_cursors_draw(void)
     draw_colour_set(dark);
     rect_fill(U16(half + c1 + left1), U16(mid - 0xC), 0x3C, 0x18);
     draw_colour_set(0);
-    s = B8(CUR + 4) == 0 ? (const char *)0x40090420u : (const char *)0x40090428u;
+    s = B8(CUR + 4) == 0 ? (const char *)IMG(40090420) : (const char *)IMG(40090428);
     text_draw(U16(half + c1 + left1 + ((0x3C - text_width(s)) >> 1)), U16(mid - 7), s);
 }

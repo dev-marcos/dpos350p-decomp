@@ -7,7 +7,7 @@
 
 #include "hw/fpga.h"
 
-#define CP437_HI   ((const volatile unsigned short *)0x4008C50Cu)   /* Unicode of OEM 0x80..0xFF */
+#define CP437_HI   ((const volatile unsigned short *)IMG(4008c50c))   /* Unicode of OEM 0x80..0xFF */
 
 u32 ff_uni2oem(u32 uni, u32 cp)
 {

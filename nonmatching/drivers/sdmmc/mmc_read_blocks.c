@@ -24,11 +24,11 @@ int mmc_read_blocks(u32 n, u32 sector, u32 count, u32 *buf)
     int r = mmc_check_range(sector, count);
     if (r < 0) return r;
     if (!buf) {
-        dbg_printf(STR(0x4008D1DC));
+        dbg_printf(STR(4008d1dc));
         return (int)0xFFF4A025u;
     }
     if ((u32)buf & 3) {
-        dbg_printf(STR(0x4008D918), (u32)buf);
+        dbg_printf(STR(4008d918), (u32)buf);
         return (int)0xFFF8C2EFu;
     }
     if (mmc_card_type != 1) sector <<= 9;

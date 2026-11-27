@@ -15,20 +15,20 @@ int irq_register_raw(int, void (*) (void), int, int) __asm__("irq_register");
 
 int usb_device_init(unsigned char type)
 {
-    dbg_printf(STR(0x4008FA1C));
+    dbg_printf(STR(4008fa1c));
     if (current_usb_type == type) {
-        dbg_printf(STR(0x4008EFA0));
+        dbg_printf(STR(4008efa0));
         return -1;
     }
     current_usb_type = type;
     if (usb_dev_bsp_init() != 0) {
-        debug_printf_stub(STR(0x4008DC00));
+        debug_printf_stub(STR(4008dc00));
         return -1;
     }
     sunxi_udc_disable();
     irq_register_raw(0x67, usb_irq_handle, 0, 1);
     irq_enable();
     sunxi_udc_enable();
-    dbg_printf(STR(0x4008EF8C));
+    dbg_printf(STR(4008ef8c));
     return 0;
 }

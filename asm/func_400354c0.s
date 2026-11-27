@@ -39,7 +39,7 @@ list_a_page_validate:  /* 0x400354c0 */
     pop {r4, r5, r6, r7, lr}  /* 40035530 */
     b list_a_cursor_clamp  /* 40035534 */
 .Lp_40035538:
-    .word rodata_4008f82c  /* 40035538 */
+    .word d_4008f82c  /* 40035538 */
 .Lp_4003553c:
-    .word rodata_4008db60  /* 4003553c */
+    .word d_4008db60  /* 4003553c */
     .size list_a_page_validate, . - list_a_page_validate

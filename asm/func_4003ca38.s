@@ -27,5 +27,5 @@ glyph14_table_build:  /* 0x4003ca38 */
 .Lp_4003ca80:
     .word 0x42cf64b4  /* 4003ca80 */
 .Lp_4003ca84:
-    .word rodata_40090444  /* 4003ca84 */
+    .word d_40090444  /* 4003ca84 */
     .size glyph14_table_build, . - glyph14_table_build

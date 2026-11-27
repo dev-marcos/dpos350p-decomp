@@ -81,7 +81,7 @@ mmc_write_blocks:  /* 0x40068794 */
     add sp, sp, #0x38  /* 400688ac */
     pop {r4, r5, r6, r7, r8, pc}  /* 400688b0 */
 .Lp_400688b4:
-    .word rodata_4008e754  /* 400688b4 */
+    .word d_4008e754  /* 400688b4 */
 .Lp_400688b8:
-    .word rodata_4008e0bc  /* 400688b8 */
+    .word d_4008e0bc  /* 400688b8 */
     .size mmc_write_blocks, . - mmc_write_blocks

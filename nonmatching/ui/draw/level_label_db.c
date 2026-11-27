@@ -11,5 +11,5 @@
 void level_label_db(u32 x, u32 y, u32 c, double v)
 {
     level_value_draw(x, y, c & 0xFF, v);
-    text_draw((*(volatile unsigned short *)0x42E68BE4u + x + 4) & 0xFFFF, y, (const char *)0x40038E3Cu);
+    text_draw((*(volatile unsigned short *)0x42E68BE4u + x + 4) & 0xFFFF, y, (const char *)IMG(40038e3c));
 }

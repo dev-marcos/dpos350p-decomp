@@ -326,67 +326,67 @@ mmc_card_init:  /* 0x40068918 */
     add sp, sp, #0x28  /* 40068dd4 */
     pop {r4, r5, r6, r7, r8, pc}  /* 40068dd8 */
 .Lp_40068ddc:
-    .word rodata_4008f86c  /* 40068ddc */
+    .word d_4008f86c  /* 40068ddc */
 .Lp_40068de0:
     .word 0x42e68cbc  /* 40068de0 */
 .Lp_40068de4:
     .word 0x42e68cb8  /* 40068de4 */
 .Lp_40068de8:
-    .word rodata_4008edfc  /* 40068de8 */
+    .word d_4008edfc  /* 40068de8 */
 .Lp_40068dec:
-    .word rodata_4008e0d8  /* 40068dec */
+    .word d_4008e0d8  /* 40068dec */
 .Lp_40068df0:
-    .word rodata_4008db80  /* 40068df0 */
+    .word d_4008db80  /* 40068df0 */
 .Lp_40068df4:
-    .word rodata_4008e0f4  /* 40068df4 */
+    .word d_4008e0f4  /* 40068df4 */
 .Lp_40068df8:
     .word 0x42e68b28  /* 40068df8 */
 .Lp_40068dfc:
-    .word rodata_4008f87c  /* 40068dfc */
+    .word d_4008f87c  /* 40068dfc */
 .Lp_40068e00:
-    .word rodata_4008e784  /* 40068e00 */
+    .word d_4008e784  /* 40068e00 */
 .Lp_40068e04:
-    .word rodata_4008f88c  /* 40068e04 */
+    .word d_4008f88c  /* 40068e04 */
 .Lp_40068e08:
     .word 0x017d7840  /* 40068e08 */
 .Lp_40068e0c:
-    .word rodata_4008ee24  /* 40068e0c */
+    .word d_4008ee24  /* 40068e0c */
 .Lp_40068e10:
     .word 0x02faf080  /* 40068e10 */
 .Lp_40068e14:
-    .word rodata_4008ee10  /* 40068e14 */
+    .word d_4008ee10  /* 40068e14 */
 .Lp_40068e18:
-    .word rodata_4008d1dc  /* 40068e18 */
+    .word d_4008d1dc  /* 40068e18 */
 .Lp_40068e1c:
     .word 0xfff4a025  /* 40068e1c */
 .Lp_40068e20:
-    .word rodata_4008d918  /* 40068e20 */
+    .word d_4008d918  /* 40068e20 */
 .Lp_40068e24:
-    .word rodata_4008d8f4  /* 40068e24 */
+    .word d_4008d8f4  /* 40068e24 */
 .Lp_40068e28:
-    .word rodata_4008e79c  /* 40068e28 */
+    .word d_4008e79c  /* 40068e28 */
 .Lp_40068e2c:
     .word 0x01c20060  /* 40068e2c */
 .Lp_40068e30:
-    .word rodata_4008ff54  /* 40068e30 */
+    .word d_4008ff54  /* 40068e30 */
 .Lp_40068e34:
     .word 0x40ff8000  /* 40068e34 */
 .Lp_40068e38:
-    .word rodata_4008ee38  /* 40068e38 */
+    .word d_4008ee38  /* 40068e38 */
 .Lp_40068e3c:
     .word 0x42e68c00  /* 40068e3c */
 .Lp_40068e40:
-    .word rodata_4008ff60  /* 40068e40 */
+    .word d_4008ff60  /* 40068e40 */
 .Lp_40068e44:
     .word 0x80ff8000  /* 40068e44 */
 .Lp_40068e48:
-    .word rodata_4008f89c  /* 40068e48 */
+    .word d_4008f89c  /* 40068e48 */
 .Lp_40068e4c:
-    .word rodata_4008f8ac  /* 40068e4c */
+    .word d_4008f8ac  /* 40068e4c */
 .Lp_40068e50:
-    .word rodata_4008ee4c  /* 40068e50 */
+    .word d_4008ee4c  /* 40068e50 */
 .Lp_40068e54:
-    .word rodata_4008f8bc  /* 40068e54 */
+    .word d_4008f8bc  /* 40068e54 */
 .Lp_40068e58:
     .word 0x42e68a18  /* 40068e58 */
     .size mmc_card_init, . - mmc_card_init

@@ -52,7 +52,7 @@ void fft_settings_menu_draw(void)
     rect_fill(x, y, w, h);
     draw_colour_set(THEME_MENU_BG);
     rect_fill((x + 0xA) & 0xFFFF, (y + 4) & 0xFFFF, (w - 0x1E) & 0xFFFF, 0x78);
-    label_row(x, y + 0x14, 0x4008BE68u, UI_TEXT(137));
+    label_row(x, y + 0x14, IMGU(4008be68), UI_TEXT(137));
     r = y + 0x50;
     for (i = 0; i < 4; i++) {
         xo = x + 0x14 + 0x4F * i;
@@ -68,16 +68,16 @@ void fft_settings_menu_draw(void)
         }
     }
     r += 0x48;
-    label_row(x, r, 0x4008BFD8u, UI_TEXT(138));
+    label_row(x, r, IMGU(4008bfd8), UI_TEXT(138));
     switch_on_off_draw((x + 0x110) & 0xFFFF, r & 0xFFFF, LEVELS(panel_a_on));
     wide_button(x, r, w, 0xC0A);
     r += 0x3C;
-    label_row(x, r, 0x4008C148u, UI_TEXT(139));
+    label_row(x, r, IMGU(4008c148), UI_TEXT(139));
     switch_on_off_draw((x + 0x110) & 0xFFFF, r & 0xFFFF, LEVELS(panel_b_on));
     wide_button(x, r, w, 0xC14);
     font_set(0x42E658D8u);
     r += 0x3C;
-    label_row(x, r, 0x40089BE8u, UI_TEXT(68));
+    label_row(x, r, IMGU(40089be8), UI_TEXT(68));
     icon_19c7c_draw((x + 0x126) & 0xFFFF, r & 0xFFFF);
     wide_button(x, r, w, 0xC1E);
 }

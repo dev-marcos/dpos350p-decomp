@@ -36,7 +36,7 @@ void config_slot_menu_draw(void)
         ys = (y + 0x14 + 0x3C * i) & 0xFFFF;
         e = UI_TEXT(86 + i);
         draw_colour_set(THEME_MENU_TEXT);
-        draw_text_shadowed((x2 + 0x14) & 0xFFFF, ys, 0x4008B738u, 2, 2, 0);
+        draw_text_shadowed((x2 + 0x14) & 0xFFFF, ys, IMGU(4008b738), 2, 2, 0);
         draw_colour_set(THEME_MENU_TEXT);
         text_shadow_draw((x2 + 0x41 + TEXT_DX(e)) & 0xFFFF, (ys + 3 + TEXT_DY(e)) & 0xFFFF, TEXT_STR(e), 1, 2, 0);
         touch_button_set_rect(x2 & 0xFFFF, (ys - 0x14) & 0xFFFF, w2 & 0xFFFF, 0x3C, (volatile unsigned char *)(BTN + 0x124 + 0xA * i));

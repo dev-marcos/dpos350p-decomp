@@ -422,17 +422,17 @@ bode_sweep_bar_draw:  /* 0x4002a7f4 */
 .Lp_4002ae40:
     .word 0x00aa8855  /* 4002ae40 */
 .Lp_4002ae44:
-    .word graphics_40089348  /* 4002ae44 */
+    .word d_40089348  /* 4002ae44 */
 .Lp_4002ae48:
     .word 0x005588aa  /* 4002ae48 */
 .Lp_4002ae4c:
-    .word graphics_40089be8  /* 4002ae4c */
+    .word d_40089be8  /* 4002ae4c */
 .Lp_4002ae50:
     .word 0x0088aa55  /* 4002ae50 */
 .Lp_4002ae54:
-    .word graphics_40088c18  /* 4002ae54 */
+    .word d_40088c18  /* 4002ae54 */
 .Lp_4002ae58:
     .word 0x0055aa88  /* 4002ae58 */
 .Lp_4002ae5c:
-    .word graphics_400887c8  /* 4002ae5c */
+    .word d_400887c8  /* 4002ae5c */
     .size bode_sweep_bar_draw, . - bode_sweep_bar_draw

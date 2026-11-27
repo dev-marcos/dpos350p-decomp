@@ -234,7 +234,7 @@ config_menu_draw:  /* 0x40028740 */
 .Lp_40028aa8:
     .word 0x00ff2288  /* 40028aa8 */
 .Lp_40028aac:
-    .word graphics_400860e4  /* 40028aac */
+    .word d_400860e4  /* 40028aac */
 .Lp_40028ab0:
     .word 0x0088ff22  /* 40028ab0 */
     .size config_menu_draw, . - config_menu_draw

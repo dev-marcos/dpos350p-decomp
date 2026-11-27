@@ -32,7 +32,7 @@ int main(void)
     sys_clock_init(0x44AA2000u);
     sys_mmu_init();
     timers_init();
-    *(volatile u32 *)0x40095490u = 1;
+    *(volatile u32 *)IMG(40095490) = 1;
     factory_defaults();
     spi0_init(0);
     settings_load_all();

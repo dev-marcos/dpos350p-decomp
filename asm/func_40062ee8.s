@@ -51,7 +51,7 @@ ui_window_40_draw:  /* 0x40062ee8 */
 .Lp_40062f68:
     .word 0x00dddddd  /* 40062f68 */
 .Lp_40062f6c:
-    .word rodata_400902c0  /* 40062f6c */
+    .word d_400902c0  /* 40062f6c */
 .Lp_40062f70:
     .word 0x42e5f010  /* 40062f70 */
 .Lp_40062f74:
@@ -66,7 +66,7 @@ ui_window_40_draw:  /* 0x40062ee8 */
 .Lp_40062f88:
     .word 0x42e6865c  /* 40062f88 */
 .Lp_40062f8c:
-    .word rodata_40095498  /* 40062f8c */
+    .word d_40095498  /* 40062f8c */
 .Lp_40062f90:
     .word 0x42e61000  /* 40062f90 */
 .Lp_40062f94:

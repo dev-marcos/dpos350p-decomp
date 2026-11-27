@@ -50,16 +50,16 @@ void levels_toolbar_draw(void)
     draw_colour_set(0);
     rect_fill(x, y, w, h);
     tx = x + 3;
-    tool_button(tx, y, 0xAA8855, 0x40089348u, UI_TEXT(67), 0xB56);
-    tool_button(tx + 0xAA, y, 0x5588AA, 0x40089BE8u, UI_TEXT(1), 0xB60);
-    tool_button(tx + 0xAA * 2, y, 0x88AA55, 0x40088C18u, UI_TEXT(7), 0xB6A);
-    tool_button(tx + 0xAA * 3, y, 0x55AA88, 0x400887C8u, UI_TEXT(69), 0xB74);
+    tool_button(tx, y, 0xAA8855, IMGU(40089348), UI_TEXT(67), 0xB56);
+    tool_button(tx + 0xAA, y, 0x5588AA, IMGU(40089be8), UI_TEXT(1), 0xB60);
+    tool_button(tx + 0xAA * 2, y, 0x88AA55, IMGU(40088c18), UI_TEXT(7), 0xB6A);
+    tool_button(tx + 0xAA * 3, y, 0x55AA88, IMGU(400887c8), UI_TEXT(69), 0xB74);
 
     tx += 0xAA * 4;
     draw_colour_set(THEME_TOOLBAR_FILL);
     rect_fill(tx & 0xFFFF, y, 0xA6, 0x2C);
     draw_colour_set(0x88FF);
-    draw_text_shadowed((tx + 0x47) & 0xFFFF, (y + 8) & 0xFFFF, 0x40085AF4u, 2, 2, 0);
+    draw_text_shadowed((tx + 0x47) & 0xFFFF, (y + 8) & 0xFFFF, IMGU(40085af4), 2, 2, 0);
     touch_button_set_rect(tx & 0xFFFF, y, 0xA6, 0x2C, (volatile unsigned char *)(BTN + 0xB7E));
     if (BREC(294, touch_code)) {
         draw_colour_set(THEME_PRESSED);
@@ -70,7 +70,7 @@ void levels_toolbar_draw(void)
     draw_colour_set(THEME_TOOLBAR_FILL);
     rect_fill(tx & 0xFFFF, y, 0xA7, 0x2C);
     draw_colour_set(B8(0x42E68668u) ? 0xFF0000 : 0xFF00);
-    draw_text_shadowed((tx + 0x47) & 0xFFFF, (y + 8) & 0xFFFF, 0x400857FCu, 2, 2, 0);
+    draw_text_shadowed((tx + 0x47) & 0xFFFF, (y + 8) & 0xFFFF, IMGU(400857fc), 2, 2, 0);
     touch_button_set_rect(tx & 0xFFFF, y, 0xA6, 0x2C, (volatile unsigned char *)(BTN + 0xB88));
     if (BREC(295, touch_code)) {
         draw_colour_set(THEME_PRESSED);

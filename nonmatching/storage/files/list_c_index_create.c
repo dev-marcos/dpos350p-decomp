@@ -15,12 +15,12 @@
 void list_c_index_create(void)
 {
     unsigned char fil[0x250];
-    f_mkdir((const char *)0x4008FA2Cu);
-    f_chmod((const char *)0x4008FA2Cu, 2, 2);
-    f_chmod((const char *)0x4008FA2Cu, 4, 4);
-    f_open(fil, (const char *)0x4008E2ECu, 0xB);
-    f_chmod((const char *)0x4008E2ECu, 2, 2);
-    f_chmod((const char *)0x4008E2ECu, 4, 4);
+    f_mkdir((const char *)IMG(4008fa2c));
+    f_chmod((const char *)IMG(4008fa2c), 2, 2);
+    f_chmod((const char *)IMG(4008fa2c), 4, 4);
+    f_open(fil, (const char *)IMG(4008e2ec), 0xB);
+    f_chmod((const char *)IMG(4008e2ec), 2, 2);
+    f_chmod((const char *)IMG(4008e2ec), 4, 4);
     fill_u16((unsigned short *)(0x40544E68u + 0xFA6u), 0, SI(capture_slot_count));
     SI(list_current) = 1;
     SI(list_count) = 0;
@@ -31,9 +31,9 @@ void list_c_index_create(void)
     f_lseek(fil, 4);
     f_write(fil, (void *)(0x40544E68u + 0xFA6u), SI(capture_slot_count) * 2u, 0);
     f_close(fil);
-    f_open(fil, (const char *)0x4008E8D4u, 0xB);
-    f_chmod((const char *)0x4008E8D4u, 2, 2);
-    f_chmod((const char *)0x4008E8D4u, 4, 4);
+    f_open(fil, (const char *)IMG(4008e8d4), 0xB);
+    f_chmod((const char *)IMG(4008e8d4), 2, 2);
+    f_chmod((const char *)IMG(4008e8d4), 4, 4);
     copy_u16((unsigned short *)(0x40544E68u + 0xD744u), 0, SI(capture_slot_count) * SI(capture_cells));
     f_lseek(fil, 0);
     f_write(fil, (void *)(0x40544E68u + 0xD744u), SI(capture_slot_count) * SI(capture_cells), 0);

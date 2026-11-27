@@ -12,7 +12,7 @@ void cfg_udc_command(u32 cmd)
     switch (cmd) {
     case 1: usbd_start_work(); break;
     case 2: usbd_stop_work(); break;
-    case 3: debug_printf_stub(STR(0x4008E19C)); break;
-    default: debug_printf_stub(STR(0x4008E814), cmd); break;
+    case 3: debug_printf_stub(STR(4008e19c)); break;
+    default: debug_printf_stub(STR(4008e814), cmd); break;
     }
 }
