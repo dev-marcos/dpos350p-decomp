@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Locate the first divergence between the linked image and the original.
 
-Links build/asm/*.o without the size ASSERT, then reports:
+Links build/asm/sections/*.o (one object per cluster) without the size ASSERT, then reports:
   * the first unit whose section address differs from its original address
   * the first differing byte and the instruction/line it belongs to
 Usage (inside dpos-re, after `make` failed):  python3 tools/whydiff.py
@@ -38,10 +38,12 @@ for i in range(min(len(orig), len(new))):
     if orig[i] != new[i]:
         a = BASE + i
         print(f"first differing byte at 0x{a:08x}: orig {orig[i:i+8].hex()} new {new[i:i+8].hex()}")
-        # find the unit
-        units = sorted(int(x.group(1), 16) for x in re.finditer(r"\.text\.([0-9a-f]{8})", mp))
-        u = max(x for x in units if x <= a)
-        print(f"unit 0x{u:08x} (asm/func_{u:08x}.s or data/vectors)")
+        # find the cluster (section) and the unit file inside it
+        secs = sorted(int(x.group(1), 16) for x in re.finditer(r"\.text\.([0-9a-f]{8})", mp))
+        c = max(x for x in secs if x <= a)
+        units = sorted((int(p.stem.split("_")[-1], 16), p.name) for p in (ROOT / "asm").glob("*_*.s"))
+        u = max((x for x in units if x[0] <= a), default=(BASE, "vectors.s"))
+        print(f"cluster asm/sections/sec_{c:08x}.s, unit asm/{u[1]}")
         break
 else:
     print("no differing byte in the common prefix")

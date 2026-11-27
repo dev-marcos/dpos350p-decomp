@@ -18,7 +18,8 @@ ISO     := $(BUILD)/DPOS350P.iso
 
 EXTRACTED := $(EXTRACT)/app.bin $(EXTRACT)/logo.rgb565
 BLOBS_OK  := $(BUILD)/.blobs_ok
-ASM_SRCS  := $(wildcard asm/*.s)
+# one object per cluster (asm/sections/sec_*.s .include's the unit files in asm/)
+ASM_SRCS  := $(wildcard asm/sections/*.s)
 ASM_OBJS  := $(patsubst %.s,$(BUILD)/%.o,$(ASM_SRCS))
 
 .PHONY: all extract check map split nonmatching emutest selftest progress clean distclean testiso
@@ -37,10 +38,12 @@ $(BLOBS_OK): $(EXTRACT)/app.bin data/blobs.csv tools/split.py
 	$(PYTHON) tools/split.py extract
 	@touch $@
 
-$(filter $(BUILD)/asm/data_%,$(ASM_OBJS)): $(BLOBS_OK)
+$(ASM_OBJS): $(BLOBS_OK)
 $(BUILD)/%.o: %.s
 	@mkdir -p $(dir $@)
-	@$(AS) $(ASFLAGS) -I. -o $@ $<
+	@$(AS) $(ASFLAGS) -I. --MD $(@:.o=.d) -o $@ $<
+
+-include $(ASM_OBJS:.o=.d)
 
 $(BUILD)/objs.rsp: $(ASM_OBJS)
 	$(file >$@,$(ASM_OBJS))

@@ -152,6 +152,19 @@ Addresses by group:
 
 Phase 5 is complete for everything that can be written as C: each remaining function belongs to one of the groups above. Further work is on the documentation of data and behaviour (section 4), and on new features built on the C sources.
 
+### Towards a firmware built from C (branch `readability`)
+
+Today the ISO is the stock layout: C only proves behaviour (EQUIVALENT), and `testiso` patches C
+in place only where it fits. To link the whole firmware from C, the steps are:
+
+| Step | What | State |
+|---|---|---|
+| 1 | Relocatable assembly: every reference inside the image is a symbol, units grouped in 277 clusters that the linker may place anywhere (`docs/SPLIT.md`, "Relocatable output") | **done**: `make check` MATCH; the clusters linked in reversed and shuffled orders boot like the stock image in the emulator (`tools/relink_test.py`, `tools/relink_check.mjs`) |
+| 2 | C without image addresses: `STR(0x4008…)` and the other text/table addresses become named symbols, calls to Thumb library code through fixed pointers become declared functions (about 500 lines) | next |
+| 3 | Mixed link: replace clusters' units by their C objects group by group, with a place for code that no longer fits below the ZI base (`0x400954A4`) | |
+| 4 | Whole build from C; assembly only for the startup code and the 90 functions above | |
+| 5 | First run on a device, after a recovery path is known (OPEN) | |
+
 ## 3. How to resume (checklist)
 
 Environment: WSL distro `dpos-re`. Run every command as
