@@ -206,7 +206,9 @@ function compiled in place (`tools/testiso.py`). **Emulator only, never write it
 - It is written over the stock bytes only if it fits in the original function's size. `-O2` is
   tried first, then `-Os`.
 - The TEST builds use VFP without NEON. The stock code has no NEON and neither does the browser
-  emulator: one NEON instruction made the first attempt stop.
+  emulator: one NEON instruction made the first attempt stop. On branch `relink-tests`,
+  `tools/nmbuild.py` itself compiles with `-mfpu=vfpv4`, so `make emutest` checks the very
+  objects that the mixed link (`tools/mixlink.py`) puts in the image.
 - Every chosen build is therefore run again through its `tools/emu` cases, and used only if it
   is EQUIVALENT.
 - Calls into stock **Thumb** code (`sin`, `exp`, `sqrt`, `__aeabi_l2d`, `__aeabi_d2lz`…, including

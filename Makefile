@@ -22,7 +22,7 @@ BLOBS_OK  := $(BUILD)/.blobs_ok
 ASM_SRCS  := $(wildcard asm/sections/*.s)
 ASM_OBJS  := $(patsubst %.s,$(BUILD)/%.o,$(ASM_SRCS))
 
-.PHONY: all extract check map split nonmatching emutest selftest progress clean distclean testiso
+.PHONY: all extract check map split nonmatching emutest selftest progress clean distclean testiso mixed
 .DELETE_ON_ERROR:
 
 all: $(ISO)
@@ -85,6 +85,11 @@ selftest: nonmatching
 # fits compiled in place, each build re-verified (tools/testiso.py) -> build/test/DPOS350P_TEST.iso
 testiso: emutest
 	$(PYTHON) tools/testiso.py
+
+# Mixed link (branch relink-tests): the C objects in place of their assembly, linked anywhere.
+# Not the matching build. Check it in the emulator (Windows node): node tools/mix_check.mjs
+mixed: check nonmatching
+	$(PYTHON) tools/mixlink.py
 
 progress: $(BUILD)/analysis/map.json
 	-$(PYTHON) -m tools.emu.run_tests >/dev/null

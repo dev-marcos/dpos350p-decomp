@@ -152,7 +152,7 @@ Addresses by group:
 
 Phase 5 is complete for everything that can be written as C: each remaining function belongs to one of the groups above. Further work is on the documentation of data and behaviour (section 4), and on new features built on the C sources.
 
-### Towards a firmware built from C (branch `readability`)
+### Towards a firmware built from C (branch `relink-tests`)
 
 Today the ISO is the stock layout: C only proves behaviour (EQUIVALENT), and `testiso` patches C
 in place only where it fits. To link the whole firmware from C, the steps are:
@@ -161,7 +161,7 @@ in place only where it fits. To link the whole firmware from C, the steps are:
 |---|---|---|
 | 1 | Relocatable assembly: every reference inside the image is a symbol, units grouped in 277 clusters that the linker may place anywhere (`docs/SPLIT.md`, "Relocatable output") | **done**: `make check` MATCH; the clusters linked in reversed and shuffled orders boot like the stock image in the emulator (`tools/relink_test.py`, `tools/relink_check.mjs`) |
 | 2 | C without image addresses: texts, tables, pictures and initialised globals of the image become `d_<address>` symbols (`include/image.h`, `docs/CONTRIBUTING.md`); library calls through fixed pointers use `CODE_ADDR(name)` | **done**: 936 uses in 146 files (674 texts, 244 pointers/integers, 18 code addresses); only a bit mask equal to `0x40000000` is left. 164 of the 237 changed objects link to the same bytes; the other 73 differ only where GCC can no longer fold a known address; emutest decides |
-| 3 | Mixed link: replace clusters' units by their C objects group by group, with a place for code that no longer fits below the ZI base (`0x400954A4`) | |
+| 3 | Mixed link: the C objects in place of their assembly units, linked anywhere (`tools/mixlink.py`, `make mixed`; `docs/SPLIT.md`, "Mixed link") | **done**: 1,254 of 1,264 C functions linked from C (10 kept by raw Thumb branches and interior labels); the image is 29 KB smaller than the stock one, so it fits below the ZI base. In the emulator it shows the same picture as the stock image after 100, 400 and 800 frames (`tools/mix_check.mjs`). The C is now compiled without NEON |
 | 4 | Whole build from C; assembly only for the startup code and the 90 functions above | |
 | 5 | First run on a device, after a recovery path is known (OPEN) | |
 

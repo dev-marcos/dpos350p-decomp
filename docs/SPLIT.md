@@ -125,6 +125,56 @@ python3 tools/relink_test.py [--shuffle N]        # inside dpos-re
 node tools/relink_check.mjs                       # on the host (node)
 ```
 
+## Mixed link: C in place of the assembly (step 3, branch `relink-tests`)
+
+`tools/mixlink.py` (`make mixed`) links the firmware with every function that has a C file
+taken from its GCC object (`build/nonmatching/func_X.o`, the object `make emutest` checks)
+instead of from `asm/func_X.s`. The rest is the relocatable assembly above. The result,
+`build/mix/app.bin`, is **not** the matching build (`make check` still is): the linker places
+everything, and the image ends where the last section ends.
+
+An assembly unit leaves only when nothing that stays depends on where it is:
+- a branch that stays targets one of its interior labels, or an `adr` points at its code;
+- a raw `.inst` branch or load that stays reaches it or crosses it (fixed offset): every unit
+  between the two stays as well;
+- a unit that stays runs on into it.
+
+What stays of a unit that leaves:
+- literals that the assembly around it still reads PC-relative (shared armcc pools) stay where
+  the unit was, as a stub with only those words;
+- data inside it that something still names (`d_XXXXXXXX`: inline strings, tables) becomes a
+  small section of its own (`build/mix/sections/rem_*.s`).
+
+Names the C uses that nothing defines resolve like `tools/nmbuild.py` does: RAM addresses (past
+`0x400954A4`) as absolute symbols, image addresses as aliases of what is now at that place
+(`irq_disable` = `gic_init`, …: old names in `include/stock_asm.h`). `build/mix/report.txt`
+lists every unit kept in assembly and the instruction that keeps it.
+
+Result:
+
+| | |
+|---|---|
+| functions linked from C | 1,254 of 1,264 |
+| kept in assembly although they have C | 10: Thumb 16-bit branches that cross them (`strlen`, `__aeabi_memset4`, USB disk) and branches into their interior |
+| literal stubs | 14 units, 45 literals |
+| remnant data sections | 10 (16 labels) |
+| image | 582,112 bytes, ends at `0x4008E1E0`: 29,380 bytes below the ZI base |
+
+The C must not contain NEON (`-mfpu=vfpv4` in `tools/nmbuild.py`): the stock code has none and
+neither does the browser emulator. With `neon-vfpv4`, GCC vectorised 36 functions and the
+first boot stopped on `vmov.i32`.
+
+**Test: `tools/mix_check.mjs`.** The C runs a different number of instructions, so the stock
+and the mixed image are compared at the same point of the acquisition: after 100, 400 and 800
+captured frames, framebuffer against framebuffer. Result: the same picture at all three (main
+screen with the trace and live measurements). As with the relink test, code that the boot and
+the main screen never run is covered only by `make emutest`, function by function.
+
+```bash
+make mixed                                        # inside dpos-re
+node tools/mix_check.mjs --png build/mix          # on the host (node)
+```
+
 ## Regenerating
 
 ```bash
